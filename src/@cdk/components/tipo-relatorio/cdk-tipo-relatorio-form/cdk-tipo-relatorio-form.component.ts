@@ -98,7 +98,6 @@ export class CdkTipoRelatorioFormComponent implements OnInit, OnChanges, OnDestr
             parametros: [null],
             DQL: [null],
             ativo: [null],
-            somenteExcel: [null],
             limite: [1]
         });
 

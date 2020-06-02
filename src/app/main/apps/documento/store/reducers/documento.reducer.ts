@@ -8,6 +8,8 @@ export interface DocumentoState {
     saving: boolean;
     errors: any;
     assinandoDocumentoIds: number[];
+    vinculacaoEtiquetaErrors: any;
+    savingVinculacaoEtiquetaId: number;
 }
 
 export const DocumentoInitialState: DocumentoState = {
@@ -17,7 +19,9 @@ export const DocumentoInitialState: DocumentoState = {
     loaded: false,
     saving: false,
     errors: false,
-    assinandoDocumentoIds: []
+    assinandoDocumentoIds: [],
+    vinculacaoEtiquetaErrors: false,
+    savingVinculacaoEtiquetaId: null
 };
 
 export function DocumentoReducer(state = DocumentoInitialState, action: DocumentoActions.DocumentoActionsAll): DocumentoState {
@@ -25,25 +29,13 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
 
         case DocumentoActions.GET_DOCUMENTO: {
             return {
-                documentoId: null,
-                currentComponenteDigitalId: null,
-                loaded: false,
-                loading: true,
-                saving: false,
-                errors: false,
-                assinandoDocumentoIds: []
+                ...DocumentoInitialState
             };
         }
 
         case DocumentoActions.UNLOAD_DOCUMENTO: {
             return {
-                documentoId: null,
-                currentComponenteDigitalId: null,
-                loading: false,
-                loaded: false,
-                saving: false,
-                errors: false,
-                assinandoDocumentoIds: []
+                ...DocumentoInitialState
             };
         }
 
@@ -56,7 +48,9 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
                 loaded: action.payload.loaded,
                 saving: false,
                 errors: false,
-                assinandoDocumentoIds: []
+                assinandoDocumentoIds: [],
+                vinculacaoEtiquetaErrors: false,
+                savingVinculacaoEtiquetaId: null
             };
         }
 
@@ -68,7 +62,9 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
                 loaded: false,
                 saving: false,
                 errors: false,
-                assinandoDocumentoIds: []
+                assinandoDocumentoIds: [],
+                vinculacaoEtiquetaErrors: false,
+                savingVinculacaoEtiquetaId: null
             };
         }
 
@@ -121,6 +117,30 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
             return {
                 ...state,
                 assinandoDocumentoIds: []
+            };
+        }
+
+        case DocumentoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA: {
+            return {
+                ...state,
+                vinculacaoEtiquetaErrors: false,
+                savingVinculacaoEtiquetaId: action.payload.vinculacaoEtiqueta.id
+            };
+        }
+
+        case DocumentoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_SUCCESS: {
+            return {
+                ...state,
+                vinculacaoEtiquetaErrors: false,
+                savingVinculacaoEtiquetaId: null
+            };
+        }
+
+        case DocumentoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA_FAILED: {
+            return {
+                ...state,
+                vinculacaoEtiquetaErrors: action.payload,
+                savingVinculacaoEtiquetaId: null
             };
         }
 

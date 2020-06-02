@@ -6,6 +6,7 @@ export interface ProtocoloDocumentoState {
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
+    removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
     loading: boolean;
     loaded: boolean;
@@ -19,6 +20,7 @@ export const ProtocoloDocumentoInitialState: ProtocoloDocumentoState = {
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
+    removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
     loading: false,
     loaded: false,
@@ -49,6 +51,7 @@ export function ProtocoloDocumentoReducer(state = ProtocoloDocumentoInitialState
                 deletingDocumentoIds: [],
                 documentosId: [],
                 documentosLoaded: undefined,
+                removendoAssinaturaDocumentoIds: [],
                 convertendoDocumentoIds: [],
                 loaded: false,
                 loading: false,
@@ -71,6 +74,46 @@ export function ProtocoloDocumentoReducer(state = ProtocoloDocumentoInitialState
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case ProtocoloDocumentoActions.REMOVE_ASSINATURA_DOCUMENTO: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
+            };
+        }
+
+        case ProtocoloDocumentoActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case ProtocoloDocumentoActions.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE: {
+            return {
+                ...state,
+                convertendoDocumentoIds: [...state.convertendoDocumentoIds, action.payload],
+            };
+        }
+        case ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_SUCESS: {
+            return {
+                ...state,
+                convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+        case ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
             };
         }
 

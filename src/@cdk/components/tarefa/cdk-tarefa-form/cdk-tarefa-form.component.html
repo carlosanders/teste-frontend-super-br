@@ -58,7 +58,7 @@
                     [control]="form.get('especieTarefa')"
                     [pagination]="especieTarefaPagination">
                 </cdk-especie-tarefa-autocomplete>
-                <button matSuffix mat-button mat-icon-button
+                <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
                         (click)="getFavoritosEspecieTarefa()">
                     <mat-icon matTooltip="Favoritos">star</mat-icon>
                 </button>
@@ -97,8 +97,14 @@
                 <cdk-setor-autocomplete
                     #unidadeResponsavel="setorAutocomplete"
                     [control]="form.get('unidadeResponsavel')"
+                    [setorList]="unidadeResponsavelList"
+                    [setorListIsLoading]="unidadeResponsavelListIsLoading"
                     [pagination]="unidadeResponsavelPagination">
                 </cdk-setor-autocomplete>
+                <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                        (click)="getFavoritosUnidadeResponsavel()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
                 <button matSuffix mat-button mat-icon-button *ngIf="form.value.id && !blocoEdit.blocoEditDistribuicao"
                         (click)="showLogEntryGrid('unidadeResponsavel')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
@@ -127,13 +133,17 @@
                     [control]="form.get('setorResponsavel')"
                     [pagination]="setorResponsavelPagination">
                 </cdk-setor-autocomplete>
+                <button [disabled]="!form.get('processo').value || !form.get('unidadeResponsavel').value" matSuffix mat-button mat-icon-button
+                        (click)="getFavoritosSetorResponsavel()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
                 <button matSuffix mat-button mat-icon-button *ngIf="form.value.id && !blocoEdit.blocoEditDistribuicao"
                         (click)="showLogEntryGrid('setorResponsavel')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
                 <button matSuffix mat-button mat-icon-button
-                        (click)="getFavoritosSetorResponsavel()">
-                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                        (click)="showSetorTree()">
+                    <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
                 </button>
                 <button *ngIf="form.get('setorResponsavel').enabled" matSuffix mat-button mat-icon-button
                         (click)="showSetorResponsavelGrid()">
@@ -155,8 +165,14 @@
                 <cdk-usuario-autocomplete
                     #usuario="usuarioAutocomplete"
                     [control]="form.get('usuarioResponsavel')"
+                    [usuarioList]="usuarioResponsavelList"
+                    [usuarioListIsLoading]="usuarioResponsavelListIsLoading"
                     [pagination]="usuarioResponsavelPagination">
                 </cdk-usuario-autocomplete>
+                <button [disabled]="!form.get('processo').value || !form.get('setorResponsavel').value" matSuffix mat-button mat-icon-button
+                        (click)="getFavoritosUsuarioResponsavel()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
                 <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id && !blocoEdit.blocoEditDistribuicao"
                         (click)="showLogEntryGrid('usuarioResponsavel')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
@@ -258,6 +274,10 @@
                     [pagination]="setorOrigemPagination">
                 </cdk-setor-autocomplete>
                 <button matSuffix mat-button mat-icon-button
+                        (click)="showSetorOrigemTree()">
+                    <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+                </button>
+                <button matSuffix mat-button mat-icon-button
                         (click)="showSetorOrigemGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
                 </button>
@@ -357,3 +377,18 @@
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
+
+<cdk-setor-tree
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-tree'"
+    (selected)="selectSetorResponsavel($event)"
+    (cancel)="cancel()">
+</cdk-setor-tree>
+
+<cdk-setor-tree
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-origem-tree'"
+    [pagination]="setorOrigemPaginationTree"
+    (selected)="selectSetorOrigem($event)"
+    (cancel)="cancel()">
+</cdk-setor-tree>

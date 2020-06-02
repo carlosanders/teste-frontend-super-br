@@ -21,9 +21,9 @@ export const getMaximizado = createSelector(
     (state: ArquivistaDetailState) => state.maximizado
 );
 
-export const getSavingVincEtiquetaId = createSelector(
+export const getSavingVinculacaoEtiquetaId = createSelector(
     getArquivistaDetailState,
-    (state: ArquivistaDetailState) => state.savingVincEtiquetaId
+    (state: ArquivistaDetailState) => state.savingVinculacaoEtiquetaId
 );
 
 export const getErrors = createSelector(

@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, concatMap, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, concatMap, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
@@ -271,5 +271,35 @@ export class TarefasEffect {
                     );
 
                 }),
+            );
+
+    /**
+     * Dar Ciencia Tarefa
+     * @type {Observable<any>}
+     */
+    @Effect()
+    darCienciaTarefa: any =
+        this._actions
+            .pipe(
+                ofType<TarefasActions.DarCienciaTarefa>(TarefasActions.DAR_CIENCIA_TAREFA),
+                mergeMap((action) => {
+                    return this._tarefaService.ciencia(action.payload).pipe(
+                        mergeMap((response: Tarefa) => [
+                            new TarefasActions.DarCienciaTarefaSuccess(response.id),
+                            new AddData<Tarefa>({
+                                data: [response],
+                                schema: tarefaSchema
+                            }), new OperacoesActions.Resultado({
+                                type: 'tarefa',
+                                content: `Tarefa id ${response.id} ciência com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefasActions.SaveTarefaFailed(err));
+                        })
+                    );
+                })
             );
 }

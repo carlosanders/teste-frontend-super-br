@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {EspecieDocumentoAvulso} from '@cdk/models';
 import {EspecieDocumentoAvulsoService} from '@cdk/services/especie-documento-avulso.service';
-import {AbstractControl} from '@angular/forms';
+import {AbstractControl, FormBuilder} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
@@ -32,7 +32,10 @@ export class CdkEspecieDocumentoAvulsoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
+    @Input()
     especieDocumentoAvulsoList: EspecieDocumentoAvulso[];
+
+    @Input()
     especieDocumentoAvulsoListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;

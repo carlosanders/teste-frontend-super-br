@@ -94,6 +94,18 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
 
     especieAtividadeListIsLoading: boolean;
 
+    unidadeAprovacaoList: Setor[] = [];
+
+    unidadeAprovacaoListIsLoading: boolean;
+
+    setorAprovacaoList: Setor[] = [];
+
+    setorAprovacaoListIsLoading: boolean;
+
+    usuarioAprovacaoList: Usuario[] = [];
+
+    usuarioAprovacaoListIsLoading: boolean;
+
     /**
      * Constructor
      */
@@ -347,7 +359,8 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         this.especieAtividadeListIsLoading = true;
         this._favoritoService.query(
             JSON.stringify({
-                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\EspecieAtividade'
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\EspecieAtividade',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_especie_atividade'
             }),
             5,
             0,
@@ -360,6 +373,80 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.especieAtividadeList = [];
                 response['entities'].forEach((favorito) => {
                     this.especieAtividadeList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosUnidadeAprovacao(): void {
+        this.unidadeAprovacaoListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_unidade_aprovacao'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.unidadeAprovacaoListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.unidadeAprovacaoList = [];
+                response['entities'].forEach((favorito) => {
+                    this.unidadeAprovacaoList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosSetorAprovacao(): void {
+        this.setorAprovacaoListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_setor_aprovacao_unidade_' +
+                    this.form.get('unidadeAprovacao').value.id
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.setorAprovacaoListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.setorAprovacaoList = [];
+                response['entities'].forEach((favorito) => {
+                    this.setorAprovacaoList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosUsuarioAprovacao(): void {
+        this.usuarioAprovacaoListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Usuario',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_usuario_aprovacao_setor_' +
+                    this.form.get('setorAprovacao').value.id
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.usuarioAprovacaoListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.usuarioAprovacaoList = [];
+                response['entities'].forEach((favorito) => {
+                    this.usuarioAprovacaoList.push(favorito.objFavoritoClass[0]);
                 });
                 this._changeDetectorRef.markForCheck();
             }

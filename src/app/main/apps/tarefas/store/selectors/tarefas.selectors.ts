@@ -68,3 +68,8 @@ export const getIsAssuntoLoading = createSelector(
     getTarefasState,
     (state: TarefasState) => state.loadingAssuntosProcessosId
 );
+
+export const getCienciaTarefaIds = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.cienciaTarefaIds
+);

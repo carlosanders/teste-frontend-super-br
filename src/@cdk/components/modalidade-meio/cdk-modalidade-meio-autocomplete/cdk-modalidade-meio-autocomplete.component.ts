@@ -32,7 +32,10 @@ export class CdkModalidadeMeioAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
+    @Input()
     modalidadeMeioList: ModalidadeMeio[];
+
+    @Input()
     modalidadeMeioListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;

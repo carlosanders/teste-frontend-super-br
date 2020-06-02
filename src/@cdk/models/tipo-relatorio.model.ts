@@ -23,8 +23,6 @@ export class TipoRelatorio {
 
     ativo?: boolean;
 
-    somenteExcel?: boolean;
-
     limite?: number;
 
     @Type(() => EspecieRelatorio)
@@ -69,7 +67,6 @@ export class TipoRelatorio {
         this.templateHTML = null;
         this.DQL = null;
         this.parametros = null;
-        this.somenteExcel = null;
         this.limite = null;
         this.ativo = null;
         this.especieRelatorio = null;

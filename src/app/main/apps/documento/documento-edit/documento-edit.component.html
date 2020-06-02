@@ -88,6 +88,17 @@
             </button>
         </div>
 
+        <cdk-vinculacao-etiqueta-chips
+            class="m-16"
+            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (documento$ | async)?.id"
+            [vinculacoesEtiquetas]="(documento$ | async)?.vinculacoesEtiquetas"
+            (create)="onEtiquetaCreate($event)"
+            (edit)="onEtiquetaEdit($event)"
+            [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
+            [errors]="(vinculacaoEtiquetaErrors$ | async)"
+            [pagination]="vinculacaoEtiquetaPagination"
+            (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
+
         <div class="documentos-vinculados m-16" fxFlex fxLayout="column"
              *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal && activeCard === 'anexos'">
 

@@ -28,6 +28,7 @@ import {CdkComponenteDigitalDocumentoAvulsoCardListModule} from '@cdk/components
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {EstadoService} from '@cdk/services/estado.service';
 import {modulesConfig} from 'modules/modules-config';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
 
 const routes: Routes = [
     {
@@ -83,7 +84,8 @@ modulesConfig.forEach((module) => {
     providers: [
         ProcessoService,
         EstadoService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        AssinaturaService
     ]
 })
 export class ProtocoloCreateModule {

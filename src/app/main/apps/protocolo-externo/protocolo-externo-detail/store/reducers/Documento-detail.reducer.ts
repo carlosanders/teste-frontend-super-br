@@ -9,7 +9,7 @@ export interface ProcessoDetailState {
     errors: any;
     documentosId: number[];
     documentosLoaded: any;
-    savingVincEtiquetaId: number;
+    savingVinculacaoEtiquetaId: number;
 }
 
 export const ProcessoDetailInitialState: ProcessoDetailState = {
@@ -21,7 +21,7 @@ export const ProcessoDetailInitialState: ProcessoDetailState = {
     errors: false,
     documentosId: [],
     documentosLoaded: false,
-    savingVincEtiquetaId: null
+    savingVinculacaoEtiquetaId: null
 };
 
 export function DocumentoDetailReducer(state = ProcessoDetailInitialState, action: ProcessoDetailActions.ProcessoDetailActionsAll): ProcessoDetailState {
@@ -75,7 +75,7 @@ export function DocumentoDetailReducer(state = ProcessoDetailInitialState, actio
                 deleting: false,
                 documentosId: [],
                 documentosLoaded: false,
-                savingVincEtiquetaId: null
+                savingVinculacaoEtiquetaId: null
             };
         }
 
@@ -115,7 +115,7 @@ export function DocumentoDetailReducer(state = ProcessoDetailInitialState, actio
             return {
                 ...state,
                 saving: true,
-                savingVincEtiquetaId: action.payload.vinculacaoEtiqueta.id
+                savingVinculacaoEtiquetaId: action.payload.vinculacaoEtiqueta.id
             };
         }
 
@@ -124,7 +124,7 @@ export function DocumentoDetailReducer(state = ProcessoDetailInitialState, actio
                 ...state,
                 saving: false,
                 errors: false,
-                savingVincEtiquetaId: null
+                savingVinculacaoEtiquetaId: null
             };
         }
 
@@ -133,7 +133,7 @@ export function DocumentoDetailReducer(state = ProcessoDetailInitialState, actio
                 ...state,
                 saving: false,
                 errors: action.payload,
-                savingVincEtiquetaId: null
+                savingVinculacaoEtiquetaId: null
             };
         }
 

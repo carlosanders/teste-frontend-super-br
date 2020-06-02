@@ -12,9 +12,10 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Juntada} from '@cdk/models';
+import {ComponenteDigital, Juntada} from '@cdk/models';
 import {JuntadaDataSource} from '@cdk/data-sources/juntada-data-source';
 import {FormControl} from '@angular/forms';
+import {ComponenteDigitalService} from '../../../services/componente-digital.service';
 
 @Component({
     selector: 'cdk-juntada-grid',
@@ -98,6 +99,11 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
         {
             id: 'tarefa.especieTarefa.nome',
             label: 'Tarefa',
+            fixed: false
+        },
+        {
+            id: 'documento.componentesDigitais.extensao',
+            label: 'Componentes Digitais',
             fixed: false
         },
         {
@@ -200,7 +206,8 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService
+        private _cdkSidebarService: CdkSidebarService,
+        private _componenteDigitalService: ComponenteDigitalService,
     ) {
         this.gridFilter = {};
         this.juntadas = [];
@@ -281,7 +288,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
                 limit: this.paginator.pageSize,
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
-                context: {'mostrarApagadas': true}
+                context: {mostrarApagadas: true}
             });
         } else {
             this.loadPage();
@@ -372,5 +379,27 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    download(componenteDigital: ComponenteDigital): void {
+        this._componenteDigitalService.download(componenteDigital.id).subscribe(
+            response => {
+                fetch(response.conteudo)
+                    .then(res => res.blob())
+                    .then(content => {
+                        // downloadLink.download = 'name_to_give_saved_file.pdf';
+                        const blob = new Blob([content], {type: componenteDigital.mimetype}),
+                            URL = window.URL,
+                            downloadUrl = URL.createObjectURL(blob),
+                            downloadLink = document.createElement('a');
+                        downloadLink.target = '_blank';
+                        downloadLink.href = downloadUrl;
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+                        document.body.removeChild(downloadLink);
+                        URL.revokeObjectURL(downloadUrl);
+                    });
+            }
+        );
     }
 }

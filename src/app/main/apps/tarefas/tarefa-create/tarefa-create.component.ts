@@ -45,6 +45,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     especieTarefaPagination: Pagination;
     setorOrigemPagination: Pagination;
     setorResponsavelPagination: Pagination;
+    setorOrigemPaginationTree: Pagination;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -79,6 +80,8 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
         this.setorResponsavelPagination = new Pagination();
         this.setorResponsavelPagination.populate = ['unidade', 'parent'];
+        this.setorOrigemPaginationTree = new Pagination();
+        this.setorOrigemPaginationTree.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(',')};
     }
 
     // -----------------------------------------------------------------------------------------------------

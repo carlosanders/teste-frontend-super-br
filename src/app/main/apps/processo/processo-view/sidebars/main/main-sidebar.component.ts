@@ -3,13 +3,14 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
+    Input,
     OnInit,
     Output,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Juntada, Pagination} from '@cdk/models';
+import {Juntada, Pagination, Processo} from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
@@ -19,7 +20,8 @@ import {filter} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
-import {modulesConfig} from "../../../../../../../modules/modules-config";
+import {getProcesso} from '../../../store/selectors';
+import {modulesConfig} from '../../../../../../../modules/modules-config';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -33,6 +35,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
+
+    processo$: Observable<Processo>;
+    processo: Processo;
 
     isLoading$: Observable<boolean>;
 
@@ -55,6 +60,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     showListFilter = false;
 
     form: FormGroup;
+
+    @Input()
+    capaProcesso: boolean;
+
+    @Input()
+    capa: boolean;
 
     @Output()
     scrolled = new EventEmitter<any>();
@@ -81,7 +92,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _router: Router
     ) {
-
         this.form = this._formBuilder.group({
             volume: [null],
             tipoDocumento: [null]
@@ -95,6 +105,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+        this.processo$ = this._store.pipe(select(getProcesso));
 
         this.juntadas$.pipe(filter(juntadas => !!juntadas)).subscribe(
             juntadas => {
@@ -116,6 +127,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
         this.pagination$.subscribe(
             pagination => this.pagination = pagination
+        );
+
+        this.processo$.subscribe(
+            processo => this.processo = processo
         );
 
         this._store
@@ -226,5 +241,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.reload({listFilter: this.listFilter});
         this.toggleFilter();
         this.form.reset();
+    }
+
+    /**
+     *
+     * @param step
+     * @param ativo
+     */
+    goToCapaProcesso(): void {
+        this._store.dispatch(new fromStore.GetCapaProcesso());
     }
 }

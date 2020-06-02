@@ -21,8 +21,18 @@
                 <cdk-assunto-administrativo-autocomplete
                     #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
                     [control]="form.get('assuntoAdministrativo')"
+                    [assuntoAdministrativoList]="assuntoAdministrativoList"
+                    [assuntoAdministrativoListIsLoading]="assuntoAdministrativoListIsLoading"
                     [pagination]="assuntoAdministrativoPagination">
                 </cdk-assunto-administrativo-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="getFavoritosAssuntoAdministrativo()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showAssuntoAdministrativoGridTree()">
+                    <mat-icon matTooltip="Árvore de Assuntos">subdirectory_arrow_right</mat-icon>
+                </button>
                 <button matSuffix mat-button mat-icon-button
                         (click)="showAssuntoAdministrativoGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -60,3 +70,10 @@
         (selected)="selectAssuntoAdministrativo($event)"
         (cancel)="cancel()">
 </cdk-assunto-administrativo-gridsearch>
+
+<cdk-assunto-administrativo-grid-tree
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'assunto-administrativo-grid-tree'"
+    (selected)="selectAssuntoAdministrativo($event)"
+    (cancel)="cancel()">
+</cdk-assunto-administrativo-grid-tree>

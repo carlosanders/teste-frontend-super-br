@@ -47,6 +47,14 @@ export class Setor {
 
     comPrevencaoRelativa?: boolean;
 
+    hasChild?: any;
+
+    children?: any;
+
+    expandable?: boolean;
+
+    level?: number;
+
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     unidade?: Setor;
@@ -136,5 +144,9 @@ export class Setor {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.hasChild = null;
+        this.children = null;
+        this.expandable = null;
+        this.level = null;
     }
 }
