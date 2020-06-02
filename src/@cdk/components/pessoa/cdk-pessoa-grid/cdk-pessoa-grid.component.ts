@@ -76,6 +76,11 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
+            id: 'pessoaRepresentada',
+            label: 'Pessoa Representada',
+            fixed: false
+        },
+        {
             id: 'dataNascimento',
             label: 'Data do Nascimento',
             fixed: false
