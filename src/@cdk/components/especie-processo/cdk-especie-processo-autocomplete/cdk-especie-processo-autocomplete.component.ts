@@ -32,7 +32,10 @@ export class CdkEspecieProcessoAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
+    @Input()
     especieProcessoList: EspecieProcesso[];
+
+    @Input()
     especieProcessoListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;

@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, of, throwError} from 'rxjs';
-import {catchError, map, exhaustMap, mergeMap, withLatestFrom, switchMap, tap} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {catchError, map, mergeMap, withLatestFrom, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
@@ -14,7 +14,7 @@ import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {getCurrentStep, getIndex, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {HttpParams} from '@angular/common/http';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class ProcessoViewEffect {
@@ -24,7 +24,8 @@ export class ProcessoViewEffect {
         private _actions: Actions,
         private _juntadaService: JuntadaService,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _router: Router
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -112,6 +113,7 @@ export class ProcessoViewEffect {
                 ofType<ProcessoViewActions.SetCurrentStep>(ProcessoViewActions.SET_CURRENT_STEP),
                 withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep))),
                 switchMap(([action, index, currentStep]) => {
+                    this._router.navigate([this.routerState.url.replace('/capa', '')]).then();
                     if (typeof index[currentStep.step] === 'undefined' || typeof index[currentStep.step][currentStep.subStep] === 'undefined') {
                         return throwError(new Error('não há documentos'));
                     }
@@ -147,6 +149,25 @@ export class ProcessoViewEffect {
                 catchError((err, caught) => {
                     this._store.dispatch(new ProcessoViewActions.SetCurrentStepFailed(err));
                     return caught;
+                })
+            );
+
+
+    /**
+     * Get Capa Processo
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    getCapaProcesso: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewActions.GetCapaProcesso>(ProcessoViewActions.GET_CAPA_PROCESSO),
+                map(() => {
+                    if (this.routerState.params.chaveAcessoHandle) {
+                        // this._router.navigate([this.routerState.url.replace(`visualizar/${this.routerState.params.chaveAcessoHandle}`, 'processo-capa')]).then();
+                    }
+
+                    this._router.navigate([this.routerState.url + '/capa']).then();
                 })
             );
 }

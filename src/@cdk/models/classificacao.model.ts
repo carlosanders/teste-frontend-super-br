@@ -42,6 +42,14 @@ export class Classificacao {
 
     observacao?: string;
 
+    hasChild?: any;
+
+    children?: any;
+
+    expandable?: boolean;
+
+    level?: number;
+
     @Type(() => Classificacao)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     parent?: Classificacao;
@@ -98,5 +106,9 @@ export class Classificacao {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.hasChild = null;
+        this.children = null;
+        this.expandable = null;
+        this.level = null;
     }
 }

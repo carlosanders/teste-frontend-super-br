@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Favorito, Tarefa} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -23,7 +23,6 @@ import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
-import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
 
 @Component({
     selector: 'tarefa-create',
@@ -46,12 +45,12 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     especieTarefaPagination: Pagination;
     setorOrigemPagination: Pagination;
     setorResponsavelPagination: Pagination;
+    setorOrigemPaginationTree: Pagination;
 
     processo$: Observable<Processo>;
     processo: Processo;
 
     visibilidades$: Observable<boolean>;
-    favoritos$: Observable<Favorito[]>;
     NUP: any;
 
     routerState: any;
@@ -73,7 +72,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this._profile = _loginService.getUserProfile().colaborador;
         this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeProcesso));
-        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
 
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
@@ -82,6 +80,8 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
         this.setorResponsavelPagination = new Pagination();
         this.setorResponsavelPagination.populate = ['unidade', 'parent'];
+        this.setorOrigemPaginationTree = new Pagination();
+        this.setorOrigemPaginationTree.filter = {id: 'in:' + this._profile.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(',')};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -176,19 +176,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.processo = value;
         this._store.dispatch(new fromStore.GetVisibilidades(value.id));
 
-    }
-
-    getFavoritos (value): void {
-
-        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
-            'filter':
-            {
-                'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
-                'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
-            },
-            'limit': 5,
-            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
-        }));
     }
 
     // -----------------------------------------------------------------------------------------------------

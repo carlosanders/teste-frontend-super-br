@@ -30,7 +30,7 @@ import {takeUntil} from 'rxjs/operators';
 export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    savingVincEtiquetaId$: Observable<any>;
+    savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
 
     processo$: Observable<Processo>;
@@ -78,7 +78,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
             'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
         };
 
-        this.savingVincEtiquetaId$ = this._store.pipe(select(fromStoreProcesso.getSavingVincEtiquetaId));
+        this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStoreProcesso.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 

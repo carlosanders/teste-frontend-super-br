@@ -18,7 +18,7 @@
                 class="mat-accent compose-dialog-button w-100-p"
                 (click)="create()"
                 aria-label="Criar">
-            Criar
+            CRIAR
         </button>
     </div>
 
@@ -54,7 +54,7 @@
             </a>
         </div>
 
-        <div *ngIf="usuariosAssessor.length > 0" class="nav-subheader">ANALISTA</div>
+        <div *ngIf="usuariosAssessor.length > 0" class="nav-subheader">ASSESSOR</div>
 
         <div class="nav-item" *ngFor="let usuario of usuariosAssessor">
             <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/assessor/' + usuario.id"

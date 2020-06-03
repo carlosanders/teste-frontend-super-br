@@ -1,0 +1,276 @@
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+
+    <form fxLayoutGap="36px" fxLayout="column" fxLayoutAlign="start" name="form" [formGroup]="form" (submit)="submit()">
+
+        <div fxFlex="1 0 auto" fxLayout="column">
+
+            <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+                <mat-form-field fxFlex>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Gênero"
+                               formControlName="generoRelatorio"
+                               required
+                               [matAutocomplete]="generoRelatorio.autocomplete"
+                               (blur)="checkGeneroRelatorio()">
+                    </div>
+                    <cdk-genero-relatorio-autocomplete
+                        #generoRelatorio="generoRelatorioAutocomplete"
+                        [control]="form.get('generoRelatorio')">
+                    </cdk-genero-relatorio-autocomplete>
+                    <button matSuffix mat-button mat-icon-button
+                            (click)="showGeneroRelatorioGrid()">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('generoRelatorio').hasError('formError')">
+                        {{form.get('generoRelatorio').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex>
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Espécie"
+                               formControlName="especieRelatorio"
+                               required
+                               [matAutocomplete]="especieRelatorio.autocomplete"
+                               (blur)="checkEspecieRelatorio()">
+                    </div>
+                    <cdk-especie-relatorio-autocomplete
+                        #especieRelatorio="especieRelatorioAutocomplete"
+                        [control]="form.get('especieRelatorio')"
+                        [pagination]="especieRelatorioPagination">
+                    </cdk-especie-relatorio-autocomplete>
+                    <button matSuffix mat-button mat-icon-button [disabled]="!form.get('generoRelatorio').value"
+                            (click)="showEspecieRelatorioGrid()">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('especieRelatorio').hasError('formError')">
+                        {{form.get('especieRelatorio').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100"
+                                *ngIf="mode === 'regular' || mode === 'bloco-create'">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Tipo Relatório"
+                               formControlName="tipoRelatorio"
+                               [matAutocomplete]="tipoRelatorio.autocomplete" required
+                               (blur)="checkTipoRelatorio()">
+                    </div>
+
+                    <cdk-tipo-relatorio-autocomplete
+                        #tipoRelatorio="tipoRelatorioAutocomplete"
+                        [control]="form.get('tipoRelatorio')"
+                        [pagination]="tipoRelatorioPagination">
+                    </cdk-tipo-relatorio-autocomplete>
+
+                    <button matSuffix mat-button mat-icon-button
+                            [disabled]="!form.get('especieRelatorio').value"
+                            (click)="showTipoRelatorioGrid()">
+                        <mat-icon matTooltip="Procurar tipo relatório">search</mat-icon>
+                    </button>
+
+                    <mat-error *ngIf="form.get('tipoRelatorio').hasError('formError')">
+                        {{form.get('tipoRelatorio').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
+            </mat-card>
+
+            <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *ngIf="form.get('tipoRelatorio').value">
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Unidade"
+                               formControlName="unidade"
+                               [matAutocomplete]="unidade.autocomplete" required
+                               (blur)="checkUnidade()">
+                    </div>
+                    <cdk-setor-autocomplete
+                        #unidade="setorAutocomplete"
+                        [control]="form.get('unidade')"
+                        [pagination]="unidadePagination">
+                    </cdk-setor-autocomplete>
+                    <button matSuffix mat-button mat-icon-button
+                            (click)="showUnidadeGrid()">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('unidade').hasError('formError')">
+                        {{form.get('unidade').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Setor"
+                               formControlName="setor"
+                               [matAutocomplete]="setor.autocomplete" required
+                               (blur)="checkSetor()">
+                    </div>
+                    <cdk-setor-autocomplete
+                        #setor="setorAutocomplete"
+                        [control]="form.get('setor')"
+                        [pagination]="setorPagination">
+                    </cdk-setor-autocomplete>
+                    <button *ngIf="form.get('setor').enabled" matSuffix mat-button mat-icon-button
+                            (click)="showSetorGrid()">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('setor').hasError('formError')">
+                        {{form.get('setor').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
+                
+                <mat-form-field fxFlex="100"
+                                *ngIf="form.get('usuario').enabled && (mode === 'regular')">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Usuário"
+                               formControlName="usuario"
+                               [readonly]="!form.get('setor').enabled"
+                               [matAutocomplete]="usuario.autocomplete" required
+                               (blur)="checkUsuario()">
+                    </div>
+                    <cdk-usuario-autocomplete
+                        #usuario="usuarioAutocomplete"
+                        [control]="form.get('usuario')"
+                        [pagination]="usuarioPagination">
+                    </cdk-usuario-autocomplete>
+                    <button *ngIf="form.get('setor').enabled" matSuffix mat-button mat-icon-button
+                            (click)="showUsuarioGrid()">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('usuario').hasError('formError')">
+                        {{form.get('usuario').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
+
+                <div fxLayout="row">
+
+                    <mat-form-field class="mr-sm-12" fxFlex
+                                    *ngIf="form.get('dataHoraInicio').enabled &&
+                                    mode === 'regular'">
+                        <mat-label>Início</mat-label>
+                        <input matInput formControlName="dataHoraInicio" [matDatetimepicker]="dataHoraInicio"
+                               required>
+                        <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicio"></mat-datetimepicker-toggle>
+                        <mat-datetimepicker #dataHoraInicio type="datetime" openOnFocus="true" timeInterval="5"
+                                            required></mat-datetimepicker>
+                    </mat-form-field>
+
+                    <mat-form-field class="mr-sm-12" fxFlex
+                                    *ngIf="form.get('dataHoraFim').enabled &&
+                                    mode === 'regular'">
+                        <mat-label>Fim</mat-label>
+                        <input matInput formControlName="dataHoraFim" [matDatetimepicker]="dataHoraFim"
+                               required>
+                        <mat-datetimepicker-toggle matSuffix [for]="dataHoraFim"></mat-datetimepicker-toggle>
+                        <mat-datetimepicker #dataHoraFim type="datetime" openOnFocus="true" timeInterval="5"
+                                            required></mat-datetimepicker>
+                    </mat-form-field>
+
+                </div>
+
+            </mat-card>
+
+            <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *ngIf="form.get('tipoRelatorio').value">
+
+                <mat-form-field class="mr-16" fxFlex="1 0 auto"
+                                *ngIf="mode === 'regular' || mode === 'bloco-create'">
+                    <textarea formControlName="observacao" matInput placeholder="Observação" maxlength="255"></textarea>
+
+                    <mat-error *ngIf="form.get('observacao').hasError('formError')">
+                        {{form.get('observacao').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
+
+                <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+
+                    <mat-card-subtitle>Formato</mat-card-subtitle>
+
+                    <div fxLayout="row" class="start" fxFlex
+                         fxLayoutAlign="start center">
+                        <label id="campo-rg3"></label>
+                        <mat-radio-group class="poderes-rg"
+                                         formControlName="formato"
+                                         aria-labelledby="formato-rg3"
+                                         fxLayoutAlign="row">
+                            <mat-radio-button value="html">
+                                HTML
+                            </mat-radio-button>
+                            <mat-radio-button value="pdf">
+                                PDF
+                            </mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                </mat-card>
+
+            </mat-card>
+
+        </div>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
+             fxLayoutAlign="center center">
+            <button type="submit" mat-raised-button color="accent" class="mr-sm-12"
+                    (click)="submit()"
+                    [disabled]="form.invalid || !valid">
+                SALVAR
+            </button>
+
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
+                CANCELAR
+            </button>
+        </div>
+
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>
+
+<cdk-tipo-relatorio-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'tipo-relatorio-gridsearch'"
+    [pagination]="tipoRelatorioPagination"
+    (selected)="selectTipoRelatorio($event)"
+    (cancel)="cancel()">
+</cdk-tipo-relatorio-gridsearch>
+
+<cdk-genero-relatorio-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'genero-tipo-relatorio-gridsearch'"
+    (selected)="selectGeneroRelatorio($event)"
+    (cancel)="cancel()">
+</cdk-genero-relatorio-gridsearch>
+
+<cdk-especie-relatorio-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'especie-relatorio-gridsearch'"
+    (selected)="selectEspecieRelatorio($event)"
+    [pagination]="especieRelatorioPagination"
+    (cancel)="cancel()">
+</cdk-especie-relatorio-gridsearch>
+
+<cdk-setor-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-gridsearch'"
+    [pagination]="setorPagination"
+    (selected)="selectSetor($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-setor-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'unidade-gridsearch'"
+    [pagination]="unidadePagination"
+    (selected)="selectUnidade($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-usuario-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'usuario-gridsearch'"
+    [pagination]="usuarioPagination"
+    (selected)="selectUsuario($event)"
+    (cancel)="cancel()">
+</cdk-usuario-gridsearch>

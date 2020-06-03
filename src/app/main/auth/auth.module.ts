@@ -12,6 +12,10 @@ const routes = [
         loadChildren: () => import('./register/register.module').then(m => m.RegisterModule)
     },
     {
+        path: 'activate',
+        loadChildren: () => import('./activate/activate.module').then(m => m.ActivateModule)
+    },
+    {
         path: 'esqueci-senha',
         loadChildren: () => import('./esqueci-senha/esqueci-senha.module').then(m => m.EsqueciSenhaModule)
     }

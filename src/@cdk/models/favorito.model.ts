@@ -21,6 +21,8 @@ export class Favorito {
 
     label?: string;
 
+    context?: string;
+
     objFavoritoClass?: any;
 
     qtdUso?: number;
@@ -65,6 +67,8 @@ export class Favorito {
         this.objectClass = null;
         this.objectId = null;
         this.objFavoritoClass = null;
+        this.label = null;
+        this.context = null;
         this.usuario = null;
         this.criadoPor = null;
         this.criadoEm = null;

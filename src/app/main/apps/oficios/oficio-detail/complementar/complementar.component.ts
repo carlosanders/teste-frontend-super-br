@@ -220,4 +220,8 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     doConverte(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
+
+    doRemoveAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+    }
 }

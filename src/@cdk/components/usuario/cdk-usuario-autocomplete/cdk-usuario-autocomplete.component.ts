@@ -32,7 +32,10 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
+    @Input()
     usuarioList: Usuario[];
+
+    @Input()
     usuarioListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;

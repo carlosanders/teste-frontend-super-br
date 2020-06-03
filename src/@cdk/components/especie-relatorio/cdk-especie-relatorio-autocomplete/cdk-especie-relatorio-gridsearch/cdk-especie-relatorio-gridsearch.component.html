@@ -1,0 +1,10 @@
+<cdk-especie-relatorio-grid
+        [loading]="loading"
+        [especieRelatorios]="especieRelatorios"
+        [displayedColumns]="displayedColumns"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-especie-relatorio-grid>

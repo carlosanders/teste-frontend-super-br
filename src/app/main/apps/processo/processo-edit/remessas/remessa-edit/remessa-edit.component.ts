@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Tramitacao} from '@cdk/models';
+import {Pagination, Tramitacao, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -18,7 +18,8 @@ import {getProcesso} from '../../../store/selectors';
 import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
-import {Back} from "../../../../../../store/actions";
+import {Back} from '../../../../../../store/actions';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Component({
     selector: 'remessa-edit',
@@ -40,19 +41,32 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
+    _profile: Usuario;
     pessoaDestino: Pessoa;
+
+    setorOrigemPagination: Pagination;
+    setorOrigemPaginationTree: Pagination;
 
     /**
      * @param _store
+     * @param _router
+     * @param _loginService
      */
     constructor(
         private _store: Store<fromStore.RemessaEditAppState>,
-        private _router: Router
+        private _router: Router,
+        public _loginService: LoginService,
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.tramitacao$ = this._store.pipe(select(fromStore.getTramitacao));
         this.processo$ = this._store.pipe(select(getProcesso));
+        this._profile = this._loginService.getUserProfile();
+        this.setorOrigemPagination = new Pagination();
+        this.setorOrigemPaginationTree = new Pagination();
+        this.setorOrigemPagination.populate = ['unidade', 'parent'];
+        this.setorOrigemPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.setorOrigemPaginationTree.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(',')};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -63,6 +77,7 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+
         this.processo$.subscribe(
             processo => this.processo = processo
         );

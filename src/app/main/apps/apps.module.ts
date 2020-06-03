@@ -59,6 +59,10 @@ const routes = [
     {
         path        : 'calendario',
         loadChildren: () => import('./calendario/calendar.module').then(m => m.CalendarModule)
+    },
+    {
+        path        : 'relatorios',
+        loadChildren: () => import('./relatorios/relatorios.module').then(m => m.RelatoriosModule)
     }
 ];
 
