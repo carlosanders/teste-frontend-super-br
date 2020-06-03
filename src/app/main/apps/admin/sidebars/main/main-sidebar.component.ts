@@ -81,6 +81,11 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Pessoas',
                 icon: 'people',
                 link: 'pessoas'
+            },
+            {
+                nome: 'Municípios',
+                icon: 'location_on',
+                link: 'municipios'
             }
         ];
 
