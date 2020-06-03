@@ -190,22 +190,14 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngAfterViewInit(): void {
         if (this.userProfile && this.userProfile.id) {
-            this._notificacaoService.count(
-                `{"destinatario.id": "eq:${this.userProfile.id}", "dataHoraLeitura": "isNull"}`)
-                .pipe(
-                    catchError(() => of([]))
-                ).subscribe(
-                value => this.notificacoesCount = value
-            );
-
             this._store
                 .pipe(
                     select(getMercureState),
                     takeUntil(this._unsubscribeAll)
                 ).subscribe(message => {
-                if (message && message.type === 'notificacao') {
+                if (message && message.type === 'count_notificacao') {
                     switch (message.content.action) {
-                        case 'count':
+                        case 'count_notificacao':
                             this.notificacoesCount = message.content.count;
                             break;
                     }

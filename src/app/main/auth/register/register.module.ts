@@ -17,10 +17,6 @@ const routes = [
     {
         path     : '',
         component: RegisterComponent
-    },
-    {
-        path     : 'usuarioHandle',
-        component: RegisterComponent
     }
 ];
 

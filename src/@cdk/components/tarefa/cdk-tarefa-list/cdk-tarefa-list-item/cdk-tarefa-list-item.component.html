@@ -76,11 +76,11 @@
                 <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
             </button>
 
-            <div class="spinner-container m-8" *ngIf="deleting">
+            <div class="spinner-container m-8" *ngIf="deleting || ciencia">
                 <mat-spinner diameter="24"></mat-spinner>
             </div>
 
-            <button *ngIf="!deleting" mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Ferramentas"
+            <button *ngIf="!deleting && !ciencia" mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Ferramentas"
                     (click)="$event.stopPropagation()">
                 <mat-icon class="secondary-text">more_vert</mat-icon>
             </button>
@@ -116,6 +116,14 @@
                     <ng-container>
                         <mat-icon>forward</mat-icon>
                         <span>Redistribuir Tarefa</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="dar ciencia"
+                        (click)="doCienciaTarefa()">
+                    <ng-container>
+                        <mat-icon>check</mat-icon>
+                        <span>Dar Ciência</span>
                     </ng-container>
                 </button>
 

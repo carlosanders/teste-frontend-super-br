@@ -65,6 +65,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     assinandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
 
+
     /**
      *
      * @param _store

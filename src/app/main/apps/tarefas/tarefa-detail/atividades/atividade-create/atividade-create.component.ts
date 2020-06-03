@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
@@ -10,7 +11,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Assinatura, Atividade, Favorito} from '@cdk/models';
+import {Assinatura, Atividade} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -26,8 +27,8 @@ import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Back} from '../../../../../../store/actions';
-import {modulesConfig} from "../../../../../../../modules/modules-config";
-import {DynamicService} from "../../../../../../../modules/dynamic.service";
+import {modulesConfig} from '../../../../../../../modules/modules-config';
+import {DynamicService} from '../../../../../../../modules/dynamic.service';
 
 
 @Component({
@@ -38,7 +39,7 @@ import {DynamicService} from "../../../../../../../modules/dynamic.service";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AtividadeCreateComponent implements OnInit, OnDestroy {
+export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -72,8 +73,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
-    favoritos$: Observable<Favorito[]>;
-
     /**
      * @param _store
      * @param _loginService
@@ -99,7 +98,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
-        this.favoritos$ = this._store.pipe(select(fromStore.getFavoritoList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -118,6 +116,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(tarefa => {
             this.tarefa = tarefa;
+            this.atividade.tarefa = tarefa;
             this.atividade.usuario = tarefa.usuarioResponsavel;
             this.atividade.setor = tarefa.setorResponsavel;
         });
@@ -230,7 +229,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             }
         );
 
-        atividade.tarefa = this.tarefa;
         atividade.documentos = this.minutas;
 
         this._store.dispatch(new fromStore.SaveAtividade(atividade));
@@ -296,18 +294,5 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
 
     doAbort(): void {
         this._store.dispatch(new Back());
-    }
-
-    getFavoritos (value): void {
-
-        this._store.dispatch(new fromStore.GetFavoritos({
-            'filter':
-                {
-                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
-                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
-                },
-            'limit': 5,
-            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
-        }));
     }
 }

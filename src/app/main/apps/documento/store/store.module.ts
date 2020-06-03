@@ -7,6 +7,7 @@ import {effects} from './effects';
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 
 @NgModule({
     imports: [
@@ -17,6 +18,7 @@ import {AssinaturaService} from '@cdk/services/assinatura.service';
         AtividadeService,
         RepositorioService,
         AssinaturaService,
+        VinculacaoEtiquetaService
     ]
 })
 export class DocumentoStoreModule {

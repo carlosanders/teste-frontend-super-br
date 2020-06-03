@@ -31,7 +31,7 @@ export class CdkChaveAcessoPluginComponent implements OnInit {
         private dialogRef: MatDialogRef<CdkChaveAcessoPluginComponent>
     ) {
         this.form = this._formBuilder.group({
-            chave_acesso: [null, [Validators.required]]
+            chaveAcesso: [null, [Validators.required]]
         });
     }
 
@@ -44,9 +44,9 @@ export class CdkChaveAcessoPluginComponent implements OnInit {
     }
 
     checkChaveAcesso(): void {
-        const value = this.form.get('chave_acesso').value;
+        const value = this.form.get('chaveAcesso').value;
         if (!value) {
-            this.form.get('chave_acesso').setValue(null);
+            this.form.get('chaveAcesso').setValue(null);
         }
     }
 }

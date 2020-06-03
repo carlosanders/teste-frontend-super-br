@@ -17,6 +17,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkJuntadaGridComponent} from './cdk-juntada-grid.component';
 import {CdkJuntadaFilterModule} from '../sidebars/cdk-juntada-filter/cdk-juntada-filter.module';
+import {ComponenteDigitalService} from '../../../services/componente-digital.service';
 
 @NgModule({
     declarations: [
@@ -41,6 +42,7 @@ import {CdkJuntadaFilterModule} from '../sidebars/cdk-juntada-filter/cdk-juntada
     ],
     providers: [
         JuntadaService,
+        ComponenteDigitalService
     ],
     exports: [
         CdkJuntadaGridComponent

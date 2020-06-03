@@ -1,13 +1,11 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import { TarefasReducer, TarefasState } from './tarefas.reducer';
 import { FoldersReducer, FoldersState } from './folders.reducer';
-import {FavoritoListReducer, FavoritoListState} from "./favorito-list.reducer";
 
 export interface TarefasAppState
 {
     tarefas: TarefasState;
     folders: FoldersState;
-    favorito: FavoritoListState;
 }
 
 export const getTarefasAppState = createFeatureSelector<TarefasAppState>(
@@ -21,10 +19,8 @@ export const getAppState = createSelector(
 
 export const reducers: ActionReducerMap<TarefasAppState> = {
     tarefas: TarefasReducer,
-    folders: FoldersReducer,
-    favorito: FavoritoListReducer
+    folders: FoldersReducer
 };
 
 export * from './tarefas.reducer';
 export * from './folders.reducer';
-export * from './favorito-list.reducer';

@@ -21,6 +21,8 @@ import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {SetorService} from '@cdk/services/setor.service';
+import {CdkSetorTreeModule} from '../../setor/cdk-setor-tree/cdk-setor-tree.module';
+import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor-tree.service';
 
 @NgModule({
     declarations: [
@@ -45,11 +47,13 @@ import {SetorService} from '@cdk/services/setor.service';
         CdkSetorGridsearchModule,
 
         CdkSharedModule,
+        CdkSetorTreeModule,
     ],
     providers: [
         ProcessoService,
         PessoaService,
-        SetorService
+        SetorService,
+        CdkSetorTreeService
     ],
     exports: [
         CdkRemessaFormComponent

@@ -33,7 +33,9 @@ import {LoginService} from '../../../../app/main/auth/login/login.service';
 import {CdkLogentryGridModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-grid.module';
 import {CdkLogentryGridsearchModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 import {CdkBlocoResponsaveisGridModule} from '../cdk-bloco-responsaveis-grid/cdk-bloco-responsaveis-grid.module';
-import {MatSliderModule} from "@angular/material/slider";
+import {MatSliderModule} from '@angular/material/slider';
+import {CdkSetorTreeModule} from '../../setor/cdk-setor-tree/cdk-setor-tree.module';
+import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor-tree.service';
 
 @NgModule({
     declarations: [
@@ -72,13 +74,15 @@ import {MatSliderModule} from "@angular/material/slider";
 
         CdkSharedModule,
         MatSliderModule,
+        CdkSetorTreeModule,
     ],
     providers: [
         EspecieTarefaService,
         UsuarioService,
         ProcessoService,
         FavoritoService,
-        LoginService
+        LoginService,
+        CdkSetorTreeService
     ],
     exports: [
         CdkTarefaFormComponent
