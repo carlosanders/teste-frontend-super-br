@@ -54,7 +54,7 @@
                         'current-relatorio': currentRelatorioId,
                         'no-current-relatorio': !currentRelatorioId
                      }">
-                    <cdk-relatorio-list *ngIf="routerState.params.typeHandle === 'meus-relatorios'"
+                    <cdk-relatorio-list
                                      (scrolled)="onScroll()"
                                      [loading]="(loading$ | async)"
                                      [relatorios]="(relatorios$ | async)"
@@ -71,21 +71,6 @@
                                      (delete)="deleteRelatorio($event)"
                                      (etiquetarBloco)="doEtiquetarBloco()">
                     </cdk-relatorio-list>
-
-                    <cdk-tipo-relatorio-list (scrolled)="onScroll()"
-                                             *ngIf="routerState.params.typeHandle === 'tipo-relatorio' &&
-                                             _loginService.isGranted('ROLE_ADMIN')"
-                                             [loading]="(loading$ | async)"
-                                             [tipoRelatorios]="(tipoRelatorios$ | async)"
-                                             [deletingIds]="(deletingIds$ | async)"
-                                             [deletedIds]="(deletedIds$ | async)"
-                                             [pagination]="pagination"
-                                             [selectedIds]="(selectedIds$ | async)"
-                                             (changeSelectedIds)="changeSelectedIdsTipoRelatorio($event)"
-                                             (reload)="reloadTipoRelatorio($event)"
-                                             (delete)="deleteTipoRelatorio($event)"
-                                             (selected)="editTipoRelatorio($event)">
-                    </cdk-tipo-relatorio-list>
 
                 </div>
                 

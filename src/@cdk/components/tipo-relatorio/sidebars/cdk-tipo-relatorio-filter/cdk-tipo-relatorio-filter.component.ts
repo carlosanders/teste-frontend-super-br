@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -19,6 +27,9 @@ export class CdkTipoRelatorioFilterComponent implements OnInit {
     form: FormGroup;
 
     filters: any = {};
+
+    @Input()
+    mode = 'list';
 
     /**
      * Constructor
