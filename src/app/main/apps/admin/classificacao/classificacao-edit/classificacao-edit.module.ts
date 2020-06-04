@@ -24,7 +24,6 @@ import {MatStepperModule} from '@angular/material/stepper';
 import * as fromGuards from './store/guards';
 import {ClassificacaoEditStoreModule} from './store/store.module';
 import {ClassificacaoService} from '../../../../../../@cdk/services/classificacao.service';
-import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.service';
 import {CdkClassificacaoFormModule} from '@cdk/components/classificacao/cdk-classificacao-form/cdk-classificacao-form.module';
 
 
@@ -70,7 +69,6 @@ const routes: Routes = [
     providers: [
         fromGuards.ResolveGuard,
         ClassificacaoService,
-        ColaboradorService
     ]
 })
 export class ClassificacaoEditModule {

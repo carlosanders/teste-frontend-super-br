@@ -78,7 +78,6 @@ modulesConfig.forEach((module) => {
     providers: [
         ResolveGuard,
         MunicipioService,
-        ColaboradorService
     ]
 })
 export class MunicipioEditModule {

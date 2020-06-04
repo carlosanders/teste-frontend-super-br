@@ -27,7 +27,6 @@ import {AssuntoAdministrativoService} from '../../../../../../@cdk/services/assu
 import {AssuntoAdministrativoTreeStoreModule} from './store/store.module';
 import {CdkAssuntoAdministrativoTreeModule} from '../../../../../../@cdk/components/assunto-administrativo/cdk-assunto-administrativo-tree/cdk-assunto-administrativo-tree.module';
 import {CdkAssuntoAdministrativoTreeService} from '../../../../../../@cdk/components/assunto-administrativo/cdk-assunto-administrativo-tree/services/cdk-assunto-administrativo-tree.service';
-import {AssuntoAdministrativoStoreModule} from '../assunto-administrativo-list/store/store.module';
 
 const routes: Routes = [
     {
@@ -69,7 +68,6 @@ const routes: Routes = [
         fromGuards.ResolveGuard,
         AssuntoAdministrativoService,
         CdkAssuntoAdministrativoTreeService
-
     ]
 })
 export class AssuntoAdministrativoTreeListModule {

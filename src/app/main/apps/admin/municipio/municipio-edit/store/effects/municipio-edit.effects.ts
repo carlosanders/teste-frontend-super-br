@@ -5,11 +5,9 @@ import {Observable} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as MunicipioEditActions from '../actions/municipio-edit.actions';
-import * as MunicipioListActions
-    from '../../../municipio-list/store/actions/municipio-list.actions';
+import * as MunicipioListActions from '../../../municipio-list/store/actions/municipio-list.actions';
 
 import {MunicipioService} from '@cdk/services/municipio.service';
-import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {municipio as municipioSchema} from '@cdk/normalizr/municipio.schema';
 import {Municipio} from '@cdk/models';
@@ -25,7 +23,6 @@ export class MunicipioEditEffects {
     constructor(
         private _actions: Actions,
         private _municipioService: MunicipioService,
-        private _colaboradorService: ColaboradorService,
         private _store: Store<State>,
         private _loginService: LoginService,
         private _router: Router

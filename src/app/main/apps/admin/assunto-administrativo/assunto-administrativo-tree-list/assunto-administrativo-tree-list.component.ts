@@ -44,7 +44,7 @@ export class AssuntoAdministrativoTreeListComponent implements OnInit {
     ngOnInit(): void {
     }
 
-    submitAssuntoAdministrativo(values: any) {
+    submitAssuntoAdministrativo(values: any): void {
         const assuntoAdministrativo = new AssuntoAdministrativo();
         Object.entries(values).forEach(
             ([key, value]) => {
@@ -54,7 +54,7 @@ export class AssuntoAdministrativoTreeListComponent implements OnInit {
         this._store.dispatch(new fromStore.SaveAssuntoAdministrativo(assuntoAdministrativo));
     }
 
-    doAbort() {
+    doAbort(): void {
         this._router.navigate(['/apps/admin/assuntos/arvore']).then();
     }
 }
