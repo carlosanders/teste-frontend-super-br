@@ -16,6 +16,15 @@
                 <span class="text-truncate">ID: {{relatorio.id}}</span>
             </div>
 
+            <div class="subtitle">
+                <span class="text-truncate" *ngIf="relatorio.documento || loadedIdRelatorios">
+                    <mat-icon>check</mat-icon>
+                </span>
+                <div class="spinner-container m-8" *ngIf="!relatorio.documento">
+                    <mat-spinner diameter="24"></mat-spinner>
+                </div>
+            </div>
+
             <div [matTooltip]="'Relatorio Id ' + relatorio.id.toString()" class="body mt-4">
                 <div>
                     {{relatorio.observacao}}

@@ -67,8 +67,9 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedIds: number[] = [];
 
     selectedRelatorios$: Observable<Relatorio[]>;
-
     selectedRelatorios: Relatorio[] = [];
+
+    loadedIdRelatorios: number[] = [];
 
     screen$: Observable<any>;
 
@@ -162,13 +163,21 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
             ).subscribe(message => {
-                console.log(message);
+                if (message && message.type && message.type === 'relatorio_create') {
+                    this.loadedIdRelatorios = message.content.relatorio;
+                }
         });
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(pagination => {
             this.pagination = pagination;
+        });
+
+        this.relatorios$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(relatorio => {
+            this.relatorios = relatorio;
         });
 
         this.maximizado$.pipe(

@@ -26,6 +26,9 @@ export class CdkRelatorioListItemComponent implements OnInit {
     @Input()
     deleting: boolean;
 
+    @Input()
+    loadedIdRelatorios: boolean;
+
     @Output()
     toggleInSelectedRelatorios = new EventEmitter();
 
