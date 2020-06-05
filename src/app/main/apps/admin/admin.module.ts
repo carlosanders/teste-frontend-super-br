@@ -38,12 +38,8 @@ const routes: Routes = [
             {
                 path: '**',
                 redirectTo: 'tarefas'
-            },
-        ],
-    },
-    {
-        path: '**',
-        redirectTo: ''
+            }
+        ]
     }
 ];
 
@@ -51,7 +47,7 @@ const path = 'app/main/apps/admin';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
-        module.routes[path].forEach((r => routes[0].children.push(r)));
+        module.routes[path].forEach((r => routes[0].children.unshift(r)));
     }
 });
 
