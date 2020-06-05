@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 
 import {CdkSharedModule} from '@cdk/shared.module';
+import { modulesConfig } from '../../../modules/modules-config';
 
 const routes = [ 
     {
@@ -61,6 +62,14 @@ const routes = [
         loadChildren: () => import('./calendario/calendar.module').then(m => m.CalendarModule)
     }
 ];
+
+const path = 'app/main/apps';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes.push(r)));
+    }
+});
 
 @NgModule({
     imports     : [
