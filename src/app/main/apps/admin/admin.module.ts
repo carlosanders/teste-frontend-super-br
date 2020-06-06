@@ -9,6 +9,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {AdminComponent} from './admin.component';
 import {MainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {modulesConfig} from 'modules/modules-config';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
@@ -60,10 +61,15 @@ const routes: Routes = [
                 loadChildren: () => import('./admin-pessoa/admin-pessoa.module').then(m => m.AdminPessoaModule)
             },
             {
+                path: 'municipios',
+                loadChildren: () => import('./municipio/municipio.module').then(m => m.MunicipioModule)
+            },
+            {
                 path: '**',
                 redirectTo: 'especie-tarefas'
             },
         ],
+        canActivate: [fromGuards.ResolveGuard]
     },
     {
         path: '**',
@@ -93,7 +99,9 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         MatButtonModule
     ],
-    providers: []
+    providers: [
+        fromGuards.ResolveGuard
+    ]
 })
 export class AdminModule {
 }

@@ -1,0 +1,10 @@
+<cdk-municipio-grid
+    [loading]="(loading$ | async)"
+    [municipios]="(municipios$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['id', 'nome', 'codigoIBGE', 'estado.nome', 'ativo', 'actions']"
+    [actions]="['edit', 'create']"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-municipio-grid>

@@ -71,7 +71,6 @@ const routes: Routes = [
         fromGuards.ResolveGuard,
         ClassificacaoService,
         CdkClassificacaoTreeService
-
     ]
 })
 export class ClassificacaoTreeListModule {
