@@ -16,11 +16,8 @@
                 <span class="text-truncate">ID: {{relatorio.id}}</span>
             </div>
 
-            <div class="subtitle">
-                <span class="text-truncate" *ngIf="relatorio.documento || loadedIdRelatorios">
-                    <mat-icon>check</mat-icon>
-                </span>
-                <div class="spinner-container m-8" *ngIf="!relatorio.documento">
+            <div class="subtitle" *ngIf="!relatorio.documento">
+                <div class="spinner-container m-8">
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
             </div>

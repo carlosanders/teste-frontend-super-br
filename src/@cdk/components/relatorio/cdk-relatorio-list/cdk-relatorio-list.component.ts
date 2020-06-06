@@ -28,7 +28,7 @@ export class CdkRelatorioListComponent {
     deletingIds: number[] = [];
 
     @Input()
-    loadedIdRelatorios: number[] = [];
+    loadedIdRelatorios: number;
 
     @Input()
     deletedIds: number[] = [];

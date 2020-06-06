@@ -7,6 +7,7 @@ import {
 } from '@angular/core';
 
 import {Relatorio} from '@cdk/models/relatorio.model';
+import {Documento} from '../../../../models';
 
 @Component({
     selector: 'cdk-relatorio-list-item',
@@ -57,6 +58,9 @@ export class CdkRelatorioListItemComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+        if (this.loadedIdRelatorios) {
+            this.relatorio.documento = new Documento();
+        }
     }
 
     doDelete(): void {

@@ -22,16 +22,16 @@ import {getMercureState, getRouterState, getScreenState} from 'app/store/reducer
 
 import {locale as english} from 'app/main/apps/relatorios/i18n/en';
 
-import {Folder, Tarefa} from '@cdk/models';
+import {Folder} from '@cdk/models';
 
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
-import {ToggleMaximizado} from 'app/main/apps/relatorios/store';
+import {LoadRelatorioSuccess, ToggleMaximizado} from 'app/main/apps/relatorios/store';
 import {Usuario} from '@cdk/models';
 
 @Component({
@@ -69,7 +69,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedRelatorios$: Observable<Relatorio[]>;
     selectedRelatorios: Relatorio[] = [];
 
-    loadedIdRelatorios: number[] = [];
+    loadedIdRelatorios$: Observable<number>;
 
     screen$: Observable<any>;
 
@@ -131,6 +131,8 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
+
+        this.loadedIdRelatorios$ = this._store.pipe(select(fromStore.getLoadedRelatorioIds));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -164,7 +166,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
                 takeUntil(this._unsubscribeAll)
             ).subscribe(message => {
                 if (message && message.type && message.type === 'relatorio_create') {
-                    this.loadedIdRelatorios = message.content.relatorio;
+                    this._store.dispatch(new LoadRelatorioSuccess(message.content.relatorio));
                 }
         });
 
