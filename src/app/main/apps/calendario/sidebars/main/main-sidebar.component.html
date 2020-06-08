@@ -1,0 +1,69 @@
+<!-- SIDEBAR HEADER -->
+<div fxLayout="column" fxLayoutAlign="space-between start"
+     class="header accent p-24 pb-4">
+    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+            check_box
+        </mat-icon>
+        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Tarefas</span>
+    </div>
+</div>
+<!-- / SIDEBAR HEADER -->
+
+<!-- SIDEBAR CONTENT -->
+<div class="side-content" cdkPerfectScrollbar>
+
+    <div class="px-24 pt-32 pb-12">
+        <button mat-raised-button
+                class="mat-accent compose-dialog-button w-100-p"
+                (click)="create()"
+                aria-label="Criar">
+            CRIAR
+        </button>
+    </div>
+
+    <div class="nav material2">
+
+        <div class="nav-subheader">MEUS EVENTOS</div>
+
+        <div class="nav-item">
+            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/minhas-tarefas/todas'"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">{{ 'group' }}</mat-icon>
+                <span>Meu Calendário</span>
+            </a>
+        </div>
+
+        <div class="nav-subheader">COMPARTILHAMENTO</div>
+
+        <div class="nav-item">
+            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/compartilhadas/outros-usuarios'"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">share</mat-icon>
+                <span>Outros Usuários</span>
+            </a>
+        </div>
+
+        <div *ngIf="setoresCoordenacao.length > 0" class="nav-subheader">COORDENAÇÃO</div>
+
+        <div class="nav-item" *ngFor="let setor of setoresCoordenacao">
+            <a class="nav-link" matRipple [routerLink]="'/apps/calendario/coordenacao/' + setor.id"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">{{ 'group' }}</mat-icon>
+                <span>{{setor.nome | titlecase}}</span>
+            </a>
+        </div>
+
+        <div *ngIf="usuariosAssessor.length > 0" class="nav-subheader">ASSESSOR</div>
+
+        <div class="nav-item" *ngFor="let usuario of usuariosAssessor">
+            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/assessor/' + usuario.id"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">{{ 'person' }}</mat-icon>
+                <span>{{usuario.nome | titlecase}}</span>
+            </a>
+        </div>
+
+    </div>
+</div>
+<!-- / SIDEBAR CONTENT -->

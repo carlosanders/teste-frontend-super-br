@@ -21,6 +21,8 @@ export class Tarefa {
 
     observacao?: string;
 
+    localEvento?: string;
+
     @Exclude({toPlainOnly: true})
     redistribuida?: boolean;
 
@@ -124,6 +126,7 @@ export class Tarefa {
         this.postIt = null;
         this.urgente = null;
         this.observacao = null;
+        this.localEvento = null;
         this.redistribuida = null;
         this.dataHoraInicioPrazo = null;
         this.dataHoraFinalPrazo = null;
@@ -146,6 +149,6 @@ export class Tarefa {
         this.auditoriaDistribuicao = null;
         this.tipoDistribuicao = null;
         this.folder = null;
-        this.vinculacoesEtiquetas = []; // Dr. Eduardo, colocamos [] aqui para poder funcionar a vinculação etiqueta.
+        this.vinculacoesEtiquetas = [];
     }
 }

@@ -23,7 +23,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CdkSegurancaFormModule} from '@cdk/components/usuario/cdk-seguranca-form/cdk-seguranca-form.module';
 import {SegurancaStoreModule} from './store/store.module';
 import {LoginService} from '../../../auth/login/login.service';
-
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -31,6 +31,14 @@ const routes: Routes = [
         component: SegurancaComponent,
     }
 ];
+
+const path = 'app/main/apps/configuracoes/seguranca';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

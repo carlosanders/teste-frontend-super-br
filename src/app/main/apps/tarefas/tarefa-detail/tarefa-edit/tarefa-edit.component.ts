@@ -110,5 +110,4 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new SaveTarefa(tarefa));
 
     }
-
 }

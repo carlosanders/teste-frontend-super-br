@@ -5,8 +5,36 @@
 
         <div fxFlex="1 0 auto" fxLayout="column">
 
+            <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+
+                <mat-card-subtitle>Campo</mat-card-subtitle>
+
+                <h3 *ngIf="form.value.id && form.value.campo === 1">ESPÉCIE ATIVIDADE</h3>
+                <h3 *ngIf="form.value.id && form.value.campo === 2">ESPÉCIE TAREFA</h3>
+                <h3 *ngIf="form.value.id && form.value.campo === 3">SETOR</h3>
+
+                <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
+                     fxLayoutAlign="start center">
+                    <label id="campo-rg3"></label>
+                    <mat-radio-group class="poderes-rg"
+                                     formControlName="campo"
+                                     aria-labelledby="campo-rg3"
+                                     fxLayoutAlign="row">
+                        <mat-radio-button [value]=1>
+                            Espécie Atividade
+                        </mat-radio-button>
+                        <mat-radio-button [value]=2>
+                            Espécie Tarefa
+                        </mat-radio-button>
+                        <mat-radio-button [value]=3>
+                            Setor
+                        </mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </mat-card>
+
             <div fxLayout="row" fxFlex
-                 fxLayoutAlign="center center" *ngIf="showEspecieAtividade">
+                 fxLayoutAlign="center center" *ngIf="form.value.campo === 1">
 
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">
@@ -20,7 +48,7 @@
                         [control]="form.get('especieAtividade')"
                         [pagination]="templatePagination">
                     </cdk-especie-atividade-autocomplete>
-                    <button matSuffix mat-button mat-icon-button
+                    <button matSuffix mat-button mat-icon-button *ngIf="!favorito.id"
                             (click)="showEspecieAtividadeGrid()">
                         <mat-icon matTooltip="Procurar">search</mat-icon>
                     </button>
@@ -32,7 +60,7 @@
             </div>
 
             <div fxLayout="row" fxFlex
-                 fxLayoutAlign="center center" *ngIf="showEspecieTarefa">
+                 fxLayoutAlign="center center" *ngIf="form.value.campo === 2">
 
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">
@@ -46,7 +74,7 @@
                         [control]="form.get('especieTarefa')"
                         [pagination]="templatePagination">
                     </cdk-especie-tarefa-autocomplete>
-                    <button matSuffix mat-button mat-icon-button
+                    <button matSuffix mat-button mat-icon-button *ngIf="!favorito.id"
                             (click)="showEspecieTarefaGrid()">
                         <mat-icon matTooltip="Procurar">search</mat-icon>
                     </button>
@@ -58,7 +86,7 @@
             </div>
 
             <div fxLayout="row" fxFlex
-                 fxLayoutAlign="center center" *ngIf="showSetorResponsavel">
+                 fxLayoutAlign="center center" *ngIf="form.value.campo === 3 && !favorito.id">
 
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">
@@ -84,7 +112,7 @@
             </div>
 
             <div fxLayout="row" fxFlex
-                 fxLayoutAlign="center center" *ngIf="showSetorResponsavel">
+                 fxLayoutAlign="center center" *ngIf="form.value.campo === 3">
 
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">
@@ -98,7 +126,7 @@
                         [control]="form.get('setorResponsavel')"
                         [pagination]="templatePagination">
                     </cdk-setor-autocomplete>
-                    <button *ngIf="form.get('setorResponsavel').enabled" matSuffix mat-button mat-icon-button
+                    <button *ngIf="form.get('setorResponsavel').enabled && !favorito.id" matSuffix mat-button mat-icon-button
                             (click)="showSetorResponsavelGrid()">
                         <mat-icon matTooltip="Procurar">search</mat-icon>
                     </button>
@@ -106,6 +134,30 @@
                         {{form.get('setorResponsavel').errors.formError}}
                     </mat-error>
                 </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxFlex
+                 fxLayoutAlign="center center" *ngIf="form.value.campo">
+
+                <mat-form-field fxFlex>
+                    <mat-label>Nome do campo</mat-label>
+                    <input matInput #label
+                           name="label"
+                           formControlName="label"
+                           required
+                           maxlength="255" upperCase>
+                    <mat-hint align="end">{{label.value.length}} / 255</mat-hint>
+                    <mat-error>Campo obrigatório!</mat-error>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" fxFlex *ngIf="form.value.campo">
+
+                <mat-checkbox formControlName="prioritario" class="mr-16 mb-16" fxFlex="0 1 auto">
+                    Prioritário
+                </mat-checkbox>
 
             </div>
 

@@ -22,6 +22,7 @@ import * as fromGuards from './store/guards';
 import {CdkVinculacaoRepositorioGridModule} from '@cdk/components/vinculacao-repositorio/cdk-vinculacao-repositorio-grid/cdk-vinculacao-repositorio-grid.module';
 import {RepositoriosEspecieSetorListStoreModule} from './store/store.module';
 import {LoginService} from '../../../../../auth/login/login.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/coordenador/repositorios/repositorios-especie-setor/repositorios-especie-setor-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

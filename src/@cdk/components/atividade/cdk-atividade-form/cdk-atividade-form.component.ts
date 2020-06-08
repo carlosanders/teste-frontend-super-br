@@ -15,12 +15,10 @@ import {Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Pagination} from '@cdk/models';
 import {Setor} from '@cdk/models';
-import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {DocumentoAvulso} from '@cdk/models';
-import {Favorito} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
-import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-atividade-form',
@@ -96,9 +94,17 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
 
     especieAtividadeListIsLoading: boolean;
 
-    favoritosList: Favorito[] = [];
+    unidadeAprovacaoList: Setor[] = [];
 
-    _profile: any;
+    unidadeAprovacaoListIsLoading: boolean;
+
+    setorAprovacaoList: Setor[] = [];
+
+    setorAprovacaoListIsLoading: boolean;
+
+    usuarioAprovacaoList: Usuario[] = [];
+
+    usuarioAprovacaoListIsLoading: boolean;
 
     /**
      * Constructor
@@ -106,8 +112,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _favoritoService: FavoritoService,
-        public _loginService: LoginService
+        private _favoritoService: FavoritoService
     ) {
 
         this.form = this._formBuilder.group({
@@ -133,8 +138,6 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         this.unidadeAprovacaoPagination.filter = {parent: 'isNull'};
         this.setorAprovacaoPagination = new Pagination();
         this.setorAprovacaoPagination.filter = {parent: 'isNotNull'};
-
-        this._profile = _loginService.getUserProfile();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -352,33 +355,99 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
-    showEspecieAtividadeList(): void {
-
+    getFavoritosEspecieAtividade(): void {
         this.especieAtividadeListIsLoading = true;
-
         this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.id}", "especieAtividade": "isNotNull"}`,
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\EspecieAtividade',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_especie_atividade'
+            }),
             5,
             0,
-            '{}',
-            '["populateAll"]')
-            .pipe(
-                catchError(() => {
-                        return of([]);
-                    }
-                )
-            ).subscribe(
-            value => {
-
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.especieAtividadeListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
                 this.especieAtividadeList = [];
-                this.favoritosList = value['entities'];
-
-                this.favoritosList.forEach((favorito) => {
-                    const especieAtividade = favorito.especieAtividade;
-                    this.especieAtividadeList.push(especieAtividade);
+                response['entities'].forEach((favorito) => {
+                    this.especieAtividadeList.push(favorito.objFavoritoClass[0]);
                 });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
 
-                this.especieAtividadeListIsLoading = false;
+    getFavoritosUnidadeAprovacao(): void {
+        this.unidadeAprovacaoListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_unidade_aprovacao'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.unidadeAprovacaoListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.unidadeAprovacaoList = [];
+                response['entities'].forEach((favorito) => {
+                    this.unidadeAprovacaoList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosSetorAprovacao(): void {
+        this.setorAprovacaoListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_setor_aprovacao_unidade_' +
+                    this.form.get('unidadeAprovacao').value.id
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.setorAprovacaoListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.setorAprovacaoList = [];
+                response['entities'].forEach((favorito) => {
+                    this.setorAprovacaoList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosUsuarioAprovacao(): void {
+        this.usuarioAprovacaoListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Usuario',
+                context: 'eq:atividade_' + this.atividade.tarefa.especieTarefa.id + '_usuario_aprovacao_setor_' +
+                    this.form.get('setorAprovacao').value.id
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.usuarioAprovacaoListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.usuarioAprovacaoList = [];
+                response['entities'].forEach((favorito) => {
+                    this.usuarioAprovacaoList.push(favorito.objFavoritoClass[0]);
+                });
                 this._changeDetectorRef.markForCheck();
             }
         );

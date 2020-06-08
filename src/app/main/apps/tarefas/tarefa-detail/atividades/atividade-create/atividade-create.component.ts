@@ -1,9 +1,10 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit, 
-    ViewChild,
+    OnInit,
+    ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -26,6 +27,8 @@ import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Back} from '../../../../../../store/actions';
+import {modulesConfig} from '../../../../../../../modules/modules-config';
+import {DynamicService} from '../../../../../../../modules/dynamic.service';
 
 
 @Component({
@@ -36,7 +39,7 @@ import {Back} from '../../../../../../store/actions';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AtividadeCreateComponent implements OnInit, OnDestroy {
+export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -67,17 +70,22 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     /**
      * @param _store
      * @param _loginService
      * @param _router
      * @param _changeDetectorRef
+     * @param _dynamicService
      */
     constructor(
         private _store: Store<fromStore.AtividadeCreateAppState>,
         public _loginService: LoginService,
         private _router: Router,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _dynamicService: DynamicService
     ) {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -108,6 +116,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(tarefa => {
             this.tarefa = tarefa;
+            this.atividade.tarefa = tarefa;
             this.atividade.usuario = tarefa.usuarioResponsavel;
             this.atividade.setor = tarefa.setorResponsavel;
         });
@@ -182,6 +191,18 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
         });
     }
 
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+    }
+
     /**
      * On destroy
      */
@@ -208,7 +229,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy {
             }
         );
 
-        atividade.tarefa = this.tarefa;
         atividade.documentos = this.minutas;
 
         this._store.dispatch(new fromStore.SaveAtividade(atividade));

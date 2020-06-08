@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoActions from '../actions/documento.actions';
@@ -11,12 +11,13 @@ import * as DocumentoSelectors from '../selectors/documento.selectors';
 
 import {DocumentoService} from '@cdk/services/documento.service';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
+import {template as templateSchema} from '@cdk/normalizr/template.schema';
 import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
+import {Assinatura, Documento, Template, VinculacaoEtiqueta} from '@cdk/models';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
-import {Assinatura, Documento} from '@cdk/models';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Modelo} from '@cdk/models';
@@ -27,12 +28,25 @@ import {environment} from 'environments/environment';
 import {UnloadDocumento} from '../actions';
 import * as AssinaturaActions from '../actions/assinaturas.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 
 @Injectable()
 export class DocumentoEffect {
     routerState: any;
     private _profile: any;
 
+    /**
+     * @param _actions
+     * @param _documentoService
+     * @param _modeloService
+     * @param _repositorioService
+     * @param _assinaturaService
+     * @param _loginService
+     * @param _vinculacaoEtiquetaService
+     * @param _router
+     * @param _store
+     */
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
@@ -40,6 +54,7 @@ export class DocumentoEffect {
         private _repositorioService: RepositorioService,
         private _assinaturaService: AssinaturaService,
         public _loginService: LoginService,
+        private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _router: Router,
         private _store: Store<State>
     ) {
@@ -121,7 +136,9 @@ export class DocumentoEffect {
                             'vinculacoesDocumentos.documentoVinculado',
                             'vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                             'sigilos',
-                            'sigilos.tipoSigilo'
+                            'sigilos.tipoSigilo',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta'
                         ]));
                 }),
                 switchMap(response => [
@@ -226,6 +243,34 @@ export class DocumentoEffect {
                         catchError((err) => {
                             console.log(err);
                             return of(new DocumentoActions.SaveModeloFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Save Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveTemplate: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.SaveTemplate>(DocumentoActions.SAVE_TEMPLATE),
+                switchMap((action) => {
+                    return this._modeloService.save(action.payload).pipe(
+                        mergeMap((response: Template) => [
+                            new DocumentoActions.SaveTemplateSuccess(),
+                            new AddData<Template>({data: [response], schema: templateSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'template',
+                                content: `Template id ${response.id} editado com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentoActions.SaveTemplateFailed(err));
                         })
                     );
                 })
@@ -377,4 +422,95 @@ export class DocumentoEffect {
                         ]
                     ).then();
                 }));
+
+    /**
+     * Create Vinculacao Etiqueta
+     * @type {Observable<any>}
+     */
+    @Effect()
+    createVinculacaoEtiqueta: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.CreateVinculacaoEtiqueta>(DocumentoActions.CREATE_VINCULACAO_ETIQUETA),
+                mergeMap((action) => {
+                    const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+                    vinculacaoEtiqueta.documento = action.payload.documento;
+                    vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
+                    return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
+                        tap((response) => response.documento = null),
+                        mergeMap((response) => [
+                            new AddChildData<VinculacaoEtiqueta>({
+                                data: [response],
+                                childSchema: vinculacaoEtiquetaSchema,
+                                parentSchema: documentoSchema,
+                                parentId: action.payload.documento.id
+                            }),
+                            new OperacoesActions.Resultado({
+                                type: 'documento',
+                                content: `Documento id ${action.payload.documento.id} etiquetado com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentoActions.CreateVinculacaoEtiquetaFailed(err));
+                        })
+                    );
+                })
+            );
+
+
+    /**
+     * Save conteúdo vinculação etiqueta no documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveConteudoVinculacaoEtiqueta: any =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.SaveConteudoVinculacaoEtiqueta>(DocumentoActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
+                mergeMap((action) => {
+                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                        // @retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
+                        mergeMap((response) => [
+                            new DocumentoActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
+                            new UpdateData<VinculacaoEtiqueta>({id: response.id, schema: vinculacaoEtiquetaSchema, changes: {conteudo: response.conteudo}})
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentoActions.SaveConteudoVinculacaoEtiquetaFailed(err));
+                        })
+                    );
+                })
+            );
+
+
+
+    /**
+     * Delete Vinculacao Etiqueta
+     * @type {Observable<any>}
+     */
+    @Effect()
+    deleteVinculacaoEtiqueta: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<DocumentoActions.DeleteVinculacaoEtiqueta>(DocumentoActions.DELETE_VINCULACAO_ETIQUETA),
+                mergeMap((action) => {
+                        return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
+                            mergeMap(() => [
+                                new RemoveChildData({
+                                    id: action.payload.vinculacaoEtiquetaId,
+                                    childSchema: vinculacaoEtiquetaSchema,
+                                    parentSchema: documentoSchema,
+                                    parentId: action.payload.documentoId
+                                })
+                            ]),
+                            catchError((err) => {
+                                console.log(err);
+                                return of(new DocumentoActions.DeleteVinculacaoEtiquetaFailed(action.payload));
+                            })
+                        );
+                    }
+                ));
+
 }

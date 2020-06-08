@@ -12,14 +12,17 @@ export class EspecieTarefa {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    // @Exclude({ toPlainOnly: true })
     nome?: string;
 
-    // @Exclude({ toPlainOnly: true })
     descricao?: string;
 
-    // @Exclude({ toPlainOnly: true })
     ativo?: boolean;
+
+    evento?: boolean;
+
+    corHexadecimalPrimaria?: string;
+
+    corHexadecimalSecundaria?: string;
 
     // @Exclude({ toPlainOnly: true })
     @Type(() => GeneroTarefa)
@@ -62,9 +65,12 @@ export class EspecieTarefa {
         this.nome = null;
         this.descricao = null;
         this.ativo = null;
+        this.evento = null;
         this.generoTarefa = null;
         this.criadoPor = null;
         this.criadoEm = null;
+        this.corHexadecimalPrimaria = null;
+        this.corHexadecimalSecundaria = null;
         this.atualizadoPor = null;
         this.atualizadoEm = null;
         this.apagadoPor = null;

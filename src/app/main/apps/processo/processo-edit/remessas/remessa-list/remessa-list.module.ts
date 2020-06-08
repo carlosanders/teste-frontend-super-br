@@ -21,6 +21,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {RemessaListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {CdkRemessaGridModule} from '@cdk/components/remessa/cdk-remessa-grid/cdk-remessa-grid.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -29,6 +30,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/remessas/remessa-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

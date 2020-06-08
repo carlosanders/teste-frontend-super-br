@@ -6,25 +6,19 @@ import {EspecieDocumento} from '@cdk/models';
 
 export class TipoDocumento {
 
-    @Exclude({ toPlainOnly: true })
     id?: number;
 
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
     nome?: string;
 
-    @Exclude({ toPlainOnly: true })
     sigla?: string;
 
-    @Exclude({ toPlainOnly: true })
     descricao?: string;
 
-    @Exclude({ toPlainOnly: true })
     ativo?: boolean;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => EspecieDocumento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     especieDocumento?: EspecieDocumento;

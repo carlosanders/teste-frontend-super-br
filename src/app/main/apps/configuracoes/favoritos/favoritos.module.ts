@@ -1,19 +1,25 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
 import {
     MatButtonModule,
-    MatIconModule
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatAutocompleteModule,
+    MatExpansionModule
 } from '@cdk/angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+import {TranslateModule} from '@ngx-translate/core';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkSidebarModule } from '@cdk/components';
-
-import { FavoritoEditMainSidebarComponent } from './sidebars/main/main-sidebar.component';
-import { FavoritosComponent } from './favoritos.component';
-import { CommonModule } from '@angular/common';
-import * as fromGuards from './store/guards';
-
+import {CdkSharedModule} from '@cdk/shared.module';
+import {FavoritosComponent} from './favoritos.component';
+import {FavoritoService} from '@cdk/services/favorito.service';
+import {RouterModule, Routes} from '@angular/router';
+import {TemplateService} from '@cdk/services/template.service';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -21,46 +27,53 @@ const routes: Routes = [
         component: FavoritosComponent,
         children: [
             {
-                path       : 'favorito-especie-atividade',
-                loadChildren: () => import('./favorito-especie-atividade-list/favorito-especie-atividade-list.module').then(m => m.FavoritoEspecieAtividadeListModule)
+                path       : 'listar',
+                loadChildren: () => import('./favorito-list/favorito-list.module').then(m => m.FavoritoListModule),
             },
             {
-                path       : 'favorito-especie-tarefa',
-                loadChildren: () => import('./favorito-especie-tarefa-list/favorito-especie-tarefa-list.module').then(m => m.FavoritoEspecieTarefaListModule)
+                path       : 'editar',
+                loadChildren: () => import('./favorito-edit/favorito-edit.module').then(m => m.FavoritoEditModule),
             },
             {
-                path       : 'favorito-setor-responsavel',
-                loadChildren: () => import('./favorito-setor-responsavel-list/favorito-setor-responsavel-list.module').then(m => m.FavoritoSetorResponsavelListModule)
-            },
-            {
-                path       : '**',
-                redirectTo: 'favorito-especie-atividade'
+                path: '**',
+                redirectTo: 'listar'
             }
         ]
     }
+
 ];
 
 @NgModule({
-    declarations   : [
-        FavoritosComponent,
-        FavoritoEditMainSidebarComponent
+    declarations: [
+        FavoritosComponent
     ],
-    imports        : [
-        CommonModule,
+    imports: [
         RouterModule.forChild(routes),
 
-        MatIconModule,
+        MatExpansionModule,
+        MatAutocompleteModule,
         MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatCheckboxModule,
+        MatInputModule,
+        MatProgressSpinnerModule,
+        MatTableModule,
+        MatPaginatorModule,
+        MatSortModule,
 
         TranslateModule,
 
         CdkSharedModule,
-        CdkSidebarModule
+        MatTooltipModule,
     ],
-    providers      : [
-        fromGuards.ResolveGuard
+    providers: [
+        FavoritoService,
+        TemplateService
+    ],
+    exports: [
+        FavoritosComponent
     ]
 })
-export class FavoritosModule
-{
+export class FavoritosModule {
 }

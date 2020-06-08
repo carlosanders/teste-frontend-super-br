@@ -8,6 +8,8 @@
 
         <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
 
+            <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
+
             <div class="title" fxLayout="row">
                 <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block</mat-icon>
                 <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock</mat-icon>
@@ -74,11 +76,11 @@
                 <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
             </button>
 
-            <div class="spinner-container m-8" *ngIf="deleting">
+            <div class="spinner-container m-8" *ngIf="deleting || ciencia">
                 <mat-spinner diameter="24"></mat-spinner>
             </div>
 
-            <button *ngIf="!deleting" mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Ferramentas"
+            <button *ngIf="!deleting && !ciencia" mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Ferramentas"
                     (click)="$event.stopPropagation()">
                 <mat-icon class="secondary-text">more_vert</mat-icon>
             </button>
@@ -106,6 +108,22 @@
                     <ng-container>
                         <mat-icon>edit</mat-icon>
                         <span>Editar Tarefa</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="redistribuir tarefa"
+                        (click)="doRedistribuirTarefa()">
+                    <ng-container>
+                        <mat-icon>forward</mat-icon>
+                        <span>Redistribuir Tarefa</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="dar ciencia"
+                        (click)="doCienciaTarefa()">
+                    <ng-container>
+                        <mat-icon>check</mat-icon>
+                        <span>Dar Ciência</span>
                     </ng-container>
                 </button>
 

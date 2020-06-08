@@ -1,9 +1,10 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit,
+    OnInit, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {select, Store} from '@ngrx/store';
@@ -25,6 +26,8 @@ import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
 import {Usuario} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
+import {modulesConfig} from '../../../../modules/modules-config';
+import {DynamicService} from '../../../../modules/dynamic.service';
 
 @Component({
     selector: 'processo',
@@ -34,7 +37,7 @@ import {takeUntil} from 'rxjs/operators';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProcessoComponent implements OnInit, OnDestroy {
+export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -47,10 +50,13 @@ export class ProcessoComponent implements OnInit, OnDestroy {
     routerState$: Observable<any>;
 
     vinculacaoEtiquetaPagination: Pagination;
-    savingVincEtiquetaId$: Observable<any>;
+    savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
 
     chaveAcesso: string;
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     private _profile: Usuario;
 
@@ -62,6 +68,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
      * @param _store
      * @param _loginService
      * @param _router
+     * @param _dynamicService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -69,7 +76,8 @@ export class ProcessoComponent implements OnInit, OnDestroy {
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _store: Store<fromStore.ProcessoAppState>,
         public _loginService: LoginService,
-        private _router: Router
+        private _router: Router,
+        private _dynamicService: DynamicService
     ) {
         // Set the defaults
         this._profile = _loginService.getUserProfile();
@@ -82,7 +90,7 @@ export class ProcessoComponent implements OnInit, OnDestroy {
             'modalidadeEtiqueta.valor': 'eq:PROCESSO'
         };
         this.routerState$ = this._store.pipe(select(getRouterState));
-        this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
+        this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
@@ -114,11 +122,23 @@ export class ProcessoComponent implements OnInit, OnDestroy {
         });
     }
 
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/processo';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+    }
+
     /**
      * On destroy
      */
     ngOnDestroy(): void {
-        this._changeDetectorRef.detach();
+        // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();

@@ -38,8 +38,10 @@ import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chip
 import {DndModule} from 'ngx-drag-drop';
 import {LoginService} from '../../auth/login/login.service';
 import { AssuntoService } from '@cdk/services/assunto.service';
-import * as fromAssuntosGuards from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/guards/index';
 import {AssuntoListStoreModule} from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/store.module';
+import {modulesConfig} from 'modules/modules-config';
+import {InteressadoService} from '../../../../@cdk/services/interessado.service';
+import {DocumentoService} from '../../../../@cdk/services/documento.service';
 
 const routes: Routes = [
     {
@@ -94,6 +96,10 @@ const routes: Routes = [
             {
                 path: 'visibilidade',
                 loadChildren: () => import('./visibilidade/visibilidade.module').then(m => m.VisibilidadeModule),
+            },
+            {
+                path: 'redistribuicao-edit-bloco',
+                loadChildren: () => import('./redistribuicao-edit-bloco/redistribuicao-edit-bloco.module').then(m => m.RedistribuicaoEditBlocoModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
@@ -103,6 +109,14 @@ const routes: Routes = [
         redirectTo: 'entrada'
     }
 ];
+
+const path = 'app/main/apps/tarefas';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [
@@ -157,7 +171,9 @@ const routes: Routes = [
         UsuarioService,
         LoginService,
         fromGuards.ResolveGuard,
-        AssuntoService
+        AssuntoService,
+        InteressadoService,
+        DocumentoService
     ]
 })
 export class TarefasModule {

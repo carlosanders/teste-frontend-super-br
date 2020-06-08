@@ -15,6 +15,7 @@ import * as fromStore from '../../store';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {modulesConfig} from "../../../../../../modules/modules-config";
 
 @Component({
     selector: 'processos-main-sidebar',
@@ -29,6 +30,8 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     mode = 'Processos';
+
+    links: any;
 
     routerState: any;
 
@@ -46,6 +49,13 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         public _loginService: LoginService
     ) {
+        const path = 'app/main/apps/protocolo-externo/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     /**
@@ -67,7 +77,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._changeDetectorRef.detach();
+        // this._changeDetectorRef.detach();
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }

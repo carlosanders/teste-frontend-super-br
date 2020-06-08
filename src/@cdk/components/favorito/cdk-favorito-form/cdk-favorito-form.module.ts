@@ -20,6 +20,7 @@ import {CdkEspecieTarefaAutocompleteModule} from '../../especie-tarefa/cdk-espec
 import {CdkEspecieTarefaGridsearchModule} from '../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-gridsearch/cdk-especie-tarefa-gridsearch.module';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
     declarations: [
@@ -45,8 +46,9 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         CdkEspecieTarefaGridsearchModule,
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
-        
+
         CdkSharedModule,
+        MatCardModule,
     ],
     providers: [],
     exports: [

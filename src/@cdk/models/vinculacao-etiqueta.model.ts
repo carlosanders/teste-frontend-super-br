@@ -9,6 +9,7 @@ import {
     Documento,
     Processo
 } from '@cdk/models';
+import {Relatorio} from './relatorio.model';
 
 export class VinculacaoEtiqueta {
 
@@ -50,6 +51,10 @@ export class VinculacaoEtiqueta {
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     processo?: Processo;
+
+    @Type(() => Relatorio)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    relatorio?: Relatorio;
 
     @Type(() => DocumentoAvulso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -119,5 +124,6 @@ export class VinculacaoEtiqueta {
         this.label = null;
         this.objectClass = null;
         this.objectUuid = null;
+        this.relatorio = null;
     }
 }

@@ -9,13 +9,15 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 
-import {Tramitacao} from '@cdk/models';
+import {Pagination, Tramitacao, Usuario} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Back} from "../../../../../../store/actions";
+import {Router} from '@angular/router';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Component({
     selector: 'tramitacao-edit',
@@ -35,16 +37,37 @@ export class TramitacaoEditComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
+    _profile: Usuario;
+
+    setorOrigemPagination: Pagination;
+    setorOrigemPaginationTree: Pagination;
+
+    setorDestinoPagination: Pagination;
+
     /**
      * @param _store
+     * @param _loginService
      */
     constructor(
-        private _store: Store<fromStore.TramitacaoEditAppState>
+        private _store: Store<fromStore.TramitacaoEditAppState>,
+        public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.tramitacao$ = this._store.pipe(select(fromStore.getTramitacao));
         this.processo$ = this._store.pipe(select(getProcesso));
+
+        this._profile = this._loginService.getUserProfile();
+        this.setorOrigemPagination = new Pagination();
+        this.setorOrigemPagination.populate = ['unidade', 'parent'];
+        this.setorOrigemPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+
+        this.setorOrigemPaginationTree = new Pagination();
+        this.setorOrigemPaginationTree.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(',')};
+
+        this.setorDestinoPagination = new Pagination();
+        this.setorDestinoPagination.populate = ['unidade', 'parent'];
+        this.setorDestinoPagination.filter = {parent: 'isNotNull'};
     }
 
     // -----------------------------------------------------------------------------------------------------

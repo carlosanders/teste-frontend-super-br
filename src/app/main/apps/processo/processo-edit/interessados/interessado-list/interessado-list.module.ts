@@ -22,6 +22,7 @@ import {InteressadoListStoreModule} from 'app/main/apps/processo/processo-edit/i
 import {ModalidadeInteressadoService} from '@cdk/services/modalidade-interessado.service';
 import * as fromGuards from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store/guards';
 import {CdkInteressadoGridModule} from '@cdk/components/interessado/cdk-interessado-grid/cdk-interessado-grid.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/interessados/interessado-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

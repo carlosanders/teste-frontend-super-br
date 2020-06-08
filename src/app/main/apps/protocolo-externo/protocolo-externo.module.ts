@@ -38,6 +38,8 @@ import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/
 import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {DocumentoService} from '@cdk/services/documento.service';
+import {modulesConfig} from 'modules/modules-config';
+import {AssinaturaService} from '../../../../@cdk/services/assinatura.service';
 
 const routes: Routes = [
     {
@@ -72,6 +74,14 @@ const routes: Routes = [
         redirectTo: 'entrada'
     }
 ];
+
+const path = 'app/main/apps/protocolo-externo';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [
@@ -115,6 +125,7 @@ const routes: Routes = [
         LoginService,
         fromGuards.ResolveGuard,
         AssuntoService,
+        AssinaturaService,
         InteressadoService,
         DocumentoService
     ]

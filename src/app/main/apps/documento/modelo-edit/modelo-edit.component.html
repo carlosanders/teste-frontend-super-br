@@ -50,6 +50,7 @@
                         <span>Upload</span>
                     </ng-container>
                 </button>
+                <ng-template #dynamicComponent></ng-template>
             </mat-menu>
 
             <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
@@ -63,7 +64,7 @@
 
             <cdk-componente-digital-card-list #ckdUpload
                                               [documentoOrigem]="documento$ | async"
-                                              (complete)="onCompleteDocumentoVinculado()">
+                                              (completed)="onCompleteDocumentoVinculado()">
             </cdk-componente-digital-card-list>
 
 

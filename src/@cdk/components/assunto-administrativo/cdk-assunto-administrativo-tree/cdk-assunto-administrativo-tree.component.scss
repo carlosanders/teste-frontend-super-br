@@ -1,0 +1,68 @@
+form {
+    width: 100%;
+}
+.title {
+    margin-bottom: -10px !important;
+    padding-left: 17px;
+    padding-top: 17px;
+
+    h2 {
+        font-size: 16px;
+        font-weight: bold;
+    }
+}
+
+.tree {
+    height: 500px;
+    padding: 13px 44px 13px 13px;
+    border: 1px solid #CCC;
+}
+
+.title-arvore {
+    margin-bottom: 9px !important;
+    font-size: 2.2rem !important;
+}
+
+.bt-set-action {
+    position: absolute;
+    right: 4px;
+}
+
+//.bt-alterar-classificacao {
+//    margin-top: -31px;
+//}
+
+.selectedItem {
+    background: #009EE0;
+    color: #FFF;
+}
+
+.form-tree {
+    padding: 0 15px 14px 18px;
+}
+
+.form-pesquisa {
+    padding: 17px 15px 14px 18px;
+}
+
+.bt-search {
+    position: absolute;
+    right: 13px;
+    bottom: 0px;
+    color: #565656;
+}
+#pesquisa {
+    width: 100%;
+    padding: 17px 22px 0px 18px;
+}
+
+.mat-tree .cdk-tree .ng-star-inserted {
+    width: 95%;
+}
+
+.input-tree {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+

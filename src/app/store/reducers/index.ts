@@ -6,6 +6,7 @@ import {MercureReducer, MercureState} from './mercure.reducer';
 import {AjudaReducer, AjudaState} from './ajuda.reducer';
 import {ScreenReducer, ScreenState} from './screen.reducer';
 import {OperacoesReducer, OperacoesState} from './operacoes.reducer';
+import {LOGOUT} from '../../main/auth/login/store/actions';
 
 export interface RouterStateUrl {
     url: string;
@@ -29,6 +30,18 @@ export const reducers: ActionReducerMap<State> = {
     screenReducer: ScreenReducer,
     operacoesReducer: OperacoesReducer,
 };
+
+export function clearState(reducer): any {
+    return (state, action) => {
+
+        if (action.type === LOGOUT) {
+            state = undefined;
+        }
+
+        return reducer(state, action);
+    };
+}
+
 
 export const getRouterState = createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>('routerReducer');
 

@@ -15,7 +15,7 @@ import {Back} from '../../../../../store/actions';
 import {Setor} from '@cdk/models';
 
 @Component({
-    selector: 'root-setor',
+    selector: 'admin-setor',
     templateUrl: './setor.component.html',
     styleUrls: ['./setor.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

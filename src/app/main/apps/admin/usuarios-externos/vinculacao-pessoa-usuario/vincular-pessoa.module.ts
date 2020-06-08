@@ -17,7 +17,7 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
-
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -39,6 +39,14 @@ const routes: Routes = [
         ],
     }
 ];
+
+const path = 'app/main/apps/admin/usuarios-externos/vinculacao-pessoa-usuario';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [VincularPessoaComponent],

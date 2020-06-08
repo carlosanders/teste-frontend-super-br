@@ -34,6 +34,14 @@
             </a>
         </div>
 
+        <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
+            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/eventos'"
+               [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="nav-link-icon">calendar_today</mat-icon>
+                <span>Eventos</span>
+            </a>
+        </div>
+
         <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, folder])"
              *ngFor="let folder of (folders$ | async)">
             <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
@@ -63,7 +71,7 @@
             </a>
         </div>
 
-        <div *ngIf="usuariosAssessor.length > 0" class="nav-subheader">ANALISTA</div>
+        <div *ngIf="usuariosAssessor.length > 0" class="nav-subheader">ASSESSOR</div>
 
         <div class="nav-item" *ngFor="let usuario of usuariosAssessor">
             <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/assessor/' + usuario.id"

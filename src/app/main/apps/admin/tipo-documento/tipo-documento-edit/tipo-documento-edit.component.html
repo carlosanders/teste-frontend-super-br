@@ -1,0 +1,9 @@
+<cdk-tipo-documento-form
+    [tipoDocumento]="(tipoDocumento$ | async)"
+    [form]="formTipoDocumento"
+    [especieDocumentoPagination]="especieDocumentoPagination"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    (save)="submitTipoDocumento($event)"
+    (abort)="doAbort()">
+</cdk-tipo-documento-form>

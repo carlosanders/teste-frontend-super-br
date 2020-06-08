@@ -412,7 +412,7 @@
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
 
-                        <ng-template *showIfRole="'ROLE_COLABORADOR'">
+                        <ng-template [showIfRole]="'ROLE_COLABORADOR'">
                             <button mat-icon-button
                                     *ngIf="!processo.acessoNegado && actions.indexOf('delete') > -1 && deletingIds?.indexOf(processo.id) === -1 && !hasExcluded"
                                     [disabled]="deletedIds?.indexOf(processo.id) > -1"

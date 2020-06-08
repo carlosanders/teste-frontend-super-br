@@ -75,6 +75,22 @@
                     </ng-container>
                 </button>
 
+                <button mat-menu-item aria-label="redistribuir tarefa"
+                        (click)="doRedistribuirBloco()">
+                    <ng-container>
+                        <mat-icon>forward</mat-icon>
+                        <span>Redistribuir</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="dar ciencia"
+                        (click)="doCienciaBloco()">
+                    <ng-container>
+                        <mat-icon>check</mat-icon>
+                        <span>Dar Ciência</span>
+                    </ng-container>
+                </button>
+
                 <button mat-menu-item aria-label="movimentar"
                         (click)="doMovimentarBloco()">
                     <ng-container>
@@ -180,10 +196,14 @@
                                   (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
                                   (createTarefa)="doCreateTarefa($event)"
                                   (editTarefa)="doEditTarefa($event)"
+                                  (redistribuirTarefa)="doRedistribuirTarefa($event)"
+                                  (cienciaTarefa)="doCienciaTarefa($event)"
                                   (editProcesso)="doEditProcesso($event)"
                                   [ngClass]="{'selected':tarefa.id === currentTarefaId}"
                                   (loadAssuntos)="doLoadAssuntos($event)"
-                                  [loadingAssuntosProcessosId]="loadingAssuntosProcessosId">
+                                  [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
+                                  [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
+            >
             </cdk-tarefa-list-item>
 
         </div>

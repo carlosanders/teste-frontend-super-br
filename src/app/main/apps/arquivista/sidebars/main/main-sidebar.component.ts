@@ -10,6 +10,7 @@ import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Lotacao, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
+import {modulesConfig} from "../../../../../../modules/modules-config";
 
 @Component({
     selector: 'arquivista-main-sidebar',
@@ -75,7 +76,13 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'pendencia-analise'
             }
         ];
+        const path = 'app/main/apps/arquivista/sidebars/main';
 
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     /**
@@ -123,7 +130,7 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._changeDetectorRef.detach();
+        // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();

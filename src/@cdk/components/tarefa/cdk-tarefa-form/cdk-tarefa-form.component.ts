@@ -8,18 +8,17 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Tarefa} from '@cdk/models';
+import {Pessoa, Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Setor} from '@cdk/models';
-import {catchError, debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models';
-import {Favorito} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
-import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
 import {Responsavel} from '@cdk/models';
 
 @Component({
@@ -77,6 +76,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     setorResponsavelPagination: Pagination;
 
     @Input()
+    setorOrigemPaginationTree: Pagination;
+
+    @Input()
     usuarioResponsavelPagination: Pagination;
 
     @Input()
@@ -89,11 +91,17 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     especieTarefaListIsLoading: boolean;
 
+    usuarioResponsavelList: Usuario[] = [];
+
+    usuarioResponsavelListIsLoading: boolean;
+
     setorResponsavelList: Setor[] = [];
 
     setorResponsavelListIsLoading: boolean;
 
-    favoritosList: Favorito[] = [];
+    unidadeResponsavelList: Setor[] = [];
+
+    unidadeResponsavelListIsLoading: boolean;
 
     _profile: any;
 
@@ -103,6 +111,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     inputProcesso: boolean;
 
     feriados = ['01-01', '21-04', '01-05', '07-09', '12-10', '02-11', '15-11', '25-12'];
+
+    evento = false;
 
     @Input()
     blocoEdit = {
@@ -152,11 +162,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             usuarios: [null],
             setores: [null],
             setorOrigem: [null, [Validators.required]],
-            observacao: [null, [Validators.maxLength(255)]]
+            observacao: [null, [Validators.maxLength(255)]],
+            localEvento: [null, [Validators.maxLength(255)]]
         });
 
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['setorAtual'];
+        this.processoPagination.populate = ['especieProcesso', 'setorAtual', 'setorAtual.unidade'];
         this.especieTarefaPagination = new Pagination();
         this.unidadeResponsavelPagination = new Pagination();
         this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
@@ -164,7 +175,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorResponsavelPagination.filter = {parent: 'isNotNull'};
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
-
+        this.setorOrigemPaginationTree = new Pagination();
         this._profile = _loginService.getUserProfile();
     }
 
@@ -203,6 +214,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     } else {
                         this.form.get('usuarioResponsavel').enable();
                     }
+                    if (this.blocoResponsaveis)
+                    {
+                        this.blocoResponsaveis = [];
+                    }
                     this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
@@ -231,12 +246,35 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
+
+                    // criacao normal de tarefa sem distribuicao automatica
                     if (value && typeof value === 'object' && !this.form.get('distribuicaoAutomatica').value) {
                         this.form.get('usuarioResponsavel').enable();
                         this.form.get('usuarioResponsavel').reset();
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
                         this._changeDetectorRef.markForCheck();
                     }
+
+                    // bloco de processos
+                    if (this.form.get('blocoResponsaveis').value && this.form.get('distribuicaoAutomatica').value && typeof value === 'object' && value) {
+                        const setor = this.form.get('setorResponsavel').value;
+                        const usuario = this.form.get('usuarioResponsavel').value;
+
+                        if (usuario) {
+                            const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === setor.id) && (item.usuario.id === usuario.id));
+                            if (!findDuplicate) {
+                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            }
+                        } else {
+                            const findDuplicate = this.blocoResponsaveis.some(item => item.setor.id === setor.id);
+                            if (!findDuplicate) {
+                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                            }
+                        }
+
+                        this._changeDetectorRef.markForCheck();
+                    }
+
                     return of([]);
                 }
             )
@@ -264,39 +302,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.processo.emit(this.form.get('processo').value);
         }
 
-        this.form.get('setorResponsavel').valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((value) => {
-                    if (this.form.get('blocoResponsaveis').value && this.form.get('distribuicaoAutomatica').value && typeof value === 'object' && value) {
-                        const setor = this.form.get('setorResponsavel').value;
-                        const usuario = this.form.get('usuarioResponsavel').value;
-
-                        if (usuario) {
-                            const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === setor.id) && (item.usuario.id === usuario.id));
-                            if (!findDuplicate) {
-                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
-                            }
-                        } else {
-                            const findDuplicate = this.blocoResponsaveis.some(item => item.setor.id === setor.id);
-                            if (!findDuplicate) {
-                                this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
-                            }
-                        }
-
-                        this._changeDetectorRef.markForCheck();
-                    }
-
-                    return of([]);
-                }
-            )
-        ).subscribe();
-
         this.form.get('usuarioResponsavel').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                    if (typeof value === 'object' && value) {
+
+                    // bloco de processo
+                    if (this.form.get('blocoResponsaveis').value && typeof value === 'object' && value) {
                         const setor = this.form.get('setorResponsavel').value;
                         const usuario = this.form.get('usuarioResponsavel').value;
 
@@ -314,6 +326,15 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                         this._changeDetectorRef.markForCheck();
                     }
+
+                    if (this.valid && this.blocoEdit.blocoEditDistribuicao) {
+                        this.form.get('processo').clearValidators();
+                        this.form.get('dataHoraInicioPrazo').clearValidators();
+                        this.form.get('dataHoraFinalPrazo').clearValidators();
+                        this.form.get('especieTarefa').clearValidators();
+                        this.form.get('setorOrigem').clearValidators();
+                    }
+
                     return of([]);
                 }
             )
@@ -361,6 +382,22 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             )
         ).subscribe();
 
+        this.form.get('especieTarefa').valueChanges.pipe(
+            debounceTime(500),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value) {
+                        this.evento = value.evento;
+                        if (!this.evento) {
+                            this.form.get('localEvento').reset();
+                        }
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
         this.alteraPrazoDias();
         this.validaPrazo();
     }
@@ -370,26 +407,30 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     alteraPrazoDias(): void {
+
         const dataHoraInicioPrazo = this.form.get('dataHoraInicioPrazo').value;
         const dataHoraFinalPrazo = this.form.get('dataHoraFinalPrazo').value;
-        let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
 
-        if (this.form.get('diasUteis').value) {
-            const curDate = dataHoraInicioPrazo.clone();
-            const maxDate = dataHoraFinalPrazo.clone();
-            curDate.add(1, 'days');
-            while (curDate <= maxDate) {
-                const dayOfWeek = curDate.day();
-                if ((dayOfWeek === 6) || (dayOfWeek === 0) || (this.feriados.indexOf(curDate.format('DD-MM')) > -1)) {
-                    --diffDays;
-                    console.log ('descontando: ' + curDate.format('DD-MM') + ' - ' + diffDays);
-                }
+        if (dataHoraInicioPrazo || dataHoraFinalPrazo) {
+            let diffDays = dataHoraFinalPrazo.diff(dataHoraInicioPrazo, 'days');
+
+            if (this.form.get('diasUteis').value) {
+                const curDate = dataHoraInicioPrazo.clone();
+                const maxDate = dataHoraFinalPrazo.clone();
                 curDate.add(1, 'days');
+                while (curDate <= maxDate) {
+                    const dayOfWeek = curDate.day();
+                    if ((dayOfWeek === 6) || (dayOfWeek === 0) || (this.feriados.indexOf(curDate.format('DD-MM')) > -1)) {
+                        --diffDays;
+                        console.log('descontando: ' + curDate.format('DD-MM') + ' - ' + diffDays);
+                    }
+                    curDate.add(1, 'days');
+                }
             }
-        }
 
-        if (diffDays !== this.form.get('prazoDias').value) {
-            this.form.get('prazoDias').setValue(diffDays);
+            if (diffDays !== this.form.get('prazoDias').value) {
+                this.form.get('prazoDias').setValue(diffDays);
+            }
         }
     }
 
@@ -436,12 +477,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             return;
         }
 
-        if (diffDays === 0) {
-            this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo deve ser no mínimo de 24 (vinte e quatro) horas!'});
-            this._changeDetectorRef.markForCheck();
-            return;
-        }
-
         if (diffDays > 180) {
             this.form.get('dataHoraFinalPrazo').setErrors({formError: 'O prazo deve ser de no máximo de 180 (cento e oitenta) dias!'});
             this._changeDetectorRef.markForCheck();
@@ -482,6 +517,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.inputProcesso = true;
             } else {
                 this.inputProcesso = false;
+            }
+
+            if (this.tarefa.especieTarefa) {
+                this.evento = this.tarefa.especieTarefa.evento;
             }
 
             if (!this.tarefa.id && this.tarefa.unidadeResponsavel) {
@@ -543,49 +582,81 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            if (this.form.get('blocoProcessos').value) {
-                this.form.get('processos').setValue(this.processos);
+
+            // caso usuario selecione Bloco de Processos
+            if (this.form.get('blocoProcessos').value && this.processos) {
+
                 this.processos.forEach(processo => {
                     let tarefa;
-                    if (this.form.get('blocoResponsaveis').value) {
+
+                    // caso tenha bloco de responsaveis
+                    if (this.form.get('blocoResponsaveis').value && this.blocoResponsaveis) {
+
+                        // para cada processo criamos uma tarefa para cada responsavel
                         this.blocoResponsaveis.forEach(responsavel => {
-                            tarefa = {
-                                ...this.form.value,
-                                processo: processo,
-                                setorResponsavel: responsavel.setor,
-                                usuarioResponsavel: responsavel.usuario
-                            };
+
+                            // caso seja distribuicao automatica manda somente o setorResponsavel
+                            if (this.form.get('distribuicaoAutomatica').value){
+                                tarefa = {
+                                    ...this.form.value,
+                                    processo: processo,
+                                    setorResponsavel: responsavel.setor
+                                };
+                            } else {
+                                tarefa = {
+                                    ...this.form.value,
+                                    processo: processo,
+                                    setorResponsavel: responsavel.setor,
+                                    usuarioResponsavel: responsavel.usuario
+                                };
+                            }
+                            this.save.emit(tarefa);
                         });
+
+                    } else {
+
+                        // caso seja apenas bloco de processos e um responsavel
+                        tarefa = {
+                            ...this.form.value,
+                            processo: processo
+                        };
+                        this.save.emit(tarefa);
+                    }
+                });
+
+            }
+
+            // caso tenha Bloco de Responsaveis sem Bloco de Processos
+            if (this.form.get('blocoResponsaveis').value &&
+                !this.form.get('blocoProcessos').value &&
+                this.blocoResponsaveis) {
+                let tarefa;
+
+                this.blocoResponsaveis.forEach(responsavel => {
+
+                    // caso seja distribuicao automatica manda somente o setorResponsavel
+                    if (this.form.get('distribuicaoAutomatica').value){
+                        tarefa = {
+                            ...this.form.value,
+                            setorResponsavel: responsavel.setor
+                        };
                     } else {
                         tarefa = {
                             ...this.form.value,
-                            processo: processo,
-                            setorResponsavel: this.form.get('setorResponsavel').value,
-                            usuarioResponsavel: this.form.get('usuarioResponsavel').value
-                        };
-                    }
-                    this.save.emit(tarefa);
-                });
-            } else {
-                let tarefa;
-                if (this.form.get('blocoResponsaveis').value) {
-                    this.blocoResponsaveis.forEach(responsavel => {
-                        tarefa = {
-                            ...this.form.value,
-                            processo: this.form.get('processo').value,
                             setorResponsavel: responsavel.setor,
                             usuarioResponsavel: responsavel.usuario
                         };
-                    });
-                } else {
-                    tarefa = {
-                        ...this.form.value,
-                        processo: this.form.get('processo').value,
-                        setorResponsavel: this.form.get('setorResponsavel').value,
-                        usuarioResponsavel: this.form.get('usuarioResponsavel').value
-                    };
-                }
-                this.save.emit(tarefa);
+                    }
+
+                    this.save.emit(tarefa);
+                });
+            }
+
+            // Por fim, cadastro normal, sem Bloco de Processos e Bloco de Responsaveis
+            if (!this.form.get('blocoResponsaveis').value &&
+                !this.form.get('blocoProcessos').value) {
+
+                this.save.emit(this.form.value);
             }
         }
     }
@@ -611,70 +682,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('especieTarefa').setValue(especieTarefa);
         }
         this.activeCard = 'form';
-    }
-
-    showEspecieTarefaList(): void {
-
-        this.especieTarefaListIsLoading = true;
-
-        this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.id}", "especieTarefa": "isNotNull"}`,
-            5,
-            0,
-            '{"prioritario": "DESC"}',
-            '["populateAll"]')
-            .pipe(
-                catchError(() => {
-                        return of([]);
-                    }
-                )
-            ).subscribe(
-            value => {
-
-                this.especieTarefaList = [];
-                this.favoritosList = value['entities'];
-
-                this.favoritosList.forEach((favorito) => {
-                    const especieTarefa = favorito.especieTarefa;
-                    this.especieTarefaList.push(especieTarefa);
-                });
-
-                this.especieTarefaListIsLoading = false;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
-    }
-
-    showSetorResponsavelList(): void {
-
-        this.setorResponsavelListIsLoading = true;
-
-        this._favoritoService.query(
-            `{"usuario.id": "eq:${this._profile.id}", "setorResponsavel": "isNotNull"}`,
-            5,
-            0,
-            '{"prioritario": "DESC"}',
-            '["setorResponsavel","setorResponsavel.unidade"]')
-            .pipe(
-                catchError(() => {
-                        return of([]);
-                    }
-                )
-            ).subscribe(
-            value => {
-
-                this.setorResponsavelList = [];
-                this.favoritosList = value['entities'];
-
-                this.favoritosList.forEach((favorito) => {
-                    const setorResponsavel = favorito.setorResponsavel;
-                    this.setorResponsavelList.push(setorResponsavel);
-                });
-
-                this.setorResponsavelListIsLoading = false;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
     }
 
     showEspecieTarefaGrid(): void {
@@ -736,9 +743,17 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectSetorResponsavel(setor: Setor): void {
+
         if (setor) {
             this.form.get('setorResponsavel').setValue(setor);
         }
+
+        if (setor !== null && typeof setor === 'object') {
+            if (setor.unidade && setor.unidade !== this.form.get('unidadeResponsavel').value) {
+                this.form.get('unidadeResponsavel').setValue(setor.unidade, {emitEvent: false});
+            }
+        }
+
         this.activeCard = 'form';
     }
 
@@ -757,6 +772,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showSetorResponsavelGrid(): void {
         this.activeCard = 'setor-gridsearch';
+    }
+
+    showSetorTree(): void {
+        this.activeCard = 'setor-tree';
+    }
+
+    showSetorOrigemTree(): void {
+        this.activeCard = 'setor-origem-tree';
     }
 
     checkSetorOrigem(): void {
@@ -785,5 +808,103 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    getFavoritosEspecieTarefa(): void {
+        this.especieTarefaListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\EspecieTarefa',
+                context: 'eq:tarefa_' + this.form.get('processo').value.especieProcesso.id + '_especie_tarefa'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.especieTarefaListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.especieTarefaList = [];
+                response['entities'].forEach((favorito) => {
+                    this.especieTarefaList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosUnidadeResponsavel(): void {
+        this.unidadeResponsavelListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:tarefa_' + this.form.get('processo').value.especieProcesso.id + '_unidade_responsavel'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.unidadeResponsavelListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.unidadeResponsavelList = [];
+                response['entities'].forEach((favorito) => {
+                    this.unidadeResponsavelList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosSetorResponsavel(): void {
+        this.setorResponsavelListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:tarefa_' + this.form.get('processo').value.especieProcesso.id +
+                    '_setor_responsavel_unidade_' + this.form.get('unidadeResponsavel').value.id
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.setorResponsavelListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.setorResponsavelList = [];
+                response['entities'].forEach((favorito) => {
+                    this.setorResponsavelList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosUsuarioResponsavel(): void {
+        this.usuarioResponsavelListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Usuario',
+                context: 'eq:tarefa_' + this.form.get('processo').value.especieProcesso.id +
+                    '_usuario_responsavel_setor_' + this.form.get('setorResponsavel').value.id
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.usuarioResponsavelListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.usuarioResponsavelList = [];
+                response['entities'].forEach((favorito) => {
+                    this.usuarioResponsavelList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
 }

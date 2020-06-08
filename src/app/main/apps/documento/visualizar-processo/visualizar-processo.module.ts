@@ -6,6 +6,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {VisualizarProcessoComponent} from './visualizar-processo.component';
 import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule} from '@cdk/angular/material';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -19,6 +20,14 @@ const routes: Routes = [
         ]
     }
 ];
+
+const path = 'app/main/apps/documento/visualizar-processo';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

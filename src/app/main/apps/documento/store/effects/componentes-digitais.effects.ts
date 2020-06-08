@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as ComponenteDigitalActions from '../actions/componentes-digitais.actions';
 
@@ -35,6 +35,75 @@ export class ComponenteDigitalEffect {
                 }
             });
     }
+
+    /**
+     * Get ComponentesDigitais with router parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getComponentesDigitais: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.GetComponentesDigitais>(ComponenteDigitalActions.GET_COMPONENTES_DIGITAIS),
+                switchMap((action) => {
+
+                    const params = {
+                        filter: action.payload.filter ? action.payload.filter : {
+                            'documento.id': 'eq:' + action.payload
+                        },
+                        limit: action.payload.limit ? action.payload.limit : 5,
+                        offset: action.payload.offset ? action.payload.offset : 0,
+                        sort: action.payload.sort ? action.payload.sort : {numeracaoSequencial: 'ASC'},
+                        populate: []
+                    };
+
+                    return this._componenteDigitalService.query(
+                        JSON.stringify({
+                            ...params.filter
+                        }),
+                        params.limit,
+                        params.offset,
+                        JSON.stringify(params.sort),
+                        JSON.stringify(params.populate));
+                }),
+                mergeMap((response) => [
+                    // new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                    new ComponenteDigitalActions.GetComponentesDigitaisSuccess({
+                        entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),
+                        loaded: {
+                            id: 'componenteDigitalHandle',
+                            value: this.routerState.params.componenteDigitalHandle
+                        },
+                        total: response['total']
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log (err);
+                    this._store.dispatch(new ComponenteDigitalActions.GetComponentesDigitaisFailed(err));
+                    return caught;
+                })
+
+            );
+
+    /**
+     * Delete ComponenteDigital
+     * @type {Observable<any>}
+     */
+    @Effect()
+    deleteComponenteDigital: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.DeleteComponenteDigital>(ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL),
+                mergeMap((action) => {
+                    return this._componenteDigitalService.destroy(action.payload).pipe(
+                        map((response) => new ComponenteDigitalActions.DeleteComponenteDigitalSuccess(response.id)),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new ComponenteDigitalActions.DeleteComponenteDigitalFailed(action.payload));
+                        })
+                    );
+                })
+            );
 
     /**
      * Save ComponenteDigital
@@ -104,7 +173,7 @@ export class ComponenteDigitalEffect {
                 ofType<ComponenteDigitalActions.ApproveComponenteDigital>(ComponenteDigitalActions.APPROVE_COMPONENTE_DIGITAL),
                 switchMap((action) => {
 
-                    let componenteDigital = new ComponenteDigital();
+                    const componenteDigital = new ComponenteDigital();
                     componenteDigital.documentoOrigem = action.payload.documentoOrigem;
 
                     return this._componenteDigitalService.approve(componenteDigital).pipe(

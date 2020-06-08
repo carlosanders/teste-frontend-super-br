@@ -8,6 +8,7 @@ import {MatAutocompleteModule, MatButtonModule, MatIconModule, MatInputModule, M
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkDownloadFormModule} from '@cdk/components/download/cdk-download-form/cdk-download-form.module';
 import {ProcessoDownloadStoreModule} from './store/store.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -15,6 +16,14 @@ const routes: Routes = [
         component: ProcessoDownloadComponent
     }
 ];
+
+const path = 'app/main/apps/processo/processo-download';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

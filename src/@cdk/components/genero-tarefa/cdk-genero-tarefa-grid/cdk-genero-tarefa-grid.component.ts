@@ -143,6 +143,9 @@ export class CdkGeneroTarefaGridComponent implements AfterViewInit, OnInit, OnCh
     selected = new EventEmitter<GeneroTarefa>();
 
     @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: GeneroTarefaDataSource;

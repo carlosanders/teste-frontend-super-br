@@ -18,7 +18,7 @@
             <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="(tarefa$ | async).vinculacoesEtiquetas"
                                            (create)="onEtiquetaCreate($event)"
                                            (edit)="onEtiquetaEdit($event)"
-                                           [savingVincEtiquetaId]="(savingVincEtiquetaId$ | async)"
+                                           [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
                                            [errors]="(errors$ | async)"
                                            [pagination]="vinculacaoEtiquetaPagination"
                                            (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
@@ -78,7 +78,6 @@
                 </button>
 
                 <ng-template #dynamicComponent></ng-template>
-
             </mat-menu>
         </div>
 

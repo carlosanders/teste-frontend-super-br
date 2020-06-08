@@ -11,6 +11,7 @@ import {MatListModule} from '@angular/material/list';
 import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {CdkClassificacaoTreeService} from '@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
 import {LoginService} from '../../../auth/login/login.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -18,6 +19,14 @@ const routes: Routes = [
         component: ArquivistaClassificacaoBlocoComponent,
     }
 ];
+
+const path = 'app/main/apps/arquivista/arquivista-classificacao-bloco';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [ArquivistaClassificacaoBlocoComponent],

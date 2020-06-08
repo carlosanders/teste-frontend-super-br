@@ -29,6 +29,7 @@ import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
 import {UsuariosExternosEditStoreModule} from './store/store.module';
 import {MatStepperModule} from '@angular/material/stepper';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -37,6 +38,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/admin/usuarios-externos/usuarios-externos-edit';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

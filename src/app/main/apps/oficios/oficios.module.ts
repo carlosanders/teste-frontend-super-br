@@ -35,6 +35,10 @@ import {OficiosComponent} from './oficios.component';
 import {DocumentoAvulsoMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {CdkChaveAcessoPluginModule} from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.module';
+import {modulesConfig} from 'modules/modules-config';
+import {AssuntoService} from '../../../../@cdk/services/assunto.service';
+import {InteressadoService} from '../../../../@cdk/services/interessado.service';
+import {DocumentoService} from '../../../../@cdk/services/documento.service';
 
 const routes: Routes = [
     {
@@ -70,6 +74,14 @@ const routes: Routes = [
         redirectTo: 'entrada/'
     }
 ];
+
+const path = 'app/main/apps/oficios';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [
@@ -111,7 +123,9 @@ const routes: Routes = [
         FolderService,
         ProcessoService,
         DocumentoAvulsoService,
-
+        AssuntoService,
+        InteressadoService,
+        DocumentoService,
         SetorService,
         UsuarioService,
         LoginService,

@@ -69,7 +69,6 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -140,14 +139,14 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
             if (this.blocoEditEspecie) {
                 changes = {
-                    especieTarefa: tarefa.especieTarefa
+                    especieTarefa: tarefa.especieTarefa.id
                 };
             }
 
             if (this.blocoEditDistribuicao) {
                 changes = {
-                    setorResponsavel: tarefa.setorResponsavel,
-                    usuarioResponsavel: tarefa.usuarioResponsavel
+                    setorResponsavel: tarefa.setorResponsavel.id,
+                    usuarioResponsavel: tarefa.usuarioResponsavel.id
                 };
             }
 

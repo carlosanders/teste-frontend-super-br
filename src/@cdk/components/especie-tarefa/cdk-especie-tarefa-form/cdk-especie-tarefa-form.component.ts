@@ -5,11 +5,10 @@ import {
     Input,
     OnChanges,
     OnDestroy,
-    OnInit,
     Output,
     SimpleChange
 } from '@angular/core';
-import {EspecieTarefa, GeneroTarefa, Pagination, Usuario} from '../../../models';
+import {EspecieTarefa, GeneroTarefa, Pagination} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -56,6 +55,7 @@ export class CdkEspecieTarefaFormComponent implements OnChanges, OnDestroy {
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             generoTarefa: [null, [Validators.required]],
             descricao: [null, [Validators.required]],
+            evento: [null],
             ativo: [null],
         });
     }

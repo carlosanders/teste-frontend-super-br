@@ -46,3 +46,29 @@ export const getComponenteDigital = createSelector(
     getComponenteDigitalId,
     schemaComponenteDigitalSelectors.entityProjector
 );
+
+export const getComponenteDigitalIds = createSelector(
+    getComponenteDigitalState,
+    (state: ComponenteDigitalState) => state.entitiesId
+);
+
+export const getComponentesDigitais = createSelector(
+    schemaComponenteDigitalSelectors.getNormalizedEntities,
+    getComponenteDigitalIds,
+    schemaComponenteDigitalSelectors.entitiesProjector
+);
+
+export const getDeletingComponenteDigitalIds = createSelector(
+    getComponenteDigitalState,
+    (state: ComponenteDigitalState) => state.deletingIds
+);
+
+export const getDeletedComponenteDigitalIds = createSelector(
+    getComponenteDigitalState,
+    (state: ComponenteDigitalState) => state.deletedIds
+);
+
+export const getComponenteDigitalPagination = createSelector(
+    getComponenteDigitalState,
+    (state: ComponenteDigitalState) => state.pagination
+);

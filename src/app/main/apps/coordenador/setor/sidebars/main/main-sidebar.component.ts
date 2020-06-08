@@ -5,6 +5,7 @@ import * as fromStore from '../../store';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
+import {modulesConfig} from "../../../../../../../modules/modules-config";
 
 @Component({
     selector: 'setor-main-sidebar',
@@ -70,6 +71,14 @@ export class SetorMainSidebarComponent implements OnInit {
                     this.baseLink += '/unidades/' + this.routerState.params['unidadeHandle'];
                 }
                 this.baseLink += '/setor/' + this.routerState.params['setorHandle'];
+            }
+        });
+
+        const path = 'app/main/apps/coordenador/setor/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
     }

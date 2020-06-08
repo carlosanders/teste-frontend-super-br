@@ -1,10 +1,10 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
+    Component,
     OnDestroy,
     OnInit,
-    ViewChild,
+    ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -20,6 +20,8 @@ import { getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
 import {Assinatura, DocumentoAvulso, Usuario} from '../../../../../../@cdk/models';
 import { getDocumentoAvulso } from '../store/selectors';
+import {modulesConfig} from "../../../../../../modules/modules-config";
+import {DynamicService} from "../../../../../../modules/dynamic.service";
 
 
 @Component({
@@ -56,6 +58,9 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
@@ -66,12 +71,14 @@ export class ComplementarComponent implements OnInit, OnDestroy {
      * @param _loginService
      * @param _router
      * @param _changeDetectorRef
+     * @param _dynamicService
      */
     constructor(
         private _store: Store<fromStore.ComplementarAppState>,
         public _loginService: LoginService,
         private _router: Router,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _dynamicService: DynamicService
     ) {
         this._profile = this._loginService.getUserProfile();
         this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
@@ -143,6 +150,18 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         });
     }
 
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/oficios/oficio-detail/complementar';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+    }
+
     /**
      * On destroy
      */
@@ -200,5 +219,9 @@ export class ComplementarComponent implements OnInit, OnDestroy {
 
     doConverte(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doRemoveAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
     }
 }

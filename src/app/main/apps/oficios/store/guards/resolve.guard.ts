@@ -3,10 +3,10 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import { select, Store } from '@ngrx/store';
 
-import {Observable, forkJoin, of, throwError} from 'rxjs';
-import { switchMap, catchError, map, tap, take, filter } from 'rxjs/operators';
+import {Observable, of, throwError} from 'rxjs';
+import { switchMap, catchError, tap, take, filter } from 'rxjs/operators';
 
-import { DocumentoAvulsoAppState } from 'app/main/apps/oficios/store/reducers';
+import { DocumentoAvulsoAppState } from '../reducers';
 import * as fromStore from 'app/main/apps/oficios/store';
 import { getDocumentosAvulsoLoaded } from 'app/main/apps/oficios/store/selectors';
 import { getRouterState } from 'app/store/reducers';

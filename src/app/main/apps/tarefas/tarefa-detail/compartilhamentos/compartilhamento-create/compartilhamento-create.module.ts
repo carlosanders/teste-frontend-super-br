@@ -24,6 +24,7 @@ import {CdkCompartilhamentoFormModule} from '@cdk/components/compartilhamento/cd
 import {CompartilhamentoCreateStoreModule} from './store/store.module';
 import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -31,6 +32,14 @@ const routes: Routes = [
         component: CompartilhamentoCreateComponent
     }
 ];
+
+const path = 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-create';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

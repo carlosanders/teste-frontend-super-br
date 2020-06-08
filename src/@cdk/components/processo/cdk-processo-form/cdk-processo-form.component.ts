@@ -8,8 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {EspecieSetor, Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
-import {EspecieProcesso} from '@cdk/models';
+import {EspecieProcesso, EspecieSetor, Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {ModalidadeFase} from '@cdk/models';
 import {ModalidadeMeio} from '@cdk/models';
@@ -17,7 +16,10 @@ import {Classificacao} from '@cdk/models';
 import {Setor} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
-import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {catchError, finalize} from 'rxjs/operators';
+import {of} from 'rxjs';
+import {FavoritoService} from '../../../services/favorito.service';
 
 @Component({
     selector: 'cdk-processo-form',
@@ -63,6 +65,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     errors: any;
+
+    @Input()
+    generoProcesso = 'administrativo';
 
     @Input()
     _classificacaoPagination: Pagination;
@@ -132,13 +137,34 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     readonlyNUP: boolean;
     textBotao: string;
 
+    procedenciaList: Pessoa[] = [];
+
+    procedenciaListIsLoading: boolean;
+
+    especieProcessoList: EspecieProcesso[] = [];
+
+    especieProcessoListIsLoading: boolean;
+
+    modalidadeMeioList: ModalidadeMeio[] = [];
+
+    modalidadeMeioListIsLoading: boolean;
+
+    classificacaoList: Classificacao[] = [];
+
+    classificacaoListIsLoading: boolean;
+    
+    setorAtualList: Setor[] = [];
+
+    setorAtualListIsLoading: boolean;
+
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _favoritoService: FavoritoService
     ) {
         this.form = this._formBuilder.group({
             id: [null],
@@ -447,6 +473,10 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'classificacao-gridsearch';
     }
 
+    showClassificacaoTree(): void {
+        this.activeCard = 'classificacao-grid-tree';
+    }
+
     checkSetorAtual(): void {
         const value = this.form.get('setorAtual').value;
         if (!value || typeof value !== 'object') {
@@ -566,5 +596,125 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showProcedenciaGrid(): void {
         this.activeCard = 'procedencia-gridsearch';
+    }
+
+    getFavoritosEspecieProcesso(): void {
+        this.especieProcessoListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\EspecieProcesso',
+                context: 'eq:processo_' + this.generoProcesso + '_especie_processo'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.especieProcessoListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.especieProcessoList = [];
+                response['entities'].forEach((favorito) => {
+                    this.especieProcessoList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosProcedencia(): void {
+        this.procedenciaListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Pessoa',
+                context: 'eq:processo_' + this.generoProcesso + '_procedencia'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.procedenciaListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.procedenciaList = [];
+                response['entities'].forEach((favorito) => {
+                    this.procedenciaList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosClassificacao(): void {
+        this.classificacaoListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Classificacao',
+                context: 'eq:processo_' + this.form.get('especieProcesso').value.id + '_classificacao'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.classificacaoListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.classificacaoList = [];
+                response['entities'].forEach((favorito) => {
+                    this.classificacaoList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosModalidadeMeio(): void {
+        this.modalidadeMeioListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\ModalidadeMeio',
+                context: 'eq:processo_' + this.form.get('especieProcesso').value.id + '_modalidade_meio'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.modalidadeMeioListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.modalidadeMeioList = [];
+                response['entities'].forEach((favorito) => {
+                    this.modalidadeMeioList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosSetorAtual(): void {
+        this.setorAtualListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\Setor',
+                context: 'eq:processo_' + this.form.get('especieProcesso').value.id + '_setor_atual'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.setorAtualListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.setorAtualList = [];
+                response['entities'].forEach((favorito) => {
+                    this.setorAtualList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
     }
 }

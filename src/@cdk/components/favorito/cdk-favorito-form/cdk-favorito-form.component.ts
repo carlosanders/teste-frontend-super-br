@@ -55,15 +55,6 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy, OnInit {
     displayedColumns: string[] = ['nome', 'actions'];
 
     @Input()
-    showEspecieAtividade: boolean;
-
-    @Input()
-    showEspecieTarefa: boolean;
-
-    @Input()
-    showSetorResponsavel: boolean;
-
-    @Input()
     unidadeResponsavelPagination: Pagination;
 
     /**
@@ -76,10 +67,14 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy, OnInit {
 
         this.form = this._formBuilder.group({
             id: [null],
+            label: [null, [Validators.required]],
+            prioritario: [null],
+            campo: [null, [Validators.required]],
+            context: [null],
             especieAtividade: [null],
             especieTarefa: [null],
-            setorResponsavel: [null],
-            unidadeResponsavel: [null]
+            unidadeResponsavel: [null],
+            setorResponsavel: [null]
         });
 
         this.templatePagination = new Pagination();
@@ -147,6 +142,58 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy, OnInit {
                     }
                 )
             ).subscribe();
+        }
+
+        if (this.form.get('campo') && !this.favorito.id) {
+            this.form.get('campo').valueChanges.pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap((value) => {
+                        if (value === 1){
+                            this.form.get('label').setValue('ESPÉCIE ATIVIDADE');
+                            this.form.get('especieAtividade').enable();
+                            this.form.get('especieTarefa').disable();
+                            this.form.get('unidadeResponsavel').disable();
+                        }
+                        if (value === 2){
+                            this.form.get('label').setValue('ESPÉCIE TAREFA');
+                            this.form.get('especieTarefa').enable();
+                            this.form.get('especieAtividade').disable();
+                            this.form.get('unidadeResponsavel').disable();
+                        }
+                        if (value === 3){
+                            this.form.get('label').setValue('SETOR');
+                            this.form.get('unidadeResponsavel').enable();
+                            this.form.get('especieAtividade').disable();
+                            this.form.get('especieTarefa').disable();
+                        }
+                        return of([]);
+                    }
+                )
+            ).subscribe();
+        }
+
+        if (this.favorito.id) {
+            switch (this.favorito.objectClass) {
+
+                case 'SuppCore\\AdministrativoBackend\\Entity\\EspecieAtividade':
+                    this.form.get('campo').setValue(1);
+                    this.form.get('especieAtividade').setValue(this.favorito.objFavoritoClass[0]);
+                    this.form.get('especieAtividade').disable();
+                    break;
+
+                case 'SuppCore\\AdministrativoBackend\\Entity\\EspecieTarefa':
+                    this.form.get('campo').setValue(2);
+                    this.form.get('especieTarefa').setValue(this.favorito.objFavoritoClass[0]);
+                    this.form.get('especieTarefa').disable();
+                    break;
+
+                case 'SuppCore\\AdministrativoBackend\\Entity\\Setor':
+                    this.form.get('campo').setValue(3);
+                    this.form.get('setorResponsavel').setValue(this.favorito.objFavoritoClass[0]);
+                    this.form.get('setorResponsavel').disable();
+                    break;
+            }
         }
     }
 

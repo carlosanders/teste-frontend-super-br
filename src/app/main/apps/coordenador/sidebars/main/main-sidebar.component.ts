@@ -4,6 +4,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from '../../../../auth/login/login.service';
 import {ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
 import {Coordenador} from '@cdk/models/coordenador.model';
+import {modulesConfig} from "../../../../../../modules/modules-config";
 
 @Component({
     selector: 'coordenador-main-sidebar',
@@ -15,6 +16,7 @@ import {Coordenador} from '@cdk/models/coordenador.model';
 })
 export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
 
+    links: any;
     linksNacional: any;
     linksUnidade: any;
     linksLocal: any;
@@ -109,6 +111,13 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'usuarios'
             }
         ];
+        const path = 'app/main/apps/coordenador/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

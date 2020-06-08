@@ -51,6 +51,12 @@ export class CdkTarefaListItemComponent implements OnInit {
     editTarefa = new EventEmitter<number>();
 
     @Output()
+    redistribuirTarefa = new EventEmitter<number>();
+
+    @Output()
+    cienciaTarefa = new EventEmitter<any>();
+
+    @Output()
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
@@ -58,6 +64,9 @@ export class CdkTarefaListItemComponent implements OnInit {
 
     @Input()
     loadingAssuntosProcessosId: number[];
+
+    @Input()
+    ciencia: boolean;
 
     isOpen: boolean;
     loadedAssuntos: boolean;
@@ -75,6 +84,7 @@ export class CdkTarefaListItemComponent implements OnInit {
         this.isOpen = false;
         this.loadedAssuntos = false;
         this.deleting = false;
+        this.ciencia = false;
         this.selected = false;
         this.draggable.data = this.tarefa;
     }
@@ -111,6 +121,14 @@ export class CdkTarefaListItemComponent implements OnInit {
 
     doEditTarefa(): void {
         this.editTarefa.emit(this.tarefa.id);
+    }
+
+    doRedistribuirTarefa(): void {
+        this.redistribuirTarefa.emit(this.tarefa.id);
+    }
+
+    doCienciaTarefa(): void {
+        this.cienciaTarefa.emit(this.tarefa.id);
     }
 
     onSelectedChange(): void {

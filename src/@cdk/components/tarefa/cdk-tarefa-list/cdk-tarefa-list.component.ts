@@ -78,6 +78,12 @@ export class CdkTarefaListComponent {
     editTarefa = new EventEmitter<number>();
 
     @Output()
+    redistribuirTarefa = new EventEmitter<number>();
+
+    @Output()
+    cienciaTarefa = new EventEmitter<any>();
+
+    @Output()
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
@@ -91,6 +97,9 @@ export class CdkTarefaListComponent {
 
     @Output()
     editTarefaBloco = new EventEmitter<any>();
+
+    @Output()
+    editRedistribuirBloco = new EventEmitter<any>();
 
     @Output()
     movimentarBloco = new EventEmitter<any>();
@@ -109,6 +118,9 @@ export class CdkTarefaListComponent {
 
     @Input()
     loadingAssuntosProcessosId: number[];
+
+    @Input()
+    cienciaIds: number[] = [];
     
     listFilter: any;
     listSort: {} = {};
@@ -257,8 +269,24 @@ export class CdkTarefaListComponent {
         this.editTarefa.emit(tarefaId);
     }
 
+    doRedistribuirTarefa(tarefaId): void {
+        this.redistribuirTarefa.emit(tarefaId);
+    }
+
+    doCienciaTarefa(tarefaId): void {
+        this.cienciaTarefa.emit(tarefaId);
+    }
+
     doEditTarefaBloco(): void {
         this.editTarefaBloco.emit();
+    }
+
+    doRedistribuirBloco(): void {
+        this.editRedistribuirBloco.emit();
+    }
+
+    doCienciaBloco(): void {
+        this.selectedIds.forEach(tarefaId => this.doCienciaTarefa(tarefaId));
     }
 
     doEditProcesso(params): void {

@@ -1,0 +1,13 @@
+<cdk-template-grid
+    [loading]="(loading$ | async)"
+    [templates]="(templates$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [actions]="['create', 'edit', 'editConteudo']"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()"
+    (editConteudo)="editConteudo($event)">
+</cdk-template-grid>
+
+<router-outlet></router-outlet>
+

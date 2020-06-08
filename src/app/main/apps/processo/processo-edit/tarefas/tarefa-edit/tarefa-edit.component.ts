@@ -18,8 +18,8 @@ import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {Usuario} from "../../../../../../../@cdk/models";
-import {Back} from "../../../../../../store/actions";
+import {Usuario} from '@cdk/models';
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'tarefa-edit',

@@ -18,7 +18,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {GarantiasComponent} from './garantias.component';
 import {GarantiaService} from '@cdk/services/garantia.service'; 
 import {RouterModule, Routes} from '@angular/router';
-
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -39,8 +39,15 @@ const routes: Routes = [
             }
         ]
     }
-
 ];
+
+const path = 'app/main/apps/processo/processo-edit/garantias';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

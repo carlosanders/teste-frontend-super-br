@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displaySetorFn">
+    <mat-option *ngFor="let tipoRelatorio of tipoRelatorioList"
+                [value]="tipoRelatorio">
+        <div *ngIf="tipoRelatorio">{{ tipoRelatorio.nome }}</div>
+    </mat-option>
+    <mat-option *ngIf="tipoRelatorioListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

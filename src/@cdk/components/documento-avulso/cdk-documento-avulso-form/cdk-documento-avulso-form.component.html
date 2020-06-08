@@ -52,8 +52,14 @@
                 <cdk-especie-documento-avulso-autocomplete
                     #especieDocumentoAvulso="especieDocumentoAvulsoAutocomplete"
                     [control]="form.get('especieDocumentoAvulso')"
+                    [especieDocumentoAvulsoList]="especieDocumentoAvulsoList"
+                    [especieDocumentoAvulsoListIsLoading]="especieDocumentoAvulsoListIsLoading"
                     [pagination]="especieDocumentoAvulsoPagination">
                 </cdk-especie-documento-avulso-autocomplete>
+                <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                        (click)="getFavoritosEspecieDocumentoAvulso()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
                 <button matSuffix mat-button mat-icon-button
                         (click)="showEspecieDocumentoAvulsoGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -74,8 +80,14 @@
                 <cdk-modelo-autocomplete
                     #modelo="modeloAutocomplete"
                     [control]="form.get('modelo')"
+                    [modeloList]="modeloList"
+                    [modeloListIsLoading]="modeloListIsLoading"
                     [pagination]="modeloPagination">
                 </cdk-modelo-autocomplete>
+                <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                        (click)="getFavoritosModelo()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
                 <button *ngIf="form.get('modelo').enabled && !inputModelo" matSuffix mat-button mat-icon-button
                         (click)="showModeloGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -84,6 +96,11 @@
                     {{form.get('modelo').errors.formError}}
                 </mat-error>
             </mat-form-field>
+
+            <mat-slide-toggle formControlName="blocoDestinatarios"
+                              class="mr-16 mb-16" fxFlex="0 1 auto">
+                Bloco de Destinatários
+            </mat-slide-toggle>
 
             <mat-slide-toggle formControlName="externa"
                               class="mr-16 mb-16" fxFlex="0 1 auto">
@@ -100,8 +117,14 @@
                 <cdk-setor-autocomplete
                     #setorDestino="setorAutocomplete"
                     [control]="form.get('setorDestino')"
+                    [setorList]="setorDestinoList"
+                    [setorListIsLoading]="setorDestinoListIsLoading"
                     [pagination]="setorDestinoPagination">
                 </cdk-setor-autocomplete>
+                <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                        (click)="getFavoritosSetorDestino()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
                 <button *ngIf="form.get('setorDestino').enabled" matSuffix mat-button mat-icon-button
                         (click)="showSetorDestinoGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -121,8 +144,14 @@
                 <cdk-pessoa-autocomplete
                     #pessoaDestino="pessoaAutocomplete"
                     [control]="form.get('pessoaDestino')"
+                    [pessoaList]="pessoaDestinoList"
+                    [pessoaListIsLoading]="pessoaDestinoListIsLoading"
                     [pagination]="pessoaDestinoPagination">
                 </cdk-pessoa-autocomplete>
+                <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                        (click)="getFavoritosPessoaDestino()">
+                    <mat-icon matTooltip="Favoritos">star</mat-icon>
+                </button>
                 <button *ngIf="form.get('pessoaDestino').value && form.get('pessoaDestino').value.id" matSuffix mat-button mat-icon-button
                         (click)="doEditPessoaDestino()">
                     <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
@@ -135,6 +164,14 @@
                     {{form.get('pessoaDestino').errors.formError}}
                 </mat-error>
             </mat-form-field>
+
+            <div *ngIf="form.get('blocoDestinatarios').value" class="bloco-processos">
+                <cdk-bloco-destinatario-grid
+                    [destinatarios]="destinatarios"
+                    [total]="destinatarios.length"
+                    (delete)="deleteDestinatarios($event)">
+                </cdk-bloco-destinatario-grid>
+            </div>
 
             <mat-slide-toggle formControlName="urgente"
                               class="mr-16 mb-16" fxFlex="0 1 auto">

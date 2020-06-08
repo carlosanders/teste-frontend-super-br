@@ -1,0 +1,27 @@
+@import '../../../../../@cdk/scss/cdk';
+
+relatorio-detail {
+
+    height: 100%;
+
+    .relatorio-header {
+        border-bottom: 1px solid;
+        height: 56px;
+
+        cdk-vinculacao-etiqueta-chips {
+            width: 92%;
+        }
+
+        .pre-actions {
+            width: 100%;
+        }
+
+        .actions {
+            margin-left: auto;
+        }
+    }
+
+    .relatorio-content {
+        height: 100%;
+    }
+}

@@ -31,11 +31,12 @@
                         <span>Enviar Documento</span>
                     </ng-container>
                 </button>
+                <ng-template #dynamicComponent></ng-template>
             </mat-menu>
 
             <cdk-componente-digital-documento-avulso-card-list #ckdUpload
                                                                [processoOrigem]="processo"
-                                                               (complete)="onComplete()">
+                                                               (completed)="onComplete()">
             </cdk-componente-digital-documento-avulso-card-list>
 
             <cdk-documento-card-list [documentos]="documentos"

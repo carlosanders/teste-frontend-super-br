@@ -9,6 +9,7 @@ import {takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
     selector: 'processo-main-sidebar',
@@ -68,6 +69,14 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                 role: 'ROLE_USER'
             }
         ];
+
+        const path = 'app/main/apps/processo/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,7 +91,8 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(processo => {
             this.processo = processo;
-            switch (this.processo.unidadeArquivistica) {
+            this.label = 'Protocolo';
+            switch (this.processo?.unidadeArquivistica) {
                 case 1:
                     this.label = 'Processo';
                     break;
@@ -94,9 +104,6 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                     break;
                 default:
                     this.label = 'Protocolo';
-            }
-            if (!this.processo.id) {
-                this.label = 'Protocolo';
             }
         });
 

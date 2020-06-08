@@ -24,6 +24,7 @@ import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-ta
 import {TarefaEditBlocoStoreModule} from './store/store.module';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -31,6 +32,14 @@ const routes: Routes = [
         component: TarefaEditBlocoComponent
     }
 ];
+
+const path = 'app/main/apps/tarefas/tarefa-edit-bloco';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

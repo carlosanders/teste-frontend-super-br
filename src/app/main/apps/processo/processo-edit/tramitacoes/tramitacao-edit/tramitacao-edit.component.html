@@ -3,5 +3,8 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"
-        (abort)="doAbort()">
+        (abort)="doAbort()"
+        [setorOrigemPagination]="setorOrigemPagination"
+        [setorOrigemPaginationTree]="setorOrigemPaginationTree"
+        [setorDestinoPagination]="setorDestinoPagination">
 </cdk-tramitacao-form>

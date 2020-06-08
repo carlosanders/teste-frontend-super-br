@@ -18,6 +18,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {EnderecosComponent} from './enderecos.component';
 import {EnderecoService} from '@cdk/services/endereco.service';
 import {RouterModule, Routes} from '@angular/router';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -38,8 +39,15 @@ const routes: Routes = [
             }
         ]
     }
-
 ];
+
+const path = 'app/main/apps/pessoa/pessoa-edit/enderecos';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

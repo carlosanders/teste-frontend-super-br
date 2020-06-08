@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 
 import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from '../../../../auth/login/login.service';
+import {modulesConfig} from "../../../../../../modules/modules-config";
 
 @Component({
     selector: 'configuracoes-main-sidebar',
@@ -74,11 +75,11 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                     icon: 'label',
                     link: 'etiquetas'
                 },
-                {
-                    nome: 'Favoritos',
-                    icon: 'star_border',
-                    link: 'favoritos'
-                }
+                // {
+                //    nome: 'Favoritos',
+                //    icon: 'star_border',
+                //    link: 'favoritos'
+                // }
             ];
         }
 
@@ -106,6 +107,13 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                 }
             ];
         }
+        const path = 'app/main/apps/configuracoes/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

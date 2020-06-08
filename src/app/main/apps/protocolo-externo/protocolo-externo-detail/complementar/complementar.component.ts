@@ -4,7 +4,7 @@ import {
     Component,
     OnDestroy,
     OnInit,
-    ViewChild,
+    ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -20,6 +20,8 @@ import { getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
 import { Processo, Usuario } from '@cdk/models';
 import { getProcesso } from '../store/selectors';
+import {modulesConfig} from "../../../../../../modules/modules-config";
+import {DynamicService} from "../../../../../../modules/dynamic.service";
 
 @Component({
     selector: 'complementar',
@@ -56,9 +58,13 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+
 
     /**
      *
@@ -66,12 +72,14 @@ export class ComplementarComponent implements OnInit, OnDestroy {
      * @param _loginService
      * @param _router
      * @param _changeDetectorRef
+     * @param _dynamicService
      */
     constructor(
         private _store: Store<fromStore.ComplementarAppState>,
         public _loginService: LoginService,
         private _router: Router,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _dynamicService: DynamicService
     ) {
         this._profile = this._loginService.getUserProfile();
         this.processo$ = this._store.pipe(select(getProcesso));
@@ -127,6 +135,18 @@ export class ComplementarComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
             this.selectedDocumentos =  selectedDocumentos;
+        });
+    }
+
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/protocolo-externo/protocolo-externo-detail/complementar';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
         });
     }
 

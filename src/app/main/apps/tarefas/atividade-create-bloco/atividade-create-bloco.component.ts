@@ -27,7 +27,6 @@ import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Back} from '../../../../store/actions';
 import {getSelectedTarefas} from '../store/selectors';
 
-
 @Component({
     selector: 'atividade-create-bloco',
     templateUrl: './atividade-create-bloco.component.html',
@@ -110,7 +109,6 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
-        //this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -274,7 +272,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     }
 
     doConverte(documentoId): void {
-        //this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+        // this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 
     doAbort(): void {

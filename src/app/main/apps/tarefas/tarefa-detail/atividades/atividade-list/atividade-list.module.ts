@@ -22,6 +22,7 @@ import {AtividadeListStoreModule} from 'app/main/apps/tarefas/tarefa-detail/ativ
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {CdkAtividadeGridModule} from '@cdk/components/atividade/cdk-atividade-grid/cdk-atividade-grid.module';
 import * as fromGuards from './store/guards';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [

@@ -80,9 +80,12 @@ $typography: mat-typography-config(
 // Import app and page component themes here to enable theming for them
 @import "src/app/layout/components/chat-panel/chat-panel.theme";
 @import "src/app/layout/components/toolbar/toolbar.theme";
+@import "main/apps/calendario/calendar.theme";
 
 @import "src/app/main/auth/login/login.theme";
 @import "src/app/main/auth/register/register.theme";
+@import "src/app/main/auth/activate/activate.theme";
+@import "src/app/main/auth/esqueci-senha/esqueci-senha.theme";
 @import "src/app/main/apps/painel/painel.theme";
 @import "src/app/main/apps/tarefas/tarefas.theme";
 @import "src/app/main/apps/processo/processo.theme";
@@ -95,6 +98,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/coordenador/coordenador.theme";
 @import "src/app/main/apps/protocolo-externo/protocolo-externo.theme";
 @import "src/ajuda/ajuda.theme";
+@import "src/app/main/apps/relatorios/relatorios.theme";
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -105,6 +109,8 @@ $typography: mat-typography-config(
 
     @include login-theme($theme);
     @include register-theme($theme);
+    @include activate-theme($theme);
+    @include esqueci-senha-theme($theme);
     @include tarefas-theme($theme);
     @include painel-theme($theme);
     @include processo-theme($theme);
@@ -117,6 +123,7 @@ $typography: mat-typography-config(
     @include coordenador-theme($theme);
     @include protocolo-externo-theme($theme);
     @include ajuda-theme($theme);
+    @include relatorios-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

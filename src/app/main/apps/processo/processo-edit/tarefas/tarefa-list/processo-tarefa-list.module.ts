@@ -22,6 +22,7 @@ import {TarefaListStoreModule} from 'app/main/apps/processo/processo-edit/tarefa
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import * as fromGuards from 'app/main/apps/processo/processo-edit/tarefas/tarefa-list/store/guards';
 import {CdkTarefaGridModule} from '@cdk/components/tarefa/cdk-tarefa-grid/cdk-tarefa-grid.module';
+import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
@@ -30,6 +31,14 @@ const routes: Routes = [
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
+
+const path = 'app/main/apps/processo/processo-edit/tarefas/tarefa-list';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes[0].children.push(r)));
+    }
+});
 
 @NgModule({
     declarations: [
