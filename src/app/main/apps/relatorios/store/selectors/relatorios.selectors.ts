@@ -63,3 +63,8 @@ export const getDeletedRelatorioIds = createSelector(
     getRelatoriosState,
     (state: RelatoriosState) => state.deletedRelatorioIds
 );
+
+export const getLoadedRelatorioIds = createSelector(
+    getRelatoriosState,
+    (state: RelatoriosState) => state.loadedRelatorioIds
+);

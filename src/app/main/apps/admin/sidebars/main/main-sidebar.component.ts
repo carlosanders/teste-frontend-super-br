@@ -28,9 +28,9 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                nome: 'Espécie Tarefas',
-                icon: 'check_box',
-                link: 'especie-tarefas'
+                nome: 'Assuntos',
+                icon: 'subject',
+                link: 'assuntos'
             },
             {
                 nome: 'Espécie Atividades',
@@ -38,9 +38,14 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'especie-atividades'
             },
             {
-                nome: 'Unidades',
-                icon: 'location_city',
-                link: 'unidades'
+                nome: 'Espécie Relevâncias',
+                icon: 'new_releases',
+                link: 'especie-relevancias'
+            },
+            {
+                nome: 'Espécie Tarefas',
+                icon: 'check_box',
+                link: 'especie-tarefas'
             },
             {
                 nome: 'Usuários',
@@ -48,14 +53,9 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'usuarios'
             },
             {
-                nome: 'Externos',
+                nome: 'Usuários Externos',
                 icon: 'person',
                 link: 'externos'
-            },
-            {
-                nome: 'Espécie Relevâncias',
-                icon: 'new_releases',
-                link: 'especie-relevancias'
             },
             {
                 nome: 'Tipos de Documentos',
@@ -63,14 +63,19 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'tipos-documentos'
             },
             {
-                nome: 'Assuntos',
-                icon: 'subject',
-                link: 'assuntos'
+                nome: 'Tipos de Relatórios',
+                icon: 'assessment',
+                link: 'tipos-relatorios'
             },
             {
                 nome: 'Templates',
                 icon: 'view_array',
                 link: 'templates'
+            },
+            {
+                nome: 'Unidades',
+                icon: 'location_city',
+                link: 'unidades'
             }
         ];
 
