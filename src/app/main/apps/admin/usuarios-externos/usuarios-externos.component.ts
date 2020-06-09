@@ -1,15 +1,19 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../../store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
     selector: 'usuarios-externos',
     templateUrl: './usuarios-externos.component.html',
-    styleUrls: ['./usuarios-externos.component.scss']
+    styleUrls: ['./usuarios-externos.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class UsuariosExternosComponent implements OnInit {
 

@@ -310,12 +310,7 @@ export class CdkAssuntoAdministrativoTreeComponent {
 
 
     pesquisa(filterText: any): void {
-        this._serviceTree.filter(filterText);
-        if (filterText) {
-            this.treeControl.expandAll();
-        } else {
-            this.treeControl.collapseAll();
-        }
+
     }
 
     setInputAssuntoAdministrativo(node: FlatNode): void {
@@ -332,20 +327,18 @@ export class CdkAssuntoAdministrativoTreeComponent {
         if (node.selected) {
             return 'selectedItem';
         }
+        if (node.visible == false) {
+            return 'display-none'
+        }
         return '';
     }
 
     filterChanged(filter: string): void {
-        this.searchFilter.next(filter);
-
-        this.searchFilter.pipe(debounceTime(500), distinctUntilChanged())
-            .subscribe(value => {
-                if (value && value.length >= 3) {
-                    this.filterByName(value);
-                } else {
-                    this.clearFilter();
-                }
-            });
+        if (filter && filter.length >= 3) {
+            this.filterByName(filter);
+        } else {
+            this.clearFilter();
+        }
     }
 
     private filterByName(term: string): void {
