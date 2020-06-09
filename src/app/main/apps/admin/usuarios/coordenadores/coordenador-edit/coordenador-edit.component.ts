@@ -70,11 +70,11 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
 
         this.orgaoCentralPagination.populate = ['populateAll'];
         this.unidadePagination.filter = {
-            'parent': 'isNull'
+            parent: 'isNull'
         };
         this.unidadePagination.populate = ['populateAll'];
         this.setorPagination.filter = {
-            'parent': 'isNotNull'
+            parent: 'isNotNull'
         };
         this.setorPagination.populate = ['populateAll'];
     }
@@ -90,7 +90,7 @@ export class CoordenadorEditComponent implements OnInit, OnDestroy {
 
         this.usuario$.subscribe(
             usuario => this.usuario = usuario
-        )
+        );
 
         this.coordenador$.subscribe(
             coordenador => this.coordenador = coordenador

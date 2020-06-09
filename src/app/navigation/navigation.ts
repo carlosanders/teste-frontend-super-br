@@ -95,15 +95,6 @@ export const navigation: CdkNavigation[] = [
                 icon: 'search',
                 url: '/apps/pesquisa/processos',
                 role: 'ROLE_USER'
-            },
-            {
-                id: 'relatorio',
-                title: 'Relatórios',
-                translate: 'NAV.RELATORIO.TITLE',
-                type: 'item',
-                icon: 'assessment',
-                url: '/apps/relatorios/administrativo/meus-relatorios/entrada',
-                role: 'ROLE_COLABORADOR'
             }
         ]
     },
@@ -114,8 +105,17 @@ export const navigation: CdkNavigation[] = [
         type: 'group',
         children: [
             {
+                id: 'relatorio',
+                title: 'Relatórios',
+                translate: 'NAV.RELATORIO.TITLE',
+                type: 'item',
+                icon: 'assessment',
+                url: '/apps/relatorios/administrativo/meus-relatorios/entrada',
+                role: 'ROLE_COLABORADOR'
+            },
+            {
                 id: 'admin',
-                title: 'Admin',
+                title: 'Administrador',
                 translate: 'NAV.ADMIN.TITLE',
                 type: 'item',
                 icon: 'build',
@@ -138,8 +138,7 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'tune',
                 url: '/apps/coordenador/default',
-                role: 'ROLE_COORDENADOR',
-                is_coordenador: true
+                role: 'ROLE_COORDENADOR'
             }
         ]
     }
