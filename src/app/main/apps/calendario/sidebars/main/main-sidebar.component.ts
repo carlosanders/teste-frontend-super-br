@@ -5,7 +5,7 @@ import {Observable, Subject} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/calendario/store';
-import {Folder} from '@cdk/models';
+import {Coordenador, Folder} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -65,9 +65,9 @@ export class CalendarioMainSidebarComponent implements OnInit, OnDestroy {
 
         this.setoresCoordenacao = [];
 
-        this._loginService.getUserProfile().colaborador.lotacoes?.forEach((lotacao: Lotacao) => {
-            if (lotacao.coordenador) {
-                this.setoresCoordenacao.push(lotacao.setor);
+        this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
+            if (coordenador.setor) {
+                this.setoresCoordenacao.push(coordenador.setor);
             }
         });
 

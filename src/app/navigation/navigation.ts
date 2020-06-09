@@ -95,8 +95,17 @@ export const navigation: CdkNavigation[] = [
         type: 'group',
         children: [
             {
+                id: 'relatorio',
+                title: 'Relatórios',
+                translate: 'NAV.RELATORIO.TITLE',
+                type: 'item',
+                icon: 'assessment',
+                url: '/apps/relatorios/administrativo/meus-relatorios/entrada',
+                role: 'ROLE_COLABORADOR'
+            },
+            {
                 id: 'admin',
-                title: 'Admin',
+                title: 'Administrador',
                 translate: 'NAV.ADMIN.TITLE',
                 type: 'item',
                 icon: 'build',
