@@ -10,9 +10,7 @@
             [valid]="(tarefas$ | async)?.length > 0"
             [saving]="(isSaving$ | async)"
             [mode]="'bloco-create'"
-            (save)="submit($event)"
-            (favorito)="getFavoritos($event)"
-            [favoritosList]="(favoritos$ | async)">
+            (save)="submit($event)">
     </cdk-tarefa-form>
 
     <mat-list *ngIf="operacoes.length > 0" fxFlex>

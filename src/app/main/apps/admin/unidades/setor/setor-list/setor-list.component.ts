@@ -15,7 +15,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
 @Component({
-    selector: 'root-setor-list',
+    selector: 'admin-setor-list',
     templateUrl: './setor-list.component.html',
     styleUrls: ['./setor-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

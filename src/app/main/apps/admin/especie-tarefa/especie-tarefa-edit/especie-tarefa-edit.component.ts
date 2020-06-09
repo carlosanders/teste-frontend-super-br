@@ -61,6 +61,7 @@ export class EspecieTarefaEditComponent implements OnInit {
             generoTarefa: [null, [Validators.required]],
             descricao: [null, [Validators.required]],
             ativo: [null],
+            evento: [null]
         });
     }
 

@@ -1,4 +1,4 @@
-<ng-container *ngIf="!item.hidden && (!item.role || _loginService.isGranted(item.role) && (!item.isCoordenador || (item.isCoordenador && _loginService.isCoordenador())))">
+<ng-container *ngIf="!item.hidden && (!item.role || _loginService.isGranted(item.role) && (!item.is_coordenador || (item.is_coordenador && _loginService.isCoordenador())))">
 
     <!-- normal collapse -->
     <a class="nav-link" [ngClass]="item.classes" *ngIf="!item.url && !item.function">

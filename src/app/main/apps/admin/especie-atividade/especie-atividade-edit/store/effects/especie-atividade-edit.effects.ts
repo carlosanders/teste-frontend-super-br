@@ -56,7 +56,8 @@ export class EspecieAtividadeEditEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
                     new AddData<EspecieAtividade>({data: response['entities'], schema: especieAtividadeSchema}),
@@ -85,7 +86,8 @@ export class EspecieAtividadeEditEffects {
             .pipe(
                 ofType<EspecieAtividadeEditActions.SaveEspecieAtividade>(EspecieAtividadeEditActions.SAVE_ESPECIE_ATIVIDADE),
                 switchMap((action) => {
-                    return this._especieAtividadeService.save(action.payload).pipe(
+                    const context = JSON.stringify({isAdmin: true});
+                    return this._especieAtividadeService.save(action.payload, context).pipe(
                         mergeMap((response: EspecieAtividade) => [
                             new EspecieAtividadeListActions.ReloadEspecieAtividade(),
                             new AddData<EspecieAtividade>({data: [response], schema: especieAtividadeSchema}),
@@ -134,7 +136,7 @@ export class EspecieAtividadeEditEffects {
             .pipe(
                 ofType<EspecieAtividadeEditActions.SaveEspecieAtividadeSuccess>(EspecieAtividadeEditActions.SAVE_ESPECIE_ATIVIDADE_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace(('editar/criar'), 'listar')]).then();
+                    this._router.navigate(['apps/admin/especie-atividades/listar']).then();
                 })
             );
 

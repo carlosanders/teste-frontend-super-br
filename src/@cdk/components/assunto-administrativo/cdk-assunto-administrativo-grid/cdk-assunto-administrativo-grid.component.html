@@ -134,6 +134,16 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1}"> {{assuntoAdministrativo.codigoCNJ}} </td>
                 </ng-container>
 
+                <!-- CodigoCNJ Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('parent.nome') > -1" matColumnDef="parent.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Assunto Pai
+                    </th>
+                    <td mat-cell *matCellDef="let assuntoAdministrativo" class='has_label_on_mobile'
+                        data-label='Assunto Pai: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assuntoAdministrativo.id) > -1}"> {{assuntoAdministrativo.parent?.nome}} </td>
+                </ng-container>
+
                 <!-- Ativo Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="ativo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>

@@ -21,9 +21,7 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"
-        (abort)="doAbort()"
-        (favorito)="getFavoritos($event)"
-        [favoritosList]="(favoritos$ | async)">
+        (abort)="doAbort()">
     </cdk-atividade-form>
 
     <mat-list *ngIf="operacoes.length > 0" fxFlex>

@@ -5,7 +5,5 @@
         [especieTarefaPagination]="especieTarefaPagination"
         [logEntryPagination]="logEntryPagination"
         (save)="submit($event)"
-        (abort)="doAbort()"
-        (favorito)="getFavoritos($event)"
-        [favoritosList]="(favoritos$ | async)">
+        (abort)="doAbort()">
 </cdk-tarefa-form>

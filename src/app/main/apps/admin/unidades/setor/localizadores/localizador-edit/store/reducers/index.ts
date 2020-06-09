@@ -7,7 +7,7 @@ export interface RootLocalizadorEditAppState
 }
 
 export const getRootLocalizadorEditAppState = createFeatureSelector<RootLocalizadorEditAppState>(
-    'root-localizador-edit-app'
+    'admin-localizador-edit-app'
 );
 
 export const getAppState = createSelector(

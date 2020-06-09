@@ -42,7 +42,7 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'glossario', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'dispositivoLegal', 'codigoCNJ', 'glossario', 'ativo', 'actions']
 
     allColumns: any[] = [
         {
@@ -73,6 +73,11 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
         {
             id: 'codigoCNJ',
             label: 'Código CNJ',
+            fixed: false
+        },
+        {
+            id: 'parent.nome',
+            label: 'Assunto Pai',
             fixed: false
         },
         {

@@ -51,6 +51,9 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
     setorOrigemPagination: Pagination;
 
     @Input()
+    setorOrigemPaginationTree: Pagination;
+
+    @Input()
     setorDestinoPagination: Pagination;
 
     setorOrigemListIsLoading: boolean;
@@ -87,6 +90,7 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
 
         this.processoPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
+        this.setorOrigemPaginationTree = new Pagination();
         this.pessoaDestinoPagination = new Pagination();
     }
 
@@ -187,6 +191,10 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
 
     showSetorOrigemGrid(): void {
         this.activeCard = 'setor-origem-gridsearch';
+    }
+
+    showSetorOrigemTree(): void {
+        this.activeCard = 'setor-origem-tree';
     }
 
     selectSetorOrigem(setor: Setor): void {

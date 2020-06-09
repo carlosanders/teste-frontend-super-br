@@ -24,19 +24,29 @@ export const navigation: CdkNavigation[] = [
                 icon: 'check_box',
                 children: [
                     {
-                        id: 'administrativas',
+                        id: 'tarefasAdministrativas',
                         title: 'Administrativas',
                         translate: 'NAV.TAREFA.ADMINISTRATIVAS.TITLE',
                         type: 'item',
                         icon: 'person',
-                        url: '/apps/tarefas/administrativo/minhas-tarefas/entrada'
+                        url: '/apps/tarefas/administrativo/minhas-tarefas/entrada',
+                        badge: {
+                            title: '0',
+                            bg : '#F44336',
+                            fg: '#FFFFFF'
+                        }
                     },
                     {
                         id: 'calendar',
                         title: 'Calendário',
                         type: 'item',
                         icon: 'calendar_today',
-                        url: '/apps/calendario/minhas-tarefas/todas'
+                        url: '/apps/calendario/minhas-tarefas/todas',
+                        badge : {
+                            title: '0',
+                            bg: '#F44336',
+                            fg: '#FFFFFF'
+                        }
                     }
                 ],
                 role: 'ROLE_COLABORADOR'
@@ -85,6 +95,15 @@ export const navigation: CdkNavigation[] = [
                 icon: 'search',
                 url: '/apps/pesquisa/processos',
                 role: 'ROLE_USER'
+            },
+            {
+                id: 'relatorio',
+                title: 'Relatórios',
+                translate: 'NAV.RELATORIO.TITLE',
+                type: 'item',
+                icon: 'assessment',
+                url: '/apps/relatorios/administrativo/meus-relatorios/entrada',
+                role: 'ROLE_COLABORADOR'
             }
         ]
     },
@@ -128,7 +147,8 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'tune',
                 url: '/apps/coordenador/default',
-                role: 'ROLE_COORDENADOR'
+                role: 'ROLE_COORDENADOR',
+                is_coordenador: true
             }
         ]
     }

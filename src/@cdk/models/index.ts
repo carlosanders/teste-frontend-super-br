@@ -10,6 +10,7 @@ export * from './campo.model';
 export * from './cargo.model';
 export * from './classificacao.model';
 export * from './colaborador.model';
+export * from './coordenador.model';
 export * from './compartilhamento.model';
 export * from './componente-digital.model';
 export * from './desentranhamento.model';

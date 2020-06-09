@@ -19,6 +19,8 @@ import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {environment} from '../../../../../../../environments/environment';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
 import * as OperacoesActions from '../../../../../../store/actions/operacoes.actions';
+import * as AtividadeCreateDocumentosActions
+    from '../../../../tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
 
 @Injectable()
 export class ProtocoloDocumentoEffects {
@@ -123,6 +125,27 @@ export class ProtocoloDocumentoEffects {
                     }
                 ));
 
+    @Effect()
+    removeAssinaturaDocumento: any =
+        this._actions
+            .pipe(
+                ofType<ProtocoloDocumentoActions.RemoveAssinaturaDocumento>(ProtocoloDocumentoActions.REMOVE_ASSINATURA_DOCUMENTO),
+                mergeMap((action) => {
+                        return this._documentoService.removeAssinatura(action.payload)
+                            .pipe(
+                                mergeMap((response) => [
+                                    new ProtocoloDocumentoActions.RemoveAssinaturaDocumentoSuccess(action.payload),
+                                    new ProtocoloDocumentoActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
+                                ]),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    this._store.dispatch(new ProtocoloDocumentoActions.RemoveAssinaturaDocumentoFailed(action.payload));
+                                    return caught;
+                                })
+                            );
+                    }
+                ));
+
     /**
      * Assina Documento Success
      * @type {Observable<any>}
@@ -159,6 +182,7 @@ export class ProtocoloDocumentoEffects {
                         mergeMap((response: Assinatura) => [
                             new ProtocoloDocumentoActions.AssinaDocumentoEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                            new ProtocoloDocumentoActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
                             new OperacoesActions.Resultado({
                                 type: 'assinatura',
                                 content: `Assinatura id ${response.id} criada com sucesso!`,
@@ -172,4 +196,29 @@ export class ProtocoloDocumentoEffects {
                     );
                 })
             );
+
+    /**
+     * Converte Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    converteDocumento: any =
+        this._actions
+            .pipe(
+                ofType<ProtocoloDocumentoActions.ConverteToPdf>(ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE),
+                mergeMap((action) => {
+                        return this._documentoService.preparaConverter(action.payload, {hash: action.payload.hash})
+                            .pipe(
+                                map((response) => {
+                                    return new ProtocoloDocumentoActions.ConverteToPdfSucess(action.payload);
+                                }),
+                                catchError((err) => {
+                                    console.log(err);
+                                    return of(new ProtocoloDocumentoActions.ConverteToPdfFailed(action.payload));
+                                })
+                            );
+                    }
+                )
+            );
+
 }

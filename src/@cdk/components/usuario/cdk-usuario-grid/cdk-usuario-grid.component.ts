@@ -174,6 +174,15 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     afastamentos = new EventEmitter<number>();
 
     @Output()
+    resetaSenhaColaborador = new EventEmitter<number>();
+
+    @Output()
+    resetaSenha = new EventEmitter<number>();
+
+    @Output()
+    coordenadores = new EventEmitter<number>();
+
+    @Output()
     delete = new EventEmitter<number>();
 
     @Output()
@@ -305,6 +314,10 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         this.afastamentos.emit(usuarioId);
     }
 
+    coordenacoesUsuario(usuarioId): void {
+        this.coordenadores.emit(usuarioId);
+    }
+
     vincularPessoa(usuarioId): void {
         this.vincular.emit(usuarioId);
     }
@@ -317,11 +330,17 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
         this.delete.emit(usuarioId);
     }
 
+    redefineSenha(usuarioId): void {
+        this.resetaSenha.emit(usuarioId);
+    }
+
+    redefineSenhaColaborador(usuarioId): void {
+        this.resetaSenhaColaborador.emit(usuarioId);
+    }
+
     deleteUsuarios(usuariosId): void {
         usuariosId.forEach(usuarioId => this.deleteUsuario(usuarioId));
     }
-
-
 
     /**
      * Toggle select all

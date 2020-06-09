@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Favorito, Tarefa} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -18,7 +18,6 @@ import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, map, skip, takeUntil} from 'rxjs/operators';
-import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 
 @Component({
@@ -50,7 +49,6 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
     pagination: any;
 
     blocoEditDistribuicao = true;
-    favoritos$: Observable<Favorito[]>;
 
     /**
      *
@@ -70,7 +68,6 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
         this.pagination$ = this._store.pipe(select(fromStoreTarefas.getPagination));
-        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -182,18 +179,5 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
 
             this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa}));
         });
-    }
-
-    getFavoritos (value): void {
-
-        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
-            'filter':
-                {
-                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
-                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
-                },
-            'limit': 5,
-            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
-        }));
     }
 }

@@ -12,7 +12,7 @@ import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {VinculacaoEtiqueta} from '@cdk/models';
+import {Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
 import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
@@ -21,12 +21,13 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {Tarefa} from '@cdk/models';
 import {Documento} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {DeleteTarefaSuccess} from '../../../store/actions';
 import {GetDocumentos} from '../../atividades/atividade-create/store/actions';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Injectable()
 export class TarefaDetailEffect {
     routerState: any;
+    private _profile: Usuario;
 
     constructor(
         private _actions: Actions,
@@ -34,7 +35,8 @@ export class TarefaDetailEffect {
         private _documentoService: DocumentoService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _store: Store<State>,
-        private _router: Router
+        private _router: Router,
+        public _loginService: LoginService
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -43,6 +45,8 @@ export class TarefaDetailEffect {
                     this.routerState = routerState.state;
                 }
             });
+
+        this._profile = _loginService.getUserProfile();
     }
 
     /**
@@ -211,11 +215,7 @@ export class TarefaDetailEffect {
             .pipe(
                 ofType<TarefaDetailActions.DarCienciaTarefaSuccess>(TarefaDetailActions.DAR_CIENCIA_TAREFA_SUCCESS),
                 tap((action) => {
-                    this._store.dispatch(new DeleteTarefaSuccess(action.payload.id));
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-                    + this.routerState.params.typeHandle + '/' +
-                    this.routerState.params.targetHandle + '/tarefa/' + this.routerState.params.tarefaHandle +
-                    '/encaminhamento']).then();
+                   this._router.navigate([this.routerState.url.split('/processo')[0] + '/encaminhamento']).then();
                 })
             );
 
@@ -268,8 +268,7 @@ export class TarefaDetailEffect {
                 ofType<TarefaDetailActions.SaveConteudoVinculacaoEtiqueta>(TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
-                        //@retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
-                        mergeMap((response) => [
+                       mergeMap((response) => [
                             new TarefaDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                             new UpdateData<VinculacaoEtiqueta>({
                                 id: response.id,

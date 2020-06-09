@@ -9,7 +9,7 @@ export interface OficioDetailState {
     errors: any;
     documentosId: number[];
     documentosLoaded: any;
-    savingVincEtiquetaId: number;
+    savingVinculacaoEtiquetaId: number;
 }
 
 export const DocumentoAvulsoDetailInitialState: OficioDetailState = {
@@ -21,7 +21,7 @@ export const DocumentoAvulsoDetailInitialState: OficioDetailState = {
     errors: false,
     documentosId: [],
     documentosLoaded: false,
-    savingVincEtiquetaId: null
+    savingVinculacaoEtiquetaId: null
 };
 
 export function OficioDetailReducer(state = DocumentoAvulsoDetailInitialState, action: OficioDetailActions.OficioDetailActionsAll): OficioDetailState {
@@ -63,7 +63,7 @@ export function OficioDetailReducer(state = DocumentoAvulsoDetailInitialState, a
             return {
                 ...state,
                 saving: true,
-                savingVincEtiquetaId: action.payload.vinculacaoEtiqueta.id
+                savingVinculacaoEtiquetaId: action.payload.vinculacaoEtiqueta.id
             };
         }
 
@@ -72,7 +72,7 @@ export function OficioDetailReducer(state = DocumentoAvulsoDetailInitialState, a
                 ...state,
                 saving: false,
                 errors: false,
-                savingVincEtiquetaId: null
+                savingVinculacaoEtiquetaId: null
             };
         }
 
@@ -81,7 +81,7 @@ export function OficioDetailReducer(state = DocumentoAvulsoDetailInitialState, a
                 ...state,
                 saving: false,
                 errors: action.payload,
-                savingVincEtiquetaId: null
+                savingVinculacaoEtiquetaId: null
             };
         }
 

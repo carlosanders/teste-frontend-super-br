@@ -47,6 +47,10 @@
                     [pagination]="setorOrigemPagination">
                 </cdk-setor-autocomplete>
                 <button matSuffix mat-button mat-icon-button
+                        (click)="showSetorOrigemTree()">
+                    <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+                </button>
+                <button matSuffix mat-button mat-icon-button
                         (click)="showSetorOrigemGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
                 </button>
@@ -70,6 +74,10 @@
                     [control]="form.get('setorDestino')"
                     [pagination]="setorDestinoPagination">
                 </cdk-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showSetorDestinoTree()">
+                    <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+                </button>
                 <button matSuffix mat-button mat-icon-button
                         (click)="showSetorDestinoGrid()">
                     <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -133,3 +141,17 @@
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
+<cdk-setor-tree
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-origem-tree'"
+    [pagination]="setorOrigemPaginationTree"
+    (selected)="selectSetorOrigem($event)"
+    (cancel)="cancel()">
+</cdk-setor-tree>
+
+<cdk-setor-tree
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'setor-destino-tree'"
+    (selected)="selectSetorDestino($event)"
+    (cancel)="cancel()">
+</cdk-setor-tree>

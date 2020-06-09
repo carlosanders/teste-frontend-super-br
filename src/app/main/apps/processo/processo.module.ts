@@ -22,9 +22,8 @@ import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.servi
 import {LoginService} from '../../auth/login/login.service';
 import {ProcessoDownloadModule} from './processo-download/processo-download.module';
 import {MatMenuModule} from '@angular/material/menu';
-import {MatRippleModule} from "@angular/material/core";
+import {MatRippleModule} from '@angular/material/core';
 import {modulesConfig} from 'modules/modules-config';
-import {FavoritoService} from '@cdk/services/favorito.service';
 
 const routes: Routes = [
     {
@@ -58,6 +57,11 @@ const routes: Routes = [
             {
                 path       : 'download/:chaveAcessoHandle',
                 loadChildren: () => import('./processo-download/processo-download.module').then(m => m.ProcessoDownloadModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path: 'processo-capa',
+                loadChildren: () => import('./processo-capa/processo-capa.module').then(m => m.ProcessoCapaModule),
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
@@ -105,8 +109,7 @@ modulesConfig.forEach((module) => {
         ProcessoService,
         VinculacaoEtiquetaService,
         LoginService,
-        fromGuards.ResolveGuard,
-        FavoritoService
+        fromGuards.ResolveGuard
     ]
 })
 export class ProcessoModule

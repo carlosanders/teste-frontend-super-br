@@ -107,7 +107,7 @@ export class LotacoesEffects {
                             id: 'usuarioHandle',
                             value: this.routerState.params.usuarioHandle
                         },
-                        setorId: response['entities'][0].id
+                        usuarioId: response['entities'][0].id
                     })
                 ]),
                 catchError((err, caught) => {

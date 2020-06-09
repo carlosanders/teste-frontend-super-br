@@ -8,9 +8,7 @@
             [errors]="(errors$ | async)"
             [mode]="'bloco-edit'"
             [blocoEdit]="{blocoEditDistribuicao: true}"
-            (save)="submit($event)"
-            (favorito)="getFavoritos($event)"
-            [favoritosList]="(favoritos$ | async)">
+            (save)="submit($event)">
     </cdk-tarefa-form>
 
 </div>

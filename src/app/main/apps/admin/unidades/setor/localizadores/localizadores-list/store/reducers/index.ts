@@ -7,7 +7,7 @@ export interface RootLocalizadoresListAppState
 }
 
 export const getRootLocalizadoresListAppState = createFeatureSelector<RootLocalizadoresListAppState>(
-    'root-localizadores-list-app'
+    'admin-localizadores-list-app'
 );
 
 export const getAppState = createSelector(
