@@ -18,22 +18,21 @@ import {Relatorio} from '@cdk/models/relatorio.model';
 import {RelatorioService} from '@cdk/services/relatorio.service';
 import * as fromStore from 'app/main/apps/relatorios/store';
 
-import {getRouterState, getScreenState} from 'app/store/reducers';
+import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 
 import {locale as english} from 'app/main/apps/relatorios/i18n/en';
 
-import {Folder, Tarefa} from '@cdk/models';
+import {Folder} from '@cdk/models';
 
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
-import {ToggleMaximizado} from 'app/main/apps/relatorios/store';
+import {LoadRelatorioSuccess, ToggleMaximizado} from 'app/main/apps/relatorios/store';
 import {Usuario} from '@cdk/models';
-import {TipoRelatorio} from '../../../../@cdk/models/tipo-relatorio.model';
 
 @Component({
     selector: 'relatorios',
@@ -68,8 +67,9 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedIds: number[] = [];
 
     selectedRelatorios$: Observable<Relatorio[]>;
-
     selectedRelatorios: Relatorio[] = [];
+
+    loadedIdRelatorios$: Observable<number>;
 
     screen$: Observable<any>;
 
@@ -92,11 +92,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     mobileMode = false;
 
     PesquisaRelatorio: string;
-
-    /**
-     * Variaveis TipoRelatorio
-     */
-    tipoRelatorios$: Observable<TipoRelatorio[]>;
 
     @ViewChild('relatorioListElement', {read: ElementRef, static: true}) relatorioListElement: ElementRef;
 
@@ -137,15 +132,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
 
-        if (this._loginService.isGranted('ROLE_ADMIN')) {
-            this.tipoRelatorios$ = this._store.pipe(select(fromStore.getTipoRelatorios));
-            this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTipoRelatorioIds));
-            this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTipoRelatorioIds));
-            this.selectedRelatorios$ = this._store.pipe(select(fromStore.getSelectedTipoRelatorios));
-            this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedTipoRelatorioIds));
-            this.loading$ = this._store.pipe(select(fromStore.getIsLoadingTipoRelatorio));
-            this.pagination$ = this._store.pipe(select(fromStore.getPaginationTipoRelatorio));
-        }
+        this.loadedIdRelatorios$ = this._store.pipe(select(fromStore.getLoadedRelatorioIds));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -173,17 +160,26 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             this.currentRelatorioId = parseInt(routerState.state.params['relatorioHandle'], 0);
         });
 
-        this.relatorios$.pipe(
-            takeUntil(this._unsubscribeAll),
-            filter(relatorios => !!relatorios)
-        ).subscribe(relatorios => {
-            this.relatorios = relatorios;
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(message => {
+                if (message && message.type && message.type === 'relatorio_create') {
+                    this._store.dispatch(new LoadRelatorioSuccess(message.content.relatorio));
+                }
         });
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(pagination => {
             this.pagination = pagination;
+        });
+
+        this.relatorios$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(relatorio => {
+            this.relatorios = relatorio;
         });
 
         this.maximizado$.pipe(
@@ -251,20 +247,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             this._store.dispatch(new fromStore.GetRelatorios(nparams));
     }
 
-    reloadTipoRelatorio(params): void {
-        if (this._loginService.isGranted('ROLE_ADMIN')) {
-                this._store.dispatch(new fromStore.UnloadTipoRelatorios({reset: false}));
-
-                const nparams = {
-                    ...this.pagination,
-                    listFilter: params.listFilter,
-                    sort: params.listSort && Object.keys(params.listSort).length ? params.listSort : this.pagination.sort
-                };
-
-                this._store.dispatch(new fromStore.GetTipoRelatorios(nparams));
-            }
-    }
-
     setCurrentRelatorio(relatorio: Relatorio): void {
         this._store.dispatch(new fromStore.SetCurrentRelatorio({
             relatorioId: relatorio.id
@@ -307,27 +289,11 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             offset: this.pagination.offset + this.pagination.limit
         };
 
-        if (!this._loginService.isGranted('ROLE_ADMIN') && this.routerState.params.typeHandle === 'tipo-relatorio') {
-            this._store.dispatch(new fromStore.GetRelatorios(nparams));
-        }
-        else {
-            this._store.dispatch(new fromStore.GetTipoRelatorios(nparams));
-        }
-
+        this._store.dispatch(new fromStore.GetRelatorios(nparams));
     }
 
     deleteRelatorio(relatorioId: number): void {
         this._store.dispatch(new fromStore.DeleteRelatorio(relatorioId));
-    }
-
-    deleteTipoRelatorio(tipoRelatorioId: number): void {
-        this._store.dispatch(new fromStore.DeleteTipoRelatorio(tipoRelatorioId));
-    }
-
-    editTipoRelatorio(tipoRelatorio: TipoRelatorio): void {
-
-        this._router.navigate(['apps/relatorios/' + this.routerState.params.generoHandle + '/'
-        + 'tipo-relatorio/entrada/criar-tipo-relatorio/' + tipoRelatorio.id]).then();
     }
 
     /**
@@ -348,10 +314,6 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     changeSelectedIds(ids: number[]): void {
            this._store.dispatch(new fromStore.ChangeSelectedRelatorios(ids));
-    }
-
-    changeSelectedIdsTipoRelatorio(ids: number[]): void {
-        this._store.dispatch(new fromStore.ChangeSelectedTipoRelatorios(ids));
     }
 
     setFolderOnSelectedRelatorios(folder): void {
