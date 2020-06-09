@@ -9,6 +9,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {AdminComponent} from './admin.component';
 import {MainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {modulesConfig} from 'modules/modules-config';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
@@ -54,8 +55,21 @@ const routes: Routes = [
             {
                 path: 'assuntos',
                 loadChildren: () => import('./assunto-administrativo/assunto-administrativo.module').then(m => m.AssuntoAdministrativoModule)
-            }
-        ]
+            },
+            {
+                path: 'classificacoes',
+                loadChildren: () => import('./classificacao/classificacao.module').then(m => m.ClassificacaoModule)
+            },
+            {
+                path: 'pessoas',
+                loadChildren: () => import('./admin-pessoa/admin-pessoa.module').then(m => m.AdminPessoaModule)
+            },
+            {
+                path: 'municipios',
+                loadChildren: () => import('./municipio/municipio.module').then(m => m.MunicipioModule)
+            },
+        ],
+        canActivate: [fromGuards.ResolveGuard]
     },
     {
         path: '**',
@@ -85,7 +99,9 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         MatButtonModule
     ],
-    providers: []
+    providers: [
+        fromGuards.ResolveGuard
+    ]
 })
 export class AdminModule {
 }

@@ -1,0 +1,10 @@
+<cdk-classificacao-grid
+    [loading]="(loading$ | async)"
+    [_classificacoes]="(classificacoes$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['select', 'id', 'codigo', 'nome', 'modalidadeDestinacao.valor', 'parent.nome', 'ativo', 'permissaoUso', 'actions']"
+    [actions]="['edit', 'create']"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-classificacao-grid>

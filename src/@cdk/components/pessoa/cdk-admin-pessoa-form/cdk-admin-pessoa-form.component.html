@@ -1,0 +1,56 @@
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form class="p-24 mr-24" fxLayoutGap="16px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form">
+
+        <div fxFlex="1 0 auto" fxLayout="column">
+
+            <mat-form-field fxFlex="100">
+                <mat-label>Nome</mat-label>
+                <input matInput #nome
+                       name="nome"
+                       formControlName="nome"
+                       required
+                       maxlength="255">
+
+                <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+
+            <mat-checkbox formControlName="pessoaRepresentada"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Pessoa Representada
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="pessoaConveniada"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Pessoa Conveniada
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="pessoaValidada"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                Pessoa Validada
+            </mat-checkbox>
+
+        </div>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                    [disabled]="form.invalid">
+                SALVAR
+            </button>
+            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+                CANCELAR
+            </button>
+        </div>
+
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>

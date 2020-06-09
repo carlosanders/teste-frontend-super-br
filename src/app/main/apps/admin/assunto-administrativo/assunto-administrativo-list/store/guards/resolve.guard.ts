@@ -4,12 +4,11 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import * as fromStore from '../';
+import {getAssuntoAdministrativoListLoaded} from '../';
 import {getRouterState} from 'app/store/reducers';
 import {AssuntoAdministrativoListAppState} from '../reducers';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {getAssuntoAdministrativoListLoaded} from '../';
 
 
 @Injectable()
@@ -24,7 +23,6 @@ export class ResolveGuard implements CanActivate {
      */
     constructor(
         private _store: Store<AssuntoAdministrativoListAppState>,
-        private _loginService: LoginService
     ) {
         this._store
             .pipe(select(getRouterState))

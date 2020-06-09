@@ -1,15 +1,26 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
     selector: 'templates',
     templateUrl: './templates.component.html',
-    styleUrls: ['./templates.component.scss']
+    styleUrls: ['./templates.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class TemplatesComponent implements OnInit, OnDestroy {
 

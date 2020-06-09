@@ -11,9 +11,9 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content mt-16" cdkPerfectScrollbar>
+<div class="content mt-16 altura" cdkPerfectScrollbar>
 
-    <div class="nav material2">
+    <div class="nav material2" *showIfRole="'ROLE_ADMIN'">
         <div class="nav-item" *ngFor="let link of links">
             <a class="nav-link" matRipple [routerLink]="'/apps/admin/' + link.link"
                [routerLinkActive]="['active', 'accent']">
