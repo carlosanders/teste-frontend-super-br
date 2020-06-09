@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayEstadoFn">
+    <mat-option *ngFor="let estado of estadoList"
+                [value]="estado">
+        <span [innerHTML]="displayEstadoFn(estado) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="estadoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

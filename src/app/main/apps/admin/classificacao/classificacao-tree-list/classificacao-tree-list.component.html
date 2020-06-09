@@ -1,0 +1,10 @@
+<cdk-classificacao-tree-form
+    [classificacao]="(classificacao$ | async)"
+    [classificacaoPagination]="classificacaoPagination"
+    [formClassificacao]="formClassificacao"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    (save)="submitClassificacao($event)"
+    (abort)="doAbort()"
+>
+</cdk-classificacao-tree-form>

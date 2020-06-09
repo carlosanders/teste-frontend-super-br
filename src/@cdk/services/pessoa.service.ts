@@ -2,11 +2,12 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Pessoa} from '@cdk/models';
+import {Classificacao, Pessoa} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
 import {ParentGenericService} from './parent-generic.service';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class PessoaService extends ParentGenericService<Pessoa> {
@@ -16,6 +17,19 @@ export class PessoaService extends ParentGenericService<Pessoa> {
         protected http: HttpClient,
     ) {
         super(modelService, 'pessoa', Pessoa);
+    }
+
+    patch(pessoa: Pessoa, changes: any): Observable<Pessoa> {
+        return this.http.patch(
+            `${environment.api_url}${'pessoa'}/${pessoa.id}` + environment.xdebug,
+            JSON.stringify(changes)
+        ).pipe(
+            map(response => {
+                response = plainToClass(Pessoa, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Pessoa(), {...pessoa, ...response});
+            })
+        );
     }
 
     search(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
@@ -32,4 +46,6 @@ export class PessoaService extends ParentGenericService<Pessoa> {
                 map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
             );
     }
+
+
 }
