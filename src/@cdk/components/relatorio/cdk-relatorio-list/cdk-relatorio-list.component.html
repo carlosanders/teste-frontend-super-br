@@ -115,6 +115,7 @@
                                   (click)="selectRelatorio(relatorio);"
                                   [selected]="selectedIds.length > 0 && selectedIds.indexOf(relatorio.id) > -1"
                                   [deleting]="deletingIds.length > 0 && deletingIds.indexOf(relatorio.id) > -1"
+                                  [loadedIdRelatorios]="loadedIdRelatorios === relatorio.id"
                                   (toggleInSelectedRelatorios)="toggleInSelected($event)"
                                   (delete)="doDeleteRelatorio($event)"
                                   [ngClass]="{'selected':relatorio.id === currentRelatorioId}">
