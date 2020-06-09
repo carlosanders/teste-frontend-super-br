@@ -45,6 +45,10 @@ const routes: Routes = [
                 loadChildren: () => import('./tipo-documento/tipo-documento.module').then(m => m.TipoDocumentoModule)
             },
             {
+                path: 'tipos-relatorios',
+                loadChildren: () => import('./tipo-relatorio/tipo-relatorio.module').then(m => m.TipoRelatorioModule)
+            },
+            {
                 path: 'templates',
                 loadChildren: () => import('./templates/templates.module').then(m => m.TemplatesModule)
             },
@@ -66,7 +70,7 @@ const routes: Routes = [
             },
             {
                 path: '**',
-                redirectTo: 'especie-tarefas'
+                redirectTo: 'assuntos'
             },
         ],
         canActivate: [fromGuards.ResolveGuard]

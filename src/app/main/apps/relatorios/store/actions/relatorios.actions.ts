@@ -36,6 +36,8 @@ export const DELETE_VINCULACAO_ETIQUETA = '[RELATORIO] DELETE VINCULACAO_ETIQUET
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[RELATORIO] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[RELATORIO] DELETE VINCULACAO_ETIQUETA FAILED';
 
+export const LOADED_RELATORIO_SUCESS = '[RELATORIO] LOADED RELATORIO SUCCESS';
+
 /**
  * Unload Relatorios
  */
@@ -43,6 +45,19 @@ export class UnloadRelatorios implements Action {
     readonly type = UNLOAD_RELATORIOS;
 
     constructor(public payload: any) {
+    }
+}
+
+/**
+ * Load Relatorio Success
+ */
+export class LoadRelatorioSuccess implements Action
+{
+    readonly type = LOADED_RELATORIO_SUCESS;
+
+    constructor(public payload: any)
+    {
+        
     }
 }
 
@@ -311,4 +326,5 @@ export type RelatoriosActionsAll
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
-    | ToggleMaximizado;
+    | ToggleMaximizado
+    | LoadRelatorioSuccess;

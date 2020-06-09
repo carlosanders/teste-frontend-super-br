@@ -1,0 +1,9 @@
+<cdk-tipo-relatorio-form
+    [tipoRelatorio]="(tipoRelatorio$ | async)"
+    [form]="formTipoRelatorio"
+    [especieRelatorioPagination]="especieRelatorioPagination"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    (save)="submitTipoRelatorio($event)"
+    (abort)="doAbort()">
+</cdk-tipo-relatorio-form>

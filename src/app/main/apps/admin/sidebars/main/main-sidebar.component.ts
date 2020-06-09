@@ -48,7 +48,7 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'usuarios'
             },
             {
-                nome: 'Externos',
+                nome: 'Usuários Externos',
                 icon: 'person',
                 link: 'externos'
             },
@@ -61,6 +61,11 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Tipos de Documentos',
                 icon: 'class',
                 link: 'tipos-documentos'
+            },
+            {
+                nome: 'Tipos de Relatórios',
+                icon: 'assessment',
+                link: 'tipos-relatorios'
             },
             {
                 nome: 'Assuntos',

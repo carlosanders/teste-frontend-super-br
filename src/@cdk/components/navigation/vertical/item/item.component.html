@@ -1,4 +1,4 @@
-<ng-container *ngIf="!item.hidden && (!item.role || isGrantedRole && (!item.is_coordenador || (item.is_coordenador && isCoordenador)))">
+<ng-container *ngIf="!item.hidden && (!item.role || isGrantedRole && (!item.isCoordenador || (item.isCoordenador && isCoordenador)))">
 
     <!-- item.url -->
     <a class="nav-link" [ngClass]="item.classes" *ngIf="item.url && !item.externalUrl && !item.function"

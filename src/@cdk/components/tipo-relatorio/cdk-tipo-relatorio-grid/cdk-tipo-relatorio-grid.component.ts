@@ -42,7 +42,7 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
 
     allColumns: any[] = [
         {
@@ -59,6 +59,56 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
             id: 'nome',
             label: 'Nome',
             fixed: true
+        },
+        {
+            id: 'sigla',
+            label: 'Sigla',
+            fixed: false
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
+            id: 'especieRelatorio.nome',
+            label: 'Espécie de Relatorio',
+            fixed: false
+        },
+        {
+            id: 'criadoPor.nome',
+            label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'criadoEm',
+            label: 'Criado Em',
+            fixed: false
+        },
+        {
+            id: 'atualizadoPor.nome',
+            label: 'Atualizado Por',
+            fixed: false
+        },
+        {
+            id: 'atualizadoEm',
+            label: 'Atualizado Em',
+            fixed: false
+        },
+        {
+            id: 'apagadoPor.nome',
+            label: 'Apagado Por',
+            fixed: false
+        },
+        {
+            id: 'apagadoEm',
+            label: 'Apagado Em',
+            fixed: false
         },
         {
             id: 'actions',
@@ -91,13 +141,13 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     reload = new EventEmitter<any>();
 
     @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
     cancel = new EventEmitter<any>();
 
     @Output()
     edit = new EventEmitter<number>();
-
-    @Output()
-    tiposRelatoriosEvent = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -116,6 +166,7 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
 
     hasSelected = false;
     isIndeterminate = false;
+    hasExcluded = false;
 
     /**
      *
@@ -193,14 +244,28 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
             sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
             context: contexto
         });
+        this.hasExcluded = false;
+    }
+
+    loadExcluded(): void {
+        this.hasExcluded = !this.hasExcluded;
+        if(this.hasExcluded) {
+            const filter = this.gridFilter.filters;
+            this.excluded.emit({
+                gridFilter: filter,
+                limit: this.paginator.pageSize,
+                offset: (this.paginator.pageSize * this.paginator.pageIndex),
+                sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
+                context: {'mostrarApagadas': true}
+            });
+        }
+        else {
+            this.loadPage();
+        }
     }
 
     editTipoRelatorio(tipoRelatorioId): void {
         this.edit.emit(tipoRelatorioId);
-    }
-
-    tiposRelatoriosUnidade(unidadeId): void {
-        this.tiposRelatoriosEvent.emit(unidadeId);
     }
 
     selectTipoRelatorio(tipoRelatorio: TipoRelatorio): void {
@@ -209,6 +274,10 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
 
     deleteTipoRelatorio(tipoRelatorioId): void {
         this.delete.emit(tipoRelatorioId);
+    }
+
+    deleteTiposRelatorios(tiposRelatoriosId): void {
+        tiposRelatoriosId.forEach(tipoRelatorioId => this.deleteTipoRelatorio(tipoRelatorioId));
     }
 
     /**
@@ -236,7 +305,7 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     /**
-     * Deselect all relatorios
+     * Deselect all tarefas
      */
     deselectAll(): void {
         this.selectedIds = [];
@@ -265,11 +334,11 @@ export class CdkTipoRelatorioGridComponent implements AfterViewInit, OnInit, OnC
         this.loadPage();
     }
 
-    doCreate(): void {
-        this.create.emit();
-    }
-
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doCreate(): void {
+        this.create.emit();
     }
 }

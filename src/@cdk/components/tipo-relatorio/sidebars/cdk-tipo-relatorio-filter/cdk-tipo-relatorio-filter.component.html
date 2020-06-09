@@ -1,11 +1,12 @@
 <!-- SIDEBAR HEADER -->
 <div fxLayout="column" fxLayoutAlign="space-between start"
      class="header p-16">
-    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+    <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+        <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
             search
         </mat-icon>
-        <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Filtros</span>
+        <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+              *ngIf="this.mode === 'list'">Filtro</span>
     </div>
 </div>
 <!-- / SIDEBAR HEADER -->
@@ -17,113 +18,35 @@
               name="form" [formGroup]="form">
 
             <div fxFlex="1 0 auto" fxLayout="column">
-
-                <mat-form-field fxFlex="100">
+                <mat-form-field>
                     <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Processo"
-                               formControlName="processo"
-                               [matAutocomplete]="processo.autocomplete">
+                        <input matInput placeholder="Gênero"
+                               formControlName="generoRelatorio"
+                               [matAutocomplete]="generoRelatorio.autocomplete">
                     </div>
-                    <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
-                    </cdk-processo-autocomplete>
+                    <cdk-genero-relatorio-autocomplete
+                        #generoRelatorio="generoRelatorioAutocomplete"
+                        [control]="form.get('generoRelatorio')">
+                    </cdk-genero-relatorio-autocomplete>
                 </mat-form-field>
 
-                <mat-form-field fxFlex="100">
+                <mat-form-field>
                     <div fxLayout="row" fxLayoutAlign="start center">
                         <input matInput placeholder="Espécie de Relatorio"
                                formControlName="especieRelatorio"
                                [matAutocomplete]="especieRelatorio.autocomplete">
                     </div>
-                    <cdk-especie-relatorio-autocomplete #especieRelatorio="especieRelatorioAutocomplete" [control]="form.get('especieRelatorio')">
+                    <cdk-especie-relatorio-autocomplete #especieRelatorio="especieRelatorioAutocomplete"
+                                                        [control]="form.get('especieRelatorio')">
                     </cdk-especie-relatorio-autocomplete>
                 </mat-form-field>
 
                 <mat-form-field fxFlex="100">
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Usuário Responsável"
-                               formControlName="usuarioResponsavel"
-                               [matAutocomplete]="usuario.autocomplete">
-                    </div>
-                    <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioResponsavel')">
-                    </cdk-usuario-autocomplete>
+                    <mat-label>Nome</mat-label>
+                    <input matInput #nome
+                           name="nome"
+                           formControlName="nome">
                 </mat-form-field>
-
-                <mat-form-field fxFlex="100">
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Usuário da Conclusão do Prazo"
-                               formControlName="usuarioConclusaoPrazo"
-                               [matAutocomplete]="usuario.autocomplete">
-                    </div>
-                    <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioResponsavel')">
-                    </cdk-usuario-autocomplete>
-                </mat-form-field>
-
-                <mat-form-field fxFlex="100">
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Setor de Origem"
-                               formControlName="setorOrigem"
-                               [matAutocomplete]="setor.autocomplete">
-                    </div>
-                    <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorOrigem')">
-                    </cdk-setor-autocomplete>
-                </mat-form-field>
-
-                <mat-form-field fxFlex="100">
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Unidade Responsável"
-                               formControlName="unidadeResponsavel"
-                               [matAutocomplete]="setor.autocomplete">
-                    </div>
-                    <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidadeResponsavel')">
-                    </cdk-setor-autocomplete>
-                </mat-form-field>
-
-                <mat-form-field class="mr-sm-12">
-                    <mat-label>Data da Leitura</mat-label>
-                    <input matInput formControlName="dataHoraLeitura" [matDatetimepicker]="dataHoraLeitura">
-                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraLeitura"></mat-datetimepicker-toggle>
-                    <mat-datetimepicker #dataHoraLeitura type="datetime" openOnFocus="true" timeInterval="5">
-                    </mat-datetimepicker>
-                </mat-form-field>
-
-                <mat-form-field class="mr-sm-12">
-                    <mat-label>Data do Início do Prazo</mat-label>
-                    <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo">
-                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
-                    <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5">
-                    </mat-datetimepicker>
-                </mat-form-field>
-
-                <mat-form-field class="mr-sm-12">
-                    <mat-label>Data do Final do Prazo</mat-label>
-                    <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo">
-                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
-                    <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5">
-                    </mat-datetimepicker>
-                </mat-form-field>
-
-                <mat-form-field class="mr-sm-12">
-                    <mat-label>Data da Conclusão do Prazo</mat-label>
-                    <input matInput formControlName="dataHoraConclusaoPrazo" [matDatetimepicker]="dataHoraConclusaoPrazo">
-                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraConclusaoPrazo"></mat-datetimepicker-toggle>
-                    <mat-datetimepicker #dataHoraConclusaoPrazo type="datetime" openOnFocus="true" timeInterval="5">
-                    </mat-datetimepicker>
-                </mat-form-field>
-
-                <mat-form-field fxFlex="100">
-                    <mat-label>Observação</mat-label>
-                    <input matInput #observacao
-                           name="observacao"
-                           formControlName="observacao">
-                </mat-form-field>
-
-                <mat-checkbox formControlName="urgente" class="mr-16 mb-16" fxFlex="0 1 auto">
-                    Urgente
-                </mat-checkbox>
-
-                <mat-checkbox formControlName="redistribuida" class="mr-16 mb-16" fxFlex="0 1 auto">
-                    Redistribuída
-                </mat-checkbox>
 
                 <mat-form-field class="mr-sm-12">
                     <mat-label>Criado Em</mat-label>
@@ -150,9 +73,15 @@
                     </mat-datetimepicker>
                 </mat-form-field>
 
-                <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
-                    Limpar
-                </button>
+                <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+                    <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
+                        Buscar
+                    </button>
+
+                    <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode === 'list'">
+                        Limpar
+                    </button>
+                </div>
 
             </div>
         </form>
