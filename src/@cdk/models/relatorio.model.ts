@@ -62,6 +62,7 @@ export class Relatorio {
     constructor() {
         this.id = null;
         this.formato = null;
+        this.documento = null;
         this.observacao = null;
         this.tipoRelatorio = null;
         this.parametros = null;
