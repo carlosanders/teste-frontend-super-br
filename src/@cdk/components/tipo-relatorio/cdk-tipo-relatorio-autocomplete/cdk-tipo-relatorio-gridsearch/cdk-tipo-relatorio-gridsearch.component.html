@@ -1,0 +1,9 @@
+<cdk-tipo-relatorio-grid
+        [loading]="loading"
+        [tiposRelatorios]="tiposRelatorios"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-tipo-relatorio-grid>

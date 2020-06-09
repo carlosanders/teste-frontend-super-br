@@ -97,8 +97,8 @@ export class ProcessosComponent implements OnInit {
         }));
     }
 
-    view(emissao: {id: number, chave_acesso?: string}): void {
-        const chaveAcesso = emissao.chave_acesso ? '/' + emissao.chave_acesso : '';
+    view(emissao: {id: number, chaveAcesso?: string}): void {
+        const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
         this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
     }
 

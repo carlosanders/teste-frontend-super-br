@@ -67,6 +67,12 @@
         </mat-menu>
 
         <div class="processo-list-control" fxLayout="row" fxLayoutAlign="start center">
+            <button class="refresh" mat-icon-button
+                    (click)="loadPage()"
+                    aria-label="recarregar"
+                    matTooltip="Recarregar">
+                <mat-icon>refresh</mat-icon>
+            </button>
 
             <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) != '{}'}" mat-icon-button
                     (click)="toggleFilter()"

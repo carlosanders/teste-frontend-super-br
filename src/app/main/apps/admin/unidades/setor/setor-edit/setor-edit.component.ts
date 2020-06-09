@@ -21,7 +21,7 @@ import {Back} from '../../../../../../store/actions';
 
 
 @Component({
-    selector: 'root-setor-edit',
+    selector: 'admin-setor-edit',
     templateUrl: './setor-edit.component.html',
     styleUrls: ['./setor-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

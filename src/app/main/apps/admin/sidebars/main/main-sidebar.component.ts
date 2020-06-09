@@ -28,29 +28,54 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                nome: 'Tarefas',
-                icon: 'check_box',
-                link: 'tarefas'
+                nome: 'Assuntos',
+                icon: 'subject',
+                link: 'assuntos'
             },
             {
-                nome: 'Atividades',
+                nome: 'Espécie Atividades',
                 icon: 'local_activity',
-                link: 'atividades'
+                link: 'especie-atividades'
+            },
+            {
+                nome: 'Espécie Relevâncias',
+                icon: 'new_releases',
+                link: 'especie-relevancias'
+            },
+            {
+                nome: 'Espécie Tarefas',
+                icon: 'check_box',
+                link: 'especie-tarefas'
+            },
+            {
+                nome: 'Usuários',
+                icon: 'person',
+                link: 'usuarios'
+            },
+            {
+                nome: 'Usuários Externos',
+                icon: 'person',
+                link: 'externos'
+            },
+            {
+                nome: 'Tipos de Documentos',
+                icon: 'class',
+                link: 'tipos-documentos'
+            },
+            {
+                nome: 'Tipos de Relatórios',
+                icon: 'assessment',
+                link: 'tipos-relatorios'
+            },
+            {
+                nome: 'Templates',
+                icon: 'view_array',
+                link: 'templates'
             },
             {
                 nome: 'Unidades',
                 icon: 'location_city',
                 link: 'unidades'
-            },
-            {
-                nome: 'Externos',
-                icon: 'person',
-                link: 'externos'
-            },
-            {
-                nome: 'Relevâncias',
-                icon: 'new_releases',
-                link: 'relevancias'
             }
         ];
 

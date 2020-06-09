@@ -62,3 +62,13 @@ export const getErrors = createSelector(
     getDocumentoState,
     (state: DocumentoState) => state.errors
 );
+
+export const getSavingVinculacaoEtiquetaId = createSelector(
+    getDocumentoState,
+    (state: DocumentoState) => state.savingVinculacaoEtiquetaId
+);
+
+export const getVinculacaoEtiquetaErrors = createSelector(
+    getDocumentoState,
+    (state: DocumentoState) => state.vinculacaoEtiquetaErrors
+);

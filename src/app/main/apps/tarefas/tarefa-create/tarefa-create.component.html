@@ -6,10 +6,8 @@
             [especieTarefaPagination]="especieTarefaPagination"
             [setorOrigemPagination]="setorOrigemPagination"
             [setorResponsavelPagination]="setorResponsavelPagination"
+            [setorOrigemPaginationTree]="setorOrigemPaginationTree"
             (save)="submit($event)"
-            (processo)="verificaVisibilidadeProcesso($event)"
-            (favorito)="getFavoritos($event)"
-            [favoritosList]="(favoritos$ | async)"
-            >
+            (processo)="verificaVisibilidadeProcesso($event)">
     </cdk-tarefa-form>
 </div>

@@ -262,7 +262,8 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
      *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
-     * @param dialog
+     * @param _dialog
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -342,14 +343,14 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,
                 limit: this.paginator.pageSize,
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
-                context: {'mostrarApagadas': true}
+                context: {mostrarApagadas: true}
             });
         }
         else {
@@ -368,7 +369,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
         });
 
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
-            this.view.emit({id: processo.id, chave_acesso: result});
+            this.view.emit({id: processo.id, chaveAcesso: result});
             return;
         });
     }

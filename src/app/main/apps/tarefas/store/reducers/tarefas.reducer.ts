@@ -23,6 +23,7 @@ export interface TarefasState {
     selectedTarefaIds: number[];
     maximizado: boolean;
     loadingAssuntosProcessosId: number[];
+    cienciaTarefaIds: number[];
 }
 
 export const TarefasInitialState: TarefasState = {
@@ -46,7 +47,8 @@ export const TarefasInitialState: TarefasState = {
     selectedTarefaIds: [],
     currentTarefaId: null,
     maximizado: false,
-    loadingAssuntosProcessosId: []
+    loadingAssuntosProcessosId: [],
+    cienciaTarefaIds: [],
 };
 
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
@@ -204,22 +206,51 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 loadingAssuntosProcessosId: (state.loadingAssuntosProcessosId.indexOf(action.payload.processoId) === -1 ? [...state.loadingAssuntosProcessosId, action.payload.processoId] : [...state.loadingAssuntosProcessosId])
-            }
+            };
         }
 
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA_SUCCESS: {
             return {
                 ...state,
                 loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
-            }
+            };
         }
 
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA_FAILED: {
             return {
                 ...state,
                 loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
-            }
+            };
 
+        }
+
+        case TarefasActions.DAR_CIENCIA_TAREFA: {
+            return {
+                ...state,
+                cienciaTarefaIds: [...state.cienciaTarefaIds, action.payload.id]
+            };
+        }
+
+        case TarefasActions.DAR_CIENCIA_TAREFA_SUCCESS: {
+            const entitiesId = state.entitiesId.filter(id => id !== action.payload);
+            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload);
+            return {
+                ...state,
+                entitiesId: entitiesId,
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
+                },
+                selectedTarefaIds: selectedTarefaIds,
+                cienciaTarefaIds: [...state.cienciaTarefaIds, action.payload]
+            };
+        }
+
+        case TarefasActions.DAR_CIENCIA_TAREFA_FAILED: {
+            return {
+                ...state,
+                cienciaTarefaIds: state.cienciaTarefaIds.filter(id => id !== action.payload)
+            };
         }
 
         default:

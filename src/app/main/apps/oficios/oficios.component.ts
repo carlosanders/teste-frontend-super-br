@@ -211,7 +211,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._changeDetectorRef.detach();
+        // this._changeDetectorRef.detach();
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();

@@ -40,7 +40,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    savingVincEtiquetaId$: Observable<any>;
+    savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>; 
 
     tarefa$: Observable<Tarefa>;
@@ -94,7 +94,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             'modalidadeEtiqueta.valor': 'eq:TAREFA'
         };
         
-        this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
+        this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 

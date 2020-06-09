@@ -1,5 +1,16 @@
 admin {
+    width: 100%;
+
+    .sidebar {
+
+        &:not(.locked-open) {
+            background: white;
+        }
+    }
+
     .center {
+        width: 100%;
+
         .header {
             height: 72px !important;
             min-height: 72px !important;
