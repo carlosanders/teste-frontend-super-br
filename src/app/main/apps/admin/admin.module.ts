@@ -54,16 +54,12 @@ const routes: Routes = [
             {
                 path: 'assuntos',
                 loadChildren: () => import('./assunto-administrativo/assunto-administrativo.module').then(m => m.AssuntoAdministrativoModule)
-            },
-            {
-                path: '**',
-                redirectTo: 'assuntos'
-            },
-        ],
+            }
+        ]
     },
     {
         path: '**',
-        redirectTo: ''
+        redirectTo: 'especie-tarefas'
     }
 ];
 
@@ -71,7 +67,7 @@ const path = 'app/main/apps/admin';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
-        module.routes[path].forEach((r => routes[0].children.push(r)));
+        module.routes[path].forEach((r => routes[0].children.unshift(r)));
     }
 });
 
