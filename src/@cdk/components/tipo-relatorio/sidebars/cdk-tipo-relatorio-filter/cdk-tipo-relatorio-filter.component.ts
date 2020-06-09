@@ -1,6 +1,15 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
     selector: 'cdk-tipo-relatorio-filter',
@@ -19,32 +28,20 @@ export class CdkTipoRelatorioFilterComponent implements OnInit {
 
     filters: any = {};
 
+    @Input()
+    mode = 'list';
+
     /**
      * Constructor
      */
     constructor(
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
-            urgente: [null],
-            observacao: [null],
-            redistribuida: [null],
-            dataHoraInicioPrazo: [null],
-            dataHoraFinalPrazo: [null],
-            dataHoraConclusaoPrazo: [null],
-            dataHoraLeitura: [null],
-            processo: [null],
+            generoRelatorio: [null],
             especieRelatorio: [null],
-            usuarioResponsavel: [null],
-            unidadeResponsavel: [null],
-            setorOrigem: [null],
-            setorResponsavel: [null],
-            usuarioConclusaoPrazo: [null],
-            distribuicaoAutomatica: [null],
-            livreBalanceamento: [null],
-            auditoriaDistribuicao: [null],
-            tipoDistribuicao: [null],
-            folder: [null],
+            nome: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -63,91 +60,26 @@ export class CdkTipoRelatorioFilterComponent implements OnInit {
      */
     ngOnInit(): void {
 
-        this.form.get('observacao').valueChanges.subscribe(value => {
+        this.form.get('nome').valueChanges.subscribe(value => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    observacao: `like:${value}%`
+                    nome: `like:${value}%`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
-        this.form.get('urgente').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    urgente: `eq:${value}`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
-
-        this.form.get('redistribuida').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    redistribuida: `eq:${value}`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
-
-        this.form.get('dataHoraLeitura').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraLeitura: `eq:${value}`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
-
-        this.form.get('dataHoraInicioPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraInicioPrazo: `eq:${value}`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
-
-        this.form.get('dataHoraFinalPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraFinalPrazo: `eq:${value}`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
-
-        this.form.get('dataHoraConclusaoPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraConclusaoPrazo: `eq:${value}`
-                };
-                this.selected.emit(this.filters);
-            }
-        });
-
-        this.form.get('processo').valueChanges.subscribe(value => {
+        this.form.get('generoRelatorio').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'processo.id': `eq:${value.id}`
+                        'especieRelatorio.generoRelatorio.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
-                    if (this.filters.hasOwnProperty('processo.id')) {
-                        delete this.filters['processo.id'];
+                    if (this.filters.hasOwnProperty('especieRelatorio.generoRelatorio.id')) {
+                        delete this.filters['especieRelatorio.generoRelatorio.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -159,109 +91,10 @@ export class CdkTipoRelatorioFilterComponent implements OnInit {
                         ...this.filters,
                         'especieRelatorio.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('especieRelatorio.id')) {
                         delete this.filters['especieRelatorio.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
-            }
-        });
-
-        this.form.get('usuarioResponsavel').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuarioResponsavel.id': `eq:${value.id}`
-                    };
-                    this.selected.emit(this.filters);
-                } else {
-                    if (this.filters.hasOwnProperty('usuarioResponsavel.id')) {
-                        delete this.filters['usuarioResponsavel.id'];
-                    }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
-            }
-        });
-
-        this.form.get('setorOrigem').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setorOrigem.id': `eq:${value.id}`
-                    };
-                    this.selected.emit(this.filters);
-                } else {
-                    if (this.filters.hasOwnProperty('setorOrigem.id')) {
-                        delete this.filters['setorOrigem.id'];
-                    }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
-            }
-        });
-
-        this.form.get('unidadeResponsavel').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'unidadeResponsavel.id': `eq:${value.id}`
-                    };
-                    this.selected.emit(this.filters);
-                } else {
-                    if (this.filters.hasOwnProperty('unidadeResponsavel.id')) {
-                        delete this.filters['unidadeResponsavel.id'];
-                    }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
-            }
-        });
-
-        this.form.get('setorResponsavel').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setorResponsavel.id': `eq:${value.id}`
-                    };
-                    this.selected.emit(this.filters);
-                } else {
-                    if (this.filters.hasOwnProperty('setorResponsavel.id')) {
-                        delete this.filters['setorResponsavel.id'];
-                    }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
-                }
-            }
-        });
-
-        this.form.get('usuarioConclusaoPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuarioConclusaoPrazo.id': `eq:${value.id}`
-                    };
-                    this.selected.emit(this.filters);
-                } else {
-                    if (this.filters.hasOwnProperty('usuarioConclusaoPrazo.id')) {
-                        delete this.filters['usuarioConclusaoPrazo.id'];
-                    }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -272,7 +105,6 @@ export class CdkTipoRelatorioFilterComponent implements OnInit {
                     ...this.filters,
                     criadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -282,7 +114,6 @@ export class CdkTipoRelatorioFilterComponent implements OnInit {
                     ...this.filters,
                     atualizadoEm: `eq:${value}`
                 };
-                this.selected.emit(this.filters);
             }
         });
 
@@ -293,14 +124,10 @@ export class CdkTipoRelatorioFilterComponent implements OnInit {
                         ...this.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('criadoPor.id')) {
                         delete this.filters['criadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.selected.emit(this.filters);
                 }
             }
         });
@@ -312,22 +139,46 @@ export class CdkTipoRelatorioFilterComponent implements OnInit {
                         ...this.filters,
                         'atualizadoPor.id': `eq:${value.id}`
                     };
-                    this.selected.emit(this.filters);
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
                     }
                 }
-                if (!value) {
-                    this.selected.emit(this.filters);
+            }
+        });
+
+        this.form.get('apagadoPor').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'apagadoPor.id': `eq:${value.id}`
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
+                        delete this.filters['apagadoPor.id'];
+                    }
                 }
             }
         });
     }
 
+    emite(): void {
+        const request = {
+            ...this.filters,
+            filters: this.filters
+        };
+        this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-tipo-relatorio-filter').close();
+    }
+
+    buscar(): void {
+        this.emite();
+    }
+
     limpar(): void {
         this.filters = {};
-        this.selected.emit(this.filters);
+        this.emite();
         this.form.reset();
     }
 
