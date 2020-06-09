@@ -45,7 +45,6 @@ export class CdkLotacaoFilterComponent implements OnInit {
             peso: [null],
             principal: [null],
             distribuidor: [null],
-            coordenador: [null],
             pcu: [null],
             digitosDistribuicao: [null],
             centenasDistribuicao: [null],
@@ -109,15 +108,6 @@ export class CdkLotacaoFilterComponent implements OnInit {
                 this.filters = {
                     ...this.filters,
                     distribuidor: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('coordenador').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    coordenador: `eq:${value}`
                 };
             }
         });
