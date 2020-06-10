@@ -88,7 +88,7 @@
 
                 <!-- Id Column -->
                 <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="10" fxLayoutAlign="start center" style="margin-left: 10px"> Id
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Id: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1}"> {{endereco.id}} </td>
@@ -114,7 +114,8 @@
                 </ng-container>
 
                 <!--  Estado Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('municipio.estado.uf') > -1" matColumnDef="municipio.estado.uf">
+                <ng-container *ngIf="displayedColumns.indexOf('municipio.estado.uf') > -1"
+                              matColumnDef="municipio.estado.uf">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Estado
                     </th>
@@ -216,7 +217,8 @@
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
+                <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
+                              matColumnDef="atualizadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
