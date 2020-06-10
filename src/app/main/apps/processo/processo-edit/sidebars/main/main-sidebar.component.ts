@@ -80,6 +80,16 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 role: 'ROLE_COLABORADOR'
             },
             {
+                nome: 'Sigilos',
+                link: 'sigilos',
+                role: 'ROLE_COLABORADOR'
+            },
+            {
+                nome: 'Restrições de Acesso',
+                link: 'acessos',
+                role: 'ROLE_COLABORADOR'
+            },
+            {
                 nome: 'Tarefas',
                 link: 'tarefas',
                 role: 'ROLE_COLABORADOR'
@@ -107,16 +117,6 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             {
                 nome: 'Transições',
                 link: 'transicoes',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                nome: 'Sigilos',
-                link: 'sigilos',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                nome: 'Restrições de Acessos',
-                link: 'acessos',
                 role: 'ROLE_COLABORADOR'
             }
         ];
