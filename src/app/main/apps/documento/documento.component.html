@@ -6,7 +6,7 @@
 
         <div class="ml-32" fxFlex="75" fxLayout="row" fxLayoutAlign="start center">
             <mat-tab-group class="mr-16" (selectedTabChange)="visualizarProcesso(this.modoProcesso)"
-                           *ngIf="this.documento.processoOrigem?.id">
+                           *ngIf="this.documento?.processoOrigem?.id">
                 <mat-tab label="Editar a Minuta">
                 </mat-tab>
                 <mat-tab label="Visualizar o Processo">
