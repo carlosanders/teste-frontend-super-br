@@ -70,6 +70,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedRelatorios: Relatorio[] = [];
 
     loadedIdRelatorios$: Observable<number>;
+    loadedIdRelatorios: number;
 
     screen$: Observable<any>;
 
@@ -212,6 +213,14 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
                 this.mobileMode = false;
             }
         });
+
+        this.loadedIdRelatorios$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(idRelatorio => {
+            this.loadedIdRelatorios = idRelatorio;
+            this._changeDetectorRef.markForCheck();
+        });
+
 
         this.PesquisaRelatorio = 'relatorio';
     }
