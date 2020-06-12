@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     Component, EventEmitter,
-    Input, OnInit,
+    Input, OnChanges, OnInit,
     Output,
     ViewEncapsulation
 } from '@angular/core';
@@ -16,7 +16,7 @@ import {Documento} from '../../../../models';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class CdkRelatorioListItemComponent implements OnInit {
+export class CdkRelatorioListItemComponent implements OnInit, OnChanges {
 
     @Input()
     relatorio: Relatorio;
@@ -58,10 +58,15 @@ export class CdkRelatorioListItemComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+
+    }
+
+    ngOnChanges(): void {
         if (this.loadedIdRelatorios) {
             this.relatorio.documento = new Documento();
         }
     }
+
 
     doDelete(): void {
         this.delete.emit(this.relatorio.id);
