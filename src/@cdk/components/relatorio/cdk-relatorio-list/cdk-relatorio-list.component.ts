@@ -1,8 +1,15 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input, OnChanges,
+    Output, SimpleChanges,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Relatorio} from '@cdk/models/relatorio.model';
-import {TipoRelatorio} from '../../../models/tipo-relatorio.model';
 
 @Component({
     selector: 'cdk-relatorio-list',
