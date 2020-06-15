@@ -63,10 +63,6 @@ const routes: Routes = [
             {
                 path: 'redistribuicao',
                 loadChildren: () => import('./redistribuicao-edit/redistribuicao-edit.module').then(m => m.RedistribuicaoEditModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'editar'
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
@@ -79,6 +75,11 @@ modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
         module.routes[path].forEach((r => routes[0].children.push(r)));
     }
+});
+
+routes[0].children.push({
+    path: '**',
+    redirectTo: 'editar'
 });
 
 @NgModule({
