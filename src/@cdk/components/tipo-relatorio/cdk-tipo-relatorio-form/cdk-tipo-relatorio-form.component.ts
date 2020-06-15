@@ -72,6 +72,7 @@ export class CdkTipoRelatorioFormComponent implements OnInit, OnChanges, OnDestr
     @Input()
     mode = 'regular';
 
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -88,19 +89,6 @@ export class CdkTipoRelatorioFormComponent implements OnInit, OnChanges, OnDestr
         private _formBuilder: FormBuilder,
         public _loginService: LoginService
     ) {
-
-        this.form = this._formBuilder.group({
-            id: [null],
-            nome: [null],
-            descricao: [null, [Validators.maxLength(255)]],
-            especieRelatorio: [null, [Validators.required]],
-            templateHTML: [null, [Validators.required]],
-            parametros: [null],
-            DQL: [null],
-            ativo: [null],
-            limite: [1]
-        });
-
         this.especieRelatorioPagination = new Pagination();
         this._profile = _loginService.getUserProfile();
     }

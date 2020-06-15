@@ -88,7 +88,7 @@
                 <div class="toolbar-separator"></div>
 
                 <div>
-                    {{relatorios.length}}/{{pagination.total}}
+                    {{relatorios?.length}}/{{pagination.total}}
                 </div>
             </div>
         </div>
@@ -98,11 +98,11 @@
             <mat-spinner class="relatorio-list-loading" diameter="24"></mat-spinner>
         </div>
 
-        <div *ngIf="relatorios.length === 0 && !loading" fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="center center">
+        <div *ngIf="relatorios?.length === 0 && !loading" fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="center center">
             <span class="no-relatorios-text hint-text">{{ 'RELATORIO.NO_MESSAGES' | translate }}</span>
         </div>
 
-        <div *ngIf="relatorios.length > 0"
+        <div *ngIf="relatorios?.length > 0"
              cdkPerfectScrollbar
              infiniteScroll
              fxFlex="1 1 auto" fxLayout="column"
@@ -115,6 +115,7 @@
                                   (click)="selectRelatorio(relatorio);"
                                   [selected]="selectedIds.length > 0 && selectedIds.indexOf(relatorio.id) > -1"
                                   [deleting]="deletingIds.length > 0 && deletingIds.indexOf(relatorio.id) > -1"
+                                  [loadedIdRelatorios]="loadedIdRelatorios === relatorio.id"
                                   (toggleInSelectedRelatorios)="toggleInSelected($event)"
                                   (delete)="doDeleteRelatorio($event)"
                                   [ngClass]="{'selected':relatorio.id === currentRelatorioId}">
