@@ -28,9 +28,9 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                nome: 'Assuntos',
-                icon: 'subject',
-                link: 'assuntos'
+                nome: 'Espécie Tarefas',
+                icon: 'check_box',
+                link: 'especie-tarefas'
             },
             {
                 nome: 'Espécie Atividades',
@@ -38,14 +38,9 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'especie-atividades'
             },
             {
-                nome: 'Espécie Relevâncias',
-                icon: 'new_releases',
-                link: 'especie-relevancias'
-            },
-            {
-                nome: 'Espécie Tarefas',
-                icon: 'check_box',
-                link: 'especie-tarefas'
+                nome: 'Unidades',
+                icon: 'location_city',
+                link: 'unidades'
             },
             {
                 nome: 'Usuários',
@@ -58,6 +53,11 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'externos'
             },
             {
+                nome: 'Espécie Relevâncias',
+                icon: 'new_releases',
+                link: 'especie-relevancias'
+            },
+            {
                 nome: 'Tipos de Documentos',
                 icon: 'class',
                 link: 'tipos-documentos'
@@ -68,14 +68,29 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'tipos-relatorios'
             },
             {
+                nome: 'Assuntos',
+                icon: 'subject',
+                link: 'assuntos'
+            },
+            {
                 nome: 'Templates',
                 icon: 'view_array',
                 link: 'templates'
             },
             {
-                nome: 'Unidades',
-                icon: 'location_city',
-                link: 'unidades'
+                nome: 'Classificações',
+                icon: 'low_priority',
+                link: 'classificacoes'
+            },
+            {
+                nome: 'Pessoas',
+                icon: 'people',
+                link: 'pessoas'
+            },
+            {
+                nome: 'Municípios',
+                icon: 'location_on',
+                link: 'municipios'
             }
         ];
 

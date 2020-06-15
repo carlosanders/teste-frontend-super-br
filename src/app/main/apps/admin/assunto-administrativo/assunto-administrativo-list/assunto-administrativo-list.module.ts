@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {AssuntoAdministrativoListComponent} from './assunto-administrativo-list.component';
 import {RouterModule, Routes} from '@angular/router';
 import * as fromGuards from './store/guards';
-import {LoginService} from '../../../../auth/login/login.service';
 import {AssuntoAdministrativoStoreModule} from './store/store.module';
 import {AssuntoAdministrativoService} from '../../../../../../@cdk/services/assunto-administrativo.service';
 import {CdkAssuntoAdministrativoGridModule} from '../../../../../../@cdk/components/assunto-administrativo/cdk-assunto-administrativo-grid/cdk-assunto-administrativo-grid.module';
@@ -63,7 +62,6 @@ const routes: Routes = [
         MatDialogModule
     ],
     providers: [
-        LoginService,
         fromGuards.ResolveGuard,
         AssuntoAdministrativoService
     ]
