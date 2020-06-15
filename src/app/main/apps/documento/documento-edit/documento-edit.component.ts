@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit, ViewChild, ViewContainerRef,
@@ -32,6 +32,7 @@ import {Assinatura} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
+import {DocumentoEditService} from "./shared/documento-edit.service";
 
 @Component({
     selector: 'documento-edit',
@@ -74,7 +75,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     documento: Documento;
 
-    activeCard = 'atividade';
+    activeCard: string;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
@@ -82,8 +83,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     @ViewChild('ckdUploadComponenteDigital', {static: false})
     cdkUploadComponenteDigital;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
+
+    @ViewChild('dynamicForm', {read: ViewContainerRef}) containerForm: ViewContainerRef;
 
     routerState: any;
 
@@ -155,7 +158,9 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         private _repositorioService: RepositorioService,
         private _sanitizer: DomSanitizer,
         public _loginService: LoginService,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _ref: ChangeDetectorRef,
+        private _documentoEditService: DocumentoEditService
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
@@ -359,6 +364,9 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         if (!this._loginService.isGranted('ROLE_COLABORADOR')) {
             this.activeCard = 'anexos';
         }
+
+        this._documentoEditService.activeCard.subscribe(activeCard => this.activeCard = activeCard);
+        
     }
 
     ngAfterViewInit(): void {
@@ -368,6 +376,19 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
                 module.components[path].forEach((c => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+
+        const path1 = 'app/main/apps/documento/documento-edit#form';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path1)) {
+                module.components[path1].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then( componentFactory  => {
+                            this.containerForm.createComponent(componentFactory);
+                            this._ref.markForCheck();
+                        });
                 }));
             }
         });
@@ -456,38 +477,38 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     }
 
     showAtividade(): void {
-        this.activeCard = 'atividade';
+        this._documentoEditService.doChangeCard('atividade');
     }
 
     showAnexos(): void {
-        this.activeCard = 'anexos';
+        this._documentoEditService.doChangeCard('anexos');
     }
 
     showInteligencia(): void {
-        this.activeCard = 'inteligencia';
+        this._documentoEditService.doChangeCard('inteligencia');
     }
 
     showAcessoRestrito(): void {
-        this.activeCard = 'acesso-restrito';
+        this._documentoEditService.doChangeCard('acesso-restrito');
     }
 
     showSigilo(): void {
-        this.activeCard = 'sigilos';
+        this._documentoEditService.doChangeCard('sigilos');
         this.reloadSigilos({});
     }
 
     showAssinaturas(): void {
-        this.activeCard = 'assinaturas';
+        this._documentoEditService.doChangeCard('assinaturas');
         this.reloadAssinaturas({});
     }
 
     showComponentesDigitais(): void {
-        this.activeCard = 'componentesDigitais';
+        this._documentoEditService.doChangeCard('componentesDigitais');
         this.reloadComponentesDigitais({});
     }
 
     showForm(): void {
-        this.activeCard = 'form';
+        this._documentoEditService.doChangeCard('form')
     }
 
     showFormAcessoRestrito(): void {
