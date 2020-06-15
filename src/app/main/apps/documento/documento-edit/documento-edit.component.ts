@@ -82,7 +82,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     @ViewChild('ckdUploadComponenteDigital', {static: false})
     cdkUploadComponenteDigital;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    @ViewChild('dynamicComponent', {read: ViewContainerRef})
     container: ViewContainerRef;
 
     routerState: any;
