@@ -32,7 +32,7 @@ import {Assinatura} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
-import {DocumentoEditService} from "./shared/documento-edit.service";
+import {DocumentoEditService} from './shared/documento-edit.service';
 
 @Component({
     selector: 'documento-edit',
