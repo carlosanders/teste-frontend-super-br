@@ -6,7 +6,7 @@
 
         <div fxFlex="1 0 auto" fxLayout="column">
 
-            <mat-form-field fxFlex="100"  *ngIf="!this.usuario">
+            <mat-form-field fxFlex="100" *ngIf="!this.usuario">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Usuario"
                            formControlName="colaborador"
@@ -48,46 +48,51 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-checkbox formControlName="principal"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-                Principal
-            </mat-checkbox>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('principal')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
+            <div fxFlex="100" fxLayoutAlign="column" fxLayoutAlign="start center">
+                <mat-checkbox formControlName="principal">
+                    Principal
+                </mat-checkbox>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('principal')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+            </div>
 
-            <mat-checkbox formControlName="distribuidor"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-                Distribuidor
-            </mat-checkbox>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('distribuidor')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
+            <div fxFlex="100" fxLayoutAlign="column" fxLayoutAlign="start center">
+                <mat-checkbox formControlName="distribuidor">
+                    Distribuidor
+                </mat-checkbox>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('distribuidor')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+            </div>
 
-            <mat-checkbox formControlName="arquivista"
-                          class="mr-16 mb-16" fxFlex="0 1 auto" *ngIf="form.get('setor').value && form.get('setor').value.especieSetor.id === 2">
-                Arquivista
-            </mat-checkbox>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('arquivista')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
+            <div fxFlex="100" fxLayoutAlign="column" fxLayoutAlign="start center" *ngIf="form.get('setor').value && form.get('setor').value.especieSetor.id === 2">
+                <mat-checkbox formControlName="arquivista">
+                    Arquivista
+                </mat-checkbox>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('arquivista')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+            </div>
 
             <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Peso"
-                           formControlName="peso" required>
-                </div>
+
+                <input matInput placeholder="Peso"
+                       formControlName="peso" required>
+
                 <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                         (click)="showLogEntryGrid('peso')">
                     <mat-icon matTooltip="Histórico">history</mat-icon>
                 </button>
+
                 <mat-error *ngIf="form.get('peso').hasError('formError')">
                     {{form.get('peso').errors.formError}}
                 </mat-error>
             </mat-form-field>
+
 
             <mat-form-field fxFlex="100" *ngIf="this.selectedSetor && !this.selectedSetor.distribuicaoCentena">
                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -103,6 +108,7 @@
                 </mat-error>
             </mat-form-field>
 
+
             <mat-form-field fxFlex="100" *ngIf="this.selectedSetor && this.selectedSetor.distribuicaoCentena">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Centena(s)"
@@ -115,7 +121,9 @@
                 <mat-error *ngIf="form.get('centena').hasError('formError')">
                     {{form.get('centena').errors.formError}}
                 </mat-error>
+
             </mat-form-field>
+
         </div>
 
         <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
@@ -139,11 +147,11 @@
 </div>
 
 <cdk-colaborador-gridsearch
-        fxFlex="1 0 auto"
-        *ngIf="activeCard === 'colaborador-gridsearch'"
-        [pagination]="colaboradorPagination"
-        (selected)="selectColaborador($event)"
-        (cancel)="cancel()">
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'colaborador-gridsearch'"
+    [pagination]="colaboradorPagination"
+    (selected)="selectColaborador($event)"
+    (cancel)="cancel()">
 </cdk-colaborador-gridsearch>
 
 <cdk-setor-gridsearch
