@@ -23,7 +23,6 @@ import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {filter, tap, delay} from 'rxjs/operators';
 import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etiqueta-edit-dialog/cdk-vinculacao-etiqueta-edit-dialog.component';
 
 

@@ -8,13 +8,13 @@
 
         <div class="info" fxFlex>
             <div class="title" fxLayout="row">
-                <span class="text-truncate">PROCESSO {{processo?.NUP | formatNup}}</span>
+                <span>PROCESSO {{processo?.NUP | formatNup}}</span>
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="isOpen">keyboard_arrow_down</mat-icon>
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!isOpen">keyboard_arrow_up</mat-icon>
             </div>
 
             <div class="subtitle">
-                <span class="text-truncate">{{processo.especieProcesso?.nome}} / {{processo.modalidadeMeio?.valor}}
+                <span>{{processo.especieProcesso?.nome}} / {{processo.modalidadeMeio?.valor}}
                     / {{processo.modalidadeFase?.valor}}</span>
             </div>
 
@@ -23,7 +23,7 @@
                     <mat-spinner diameter=16></mat-spinner>
                 </div>
                 <div *ngIf="processo?.assuntos?.length > 0">
-                    <span class="text-truncate">ASSUNTO: {{processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
+                    <span>ASSUNTO: {{processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
                 </div>
             </div>
 
@@ -32,7 +32,7 @@
                     <mat-spinner diameter=16></mat-spinner>
                 </div>-->
                 <div *ngIf="processo?.interessados?.length > 0">
-                    <span class="text-truncate">INTERESSADO: {{processo?.interessados[0]?.pessoa?.nome}}</span>
+                    <span>INTERESSADO: {{processo?.interessados[0]?.pessoa?.nome}}</span>
                 </div>
             </div>
 

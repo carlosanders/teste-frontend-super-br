@@ -46,6 +46,8 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
 
+    vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
+
     screen$: Observable<any>;
 
     documentos$: Observable<Documento[]>;
@@ -123,6 +125,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe(tarefa => {
             this.tarefa = tarefa;
+            this.vinculacoesEtiquetas = tarefa.vinculacoesEtiquetas.filter((vinculacaoEtiqueta: VinculacaoEtiqueta) => !vinculacaoEtiqueta.etiqueta.sistema);
         });
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)

@@ -60,6 +60,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this._profile = _loginService.getUserProfile();
 
         this.especieTarefaPagination = new Pagination();
+        this.especieTarefaPagination.populate = ['generoTarefa'];
         this.logEntryPagination = new Pagination();
     }
 

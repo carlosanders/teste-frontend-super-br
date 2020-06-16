@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
@@ -14,8 +15,8 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState} from 'app/store/reducers';
 import {Modelo} from '@cdk/models';
-import {DynamicService} from "../../../../../modules/dynamic.service";
-import {modulesConfig} from "../../../../../modules/modules-config";
+import {DynamicService} from '../../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../../modules/modules-config';
 
 @Component({
     selector: 'modelo-edit',
@@ -25,7 +26,7 @@ import {modulesConfig} from "../../../../../modules/modules-config";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ModeloEditComponent implements OnInit, OnDestroy {
+export class ModeloEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
     documento$: Observable<Documento>;
     documentosVinculados$: Observable<Documento[]>;
