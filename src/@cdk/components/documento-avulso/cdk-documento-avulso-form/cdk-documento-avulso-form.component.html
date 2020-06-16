@@ -97,12 +97,12 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-slide-toggle formControlName="blocoDestinatarios"
+            <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="blocoDestinatarios"
                               class="mr-16 mb-16" fxFlex="0 1 auto">
                 Bloco de Destinatários
             </mat-slide-toggle>
 
-            <mat-slide-toggle formControlName="externa"
+            <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="externa"
                               class="mr-16 mb-16" fxFlex="0 1 auto">
                 Destinário Externo
             </mat-slide-toggle>

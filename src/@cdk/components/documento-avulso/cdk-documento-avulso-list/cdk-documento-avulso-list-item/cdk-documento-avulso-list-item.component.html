@@ -10,18 +10,18 @@
 
             <div class="title" fxLayout="row">
                 <mat-icon *ngIf="documentoAvulso.processo?.documentoAvulsoOrigem">mail</mat-icon>
-                <span class="text-truncate">PROCESSO {{documentoAvulso.processo?.NUP | formatNup}}</span>
+                <span>PROCESSO {{documentoAvulso.processo?.NUP | formatNup}}</span>
             </div>
 
             <div class="subtitle">
-                <span class="text-truncate">{{documentoAvulso.processo?.modalidadeMeio?.valor }}
+                <span>{{documentoAvulso.processo?.modalidadeMeio?.valor }}
                     {{documentoAvulso.processo?.especieProcesso?.nome }}</span>
             </div>
 
             <div class="subtitle">
-                <span *ngIf="!documentoAvulso.dataHoraResposta" class="text-truncate">
+                <span *ngIf="!documentoAvulso.dataHoraResposta">
                     Ofício vinculado pendente de resposta</span>
-                <span *ngIf="documentoAvulso.dataHoraResposta" class="text-truncate">
+                <span *ngIf="documentoAvulso.dataHoraResposta">
                     Ofício vinculado respondido em
                     {{documentoAvulso.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
             </div>
