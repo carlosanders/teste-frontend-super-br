@@ -17,11 +17,10 @@ import {EstadoService} from '@cdk/services/estado.service';
 import {CdkEstadoGridComponent} from './cdk-estado-grid.component';
 import {CdkEstadoAutocompleteModule} from '@cdk/components/estado/cdk-estado-autocomplete/cdk-estado-autocomplete.module';
 import {CdkEstadoFilterModule} from '../sidebars/cdk-estado-filter/cdk-estado-filter.module';
-import {CdkEstadoMainSidebarComponent} from './sidebars/main/main.component';
 
 @NgModule({
     declarations: [
-        CdkEstadoGridComponent,
+        CdkEstadoGridComponent
     ],
     imports: [
         MatSelectModule,
