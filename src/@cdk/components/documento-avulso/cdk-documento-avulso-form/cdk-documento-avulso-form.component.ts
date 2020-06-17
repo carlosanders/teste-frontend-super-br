@@ -248,6 +248,12 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                 this.inputModelo = true;
                 this.form.get('pessoaDestino').disable();
                 this.form.get('setorDestino').disable();
+                if (this.documentoAvulso.pessoaDestino) {
+                    this.form.get('externa').setValue(true);
+                }
+                if (this.documentoAvulso.setorDestino) {
+                    this.form.get('externa').setValue(false);
+                }
                 this.form.get('externa').disable();
             }
         }

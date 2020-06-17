@@ -100,7 +100,11 @@ export class LoginEffects {
             this.loginService.removeUserProfile();
             this.router.routeReuseStrategy.shouldReuseRoute = () => false;
             this.router.onSameUrlNavigation = 'reload';
-            this.router.navigateByUrl('/auth/login?url=' + this.router.url).then(() => {
+            let url = '';
+            if (this.router.url.indexOf('/apps') > -1) {
+                url = '?url=' + this.router.url;
+            }
+            this.router.navigateByUrl('/auth/login' + url).then(() => {
                 window.location.reload();
             });
         })
