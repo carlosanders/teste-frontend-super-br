@@ -79,58 +79,59 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getDocumentosAvulso(): any {
-        this._store.dispatch(new fromStore.UnloadDocumentosAvulso({reset: true}));
-
         return this._store.pipe(
             select(getDocumentosAvulsoLoaded),
             tap((loaded: any) => {
-                const params = {
-                    listFilter: {},
-                    etiquetaFilter: {},
-                    limit: 10,
-                    offset: 0,
-                    sort: {dataHoraFinalPrazo: 'ASC'},
-                    populate: [
-                        'processo',
-                        'processo.especieProcesso',
-                        'processo.modalidadeMeio',
-                        'processo.documentoAvulsoOrigem',
-                        'usuarioResponsavel',
-                        'setorResponsavel',
-                        'setorResponsavel.unidade',
-                        'setorOrigem',
-                        'setorOrigem.unidade',
-                        'vinculacoesEtiquetas',
-                        'vinculacoesEtiquetas.etiqueta',
-                        'documentoResposta'
-                    ]
-                };
-
-                const routeTypeParam = of('oficioTargetHandle');
-                routeTypeParam.subscribe(typeParam => {
-                    let documentoAvulsoFilter = {};
-
-                    if (this.routerState.params[typeParam] === 'entrada') {
-                        documentoAvulsoFilter = {
-                            'documentoResposta.id': 'isNull',
-                            'documentoRemessa.id': 'isNotNull',
-                            'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
-                        };
-                    }
-
-                    if (this.routerState.params[typeParam] === 'saida') {
-                        documentoAvulsoFilter = {
-                            'documentoResposta.id': 'isNotNull',
-                            'documentoRemessa.id': 'isNotNull',
-                            'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
-                        };
-                    }
-
-                    params['filter'] = documentoAvulsoFilter;
-                });
-
                 if (!this.routerState.params['oficioTargetHandle'] || !this.routerState.params['pessoaHandle']
                     || this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] !== loaded.value) {
+
+                    this._store.dispatch(new fromStore.UnloadDocumentosAvulso({reset: true}));
+
+                    const params = {
+                        listFilter: {},
+                        etiquetaFilter: {},
+                        limit: 10,
+                        offset: 0,
+                        sort: {dataHoraFinalPrazo: 'ASC'},
+                        populate: [
+                            'processo',
+                            'processo.especieProcesso',
+                            'processo.modalidadeMeio',
+                            'processo.documentoAvulsoOrigem',
+                            'usuarioResponsavel',
+                            'setorResponsavel',
+                            'setorResponsavel.unidade',
+                            'setorOrigem',
+                            'setorOrigem.unidade',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta',
+                            'documentoResposta'
+                        ]
+                    };
+
+                    const routeTypeParam = of('oficioTargetHandle');
+                    routeTypeParam.subscribe(typeParam => {
+                        let documentoAvulsoFilter = {};
+
+                        if (this.routerState.params[typeParam] === 'entrada') {
+                            documentoAvulsoFilter = {
+                                'documentoResposta.id': 'isNull',
+                                'documentoRemessa.id': 'isNotNull',
+                                'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
+                            };
+                        }
+
+                        if (this.routerState.params[typeParam] === 'saida') {
+                            documentoAvulsoFilter = {
+                                'documentoResposta.id': 'isNotNull',
+                                'documentoRemessa.id': 'isNotNull',
+                                'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
+                            };
+                        }
+
+                        params['filter'] = documentoAvulsoFilter;
+                    });
+
                     this._store.dispatch(new fromStore.GetDocumentosAvulso(params));
                     this._store.dispatch(new fromStore.ChangeSelectedDocumentosAvulso([]));
                 }

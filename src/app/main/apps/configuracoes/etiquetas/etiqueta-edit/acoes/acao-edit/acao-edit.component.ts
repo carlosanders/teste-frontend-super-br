@@ -103,11 +103,11 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         switch (values.trigger) {
-            case 'App\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':
+            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':
                 values.contexto = JSON.stringify({modeloId: values.modelo.id});
                 delete values.modelo;
                 break;
-            case 'App\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0002':
+            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0002':
                 break;
 
         }

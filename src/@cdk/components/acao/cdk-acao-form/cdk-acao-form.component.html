@@ -10,13 +10,13 @@
             <mat-radio-group class="poderes-rg"
                              *ngIf="this.form.get('etiqueta').value.modalidadeEtiqueta?.valor === 'TAREFA'"
                              formControlName="trigger" aria-labelledby="acoes-rg" required>
-                <mat-radio-button [value]="'App\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001'">
+                <mat-radio-button [value]="'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001'">
                     Gera automaticamente uma minuta na tarefa etiquetada de acordo com o modelo pré-selecionado
                 </mat-radio-button>
             </mat-radio-group>
 
             <mat-form-field fxFlex="100"
-                            *ngIf="this.form.get('trigger').value === 'App\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001'">
+                            *ngIf="this.form.get('trigger').value === 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001'">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Modelo"
                            formControlName="modelo"
@@ -40,7 +40,7 @@
             <mat-radio-group class="poderes-rg"
                              *ngIf="this.form.get('etiqueta').value.modalidadeEtiqueta?.valor === 'PROCESSO'"
                              formControlName="trigger" aria-labelledby="acoes-rg" required>
-                <mat-radio-button [value]="'App\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0002'">
+                <mat-radio-button [value]="'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0002'">
                     Gera uma notificação sempre que o processo tiver uma juntada
                 </mat-radio-button>
             </mat-radio-group>

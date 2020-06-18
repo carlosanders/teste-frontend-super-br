@@ -21,6 +21,7 @@ import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plug
 import {CdkVersaoPluginComponent} from './cdk-plugins/cdk-versao-plugin/cdk-versao-plugin.component';
 import {Pagination} from '@cdk/models';
 import {CdkAssinaturaEletronicaPluginComponent} from './cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {ComponenteDigitalService} from '../../../services/componente-digital.service';
 
 @Component({
     selector: 'cdk-componente-digital-ckeditor',
@@ -153,6 +154,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     @Output()
     pdf = new EventEmitter<any>();
 
+    salvando: any = false;
+
     assinando: any = false;
 
     gerandoPdf = false;
@@ -165,13 +168,21 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
      * @param _changeDetectorRef
      * @param dialog
      * @param el
+     * @param _componenteDigitalService
      * @param snackBar
      */
     constructor(private _changeDetectorRef: ChangeDetectorRef,
                 public dialog: MatDialog,
                 private el: ElementRef,
+                private _componenteDigitalService: ComponenteDigitalService,
                 private snackBar: MatSnackBar) {
 
+        this._componenteDigitalService.doEditorSave.subscribe(
+            (value) => {
+                this.salvando = value;
+                this.doSave();
+            }
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -210,6 +221,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         if (changes['componenteDigital']) {
             if (changes['componenteDigital'].firstChange) {
                 this.fetch();
+            }
+
+            if (this.salvando) {
+                this._componenteDigitalService.completedEditorSave.next(this.salvando);
+                this.salvando = false;
             }
 
             if (this.revertendo) {

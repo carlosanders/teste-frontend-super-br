@@ -41,7 +41,6 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
     ],
     providers: [
-        ComponenteDigitalService
     ]
 })
 export class ComponenteDigitalCkeditorModule {

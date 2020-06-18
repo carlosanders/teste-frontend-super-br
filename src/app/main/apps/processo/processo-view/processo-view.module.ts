@@ -74,7 +74,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         JuntadaService,
-        ComponenteDigitalService,
         fromGuards.ResolveGuard
     ]
 })
