@@ -66,7 +66,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         RelatorioService,
-        ComponenteDigitalService,
         fromGuards.ResolveGuard
     ]
 })

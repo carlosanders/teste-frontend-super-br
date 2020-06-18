@@ -13,6 +13,7 @@ import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-dig
 import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {modulesConfig} from 'modules/modules-config';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 const routes: Routes = [
     {

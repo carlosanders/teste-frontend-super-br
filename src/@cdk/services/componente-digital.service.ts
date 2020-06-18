@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {ParentGenericService} from './parent-generic.service';
 import {ComponenteDigital} from '@cdk/models';
@@ -10,8 +10,13 @@ import {PaginatedResponse} from '@cdk/models';
 import {environment} from 'environments/environment';
 import {Pessoa} from '@cdk/models';
 
-@Injectable()
+@Injectable({
+    providedIn: 'root',
+})
 export class ComponenteDigitalService extends ParentGenericService<ComponenteDigital> {
+
+    public doEditorSave: Subject<any> = new Subject();
+    public completedEditorSave: Subject<any> = new Subject();
 
     constructor(
         protected modelService: ModelService,

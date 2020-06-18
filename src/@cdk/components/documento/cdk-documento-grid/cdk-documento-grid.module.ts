@@ -41,8 +41,7 @@ import {CdkSidebarModule} from '@cdk/components/index';
         CdkSidebarModule,
     ],
     providers: [
-        TipoDocumentoService,
-        ComponenteDigitalService
+        TipoDocumentoService
     ],
     exports: [
         CdkDocumentoGridComponent

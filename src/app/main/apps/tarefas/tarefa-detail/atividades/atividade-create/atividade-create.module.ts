@@ -94,7 +94,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         AtividadeService,
-        ComponenteDigitalService,
         DocumentoService,
         LoginService,
         fromGuards.ResolveGuard

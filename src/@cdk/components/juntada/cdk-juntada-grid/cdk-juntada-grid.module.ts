@@ -41,8 +41,7 @@ import {ComponenteDigitalService} from '../../../services/componente-digital.ser
         CdkSidebarModule,
     ],
     providers: [
-        JuntadaService,
-        ComponenteDigitalService
+        JuntadaService
     ],
     exports: [
         CdkJuntadaGridComponent

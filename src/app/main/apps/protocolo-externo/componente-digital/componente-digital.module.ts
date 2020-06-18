@@ -49,7 +49,6 @@ modulesConfig.forEach((module) => {
 
     ],
     providers: [
-        ComponenteDigitalService,
         fromGuards.ResolveGuard
     ],
     exports: [

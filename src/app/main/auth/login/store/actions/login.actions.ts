@@ -44,6 +44,7 @@ export class LoginRefreshTokenFailure implements Action {
 
 export class Logout implements Action {
     readonly type = LOGOUT;
+    constructor(public payload: any) {}
 }
 
 export class Unload implements Action {
