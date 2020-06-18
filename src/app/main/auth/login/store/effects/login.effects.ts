@@ -54,7 +54,7 @@ export class LoginEffects {
                                 catchError((error) => {
                                     let msg = 'Token inválido, realize autenticação novamente!';
                                     if (error && error.status && error.status === 401) {
-                                        msg = 'O Token temporário está expirado!';
+                                        msg = 'O Token de autenticação está expirado!';
                                     }
                                     return of(new LoginActions.LoginRefreshTokenFailure({error: msg}));
                                 })
@@ -95,13 +95,13 @@ export class LoginEffects {
     @Effect({dispatch: false})
     public Logout: Observable<any> = this.actions.pipe(
         ofType<LoginActions.Logout>(LoginActions.LOGOUT),
-        tap(() => {
+        tap((action) => {
             this.loginService.removeToken();
             this.loginService.removeUserProfile();
             this.router.routeReuseStrategy.shouldReuseRoute = () => false;
             this.router.onSameUrlNavigation = 'reload';
             let url = '';
-            if (this.router.url.indexOf('/apps') > -1) {
+            if (action.payload?.url && this.router.url.indexOf('/apps') > -1) {
                 url = '?url=' + this.router.url;
             }
             this.router.navigateByUrl('/auth/login' + url).then(() => {

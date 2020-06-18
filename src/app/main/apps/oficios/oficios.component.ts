@@ -272,16 +272,26 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     setCurrentDocumentoAvulso(documentoAvulso: DocumentoAvulso): void {
-        const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
-            width: '600px'
-        });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        if (documentoAvulso.processo.acessoNegado) {
+            const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
+                width: '600px'
+            });
+
+            dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+                this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({
+                    documentoAvulsoId: documentoAvulso.id, processoId: documentoAvulso.processo.id,
+                    acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: result
+                }));
+            });
+        } else {
             this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({
-                documentoAvulsoId: documentoAvulso.id, processoId: documentoAvulso.processo.id,
-                acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: result}));
-            return;
-        });
+                documentoAvulsoId: documentoAvulso.id,
+                processoId: documentoAvulso.processo.id,
+                acessoNegado: false,
+                chaveAcesso: documentoAvulso.processo.chaveAcesso
+            }));
+        }
     }
 
     /**
