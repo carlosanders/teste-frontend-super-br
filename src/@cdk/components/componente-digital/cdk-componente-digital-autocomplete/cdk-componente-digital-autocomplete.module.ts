@@ -5,7 +5,6 @@ import {
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkComponenteDigitalAutocompleteComponent} from './cdk-componente-digital-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 
@@ -23,7 +22,6 @@ import {PipesModule} from '@cdk/pipes/pipes.module';
         CdkSharedModule,
     ],
     providers: [
-        ComponenteDigitalService,
     ],
     exports: [
         CdkComponenteDigitalAutocompleteComponent

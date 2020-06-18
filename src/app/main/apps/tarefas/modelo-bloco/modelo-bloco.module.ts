@@ -45,7 +45,6 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
     ],
     providers: [
-        ComponenteDigitalService,
         DocumentoService,
         fromGuards.ResolveGuard
     ]

@@ -172,7 +172,7 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     goLogout(): void {
-        this._store.dispatch(new Logout());
+        this._store.dispatch(new Logout({url: false}));
     }
 
     /**
