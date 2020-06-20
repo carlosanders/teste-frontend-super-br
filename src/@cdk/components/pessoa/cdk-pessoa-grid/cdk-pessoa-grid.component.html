@@ -133,7 +133,25 @@
                             Pessoa Validada
                         </th>
                         <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Pessoa Validada: '
-                            [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.pessoaValidada}} </td>
+                            [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.pessoaValidada | booleanoPipe}} </td>
+                    </ng-container>
+
+                    <!-- PessoaValidada Column -->
+                    <ng-container *ngIf="displayedColumns.indexOf('pessoaRepresentada') > -1" matColumnDef="pessoaRepresentada">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Pessoa Representada
+                        </th>
+                        <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Pessoa Representada: '
+                            [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.pessoaRepresentada | booleanoPipe }} </td>
+                    </ng-container>
+
+                    <!-- PessoaValidada Column -->
+                    <ng-container *ngIf="displayedColumns.indexOf('pessoaConveniada') > -1" matColumnDef="pessoaConveniada">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Pessoa Conveniada
+                        </th>
+                        <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Pessoa Conveniada: '
+                            [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.pessoaConveniada | booleanoPipe }} </td>
                     </ng-container>
 
                     <!-- DataNascimento Column -->

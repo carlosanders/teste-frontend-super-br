@@ -1,0 +1,9 @@
+<cdk-estado-grid
+        [loading]="loading"
+        [estados]="estados"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-estado-grid>

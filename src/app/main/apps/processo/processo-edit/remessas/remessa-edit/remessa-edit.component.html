@@ -6,7 +6,9 @@
         (editPessoaDestino)="editPessoaDestino($event)"
         [pessoaDestino]="pessoaDestino"
         (save)="submit($event)"
-        (abort)="doAbort()">
+        (abort)="doAbort()"
+        [setorOrigemPagination]="setorOrigemPagination"
+        [setorOrigemPaginationTree]="setorOrigemPaginationTree">
 </cdk-remessa-form>
 
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

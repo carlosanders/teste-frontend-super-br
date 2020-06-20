@@ -5,7 +5,7 @@ import {Observable, Subject} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {Folder} from '@cdk/models';
+import {Coordenador, Folder} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -84,9 +84,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
         this.setoresCoordenacao = [];
 
-        this._loginService.getUserProfile().colaborador.lotacoes?.forEach((lotacao: Lotacao) => {
-            if (lotacao.coordenador) {
-                this.setoresCoordenacao.push(lotacao.setor);
+        this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
+            if (coordenador.setor) {
+                this.setoresCoordenacao.push(coordenador.setor);
             }
         });
 
@@ -101,7 +101,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._changeDetectorRef.detach();
+        // this._changeDetectorRef.detach();
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }

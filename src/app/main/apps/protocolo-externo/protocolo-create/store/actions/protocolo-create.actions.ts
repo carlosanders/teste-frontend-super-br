@@ -7,6 +7,8 @@ export const SAVE_PROCESSO = '[PROTOCOLO CREATE] SAVE PROCESSO';
 export const SAVE_PROCESSO_SUCCESS = '[PROTOCOLO CREATE] SAVE PROCESSO SUCCESS';
 export const SAVE_PROCESSO_FAILED = '[PROTOCOLO CREATE] SAVE PROCESSO FAILED';
 
+export const CONCLUIR_PROCESSO = '[PROTOCOLO CREATE] CONCLUIR PROCESSO';
+
 /**
  * Save Processo
  */
@@ -67,9 +69,22 @@ export class CreateProcessoSuccess implements Action
     }
 }
 
+/**
+ * Concluir Processo
+ */
+export class ConcluirProcesso implements Action
+{
+    readonly type = CONCLUIR_PROCESSO;
+
+    constructor()
+    {
+    }
+}
+
 export type ProtocoloCreateActionsAll
     = CreateProcesso
     | CreateProcessoSuccess
     | SaveProcesso
     | SaveProcessoSuccess
-    | SaveProcessoFailed;
+    | SaveProcessoFailed
+    | ConcluirProcesso;

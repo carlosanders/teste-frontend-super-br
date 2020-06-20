@@ -15,7 +15,7 @@
     <cdk-componente-digital-card-list #ckdUpload
                                       [tarefaOrigem]="tarefaPrincipal"
                                       [tarefaOrigemBloco]="tarefasBloco"
-                                      (complete)="onComplete($event)">
+                                      (completed)="onComplete($event)">
     </cdk-componente-digital-card-list>
 
     <mat-list *ngIf="operacoes.length > 0" fxFlex>

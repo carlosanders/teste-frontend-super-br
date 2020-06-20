@@ -1,0 +1,157 @@
+<div cdkPerfectScrollbar>
+    <mat-form-field id="pesquisa">
+        <mat-label>Pesquisa</mat-label>
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Pesquisar"
+                   maxlength="100" required upperCase
+                   (input)="filterChanged($event.target.value)"
+            >
+        </div>
+        <div *ngIf="pesquisando" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </mat-form-field>
+
+    <form class="form-tree" fxLayoutGap="1px"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="formAssuntoAdministrativo">
+
+        <mat-label class="title-arvore">Árvore</mat-label>
+        <div cdkPerfectScrollbar class="tree">
+            <div *ngIf="!this.dataSource._data.getValue().length" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+                 fxLayoutAlign="center center">
+                <mat-spinner color="accent" diameter="24"></mat-spinner>
+            </div>
+            <mat-tree *ngIf="dataSource._data | async" [dataSource]="dataSource" [treeControl]="treeControl">
+
+                <!--Sem Filho-->
+                <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node" matTreeNodeToggle
+                               matTreeNodePadding>
+                    <button mat-icon-button disabled></button>
+                    {{node.nome}}
+                    <!-- Botão add -->
+                    <div class="bt-set-action">
+                        <button mat-icon-button (click)="addNewItem(node)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                    <!-- / Botão add -->
+                </mat-tree-node>
+
+
+                <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
+
+                    <div fxLayout="column">
+                        <div fxLayout="row">
+                            <mat-form-field fxFlex="100" class="input-tree">
+                                <mat-label>Nome</mat-label>
+                                <input matInput #nome
+                                       name="nome"
+                                       formControlName="nome"
+                                       maxlength="255" upperCase>
+                                <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+                            </mat-form-field>
+
+                            <mat-form-field fxFlex="100" class="input-tree">
+                                <mat-label>Dispositivo Legal</mat-label>
+                                <input matInput #dispositivoLegal
+                                       name="dispositivoLegal"
+                                       formControlName="dispositivoLegal"
+                                       maxlength="255" upperCase>
+                                <mat-hint align="end">{{dispositivoLegal.value.length}} / 255</mat-hint>
+                            </mat-form-field>
+                            <mat-form-field fxFlex="100" class="input-tree">
+                                <mat-label>Código CNJ</mat-label>
+                                <input matInput #codigoCNJ
+                                       name="codigoCNJ"
+                                       formControlName="codigoCNJ"
+                                       maxlength="255" upperCase>
+                                <mat-hint align="end">{{codigoCNJ.value.length}} / 255</mat-hint>
+                            </mat-form-field>
+
+                        </div>
+                        <div fxLayout="row">
+                            <mat-form-field fxFlex="100" class="input-tree">
+                                <mat-label>Glossário</mat-label>
+                                <textarea formControlName="glossario"
+                                          matInput #glossario
+                                          cdkTextareaAutosize
+                                          #autosize="cdkTextareaAutosize"
+                                          cdkAutosizeMinRows="1"
+                                          cdkAutosizeMaxRows="10"
+                                          upperCase></textarea>
+                                <mat-hint align="end">{{glossario.value.length}} / 1000</mat-hint>
+                            </mat-form-field>
+                        </div>
+                        <div fxLayout="row">
+                            <mat-checkbox formControlName="ativo"
+                                          class="mr-16 mb-16 input-tree" fxFlex="0 1 auto">
+                                Ativo
+                            </mat-checkbox>
+                        </div>
+
+                        <mat-error
+                            *ngIf="formAssuntoAdministrativo.hasError('rulesError')"
+                        >{{formAssuntoAdministrativo.errors.rulesError}}
+                        </mat-error>
+
+                        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+                             fxLayoutAlign="center center">
+                            <button mat-raised-button color="accent" class="mr-sm-12"
+                                    [disabled]="formAssuntoAdministrativo.invalid"
+                                    (click)="submit(node)">
+                                SALVAR
+                            </button>
+
+                            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort(node)">
+                                CANCELAR
+                            </button>
+                        </div>
+
+                        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+                             fxLayoutAlign="center center">
+                            <mat-spinner color="accent" diameter="24"></mat-spinner>
+                        </div>
+                    </div>
+
+
+
+                </mat-tree-node>
+
+                <!--Com Filho-->
+                <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node; when: hasChild"
+                               matTreeNodePadding>
+                    <button mat-icon-button matTreeNodeToggle
+                            [attr.aria-label]="'toggle ' + node.filename">
+                        <mat-icon class="mat-icon-rtl-mirror" *ngIf="treeControl.isExpanded(node)">
+                            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                        <mat-icon class="mat-icon-rtl-mirror" *ngIf="!treeControl.isExpanded(node)"
+                                  (click)="openChild(node)">
+                            {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                        </mat-icon>
+                    </button>
+
+                    {{node.nome}}
+
+                    <mat-progress-bar *ngIf="node.isLoading"
+                                      mode="indeterminate"
+                                      class="example-tree-progress-bar">
+                    </mat-progress-bar>
+
+                    <!-- Botão add -->
+                    <div class="bt-set-action">
+                        <button mat-icon-button (click)="addNewItem(node)">
+                            <mat-icon>add</mat-icon>
+                        </button>
+                    </div>
+                    <!-- / Botão add -->
+                </mat-tree-node>
+
+            </mat-tree>
+        </div>
+    </form>
+</div>
+

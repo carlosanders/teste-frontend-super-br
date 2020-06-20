@@ -1,15 +1,26 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../../store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
     selector: 'especie-atividade',
     templateUrl: './especie-atividade.component.html',
-    styleUrls: ['./especie-atividade.component.scss']
+    styleUrls: ['./especie-atividade.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class EspecieAtividadeComponent implements OnInit, OnDestroy {
 

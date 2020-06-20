@@ -127,6 +127,13 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
             }
         );
 
+        if (this.processo && this.processo.id) {
+            processo.setorInicial = this.processo.setorInicial ? this.processo.setorInicial : null;
+            processo.NUP = this.processo.NUP
+                .replace(/[^\w\-]+/g, '')
+                .replace(/-+/g, '');
+        }
+
         this._store.dispatch(new fromStore.SaveProcesso(processo));
 
     }

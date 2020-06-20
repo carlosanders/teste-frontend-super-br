@@ -7,7 +7,7 @@ export interface ArquivistaDetailState {
     saving: boolean;
     deleting: boolean;
     errors: any;
-    savingVincEtiquetaId: number;
+    savingVinculacaoEtiquetaId: number;
     maximizado: boolean;
     // processo: any;
 }
@@ -19,7 +19,7 @@ export const ArquivistaDetailInitialState: ArquivistaDetailState = {
     loading: false,
     processoId: null,
     saving: false,
-    savingVincEtiquetaId: null,
+    savingVinculacaoEtiquetaId: null,
     maximizado: false,
     // processo: null
 }

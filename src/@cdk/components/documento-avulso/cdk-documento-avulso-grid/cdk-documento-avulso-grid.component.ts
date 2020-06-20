@@ -40,7 +40,7 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieDocumentoAvulso.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'especieDocumentoAvulso.nome', 'pessoaDestino.nome', 'setorDestino.nome', 'actions'];
 
     allColumns: any[] = [
         {

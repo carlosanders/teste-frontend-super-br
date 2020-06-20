@@ -15,10 +15,10 @@
                 <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
             </button>
 
-            <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="(tarefa$ | async).vinculacoesEtiquetas"
+            <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="vinculacoesEtiquetas"
                                            (create)="onEtiquetaCreate($event)"
                                            (edit)="onEtiquetaEdit($event)"
-                                           [savingVincEtiquetaId]="(savingVincEtiquetaId$ | async)"
+                                           [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
                                            [errors]="(errors$ | async)"
                                            [pagination]="vinculacaoEtiquetaPagination"
                                            (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>

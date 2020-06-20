@@ -33,7 +33,7 @@
 
                         <cdk-componente-digital-documento-avulso-card-list #ckdUpload
                                                                            [documentoAvulsoOrigem]="documentoAvulsoOrigem"
-                                                                           (complete)="onComplete()">
+                                                                           (completed)="onComplete()">
                         </cdk-componente-digital-documento-avulso-card-list>
 
                         <cdk-documento-card-list [documentos]="oficios"
@@ -43,6 +43,7 @@
                                                  (delete)="doDelete($event)"
                                                  (verResposta)="doVerResposta($event)"
                                                  (assinatura)="doAssinatura($event)"
+                                                 (removeAssinatura)="doRemoveAssinatura($event)"
                                                  (converte)="doConverte($event)"
                                                  (clicked)="onClicked($event)"
                                                  (changedSelectedIds)="changedSelectedIds($event)">

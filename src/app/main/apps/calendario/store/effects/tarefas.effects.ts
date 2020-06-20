@@ -123,16 +123,13 @@ export class TarefasEffect {
      * Update Tarefa
      * @type {Observable<any>}
      */
-    @Effect()
+    @Effect({dispatch: false})
     createTarefa: Observable<TarefasActions.TarefasActionsAll> =
         this._actions
             .pipe(
                 ofType<TarefasActions.CreateTarefa>(TarefasActions.CREATE_TAREFA),
-                map(() => {
-                    this._router.navigate(['apps/calendario/' + this.routerState.params.generoHandle + '/' +
-                    this.routerState.params.typeHandle + '/' +
-                    '/' + this.routerState.params.targetHandle + '/criar']).then();
-                    return new TarefasActions.CreateTarefaSuccess();
+                tap(() => {
+                    this._router.navigate(['apps/tarefas/administrativo/minhas-tarefas/entrada/criar']).then();
                 })
             );
 

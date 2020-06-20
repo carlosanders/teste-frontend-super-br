@@ -23,7 +23,6 @@ import {cdkAnimations} from '@cdk/animations';
 import {Etiqueta} from '@cdk/models';
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {filter, tap, delay} from 'rxjs/operators';
 import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etiqueta-edit-dialog/cdk-vinculacao-etiqueta-edit-dialog.component';
 
 
@@ -47,7 +46,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     dialogRef: MatDialogRef<CdkVinculacaoEtiquetaEditDialogComponent, any>;
 
     @Input()
-    savingVincEtiquetaId: number;
+    savingVinculacaoEtiquetaId: number;
 
     @Input()
     placeholderEtiq: string;
@@ -154,7 +153,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
                 });
                 this.dialogRef.componentInstance.form.setErrors(null);
 
-                if (!this.savingVincEtiquetaId) {
+                if (!this.savingVinculacaoEtiquetaId) {
                     this.dialogRef.componentInstance.dialogRef.close();
                 }
             }
@@ -164,7 +163,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
 
     openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         // abre o diálogo de edição do conteúdo da etiqueta caso ela não esteja com status de saving (nesse estado ela vai ser ready-only)
-        if (this.savingVincEtiquetaId !== vinculacaoEtiqueta.id) {
+        if (this.savingVinculacaoEtiquetaId !== vinculacaoEtiqueta.id) {
             this.dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, {
                 data: {
                     conteudo: vinculacaoEtiqueta.conteudo,

@@ -2,7 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="juntadas-left-sidebar-1" position="left" lockedOpen="gt-md">
-        <processo-view-main-sidebar [@animate]="{value:'*'}" (scrolled)="onScroll()"></processo-view-main-sidebar>
+        <processo-view-main-sidebar [@animate]="{value:'*'}" [capaProcesso]="capaProcesso" [capa]="capa" (scrolled)="onScroll()"></processo-view-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -17,7 +17,7 @@
                 <mat-icon>menu</mat-icon>
             </button>
 
-            <div class="juntada-navigation">
+            <div *ngIf="!capa" class="juntada-navigation">
 
                 <button mat-mini-fab class="previous mat-accent cdk-white-fg"
                         (click)="gotoPreviousStep()"
@@ -44,7 +44,9 @@
         <!-- CONTENT -->
         <div fxFlex class="content">
 
-            <div class="processo-view-juntada" cdkPerfectScrollbar>
+            <router-outlet></router-outlet>
+
+            <div *ngIf="!capa" class="processo-view-juntada" cdkPerfectScrollbar>
 
                 <div fxLayout="column" fxFlex
                      fxLayoutAlign="center center">

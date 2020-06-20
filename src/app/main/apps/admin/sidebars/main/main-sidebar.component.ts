@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 import {cdkAnimations} from '@cdk/animations';
 import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 
 @Component({
@@ -28,14 +28,14 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                nome: 'Tarefas',
+                nome: 'Espécie Tarefas',
                 icon: 'check_box',
-                link: 'tarefas'
+                link: 'especie-tarefas'
             },
             {
-                nome: 'Atividades',
+                nome: 'Espécie Atividades',
                 icon: 'local_activity',
-                link: 'atividades'
+                link: 'especie-atividades'
             },
             {
                 nome: 'Unidades',
@@ -43,14 +43,54 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'unidades'
             },
             {
-                nome: 'Externos',
+                nome: 'Usuários',
+                icon: 'person',
+                link: 'usuarios'
+            },
+            {
+                nome: 'Usuários Externos',
                 icon: 'person',
                 link: 'externos'
             },
             {
-                nome: 'Relevâncias',
+                nome: 'Espécie Relevâncias',
                 icon: 'new_releases',
-                link: 'relevancias'
+                link: 'especie-relevancias'
+            },
+            {
+                nome: 'Tipos de Documentos',
+                icon: 'class',
+                link: 'tipos-documentos'
+            },
+            {
+                nome: 'Tipos de Relatórios',
+                icon: 'assessment',
+                link: 'tipos-relatorios'
+            },
+            {
+                nome: 'Assuntos',
+                icon: 'subject',
+                link: 'assuntos'
+            },
+            {
+                nome: 'Templates',
+                icon: 'view_array',
+                link: 'templates'
+            },
+            {
+                nome: 'Classificações',
+                icon: 'low_priority',
+                link: 'classificacoes'
+            },
+            {
+                nome: 'Pessoas',
+                icon: 'people',
+                link: 'pessoas'
+            },
+            {
+                nome: 'Municípios',
+                icon: 'location_on',
+                link: 'municipios'
             }
         ];
 

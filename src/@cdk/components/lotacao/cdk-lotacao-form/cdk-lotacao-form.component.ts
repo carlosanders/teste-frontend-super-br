@@ -35,6 +35,9 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
     colaboradorPagination: Pagination;
 
     @Input()
+    displayedColumnsGridSetor = ['id', 'nome', 'sigla', 'actions'];
+
+    @Input()
     setorPagination: Pagination;
 
     @Input()
@@ -70,7 +73,6 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
             colaborador: [null, [Validators.required]],
             setor: [null, [Validators.required]],
             principal: [null],
-            coordenador: [null],
             distribuidor: [null],
             arquivista: [null],
             peso: ['100', [Validators.required]],

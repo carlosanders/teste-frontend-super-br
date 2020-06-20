@@ -1,4 +1,4 @@
-<ng-container *ngIf="!item.hidden && (!item.role || _loginService.isGranted(item.role))">
+<ng-container *ngIf="!item.hidden && (!item.role || _loginService.isGranted(item.role) && (!item.isCoordenador || (item.isCoordenador && _loginService.isCoordenador())))">
 
     <div class="group-title" [ngClass]="item.classes">
         <span class="hint-text" [translate]="item.translate">{{ item.title }}</span>

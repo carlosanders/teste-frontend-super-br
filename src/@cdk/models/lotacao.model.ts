@@ -27,8 +27,6 @@ export class Lotacao {
 
     distribuidor?: boolean;
 
-    coordenador?: boolean;
-
     arquivista?: boolean;
 
     pcu?: boolean;
@@ -75,7 +73,6 @@ export class Lotacao {
         this.peso = null;
         this.principal = null;
         this.distribuidor = null;
-        this.coordenador = null;
         this.pcu = null;
         this.digitosDistribuicao = null;
         this.centenasDistribuicao = null;

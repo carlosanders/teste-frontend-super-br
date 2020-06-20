@@ -21,6 +21,14 @@ export class AssuntoAdministrativo {
 
     ativo?: boolean;
 
+    hasChild?: any;
+
+    children?: any;
+
+    expandable?: boolean;
+
+    level?: number;
+
     @Type(() => AssuntoAdministrativo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     parent?: AssuntoAdministrativo;
@@ -70,5 +78,9 @@ export class AssuntoAdministrativo {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.hasChild = null;
+        this.children = null;
+        this.expandable = null;
+        this.level = null;
     }
 }

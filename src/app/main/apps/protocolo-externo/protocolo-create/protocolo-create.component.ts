@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
@@ -23,8 +24,8 @@ import {getPessoa} from '../store/selectors';
 import {UpdateData} from '../../../../../@cdk/ngrx-normalizr';
 import {documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 import {LoginService} from '../../../auth/login/login.service';
-import {modulesConfig} from "../../../../../modules/modules-config";
-import {DynamicService} from "../../../../../modules/dynamic.service";
+import {modulesConfig} from '../../../../../modules/modules-config';
+import {DynamicService} from '../../../../../modules/dynamic.service';
 
 @Component({
     selector: 'protocolo-create',
@@ -34,7 +35,7 @@ import {DynamicService} from "../../../../../modules/dynamic.service";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProtocoloCreateComponent implements OnInit, OnDestroy {
+export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
@@ -59,6 +60,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
     assinandoDocumentosId: number[] = [];
     deletingDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
 
     routerState: any;
 
@@ -102,10 +104,13 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
         this.estados$ = this._store.pipe(select(fromStore.getEstados));
         this._profile = this._loginService.getUserProfile();
+
+
 
         this.unidadePagination = new Pagination();
         this.unidadePagination.populate = ['unidade', 'parent'];
@@ -164,10 +169,11 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             }
         });
 
-        this._store.pipe(
-            select(getMercureState),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(message => {
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(message => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -331,9 +337,21 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
                 assinatura.cadeiaCertificadoPkiPath = 'A1';
                 assinatura.assinatura = 'A1';
 
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura, password: result.password}));
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    password: result.password,
+                    processoId: this.processo.id
+                }));
             });
         }
+    }
+
+    doRemoveAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
+    }
+
+    doConverte(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 
     unloadProcesso(): void {
@@ -344,5 +362,9 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.selectedIndex = 1;
             this._store.dispatch(new fromStore.UnloadProcesso());
         }
+    }
+
+    doConcluir(): void {
+        this._store.dispatch(new fromStore.ConcluirProcesso());
     }
 }

@@ -1,0 +1,9 @@
+<cdk-genero-relatorio-grid
+        [loading]="loading"
+        [generoRelatorios]="generoRelatorios"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-genero-relatorio-grid>

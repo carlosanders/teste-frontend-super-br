@@ -63,12 +63,22 @@ export class CdkVinculacaoEtiquetaAutocompleteComponent implements OnInit {
                     if (typeof value === 'string') {
                         this.vinculacaoEtiquetaListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
-                        const filterParam = {
-                            ...this.pagination.filter,
-                            ...termFilter
-                        };
+                        let filterParam = '';
+                        if (Array.isArray(this.pagination.filter)) {
+                            const arrayFilterParam = [
+                                ...this.pagination.filter,
+                                termFilter
+                            ];
+                            filterParam = JSON.stringify(arrayFilterParam);
+                        } else {
+                            const objectFilterParam = {
+                                ...this.pagination.filter,
+                                ...termFilter
+                            };
+                            filterParam = JSON.stringify(objectFilterParam);
+                        }
                         return this._vinculacaoEtiquetaService.query(
-                            JSON.stringify(filterParam),
+                            filterParam,
                             this.pagination.limit,
                             this.pagination.offset,
                             JSON.stringify(this.pagination.sort),

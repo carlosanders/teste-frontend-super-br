@@ -18,14 +18,20 @@ import {ProcessoViewStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
-import {CdkVolumeAutocompleteModule} from '../../../../../@cdk/components/volume/cdk-volume-autocomplete/cdk-volume-autocomplete.module';
+import {CdkVolumeAutocompleteModule} from '@cdk/components/volume/cdk-volume-autocomplete/cdk-volume-autocomplete.module';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
         path: '',
         component: ProcessoViewComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        canActivate: [fromGuards.ResolveGuard],
+        children: [
+            {
+                path       : 'capa',
+                loadChildren: () => import('../processo-capa/processo-capa.module').then(m => m.ProcessoCapaModule)
+            }
+        ]
     }
 ];
 
@@ -68,7 +74,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         JuntadaService,
-        ComponenteDigitalService,
         fromGuards.ResolveGuard
     ]
 })

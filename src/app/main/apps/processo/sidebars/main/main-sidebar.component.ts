@@ -9,7 +9,7 @@ import {takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
     selector: 'processo-main-sidebar',

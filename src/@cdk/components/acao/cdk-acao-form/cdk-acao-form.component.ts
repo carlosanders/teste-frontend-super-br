@@ -79,7 +79,7 @@ export class CdkAcaoFormComponent implements OnInit, OnChanges, OnDestroy {
             switchMap((value) => {
                 this.form.get('modelo').disable();
                 switch (value) {
-                        case 'App\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':
+                        case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':
                             this.form.get('modelo').enable();
                             break;
                     }

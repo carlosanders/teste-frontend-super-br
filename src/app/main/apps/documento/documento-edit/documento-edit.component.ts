@@ -1,5 +1,6 @@
 import {
-    ChangeDetectionStrategy,
+    AfterViewInit,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit, ViewChild, ViewContainerRef,
@@ -9,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
-import {Documento, Favorito} from '@cdk/models';
+import {Documento, Etiqueta, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
@@ -29,9 +30,9 @@ import {LoginService} from '../../../auth/login/login.service';
 import {Sigilo} from '@cdk/models';
 import {Assinatura} from '@cdk/models';
 import {Usuario} from '@cdk/models';
-import * as fromStoreFavoritos from 'app/main/apps/tarefas/store';
-import {DynamicService} from "../../../../../modules/dynamic.service";
-import {modulesConfig} from "../../../../../modules/modules-config";
+import {DynamicService} from '../../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../../modules/modules-config';
+import {DocumentoEditService} from './shared/documento-edit.service';
 
 @Component({
     selector: 'documento-edit',
@@ -41,7 +42,7 @@ import {modulesConfig} from "../../../../../modules/modules-config";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DocumentoEditComponent implements OnInit, OnDestroy {
+export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
     documento$: Observable<Documento>;
     documentosVinculados$: Observable<Documento[]>;
@@ -54,7 +55,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     atividadeIsSaving$: Observable<boolean>;
     atividadeErrors$: Observable<any>;
 
-    repositorioIdLoadind$: Observable<number>;
+    repositorioIdLoadind$: Observable<boolean>;
     repositorioIdLoaded$: Observable<number>;
 
     componenteDigital$: Observable<ComponenteDigital>;
@@ -74,13 +75,18 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     documento: Documento;
 
-    activeCard = 'atividade';
+    activeCard: string;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    @ViewChild('ckdUploadComponenteDigital', {static: false})
+    cdkUploadComponenteDigital;
+
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
+
+    @ViewChild('dynamicForm', {read: ViewContainerRef}) containerForm: ViewContainerRef;
 
     routerState: any;
 
@@ -116,6 +122,14 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     juntadaRoute = false;
 
+    formComponentesDigitais = false;
+    componenteDigital: ComponenteDigital;
+    componentesDigitais$: Observable<ComponenteDigital[]>;
+    componenteDigitalLoading$: Observable<boolean>;
+    deletingComponenteDigitalIds$: Observable<any>;
+    deletedComponenteDigitalIds$: Observable<any>;
+    paginationComponenteDigital$: Observable<any>;
+
     formAssinaturas = false;
     assinatura: Assinatura;
     assinaturas$: Observable<Assinatura[]>;
@@ -123,7 +137,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
     deletingAssinaturaIds$: Observable<any>;
     deletedAssinaturaIds$: Observable<any>;
     paginationAssinatura$: Observable<any>;
-    favoritos$: Observable<Favorito[]>;
+
+    vinculacaoEtiquetaPagination: Pagination;
+    savingVinculacaoEtiquetaId$: Observable<any>;
+    vinculacaoEtiquetaErrors$: Observable<any>;
 
     /**
      * @param _store
@@ -141,7 +158,9 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         private _repositorioService: RepositorioService,
         private _sanitizer: DomSanitizer,
         public _loginService: LoginService,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _ref: ChangeDetectorRef,
+        private _documentoEditService: DocumentoEditService
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
@@ -200,7 +219,20 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this.deletingAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletingAssinaturaIds));
         this.deletedAssinaturaIds$ = this._store.pipe(select(fromStore.getDeletedAssinaturaIds));
         this.assinaturaLoading$ = this._store.pipe(select(fromStore.getAssinaturasIsLoading));
-        this.favoritos$ = this._store.pipe(select(fromStoreFavoritos.getFavoritoList));
+
+        this.componentesDigitais$ = this._store.pipe(select(fromStore.getComponentesDigitais));
+        this.paginationComponenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigitalPagination));
+        this.deletingComponenteDigitalIds$ = this._store.pipe(select(fromStore.getDeletingComponenteDigitalIds));
+        this.deletedComponenteDigitalIds$ = this._store.pipe(select(fromStore.getDeletedComponenteDigitalIds));
+        this.componenteDigitalLoading$ = this._store.pipe(select(fromStore.getComponenteDigitalLoading));
+
+        this.vinculacaoEtiquetaPagination = new Pagination();
+        this.vinculacaoEtiquetaPagination.filter = {
+            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+            'modalidadeEtiqueta.valor': 'eq:DOCUMENTO'
+        };
+        this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
+        this.vinculacaoEtiquetaErrors$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaErrors));
 
         this._store
             .pipe(
@@ -244,6 +276,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
             this.tarefa$.subscribe(tarefa => {
                 this.tarefa = tarefa;
+                this.atividade.tarefa = tarefa;
                 this.atividade.usuario = tarefa.usuarioResponsavel;
                 this.atividade.setor = tarefa.setorResponsavel;
             });
@@ -331,6 +364,9 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         if (!this._loginService.isGranted('ROLE_COLABORADOR')) {
             this.activeCard = 'anexos';
         }
+
+        this._documentoEditService.activeCard.subscribe(activeCard => this.activeCard = activeCard);
+        
     }
 
     ngAfterViewInit(): void {
@@ -340,6 +376,19 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
                 module.components[path].forEach((c => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+
+        const path1 = 'app/main/apps/documento/documento-edit#form';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path1)) {
+                module.components[path1].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then( componentFactory  => {
+                            this.containerForm.createComponent(componentFactory);
+                            this._ref.markForCheck();
+                        });
                 }));
             }
         });
@@ -365,6 +414,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     upload(): void {
         this.cdkUpload.upload();
+    }
+
+    uploadComponenteDigital(): void {
+        this.cdkUploadComponenteDigital.upload();
     }
 
     anexarCopia(): void {
@@ -415,36 +468,47 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.GetDocumentosVinculados());
     }
 
+    onCompleteComponenteDigital(): void {
+        this.reloadComponentesDigitais({});
+    }
+
     back(): void {
         this._location.back();
     }
 
     showAtividade(): void {
-        this.activeCard = 'atividade';
+        this._documentoEditService.doChangeCard('atividade');
     }
 
     showAnexos(): void {
-        this.activeCard = 'anexos';
+        this._documentoEditService.doChangeCard('anexos');
     }
 
     showInteligencia(): void {
-        this.activeCard = 'inteligencia';
+        this._documentoEditService.doChangeCard('inteligencia');
     }
 
     showAcessoRestrito(): void {
-        this.activeCard = 'acesso-restrito';
+        this._documentoEditService.doChangeCard('acesso-restrito');
     }
 
     showSigilo(): void {
-        this.activeCard = 'sigilos';
+        this._documentoEditService.doChangeCard('sigilos');
+        this.reloadSigilos({});
     }
 
     showAssinaturas(): void {
-        this.activeCard = 'assinaturas';
+        this._documentoEditService.doChangeCard('assinaturas');
+        this.reloadAssinaturas({});
+    }
+
+    showComponentesDigitais(): void {
+        this._documentoEditService.doChangeCard('componentesDigitais');
+        this.reloadComponentesDigitais({});
     }
 
     showForm(): void {
-        this.activeCard = 'form';
+        this._documentoEditService.doChangeCard('form')
     }
 
     showFormAcessoRestrito(): void {
@@ -501,6 +565,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
 
     deleteAssinatura(assinaturaId: number): void {
         this._store.dispatch(new fromStore.DeleteAssinatura({componenteDigitalId: this.routerState.params.componenteDigitalHandle, assinaturaId: assinaturaId}));
+    }
+
+    deleteComponenteDigital(componenteDigitalId: number): void {
+        this._store.dispatch(new fromStore.DeleteComponenteDigital(componenteDigitalId));
     }
 
     submit(values): void {
@@ -563,6 +631,21 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         }));
     }
 
+    reloadComponentesDigitais(params): void {
+        this._store.dispatch(new fromStore.GetComponentesDigitais({
+            ...this.pagination,
+            filter: {
+                'documento.id': 'eq:' + this.routerState.params.documentoHandle
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.pagination.populate
+            ]
+        }));
+    }
+
     doDownload(repositorio: Repositorio): void {
         this._store.dispatch(new fromStore.DownloadComponenteDigital({
             componenteDigitalId: repositorio.documento.componentesDigitais[0].id,
@@ -582,7 +665,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        atividade.tarefa = this.tarefa;
         atividade.documentos = [this.documento];
 
         this._store.dispatch(new fromStore.SaveAtividade(atividade));
@@ -592,18 +674,24 @@ export class DocumentoEditComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.DeleteVisibilidade({documentoId: this.routerState.params.documentoHandle, visibilidadeId: visibilidadeId}));
     }
 
-    getFavoritos (value): void {
+    onEtiquetaCreate(etiqueta: Etiqueta): void {
+        this._store.dispatch(new fromStore.CreateVinculacaoEtiqueta({documento: this.documento, etiqueta: etiqueta}));
+    }
 
-        this._store.dispatch(new fromStoreFavoritos.GetFavoritos({
-            'filter':
-                {
-                    'usuario.id': `eq:${this._loginService.getUserProfile().id}`,
-                    'objectClass': `eq:SuppCore\\AdministrativoBackend\\Entity\\` + value
-                },
-            'limit': 5,
-            'sort': {prioritario:'DESC', qtdUso: 'DESC'}
+    onEtiquetaEdit(values): void {
+        const vinculacaoEtiqueta = new VinculacaoEtiqueta();
+        vinculacaoEtiqueta.id = values.id;
+        this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta({
+            vinculacaoEtiqueta: vinculacaoEtiqueta,
+            changes: {conteudo: values.conteudo}
         }));
     }
 
+    onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this._store.dispatch(new fromStore.DeleteVinculacaoEtiqueta({
+            documentoId: this.documento.id,
+            vinculacaoEtiquetaId: vinculacaoEtiqueta.id
+        }));
+    }
 }
 

@@ -3,8 +3,6 @@ import {getProtocoloCreateAppState, ProtocoloCreateAppState, ProtocoloDocumentoS
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {ProcessosState} from '../../../store/reducers';
-import {getProtocoloExternoState} from './protocolo-create.selectors';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 
@@ -54,6 +52,10 @@ export const getConvertendoDocumentosId = createSelector(
     (state: ProtocoloDocumentoState) => state.convertendoDocumentoIds
 );
 
+export const getRemovendoAssinaturaDocumentosId = createSelector(
+    getProtocoloDocumentoState,
+    (state: ProtocoloDocumentoState) => state.removendoAssinaturaDocumentoIds
+);
 
 
 

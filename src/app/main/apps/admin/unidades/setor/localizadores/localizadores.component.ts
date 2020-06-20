@@ -15,7 +15,7 @@ import {Setor} from '@cdk/models';
 import {Back} from '../../../../../../store/actions';
 
 @Component({
-    selector: 'root-localizadores',
+    selector: 'admin-localizadores',
     templateUrl: './localizadores.component.html',
     styleUrls: ['./localizadores.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

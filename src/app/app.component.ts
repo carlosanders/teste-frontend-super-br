@@ -2,8 +2,8 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {Platform} from '@angular/cdk/platform';
 import {TranslateService} from '@ngx-translate/core';
-import {Subject, fromEvent} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map, startWith, takeUntil, tap} from 'rxjs/operators';
+import {Subject, fromEvent, of} from 'rxjs';
+import {catchError, debounceTime, distinctUntilChanged, map, startWith, takeUntil, tap} from 'rxjs/operators';
 
 import {CdkConfigService} from '@cdk/services/config.service';
 import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
@@ -13,8 +13,8 @@ import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.serv
 
 import {navigation} from 'app/navigation/navigation';
 import {locale as navigationEnglish} from 'app/navigation/i18n/en';
-import {Store} from '@ngrx/store';
-import {State} from 'app/store/reducers';
+import {select, Store} from '@ngrx/store';
+import {getMercureState, State} from 'app/store/reducers';
 import {SetScreen} from 'app/store';
 import {modulesConfig} from '../modules/modules-config';
 import {LoginService} from './main/auth/login/login.service';
@@ -194,6 +194,31 @@ export class AppComponent implements OnInit, OnDestroy {
                 }),
             );
         this.resize$.subscribe();
+
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(message => {
+            if (message && message.type === 'count_tarefa') {
+                switch (message.content.action) {
+                    case 'count_tarefa_administrativa':
+                        this._cdkNavigationService.updateNavigationItem('tarefasAdministrativas', {
+                            badge    : {
+                                title    : message.content.count
+                            }
+                        });
+                        break;
+                    case 'count_calendar':
+                        this._cdkNavigationService.updateNavigationItem('calendar', {
+                            badge: {
+                                title: message.content.count
+                            }
+                        });
+                        break;
+                }
+            }
+        });
     }
 
     /**

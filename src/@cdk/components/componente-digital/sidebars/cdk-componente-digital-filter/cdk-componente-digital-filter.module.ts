@@ -10,7 +10,6 @@ import {
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkComponenteDigitalFilterComponent} from './cdk-componente-digital-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
@@ -39,7 +38,6 @@ import {CdkProcessoAutocompleteModule} from '../../../processo/cdk-processo-auto
         CdkProcessoAutocompleteModule,
     ],
     providers: [
-        ComponenteDigitalService,
     ],
     exports: [
         CdkComponenteDigitalFilterComponent

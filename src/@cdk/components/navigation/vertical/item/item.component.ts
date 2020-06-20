@@ -22,6 +22,9 @@ export class CdkNavVerticalItemComponent implements OnInit, OnDestroy
     // Private
     private _unsubscribeAll: Subject<any>;
 
+    isGrantedRole: boolean;
+    isCoordenador: boolean;
+
     /**
      * Constructor
      */
@@ -59,9 +62,20 @@ export class CdkNavVerticalItemComponent implements OnInit, OnDestroy
         ).pipe(takeUntil(this._unsubscribeAll))
          .subscribe(() => {
 
+             const badge = this.item.badge;
+
+             if (badge) {
+                 delete this.item['badge'];
+                 this._changeDetectorRef.detectChanges();
+                 this.item['badge'] = badge;
+             }
+
              // Mark for check
              this._changeDetectorRef.markForCheck();
          });
+
+        this.isGrantedRole = this._loginService.isGranted(this.item.role);
+        this.isCoordenador = this._loginService.isCoordenador();
     }
 
     /**
