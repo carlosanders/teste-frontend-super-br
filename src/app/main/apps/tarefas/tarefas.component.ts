@@ -97,6 +97,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     PesquisaTarefa: string;
 
+    changingFolderIds$: Observable<number[]>;
+
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
     /**
@@ -130,6 +132,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTarefaIds));
+        this.changingFolderIds$ = this._store.pipe(select(fromStore.getChangingFolderTarefaIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();

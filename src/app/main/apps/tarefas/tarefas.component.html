@@ -54,6 +54,9 @@
                         'current-tarefa': currentTarefaId,
                         'no-current-tarefa': !currentTarefaId
                      }">
+                    <div fxLayout="row" fxLayoutAlign="center">
+                        <mat-progress-bar [mode]="'indeterminate'" *ngIf="(changingFolderIds$ | async)?.length"></mat-progress-bar>
+                    </div>
                     <cdk-tarefa-list (scrolled)="onScroll()"
                                      [loading]="(loading$ | async)"
                                      [tarefas]="tarefas"

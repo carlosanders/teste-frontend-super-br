@@ -71,22 +71,12 @@ export class CdkTarefaListItemComponent implements OnInit {
     isOpen: boolean;
     loadedAssuntos: boolean;
 
-    draggable = {
-        // note that data is handled with JSON.stringify/JSON.parse
-        // only set simple data or POJO's as methods will be lost
-        data: null,
-        effectAllowed: 'all',
-        disable: false,
-        handle: false
-    };
-
     constructor() {
         this.isOpen = false;
         this.loadedAssuntos = false;
         this.deleting = false;
         this.ciencia = false;
         this.selected = false;
-        this.draggable.data = this.tarefa;
     }
 
     /**
@@ -145,5 +135,4 @@ export class CdkTarefaListItemComponent implements OnInit {
         }
         this.isOpen = !this.isOpen;
     }
-
 }
