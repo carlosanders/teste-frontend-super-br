@@ -1,4 +1,5 @@
-<div fxLayout="row" [dndDraggable]="draggable.data" fxLayoutAlign="start center">
+<div fxLayout="row" [dndDraggable]="tarefa"
+     [dndEffectAllowed]="'copy'" fxLayoutAlign="start center">
 
     <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
                   (click)="$event.stopPropagation();">
@@ -11,12 +12,18 @@
             <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
 
             <div class="title" fxLayout="row">
-                <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block</mat-icon>
-                <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock</mat-icon>
+                <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
+                </mat-icon>
+                <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
+                </mat-icon>
                 <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
-                <span>NUP {{tarefa.processo?.NUP | formatNup}}</span>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down</mat-icon>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up</mat-icon>
+                <span dndDragImageRef>NUP {{tarefa.processo?.NUP | formatNup}}</span>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                          *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
+                </mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                          *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
+                </mat-icon>
             </div>
 
             <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
@@ -29,9 +36,9 @@
 
             <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
                     <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                         >Ofício vinculado pendente de resposta</span>
+                    >Ofício vinculado pendente de resposta</span>
                 <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                     >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
+                >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
             </div>
 
             <div class="subtitle" fxLayout="row" *ngIf="isOpen">
@@ -60,10 +67,10 @@
 
             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
-                     fxLayout="row" fxLayoutAlign="start center"  [matTooltip]="vinculacaoEtiqueta.label">
+                     fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.etiqueta?.nome">
                     <div class="etiqueta-color"
                          [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                    <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                    <div class="etiqueta-title">{{vinculacaoEtiqueta.label}}</div>
                 </div>
             </div>
         </div>
@@ -80,7 +87,8 @@
                 <mat-spinner diameter="24"></mat-spinner>
             </div>
 
-            <button *ngIf="!deleting && !ciencia" mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Ferramentas"
+            <button *ngIf="!deleting && !ciencia" mat-icon-button [matMenuTriggerFor]="moreMenu"
+                    aria-label="Ferramentas"
                     (click)="$event.stopPropagation()">
                 <mat-icon class="secondary-text">more_vert</mat-icon>
             </button>
@@ -153,6 +161,5 @@
 
             </mat-menu>
         </div>
-
     </div>
 </div>

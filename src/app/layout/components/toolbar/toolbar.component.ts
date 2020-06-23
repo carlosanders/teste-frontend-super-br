@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {of, Subject} from 'rxjs';
-import {catchError, takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
 import * as _ from 'lodash';
 
@@ -10,13 +10,12 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {navigation} from 'app/navigation/navigation';
 import {Router} from '@angular/router';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
 import {getMercureState} from 'app/store';
 import {Logout} from '../../../main/auth/login/store/actions';
-import {Usuario} from "../../../../@cdk/models/usuario.model";
+import {Usuario} from '@cdk/models/usuario.model';
 
 @Component({
     selector: 'toolbar',
@@ -35,7 +34,7 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
     userStatusOptions: any[];
     userProfile: Usuario;
 
-    notificacoesCount: number;
+    notificacoesCount: string;
 
     // Private
     private _unsubscribeAll: Subject<any>;

@@ -15,7 +15,7 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
     cdkConfig: any;
 
     @Output()
-    input: EventEmitter<any>;
+    inputText: EventEmitter<any>;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -30,7 +30,7 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
     )
     {
         // Set the defaults
-        this.input = new EventEmitter();
+        this.inputText = new EventEmitter();
         this.collapsed = true;
 
         // Set the private defaults
@@ -93,7 +93,9 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
      */
     search(event): void
     {
-        this.input.emit(event.target.value);
+        if (event.target.value && event.target.value.length > 5) {
+            this.inputText.emit(event.target.value);
+        }
     }
 
 }

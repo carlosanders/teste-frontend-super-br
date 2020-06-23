@@ -51,7 +51,17 @@ export class TarefaEditEffect {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'populateAll'
+                            'processo',
+                            'processo.especieProcesso',
+                            'processo.modalidadeMeio',
+                            'processo.documentoAvulsoOrigem',
+                            'especieTarefa',
+                            'usuarioResponsavel',
+                            'setorResponsavel',
+                            'setorResponsavel.unidade',
+                            'setorOrigem',
+                            'setorOrigem.unidade',
+                            'especieTarefa.generoTarefa'
                         ]));
                 }),
                 switchMap(response => [

@@ -9,8 +9,8 @@ import {Coordenador, Folder} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Lotacao, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -25,6 +25,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     folders$: Observable<Folder[]>;
+    folders: Folder[];
 
     mode = 'Tarefas';
 
@@ -58,6 +59,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
+
+        this.folders$.subscribe((folders) => this.folders = folders);
     }
 
     /**
