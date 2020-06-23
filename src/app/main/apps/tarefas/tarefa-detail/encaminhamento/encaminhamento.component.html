@@ -2,5 +2,5 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"
-        (cancel)="cancel()">
+        (abort)="cancel()">
 </cdk-encaminhamento-form>
