@@ -17,6 +17,7 @@ export interface TarefasState {
     loading: boolean;
     loaded: any;
     deletingTarefaIds: number[];
+    changingFolderTarefaIds: number[];
     togglingLidaTarefaIds: number[];
     currentTarefaId: number;
     deletedTarefaIds: number[];
@@ -42,6 +43,7 @@ export const TarefasInitialState: TarefasState = {
     loading: false,
     loaded: false,
     deletingTarefaIds: [],
+    changingFolderTarefaIds: [],
     togglingLidaTarefaIds: [],
     deletedTarefaIds: [],
     selectedTarefaIds: [],
@@ -122,6 +124,13 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             };
         }
 
+        case TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS: {
+            return {
+                ...state,
+                changingFolderTarefaIds: [...state.changingFolderTarefaIds, action.payload.tarefa.id]
+            };
+        }
+
         case TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS: {
             const entitiesId = state.entitiesId.filter(id => id !== action.payload.id);
             const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.id);
@@ -132,7 +141,15 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                     ...state.pagination,
                     total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
                 },
-                selectedTarefaIds: selectedTarefaIds
+                selectedTarefaIds: selectedTarefaIds,
+                changingFolderTarefaIds: state.changingFolderTarefaIds.filter(id => id !== action.payload.id),
+            };
+        }
+
+        case TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS_FAILED: {
+            return {
+                ...state,
+                changingFolderTarefaIds: state.changingFolderTarefaIds.filter(id => id !== action.payload)
             };
         }
 

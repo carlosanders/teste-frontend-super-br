@@ -42,6 +42,7 @@ import {AssuntoListStoreModule} from 'app/main/apps/processo/processo-edit/assun
 import {modulesConfig} from 'modules/modules-config';
 import {InteressadoService} from '../../../../@cdk/services/interessado.service';
 import {DocumentoService} from '../../../../@cdk/services/documento.service';
+import {MatProgressBarModule} from "@angular/material/progress-bar";
 
 const routes: Routes = [
     {
@@ -160,7 +161,8 @@ modulesConfig.forEach((module) => {
 
         TarefasStoreModule,
 
-        AssuntoListStoreModule
+        AssuntoListStoreModule,
+        MatProgressBarModule
     ],
     providers: [
         TarefaService,
