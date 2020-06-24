@@ -79,9 +79,10 @@ export class CdkProcessoFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('NUP').valueChanges.subscribe(value => {
             if (value !== null) {
+                const NUP = value.replace(/[^\w\-]+/g, '').replace(/-+/g, '');
                 this.filters = {
                     ...this.filters,
-                    NUP: `like:${value}%`
+                    NUP: `like:${NUP}%`
                 };
             }
         });

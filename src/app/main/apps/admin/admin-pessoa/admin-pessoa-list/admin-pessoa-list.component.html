@@ -1,0 +1,10 @@
+<cdk-pessoa-grid
+    [loading]="(loading$ | async)"
+    [pessoas]="(pessoas$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['id', 'nome', 'numeroDocumentoPrincipal', 'pessoaRepresentada', 'pessoaConveniada', 'pessoaValidada', 'actions']"
+    [actions]="['edit']"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-pessoa-grid>

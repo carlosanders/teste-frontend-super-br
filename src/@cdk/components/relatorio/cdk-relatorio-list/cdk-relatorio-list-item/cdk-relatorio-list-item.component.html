@@ -9,11 +9,11 @@
         <div class="info" fxFlex>
 
             <div class="title" fxLayout="row">
-                <span class="text-truncate">{{relatorio.tipoRelatorio?.descricao}}</span>
+                <span>{{relatorio.tipoRelatorio?.descricao}}</span>
             </div>
 
             <div class="subtitle">
-                <span class="text-truncate">ID: {{relatorio.id}}</span>
+                <span>ID: {{relatorio.id}}</span>
             </div>
 
             <div [matTooltip]="'Relatorio Id ' + relatorio.id.toString()" class="body mt-4">
@@ -23,6 +23,12 @@
 
                 <div>
                     Criado em: {{relatorio.criadoEm | date: 'dd/MM/yyyy'}}
+                </div>
+            </div>
+
+            <div class="subtitle" *ngIf="!relatorio.documento">
+                <div class="spinner-container m-8">
+                    <mat-spinner diameter="24"></mat-spinner>
                 </div>
             </div>
 

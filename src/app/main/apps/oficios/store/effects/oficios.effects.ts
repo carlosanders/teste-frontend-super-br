@@ -96,7 +96,7 @@ export class OficiosEffects {
             .pipe(
                 ofType<DocumentosAvulsoActions.SetCurrentDocumentoAvulso>(DocumentosAvulsoActions.SET_CURRENT_DOCUMENTOS_AVULSO),
                 map((action) => {
-                    if (!action.payload.acessoNegado && !action.payload.chaveAcesso) {
+                    if (action.payload.acessoNegado) {
                         this._router.navigate([
                             'apps/oficios/' + this.routerState.params.oficioTargetHandle + '/' + this.routerState.params.pessoaHandle
                             + '/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId + '/acesso-negado']

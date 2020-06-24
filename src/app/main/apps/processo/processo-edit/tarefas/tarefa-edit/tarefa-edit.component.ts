@@ -42,6 +42,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
     _profile: Usuario;
 
     especieTarefaPagination: Pagination;
+    setorOrigemPagination: Pagination;
 
     logEntryPagination: Pagination;
 
@@ -59,8 +60,12 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(getProcesso));
         this._profile = _loginService.getUserProfile();
 
-        this.especieTarefaPagination = new Pagination();
         this.logEntryPagination = new Pagination();
+        this.especieTarefaPagination = new Pagination();
+        this.especieTarefaPagination.populate = ['generoTarefa'];
+        this.setorOrigemPagination = new Pagination();
+        this.setorOrigemPagination.populate = ['unidade', 'parent'];
+        this.setorOrigemPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -76,7 +81,11 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
         );
 
         this.tarefa$.subscribe(
-            tarefa => this.tarefa = tarefa
+            tarefa => {
+                this.tarefa = tarefa;
+                this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
+                this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Tarefa', id: + this.tarefa.id};
+            }
         );
 
         if (!this.tarefa) {
@@ -87,7 +96,6 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
             this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
         }
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Tarefa', id: + this.tarefa.id};
     }
 
     /**

@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 import {cdkAnimations} from '@cdk/animations';
 import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 
 @Component({
@@ -48,7 +48,7 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'usuarios'
             },
             {
-                nome: 'Externos',
+                nome: 'Usuários Externos',
                 icon: 'person',
                 link: 'externos'
             },
@@ -63,6 +63,11 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'tipos-documentos'
             },
             {
+                nome: 'Tipos de Relatórios',
+                icon: 'assessment',
+                link: 'tipos-relatorios'
+            },
+            {
                 nome: 'Assuntos',
                 icon: 'subject',
                 link: 'assuntos'
@@ -71,6 +76,21 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Templates',
                 icon: 'view_array',
                 link: 'templates'
+            },
+            {
+                nome: 'Classificações',
+                icon: 'low_priority',
+                link: 'classificacoes'
+            },
+            {
+                nome: 'Pessoas',
+                icon: 'people',
+                link: 'pessoas'
+            },
+            {
+                nome: 'Municípios',
+                icon: 'location_on',
+                link: 'municipios'
             }
         ];
 

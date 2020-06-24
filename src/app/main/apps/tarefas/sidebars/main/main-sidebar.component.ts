@@ -5,12 +5,12 @@ import {Observable, Subject} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {Folder} from '@cdk/models';
+import {Coordenador, Folder} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Lotacao, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -25,6 +25,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     folders$: Observable<Folder[]>;
+    folders: Folder[];
 
     mode = 'Tarefas';
 
@@ -58,6 +59,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
+
+        this.folders$.subscribe((folders) => this.folders = folders);
     }
 
     /**
@@ -84,9 +87,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
         this.setoresCoordenacao = [];
 
-        this._loginService.getUserProfile().colaborador.lotacoes?.forEach((lotacao: Lotacao) => {
-            if (lotacao.coordenador) {
-                this.setoresCoordenacao.push(lotacao.setor);
+        this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
+            if (coordenador.setor) {
+                this.setoresCoordenacao.push(coordenador.setor);
             }
         });
 

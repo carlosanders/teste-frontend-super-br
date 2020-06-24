@@ -21,6 +21,7 @@ import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigital} from '@cdk/models';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../modules/dynamic.service';
+import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -38,6 +39,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
      * @param _router
      * @param _repositorioService
      * @param _dynamicService
+     * @param _componenteDigitalService
      * @param _ref
      */
     constructor(
@@ -46,6 +48,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
         private _router: Router,
         private _repositorioService: RepositorioService,
         private _dynamicService: DynamicService,
+        private _componenteDigitalService: ComponenteDigitalService,
         private _ref: ChangeDetectorRef
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
@@ -87,6 +90,12 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
                         this._store.dispatch(new fromStore.AssinaDocumentoVinculadoSuccess(message.content.documentoId));
                         break;
                 }
+            }
+        });
+
+        this._componenteDigitalService.completedEditorSave.subscribe((value) => {
+            if (value === this.documento.documentoAvulsoRemessa.id) {
+                this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
             }
         });
     }
@@ -134,8 +143,6 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
     cdkUpload;
 
     routerState: any;
-
-    acompanharResposta = false;
 
     static b64DecodeUnicode(str): any {
         // Going backwards: from bytestream, to percent-encoding, to original string.
@@ -269,7 +276,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
     // -----------------------------------------------------------------------------------------------------
 
     remeterDocumentoAvulso(): void {
-        this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
+        this._componenteDigitalService.doEditorSave.next(this.documento.documentoAvulsoRemessa.id);
     }
 
     toggleEncerramento(): void {

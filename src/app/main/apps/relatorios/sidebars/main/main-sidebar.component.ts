@@ -91,13 +91,7 @@ export class RelatoriosMainSidebarComponent implements OnInit, OnDestroy {
      * Compose dialog
      */
     create(): void {
-
-        if (this.routerState.params.typeHandle === 'meus-relatorios') {
-            this._store.dispatch(new fromStore.CreateRelatorio());
-        }
-        if (this.routerState.params.typeHandle === 'tipo-relatorio') {
-            this._store.dispatch(new fromStore.CreateTipoRelatorio());
-        }
+       this._store.dispatch(new fromStore.CreateRelatorio());
     }
 
     onDrop($event): void {

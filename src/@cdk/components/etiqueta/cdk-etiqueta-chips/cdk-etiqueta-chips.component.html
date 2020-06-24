@@ -4,10 +4,10 @@
                 [ngStyle]="{'background-color': etiqueta.corHexadecimal}"
                 *ngFor="let etiqueta of etiquetas"
                 [selectable]="selectable"
-                [removable]="false === etiqueta.sistema"
+                [removable]="true"
                 (removed)="remove(etiqueta)">
             {{etiqueta.nome}}
-            <mat-icon matChipRemove *ngIf="false === etiqueta.sistema">cancel</mat-icon>
+            <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
         <input #etiquetaInput
                [formControl]="etiquetaCtrl"

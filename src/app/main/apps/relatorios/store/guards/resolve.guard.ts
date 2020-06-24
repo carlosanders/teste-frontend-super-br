@@ -12,7 +12,6 @@ import {getFoldersLoaded, getRelatoriosLoaded} from 'app/main/apps/relatorios/st
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
-import {getTipoRelatoriosLoaded} from 'app/main/apps/relatorios/store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -48,19 +47,9 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-
-            if (!this._loginService.isGranted('ROLE_ADMIN') && this.routerState.params.typeHandle !== 'tipo-relatorio') {
-                return this.checkStore().pipe(
-                switchMap(() => of(true)),
-                catchError(() => of(false)));
-
-            } else {
-                return this.getTipoRelatorios().pipe(
-                    switchMap(() => of(true)),
-                    catchError((err) => of(false))
-                );
-            }
-
+            return this.checkStore().pipe(
+            switchMap(() => of(true)),
+            catchError(() => of(false)));
     }
 
     /**
@@ -117,7 +106,8 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            'criadoPor.id': 'eq:' + this._profile.id
+                            'criadoPor.id': 'eq:' + this._profile.id,
+                            'apagadoEm': 'isNull'
                         },
                         etiquetaFilter: {},
                         limit: 10,
@@ -134,44 +124,6 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetRelatorios(params));
                     this._store.dispatch(new fromStore.ChangeSelectedRelatorios([]));
 
-                }
-            }),
-            filter((loaded: any) => {
-                return this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
-                    this.routerState.params['targetHandle'] &&
-                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
-                        this.routerState.params['targetHandle']) ===
-                    loaded.value;
-            }),
-            take(1)
-        );
-    }
-
-    /**
-     * Get Tipo Relatorios
-     *
-     * @returns {Observable<any>}
-     */
-    getTipoRelatorios(): any {
-        return this._store.pipe(
-            select(getTipoRelatoriosLoaded),
-            tap((loaded: any) => {
-                if (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
-                    !this.routerState.params['targetHandle'] ||
-                    (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] +
-                        '_' + this.routerState.params['targetHandle']) !==
-                    loaded.value) {
-
-                    this._store.dispatch(new fromStore.UnloadTipoRelatorios({reset: true}));
-
-                    const params = {
-                        limit: 10,
-                        sort: {criadoEm: 'DESC'},
-                        populate: ['populateAll']
-                    };
-
-                    this._store.dispatch(new fromStore.GetTipoRelatorios(params));
-                    this._store.dispatch(new fromStore.ChangeSelectedTipoRelatorios([]));
                 }
             }),
             filter((loaded: any) => {

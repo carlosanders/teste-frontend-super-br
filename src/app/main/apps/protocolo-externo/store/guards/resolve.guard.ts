@@ -23,6 +23,7 @@ export class ResolveGuard implements CanActivate {
     /**
      *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -126,7 +127,8 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params[typeParam] === 'meus-processos') {
                         processoFilter = {
                             'criadoPor.id': `eq:${this._profile.id}`,
-                            'unidadeArquivistica': `eq:${this.unidadeArquivistica}`
+                            'unidadeArquivistica': `eq:${this.unidadeArquivistica}`,
+                            'protocoloEletronico': 'eq:true'
                         };
                     }
 
@@ -134,8 +136,9 @@ export class ResolveGuard implements CanActivate {
                         const routeTargetParam = of('targetHandle');
                         routeTargetParam.subscribe(targetParam => {
                             processoFilter = {
-                                'procedencia.id': `eq:${this.routerState.params[targetParam]}`,
-                                'unidadeArquivistica': `eq:${this.unidadeArquivistica}`
+                                'interessados.pessoa.id': `eq:${this.routerState.params[targetParam]}`,
+                                'unidadeArquivistica': `eq:${this.unidadeArquivistica}`,
+                                'protocoloEletronico': 'eq:true'
                             };
                         });
                     }

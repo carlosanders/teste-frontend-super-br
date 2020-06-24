@@ -51,6 +51,10 @@ export class OficioDetailEffect {
             .pipe(
                 ofType<DocumentoAvulsoDetailActions.GetDocumentoAvulso>(DocumentoAvulsoDetailActions.GET_DOCUMENTO_AVULSO),
                 switchMap((action) => {
+                    let context = JSON.stringify({});
+                    if (this.routerState.params['chaveAcessoHandle']) {
+                        context = JSON.stringify({chaveAcesso: this.routerState.params['chaveAcessoHandle']});
+                    }
                     return this._documentoAvulsoService.query(
                         JSON.stringify(action.payload),
                         1,
@@ -70,7 +74,7 @@ export class OficioDetailEffect {
                             'vinculacoesEtiquetas.etiqueta',
                             'documentoResposta'
                         ]),
-                        JSON.stringify({chaveAcesso: `${this.routerState.params['chaveAcessoHandle']}`})
+                        context
                     );
                 }),
                 mergeMap(response => [

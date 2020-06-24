@@ -155,7 +155,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.form.get('tipoRelatorio').valueChanges.subscribe(value => {
-            if (value) {
+            if (value && value.parametros) {
                 this.processaParametros(value);
             }
         });

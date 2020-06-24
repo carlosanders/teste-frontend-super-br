@@ -21,6 +21,7 @@ export interface RelatoriosState {
     currentRelatorioId: number;
     deletedRelatorioIds: number[];
     selectedRelatorioIds: number[];
+    loadedRelatorioIds: number;
     maximizado: boolean;
 }
 
@@ -44,6 +45,7 @@ export const RelatoriosInitialState: RelatoriosState = {
     deletedRelatorioIds: [],
     selectedRelatorioIds: [],
     currentRelatorioId: null,
+    loadedRelatorioIds: null,
     maximizado: false
 };
 
@@ -173,6 +175,13 @@ export function RelatoriosReducer(state = RelatoriosInitialState, action: Relato
             return {
                 ...state,
                 maximizado: !state.maximizado
+            };
+        }
+
+        case RelatoriosActions.LOADED_RELATORIO_SUCESS: {
+            return {
+                ...state,
+                loadedRelatorioIds: action.payload
             };
         }
 

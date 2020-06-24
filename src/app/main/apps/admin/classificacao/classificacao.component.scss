@@ -1,0 +1,20 @@
+classificacao {
+    height: 100%;
+    width: 100%;
+    .classificacao-content {
+        height: 100%;
+        width: 100%;
+    }
+    .sidebar {
+
+        &:not(.locked-open) {
+            background: white;
+        }
+
+        &.full {
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+    }
+}
+

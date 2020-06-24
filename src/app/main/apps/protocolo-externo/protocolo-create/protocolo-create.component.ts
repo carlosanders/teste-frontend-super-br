@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
@@ -23,8 +24,8 @@ import {getPessoa} from '../store/selectors';
 import {UpdateData} from '../../../../../@cdk/ngrx-normalizr';
 import {documento as documentoSchema } from '@cdk/normalizr/documento.schema';
 import {LoginService} from '../../../auth/login/login.service';
-import {modulesConfig} from "../../../../../modules/modules-config";
-import {DynamicService} from "../../../../../modules/dynamic.service";
+import {modulesConfig} from '../../../../../modules/modules-config';
+import {DynamicService} from '../../../../../modules/dynamic.service';
 
 @Component({
     selector: 'protocolo-create',
@@ -34,7 +35,7 @@ import {DynamicService} from "../../../../../modules/dynamic.service";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProtocoloCreateComponent implements OnInit, OnDestroy {
+export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
     private _profile: Usuario;
@@ -361,5 +362,9 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy {
             this.selectedIndex = 1;
             this._store.dispatch(new fromStore.UnloadProcesso());
         }
+    }
+
+    doConcluir(): void {
+        this._store.dispatch(new fromStore.ConcluirProcesso());
     }
 }

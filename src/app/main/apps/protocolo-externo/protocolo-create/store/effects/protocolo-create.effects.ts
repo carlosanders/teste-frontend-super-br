@@ -74,4 +74,17 @@ export class ProtocoloCreateEffects {
                     this._router.navigate([this.routerState.url + '/' + action.payload.id]).then();
                 })
             );
+
+    /**
+     * Concluir Processo
+     */
+    @Effect({ dispatch: false })
+    concluirProcesso: any =
+        this._actions
+            .pipe(
+                ofType<ProtocoloCreateActions.ConcluirProcesso>(ProtocoloCreateActions.CONCLUIR_PROCESSO),
+                tap(() => {
+                    this._router.navigate([this.routerState.url.split('/criar')[0]]).then();
+                })
+            );
 }

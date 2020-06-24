@@ -9,6 +9,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {AdminComponent} from './admin.component';
 import {MainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {modulesConfig} from 'modules/modules-config';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
@@ -44,6 +45,10 @@ const routes: Routes = [
                 loadChildren: () => import('./tipo-documento/tipo-documento.module').then(m => m.TipoDocumentoModule)
             },
             {
+                path: 'tipos-relatorios',
+                loadChildren: () => import('./tipo-relatorio/tipo-relatorio.module').then(m => m.TipoRelatorioModule)
+            },
+            {
                 path: 'templates',
                 loadChildren: () => import('./templates/templates.module').then(m => m.TemplatesModule)
             },
@@ -52,10 +57,23 @@ const routes: Routes = [
                 loadChildren: () => import('./assunto-administrativo/assunto-administrativo.module').then(m => m.AssuntoAdministrativoModule)
             },
             {
+                path: 'classificacoes',
+                loadChildren: () => import('./classificacao/classificacao.module').then(m => m.ClassificacaoModule)
+            },
+            {
+                path: 'pessoas',
+                loadChildren: () => import('./admin-pessoa/admin-pessoa.module').then(m => m.AdminPessoaModule)
+            },
+            {
+                path: 'municipios',
+                loadChildren: () => import('./municipio/municipio.module').then(m => m.MunicipioModule)
+            },
+            {
                 path: '**',
-                redirectTo: 'especie-tarefas'
+                redirectTo: 'assuntos'
             },
         ],
+        canActivate: [fromGuards.ResolveGuard]
     },
     {
         path: '**',
@@ -85,7 +103,9 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         MatButtonModule
     ],
-    providers: []
+    providers: [
+        fromGuards.ResolveGuard
+    ]
 })
 export class AdminModule {
 }

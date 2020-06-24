@@ -203,6 +203,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
+     * @param _componenteDigitalService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

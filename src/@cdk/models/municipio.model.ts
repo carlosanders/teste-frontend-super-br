@@ -12,16 +12,12 @@ export class Municipio {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
     nome?: string;
 
-    @Exclude({ toPlainOnly: true })
     codigoIBGE?: string;
 
-    @Exclude({ toPlainOnly: true })
     ativo?: boolean;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => Estado)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     estado?: Estado;

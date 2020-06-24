@@ -4,7 +4,7 @@
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Pesquisar"
                    maxlength="100" required upperCase
-                   (input)="pesquisa($event.target.value)"
+                   (input)="filterChanged($event.target.value)"
             >
         </div>
         <div *ngIf="pesquisando" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
@@ -18,7 +18,7 @@
           fxLayoutAlign="start"
           name="form" [formGroup]="formAssuntoAdministrativo">
 
-        <mat-label class="title-arvore">Arvore</mat-label>
+        <mat-label class="title-arvore">Árvore</mat-label>
         <div cdkPerfectScrollbar class="tree">
             <div *ngIf="!this.dataSource._data.getValue().length" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
                  fxLayoutAlign="center center">

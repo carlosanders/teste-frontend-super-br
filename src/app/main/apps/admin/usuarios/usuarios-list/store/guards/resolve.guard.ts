@@ -9,8 +9,6 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {UsuariosListAppState} from '../reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getUsuariosListLoaded} from '../';
-import {Colaborador, Lotacao, Setor} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -56,7 +54,7 @@ export class ResolveGuard implements CanActivate {
      */
     getUsuarios(): Observable<any> {
         return this._store.pipe(
-            select(getUsuariosListLoaded),
+            select(fromStore.getUsuariosListLoaded),
             tap((loaded: any) => {
                 if (this.routerState.params['setorHandle'] && this.routerState.params['unidadeHandle'] &&
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] + '_'
@@ -73,11 +71,13 @@ export class ResolveGuard implements CanActivate {
                             loaded.value))) {
 
                     const params: any = {
-                        filter: {},
+                        filter: {
+                            'colaborador.id': 'isNotNull'
+                        },
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
-                        sort: {criadoEm: 'DESC'},
+                        sort: {},
                         populate: [
                             'populateAll',
                             'colaborador',
@@ -85,7 +85,7 @@ export class ResolveGuard implements CanActivate {
                             'colaborador.modalidadeColaborador'
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 
@@ -93,7 +93,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'colaborador.lotacoes.setor.unidade.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
-                        }
+                        };
                     }
                     if (!this.routerState.params.setorHandle &&
                         ((this.routerState.params.generoHandle === 'unidade') || (this.routerState.params.unidadeHandle))) {
@@ -102,7 +102,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'colaborador.lotacoes.setor.unidade.id': 'eq:' + valor
-                        }
+                        };
                     }
                     if (this.routerState.params.generoHandle === 'local' || this.routerState.params.setorHandle) {
                         const valor = this.routerState.params.setorHandle ?
@@ -110,7 +110,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'colaborador.lotacoes.setor.id': 'eq:' + valor
-                        }
+                        };
                     }
 
                     this._store.dispatch(new fromStore.GetUsuarios(params));

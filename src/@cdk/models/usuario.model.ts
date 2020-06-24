@@ -87,15 +87,15 @@ export class Usuario {
         this.nivelAcesso = null;
         this.colaborador = null;
         this.roles = null;
-        this.vinculacoesUsuariosPrincipais = null;
+        this.vinculacoesUsuariosPrincipais = [];
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.vinculacoesPessoasUsuarios = null;
-        this.coordenadores = null;
+        this.vinculacoesPessoasUsuarios = [];
+        this.coordenadores = [];
         this.password = null;
     }
 }

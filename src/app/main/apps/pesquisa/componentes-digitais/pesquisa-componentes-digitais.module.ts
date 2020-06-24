@@ -64,7 +64,6 @@ modulesConfig.forEach((module) => {
         CdkComponenteDigitalGridModule
     ],
     providers: [
-        ComponenteDigitalService
     ],
     exports: [
         ComponentesDigitaisComponent

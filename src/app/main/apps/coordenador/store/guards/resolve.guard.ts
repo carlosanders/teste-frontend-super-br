@@ -9,10 +9,9 @@ import {switchMap, catchError, tap, filter, take} from 'rxjs/operators';
 import {CoordenadorAppState} from '../reducers';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
-import {getHasLoaded} from "../selectors";
-import * as fromStore from "../";
-import {Coordenador} from "../../../../../../@cdk/models/coordenador.model";
+import {ModalidadeOrgaoCentral, Setor, Usuario, Coordenador} from '@cdk/models';
+import {getHasLoaded} from '../selectors';
+import * as fromStore from '../';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -69,7 +68,10 @@ export class ResolveGuard implements CanActivate {
         if (this.getRouterDefault()) {
             return this.checkRole(this.getEntidade()).pipe(
                 switchMap(() => of(true)),
-                catchError(() => of(false))
+                catchError((err) => {
+                    console.log (err);
+                    return of(false);
+                })
             );
         }
     }
@@ -80,7 +82,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkRole(observable: Observable<any>): any {
-        if (!this._loginService.isGranted('ROLE_COORDENADOR')) {
+        if (!this._loginService.isGranted('ROLE_COORDENADOR_SETOR') && !this._loginService.isGranted('ROLE_COORDENADOR_UNIDADE') && !this._loginService.isGranted('ROLE_COORDENADOR_ORGAO_CENTRAL')) {
             this._router.navigate(['/apps/painel']).then(() => {
                 return throwError(new Error('Usuário sem permissão'));
             });
@@ -145,10 +147,9 @@ export class ResolveGuard implements CanActivate {
                 this._router.navigate(['apps/coordenador/nacional/' + this.orgaos[0].id + '/modelos']);
             } else if (this._loginService.isGranted('ROLE_COORDENADOR_UNIDADE') && this.unidades.length) {
                 this._router.navigate(['apps/coordenador/unidade/' + this.unidades[0].id + '/modelos']);
-            } else if (this._loginService.isGranted('ROLE_COORDENADOR_SETOR') && this.orgaos.length) {
+            } else if (this._loginService.isGranted('ROLE_COORDENADOR_SETOR') && this.setores.length) {
                 this._router.navigate(['apps/coordenador/local/' + this.setores[0].id + '/modelos']);
             }
-
             return false;
         }
         return true;
