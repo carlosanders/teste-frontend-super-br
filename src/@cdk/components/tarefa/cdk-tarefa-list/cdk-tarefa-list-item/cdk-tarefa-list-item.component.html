@@ -70,7 +70,7 @@
                      fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.etiqueta?.nome">
                     <div class="etiqueta-color"
                          [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                    <div class="etiqueta-title">{{vinculacaoEtiqueta.label}}</div>
+                    <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
                 </div>
             </div>
         </div>
