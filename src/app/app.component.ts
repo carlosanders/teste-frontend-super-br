@@ -197,17 +197,17 @@ export class AppComponent implements OnInit, OnDestroy {
             ).subscribe(message => {
             if (message && message.type === 'count_tarefa') {
                 switch (message.content.action) {
-                    case 'count_tarefa_administrativa':
-                        this._cdkNavigationService.updateNavigationItem('tarefasAdministrativas', {
-                            badge    : {
-                                title    : message.content.count
+                    case 'eventos':
+                        this._cdkNavigationService.updateNavigationItem('eventos', {
+                            badge: {
+                                title: message.content.count
                             }
                         });
                         break;
-                    case 'count_calendar':
-                        this._cdkNavigationService.updateNavigationItem('calendar', {
-                            badge: {
-                                title: message.content.count
+                    default:
+                        this._cdkNavigationService.updateNavigationItem('tarefas_' + message.content.action, {
+                            badge    : {
+                                title    : message.content.count
                             }
                         });
                         break;
