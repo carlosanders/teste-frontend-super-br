@@ -92,6 +92,8 @@ export class CdkEspecieAtividadeAutocompleteComponent implements OnInit {
     }
 
     displayEspecieAtividadeFn(especieAtividade): string {
-        return especieAtividade ? especieAtividade.nome : null;
+        let displayed = especieAtividade ? especieAtividade.nome : '';
+        displayed += (especieAtividade && especieAtividade.generoAtividade) ? (' (' + especieAtividade.generoAtividade.nome + ')') : '';
+        return displayed;
     }
 }
