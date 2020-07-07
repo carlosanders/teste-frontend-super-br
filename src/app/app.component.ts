@@ -2,8 +2,8 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {Platform} from '@angular/cdk/platform';
 import {TranslateService} from '@ngx-translate/core';
-import {Subject, fromEvent, of} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, startWith, takeUntil, tap} from 'rxjs/operators';
+import {Subject, fromEvent} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, startWith, takeUntil, tap} from 'rxjs/operators';
 
 import {CdkConfigService} from '@cdk/services/config.service';
 import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
