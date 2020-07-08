@@ -69,6 +69,8 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     mobileMode = false;
 
+    routeAtividade = 'atividades/criar';
+
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     /**
@@ -108,6 +110,12 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                     this._dynamicService.loadComponent(c)
                         .then( componentFactory  => this.container.createComponent(componentFactory));
                 }));
+            }
+
+            if (module.routerLinks.hasOwnProperty(path) &&
+                module.routerLinks[path].hasOwnProperty('atividades') &&
+                module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
             }
         });
     }

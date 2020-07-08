@@ -2,8 +2,8 @@ import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/common';
 import {Platform} from '@angular/cdk/platform';
 import {TranslateService} from '@ngx-translate/core';
-import {Subject, fromEvent, of} from 'rxjs';
-import {catchError, debounceTime, distinctUntilChanged, map, startWith, takeUntil, tap} from 'rxjs/operators';
+import {Subject, fromEvent} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, startWith, takeUntil, tap} from 'rxjs/operators';
 
 import {CdkConfigService} from '@cdk/services/config.service';
 import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
@@ -202,17 +202,17 @@ export class AppComponent implements OnInit, OnDestroy {
             ).subscribe(message => {
             if (message && message.type === 'count_tarefa') {
                 switch (message.content.action) {
-                    case 'count_tarefa_administrativa':
-                        this._cdkNavigationService.updateNavigationItem('tarefasAdministrativas', {
-                            badge    : {
-                                title    : message.content.count
+                    case 'eventos':
+                        this._cdkNavigationService.updateNavigationItem('eventos', {
+                            badge: {
+                                title: message.content.count
                             }
                         });
                         break;
-                    case 'count_calendar':
-                        this._cdkNavigationService.updateNavigationItem('calendar', {
-                            badge: {
-                                title: message.content.count
+                    default:
+                        this._cdkNavigationService.updateNavigationItem('tarefas_' + message.content.action, {
+                            badge    : {
+                                title    : message.content.count
                             }
                         });
                         break;
