@@ -29,11 +29,12 @@ services:
             supp_frontend_network:
                 ipv4_address: 192.168.70.12
     angular-prod:
+        container_name: angular-prod
         build:
             context: .
             dockerfile: ./docker/prod/DockerFile
         ports:
-            - 80:80
+            - 4200:4200
         volumes:
             - '.:/app'
         tty: true
