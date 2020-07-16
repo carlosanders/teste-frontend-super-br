@@ -20,6 +20,7 @@ import * as moment from 'moment';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
 import {Back} from '../../../../../../store/actions';
+import {filter} from "rxjs/operators";
 
 @Component({
     selector: 'tarefa-edit',
@@ -80,7 +81,9 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
             processo => this.processo = processo
         );
 
-        this.tarefa$.subscribe(
+        this.tarefa$.pipe(
+            filter((tarefa) => !!tarefa)
+        ).subscribe(
             tarefa => {
                 this.tarefa = tarefa;
                 this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
