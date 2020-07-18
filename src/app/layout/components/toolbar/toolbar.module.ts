@@ -5,11 +5,10 @@ import {MatBadgeModule, MatButtonModule, MatIconModule, MatMenuModule, MatToolba
 import {CdkSearchBarModule, CdkShortcutsModule} from '@cdk/components';
 import {CdkSharedModule} from '@cdk/shared.module';
 
-import {ToolbarComponent} from 'app/layout/components/toolbar/toolbar.component';
+import {ToolbarComponent} from './toolbar.component';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
-import { AjudaModule } from 'ajuda/ajuda.module';
-import { AjudaComponent } from 'ajuda/ajuda.component';
+import {AjudaComponent} from 'ajuda/ajuda.component';
 
 @NgModule({
     declarations: [
@@ -22,7 +21,7 @@ import { AjudaComponent } from 'ajuda/ajuda.component';
         MatMenuModule,
         MatToolbarModule,
         MatBadgeModule,
-        
+
 
         CdkSharedModule,
         CdkSearchBarModule,

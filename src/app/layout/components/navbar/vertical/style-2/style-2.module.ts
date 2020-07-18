@@ -4,7 +4,7 @@ import { MatButtonModule, MatIconModule } from '@cdk/angular/material';
 import { CdkNavigationModule } from '@cdk/components';
 import { CdkSharedModule } from '@cdk/shared.module';
 
-import { NavbarVerticalStyle2Component } from 'app/layout/components/navbar/vertical/style-2/style-2.component';
+import { NavbarVerticalStyle2Component} from './style-2.component';
 
 @NgModule({
     declarations: [

@@ -9,28 +9,28 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { select, Store } from '@ngrx/store';
-import { Observable, Subject } from 'rxjs';
+import {FormControl} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable, Subject} from 'rxjs';
 
-import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
-import { CdkTranslationLoaderService } from '@cdk/services/translation-loader.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
+import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import * as fromStore from 'app/main/apps/oficios/store';
-import { ToggleMaximizado } from 'app/main/apps/oficios/store';
-import { getRouterState, getScreenState } from 'app/store/reducers';
-import { locale as english } from 'app/main/apps/oficios/i18n/en';
+import {ToggleMaximizado} from 'app/main/apps/oficios/store';
+import {getRouterState, getScreenState} from 'app/store/reducers';
+import {locale as english} from 'app/main/apps/oficios/i18n/en';
 
-import { ResizeEvent } from 'angular-resizable-element';
-import { cdkAnimations } from '@cdk/animations';
-import { Etiqueta, Usuario } from '@cdk/models';
-import { Router } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Pagination } from '@cdk/models/pagination';
-import { LoginService } from '../../auth/login/login.service';
-import { MatDialog } from '@cdk/angular/material';
-import { CdkChaveAcessoPluginComponent } from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {ResizeEvent} from 'angular-resizable-element';
+import {cdkAnimations} from '@cdk/animations';
+import {Etiqueta, Usuario} from '@cdk/models';
+import {Router} from '@angular/router';
+import {filter, takeUntil} from 'rxjs/operators';
+import {Pagination} from '@cdk/models/pagination';
+import {LoginService} from '../../auth/login/login.service';
+import {MatDialog} from '@cdk/angular/material';
+import {CdkChaveAcessoPluginComponent} from '../../../../@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 
 @Component({
     selector: 'oficios',
@@ -124,7 +124,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id};
-        this.pessoasConveniadas =  this._profile.vinculacoesPessoasUsuarios;
+        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios;
     }
 
     // -----------------------------------------------------------------------------------------------------

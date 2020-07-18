@@ -17,7 +17,7 @@ import {CdkProgressBarModule, CdkSidebarModule, CdkThemeOptionsModule} from '@cd
 
 import {cdkConfig} from 'app/cdk-config';
 
-import {AppComponent} from 'app/app.component';
+import {AppComponent} from "./app.component";
 import {AppStoreModule} from 'app/store/store.module';
 import {LayoutModule} from 'app/layout/layout.module';
 import {AuthGuard} from './main/guard';

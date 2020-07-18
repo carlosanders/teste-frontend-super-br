@@ -69,7 +69,7 @@ export class ResolveGuard implements CanActivate {
     }
 
     isArquivista(role): any {
-        return role === 'ROLE_ARQUIVISTA_3';
+        return role === 'ROLE_ARQUIVISTA';
     }
     
     /**

@@ -9,10 +9,10 @@ import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 
-import {PesquisaComponent} from 'app/main/apps/pesquisa/pesquisa.component';
+import {PesquisaComponent} from './pesquisa.component';
 import {PesquisaMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {CommonModule} from '@angular/common';
-import {RouteGuard} from "./guard";
+import {RouteGuard} from './guard';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
