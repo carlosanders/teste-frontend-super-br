@@ -10,6 +10,7 @@ import {DadosBasicosAppState} from '../reducers';
 import * as fromStore from '../';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
+import {SetSteps} from '../../../../store/actions';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -53,12 +54,9 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getProcesso(): any {
+        this._store.dispatch(new SetSteps({steps: false}));
+
         return this._store.pipe(
-/*            tap((n) => {
-                console.log('entrou GET Guards Dados Basicos: '); 
-                console.log(n);
-            }),
-*/            
             select(getProcessoLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {

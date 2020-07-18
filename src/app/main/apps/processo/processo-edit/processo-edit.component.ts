@@ -12,6 +12,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
 import {getRouterState} from '../../../../store/reducers';
+import {Observable} from 'rxjs';
+import {getSteps} from '../store';
 
 @Component({
     selector: 'processo-edit',
@@ -24,6 +26,7 @@ import {getRouterState} from '../../../../store/reducers';
 export class ProcessoEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
+    steps$: Observable<boolean>;
 
     /**
      *
@@ -36,7 +39,7 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
         private _cdkSidebarService: CdkSidebarService,
         private _store: Store<fromStore.ProcessoAppState>
     ) {
-
+        this.steps$ = this._store.pipe(select(getSteps));
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -54,6 +54,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     errors$: Observable<any>;
 
     chaveAcesso: string;
+    steps$: Observable<boolean>;
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
@@ -92,6 +93,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.steps$ = this._store.pipe(select(fromStore.getSteps));
     }
 
     // -----------------------------------------------------------------------------------------------------

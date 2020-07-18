@@ -15,10 +15,12 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {getSteps} from '../../../../../store';
 
 @Injectable()
 export class AssuntoEditEffect {
     routerState: any;
+    steps: any;
 
     constructor(
         private _actions: Actions,
@@ -31,6 +33,14 @@ export class AssuntoEditEffect {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                }
+            });
+
+        this._store
+            .pipe(select(getSteps))
+            .subscribe(steps => {
+                if (steps) {
+                    this.steps = steps;
                 }
             });
     }
@@ -108,6 +118,10 @@ export class AssuntoEditEffect {
             .pipe(
                 ofType<AssuntoEditActions.SaveAssuntoSuccess>(AssuntoEditActions.SAVE_ASSUNTO_SUCCESS),
                 tap(() => {
+                    if (this.steps) {
+                        this._router.navigate([this.routerState.url]).then();
+                    }
+
                     this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.assuntoHandle), 'listar')]).then();
                 })
             );
