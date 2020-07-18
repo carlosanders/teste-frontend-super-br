@@ -20,7 +20,7 @@ import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/o
 import {Processo} from '@cdk/models';
 import {ProcessoDataSource} from '@cdk/data-sources/processo-data-source';
 import {FormControl} from '@angular/forms';
-import {CdkChaveAcessoPluginComponent} from '@cdk/components/chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
+import {CdkChaveAcessoPluginComponent} from '../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Component({
