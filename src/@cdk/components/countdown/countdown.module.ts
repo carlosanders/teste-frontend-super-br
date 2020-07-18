@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 
-import { CdkCountdownComponent } from '@cdk/components/countdown/countdown.component';
+import { CdkCountdownComponent} from './countdown.component';
 
 @NgModule({
     declarations: [

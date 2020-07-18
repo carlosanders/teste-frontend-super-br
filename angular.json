@@ -32,7 +32,21 @@
                         ],
                         "aot": false,
                         "scripts": [],
-                        "showCircularDependencies": false
+                        "showCircularDependencies": false,
+                        "allowedCommonJsDependencies": [
+                            "hammerjs",
+                            "class-transformer",
+                            "event-source-polyfill",
+                            "css-element-queries",
+                            "lodash",
+                            "calendar-utils/date-adapters/date-fns",
+                            "angular-calendar/date-adapters/date-fns",
+                            "date-fns",
+                            "@mattlewis92/dom-autoscroller",
+                            "dom-plane",
+                            "dom-set",
+                            "@angularclass/hmr"
+                        ]
                     },
                     "configurations": {
                         "production": {
@@ -40,30 +54,6 @@
                                 {
                                     "replace": "src/environments/environment.ts",
                                     "with": "src/environments/environment.prod.ts"
-                                }
-                            ],
-                            "optimization": true,
-                            "outputHashing": "all",
-                            "sourceMap": false,
-                            "extractCss": true,
-                            "namedChunks": false,
-                            "aot": false,
-                            "extractLicenses": true,
-                            "vendorChunk": false,
-                            "buildOptimizer": false,
-                            "budgets": [
-                                {
-                                    "type": "initial",
-                                    "maximumWarning": "4mb",
-                                    "maximumError": "6mb"
-                                }
-                            ]
-                        },
-                        "staging": {
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.hom.ts"
                                 }
                             ],
                             "optimization": true,

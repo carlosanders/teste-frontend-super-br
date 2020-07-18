@@ -1,18 +1,25 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatIconModule, MatInputModule, MatProgressBarModule} from '@cdk/angular/material';
-import { HttpClientModule } from '@angular/common/http';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
+import {
+    MatButtonModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatProgressBarModule
+} from '@cdk/angular/material';
+import {HttpClientModule} from '@angular/common/http';
 
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { EsqueciSenhaComponent } from 'app/main/auth/esqueci-senha/esqueci-senha.component';
+import {EsqueciSenhaComponent} from './esqueci-senha.component';
 
-import { EsqueciSenhaStoreModule } from './store/store.module';
-import {EsqueciSenhaService} from "./esqueci-senha.service";
+import {EsqueciSenhaStoreModule} from './store/store.module';
+import {EsqueciSenhaService} from './esqueci-senha.service';
 
 const routes = [
     {
-        path     : '',
+        path: '',
         component: EsqueciSenhaComponent
     }
 ];
@@ -21,7 +28,7 @@ const routes = [
     declarations: [
         EsqueciSenhaComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(routes),
         HttpClientModule,
 
@@ -36,11 +43,10 @@ const routes = [
 
         EsqueciSenhaStoreModule
     ],
-    providers   : [
+    providers: [
         EsqueciSenhaService
     ]
 
 })
-export class EsqueciSenhaModule
-{
+export class EsqueciSenhaModule {
 }

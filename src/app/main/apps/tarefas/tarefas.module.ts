@@ -21,8 +21,8 @@ import {CdkSidebarModule} from '@cdk/components';
 
 import * as fromGuards from 'app/main/apps/tarefas/store/guards/index';
 import {TarefasStoreModule} from 'app/main/apps/tarefas/store/store.module';
-import {TarefasComponent} from 'app/main/apps/tarefas/tarefas.component';
-import {TarefasMainSidebarComponent} from 'app/main/apps/tarefas/sidebars/main/main-sidebar.component';
+import {TarefasComponent} from './tarefas.component';
+import {TarefasMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {FolderService} from '@cdk/services/folder.service';
 import {ProcessoService} from '@cdk/services/processo.service';
