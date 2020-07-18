@@ -20,7 +20,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Processo} from '@cdk/models';
 import {take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
-import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
+import {CdkVisibilidadePluginComponent} from '../../../../../@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 
