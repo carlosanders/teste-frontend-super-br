@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
 import {
     MatButtonModule,
     MatIconModule,
@@ -8,12 +8,12 @@ import {
     MatSelectModule
 } from '@cdk/angular/material';
 
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CdkWidgetModule } from '@cdk/components/widget/widget.module';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkWidgetModule} from '@cdk/components/widget/widget.module';
 
-import { PainelComponent } from 'app/main/apps/painel/painel.component';
+import {PainelComponent} from './painel.component';
 
-import { TarefaService } from '@cdk/services/tarefa.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {LoginService} from '../../auth/login/login.service';
 import {CdkHistoricoTimelineModule} from '@cdk/components/historico/cdk-historico-timeline/cdk-historico-timeline.module';
@@ -23,7 +23,7 @@ import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
     {
-        path     : '**',
+        path: '**',
         component: PainelComponent
     }
 ];
@@ -40,7 +40,7 @@ modulesConfig.forEach((module) => {
     declarations: [
         PainelComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -54,7 +54,7 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkWidgetModule
     ],
-    providers   : [
+    providers: [
         TarefaService,
         DocumentoAvulsoService,
         TramitacaoService,
@@ -62,7 +62,6 @@ modulesConfig.forEach((module) => {
         LoginService
     ]
 })
-export class PainelModule
-{
+export class PainelModule {
 }
 

@@ -9,8 +9,8 @@ import {
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkProcessoListComponent} from '@cdk/components/processo/cdk-processo-list/cdk-processo-list.component';
-import {CdkProcessoListItemComponent} from '@cdk/components/processo/cdk-processo-list/cdk-processo-list-item/cdk-processo-list-item.component';
+import {CdkProcessoListComponent} from './cdk-processo-list.component';
+import {CdkProcessoListItemComponent} from './cdk-processo-list-item/cdk-processo-list-item.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 import {CdkSidebarModule} from '@cdk/components';
