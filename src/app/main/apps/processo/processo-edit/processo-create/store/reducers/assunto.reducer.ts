@@ -30,7 +30,7 @@ export const AssuntoInitialState: AssuntoState = {
     loaded: false
 };
 
-export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActions.AssuntoActionsAll): AssuntoState {
+export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActions.AssuntoListActionsAll): AssuntoState {
     switch (action.type) {
 
         case AssuntoActions.GET_ASSUNTOS: {
@@ -73,24 +73,12 @@ export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActio
             };
         }
 
-        case AssuntoActions.UNLOAD_ASSUNTOS: {
-
-            if (action.payload.reset) {
-                return {
-                    ...AssuntoInitialState
-                };
-            } else {
-                return {
-                    ...state,
-                    entitiesId: [],
-                    pagination: {
-                        ...state.pagination,
-                        limit: 10,
-                        offset: 0,
-                        total: 0
-                    }
-                };
-            }
+        case AssuntoActions.RELOAD_ASSUNTOS: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
+            };
         }
 
         default:

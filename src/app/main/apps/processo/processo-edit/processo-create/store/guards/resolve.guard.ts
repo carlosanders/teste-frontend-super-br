@@ -105,8 +105,6 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getAssuntos(): any {
-        this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
-
         return this._store.pipe(
             select(getAssuntosLoaded),
             tap(loaded => {
@@ -135,8 +133,6 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getInteressados(): any {
-        this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
-
         return this._store.pipe(
             select(getInteressadosLoaded),
             tap(loaded => {
@@ -165,8 +161,6 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getVinculacoesProcessos(): any {
-        this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
-
         return this._store.pipe(
             select(getVinculacoesProcessosLoaded),
             tap(loaded => {

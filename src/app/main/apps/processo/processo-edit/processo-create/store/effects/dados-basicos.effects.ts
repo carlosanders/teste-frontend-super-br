@@ -27,6 +27,17 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 export class DadosBasicosEffect {
     routerState: any;
 
+    /**
+     *
+     * @param _actions
+     * @param _processoService
+     * @param _assuntoService
+     * @param _interessadoService
+     * @param _vinculacaoProcessoService
+     * @param _juntadaService
+     * @param _store
+     * @param _router
+     */
     constructor(
         private _actions: Actions,
         private _processoService: ProcessoService,

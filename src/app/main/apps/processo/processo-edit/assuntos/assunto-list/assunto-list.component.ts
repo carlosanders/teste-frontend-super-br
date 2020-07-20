@@ -80,7 +80,6 @@ export class AssuntoListComponent implements OnInit {
     }
 
     excluded(params): void {
-        console.log("Assunto");
         this._store.dispatch(new fromStore.GetAssuntos({
             ...this.pagination,
             filter: {
@@ -95,7 +94,7 @@ export class AssuntoListComponent implements OnInit {
         }));
     }
 
-    create () : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

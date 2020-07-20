@@ -26,7 +26,7 @@ import {getSteps} from '../store';
 export class ProcessoEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
-    steps$: Observable<boolean>;
+    steps: any;
 
     /**
      *
@@ -39,7 +39,6 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
         private _cdkSidebarService: CdkSidebarService,
         private _store: Store<fromStore.ProcessoAppState>
     ) {
-        this.steps$ = this._store.pipe(select(getSteps));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -58,6 +57,15 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
                 this.routerState = routerState.state;
             }
         });
+
+        this._store
+            .pipe(
+                select(getSteps)
+            ).subscribe(steps => {
+                if (steps) {
+                    this.steps = steps;
+                }
+            });
     }
 
     /**

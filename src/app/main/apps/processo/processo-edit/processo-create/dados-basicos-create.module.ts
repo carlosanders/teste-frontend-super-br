@@ -35,7 +35,7 @@ import {AssuntoEditModule} from '../assuntos/assunto-edit/assunto-edit.module';
 import {InteressadoEditModule} from '../interessados/interessado-edit/interessado-edit.module';
 import {VinculacaoProcessoEditModule} from '../vinculacoes-processos/vinculacao-processo-edit/vinculacao-processo-edit.module';
 import {ProcessoTarefaEditModule} from '../tarefas/tarefa-edit/processo-tarefa-edit.module';
-import {JuntadaService} from '../../../../../../@cdk/services/juntada.service';
+import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk-juntada-grid.module';
 

@@ -256,6 +256,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
         this.assunto = new Assunto();
         this.interessado = new Interessado();
         this.vinculacaoProcesso = new VinculacaoProcesso();
+        this.vinculacaoProcesso.processo = this.processo;
 
         this.assuntos$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -287,14 +288,20 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
 
         if (this.assuntos.length > 0) {
             this.assunto = this.assuntos[0];
+            this.assunto.processo = this.processo;
             this.changeStep = 2;
         }
         if (this.interessados.length > 0) {
             this.interessado = this.interessados[0];
+            this.interessado.processo = this.processo;
             this.changeStep = 3;
+        }
+        if (this.juntadas.length > 0) {
+            this.changeStep = 4;
         }
         if (this.vinculacoesProcessos.length > 0) {
             this.vinculacaoProcesso = this.vinculacoesProcessos[0];
+            this.vinculacaoProcesso.processo = this.processo;
             this.changeStep = 5;
         }
         if (!this.tarefa) {
@@ -398,9 +405,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
             }
         );
 
-        if (!this.assunto && !this.assunto.id) {
-            assunto.processo = this.processo;
-        }
+        assunto.processo = this.processo;
 
         this._store.dispatch(new SaveAssunto(assunto));
     }
@@ -414,9 +419,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
             }
         );
 
-        if (!this.interessado && !this.interessado.id) {
-            interessado.processo = this.processo;
-        }
+        interessado.processo = this.processo;
 
         this._store.dispatch(new SaveInteressado(interessado));
     }
@@ -430,9 +433,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
             }
         );
 
-        if (!this.vinculacaoProcesso && !this.vinculacaoProcesso.id) {
-            vinculacaoProcesso.processo = this.processo;
-        }
+        vinculacaoProcesso.processo = this.processo;
 
         this._store.dispatch(new SaveVinculacaoProcesso(vinculacaoProcesso));
     }

@@ -130,7 +130,7 @@ export class TarefaEditEffect {
                 ofType<TarefaEditActions.SaveTarefaSuccess>(TarefaEditActions.SAVE_TAREFA_SUCCESS),
                 tap(() => {
                     if (this.steps) {
-                        this._router.navigate([this.routerState.url.replace(('dados-basicos-steps'), 'dados-basicos')]).then();
+                        this._router.navigate([this.routerState.url.replace('dados-basicos-steps', 'dados-basicos')]).then();
                     }
 
                     this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.tarefaHandle), 'listar')]).then();
