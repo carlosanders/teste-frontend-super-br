@@ -1,23 +1,23 @@
-import { NgModule } from '@angular/core';
-import { MatSidenavModule } from '@cdk/angular/material';
+import {NgModule} from '@angular/core';
+import {MatSidenavModule} from '@cdk/angular/material';
 
-import { CdkSidebarModule, CdkThemeOptionsModule } from '@cdk/components';
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSidebarModule, CdkThemeOptionsModule} from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { ContentModule } from 'app/layout/components/content/content.module';
-import { FooterModule } from 'app/layout/components/footer/footer.module';
-import { NavbarModule } from 'app/layout/components/navbar/navbar.module';
-import { QuickPanelModule } from 'app/layout/components/quick-panel/quick-panel.module';
-import { ToolbarModule } from 'app/layout/components/toolbar/toolbar.module';
+import {ContentModule} from 'app/layout/components/content/content.module';
+import {FooterModule} from 'app/layout/components/footer/footer.module';
+import {NavbarModule} from 'app/layout/components/navbar/navbar.module';
+import {QuickPanelModule} from 'app/layout/components/quick-panel/quick-panel.module';
+import {ToolbarModule} from 'app/layout/components/toolbar/toolbar.module';
 
-import { HorizontalLayout1Component } from 'app/layout/horizontal/layout-1/layout-1.component';
+import {HorizontalLayout1Component} from './layout-1.component';
 import {AjudaPanelModule} from '../../components/ajuda-panel/ajuda-panel.module';
 
 @NgModule({
     declarations: [
         HorizontalLayout1Component
     ],
-    imports     : [
+    imports: [
         MatSidenavModule,
 
         CdkSharedModule,
@@ -31,10 +31,9 @@ import {AjudaPanelModule} from '../../components/ajuda-panel/ajuda-panel.module'
         AjudaPanelModule,
         ToolbarModule
     ],
-    exports     : [
+    exports: [
         HorizontalLayout1Component
     ]
 })
-export class HorizontalLayout1Module
-{
+export class HorizontalLayout1Module {
 }

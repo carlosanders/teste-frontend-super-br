@@ -43,6 +43,7 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
     @Input()
     assuntoAdministrativoPagination: Pagination;
 
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';

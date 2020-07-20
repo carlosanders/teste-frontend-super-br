@@ -1,30 +1,29 @@
-import { NgModule } from '@angular/core';
-import { MatButtonModule, MatIconModule } from '@cdk/angular/material';
+import {NgModule} from '@angular/core';
+import {MatButtonModule, MatIconModule} from '@cdk/angular/material';
 
-import { CdkNavigationModule } from '@cdk/components';
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkNavigationModule} from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { NavbarVerticalStyle1Component } from 'app/layout/components/navbar/vertical/style-1/style-1.component';
+import {NavbarVerticalStyle1Component} from './style-1.component';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @NgModule({
     declarations: [
         NavbarVerticalStyle1Component
     ],
-    imports     : [
+    imports: [
         MatButtonModule,
         MatIconModule,
 
         CdkSharedModule,
         CdkNavigationModule
     ],
-    exports     : [
+    exports: [
         NavbarVerticalStyle1Component
     ],
     providers: [
         LoginService,
     ]
 })
-export class NavbarVerticalStyle1Module
-{
+export class NavbarVerticalStyle1Module {
 }
