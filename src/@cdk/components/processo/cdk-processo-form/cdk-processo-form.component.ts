@@ -232,8 +232,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('setorInicial').disable();
             }
 
-            this.form.get('procedencia').setValue(null);
-            this.form.get('procedencia').disable();
+            // this.form.get('procedencia').setValue(null);
+            // this.form.get('procedencia').disable();
             this.textBotao = 'SALVAR';
             this.form.get('tipoProtocolo').valueChanges.subscribe(value => {
                 if (value === Processo.TP_INFORMADO) {

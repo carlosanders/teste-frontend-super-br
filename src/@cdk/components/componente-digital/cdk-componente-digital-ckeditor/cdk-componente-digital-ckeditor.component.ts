@@ -54,6 +54,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     @Input()
     showModeloButtons = false;
 
+    @Input()
+    showRepositorioButtons = false;
+
     editor: any;
 
     hashAntigo: string;
@@ -106,7 +109,9 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
         toolbar:
             [
-                {name: 'salvar', items: ['saveButton', 'assinarButton', 'pdfButton', 'versaoButton', 'PrintSemZoom']},
+                {name: 'salvar', items: ['saveButton']},
+                {name: 'assinar', items: ['assinarButton']},
+                {name: 'ferramentas', items: ['pdfButton', 'versaoButton', 'PrintSemZoom']},
                 {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
                 {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll']},
                 {
@@ -318,6 +323,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             const repositorioButton = document.getElementsByClassName('cke_button__repositoriobutton')[0].parentNode as HTMLElement;
             campoButton.style.visibility = 'hidden';
             repositorioButton.style.visibility = 'hidden';
+        }
+
+        if (this.showModeloButtons || this.showRepositorioButtons) {
+            const assinaturaButton = document.getElementsByClassName('cke_button__assinarbutton')[0].parentNode as HTMLElement;
+            assinaturaButton.style.visibility = 'hidden';
         }
 
         if (!this.btVersoes) {

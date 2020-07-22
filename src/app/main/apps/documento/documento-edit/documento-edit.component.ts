@@ -150,6 +150,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
      * @param _sanitizer
      * @param _loginService
      * @param _dynamicService
+     * @param _ref
+     * @param _documentoEditService
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
