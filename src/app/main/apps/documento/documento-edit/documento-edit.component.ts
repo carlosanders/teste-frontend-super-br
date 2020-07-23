@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from '../store';
-import {Documento, Etiqueta, VinculacaoEtiqueta} from '@cdk/models';
+import {Documento, Etiqueta, Juntada, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
@@ -33,6 +33,8 @@ import {Usuario} from '@cdk/models';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {DocumentoEditService} from './shared/documento-edit.service';
+import {JuntadaService} from '@cdk/services/juntada.service';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'documento-edit',
@@ -142,7 +144,14 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     savingVinculacaoEtiquetaId$: Observable<any>;
     vinculacaoEtiquetaErrors$: Observable<any>;
 
+    juntada$: Observable<Juntada>;
+    juntada: Juntada;
+    juntadaIsSaving$: Observable<boolean>;
+    juntadaErrors$: Observable<any>;
+    formJuntada: FormGroup;
+
     /**
+     *
      * @param _store
      * @param _location
      * @param _router
@@ -150,6 +159,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
      * @param _sanitizer
      * @param _loginService
      * @param _dynamicService
+     * @param _ref
+     * @param _documentoEditService
+     * @param _juntadaService
+     * @param _formBuilder
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
@@ -160,7 +173,9 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         public _loginService: LoginService,
         private _dynamicService: DynamicService,
         private _ref: ChangeDetectorRef,
-        private _documentoEditService: DocumentoEditService
+        private _documentoEditService: DocumentoEditService,
+        private _juntadaService: JuntadaService,
+        private _formBuilder: FormBuilder
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
@@ -234,6 +249,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.vinculacaoEtiquetaErrors$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaErrors));
 
+        this.juntada$ = this._store.pipe(select(fromStore.getJuntada));
+        this.juntadaIsSaving$ = this._store.pipe(select(fromStore.getJuntadaIsSaving));
+        this.juntadaErrors$ = this._store.pipe(select(fromStore.getJuntadaErrors));
+
         this._store
             .pipe(
                 select(getMercureState),
@@ -257,6 +276,19 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
                         break;
                 }
             }
+        });
+
+        this.formJuntada = this._formBuilder.group({
+            id: [null],
+            ativo: [null],
+            numeracaoSequencial: [null],
+            documento: [null],
+            descricao: [null, [Validators.required , Validators.minLength(3), Validators.maxLength(4000)]],
+            origemDados: [null],
+            volume: [null],
+            documentoAvulso: [null],
+            atividade: [null],
+            tarefa: [null]
         });
     }
 
@@ -357,6 +389,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
         });
 
+        this.juntada$.subscribe(juntada => {
+            this.juntada = juntada;
+        });
+
         if (this.juntadaRoute) {
             this.activeCard = 'form';
         }
@@ -366,7 +402,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         }
 
         this._documentoEditService.activeCard.subscribe(activeCard => this.activeCard = activeCard);
-        
     }
 
     ngAfterViewInit(): void {
@@ -507,8 +542,12 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         this.reloadComponentesDigitais({});
     }
 
+    showJuntadas(): void {
+        this._documentoEditService.doChangeCard('juntadas');
+    }
+
     showForm(): void {
-        this._documentoEditService.doChangeCard('form')
+        this._documentoEditService.doChangeCard('form');
     }
 
     showFormAcessoRestrito(): void {
@@ -692,6 +731,19 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             documentoId: this.documento.id,
             vinculacaoEtiquetaId: vinculacaoEtiqueta.id
         }));
+    }
+
+    submitJuntada(values): void {
+
+        const juntada = new Juntada();
+
+        Object.entries(values).forEach(
+            ([key, value]) => {
+                juntada[key] = value;
+            }
+        );
+
+        this._store.dispatch(new fromStore.SaveJuntada(juntada));
     }
 }
 

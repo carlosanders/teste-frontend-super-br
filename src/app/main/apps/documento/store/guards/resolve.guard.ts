@@ -10,7 +10,7 @@ import {DocumentoAppState} from '../reducers';
 import * as fromStore from '../';
 import {getDocumentoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getDocumentosVinculadosHasLoaded} from '../';
+import {getDocumentosVinculadosHasLoaded, getJuntadaLoaded} from '../';
 import {getVisibilidadeListLoaded} from '../';
 import {getSigilosLoaded} from '../';
 @Injectable()
@@ -47,7 +47,8 @@ export class ResolveGuard implements CanActivate {
             this.getDocumento(),
             this.getDocumentosVinculados(),
             this.getVisibilidades(),
-            this.getSigilos()
+            this.getSigilos(),
+            this.getJuntada()
         ).pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
@@ -141,6 +142,33 @@ export class ResolveGuard implements CanActivate {
                     });
 
                     this._store.dispatch(new fromStore.GetSigilos(documentoId));
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * Get Sigilos
+     *
+     * @returns {Observable<any>}
+     */
+    getJuntada(): any {
+        return this._store.pipe(
+            select(getJuntadaLoaded),
+            tap((loaded: any) => {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    let documentoId = null;
+
+                    const routeParams = of('documentoHandle');
+                    routeParams.subscribe(param => {
+                        documentoId = this.routerState.params[param];
+                    });
+
+                    this._store.dispatch(new fromStore.GetJuntada(documentoId));
                 }
             }),
             filter((loaded: any) => {

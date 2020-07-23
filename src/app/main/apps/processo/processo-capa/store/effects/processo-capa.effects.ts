@@ -9,14 +9,16 @@ import * as ProcessoCapaActions from '../actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Assunto, Interessado, Processo} from '@cdk/models';
+import {Assunto, Interessado, Processo, VinculacaoProcesso, Tarefa} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
 import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr/vinculacao-processo.schema';
+import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 
 @Injectable()
 export class ProcessoCapaEffect {
@@ -28,6 +30,7 @@ export class ProcessoCapaEffect {
         private _assuntoService: AssuntoService,
         private _interessadoService: InteressadoService,
         private _vinculacaoProcessoService: VinculacaoProcessoService,
+        private _tarefaService: TarefaService,
         private _store: Store<State>
     ) {
         this._store
@@ -185,7 +188,7 @@ export class ProcessoCapaEffect {
                         JSON.stringify(action.payload.populate));
                 }),
                 mergeMap((response) => [
-                    new AddData<Interessado>({data: response['entities'], schema: vinculacaoProcessoSchema}),
+                    new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
                     new ProcessoCapaActions.GetVinculacoesProcessosSuccess({
                         entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
                         loaded: {
@@ -198,6 +201,44 @@ export class ProcessoCapaEffect {
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ProcessoCapaActions.GetVinculacoesProcessosFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * GetTarefas Processo
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getTarefas: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<ProcessoCapaActions.GetTarefas>(ProcessoCapaActions.GET_TAREFAS),
+                switchMap((action) => {
+                    return this._tarefaService.query(
+                        JSON.stringify({
+                            ...action.payload.filter,
+                            ...action.payload.listFilter
+                        }),
+                        action.payload.imit,
+                        action.payload.offset,
+                        JSON.stringify(action.payload.sort),
+                        JSON.stringify(action.payload.populate));
+                }),
+                mergeMap((response) => [
+                    new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
+                    new ProcessoCapaActions.GetTarefasSuccess({
+                        entitiesId: response['entities'].map(tarefa => tarefa.id),
+                        loaded: {
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle,
+                        },
+                        total: response['total']
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessoCapaActions.GetTarefasFailed(err));
                     return caught;
                 })
             );

@@ -7,3 +7,4 @@ export * from './atividade-documento.actions';
 export * from './visibilidade.actions';
 export * from './sigilos.actions';
 export * from './assinaturas.actions';
+export * from './juntada.actions';

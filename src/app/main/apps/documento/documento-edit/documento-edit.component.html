@@ -72,6 +72,15 @@
                         </ng-container>
                     </button>
 
+                    <button mat-menu-item aria-label="juntada" *ngIf="juntada"
+                            matTooltip="Juntada" (click)="showJuntadas()"
+                            [ngClass]="{'active accent': activeCard === 'juntadas'}">
+                        <ng-container>
+                            <mat-icon class="black-fg">layers</mat-icon>
+                            <span>Juntada</span>
+                        </ng-container>
+                    </button>
+
                     <ng-template #dynamicComponent></ng-template>
                 </mat-menu>
 
@@ -321,6 +330,22 @@
                 (reload)="reloadAssinaturas($event)"
             >
             </cdk-assinatura-grid>
+
+        </div>
+
+        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'juntadas'">
+
+            <h3 style="font-weight: bold">Juntada</h3>
+
+            <cdk-juntada-form
+                [juntada]="juntada"
+                [form]="formJuntada"
+                [editDescricao]="true"
+                [blocoEdit]="{blocoEditDescricao: true}"
+                [saving]="(juntadaIsSaving$ | async)"
+                [errors]="(juntadaErrors$ | async)"
+                (save)="submitJuntada($event)">
+            </cdk-juntada-form>
 
         </div>
 
