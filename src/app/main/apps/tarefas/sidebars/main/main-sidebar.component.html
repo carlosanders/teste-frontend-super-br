@@ -32,19 +32,54 @@
                    [routerLinkActive]="['active', 'accent']">
                     <mat-icon class="nav-link-icon">inbox</mat-icon>
                     <span>Entrada</span>
+                    <button mat-icon-button [matMenuTriggerFor]="menuMain" class="btn_menu_folder"
+                            aria-label="Ferramentas">
+                        <mat-icon class="secondary-text">more_vert</mat-icon>
+                    </button>
                 </a>
             </section>
         </div>
 
+        <mat-menu #menuMain="matMenu">
+            <button mat-menu-item aria-label="Criar Pasta" (click)="showFolderComponent()">
+                <ng-container>
+                    <mat-icon>folder</mat-icon>
+                    <span>Criar Pasta</span>
+                </ng-container>
+            </button>
+        </mat-menu>
+
+        <div fxLayout="row" fxLayoutAlign="end center">
+            <input #inputFolder type="text" *ngIf="showAddFolder" class="input-add-pasta">
+            <button mat-menu-item aria-label="Adicionar Pasta" *ngIf="showAddFolder" (click)="addFolder()">
+                <ng-container>
+                    <mat-icon>add_circle</mat-icon>
+                </ng-container>
+            </button>
+        </div>
+
         <div class="nav-item"
-             *ngFor="let folder of folders">
-            <section dndDropzone (dndDrop)="onDrop([$event, folder])">
-            <a class="nav-link" matRipple
-               [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
-               [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="nav-link-icon">{{ folder.icon ? folder.icon : 'folder' }}</mat-icon>
-                <span>{{folder.nome | titlecase}}</span>
-            </a>
+             *ngFor="let folder of folders$ | async" >
+            <section dndDropzone (dndDrop)="onDrop([$event, folder])" fxLayout="row" fxLayoutAlign="start center">
+<!--                     (mouseover)="showMenuItem=true" (mouseout)="showMenuItem=false">-->
+                <a class="nav-link" matRipple
+                   [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
+                   [routerLinkActive]="['active', 'accent']">
+                    <mat-icon class="nav-link-icon">{{ folder.icon ? folder.icon : 'folder' }}</mat-icon>
+                    <span>{{folder.nome | titlecase}}</span>
+                </a>
+                <button mat-icon-button [matMenuTriggerFor]="menuFolder" class="btn_menu_item" aria-label="Menu do Item">
+<!--                                        *ngIf="showMenuItem">-->
+                    <mat-icon class="secondary-text">more_vert</mat-icon>
+                </button>
+                <mat-menu #menuFolder="matMenu">
+                    <button mat-menu-item aria-label="Apagar" (click)="delFolder(folder)">
+                        <ng-container>
+                            <mat-icon>delete</mat-icon>
+                            <span>Apagar</span>
+                        </ng-container>
+                    </button>
+                </mat-menu>
             </section>
         </div>
 
