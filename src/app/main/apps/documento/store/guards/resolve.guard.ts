@@ -129,6 +129,9 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getSigilos(): any {
+
+        this._store.dispatch(new fromStore.UnloadJuntada());
+
         return this._store.pipe(
             select(getSigilosLoaded),
             tap((loaded: any) => {

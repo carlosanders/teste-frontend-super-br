@@ -70,6 +70,12 @@ export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActio
             };
         }
 
+        case JuntadaActions.UNLAOD_JUNTADA: {
+            return {
+                ...JuntadaInitialState
+            };
+        }
+
         default:
             return state;
     }
