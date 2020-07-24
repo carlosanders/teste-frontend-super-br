@@ -40,7 +40,7 @@
             (abort)="doAbort()">
         </cdk-interessado-form>
     </mat-step>
-    <mat-step>
+    <mat-step optional>
         <ng-template matStepLabel>Documentos</ng-template>
         <div fxLayout="row" class="mt-8">
             <button mat-mini-fab
@@ -64,7 +64,7 @@
             (excluded)="excluded($event)">
         </cdk-juntada-grid>
     </mat-step>
-    <mat-step [stepControl]="formVinculacaoProcesso">
+    <mat-step [stepControl]="formVinculacaoProcesso" optional>
         <ng-template matStepLabel>Vinculações</ng-template>
         <cdk-vinculacao-processo-form
             [vinculacaoProcesso]="vinculacaoProcesso"
