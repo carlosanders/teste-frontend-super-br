@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
@@ -12,7 +12,6 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
 import {Juntada} from '@cdk/models';
-import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {JuntadaService} from '@cdk/services/juntada.service';
 
@@ -26,14 +25,12 @@ export class JuntadaEffect {
      * @param _actions
      * @param _juntadaService
      * @param _loginService
-     * @param _router
      * @param _store
      */
     constructor(
         private _actions: Actions,
         private _juntadaService: JuntadaService,
         public _loginService: LoginService,
-        private _router: Router,
         private _store: Store<State>
     ) {
         this._store

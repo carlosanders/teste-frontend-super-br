@@ -152,7 +152,7 @@ export class ResolveGuard implements CanActivate {
     }
 
     /**
-     * Get Sigilos
+     * Get Juntada
      *
      * @returns {Observable<any>}
      */

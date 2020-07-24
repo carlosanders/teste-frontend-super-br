@@ -150,6 +150,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     juntadaErrors$: Observable<any>;
     formJuntada: FormGroup;
 
+    logEntryPagination: Pagination;
+
     /**
      *
      * @param _store
@@ -252,6 +254,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         this.juntada$ = this._store.pipe(select(fromStore.getJuntada));
         this.juntadaIsSaving$ = this._store.pipe(select(fromStore.getJuntadaIsSaving));
         this.juntadaErrors$ = this._store.pipe(select(fromStore.getJuntadaErrors));
+
+        this.logEntryPagination = new Pagination();
 
         this._store
             .pipe(
@@ -391,6 +395,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
         this.juntada$.subscribe(juntada => {
             this.juntada = juntada;
+
+            if (this.juntada) {
+                this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Juntada', id: this.juntada.id};
+            }
         });
 
         if (this.juntadaRoute) {
