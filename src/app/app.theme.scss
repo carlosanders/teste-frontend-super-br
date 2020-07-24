@@ -99,6 +99,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/protocolo-externo/protocolo-externo.theme";
 @import "src/ajuda/ajuda.theme";
 @import "src/app/main/apps/relatorios/relatorios.theme";
+@import "src/modules/modules.theme";
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -124,6 +125,7 @@ $typography: mat-typography-config(
     @include protocolo-externo-theme($theme);
     @include ajuda-theme($theme);
     @include relatorios-theme($theme);
+    @include modules-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

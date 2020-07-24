@@ -1,6 +1,6 @@
 {
   "name": "supp-administrativo-frontend",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "license": "https://www.agu.gov.br",
   "scripts": {
     "ng": "ng",
@@ -19,18 +19,18 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "10.0.3",
-    "@angular/cdk": "10.0.1",
-    "@angular/common": "10.0.3",
-    "@angular/compiler": "10.0.3",
-    "@angular/core": "10.0.3",
+    "@angular/animations": "10.0.5",
+    "@angular/cdk": "10.0.2",
+    "@angular/common": "10.0.5",
+    "@angular/compiler": "10.0.5",
+    "@angular/core": "10.0.5",
     "@angular/flex-layout": "10.0.0-beta.32",
-    "@angular/forms": "10.0.3",
+    "@angular/forms": "10.0.5",
     "@angular/material": "10.0.1",
-    "@angular/material-moment-adapter": "10.0.1",
-    "@angular/platform-browser": "10.0.3",
-    "@angular/platform-browser-dynamic": "10.0.3",
-    "@angular/router": "10.0.3",
+    "@angular/material-moment-adapter": "10.1.0",
+    "@angular/platform-browser": "10.0.5",
+    "@angular/platform-browser-dynamic": "10.0.5",
+    "@angular/router": "10.0.5",
     "@mat-datetimepicker/core": "4.1.0",
     "@mat-datetimepicker/moment": "4.1.0",
     "@ngrx/effects": "9.2.0",
@@ -56,7 +56,6 @@
     "fibers": "4.0.3",
     "hammerjs": "2.0.8",
     "html-webpack-plugin": "3.2.0",
-    "lodash-es": "4.17.15",
     "material-community-components": "6.1.0",
     "moment": "2.27.0",
     "ng2-ckeditor": "1.2.7",
@@ -77,10 +76,10 @@
     "safe-pipe": "1.0.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "0.1000.2",
-    "@angular/cli": "10.0.2",
-    "@angular/compiler-cli": "10.0.3",
-    "@angular/language-service": "10.0.3",
+    "@angular-devkit/build-angular": "0.1000.4",
+    "@angular/cli": "10.0.4",
+    "@angular/compiler-cli": "10.0.5",
+    "@angular/language-service": "10.0.5",
     "@angularclass/hmr": "2.1.3",
     "@phenomnomnominal/angular-lazy-routes-fix": "0.1.5",
     "@types/jasmine": "3.5.11",
@@ -99,7 +98,7 @@
     "ts-node": "7.0.1",
     "tslib": "1.13.0",
     "tslint": "5.20.1",
-    "typescript": "3.9.6",
+    "typescript": "3.9.7",
     "webpack-bundle-analyzer": "3.8.0"
   }
 }

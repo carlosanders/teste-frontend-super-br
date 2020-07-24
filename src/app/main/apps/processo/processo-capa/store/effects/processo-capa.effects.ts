@@ -9,7 +9,7 @@ import * as ProcessoCapaActions from '../actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Assunto, Interessado, Processo} from '@cdk/models';
+import {Assunto, Interessado, Processo, VinculacaoProcesso} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
 import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
 import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
@@ -185,7 +185,7 @@ export class ProcessoCapaEffect {
                         JSON.stringify(action.payload.populate));
                 }),
                 mergeMap((response) => [
-                    new AddData<Interessado>({data: response['entities'], schema: vinculacaoProcessoSchema}),
+                    new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
                     new ProcessoCapaActions.GetVinculacoesProcessosSuccess({
                         entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
                         loaded: {

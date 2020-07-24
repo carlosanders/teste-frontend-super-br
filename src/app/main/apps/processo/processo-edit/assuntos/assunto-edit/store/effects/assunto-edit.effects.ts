@@ -32,8 +32,7 @@ export class AssuntoEditEffect {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
-            });
-    }
+            });    }
 
     /**
      * Get Assunto with router parameters
