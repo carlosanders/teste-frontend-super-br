@@ -18,7 +18,7 @@
             (put)="put($event)">
         </cdk-processo-form>
     </mat-step>
-    <mat-step [stepControl]="formAssunto" optional>
+    <mat-step [stepControl]="formAssunto">
         <ng-template matStepLabel>Assuntos</ng-template>
         <cdk-assunto-form
             [assunto]="assunto"
@@ -29,7 +29,7 @@
             (abort)="doAbort()">
         </cdk-assunto-form>
     </mat-step>
-    <mat-step [stepControl]="formInteressado" optional>
+    <mat-step [stepControl]="formInteressado">
         <ng-template matStepLabel>Interessados</ng-template>
         <cdk-interessado-form
             [interessado]="interessado"
@@ -40,7 +40,7 @@
             (abort)="doAbort()">
         </cdk-interessado-form>
     </mat-step>
-    <mat-step optional>
+    <mat-step>
         <ng-template matStepLabel>Documentos</ng-template>
         <div fxLayout="row" class="mt-8">
             <button mat-mini-fab
@@ -64,7 +64,7 @@
             (excluded)="excluded($event)">
         </cdk-juntada-grid>
     </mat-step>
-    <mat-step [stepControl]="formVinculacaoProcesso" optional>
+    <mat-step [stepControl]="formVinculacaoProcesso">
         <ng-template matStepLabel>Vinculações</ng-template>
         <cdk-vinculacao-processo-form
             [vinculacaoProcesso]="vinculacaoProcesso"
