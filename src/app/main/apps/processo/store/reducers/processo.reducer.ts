@@ -6,6 +6,7 @@ export interface ProcessoState {
     loaded: any;
     errors: any;
     savingVinculacaoEtiquetaId: number;
+    steps: boolean;
 }
 
 export const ProcessoInitialState: ProcessoState = {
@@ -13,7 +14,8 @@ export const ProcessoInitialState: ProcessoState = {
     loading: false,
     loaded: false,
     errors: false,
-    savingVinculacaoEtiquetaId: null
+    savingVinculacaoEtiquetaId: null,
+    steps: false
 };
 
 export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoActions.ProcessoActionsAll): ProcessoState {
@@ -29,7 +31,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 },
                 loading: false,
                 errors: false,
-                savingVinculacaoEtiquetaId: null
+                savingVinculacaoEtiquetaId: null,
+                steps: false
             };
         }
 
@@ -44,7 +47,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 },
                 loading: false,
                 errors: false,
-                savingVinculacaoEtiquetaId: null
+                savingVinculacaoEtiquetaId: null,
+                steps: false
             };
         }
 
@@ -55,7 +59,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 loaded: false,
                 loading: true,
                 errors: false,
-                savingVinculacaoEtiquetaId: null
+                savingVinculacaoEtiquetaId: null,
+                steps: false
             };
         }
 
@@ -66,7 +71,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 loading: false,
                 loaded: action.payload.loaded,
                 errors: false,
-                savingVinculacaoEtiquetaId: null
+                savingVinculacaoEtiquetaId: null,
+                steps: false
             };
         }
 
@@ -76,7 +82,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 loading: false,
                 loaded: false,
                 errors: action.payload,
-                savingVinculacaoEtiquetaId: null
+                savingVinculacaoEtiquetaId: null,
+                steps: false
             };
         }
 
@@ -103,6 +110,13 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 savingVinculacaoEtiquetaId: null
             };
         }        
+
+        case ProcessoActions.SET_STEPS: {
+            return {
+                ...state,
+                steps: action.payload.steps
+            };
+        }
 
         default:
             return state;

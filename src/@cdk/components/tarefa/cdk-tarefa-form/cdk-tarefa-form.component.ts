@@ -124,6 +124,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         blocoEditObservacao: false
     };
 
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';

@@ -1,7 +1,7 @@
 <div class="processo-edit-content page-layout left-sidebar">
 
     <!-- SIDEBAR -->
-    <cdk-sidebar *ngIf="routerState.params.processoHandle && routerState.params.processoHandle !== 'criar'"
+    <cdk-sidebar *ngIf="routerState.params.processoHandle && routerState.params.processoHandle !== 'criar' && !steps"
                  class="sidebar" [ngClass]="{'full': routerState.url.indexOf('apps/processo') > -1}"
                  name="processo-edit-main-sidebar" position="left"
                  [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
