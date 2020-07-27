@@ -13,6 +13,7 @@ export interface TarefasState {
         populate: any;
         sort: any;
         total: number;
+        context: any;
     };
     loading: boolean;
     loaded: any;
@@ -39,6 +40,7 @@ export const TarefasInitialState: TarefasState = {
         populate: [],
         sort: {},
         total: 0,
+        context: {}
     },
     loading: false,
     loaded: false,
@@ -88,7 +90,8 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                     etiquetaFilter: action.payload.etiquetaFilter,
                     populate: action.payload.populate,
                     sort: action.payload.sort,
-                    total: state.pagination.total
+                    total: state.pagination.total,
+                    context: action.payload.context
                 }
             };
         }
