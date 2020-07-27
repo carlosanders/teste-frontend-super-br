@@ -124,6 +124,7 @@ export class DocumentoEffect {
                             'repositorio.modalidadeRepositorio',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.processo',
+                            'documentoAvulsoRemessa.processo.especieProcesso',
                             'documentoAvulsoRemessa.especieDocumentoAvulso',
                             'documentoAvulsoRemessa.modelo',
                             'documentoAvulsoRemessa.setorDestino',

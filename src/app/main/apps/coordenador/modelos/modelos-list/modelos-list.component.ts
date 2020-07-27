@@ -62,7 +62,7 @@ export class ModelosListComponent implements OnInit {
                     }
                     if (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'] ||
                         (this.routerState.params['unidadeHandle'] && !this.routerState.params['setorHandle'])) {
-                        this.actions = ['edit', 'create', 'editConteudo', 'delete'];
+                        this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
                         this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.unidade.nome', 'template.nome', 'ativo', 'actions'];
                     }
                     if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
