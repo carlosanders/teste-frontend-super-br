@@ -1,8 +1,9 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
-    Component,
+    Component, ElementRef,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit, Renderer2, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -39,6 +40,7 @@ import {getIsSaving as getIsSavingAssunto} from '../assuntos/assunto-edit/store/
 import {getIsSaving as getIsSavingInteressado} from '../interessados/interessado-edit/store/selectors';
 import {getIsSaving as getIsSavingVinculacao} from '../vinculacoes-processos/vinculacao-processo-edit/store/selectors';
 import {getIsSaving as getIsSavingTaarefa} from '../tarefas/tarefa-edit/store/selectors';
+import {Renderer} from '@angular/compiler-cli/ngcc/src/rendering/renderer';
 
 @Component({
     selector: 'dados-basicos-create',
@@ -51,7 +53,7 @@ import {getIsSaving as getIsSavingTaarefa} from '../tarefas/tarefa-edit/store/se
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
+export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routerState: any;
     procedencia: Pessoa;
@@ -113,12 +115,14 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
      * @param _router
      * @param _loginService
      * @param _formBuilder
+     * @param renderer
      */
     constructor(
         private _store: Store<fromStore.DadosBasicosAppState>,
         private _router: Router,
         public _loginService: LoginService,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private renderer: Renderer2
     ) {
         this.isSavingProcesso$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -228,6 +232,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+
         this.processo$.subscribe(
             processo => this.processo = processo
         );
@@ -322,6 +327,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
+    ngAfterViewInit(): void {
+        this.renderer.selectRootElement('#inputProcedencia').focus();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -385,7 +394,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
     }
 
     gerirProcedencia(): void {
-        this._router.navigate([this.routerState.url + '/pessoa']).then();
+        this._router.navigate([this.routerState.url + '/pessoa/listar']).then();
     }
 
     editProcedencia(pessoaId: number): void {

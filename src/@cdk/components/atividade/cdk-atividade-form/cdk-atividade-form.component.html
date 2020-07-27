@@ -169,6 +169,14 @@
                 </mat-error>
             </mat-form-field>
 
+            <mat-form-field class="mr-16" fxFlex="1 0 auto">
+                <textarea formControlName="observacao"
+                          matInput placeholder="Observação" maxlength="255" upperCase></textarea>
+                    <mat-error *ngIf="form.get('observacao').hasError('formError')">
+                        {{form.get('observacao').errors.formError}}
+                    </mat-error>
+            </mat-form-field>
+
         </div>
 
         <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
