@@ -124,7 +124,7 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
                         };
                     } else {
 
-                        const className = relatorio[campo].constructor.toString().match(/\w+/g)[1];
+                        const className = campo.replace(/^./, str => str.toUpperCase());
                         const nClass = 'SuppCore\\AdministrativoBackend\\Entity\\' +
                             className;
 
