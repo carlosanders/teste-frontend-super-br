@@ -1,23 +1,23 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ElementRef, OnChanges,
+    Component,
+    ElementRef,
     OnDestroy,
-    OnInit, SimpleChanges,
+    OnInit,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {Coordenador, Folder} from '@cdk/models';
+import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
@@ -28,13 +28,13 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TarefasMainSidebarComponent implements OnInit, OnChanges, OnDestroy {
+export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
-    folders2$: BehaviorSubject<Folder[]>;
     folders$: Observable<Folder[]>;
-    folders: Folder[];
+
+    loading$: Observable<boolean>;
 
     mode = 'Tarefas';
 
@@ -52,8 +52,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnChanges, OnDestroy
     @ViewChild('inputFolder') inputFolder: ElementRef;
 
     showAddFolder = false;
-
-    showMenuItem = false
 
     /**
      *
@@ -74,8 +72,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnChanges, OnDestroy
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
-
-        // this.folders$.subscribe((folders) => this.folders = folders);
     }
 
     /**
@@ -100,6 +96,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnChanges, OnDestroy
             }
         });
 
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingFolder));
+
         this.setoresCoordenacao = [];
 
         this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
@@ -114,8 +112,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnChanges, OnDestroy
             this.usuariosAssessor.push(vinculacaoUsuario.usuario);
         });
     }
-
-
 
     /**
      * On destroy
@@ -138,10 +134,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnChanges, OnDestroy
     }
 
     onDrop($event): void {
-        console.log($event);
-        console.log($event[0].data);
-        console.log("**********");
-        console.log($event[1]);
         if (this.mode === 'Tarefas') {
             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
         }
@@ -164,9 +156,5 @@ export class TarefasMainSidebarComponent implements OnInit, OnChanges, OnDestroy
 
     delFolder(folder: Folder) {
         this._store.dispatch(new fromStore.DeleteFolder(folder.id));
-    }
-
-    ngOnChanges(changes: SimpleChanges): void {
-        // this.folders$.subscribe((folders) => this.folders = folders);
     }
 }

@@ -4,9 +4,6 @@ export const GET_FOLDERS = '[FOLDERS] GET FOLDERS';
 export const GET_FOLDERS_SUCCESS = '[FOLDERS] GET FOLDERS SUCCESS';
 export const GET_FOLDERS_FAILED = '[FOLDERS] GET FOLDERS FAILED';
 
-export const CREATE_FOLDER = '[FOLDER MAIN] CREATE FOLDER';
-export const CREATE_FOLDER_SUCCESS = '[FOLDER MAIN] CREATE FOLDER SUCCESS';
-
 export const SAVE_FOLDER = '[FOLDER MAIN] SAVE FOLDER';
 export const SAVE_FOLDER_SUCCESS = '[FOLDER MAIN] SAVE FOLDER SUCCESS';
 export const SAVE_FOLDER_FAILED = '[FOLDER MAIN] SAVE FOLDER FAILED';
@@ -16,7 +13,6 @@ export const RELOAD_FOLDERS = '[FOLDER MAIN] RELOAD FOLDERS';
 export const DELETE_FOLDER = '[FOLDER MAIN] DELETE FOLDER';
 export const DELETE_FOLDER_SUCCESS = '[FOLDER MAIN] DELETE FOLDER SUCCESS';
 export const DELETE_FOLDER_FAILED = '[FOLDER MAIN] DELETE FOLDER FAILED';
-
 
 /**
  * Get Folders
@@ -48,7 +44,6 @@ export class GetFoldersFailed implements Action {
     }
 }
 
-
 /**
  * Save Folder
  */
@@ -74,26 +69,6 @@ export class SaveFolderSuccess implements Action {
  */
 export class SaveFolderFailed implements Action {
     readonly type = SAVE_FOLDER_FAILED;
-
-    constructor(public payload: any) {
-    }
-}
-
-/**
- * Create Folder
- */
-export class CreateFolder implements Action {
-    readonly type = CREATE_FOLDER;
-
-    constructor() {
-    }
-}
-
-/**
- * Create Folder Success
- */
-export class CreateFolderSuccess implements Action {
-    readonly type = CREATE_FOLDER_SUCCESS;
 
     constructor(public payload: any) {
     }
@@ -151,8 +126,6 @@ export type FoldersActionsAll
     = GetFolders
     | GetFoldersSuccess
     | GetFoldersFailed
-    | CreateFolder
-    | CreateFolderSuccess
     | SaveFolder
     | SaveFolderSuccess
     | SaveFolderFailed

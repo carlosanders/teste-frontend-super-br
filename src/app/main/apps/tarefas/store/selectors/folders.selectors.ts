@@ -32,11 +32,6 @@ export const getIsSaving = createSelector(
     (state: FoldersState) => state.saving
 );
 
-export const getHasLoaded = createSelector(
-    getFoldersState,
-    (state: FoldersState) => state.loaded
-);
-
 export const getErrors = createSelector(
     getFoldersState,
     (state: FoldersState) => state.errors
@@ -50,4 +45,9 @@ export const getDeletingIds = createSelector(
 export const getDeletedIds = createSelector(
     getFoldersState,
     (state: FoldersState) => state.deletedIds
+);
+
+export const getIsLoadingFolder = createSelector(
+    getFoldersState,
+    (state: FoldersState) => state.loading
 );

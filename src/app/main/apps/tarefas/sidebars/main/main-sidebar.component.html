@@ -13,6 +13,10 @@
 <!-- SIDEBAR CONTENT -->
 <div class="content" cdkPerfectScrollbar>
 
+    <div fxLayout="row" fxLayoutAlign="center">
+        <mat-progress-bar [mode]="'indeterminate'" *ngIf="(loading$ | async)"></mat-progress-bar>
+    </div>
+
     <div class="px-24 pt-32 pb-12">
         <button mat-raised-button
                 class="mat-accent compose-dialog-button w-100-p"
@@ -24,7 +28,13 @@
 
     <div class="nav material2">
 
-        <div class="nav-subheader">MINHAS TAREFAS</div>
+        <div class="nav-subheader">
+            MINHAS TAREFAS
+            <button mat-icon-button [matMenuTriggerFor]="menuMain" class="btn_menu_folder"
+                    aria-label="Ferramentas">
+                <mat-icon class="secondary-text">more_vert</mat-icon>
+            </button>
+        </div>
 
         <div class="nav-item">
             <section dndDropzone (dndDrop)="onDrop([$event, null])">
@@ -32,10 +42,6 @@
                    [routerLinkActive]="['active', 'accent']">
                     <mat-icon class="nav-link-icon">inbox</mat-icon>
                     <span>Entrada</span>
-                    <button mat-icon-button [matMenuTriggerFor]="menuMain" class="btn_menu_folder"
-                            aria-label="Ferramentas">
-                        <mat-icon class="secondary-text">more_vert</mat-icon>
-                    </button>
                 </a>
             </section>
         </div>
@@ -49,27 +55,20 @@
             </button>
         </mat-menu>
 
-        <div fxLayout="row" fxLayoutAlign="end center">
-            <input #inputFolder type="text" *ngIf="showAddFolder" class="input-add-pasta">
-            <button mat-menu-item aria-label="Adicionar Pasta" *ngIf="showAddFolder" (click)="addFolder()">
-                <ng-container>
-                    <mat-icon>add_circle</mat-icon>
-                </ng-container>
-            </button>
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <input #inputFolder type="text" *ngIf="showAddFolder" class="input-add-pasta" (keyup.enter)="addFolder()">
         </div>
 
         <div class="nav-item"
-             *ngFor="let folder of folders$ | async" >
+             *ngFor="let folder of folders$ | async">
             <section dndDropzone (dndDrop)="onDrop([$event, folder])" fxLayout="row" fxLayoutAlign="start center">
-<!--                     (mouseover)="showMenuItem=true" (mouseout)="showMenuItem=false">-->
                 <a class="nav-link" matRipple
                    [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
                    [routerLinkActive]="['active', 'accent']">
                     <mat-icon class="nav-link-icon">{{ folder.icon ? folder.icon : 'folder' }}</mat-icon>
                     <span>{{folder.nome | titlecase}}</span>
                 </a>
-                <button mat-icon-button [matMenuTriggerFor]="menuFolder" class="btn_menu_item" aria-label="Menu do Item">
-<!--                                        *ngIf="showMenuItem">-->
+                <button mat-icon-button [matMenuTriggerFor]="menuFolder" class="btn_menu_folder" aria-label="Menu do Item">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
                 <mat-menu #menuFolder="matMenu">

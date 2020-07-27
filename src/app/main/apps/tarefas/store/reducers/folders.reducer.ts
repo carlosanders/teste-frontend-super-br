@@ -1,5 +1,4 @@
 import * as FoldersActions from 'app/main/apps/tarefas/store/actions/folders.actions';
-import * as FolderListActions from '../../../configuracoes/folders/folder-list/store/actions';
 
 export interface FoldersState
 {
@@ -53,20 +52,22 @@ export function FoldersReducer(state = FoldersInitialState, action: FoldersActio
             };
         }
 
-        case FoldersActions.CREATE_FOLDER: {
-            return {
-                ...state,
-                folderId: null,
-                loaded: true,
-                loading: false
-            };
-        }
+        // case FoldersActions.CREATE_FOLDER: {
+        //     return {
+        //         ...state,
+        //         folderId: null,
+        //         loaded: true,
+        //         loading: false
+        //     };
+        // }
 
         case FoldersActions.SAVE_FOLDER: {
             return {
                 ...state,
                 saving: true,
-                errors: false
+                errors: false,
+                loaded: false,
+                loading: true
             };
         }
 
@@ -74,7 +75,9 @@ export function FoldersReducer(state = FoldersInitialState, action: FoldersActio
             return {
                 ...state,
                 saving: false,
-                errors: false
+                errors: false,
+                loaded: true,
+                loading: false
             };
         }
 
@@ -82,7 +85,9 @@ export function FoldersReducer(state = FoldersInitialState, action: FoldersActio
             return {
                 ...state,
                 saving: false,
-                errors: action.payload
+                errors: action.payload,
+                loaded: false,
+                loading: false
             };
         }
 

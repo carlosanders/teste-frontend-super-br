@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, exhaustMap, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, exhaustMap, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as FoldersActions from 'app/main/apps/tarefas/store/actions/folders.actions';
 import {GetFolders} from 'app/main/apps/tarefas/store/actions/folders.actions';
@@ -15,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {FoldersState} from '../reducers';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
+import * as TarefasActions from '../actions/tarefas.actions';
 
 @Injectable()
 export class FoldersEffect
@@ -98,19 +99,6 @@ export class FoldersEffect
             );
 
     /**
-     * Save Folder Success
-     */
-    @Effect({dispatch: false})
-    saveFolderSuccess: any =
-        this._actions
-            .pipe(
-                ofType<FoldersActions.SaveFolderSuccess>(FoldersActions.SAVE_FOLDER_SUCCESS),
-                tap(() => {
-                    // this._router.navigate([this.routerState.url]).then();
-                })
-            );
-
-    /**
      * Delete Folder
      * @type {Observable<any>}
      */
@@ -122,16 +110,29 @@ export class FoldersEffect
                 mergeMap((action) => {
                     return this._folderService.destroy(action.payload).pipe(
                         mergeMap ((response) => [
-                            new FoldersActions.DeleteFolderSuccess(response.id),
-                            new FoldersActions.ReloadFolders(),
                             new GetFolders([]),
-                            new AddData<Folder>({data: [response], schema: folderSchema})
+                            new TarefasActions.GetTarefas([]),
+                            new AddData<Folder>({data: [response], schema: folderSchema}),
+                            new FoldersActions.DeleteFolderSuccess([response.id]),
                         ]),
                         catchError((err) => {
                             console.log(err);
                             return of(new FoldersActions.DeleteFolderFailed(action.payload));
                         })
                     );
+                })
+            );
+
+    /**
+     * Save Folder Success
+     */
+    @Effect({dispatch: false})
+    deleteFolderSuccess: any =
+        this._actions
+            .pipe(
+                ofType<FoldersActions.DeleteFolderSuccess>(FoldersActions.DELETE_FOLDER_SUCCESS),
+                tap((action) => {
+                    this._router.navigate(['/apps/tarefas/administrativo/minhas-tarefas/entrada']).then();
                 })
             );
 }
