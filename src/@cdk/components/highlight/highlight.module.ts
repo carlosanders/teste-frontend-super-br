@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import {NgModule} from '@angular/core';
 
-import { CdkHighlightComponent } from '@cdk/components/highlight/highlight.component';
+import {CdkHighlightComponent} from './highlight.component';
 
 @NgModule({
     declarations: [
@@ -10,6 +10,5 @@ import { CdkHighlightComponent } from '@cdk/components/highlight/highlight.compo
         CdkHighlightComponent
     ],
 })
-export class CdkHighlightModule
-{
+export class CdkHighlightModule {
 }

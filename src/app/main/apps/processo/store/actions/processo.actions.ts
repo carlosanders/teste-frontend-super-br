@@ -23,6 +23,8 @@ export const DELETE_VINCULACAO_ETIQUETA = '[PROCESSO] DELETE VINCULACAO_ETIQUETA
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[PROCESSO] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[PROCESSO] DELETE VINCULACAO_ETIQUETA FAILED';
 
+export const SET_STEPS = '[PROCESSO] SET STEPS';
+
 /**
  * Create Processo
  */
@@ -228,6 +230,14 @@ export class CreateVinculacaoEtiquetaFailed implements Action
     }
 }
 
+export class SetSteps implements Action{
+    readonly type = SET_STEPS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProcessoActionsAll
     = CreateProcesso
     | UnloadProcesso
@@ -245,4 +255,5 @@ export type ProcessoActionsAll
     | SaveConteudoVinculacaoEtiquetaFailed     
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
-    | DeleteVinculacaoEtiquetaFailed;
+    | DeleteVinculacaoEtiquetaFailed
+    | SetSteps;

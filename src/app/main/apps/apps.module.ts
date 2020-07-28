@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 
 import {CdkSharedModule} from '@cdk/shared.module';
+import { modulesConfig } from '../../../modules/modules-config';
 import {RoleGuard} from './role.guard';
 
 const routes = [ 
@@ -90,6 +91,14 @@ const routes = [
         data: {roles: ['ROLE_COLABORADOR']}
     }
 ];
+
+const path = 'app/main/apps';
+
+modulesConfig.forEach((module) => {
+    if (module.routes.hasOwnProperty(path)) {
+        module.routes[path].forEach((r => routes.push(r)));
+    }
+});
 
 @NgModule({
     imports     : [

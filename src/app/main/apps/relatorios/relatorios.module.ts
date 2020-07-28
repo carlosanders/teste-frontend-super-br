@@ -21,8 +21,8 @@ import {CdkSidebarModule} from '@cdk/components';
 
 import * as fromGuards from 'app/main/apps/relatorios/store/guards/index';
 import {RelatoriosStoreModule} from 'app/main/apps/relatorios/store/store.module';
-import {RelatoriosComponent} from 'app/main/apps/relatorios/relatorios.component';
-import {RelatoriosMainSidebarComponent} from 'app/main/apps/relatorios/sidebars/main/main-sidebar.component';
+import {RelatoriosComponent} from './relatorios.component';
+import {RelatoriosMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {RelatorioService} from '@cdk/services/relatorio.service';
 import {FolderService} from '@cdk/services/folder.service';
 import {EspecieRelatorioService} from '@cdk/services/especie-relatorio.service';

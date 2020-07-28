@@ -41,3 +41,8 @@ export const getProcessoIsLoading = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loading
 );
+
+export const getSteps = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.steps
+);

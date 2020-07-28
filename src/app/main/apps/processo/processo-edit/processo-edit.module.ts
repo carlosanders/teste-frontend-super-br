@@ -83,6 +83,10 @@ const routes: Routes = [
             {
                 path: 'relevancias',
                 loadChildren: () => import('./relevancias/relevancias.module').then(m => m.RelevanciasModule)
+            },
+            {
+                path: 'dados-basicos-steps',
+                loadChildren: () => import('./processo-create/dados-basicos-create.module').then(m => m.DadosBasicosCreateModule)
             }
         ]
     }

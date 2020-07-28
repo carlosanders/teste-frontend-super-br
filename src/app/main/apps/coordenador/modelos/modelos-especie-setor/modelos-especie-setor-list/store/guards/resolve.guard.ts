@@ -59,12 +59,23 @@ export class ResolveGuard implements CanActivate {
             select(getModelosEspecieSetorListLoaded),
             tap((loaded: any) => {
                 if (!loaded || (this.routerState.params['modeloHandle'] !== loaded.value)) {
-                    const params = {
-                        filter: {
+                    let filtro;
+                    if (this.routerState.params['generoHandle'] === 'unidade') {
+                        filtro = {
                             'modelo.id': 'eq:' + this.routerState.params['modeloHandle'],
-                            'orgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle'],
+                            'unidade.id' : 'eq:' + this.routerState.params['entidadeHandle'],
                             'especieSetor.id': 'isNotNull'
-                        },
+                        };
+                    }
+                    if (this.routerState.params['generoHandle'] === 'nacional') {
+                        filtro = {
+                            'modelo.id': 'eq:' + this.routerState.params['modeloHandle'],
+                            'orgaoCentral.id' : 'eq:' + this.routerState.params['entidadeHandle'],
+                            'especieSetor.id': 'isNotNull'
+                        };
+                    }
+                    const params = {
+                        filter: filtro,
                         gridFilter: {},
                         limit: 5,
                         offset: 0,

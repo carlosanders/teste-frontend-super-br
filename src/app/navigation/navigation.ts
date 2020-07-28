@@ -82,7 +82,7 @@ export const navigation: CdkNavigation[] = [
                         translate: 'NAV.PROTOCOLO.ADMINISTRATIVO.TITLE',
                         type: 'item',
                         icon: 'book',
-                        url: '/apps/processo/criar/editar/dados-basicos'
+                        url: '/apps/processo/criar/editar/dados-basicos-steps'
                     }
                 ],
                 role: 'ROLE_COLABORADOR'

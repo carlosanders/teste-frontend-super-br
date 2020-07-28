@@ -13,7 +13,7 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
-import {VinculacaoModelo, Modelo, ModalidadeOrgaoCentral} from '@cdk/models';
+import {VinculacaoModelo, Modelo, ModalidadeOrgaoCentral, Setor} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
@@ -41,6 +41,8 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
     orgaoCentral$: Observable<ModalidadeOrgaoCentral>;
     orgaoCentral: ModalidadeOrgaoCentral;
     especieSetorPagination: Pagination;
+    unidade$: Observable<Setor>;
+    unidade: Setor;
 
     /**
      *
@@ -55,6 +57,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.vinculacaoModelo$ = this._store.pipe(select(fromStore.getVinculacaoModelo));
         this.orgaoCentral$ = this._store.pipe(select(fromStore.getOrgaoCentral));
+        this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
         this.modelo$ = this._store.pipe(select(fromStore.getModelo));
 
         this._store
@@ -86,7 +89,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
         ).subscribe(
             vinculacaoModelo => {
                 if (vinculacaoModelo) {
-                    this.vinculacaoModelo = vinculacaoModelo
+                    this.vinculacaoModelo = vinculacaoModelo;
                 }
             }
         );
@@ -97,6 +100,16 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
             orgaoCentral => {
                 if (orgaoCentral) {
                     this.orgaoCentral = orgaoCentral;
+                }
+            }
+        );
+
+        this.unidade$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            unidade => {
+                if (unidade) {
+                    this.unidade = unidade;
                 }
             }
         );
@@ -115,6 +128,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
             this.vinculacaoModelo = new VinculacaoModelo();
             this.vinculacaoModelo.orgaoCentral = this.orgaoCentral;
             this.vinculacaoModelo.modelo = this.modelo;
+            this.vinculacaoModelo.unidade = this.unidade;
         }
     }
 
@@ -146,6 +160,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
 
         vinculacaoModelo.modelo = this.modelo;
         vinculacaoModelo.orgaoCentral = this.orgaoCentral;
+        vinculacaoModelo.unidade = this.unidade;
 
         this._store.dispatch(new fromStore.SaveModeloEspecieSetor(vinculacaoModelo));
     }
