@@ -9,7 +9,7 @@ import * as RootLotacaoListActions from '../../../lotacao-list/store/actions';
 
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {lotacao as lotacaoSchema} from '@cdk/normalizr/lotacao.schema';
+import {lotacao as lotacaoSchema} from '@cdk/normalizr';
 import {Lotacao} from '@cdk/models/lotacao.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

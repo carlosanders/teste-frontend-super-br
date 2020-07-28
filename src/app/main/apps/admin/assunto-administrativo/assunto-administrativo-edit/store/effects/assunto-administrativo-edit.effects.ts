@@ -9,7 +9,7 @@ import * as AssuntoAdministrativoListActions from '../../../assunto-administrati
 
 import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {assuntoAdministrativo as assuntoAdministrativoSchema} from '@cdk/normalizr/assunto-administrativo.schema';
+import {assuntoAdministrativo as assuntoAdministrativoSchema} from '@cdk/normalizr';
 import {AssuntoAdministrativo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

@@ -11,7 +11,7 @@ import * as CompartilhamentoListActions from 'app/main/apps/tarefas/tarefa-detai
 import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Compartilhamento} from '@cdk/models';
-import {compartilhamento as compartilhamentoSchema} from '@cdk/normalizr/compartilhamento.schema';
+import {compartilhamento as compartilhamentoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class CompartilhamentoListEffect {

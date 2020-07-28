@@ -11,7 +11,7 @@ import * as RepositorioListActions from '../actions';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Repositorio} from '@cdk/models';
-import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
+import {repositorio as repositorioSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()

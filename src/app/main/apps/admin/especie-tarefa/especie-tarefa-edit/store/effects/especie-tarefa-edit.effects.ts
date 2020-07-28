@@ -10,8 +10,8 @@ import * as EspecieTarefaListActions from '../../../especie-tarefa-list/store/ac
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {especieTarefa as especieTarefaSchema} from '@cdk/normalizr/especie-tarefa.schema';
-import {colaborador as colaboradorSchema} from '@cdk/normalizr/colaborador.schema';
+import {especieTarefa as especieTarefaSchema} from '@cdk/normalizr';
+import {colaborador as colaboradorSchema} from '@cdk/normalizr';
 import {EspecieTarefa, Colaborador} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
+import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import {Assinatura} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Assinatura>(assinaturaSchema);

@@ -9,7 +9,7 @@ import * as CompetenciasListActions from '../../../competencias-list/store/actio
 
 import {VinculacaoSetorMunicipioService} from '@cdk/services/vinculacao-setor-municipio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {vinculacaoSetorMunicipio as vinculacaoSetorMunicipioSchema} from '@cdk/normalizr/vinculacao-setor-municipio.schema';
+import {vinculacaoSetorMunicipio as vinculacaoSetorMunicipioSchema} from '@cdk/normalizr';
 import {VinculacaoSetorMunicipio} from '@cdk/models/vinculacao-setor-municipio.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

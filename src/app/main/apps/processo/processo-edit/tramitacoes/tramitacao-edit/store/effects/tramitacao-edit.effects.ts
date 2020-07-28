@@ -9,7 +9,7 @@ import * as TramitacaoListActions from '../../../tramitacao-list/store/actions/t
 
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {tramitacao as tramitacaoSchema} from '@cdk/normalizr/tramitacao.schema';
+import {tramitacao as tramitacaoSchema} from '@cdk/normalizr';
 import {Tramitacao} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

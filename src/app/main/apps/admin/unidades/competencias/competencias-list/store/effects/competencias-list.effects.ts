@@ -11,7 +11,7 @@ import * as CompetenciasListActions from '../actions';
 import {VinculacaoSetorMunicipioService} from '@cdk/services/vinculacao-setor-municipio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoSetorMunicipio} from '@cdk/models/vinculacao-setor-municipio.model';
-import {vinculacaoSetorMunicipio as vinculacaoSetorMunicipioSchema} from '@cdk/normalizr/vinculacao-setor-municipio.schema';
+import {vinculacaoSetorMunicipio as vinculacaoSetorMunicipioSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class CompetenciasListEffects {

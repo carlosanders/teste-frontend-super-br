@@ -11,7 +11,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 import {ClassificacaoService} from '../../../../../../../../@cdk/services/classificacao.service';
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {Classificacao} from '../../../../../../../../@cdk/models';
-import {classificacao as classificacaoSchema} from '../../../../../../../../@cdk/normalizr/classificacao.schema';
+import {classificacao as classificacaoSchema} from '../../../../../../../../@cdk/normalizr';
 import * as ClassificacaoEditActions
     from '../../../classificacao-edit/store/actions/classificacao-edit.actions';
 import * as ClassificacaoListActions

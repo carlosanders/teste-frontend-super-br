@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getEspecieTarefaEditAppState, EspecieTarefaEditAppState, EspecieTarefaEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {EspecieTarefa} from '@cdk/models';
-import {especieTarefa as especieTarefaSchema} from '@cdk/normalizr/especie-tarefa.schema';
+import {especieTarefa as especieTarefaSchema} from '@cdk/normalizr';
 
 const schemaEspecieTarefaSelectors = createSchemaSelectors<EspecieTarefa>(especieTarefaSchema);
 

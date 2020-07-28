@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getEtiquetaAppState, EtiquetaAppState, EtiquetaState} from '../reducers';
 import {Etiqueta} from '@cdk/models';
-import {etiqueta as etiquetaSchema} from '@cdk/normalizr/etiqueta.schema';
+import {etiqueta as etiquetaSchema} from '@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 
 const schemaEtiquetaSelectors = createSchemaSelectors<Etiqueta>(etiquetaSchema);

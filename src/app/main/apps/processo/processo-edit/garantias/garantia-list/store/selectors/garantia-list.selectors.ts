@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {garantia as garantiaSchema} from '@cdk/normalizr/garantia.schema';
+import {garantia as garantiaSchema} from '@cdk/normalizr';
 import {Garantia} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Garantia>(garantiaSchema);

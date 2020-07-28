@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getSetorEditAppState, SetorEditAppState, SetorEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Setor} from '@cdk/models/setor.model';
-import {setor as setorSchema} from '@cdk/normalizr/setor.schema';
+import {setor as setorSchema} from '@cdk/normalizr';
 import {getSetorAppState, SetorAppState, SetorState} from '../../../store/reducers';
 
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);

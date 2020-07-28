@@ -6,7 +6,7 @@ import {
 } from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {compartilhamento as compartilhamentoSchema} from '@cdk/normalizr/compartilhamento.schema';
+import {compartilhamento as compartilhamentoSchema} from '@cdk/normalizr';
 import {Compartilhamento} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Compartilhamento>(compartilhamentoSchema);

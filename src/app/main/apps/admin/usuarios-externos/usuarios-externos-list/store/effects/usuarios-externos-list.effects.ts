@@ -11,7 +11,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {Usuario} from '../../../../../../../../@cdk/models';
-import {usuario as usuariosExternosSchema} from '../../../../../../../../@cdk/normalizr/usuario.schema';
+import {usuario as usuariosExternosSchema} from '../../../../../../../../@cdk/normalizr';
 import {UsuarioService} from '../../../../../../../../@cdk/services/usuario.service';
 import {getUsuariosExternosListLoaded} from '../selectors';
 

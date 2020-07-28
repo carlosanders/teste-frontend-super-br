@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getClassificacaoEditAppState, ClassificacaoEditAppState, ClassificacaoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Classificacao} from '@cdk/models';
-import {classificacao as classificacaoSchema} from '@cdk/normalizr/classificacao.schema';
+import {classificacao as classificacaoSchema} from '@cdk/normalizr';
 
 const schemaClassificacaoSelectors = createSchemaSelectors<Classificacao>(classificacaoSchema);
 

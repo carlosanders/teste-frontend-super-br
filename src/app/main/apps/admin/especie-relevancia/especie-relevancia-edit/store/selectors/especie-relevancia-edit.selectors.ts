@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getEspecieRelevanciaEditAppState, EspecieRelevanciaEditAppState, EspecieRelevanciaEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {EspecieRelevancia} from '@cdk/models';
-import {especieRelevancia as especieRelevanciaSchema} from '@cdk/normalizr/especie-relevancia.schema';
+import {especieRelevancia as especieRelevanciaSchema} from '@cdk/normalizr';
 
 const schemaEspecieRelevanciaSelectors = createSchemaSelectors<EspecieRelevancia>(especieRelevanciaSchema);
 

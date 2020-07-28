@@ -8,7 +8,7 @@ import * as AcaoEditActions from '../actions/acao-edit.actions';
 import * as AcaoListActions from '../../../acao-list/store/actions/acao-list.actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
-import {acao as acaoSchema} from '@cdk/normalizr/acao.schema';
+import {acao as acaoSchema} from '@cdk/normalizr';
 import {Acao} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

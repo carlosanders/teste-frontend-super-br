@@ -11,7 +11,7 @@ import {LoginService} from '../../../../../../../auth/login/login.service';
 import {VinculacaoPessoaUsuarioService} from '@cdk/services/vinculacao-pessoa-usuario.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoPessoaUsuario} from '@cdk/models';
-import {vinculacaoPessoaUsuario as vinculacaoPessoaUsuarioSchema} from '@cdk/normalizr/vinculacao-pessoa-usuario.schema';
+import {vinculacaoPessoaUsuario as vinculacaoPessoaUsuarioSchema} from '@cdk/normalizr';
 
 
 @Injectable()

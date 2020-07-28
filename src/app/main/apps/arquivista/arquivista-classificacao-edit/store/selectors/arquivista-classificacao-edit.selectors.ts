@@ -1,6 +1,6 @@
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
-import {processo as processoShema} from '@cdk/normalizr/processo.schema';
+import {processo as processoShema} from '@cdk/normalizr';
 import {createSelector} from '@ngrx/store';
 import {
     ArquivistaClassificacaoAppState,

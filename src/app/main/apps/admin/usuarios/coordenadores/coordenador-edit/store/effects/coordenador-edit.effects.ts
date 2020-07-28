@@ -9,7 +9,7 @@ import * as CoordenadoresListActions from '../../../coordenadores-list/store/act
 
 import {CoordenadorService} from '@cdk/services/coordenador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {coordenador as coordenadorSchema} from '@cdk/normalizr/coordenador.schema';
+import {coordenador as coordenadorSchema} from '@cdk/normalizr';
 import {Coordenador} from '@cdk/models/coordenador.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

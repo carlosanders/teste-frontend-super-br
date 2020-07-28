@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getVinculacaoUsuarioEditAppState, VinculacaoUsuarioEditAppState, VinculacaoUsuarioEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {VinculacaoUsuario} from '@cdk/models';
-import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr/vinculacao-usuario.schema';
+import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr';
 
 const schemaVinculacaoUsuarioSelectors = createSchemaSelectors<VinculacaoUsuario>(vinculacaoUsuarioSchema);
 

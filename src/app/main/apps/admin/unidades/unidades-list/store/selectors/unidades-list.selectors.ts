@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {setor as setorSchema} from '@cdk/normalizr/setor.schema';
+import {setor as setorSchema} from '@cdk/normalizr';
 import {Setor} from '@cdk/models/setor.model';
 
 const schemaSelectors = createSchemaSelectors<Setor>(setorSchema);

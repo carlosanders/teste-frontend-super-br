@@ -11,7 +11,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 import {EspecieRelevanciaService} from '../../../../../../../../@cdk/services/especie-relevancia.service';
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {EspecieRelevancia} from '../../../../../../../../@cdk/models';
-import {especieRelevancia as especieRelevanciaSchema} from '../../../../../../../../@cdk/normalizr/especie-relevancia.schema';
+import {especieRelevancia as especieRelevanciaSchema} from '../../../../../../../../@cdk/normalizr';
 
 
 @Injectable()

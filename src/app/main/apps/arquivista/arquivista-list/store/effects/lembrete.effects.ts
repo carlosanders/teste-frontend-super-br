@@ -7,7 +7,7 @@ import * as LembreteActions from '../actions/lembrete.actions';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Lembrete} from '@cdk/models';
-import {lembrete as lembreteSchema} from '@cdk/normalizr/lembrete.schema';
+import {lembrete as lembreteSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {of} from 'rxjs';
 import {Injectable} from '@angular/core';

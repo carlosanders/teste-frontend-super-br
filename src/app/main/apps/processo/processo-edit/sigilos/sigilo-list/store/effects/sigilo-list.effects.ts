@@ -11,7 +11,7 @@ import * as SigiloListActions from '../actions';
 import {SigiloService} from '@cdk/services/sigilo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Sigilo} from '@cdk/models';
-import {sigilo as sigiloSchema} from '@cdk/normalizr/sigilo.schema';
+import {sigilo as sigiloSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class SigiloListEffect {

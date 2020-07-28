@@ -9,7 +9,7 @@ import * as VinculacaoProcessoListActions from '../../../vinculacao-processo-lis
 
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr/vinculacao-processo.schema';
+import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

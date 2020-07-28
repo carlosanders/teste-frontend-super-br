@@ -9,7 +9,7 @@ import * as SigiloListActions from '../../../sigilo-list/store/actions/sigilo-li
 
 import {SigiloService} from '@cdk/services/sigilo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {sigilo as sigiloSchema} from '@cdk/normalizr/sigilo.schema';
+import {sigilo as sigiloSchema} from '@cdk/normalizr';
 import {Sigilo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

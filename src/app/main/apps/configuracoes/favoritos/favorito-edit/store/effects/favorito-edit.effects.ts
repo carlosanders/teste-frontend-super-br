@@ -9,7 +9,7 @@ import * as FavoritoListActions from '../../../favorito-list/store/actions/favor
 
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {favorito as favoritoSchema} from '@cdk/normalizr/favorito.schema';
+import {favorito as favoritoSchema} from '@cdk/normalizr';
 import {Favorito} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

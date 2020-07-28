@@ -11,7 +11,7 @@ import * as RepositoriosEspecieSetorListActions from '../actions';
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoRepositorio} from '@cdk/models';
-import {vinculacaoRepositorio as vinculacaoRepositorioschema} from '@cdk/normalizr/vinculacao-repositorio.schema';
+import {vinculacaoRepositorio as vinculacaoRepositorioschema} from '@cdk/normalizr';
 
 @Injectable()
 export class RepositoriosEspecieSetorListEffects {

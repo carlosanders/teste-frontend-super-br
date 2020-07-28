@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getAssuntoAdministrativoEditAppState, AssuntoAdministrativoEditAppState, AssuntoAdministrativoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {AssuntoAdministrativo} from '@cdk/models';
-import {assuntoAdministrativo as assuntoAdministrativoSchema} from '@cdk/normalizr/assunto-administrativo.schema';
+import {assuntoAdministrativo as assuntoAdministrativoSchema} from '@cdk/normalizr';
 
 const schemaAssuntoAdministrativoSelectors = createSchemaSelectors<AssuntoAdministrativo>(assuntoAdministrativoSchema);
 
