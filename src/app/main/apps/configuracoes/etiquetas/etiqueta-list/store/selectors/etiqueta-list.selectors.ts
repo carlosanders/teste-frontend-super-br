@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {etiqueta as etiquetaSchema} from '@cdk/normalizr/etiqueta.schema';
+import {etiqueta as etiquetaSchema} from '@cdk/normalizr';
 import {Etiqueta} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Etiqueta>(etiquetaSchema);

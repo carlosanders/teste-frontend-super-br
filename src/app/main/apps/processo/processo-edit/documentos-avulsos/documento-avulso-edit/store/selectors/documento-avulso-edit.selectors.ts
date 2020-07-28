@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getDocumentoAvulsoEditAppState, DocumentoAvulsoEditAppState, DocumentoAvulsoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {DocumentoAvulso} from '@cdk/models';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoAvulsoSelectors = createSchemaSelectors<DocumentoAvulso>(documentoAvulsoSchema);
 

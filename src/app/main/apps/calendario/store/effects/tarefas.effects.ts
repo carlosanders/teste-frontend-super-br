@@ -1,5 +1,5 @@
 import {AddData} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {tarefa as tarefaSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';

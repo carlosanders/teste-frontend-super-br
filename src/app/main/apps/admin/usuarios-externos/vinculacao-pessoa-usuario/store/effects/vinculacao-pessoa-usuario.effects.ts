@@ -8,7 +8,7 @@ import * as VinculacaoPessoaUsuarioActions from '../actions/vinculacao-pessoa-us
 
 import {VinculacaoPessoaUsuarioService} from '@cdk/services/vinculacao-pessoa-usuario.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {vinculacaoPessoaUsuario as vinculacaoPessoaUsuarioSchema} from '@cdk/normalizr/vinculacao-pessoa-usuario.schema';
+import {vinculacaoPessoaUsuario as vinculacaoPessoaUsuarioSchema} from '@cdk/normalizr';
 import {VinculacaoPessoaUsuario} from '@cdk/models/vinculacao-pessoa-usuario.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

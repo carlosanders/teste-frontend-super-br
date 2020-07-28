@@ -12,7 +12,7 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {processo as processoSchema} from '@cdk/normalizr';
 import {Colaborador} from "../../../../../../../@cdk/models/colaborador.model";
 
 

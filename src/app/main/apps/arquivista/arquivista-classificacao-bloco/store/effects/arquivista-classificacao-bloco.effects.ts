@@ -7,7 +7,7 @@ import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 
 import {Processo} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {processo as processoSchema} from '@cdk/normalizr';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
 

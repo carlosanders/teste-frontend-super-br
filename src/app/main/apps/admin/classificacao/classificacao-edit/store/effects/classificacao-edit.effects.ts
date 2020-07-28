@@ -9,7 +9,7 @@ import * as ClassificacaoListActions from '../../../classificacao-list/store/act
 
 import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {classificacao as classificacaoSchema} from '@cdk/normalizr/classificacao.schema';
+import {classificacao as classificacaoSchema} from '@cdk/normalizr';
 import {Classificacao} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

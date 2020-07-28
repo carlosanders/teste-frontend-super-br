@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getMunicipioEditAppState, MunicipioEditAppState, MunicipioEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Municipio} from '@cdk/models';
-import {municipio as municipioSchema} from '@cdk/normalizr/municipio.schema';
+import {municipio as municipioSchema} from '@cdk/normalizr';
 
 const schemaMunicipioSelectors = createSchemaSelectors<Municipio>(municipioSchema);
 

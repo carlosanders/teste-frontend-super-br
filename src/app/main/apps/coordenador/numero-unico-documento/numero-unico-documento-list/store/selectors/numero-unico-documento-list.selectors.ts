@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr/numero-unico-documento.schema';
+import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr';
 import {NumeroUnicoDocumento} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<NumeroUnicoDocumento>(numeroUnicoDocumentoSchema);

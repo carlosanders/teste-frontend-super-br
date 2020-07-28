@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getAfastamentoEditAppState, AfastamentoEditAppState, AfastamentoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Afastamento} from '@cdk/models';
-import {afastamento as afastamentoSchema} from '@cdk/normalizr/afastamento.schema';
+import {afastamento as afastamentoSchema} from '@cdk/normalizr';
 
 const schemaAfastamentoSelectors = createSchemaSelectors<Afastamento>(afastamentoSchema);
 

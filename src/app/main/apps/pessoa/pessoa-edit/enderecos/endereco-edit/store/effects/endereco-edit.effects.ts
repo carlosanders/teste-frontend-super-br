@@ -9,7 +9,7 @@ import * as EnderecoListActions from '../../../endereco-list/store/actions/ender
 
 import {EnderecoService} from '@cdk/services/endereco.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {endereco as enderecoSchema} from '@cdk/normalizr/endereco.schema';
+import {endereco as enderecoSchema} from '@cdk/normalizr';
 import {Endereco} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

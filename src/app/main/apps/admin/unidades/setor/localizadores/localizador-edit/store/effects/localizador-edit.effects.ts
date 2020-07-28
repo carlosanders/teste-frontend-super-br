@@ -9,7 +9,7 @@ import * as RootLocalizadoresListActions from '../../../localizadores-list/store
 
 import {LocalizadorService} from '@cdk/services/localizador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {localizador as localizadorSchema} from '@cdk/normalizr/localizador.schema';
+import {localizador as localizadorSchema} from '@cdk/normalizr';
 import {Localizador} from '@cdk/models/localizador.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

@@ -4,7 +4,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 import * as ActivateActions from '../actions';
 import {UsuarioService} from '@cdk/services/usuario.service';
-import {usuario as usuarioSchema} from '@cdk/normalizr/usuario.schema';
+import {usuario as usuarioSchema} from '@cdk/normalizr';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';

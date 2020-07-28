@@ -11,7 +11,7 @@ import * as TarefaListActions from '../actions';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Tarefa} from '@cdk/models';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {tarefa as tarefaSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class TarefaListEffect {

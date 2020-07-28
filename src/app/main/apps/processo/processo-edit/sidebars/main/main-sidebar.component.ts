@@ -47,7 +47,17 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             processo => this.processo = processo
         );
 
-        this.links = [
+        this.links = [];
+
+        const path = 'app/main/apps/processo/processo-edit/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
+
+        this.links.push(
             {
                 nome: 'Dados Básicos',
                 link: 'dados-basicos'
@@ -119,15 +129,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'transicoes',
                 role: 'ROLE_COLABORADOR'
             }
-        ];
-
-        const path = 'app/main/apps/processo/processo-edit/sidebars/main';
-
-        modulesConfig.forEach((module) => {
-            if (module.sidebars.hasOwnProperty(path)) {
-                module.sidebars[path].forEach((s => this.links.push(s)));
-            }
-        });
+        );
 
     }
 

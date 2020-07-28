@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getProcessoCapaAppState, ProcessoCapaAppState, InteressadoState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
+import {interessado as interessadoSchema} from '@cdk/normalizr';
 import {Interessado} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Interessado>(interessadoSchema);

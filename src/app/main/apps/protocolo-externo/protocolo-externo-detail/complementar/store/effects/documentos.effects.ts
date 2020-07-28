@@ -10,7 +10,7 @@ import { select, Store } from '@ngrx/store';
 import { getRouterState, State } from 'app/store/reducers';
 import { Documento, DocumentoAvulso } from '@cdk/models';
 import { DocumentoService } from '@cdk/services/documento.service';
-import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
+import { documento as documentoSchema } from '@cdk/normalizr';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
 

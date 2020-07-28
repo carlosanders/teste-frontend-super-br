@@ -23,7 +23,7 @@ import {getRouterState, getMercureState, getOperacoesState} from 'app/store/redu
 import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../store/actions';
 import {getSelectedTarefas} from '../store/selectors';
 

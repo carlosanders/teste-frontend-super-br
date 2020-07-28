@@ -12,10 +12,10 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {processo as processoSchema} from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
+import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 
 @Injectable()

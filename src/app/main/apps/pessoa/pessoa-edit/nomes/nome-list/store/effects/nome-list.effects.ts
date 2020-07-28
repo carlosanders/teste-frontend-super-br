@@ -11,7 +11,7 @@ import * as NomeListActions from '../actions';
 import {NomeService} from '@cdk/services/nome.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Nome} from '@cdk/models';
-import {nome as nomeSchema} from '@cdk/normalizr/nome.schema';
+import {nome as nomeSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class NomeListEffect {

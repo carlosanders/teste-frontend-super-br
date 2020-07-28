@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getTipoDocumentoEditAppState, TipoDocumentoEditAppState, TipoDocumentoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {TipoDocumento} from '@cdk/models';
-import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr/tipo-documento.schema';
+import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr';
 
 const schemaTipoDocumentoSelectors = createSchemaSelectors<TipoDocumento>(tipoDocumentoSchema);
 

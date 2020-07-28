@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getDadosBasicosAppState, DadosBasicosAppState, DadosBasicosState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {processo as processoSchema} from '@cdk/normalizr';
 
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 

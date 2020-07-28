@@ -18,7 +18,7 @@ import {Logout} from '../../../main/auth/login/store/actions';
 import {Usuario} from '@cdk/models/usuario.model';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Notificacao} from '@cdk/models';
-import {notificacao as notificacaoSchema} from '@cdk/normalizr/notificacao.schema';
+import {notificacao as notificacaoSchema} from '@cdk/normalizr';
 import {plainToClass} from 'class-transformer';
 
 @Component({

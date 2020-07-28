@@ -9,7 +9,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {GeneroRelatorio} from '@cdk/models/genero-relatorio.model';
 import {GeneroRelatorioService} from '@cdk/services/genero-relatorio.service';
-import {generoRelatorio as generoRelatorioSchema} from '@cdk/normalizr/genero-relatorio.schema';
+import {generoRelatorio as generoRelatorioSchema} from '@cdk/normalizr';
 import * as GeneroRelatoriosActions from '../actions';
 import {Router} from '@angular/router';
 

@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {getRelatorioDetailAppState, RelatorioDetailAppState, RelatorioDetailState} from 'app/main/apps/relatorios/relatorio-detail/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {relatorio as relatorioSchema} from '@cdk/normalizr/relatorio.schema';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {relatorio as relatorioSchema} from '@cdk/normalizr';
+import {documento as documentoSchema} from '@cdk/normalizr';
 import {Relatorio} from '@cdk/models/relatorio.model';
 import {Documento} from '@cdk/models';
 

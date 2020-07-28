@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
+import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {Juntada} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);

@@ -30,6 +30,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     processo: Processo;
 
     label = 'Protocolo';
+    nup = '';
 
     /**
      * @param _router
@@ -95,15 +96,19 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
             switch (this.processo?.unidadeArquivistica) {
                 case 1:
                     this.label = 'Processo';
+                    this.nup = this.processo?.NUP;
                     break;
                 case 2:
                     this.label = 'Documento Avulso';
+                    this.nup = this.processo?.NUP;
                     break;
                 case 3:
                     this.label = 'Pasta';
+                    this.nup = this.processo?.outroNumero;
                     break;
                 default:
                     this.label = 'Protocolo';
+                    this.nup = '';
             }
         });
 

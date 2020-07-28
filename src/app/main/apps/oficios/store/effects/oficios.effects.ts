@@ -1,5 +1,5 @@
 import {AddData} from '@cdk/ngrx-normalizr';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';

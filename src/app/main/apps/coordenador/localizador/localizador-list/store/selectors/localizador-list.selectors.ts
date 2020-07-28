@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {localizador as localizadorSchema} from '@cdk/normalizr/localizador.schema';
+import {localizador as localizadorSchema} from '@cdk/normalizr';
 import {Localizador} from '@cdk/models/localizador.model';
 
 const schemaSelectors = createSchemaSelectors<Localizador>(localizadorSchema);

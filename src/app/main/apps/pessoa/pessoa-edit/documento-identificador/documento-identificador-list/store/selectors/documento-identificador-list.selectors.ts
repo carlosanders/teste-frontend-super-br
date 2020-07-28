@@ -6,7 +6,7 @@ import {
 } from 'app/main/apps/pessoa/pessoa-edit/documento-identificador/documento-identificador-list/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr/documento-identificador.schema';
+import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr';
 import {DocumentoIdentificador} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<DocumentoIdentificador>(documentoIdentificadorchema);
