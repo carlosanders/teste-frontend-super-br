@@ -243,11 +243,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.form.reset();
     }
 
-    /**
-     *
-     * @param step
-     * @param ativo
-     */
     goToCapaProcesso(): void {
         this._store.dispatch(new fromStore.GetCapaProcesso());
     }

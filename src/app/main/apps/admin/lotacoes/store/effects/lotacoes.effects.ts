@@ -8,13 +8,13 @@ import * as RootLotacoesActions from '../actions/lotacoes.actions';
 
 import {SetorService} from '@cdk/services/setor.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {setor as setorSchema} from '@cdk/normalizr/setor.schema';
+import {setor as setorSchema} from '@cdk/normalizr';
 import {Setor} from '@cdk/models/setor.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import { Usuario } from '@cdk/models';
-import { usuario as usuarioSchema } from '@cdk/normalizr/usuario.schema';
+import { usuario as usuarioSchema } from '@cdk/normalizr';
 import { UsuarioService } from '@cdk/services/usuario.service';
 
 @Injectable()

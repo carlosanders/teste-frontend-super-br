@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getUsuarioEditAppState, UsuarioEditAppState, UsuarioEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Usuario} from '@cdk/models';
-import {usuario as usuarioSchema} from '@cdk/normalizr/usuario.schema';
+import {usuario as usuarioSchema} from '@cdk/normalizr';
 
 const schemaUsuarioSelectors = createSchemaSelectors<Usuario>(usuarioSchema);
 

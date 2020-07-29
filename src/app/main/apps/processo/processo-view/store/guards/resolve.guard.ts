@@ -77,6 +77,7 @@ export class ResolveGuard implements CanActivate {
                         sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
                         populate: [
                             'documento',
+                            'documento.origemDados',
                             'documento.tipoDocumento',
                             'documento.componentesDigitais',
                             'documento.vinculacoesDocumentos',

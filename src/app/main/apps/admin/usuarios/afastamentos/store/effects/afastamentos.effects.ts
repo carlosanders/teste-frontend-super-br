@@ -11,7 +11,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {usuario as usuarioSchema} from '@cdk/normalizr/usuario.schema';
+import {usuario as usuarioSchema} from '@cdk/normalizr';
 import {Usuario} from '@cdk/models';
 
 @Injectable()

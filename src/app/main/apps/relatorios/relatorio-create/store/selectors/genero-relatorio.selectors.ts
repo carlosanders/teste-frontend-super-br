@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getRelatorioCreateAppState, RelatorioCreateAppState, GeneroRelatorioState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {GeneroRelatorio} from '@cdk/models/genero-relatorio.model';
-import {generoRelatorio as generoRelatorioSchema} from '@cdk/normalizr/genero-relatorio.schema';
+import {generoRelatorio as generoRelatorioSchema} from '@cdk/normalizr';
 
 const schemaGeneroRelatorioSelectors = createSchemaSelectors<GeneroRelatorio>(generoRelatorioSchema);
 

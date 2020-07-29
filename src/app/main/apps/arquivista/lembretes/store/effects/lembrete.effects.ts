@@ -8,8 +8,8 @@ import {Injectable} from '@angular/core';
 import {AddData} from '@cdk/ngrx-normalizr';
 
 import {Lembrete, Processo} from '@cdk/models';
-import {lembrete as lembreteSchema} from '@cdk/normalizr/lembrete.schema';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {lembrete as lembreteSchema} from '@cdk/normalizr';
+import {processo as processoSchema} from '@cdk/normalizr';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {LembreteService} from '@cdk/services/lembrete.service';

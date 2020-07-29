@@ -8,7 +8,7 @@ import * as TarefaCreateBlocoActions from '../actions/tarefa-create-bloco.action
 
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import {Tarefa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

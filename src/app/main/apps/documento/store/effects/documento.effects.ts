@@ -12,12 +12,12 @@ import * as DocumentoSelectors from '../selectors/documento.selectors';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
-import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
-import {template as templateSchema} from '@cdk/normalizr/template.schema';
-import {repositorio as repositorioSchema} from '@cdk/normalizr/repositorio.schema';
+import {documento as documentoSchema} from '@cdk/normalizr';
+import {modelo as modeloSchema} from '@cdk/normalizr';
+import {template as templateSchema} from '@cdk/normalizr';
+import {repositorio as repositorioSchema} from '@cdk/normalizr';
 import {Assinatura, Documento, Template, VinculacaoEtiqueta} from '@cdk/models';
-import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
+import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Modelo} from '@cdk/models';
@@ -28,7 +28,7 @@ import {environment} from 'environments/environment';
 import {UnloadDocumento} from '../actions';
 import * as AssinaturaActions from '../actions/assinaturas.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
+import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 
 @Injectable()

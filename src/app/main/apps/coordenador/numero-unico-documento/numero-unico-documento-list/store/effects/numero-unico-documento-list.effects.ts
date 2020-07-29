@@ -10,7 +10,7 @@ import * as NumeroUnicoDocumentoListActions from '../actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {NumeroUnicoDocumento} from '@cdk/models';
-import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr/numero-unico-documento.schema';
+import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
 

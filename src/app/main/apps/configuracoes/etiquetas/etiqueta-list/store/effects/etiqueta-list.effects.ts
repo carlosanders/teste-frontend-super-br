@@ -11,7 +11,7 @@ import * as EtiquetaListActions from '../actions';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Etiqueta} from '@cdk/models';
-import {etiqueta as etiquetaSchema} from '@cdk/normalizr/etiqueta.schema';
+import {etiqueta as etiquetaSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()

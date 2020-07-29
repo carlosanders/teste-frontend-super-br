@@ -11,7 +11,7 @@ import * as RelacionamentoListActions from '../actions';
 import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {RelacionamentoPessoal} from '@cdk/models';
-import {relacionamentoPessoal as relacionamentoSchema} from '@cdk/normalizr/relacionamento-pessoal.schema';
+import {relacionamentoPessoal as relacionamentoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class RelacionamentoListEffect {

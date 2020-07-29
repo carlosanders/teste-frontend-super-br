@@ -11,7 +11,7 @@ import * as AfastamentosListActions from '../actions';
 import {AfastamentoService} from '@cdk/services/afastamento.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Afastamento} from '@cdk/models/afastamento.model';
-import {afastamento as afastamentoSchema} from '@cdk/normalizr/afastamento.schema';
+import {afastamento as afastamentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()

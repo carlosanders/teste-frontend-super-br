@@ -175,6 +175,7 @@ export class Documento {
         this.observacao = null;
         this.copia = null;
         this.setorOrigem = null;
+        this.origemDados = null;
         this.tarefaOrigem = null;
         this.documentoAvulsoComplementacaoResposta = null;
         this.origemDados = null;
@@ -188,11 +189,11 @@ export class Documento {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
-        this.componentesDigitais = null;
-        this.vinculacoesDocumentos = null;
+        this.componentesDigitais = [];
+        this.vinculacoesDocumentos = [];
         this.documentoAvulsoRemessa = null;
         this.vinculacaoDocumentoPrincipal = null;
         this.vinculacoesEtiquetas = [];
-        this.sigilos = null;
+        this.sigilos = [];
     }
 }

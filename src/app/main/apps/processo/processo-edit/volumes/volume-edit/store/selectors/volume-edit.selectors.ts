@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getVolumeEditAppState, VolumeEditAppState, VolumeEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Volume} from '@cdk/models';
-import {volume as volumeSchema} from '@cdk/normalizr/volume.schema';
+import {volume as volumeSchema} from '@cdk/normalizr';
 
 const schemaVolumeSelectors = createSchemaSelectors<Volume>(volumeSchema);
 

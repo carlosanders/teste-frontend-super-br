@@ -11,7 +11,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
+import {modelo as modeloSchema} from '@cdk/normalizr';
 import {Modelo} from '@cdk/models';
 
 @Injectable()

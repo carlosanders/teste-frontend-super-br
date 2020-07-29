@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getModeloEditAppState, ModeloEditAppState, ModeloEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Modelo} from '@cdk/models';
-import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
+import {modelo as modeloSchema} from '@cdk/normalizr';
 
 const schemaModeloSelectors = createSchemaSelectors<Modelo>(modeloSchema);
 

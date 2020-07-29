@@ -11,7 +11,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 import {MunicipioService} from '../../../../../../../../@cdk/services/municipio.service';
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {Municipio} from '../../../../../../../../@cdk/models';
-import {municipio as municipioSchema} from '../../../../../../../../@cdk/normalizr/municipio.schema';
+import {municipio as municipioSchema} from '../../../../../../../../@cdk/normalizr';
 
 
 @Injectable()

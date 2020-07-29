@@ -11,7 +11,7 @@ import * as DocumentoAvulsoListActions from '../actions';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {DocumentoAvulso} from '@cdk/models';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 
 @Injectable()

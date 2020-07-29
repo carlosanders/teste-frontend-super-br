@@ -8,7 +8,7 @@ import * as DesentranhamentoCreateBlocoActions from '../actions/desentranhamento
 
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {desentranhamento as desentranhamentoSchema} from '@cdk/normalizr/desentranhamento.schema';
+import {desentranhamento as desentranhamentoSchema} from '@cdk/normalizr';
 import {Desentranhamento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

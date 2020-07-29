@@ -2,11 +2,11 @@ import {createSelector} from '@ngrx/store';
 import {getCoordenadorEditAppState, CoordenadorEditAppState, CoordenadorEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Coordenador} from '@cdk/models/coordenador.model';
-import {coordenador as coordenadorSchema} from '@cdk/normalizr/coordenador.schema';
+import {coordenador as coordenadorSchema} from '@cdk/normalizr';
 import {getCoordenadoresState} from '../../../store/selectors';
 import {CoordenadoresState} from '../../../store/reducers';
 import {Usuario} from '@cdk/models';
-import {usuario as schemaUsuario} from '@cdk/normalizr/usuario.schema';
+import {usuario as schemaUsuario} from '@cdk/normalizr';
 
 const schemaCoordenadorSelectors = createSchemaSelectors<Coordenador>(coordenadorSchema);
 const schemaUsuarioSelectors = createSchemaSelectors<Usuario>(schemaUsuario);

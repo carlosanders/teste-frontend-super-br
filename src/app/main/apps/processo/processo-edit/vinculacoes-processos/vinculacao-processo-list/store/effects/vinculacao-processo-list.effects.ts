@@ -11,7 +11,7 @@ import * as VinculacaoProcessoListActions from '../actions';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
-import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr/vinculacao-processo.schema';
+import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class VinculacaoProcessoListEffect {

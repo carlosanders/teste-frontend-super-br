@@ -11,7 +11,7 @@ import * as FolderListActions from '../actions';
 import {FolderService} from '@cdk/services/folder.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Folder} from '@cdk/models';
-import {folder as folderSchema} from '@cdk/normalizr/folder.schema';
+import {folder as folderSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()

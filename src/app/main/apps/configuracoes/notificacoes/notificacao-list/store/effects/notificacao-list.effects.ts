@@ -11,7 +11,7 @@ import * as NotificacaoListActions from '../actions';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Notificacao} from '@cdk/models';
-import {notificacao as notificacaoSchema} from '@cdk/normalizr/notificacao.schema';
+import {notificacao as notificacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()

@@ -11,7 +11,7 @@ import * as VisibilidadeListActions from '../actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Visibilidade} from '@cdk/models';
-import {visibilidade as visibilidadeSchema} from '@cdk/normalizr/visibilidade.schema';
+import {visibilidade as visibilidadeSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class VisibilidadeListEffect {

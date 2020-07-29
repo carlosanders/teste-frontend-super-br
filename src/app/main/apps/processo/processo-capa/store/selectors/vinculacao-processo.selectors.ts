@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getProcessoCapaAppState, ProcessoCapaAppState, VinculacaoProcessoState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr/vinculacao-processo.schema';
+import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<VinculacaoProcesso>(vinculacaoProcessoSchema);
