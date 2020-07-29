@@ -8,7 +8,7 @@ import * as FoldersActions from 'app/main/apps/tarefas/store/actions/folders.act
 import {GetFolders} from 'app/main/apps/tarefas/store/actions/folders.actions';
 import {FolderService} from '@cdk/services/folder.service';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {folder as folderSchema} from '@cdk/normalizr/folder.schema';
+import {folder as folderSchema} from '@cdk/normalizr';
 import {Folder, Usuario} from '@cdk/models';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
