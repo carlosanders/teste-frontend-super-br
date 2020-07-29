@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 
@@ -12,14 +12,14 @@ import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {Router} from '@angular/router';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
-import {Usuario, VinculacaoEtiqueta} from '@cdk/models';
+import {Documento, Tarefa, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {
+    documento as documentoSchema,
+    tarefa as tarefaSchema,
+    vinculacaoEtiqueta as vinculacaoEtiquetaSchema
+} from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {Tarefa} from '@cdk/models';
-import {Documento} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetDocumentos} from '../../atividades/atividade-create/store/actions';
 import {LoginService} from '../../../../../auth/login/login.service';

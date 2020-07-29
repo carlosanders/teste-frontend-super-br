@@ -12,15 +12,9 @@ import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Etiqueta, Tarefa} from '@cdk/models';
-import {etiqueta as etiquetaSchema} from '@cdk/normalizr/etiqueta.schema';
+import {etiqueta as etiquetaSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
-// import * as EtiquetaEditActions
-//     from '../../../../configuracoes/etiquetas/etiqueta-edit/dados-basicos/store/actions/dados-basicos.actions';
-import * as EtiquetaListActions
-    from '../../../../configuracoes/etiquetas/etiqueta-list/store/actions/etiqueta-list.actions';
 import * as TarefaDetailActions from '../actions/tarefa-detail.actions';
-import {CreateVinculacaoEtiqueta} from '../actions/tarefa-detail.actions';
-import * as OperacoesActions from '../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class EtiquetaEffect {
