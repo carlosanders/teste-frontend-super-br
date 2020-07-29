@@ -7,7 +7,7 @@
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="tarefas-main-sidebar" position="left"
                   lockedOpen="gt-md">
-        <tarefas-main-sidebar></tarefas-main-sidebar>
+        <tarefas-main-sidebar (reload)="reload($event)"></tarefas-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 

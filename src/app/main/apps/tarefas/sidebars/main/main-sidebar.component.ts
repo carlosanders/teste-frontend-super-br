@@ -3,8 +3,10 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
+    EventEmitter,
     OnDestroy,
     OnInit,
+    Output,
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -32,9 +34,14 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    @Output()
+    reload = new EventEmitter<any>();
+
     folders$: Observable<Folder[]>;
 
     loading$: Observable<boolean>;
+
+    listFilter = {};
 
     mode = 'Tarefas';
 
@@ -63,7 +70,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.TarefasAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         public _loginService: LoginService,
-   ) {
+    ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         const path = 'app/main/apps/tarefas/sidebars/main';
 
@@ -141,10 +148,13 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     showFolderComponent() {
         this.showAddFolder = true;
+        setTimeout(()=>{ // this will make the execution after the above boolean has changed
+            this.inputFolder.nativeElement.focus();
+        },200);
     }
 
     addFolder() {
-        if(this.inputFolder.nativeElement.value.length>2) {
+        if (this.inputFolder.nativeElement.value.length > 2) {
             const folder = new Folder();
             folder.nome = this.inputFolder.nativeElement.value;
             folder.descricao = this.inputFolder.nativeElement.value;
@@ -156,5 +166,18 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     delFolder(folder: Folder) {
         this._store.dispatch(new fromStore.DeleteFolder(folder.id));
+        setTimeout(()=>{
+            this.reloadTarefa();
+        },3000);
+    }
+
+    reloadTarefa() {
+        let tarefaFilter = {
+            'listFilter: {usuarioResponsavel.id': 'eq:' + this._loginService.getUserProfile().id,
+            'dataHoraConclusaoPrazo': 'isNull',
+            'especieTarefa.generoTarefa.nome': 'eq:' + 'ADMINISTRATIVO}'
+        };
+        const params = {listFilter: tarefaFilter};
+        this.reload.emit({params});
     }
 }
