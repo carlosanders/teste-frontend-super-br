@@ -1,18 +1,20 @@
 <mat-form-field *ngIf="valid" fxFlex>
     <mat-chip-list #chipList>
         <mat-chip
-                [ngStyle]="{'background-color': vinculacaoEtiqueta.etiqueta.corHexadecimal}"
-                *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetas"
-                [selectable]="selectable"
-                [removable]="false === vinculacaoEtiqueta.etiqueta.sistema && vinculacaoEtiqueta.podeExcluir"
-                matTooltip="Clique para editar o conteúdo"
-                (click)="openDialogEdit(vinculacaoEtiqueta)"
-                (removed)="remove(vinculacaoEtiqueta)">
-                <mat-spinner *ngIf="savingVinculacaoEtiquetaId===vinculacaoEtiqueta.id" diameter="16"></mat-spinner>
-                <mat-icon *ngIf="savingVinculacaoEtiquetaId!==vinculacaoEtiqueta.id" class="icon">person</mat-icon>
-                <mat-icon *ngIf="vinculacaoEtiqueta.conteudo" class="icon">subject</mat-icon>
+            [ngStyle]="{'background-color': vinculacaoEtiqueta.etiqueta.corHexadecimal}"
+            *ngFor="let vinculacaoEtiqueta of vinculacoesEtiquetas"
+            [selectable]="selectable"
+            [removable]="false === vinculacaoEtiqueta.etiqueta.sistema && vinculacaoEtiqueta.podeExcluir"
+            matTooltip="Clique para editar o conteúdo"
+            (click)="openDialogEdit(vinculacaoEtiqueta)"
+            (removed)="remove(vinculacaoEtiqueta)">
+            <mat-spinner *ngIf="savingVinculacaoEtiquetaId===vinculacaoEtiqueta.id" diameter="16"></mat-spinner>
+            <mat-icon *ngIf="savingVinculacaoEtiquetaId!==vinculacaoEtiqueta.id" class="icon">person</mat-icon>
+            <mat-icon *ngIf="vinculacaoEtiqueta.conteudo" class="icon">subject</mat-icon>
             {{vinculacaoEtiqueta.etiqueta.nome}}
-            <mat-icon matChipRemove *ngIf="false === vinculacaoEtiqueta.etiqueta.sistema && vinculacaoEtiqueta.podeExcluir">cancel</mat-icon>
+            <mat-icon matChipRemove
+                      *ngIf="false === vinculacaoEtiqueta.etiqueta.sistema && vinculacaoEtiqueta.podeExcluir">cancel
+            </mat-icon>
         </mat-chip>
         <input #etiquetaInput
                placeholder="{{placeholderEtiq}}"
@@ -21,7 +23,8 @@
                [matChipInputFor]="chipList"
                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                [matChipInputAddOnBlur]="addOnBlur"
-               (matChipInputTokenEnd)="add($event)">
+               (matChipInputTokenEnd)="add($event)"
+               (keyup)="newEtiqueta()">
     </mat-chip-list>
     <cdk-etiqueta-autocomplete
         #etiqueta="etiquetaAutocomplete"
@@ -30,3 +33,10 @@
         (selected)="selected($event)">
     </cdk-etiqueta-autocomplete>
 </mat-form-field>
+
+<div class="actions" fxLayout="row" fxLayoutAlign="start center">
+    <button mat-mini-fab color="primary" aria-label="Adicionar etiqueta" matTooltip="Adicionar etiqueta"
+            *ngIf="habilitarOpcaoBtnAddEtiqueta && showBtnAddEtiqueta" (click)="sendEtiqueta()">
+        <mat-icon class="black-fg">add_comment</mat-icon>
+    </button>
+</div>

@@ -57,6 +57,9 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     @Input()
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
 
+    @Input()
+    habilitarOpcaoBtnAddEtiqueta = false;
+
     @Output()
     delete = new EventEmitter<VinculacaoEtiqueta>();
 
@@ -66,6 +69,9 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     @Output()
     create = new EventEmitter<Etiqueta>();
 
+    @Output()
+    addEtiqueta = new EventEmitter<Etiqueta>();
+
     @Input()
     pagination: Pagination;
 
@@ -74,6 +80,10 @@ export class CdkVinculacaoEtiquetaChipsComponent {
 
     @ViewChild('etiquetaInput', {static: false}) etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta', {static: false}) matAutocomplete: MatAutocomplete;
+
+    showBtnAddEtiqueta = false;
+
+    etiqueta: Etiqueta = null;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -93,11 +103,6 @@ export class CdkVinculacaoEtiquetaChipsComponent {
             if ((value || '').trim()) {
                 // this.vinculacoesEtiquetas.push(value.trim());
                 // this.create.emit();
-            }
-
-            // Reset the input value
-            if (input) {
-                input.value = '';
             }
 
             this.etiquetaCtrl.setValue(null);
@@ -189,4 +194,23 @@ export class CdkVinculacaoEtiquetaChipsComponent {
 
     }
 
+    newEtiqueta() {
+        if (this.etiquetaInput.nativeElement.value.length > 2) {
+            this.etiqueta = new Etiqueta();
+            this.etiqueta.nome = this.etiquetaInput.nativeElement.value;
+            this.etiqueta.descricao = this.etiquetaInput.nativeElement.value;
+            this.etiqueta.ativo = true;
+            this.etiqueta.sistema = false;
+            this.etiqueta.corHexadecimal = '#a9aab3';
+            this.showBtnAddEtiqueta = true;
+        }
+        else
+            this.showBtnAddEtiqueta = false;
+    }
+
+    sendEtiqueta() {
+        this.etiquetaInput.nativeElement.value = '';
+        this.addEtiqueta.emit(this.etiqueta);
+        this.showBtnAddEtiqueta = false;
+    }
 }

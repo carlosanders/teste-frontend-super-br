@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 import {getTarefaDetailAppState, TarefaDetailAppState, TarefaDetailState} from 'app/main/apps/tarefas/tarefa-detail/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema} from '@cdk/normalizr';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
 import {Tarefa} from '@cdk/models';
 import {Documento} from '@cdk/models';
 
