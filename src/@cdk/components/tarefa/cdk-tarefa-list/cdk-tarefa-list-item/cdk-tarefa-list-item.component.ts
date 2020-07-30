@@ -2,14 +2,15 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     Component, EventEmitter,
-    Input, OnInit,
-    Output, ViewChild, ViewContainerRef,
+    Input, OnChanges, OnInit,
+    Output, SimpleChange, SimpleChanges, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {Tarefa} from '@cdk/models/tarefa.model';
-import {DynamicService} from "../../../../../modules/dynamic.service";
-import {modulesConfig} from "../../../../../modules/modules-config";
+import {DynamicService} from '../../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../../modules/modules-config';
+import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -18,7 +19,7 @@ import {modulesConfig} from "../../../../../modules/modules-config";
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class CdkTarefaListItemComponent implements OnInit, AfterViewInit {
+export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input()
     tarefa: Tarefa;
@@ -77,7 +78,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit {
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
-    constructor(private _dynamicService: DynamicService) {
+    constructor(
+        private _dynamicService: DynamicService,
+        private _cdkTarefaListItemService: CdkTarefaListItemService
+    ) {
         this.isOpen = false;
         this.loadedAssuntos = false;
         this.deleting = false;
@@ -89,7 +93,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
-        if (this.tarefa.processo?.assuntos?.length > 0){
+        if (this.tarefa.processo?.assuntos?.length > 0) {
             this.isOpen = true;
             this.loadedAssuntos = true;
         }
@@ -107,6 +111,11 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit {
         });
     }
 
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['tarefa']) {
+            this._cdkTarefaListItemService.tarefa = this.tarefa;
+        }
+    }
 
     doDelete(): void {
         this.delete.emit(this.tarefa.id);
