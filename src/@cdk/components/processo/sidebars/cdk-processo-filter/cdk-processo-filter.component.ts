@@ -1,12 +1,16 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     Component, EventEmitter, Input,
-    OnInit, Output,
+    OnInit, Output, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {DynamicService} from '../../../../../modules/dynamic.service';
+import {CdkProcessoFilterService} from '../../../processo/sidebars/cdk-processo-filter/cdk-processo-filter.service';
+import {modulesConfig} from '../../../../../modules/modules-config';
 
 @Component({
     selector: 'cdk-processo-filter',
@@ -16,17 +20,18 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkProcessoFilterComponent implements OnInit {
+export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    filters: any = null;
-
     @Input()
     mode = 'list';
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     /**
      * Constructor
@@ -34,6 +39,8 @@ export class CdkProcessoFilterComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
+        private _dynamicService: DynamicService,
+        private _cdkProcessoFilterService: CdkProcessoFilterService
     ) {
         this.form = this._formBuilder.group({
             processo: [null],
@@ -57,13 +64,10 @@ export class CdkProcessoFilterComponent implements OnInit {
             localizador: [null],
             setorAtual: [null],
             setorInicial: [null],
-            origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
             nome: [null],
             cpfCnpj: [null]
         });
@@ -80,8 +84,8 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('NUP').valueChanges.subscribe(value => {
             if (value !== null) {
                 const NUP = value.replace(/[^\w\-]+/g, '').replace(/-+/g, '');
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     NUP: `like:${NUP}%`
                 };
             }
@@ -90,8 +94,8 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('nome').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (this.mode === 'search') {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'interessados.pessoa.nome': `like:${value}%`
                     };
                 }
@@ -101,8 +105,8 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('cpfCnpj').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (this.mode === 'search') {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'interessados.pessoa.numeroDocumentoPrincipal': `like:${value}%`
                     };
                 }
@@ -111,8 +115,8 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('titulo').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     titulo: `like:${value}%`
                 };
             }
@@ -120,8 +124,8 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('descricao').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     descricao: `like:${value}%`
                 };
             }
@@ -129,8 +133,8 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('outroNumero').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     outroNumero: `like:${value}%`
                 };
             }
@@ -138,8 +142,8 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('valorEconomico').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     valorEconomico: `like:${value}%`
                 };
             }
@@ -147,8 +151,8 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('dataHoraAbertura').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     dataHoraAbertura: `eq:${value}`
                 };
             }
@@ -156,8 +160,8 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('dataHoraProximaTransicao').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     dataHoraProximaTransicao: `eq:${value}`
                 };
             }
@@ -165,8 +169,8 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('semValorEconomico').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     semValorEconomico: `eq:${value}`
                 };
             }
@@ -174,8 +178,8 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('visibilidadeExterna').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     visibilidadeExterna: `eq:${value}`
                 };
             }
@@ -183,8 +187,8 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('acessoNegado').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     acessoNegado: `eq:${value}`
                 };
             }
@@ -193,28 +197,14 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('classificacao').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'classificacao.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('classificacao.id')) {
-                        delete this.filters['classificacao.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('origemDados').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'origemDados.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('origemDados.id')) {
-                        delete this.filters['origemDados.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('classificacao.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['classificacao.id'];
                     }
                 }
             }
@@ -223,13 +213,14 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('documentoAvulsoOrigem').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'documentoAvulsoOrigem.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('documentoAvulsoOrigem.id')) {
-                        delete this.filters['documentoAvulsoOrigem.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('documentoAvulsoOrigem.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['documentoAvulsoOrigem.id'];
                     }
                 }
             }
@@ -238,13 +229,14 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('procedencia').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'procedencia.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('procedencia.id')) {
-                        delete this.filters['procedencia.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('procedencia.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['procedencia.id'];
                     }
                 }
             }
@@ -253,13 +245,14 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('localizador').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'localizador.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('localizador.id')) {
-                        delete this.filters['localizador.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('localizador.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['localizador.id'];
                     }
                 }
             }
@@ -268,13 +261,14 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('setorAtual').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'setorAtual.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('setorAtual.id')) {
-                        delete this.filters['setorAtual.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('setorAtual.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['setorAtual.id'];
                     }
                 }
             }
@@ -283,13 +277,14 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('setorInicial').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'setorInicial.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('setorInicial.id')) {
-                        delete this.filters['setorInicial.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('setorInicial.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['setorInicial.id'];
                     }
                 }
             }
@@ -298,13 +293,14 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('modalidadeFase').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'modalidadeFase.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('modalidadeFase.id')) {
-                        delete this.filters['modalidadeFase.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('modalidadeFase.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['modalidadeFase.id'];
                     }
                 }
             }
@@ -313,14 +309,15 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('modalidadeMeio').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'modalidadeMeio.id': `eq:${value.id}`
                     };
                     this.emite();
                 } else {
-                    if (this.filters.hasOwnProperty('modalidadeMeio.id')) {
-                        delete this.filters['modalidadeMeio.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('modalidadeMeio.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['modalidadeMeio.id'];
                     }
                 }
                 if (!value) {
@@ -332,14 +329,15 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('especieProcesso').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'especieProcesso.id': `eq:${value.id}`
                     };
                     this.emite();
                 } else {
-                    if (this.filters.hasOwnProperty('especieProcesso.id')) {
-                        delete this.filters['especieProcesso.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('especieProcesso.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['especieProcesso.id'];
                     }
                 }
                 if (!value) {
@@ -350,8 +348,8 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('criadoEm').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     criadoEm: `eq:${value}`
                 };
                 this.emite();
@@ -360,19 +358,9 @@ export class CdkProcessoFilterComponent implements OnInit {
 
         this.form.get('atualizadoEm').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     atualizadoEm: `eq:${value}`
-                };
-                this.emite();
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
                 };
                 this.emite();
             }
@@ -381,14 +369,15 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('criadoPor').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
                     this.emite();
                 } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('criadoPor.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['criadoPor.id'];
                     }
                 }
                 if (!value) {
@@ -400,33 +389,15 @@ export class CdkProcessoFilterComponent implements OnInit {
         this.form.get('atualizadoPor').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkProcessoFilterService.filters = {
+                        ...this._cdkProcessoFilterService.filters,
                         'atualizadoPor.id': `eq:${value.id}`
                     };
                     this.emite();
                 } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-                if (!value) {
-                    this.emite();
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                    this.emite();
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
+                    if (this._cdkProcessoFilterService.filters.hasOwnProperty('atualizadoPor.id')) {
+                        this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
+                        delete this._cdkProcessoFilterService.filters['atualizadoPor.id'];
                     }
                 }
                 if (!value) {
@@ -436,13 +407,21 @@ export class CdkProcessoFilterComponent implements OnInit {
         });
     }
 
-    validaBusca(): boolean {
-        return true;
+    ngAfterViewInit(): void {
+        const path = '@cdk/components/processo/sidebars/cdk-processo-filter';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
     }
 
     emite(): void {
         const request = {
-            filters: this.filters,
+            filters: this._cdkProcessoFilterService.filters,
         };
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-processo-filter').close();
@@ -453,8 +432,8 @@ export class CdkProcessoFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = null;
-        this.emite();
+        this._cdkProcessoFilterService.filters = {};
+        this._cdkProcessoFilterService.clear.next();
         this.form.reset();
     }
 }
