@@ -1,11 +1,10 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CdkTarefaFilterService
-{
+export class CdkTarefaFilterService {
     private _filters: any = {};
 
     private _clear: Subject<any> = new Subject();
