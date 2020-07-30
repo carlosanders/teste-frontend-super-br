@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component, EventEmitter,
     Input, OnChanges, OnInit,
     Output, SimpleChange, SimpleChanges, ViewChild, ViewContainerRef,
@@ -75,12 +75,13 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     isOpen: boolean;
     loadedAssuntos: boolean;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
+    @ViewChild('dynamicText', {static: false, read: ViewContainerRef}) containerText: ViewContainerRef;
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     constructor(
         private _dynamicService: DynamicService,
-        private _cdkTarefaListItemService: CdkTarefaListItemService
+        private _cdkTarefaListItemService: CdkTarefaListItemService,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.isOpen = false;
         this.loadedAssuntos = false;
@@ -106,6 +107,16 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
                 module.components[path].forEach((c => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+
+        const path_item_text = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item#text';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path_item_text)) {
+                module.components[path_item_text].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.containerText.createComponent(componentFactory));
                 }));
             }
         });
