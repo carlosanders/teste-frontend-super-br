@@ -10,7 +10,7 @@ import {State} from '../../store';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate, CanLoad {
+export class AuthGuard implements CanActivate {
     constructor(
         private router: Router,
         private loginService: LoginService,
@@ -29,19 +29,6 @@ export class AuthGuard implements CanActivate, CanLoad {
 
         // not logged in so redirect to login page with the return url
         this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
-
-        return false;
-    }
-
-    canLoad(route: Route): boolean {
-        const token = this.loginService.getToken();
-        if (token) {
-            this.setMercure();
-            return true;
-        }
-
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/auth/login']);
 
         return false;
     }
