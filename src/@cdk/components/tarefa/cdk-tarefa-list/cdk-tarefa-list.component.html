@@ -2,7 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-tarefa-filter" position="left">
-        <cdk-tarefa-filter (selected)="setListFilter($event)" ></cdk-tarefa-filter>
+        <cdk-tarefa-filter (selected)="setListFilter($event)" fxLayout="column"></cdk-tarefa-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -129,6 +129,8 @@
                         <span>Compartilhar</span>
                     </ng-container>
                 </button>
+
+                <ng-template #dynamicComponent></ng-template>
 
             </mat-menu>
 

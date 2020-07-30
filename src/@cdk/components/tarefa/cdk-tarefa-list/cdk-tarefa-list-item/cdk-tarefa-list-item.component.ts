@@ -1,12 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     Component, EventEmitter,
     Input, OnInit,
-    Output,
+    Output, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {Tarefa} from '@cdk/models/tarefa.model';
+import {DynamicService} from "../../../../../modules/dynamic.service";
+import {modulesConfig} from "../../../../../modules/modules-config";
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -15,7 +18,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class CdkTarefaListItemComponent implements OnInit {
+export class CdkTarefaListItemComponent implements OnInit, AfterViewInit {
 
     @Input()
     tarefa: Tarefa;
@@ -71,7 +74,10 @@ export class CdkTarefaListItemComponent implements OnInit {
     isOpen: boolean;
     loadedAssuntos: boolean;
 
-    constructor() {
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    constructor(private _dynamicService: DynamicService) {
         this.isOpen = false;
         this.loadedAssuntos = false;
         this.deleting = false;
@@ -88,6 +94,19 @@ export class CdkTarefaListItemComponent implements OnInit {
             this.loadedAssuntos = true;
         }
     }
+
+    ngAfterViewInit(): void {
+        const path = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+    }
+
 
     doDelete(): void {
         this.delete.emit(this.tarefa.id);

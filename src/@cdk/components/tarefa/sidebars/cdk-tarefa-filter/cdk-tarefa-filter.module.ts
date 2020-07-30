@@ -18,6 +18,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkEspecieTarefaAutocompleteModule} from '../../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
     declarations: [
@@ -41,9 +42,10 @@ import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/
         CdkProcessoAutocompleteModule,
         CdkEspecieTarefaAutocompleteModule,
         CdkSetorAutocompleteModule,
+        MatExpansionModule,
     ],
     providers: [
-        EspecieTarefaService,
+        EspecieTarefaService
     ],
     exports: [
         CdkTarefaFilterComponent
