@@ -1,8 +1,9 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component,
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    Component, ElementRef,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit, Renderer2, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -40,6 +41,7 @@ import {getIsSaving as getIsSavingVinculacao} from '../vinculacoes-processos/vin
 import {getIsSaving as getIsSavingTaarefa} from '../tarefas/tarefa-edit/store/selectors';
 import {SetSteps} from '../../store/actions';
 import {getProcesso} from '../../store/selectors';
+import {Renderer} from '@angular/compiler-cli/ngcc/src/rendering/renderer';
 
 @Component({
     selector: 'dados-basicos-create',
@@ -52,7 +54,7 @@ import {getProcesso} from '../../store/selectors';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
+export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routerState: any;
     procedencia: Pessoa;
@@ -133,6 +135,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
      * @param _router
      * @param _loginService
      * @param _formBuilder
+     * @param renderer
      * @param _changeDetectorRef
      */
     constructor(
@@ -140,7 +143,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
         private _router: Router,
         public _loginService: LoginService,
         private _formBuilder: FormBuilder,
-        private _changeDetectorRef: ChangeDetectorRef
+        private renderer: Renderer2,
     ) {
         this.isSavingProcesso$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -360,6 +363,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
+    ngAfterViewInit(): void {
+        this.renderer.selectRootElement('#inputProcedencia').focus();
+    }
+
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
@@ -423,7 +430,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy {
     }
 
     gerirProcedencia(): void {
-        this._router.navigate([this.routerState.url + '/pessoa']).then();
+        this._router.navigate([this.routerState.url + '/pessoa/listar']).then();
     }
 
     editProcedencia(pessoaId: number): void {

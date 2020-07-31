@@ -2,8 +2,8 @@
     <mat-step [completed]="formProcesso.value.id">
         <ng-template matStepLabel>Dados básicos</ng-template>
         <cdk-processo-form
-            [processo]="processo"
             [form]="formProcesso"
+            [processo]="processo"
             [saving]="(isSavingProcesso$ | async)"
             [errors]="(errors$ | async)"
             [especieProcessoPagination]="especieProcessoPagination"
@@ -123,7 +123,7 @@
             [form]="formTarefa"
             [tarefa]="tarefa"
             [saving]="(isSavingTarefa$ | async)"
-            [errors]="(errors$ | async)"
+            [errors]="(errors$ | async)"gigit
             [especieTarefaPagination]="especieTarefaPagination"
             [logEntryPagination]="logEntryPagination"
             (save)="submitTarefa($event)"
