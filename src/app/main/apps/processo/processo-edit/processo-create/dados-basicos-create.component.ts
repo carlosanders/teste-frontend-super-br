@@ -278,10 +278,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         ).subscribe(
             processo => {
                 this.processo = processo;
+                this.isLinear = false;
 
-                if (this.processo) {
-                    this.goToStepper(1);
-                }
+                setTimeout(() => {
+                    this.selectedIndex = 1;
+                }, 1000);
             }
         );
 
@@ -307,7 +308,13 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             takeUntil(this._unsubscribeAll),
             filter(assuntos => !!assuntos)
         ).subscribe(
-            assuntos => this.assuntos = assuntos
+            assuntos => {
+                this.assuntos = assuntos;
+
+                if (this.assuntos) {
+                    this.assuntoActivated = 'grid';
+                }
+            }
         );
         this.assuntosPagination$.subscribe(pagination => {
             this.assuntosPagination = pagination;
@@ -317,7 +324,13 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             takeUntil(this._unsubscribeAll),
             filter(interessados => !!interessados)
         ).subscribe(
-            interessados => this.interessados = interessados
+            interessados => {
+                this.interessados = interessados;
+
+                if (this.interessados) {
+                    this.interessadoActivated = 'grid';
+                }
+            }
         );
         this.interessadosPagination$.subscribe(pagination => {
             this.interessadosPagination = pagination;
@@ -337,7 +350,13 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             takeUntil(this._unsubscribeAll),
             filter(vinculacoesProcessos => !!vinculacoesProcessos)
         ).subscribe(
-            vinculacoesProcessos => this.vinculacoesProcessos = vinculacoesProcessos
+            vinculacoesProcessos => {
+                this.vinculacoesProcessos = vinculacoesProcessos;
+
+                if (this.vinculacoesProcessos) {
+                    this.vinculacaoProcessoActivated = 'grid';
+                }
+            }
         );
         this.vinculacoesProcessosPagination$.subscribe(pagination => {
             this.vinculacoesProcessosPagination = pagination;
@@ -534,7 +553,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     onCompleteAssunto(): void {
         this.assuntoActivated = 'grid';
-        // this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
+        this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
         this._store.dispatch(new fromStore.GetAssuntos(this.assuntosPagination));
     }
 
@@ -575,7 +594,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     onCompleteInteressado(): void {
         this.interessadoActivated = 'grid';
-        // this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
+        this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
         this._store.dispatch(new fromStore.GetInteressados(this.interessadosPagination));
     }
 
@@ -672,13 +691,5 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.vinculacaoProcessoActivated = 'form';
                 break;
         }
-    }
-
-    goToStepper(stepper): void {
-        this.isLinear = false;
-
-        setTimeout(() => {
-            this.selectedIndex = stepper;
-        }, 1);
     }
 }
