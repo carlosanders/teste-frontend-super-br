@@ -11,7 +11,7 @@ import * as AssuntoListActions from '../actions';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Assunto} from '@cdk/models';
-import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
+import {assunto as assuntoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class AssuntoListEffect {

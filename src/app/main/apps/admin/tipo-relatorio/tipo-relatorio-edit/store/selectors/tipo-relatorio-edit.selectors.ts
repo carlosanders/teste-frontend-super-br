@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getTipoRelatorioEditAppState, TipoRelatorioEditAppState, TipoRelatorioEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
-import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr/tipo-relatorio.schema';
+import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr';
 
 const schemaTipoRelatorioSelectors = createSchemaSelectors<TipoRelatorio>(tipoRelatorioSchema);
 

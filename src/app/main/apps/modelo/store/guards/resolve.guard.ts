@@ -63,8 +63,30 @@ export class ResolveGuard implements CanActivate {
                                 'modalidadeModelo.valor': 'eq:EM BRANCO'
                             },
                             {
+                                // Modelos individuais
                                 'modalidadeModelo.valor': 'eq:INDIVIDUAL',
                                 'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                            },
+                            {
+                                // Modelos do setor
+                                'modalidadeModelo.valor': 'eq:LOCAL',
+                                'vinculacoesModelos.setor.id': 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')
+                            },
+                            {
+                                // Modelos da unidade por especie de setor
+                                'modalidadeModelo.valor': 'eq:LOCAL',
+                                'vinculacoesModelos.unidade.id': 'in:'
+                                    + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                                'vinculacoesModelos.especieSetor.id': 'in:'
+                                    + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                            },
+                            {
+                                // Modelos nacionais
+                                'modalidadeModelo.valor': 'eq:NACIONAL',
+                                'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
+                                    + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                                'vinculacoesModelos.especieSetor.id': 'in:'
+                                    + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
                             }
                         ],
                         gridFilter: {},

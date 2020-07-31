@@ -11,7 +11,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 import {TipoRelatorioService} from '@cdk/services/tipo-relatorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
-import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr/tipo-relatorio.schema';
+import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr';
 
 
 @Injectable()

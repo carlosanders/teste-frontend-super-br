@@ -6,7 +6,7 @@ import {
 } from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-list/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {atividade as atividadeSchema} from '@cdk/normalizr/atividade.schema';
+import {atividade as atividadeSchema} from '@cdk/normalizr';
 import {Atividade} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Atividade>(atividadeSchema);

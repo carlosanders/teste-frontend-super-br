@@ -1,0 +1,93 @@
+<mat-horizontal-stepper linear #stepper [selectedIndex]="changeStep">
+    <mat-step [completed]="formProcesso.value.id">
+        <ng-template matStepLabel>Dados básicos</ng-template>
+        <cdk-processo-form
+            [form]="formProcesso"
+            [processo]="processo"
+            [saving]="(isSavingProcesso$ | async)"
+            [errors]="(errors$ | async)"
+            [especieProcessoPagination]="especieProcessoPagination"
+            [setorAtualPagination]="setorAtualPagination"
+            [_classificacaoPagination]="classificacaoPagination"
+            [procedencia]="procedencia"
+            [logEntryPagination]="logEntryPagination"
+            (gerirProcedencia)="gerirProcedencia()"
+            (editProcedencia)="editProcedencia($event)"
+            (save)="submit($event)"
+            (post)="post($event)"
+            (put)="put($event)">
+        </cdk-processo-form>
+    </mat-step>
+    <mat-step [stepControl]="formAssunto">
+        <ng-template matStepLabel>Assuntos</ng-template>
+        <cdk-assunto-form
+            [assunto]="assunto"
+            [form]="formAssunto"
+            [saving]="(isSavingAssunto$ | async)"
+            [errors]="(errors$ | async)"
+            (save)="submitAssunto($event)"
+            (abort)="doAbort()">
+        </cdk-assunto-form>
+    </mat-step>
+    <mat-step [stepControl]="formInteressado">
+        <ng-template matStepLabel>Interessados</ng-template>
+        <cdk-interessado-form
+            [interessado]="interessado"
+            [form]="formInteressado"
+            [saving]="(isSavingInteressado$ | async)"
+            [errors]="(errors$ | async)"
+            (save)="submitInteressado($event)"
+            (abort)="doAbort()">
+        </cdk-interessado-form>
+    </mat-step>
+    <mat-step optional>
+        <ng-template matStepLabel>Documentos</ng-template>
+        <div fxLayout="row" class="mt-8">
+            <button mat-mini-fab
+                    class="m-4 active accent"
+                    (click)="upload()">
+                <mat-icon class="secondary-text">attach_file</mat-icon>
+            </button>
+
+            <cdk-componente-digital-card-list #ckdUpload
+                                              [processoOrigem]="processo"
+                                              (completed)="onComplete()">
+            </cdk-componente-digital-card-list>
+        </div>
+
+        <cdk-juntada-grid
+            [loading]="(loading$ | async)"
+            [juntadas]="(juntadas$ | async)"
+            [total]="(pagination$ | async)?.total"
+            [actions]="['showDeleted']"
+            (reload)="reload($event)"
+            (excluded)="excluded($event)">
+        </cdk-juntada-grid>
+    </mat-step>
+    <mat-step [stepControl]="formVinculacaoProcesso" optional>
+        <ng-template matStepLabel>Vinculações</ng-template>
+        <cdk-vinculacao-processo-form
+            [vinculacaoProcesso]="vinculacaoProcesso"
+            [form]="formVinculacaoProcesso"
+            [saving]="(isSavingVinculacao$ | async)"
+            [errors]="(errors$ | async)"
+            (save)="submitVinculacaoProcesso($event)"
+            (abort)="doAbort()">
+        </cdk-vinculacao-processo-form>
+    </mat-step>
+    <mat-step [stepControl]="formTarefa">
+        <ng-template matStepLabel>Distribuição</ng-template>
+        <cdk-tarefa-form
+            [form]="formTarefa"
+            [tarefa]="tarefa"
+            [saving]="(isSavingTarefa$ | async)"
+            [errors]="(errors$ | async)"
+            [especieTarefaPagination]="especieTarefaPagination"
+            [logEntryPagination]="logEntryPagination"
+            (save)="submitTarefa($event)"
+            (abort)="doAbort()">
+        </cdk-tarefa-form>
+    </mat-step>
+</mat-horizontal-stepper>
+
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

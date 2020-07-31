@@ -10,7 +10,7 @@ import * as UsuariosExternosListActions
 
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {usuario as usuarioSchema} from '@cdk/normalizr/usuario.schema';
+import {usuario as usuarioSchema} from '@cdk/normalizr';
 import {Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

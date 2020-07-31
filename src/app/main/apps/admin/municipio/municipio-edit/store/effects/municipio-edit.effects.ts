@@ -9,7 +9,7 @@ import * as MunicipioListActions from '../../../municipio-list/store/actions/mun
 
 import {MunicipioService} from '@cdk/services/municipio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {municipio as municipioSchema} from '@cdk/normalizr/municipio.schema';
+import {municipio as municipioSchema} from '@cdk/normalizr';
 import {Municipio} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

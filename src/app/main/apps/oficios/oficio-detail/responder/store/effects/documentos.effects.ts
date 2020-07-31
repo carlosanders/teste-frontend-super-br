@@ -13,13 +13,13 @@ import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoAvulso, Documento, Assinatura} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {documento as documentoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {getDocumentoAvulso} from '../../../store/selectors';
 import {environment} from 'environments/environment';
 import * as DocumentoAvulsoDetailActions from '../../../store/actions';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
-import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
+import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 

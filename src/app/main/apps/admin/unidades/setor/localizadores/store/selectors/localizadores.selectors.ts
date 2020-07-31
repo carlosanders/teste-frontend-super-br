@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getRootLocalizadoresAppState, RootLocalizadoresAppState, RootLocalizadoresState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Setor} from '@cdk/models';
-import {setor as setorSchema} from '@cdk/normalizr/setor.schema';
+import {setor as setorSchema} from '@cdk/normalizr';
 
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);
 

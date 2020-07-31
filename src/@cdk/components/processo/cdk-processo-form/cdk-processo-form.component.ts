@@ -232,8 +232,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('setorInicial').disable();
             }
 
-            this.form.get('procedencia').setValue(null);
-            this.form.get('procedencia').disable();
+            // this.form.get('procedencia').setValue(null);
+            // this.form.get('procedencia').disable();
             this.textBotao = 'SALVAR';
             this.form.get('tipoProtocolo').valueChanges.subscribe(value => {
                 if (value === Processo.TP_INFORMADO) {
@@ -243,8 +243,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                     this.form.get('NUP').setValue(null);
                     this.form.get('NUP').enable();
 
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('procedencia').enable();
+                    // this.form.get('procedencia').setValue(null);
+                    // this.form.get('procedencia').enable();
                 } else {
                     this.form.get('dataHoraAbertura').setValue(null);
                     this.form.get('dataHoraAbertura').disable();
@@ -252,8 +252,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                     this.form.get('NUP').setValue(null);
                     this.form.get('NUP').disable();
 
-                    this.form.get('procedencia').setValue(null);
-                    this.form.get('procedencia').disable();
+                    // this.form.get('procedencia').setValue(null);
+                    // this.form.get('procedencia').disable();
                 }
 
                 this._changeDetectorRef.markForCheck();

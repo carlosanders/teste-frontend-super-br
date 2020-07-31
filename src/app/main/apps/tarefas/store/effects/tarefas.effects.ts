@@ -1,5 +1,5 @@
 import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {tarefa as tarefaSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
@@ -19,8 +19,8 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 import {Assunto} from '@cdk/models/assunto.model';
 import {AssuntoService} from '@cdk/services/assunto.service';
-import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {assunto as assuntoSchema} from '@cdk/normalizr';
+import {processo as processoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class TarefasEffect {
@@ -64,7 +64,8 @@ export class TarefasEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context));
                 }),
                 mergeMap((response) => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),

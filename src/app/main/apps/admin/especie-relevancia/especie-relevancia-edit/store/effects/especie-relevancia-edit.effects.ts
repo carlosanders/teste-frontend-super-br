@@ -11,7 +11,7 @@ import * as EspecieRelevanciaListActions
 import {EspecieRelevanciaService} from '@cdk/services/especie-relevancia.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {especieRelevancia as especieRelevanciaSchema} from '@cdk/normalizr/especie-relevancia.schema';
+import {especieRelevancia as especieRelevanciaSchema} from '@cdk/normalizr';
 import {EspecieRelevancia} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

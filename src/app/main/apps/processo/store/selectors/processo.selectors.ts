@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {getProcessoAppState, ProcessoAppState, ProcessoState} from 'app/main/apps/processo/store/reducers';
 import {Processo} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {processo as processoSchema} from '@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
@@ -40,4 +40,9 @@ export const getProcessoLoaded = createSelector(
 export const getProcessoIsLoading = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.loading
+);
+
+export const getSteps = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.steps
 );

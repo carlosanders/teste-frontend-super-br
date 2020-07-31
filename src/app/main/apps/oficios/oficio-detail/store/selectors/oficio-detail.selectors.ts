@@ -4,8 +4,8 @@ import {
     OficioDetailAppState,
     OficioDetailState } from 'app/main/apps/oficios/oficio-detail/store/reducers';
 import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
-import { documentoAvulso as documentoAvulsoSchema } from '@cdk/normalizr/documento-avulso.schema';
-import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
+import { documentoAvulso as documentoAvulsoSchema } from '@cdk/normalizr';
+import { documento as documentoSchema } from '@cdk/normalizr';
 import { DocumentoAvulso } from '@cdk/models/documento-avulso.model';
 import { Documento } from '@cdk/models/documento.model';
 

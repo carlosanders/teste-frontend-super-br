@@ -10,7 +10,7 @@ import * as VisibilidadeActions from '../actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Visibilidade} from '@cdk/models';
-import {visibilidade as visibilidadeSchema} from '@cdk/normalizr/visibilidade.schema';
+import {visibilidade as visibilidadeSchema} from '@cdk/normalizr';
 import {ProcessoService} from '@cdk/services/processo.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';

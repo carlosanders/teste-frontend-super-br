@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr/tipo-relatorio.schema';
+import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
 
 const schemaSelectors = createSchemaSelectors<TipoRelatorio>(tipoRelatorioSchema);

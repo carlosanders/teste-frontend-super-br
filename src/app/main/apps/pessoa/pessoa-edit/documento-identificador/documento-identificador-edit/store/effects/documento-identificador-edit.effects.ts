@@ -9,7 +9,7 @@ import * as DocumentoIdentificadorListActions from '../../../documento-identific
 
 import {DocumentoIdentificadorService} from '@cdk/services/documento-identificador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr/documento-identificador.schema';
+import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr';
 import {DocumentoIdentificador} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

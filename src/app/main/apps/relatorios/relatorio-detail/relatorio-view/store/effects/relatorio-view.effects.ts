@@ -10,7 +10,7 @@ import * as RelatorioViewActions from 'app/main/apps/relatorios/relatorio-detail
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Relatorio} from '@cdk/models/relatorio.model';
-import {relatorio as relatorioSchema} from '@cdk/normalizr/relatorio.schema';
+import {relatorio as relatorioSchema} from '@cdk/normalizr';
 import {RelatorioService} from '@cdk/services/relatorio.service';
 import {getCurrentStep, getIndex, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';

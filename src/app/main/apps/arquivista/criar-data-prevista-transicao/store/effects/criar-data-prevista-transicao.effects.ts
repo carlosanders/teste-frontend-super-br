@@ -7,7 +7,7 @@ import * as DataPrevistaTransicaoActions from '../actions/criar-data-prevista-tr
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {processo as processoSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {of} from 'rxjs';
 import {Injectable} from '@angular/core';

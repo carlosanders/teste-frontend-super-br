@@ -205,6 +205,10 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
             }
         );
 
+        if (this.modelo.modalidadeModelo) {
+            modelo.modalidadeModelo = this.modelo.modalidadeModelo;
+        }
+
         if (this.setor) {
             modelo.setor = this.setor;
         } else if (this.unidade) {

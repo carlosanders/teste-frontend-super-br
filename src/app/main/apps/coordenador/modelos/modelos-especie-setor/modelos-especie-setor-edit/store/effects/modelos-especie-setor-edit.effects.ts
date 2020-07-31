@@ -9,7 +9,7 @@ import * as ModelosEspecieSetorListActions from '../../../modelos-especie-setor-
 
 import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {vinculacaoModelo as vinculacaoModeloSchema} from '@cdk/normalizr/vinculacao-modelo.schema';
+import {vinculacaoModelo as vinculacaoModeloSchema} from '@cdk/normalizr';
 import {VinculacaoModelo} from '@cdk/models/vinculacao-modelo.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

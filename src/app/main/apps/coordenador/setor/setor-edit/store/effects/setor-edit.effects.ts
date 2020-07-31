@@ -9,7 +9,7 @@ import * as SetorListActions from '../../../setor-list/store/actions/setor-list.
 
 import {SetorService} from '@cdk/services/setor.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {setor as setorSchema} from '@cdk/normalizr/setor.schema';
+import {setor as setorSchema} from '@cdk/normalizr';
 import {Setor} from '@cdk/models/setor.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

@@ -8,7 +8,7 @@ import * as NumeroUnicoDocumentoEditActions from '../actions/numero-unico-docume
 import * as NumeroUnicoDocumentoListActions from '../../../numero-unico-documento-list/store/actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
-import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr/numero-unico-documento.schema';
+import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr';
 import {NumeroUnicoDocumento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

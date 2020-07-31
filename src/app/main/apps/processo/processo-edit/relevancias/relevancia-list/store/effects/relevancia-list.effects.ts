@@ -11,7 +11,7 @@ import * as RelevanciaListActions from '../actions';
 import {RelevanciaService} from '@cdk/services/relevancia.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Relevancia} from '@cdk/models';
-import {relevancia as relevanciaSchema} from '@cdk/normalizr/relevancia.schema';
+import {relevancia as relevanciaSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class RelevanciaListEffect {

@@ -1,12 +1,16 @@
 import {
-    ChangeDetectionStrategy,
+    AfterViewInit,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component, EventEmitter,
-    Input, OnInit,
-    Output,
+    Input, OnChanges, OnInit,
+    Output, SimpleChange, SimpleChanges, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import {Tarefa} from '@cdk/models/tarefa.model';
+import {DynamicService} from '../../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../../modules/modules-config';
+import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -15,7 +19,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class CdkTarefaListItemComponent implements OnInit {
+export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input()
     tarefa: Tarefa;
@@ -71,7 +75,14 @@ export class CdkTarefaListItemComponent implements OnInit {
     isOpen: boolean;
     loadedAssuntos: boolean;
 
-    constructor() {
+    @ViewChild('dynamicText', {static: false, read: ViewContainerRef}) containerText: ViewContainerRef;
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
+
+    constructor(
+        private _dynamicService: DynamicService,
+        private _cdkTarefaListItemService: CdkTarefaListItemService,
+        private _changeDetectorRef: ChangeDetectorRef
+    ) {
         this.isOpen = false;
         this.loadedAssuntos = false;
         this.deleting = false;
@@ -83,9 +94,37 @@ export class CdkTarefaListItemComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        if (this.tarefa.processo?.assuntos?.length > 0){
+        if (this.tarefa.processo?.assuntos?.length > 0) {
             this.isOpen = true;
             this.loadedAssuntos = true;
+        }
+    }
+
+    ngAfterViewInit(): void {
+        const path = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+
+        const path_item_text = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item#text';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path_item_text)) {
+                module.components[path_item_text].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.containerText.createComponent(componentFactory));
+                }));
+            }
+        });
+    }
+
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['tarefa']) {
+            this._cdkTarefaListItemService.tarefa = this.tarefa;
         }
     }
 

@@ -10,7 +10,7 @@ import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models';
-import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
+import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {getCurrentStep, getIndex, getPagination} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
