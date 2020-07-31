@@ -1,8 +1,8 @@
 import {createSelector} from '@ngrx/store';
 
 import {Lembrete, Processo} from '@cdk/models';
-import {lembrete as lembreteSchema} from '@cdk/normalizr/lembrete.schema';
-import {processo as processoSchema} from '../../../../../../../@cdk/normalizr/processo.schema';
+import {lembrete as lembreteSchema} from '@cdk/normalizr';
+import {processo as processoSchema} from '../../../../../../../@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {getLembreteBlocoAppState, LembreteBlocoAppState, LembreteBlocoState} from '../reducers';
 import {ArquivistaState} from '../../../arquivista-list/store/reducers';

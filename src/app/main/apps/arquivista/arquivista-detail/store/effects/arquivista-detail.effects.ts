@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 import {AddData} from '../../../../../../../@cdk/ngrx-normalizr';
 import {Processo} from '../../../../../../../@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {processo as processoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class ArquivistaDetailEffects {

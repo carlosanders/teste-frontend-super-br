@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 import {
     MatButtonModule,
     MatCheckboxModule,
@@ -8,14 +8,14 @@ import {
     MatInputModule,
     MatProgressBarModule
 } from '@cdk/angular/material';
-import { HttpClientModule } from '@angular/common/http';
-import { CdkSharedModule } from '@cdk/shared.module';
-import { LoginComponent } from 'app/main/auth/login/login.component';
-import { LoginStoreModule } from './store/store.module';
+import {HttpClientModule} from '@angular/common/http';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {LoginComponent} from './login.component';
+import {LoginStoreModule} from './store/store.module';
 
 const routes = [
     {
-        path     : '',
+        path: '',
         component: LoginComponent
     }
 ];
@@ -24,7 +24,7 @@ const routes = [
     declarations: [
         LoginComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(routes),
         HttpClientModule,
 
@@ -38,6 +38,5 @@ const routes = [
         LoginStoreModule
     ]
 })
-export class LoginModule
-{
+export class LoginModule {
 }

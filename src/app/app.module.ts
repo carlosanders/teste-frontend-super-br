@@ -17,7 +17,7 @@ import {CdkProgressBarModule, CdkSidebarModule, CdkThemeOptionsModule} from '@cd
 
 import {cdkConfig} from 'app/cdk-config';
 
-import {AppComponent} from 'app/app.component';
+import {AppComponent} from "./app.component";
 import {AppStoreModule} from 'app/store/store.module';
 import {LayoutModule} from 'app/layout/layout.module';
 import {AuthGuard} from './main/guard';
@@ -35,7 +35,7 @@ const appRoutes: Routes = [
     {
         path: 'apps',
         loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule),
-        canLoad: [AuthGuard]
+        canActivate: [AuthGuard]
     },
     {
         path: 'auth',

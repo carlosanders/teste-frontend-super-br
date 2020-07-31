@@ -11,7 +11,7 @@ import * as RemessaListActions from '../actions';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Tramitacao} from '@cdk/models';
-import {tramitacao as tramitacaoSchema} from '@cdk/normalizr/tramitacao.schema';
+import {tramitacao as tramitacaoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class RemessaListEffect {

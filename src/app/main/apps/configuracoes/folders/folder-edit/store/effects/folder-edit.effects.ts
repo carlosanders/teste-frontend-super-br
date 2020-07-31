@@ -9,7 +9,7 @@ import * as FolderListActions from '../../../folder-list/store/actions/folder-li
 
 import {FolderService} from '@cdk/services/folder.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {folder as folderSchema} from '@cdk/normalizr/folder.schema';
+import {folder as folderSchema} from '@cdk/normalizr';
 import {Folder} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

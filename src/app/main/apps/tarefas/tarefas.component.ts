@@ -33,6 +33,8 @@ import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 import {Usuario} from '@cdk/models';
+import {modulesConfig} from 'modules/modules-config';
+import {DynamicService} from 'modules/dynamic.service';
 
 @Component({
     selector: 'tarefas',
@@ -101,6 +103,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
+    routeAtividade = 'atividades/criar';
+    routeAtividadeBloco = 'atividade-bloco';
+
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
@@ -109,6 +114,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _router
      * @param _store
      * @param _loginService
+     * @param _dynamicService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -117,7 +123,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _tarefaService: TarefaService,
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _dynamicService: DynamicService
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
@@ -225,6 +232,21 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.tarefaListOriginalSize = this.tarefaListElement.nativeElement.offsetWidth;
+
+        const path = 'app/main/apps/tarefas';
+        modulesConfig.forEach((module) => {
+            if (module.routerLinks.hasOwnProperty(path) &&
+                module.routerLinks[path].hasOwnProperty('atividades') &&
+                module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividade = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
+            }
+
+            if (module.routerLinks.hasOwnProperty(path) &&
+                module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
+                module.routerLinks[path]['atividade-bloco'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividadeBloco = module.routerLinks[path]['atividade-bloco'][this.routerState.params.generoHandle];
+            }
+        });
     }
 
     /**
@@ -370,7 +392,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doMovimentar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/atividades/criar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/' + this.routeAtividade]).then();
     }
 
     doEditTarefa(tarefaId): void {
@@ -400,7 +422,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doMovimentarBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/atividade-bloco']).then();
+        // tslint:disable-next-line:max-line-length
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/' + this.routeAtividadeBloco]).then();
     }
 
     doEditTarefaBloco(): void {

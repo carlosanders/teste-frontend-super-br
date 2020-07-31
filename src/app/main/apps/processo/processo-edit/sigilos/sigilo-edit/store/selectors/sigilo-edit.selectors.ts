@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getSigiloEditAppState, SigiloEditAppState, SigiloEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Sigilo} from '@cdk/models';
-import {sigilo as sigiloSchema} from '@cdk/normalizr/sigilo.schema';
+import {sigilo as sigiloSchema} from '@cdk/normalizr';
 
 const schemaSigiloSelectors = createSchemaSelectors<Sigilo>(sigiloSchema);
 

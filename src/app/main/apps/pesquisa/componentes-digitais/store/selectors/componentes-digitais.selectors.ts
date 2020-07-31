@@ -6,7 +6,7 @@ import {
 } from 'app/main/apps/pesquisa/componentes-digitais/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
+import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {ComponenteDigital} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);

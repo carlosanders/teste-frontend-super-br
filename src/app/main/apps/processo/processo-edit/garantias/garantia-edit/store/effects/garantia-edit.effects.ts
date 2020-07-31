@@ -9,7 +9,7 @@ import * as GarantiaListActions from '../../../garantia-list/store/actions/garan
 
 import {GarantiaService} from '@cdk/services/garantia.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {garantia as garantiaSchema} from '@cdk/normalizr/garantia.schema';
+import {garantia as garantiaSchema} from '@cdk/normalizr';
 import {Garantia} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

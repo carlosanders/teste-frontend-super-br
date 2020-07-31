@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getInteressadoEditAppState, InteressadoEditAppState, InteressadoEditState} from 'app/main/apps/processo/processo-edit/interessados/interessado-edit/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Interessado} from '@cdk/models';
-import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
+import {interessado as interessadoSchema} from '@cdk/normalizr';
 
 const schemaInteressadoSelectors = createSchemaSelectors<Interessado>(interessadoSchema);
 

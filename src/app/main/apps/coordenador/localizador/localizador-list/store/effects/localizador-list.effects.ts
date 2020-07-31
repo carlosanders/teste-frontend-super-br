@@ -11,7 +11,7 @@ import * as LocalizadorListActions from '../actions';
 import {LocalizadorService} from '@cdk/services/localizador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Localizador} from '@cdk/models/localizador.model';
-import {localizador as localizadorSchema} from '@cdk/normalizr/localizador.schema';
+import {localizador as localizadorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 

@@ -8,7 +8,7 @@ import * as CoordenadorSetorActions from '../actions/setor.actions';
 
 import {SetorService} from '@cdk/services/setor.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {setor as setorSchema} from '@cdk/normalizr/setor.schema';
+import {setor as setorSchema} from '@cdk/normalizr';
 import {Setor} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

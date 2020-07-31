@@ -68,16 +68,12 @@ const routes: Routes = [
                 path: 'municipios',
                 loadChildren: () => import('./municipio/municipio.module').then(m => m.MunicipioModule)
             },
-            {
-                path: '**',
-                redirectTo: 'assuntos'
-            },
         ],
         canActivate: [fromGuards.ResolveGuard]
     },
     {
         path: '**',
-        redirectTo: ''
+        redirectTo: 'especie-tarefas'
     }
 ];
 
@@ -85,7 +81,7 @@ const path = 'app/main/apps/admin';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
-        module.routes[path].forEach((r => routes[0].children.push(r)));
+        module.routes[path].forEach((r => routes[0].children.unshift(r)));
     }
 });
 

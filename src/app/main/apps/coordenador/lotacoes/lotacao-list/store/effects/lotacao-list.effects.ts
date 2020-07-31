@@ -11,7 +11,7 @@ import * as LotacaoListActions from '../actions';
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Lotacao} from '@cdk/models/lotacao.model';
-import {lotacao as lotacaoSchema} from '@cdk/normalizr/lotacao.schema';
+import {lotacao as lotacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 

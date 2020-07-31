@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr/tipo-documento.schema';
+import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr';
 import {TipoDocumento} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<TipoDocumento>(tipoDocumentoSchema);

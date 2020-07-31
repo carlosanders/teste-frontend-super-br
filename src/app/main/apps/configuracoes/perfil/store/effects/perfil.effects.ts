@@ -12,7 +12,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Usuario} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
-import {usuario as usuarioSchema} from '@cdk/normalizr/usuario.schema';
+import {usuario as usuarioSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class ProfileEffect {

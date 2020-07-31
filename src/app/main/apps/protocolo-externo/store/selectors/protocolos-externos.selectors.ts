@@ -4,7 +4,7 @@ import { getProtocoloExternoAppState, ProcessosAppState, ProcessosState } from '
 import { createSchemaSelectors } from '@cdk/ngrx-normalizr';
 import { Processo } from '@cdk/models';
 
-import { processo as processoSchema } from '@cdk/normalizr/processo.schema';
+import { processo as processoSchema } from '@cdk/normalizr';
 
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);
 

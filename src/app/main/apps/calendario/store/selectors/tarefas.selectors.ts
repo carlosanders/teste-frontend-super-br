@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getCalendarioAppState, CalendarioAppState, CalendarioState} from 'app/main/apps/calendario/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema} from '@cdk/normalizr/tarefa.schema';
+import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import {Tarefa} from '@cdk/models';
 import {CalendarEventModel} from '../../event.model';
 

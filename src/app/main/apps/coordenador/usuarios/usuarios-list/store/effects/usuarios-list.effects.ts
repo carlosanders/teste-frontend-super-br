@@ -12,7 +12,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {Usuario} from '@cdk/models/usuario.model';
-import {usuario as usuarioSchema} from '@cdk/normalizr/usuario.schema';
+import {usuario as usuarioSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class UsuariosListEffects {

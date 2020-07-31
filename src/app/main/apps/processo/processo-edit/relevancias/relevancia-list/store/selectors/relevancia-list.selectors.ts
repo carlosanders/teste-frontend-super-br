@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {relevancia as relevanciaSchema} from '@cdk/normalizr/relevancia.schema';
+import {relevancia as relevanciaSchema} from '@cdk/normalizr';
 import {Relevancia} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Relevancia>(relevanciaSchema);

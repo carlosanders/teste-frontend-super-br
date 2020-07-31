@@ -16,6 +16,10 @@ import * as fromStore from 'app/store';
 import {getMercureState} from 'app/store';
 import {Logout} from '../../../main/auth/login/store/actions';
 import {Usuario} from '@cdk/models/usuario.model';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {Notificacao} from '@cdk/models';
+import {notificacao as notificacaoSchema} from '@cdk/normalizr';
+import {plainToClass} from 'class-transformer';
 
 @Component({
     selector: 'toolbar',
@@ -198,6 +202,14 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
                     switch (message.content.action) {
                         case 'count_notificacao':
                             this.notificacoesCount = message.content.count;
+                            break;
+                    }
+                }
+
+                if (message && message.type === 'normalizr_notificacao') {
+                    switch (message.content.action) {
+                        case 'addData':
+                            this._store.dispatch(new AddData<Notificacao>({data: [plainToClass(Notificacao, message.content.object)], schema: notificacaoSchema}));
                             break;
                     }
                 }

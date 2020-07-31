@@ -8,7 +8,7 @@ import * as RelatorioCreateActions from '../actions/relatorio-create.actions';
 
 import {RelatorioService} from '@cdk/services/relatorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {relatorio as relatorioSchema} from '@cdk/normalizr/relatorio.schema';
+import {relatorio as relatorioSchema} from '@cdk/normalizr';
 import {Relatorio} from '@cdk/models/relatorio.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

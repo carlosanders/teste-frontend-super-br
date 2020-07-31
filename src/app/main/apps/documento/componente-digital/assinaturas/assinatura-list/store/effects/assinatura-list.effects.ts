@@ -11,7 +11,7 @@ import * as AssinaturaListActions from '../actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Assinatura} from '@cdk/models';
-import {assinatura as assinaturaSchema} from '@cdk/normalizr/assinatura.schema';
+import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 
 @Injectable()

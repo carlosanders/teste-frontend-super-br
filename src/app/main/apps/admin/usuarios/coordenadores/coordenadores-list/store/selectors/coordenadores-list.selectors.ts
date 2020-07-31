@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {coordenador as coordenadoreschema} from '@cdk/normalizr/coordenador.schema';
+import {coordenador as coordenadoreschema} from '@cdk/normalizr';
 import {Coordenador} from '@cdk/models/coordenador.model';
 
 const schemaSelectors = createSchemaSelectors<Coordenador>(coordenadoreschema);

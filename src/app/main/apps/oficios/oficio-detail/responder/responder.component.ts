@@ -21,7 +21,7 @@ import { Router } from '@angular/router';
 import {Assinatura, DocumentoAvulso, Usuario} from '@cdk/models';
 import { getDocumentoAvulso } from '../store/selectors';
 import { UpdateData } from '@cdk/ngrx-normalizr';
-import { documento as documentoSchema } from '@cdk/normalizr/documento.schema';
+import { documento as documentoSchema } from '@cdk/normalizr';
 import { getDocumentosComplementares } from '../complementar/store/selectors';
 import {DynamicService} from "../../../../../../modules/dynamic.service";
 import {modulesConfig} from "../../../../../../modules/modules-config";

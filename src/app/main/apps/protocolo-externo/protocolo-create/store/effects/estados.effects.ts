@@ -9,7 +9,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Estado} from '@cdk/models';
 import {EstadoService} from '@cdk/services/estado.service';
-import {estado as estadoSchema} from '@cdk/normalizr/estado.schema';
+import {estado as estadoSchema} from '@cdk/normalizr';
 import * as EstadosActions from '../actions';
 import {Router} from '@angular/router';
 

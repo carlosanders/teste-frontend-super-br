@@ -9,7 +9,7 @@ import * as VinculacaoUsuarioListActions from '../../../vinculacao-usuario-list/
 
 import {VinculacaoUsuarioService} from '@cdk/services/vinculacao-usuario.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr/vinculacao-usuario.schema';
+import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr';
 import {VinculacaoUsuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

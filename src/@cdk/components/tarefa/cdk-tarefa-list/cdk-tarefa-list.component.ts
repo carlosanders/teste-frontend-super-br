@@ -1,7 +1,19 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input, OnInit,
+    Output,
+    ViewChild, ViewContainerRef,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
+import {DynamicService} from "../../../../modules/dynamic.service";
+import {modulesConfig} from "../../../../modules/modules-config";
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -12,7 +24,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
     animations: cdkAnimations,
     exportAs: 'dragTarefaList'
 })
-export class CdkTarefaListComponent {
+export class CdkTarefaListComponent implements AfterViewInit {
 
     @Input()
     loading: boolean;
@@ -127,13 +139,29 @@ export class CdkTarefaListComponent {
 
     isIndeterminate = false;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     /**
      * Constructor
      */
     constructor(
+        private _dynamicService: DynamicService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService) {
         this.listFilter = {};
+    }
+
+    ngAfterViewInit(): void {
+        const path = '@cdk/components/tarefa/cdk-tarefa-list';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

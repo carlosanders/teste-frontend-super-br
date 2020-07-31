@@ -1,23 +1,23 @@
-import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {RouterModule} from '@angular/router';
 
-import { CdkSidebarModule } from '@cdk/components';
-import { CdkSharedModule } from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
 
-import { ContentModule } from 'app/layout/components/content/content.module';
-import { FooterModule } from 'app/layout/components/footer/footer.module';
-import { NavbarModule } from 'app/layout/components/navbar/navbar.module';
-import { QuickPanelModule } from 'app/layout/components/quick-panel/quick-panel.module';
-import { ToolbarModule } from 'app/layout/components/toolbar/toolbar.module';
+import {ContentModule} from 'app/layout/components/content/content.module';
+import {FooterModule} from 'app/layout/components/footer/footer.module';
+import {NavbarModule} from 'app/layout/components/navbar/navbar.module';
+import {QuickPanelModule} from 'app/layout/components/quick-panel/quick-panel.module';
+import {ToolbarModule} from 'app/layout/components/toolbar/toolbar.module';
 
-import { VerticalLayout2Component } from 'app/layout/vertical/layout-2/layout-2.component';
+import {VerticalLayout2Component} from './layout-2.component';
 import {AjudaPanelModule} from '../../components/ajuda-panel/ajuda-panel.module';
 
 @NgModule({
     declarations: [
         VerticalLayout2Component
     ],
-    imports     : [
+    imports: [
         RouterModule,
 
         CdkSharedModule,
@@ -30,10 +30,9 @@ import {AjudaPanelModule} from '../../components/ajuda-panel/ajuda-panel.module'
         AjudaPanelModule,
         ToolbarModule
     ],
-    exports     : [
+    exports: [
         VerticalLayout2Component
     ]
 })
-export class VerticalLayout2Module
-{
+export class VerticalLayout2Module {
 }

@@ -171,6 +171,8 @@ export class Processo {
     @Type(() => Interessado)
     interessados: Interessado[];
 
+    @Exclude({ toPlainOnly: true })
+    any: any;
 
     constructor() {
         this.id = null;
@@ -213,5 +215,6 @@ export class Processo {
         this.interessados = [];
         this.requerimento = null;
         this.protocoloEletronico = null;
+        this.any = null;
     }
 }

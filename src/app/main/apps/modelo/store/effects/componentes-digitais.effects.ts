@@ -8,13 +8,13 @@ import * as ComponenteDigitalActions from '../actions/componentes-digitais.actio
 
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr/componente-digital.schema';
+import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {ComponenteDigital} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {documento as documentoSchema} from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetDocumentos} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';

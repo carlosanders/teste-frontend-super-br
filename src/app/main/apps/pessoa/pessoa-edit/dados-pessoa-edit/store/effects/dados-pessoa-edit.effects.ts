@@ -9,7 +9,7 @@ import * as PessoaListActions from '../../../../pessoa-list/store/actions/pessoa
 
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {pessoa as pessoaSchema} from '@cdk/normalizr/pessoa.schema';
+import {pessoa as pessoaSchema} from '@cdk/normalizr';
 import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
