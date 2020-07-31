@@ -10,7 +10,7 @@ import * as JuntadaActions from '../actions/juntada.actions';
 
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
+import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {Juntada} from '@cdk/models';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {JuntadaService} from '@cdk/services/juntada.service';

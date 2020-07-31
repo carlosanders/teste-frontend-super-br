@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getDocumentoAppState, DocumentoAppState, JuntadaState} from 'app/main/apps/documento/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models';
-import {juntada as juntadaSchema} from '@cdk/normalizr/juntada.schema';
+import {juntada as juntadaSchema} from '@cdk/normalizr';
 
 const schemaJuntadaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 
