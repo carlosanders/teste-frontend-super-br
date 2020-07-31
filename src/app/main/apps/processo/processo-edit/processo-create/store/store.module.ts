@@ -7,10 +7,10 @@ import {effects} from './effects';
 
 @NgModule({
     imports: [
-        StoreModule.forFeature('dados-basicos-app', reducers),
+        StoreModule.forFeature('dados-basicos-steps-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
 })
-export class DadosBasicosStoreModule {
+export class DadosBasicosStepsStoreModule {
 }

@@ -23,7 +23,7 @@ export const getAssuntos = createSelector(
     schemaSelectors.entitiesProjector
 );
 
-export const getPaginationAssuntos = createSelector(
+export const getAssuntosPagination = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.pagination
 );
@@ -33,7 +33,17 @@ export const getAssuntosLoaded = createSelector(
     (state: AssuntoState) => state.loaded
 );
 
-export const getIsAssuntosLoading = createSelector(
+export const getAssuntosIsLoading = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.loading
+);
+
+export const getAssuntosDeletingIds = createSelector(
+    getAssuntoState,
+    (state: AssuntoState) => state.deletingIds
+);
+
+export const getAssuntosDeletedIds = createSelector(
+    getAssuntoState,
+    (state: AssuntoState) => state.deletedIds
 );

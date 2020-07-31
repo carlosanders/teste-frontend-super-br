@@ -1,10 +1,15 @@
 import { Action } from '@ngrx/store';
 
-export const GET_INTERESSADOS = '[PROCESSO CAPA] GET INTERESSADOS';
-export const GET_INTERESSADOS_SUCCESS = '[PROCESSO CAPA] GET INTERESSADOS SUCCESS';
-export const GET_INTERESSADOS_FAILED = '[PROCESSO CAPA] GET INTERESSADOS FAILED';
+export const GET_INTERESSADOS = '[DADOS BASICOS STEPS] GET INTERESSADOS';
+export const GET_INTERESSADOS_SUCCESS = '[DADOS BASICOS STEPS] GET INTERESSADOS SUCCESS';
+export const GET_INTERESSADOS_FAILED = '[DADOS BASICOS STEPS] GET INTERESSADOS FAILED';
 
-export const UNLOAD_INTERESSADOS = '[PROCESSO CAPA] UNLOAD INTERESSADOS';
+export const RELOAD_INTERESSADOS = '[DADOS BASICOS STEPS] RELOAD INTERESSADOS';
+export const UNLOAD_INTERESSADOS = '[DADOS BASICOS STEPS] UNLOAD INTERESSADOS';
+
+export const DELETE_INTERESSADO = '[DADOS BASICOS STEPS] DELETE INTERESSADO';
+export const DELETE_INTERESSADO_SUCCESS = '[DADOS BASICOS STEPS] DELETE INTERESSADO SUCCESS';
+export const DELETE_INTERESSADO_FAILED = '[DADOS BASICOS STEPS] DELETE INTERESSADO FAILED';
 
 /**
  * Get Assuntos Processo
@@ -39,9 +44,57 @@ export class GetInteressadosFailed implements Action {
 /**
  * Unload Interessados
  */
+export class ReloadInteressados implements Action
+{
+    readonly type = RELOAD_INTERESSADOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Unload Interessados
+ */
 export class UnloadInteressados implements Action
 {
     readonly type = UNLOAD_INTERESSADOS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Interessado
+ */
+export class DeleteInteressado implements Action
+{
+    readonly type = DELETE_INTERESSADO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Interessado Success
+ */
+export class DeleteInteressadoSuccess implements Action
+{
+    readonly type = DELETE_INTERESSADO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Interessado Failed
+ */
+export class DeleteInteressadoFailed implements Action
+{
+    readonly type = DELETE_INTERESSADO_FAILED;
 
     constructor(public payload: any)
     {
@@ -53,4 +106,8 @@ export type InteressadoActionsAll
     = GetInteressados
     | GetInteressadosSuccess
     | GetInteressadosFailed
-    | UnloadInteressados;
+    | ReloadInteressados
+    | UnloadInteressados
+    | DeleteInteressado
+    | DeleteInteressadoSuccess
+    | DeleteInteressadoFailed;

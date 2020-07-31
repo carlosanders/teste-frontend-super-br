@@ -51,6 +51,9 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
     activeCard = 'form';
 
     @Output()
+    completed = new EventEmitter<Interessado>();
+
+    @Output()
     gerirPessoa = new EventEmitter();
 
     @Output()
@@ -130,6 +133,7 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
+            this.completed.emit();
         }
     }
 

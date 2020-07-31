@@ -10,8 +10,8 @@ import {DadosBasicosAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {SetSteps} from '../../../../store/actions';
+import {getProcessoLoaded} from '../../../../store/selectors';
 import {
-    getProcessoLoaded,
     getAssuntosLoaded,
     getInteressadosLoaded,
     getVinculacoesProcessosLoaded,
@@ -48,24 +48,15 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.checkStore().pipe(
+        return forkJoin([
+            this.getProcesso(),
+            this.getAssuntos(),
+            this.getInteressados(),
+            this.getJuntadas(),
+            this.getVinculacoesProcessos()
+        ]).pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
-        );
-    }
-
-    /**
-     * Check store
-     *
-     * @returns {Observable<any>}
-     */
-    checkStore(): Observable<any> {
-        return forkJoin([this.getAssuntos(), this.getInteressados(), this.getJuntadas(), this.getVinculacoesProcessos()]).pipe(
-            filter(([loaded]) => !!(loaded)),
-            take(1),
-            switchMap(() =>
-                this.getProcesso()
-            )
         );
     }
  
@@ -89,7 +80,6 @@ export class ResolveGuard implements CanActivate {
                             value: this.routerState.params['processoHandle']
                         }));
                     }
-
                 }
             }),
             filter((loaded: any) => {
@@ -105,6 +95,8 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getAssuntos(): any {
+        this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
+
         return this._store.pipe(
             select(getAssuntosLoaded),
             tap(loaded => {
@@ -133,6 +125,8 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getInteressados(): any {
+        this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
+
         return this._store.pipe(
             select(getInteressadosLoaded),
             tap(loaded => {
@@ -161,6 +155,8 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getVinculacoesProcessos(): any {
+        this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
+
         return this._store.pipe(
             select(getVinculacoesProcessosLoaded),
             tap(loaded => {
@@ -168,8 +164,6 @@ export class ResolveGuard implements CanActivate {
                     filter: [
                         {
                             'processo.id': `eq:${this.routerState.params['processoHandle']}`,
-                        },
-                        {
                             'processoVinculado.id': `eq:${this.routerState.params['processoHandle']}`
                         }
                     ],
@@ -196,6 +190,8 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getJuntadas(): any {
+        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+
         return this._store.pipe(
             select(getJuntadaListLoaded),
             tap((loaded: any) => {
