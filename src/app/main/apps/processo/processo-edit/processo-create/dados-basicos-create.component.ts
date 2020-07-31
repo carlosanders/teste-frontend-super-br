@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
-    Component, ElementRef,
+    Component,
     OnDestroy,
     OnInit, Renderer2, ViewChild,
     ViewEncapsulation
@@ -41,7 +41,6 @@ import {getIsSaving as getIsSavingVinculacao} from '../vinculacoes-processos/vin
 import {getIsSaving as getIsSavingTaarefa} from '../tarefas/tarefa-edit/store/selectors';
 import {SetSteps} from '../../store/actions';
 import {getProcesso} from '../../store/selectors';
-import {Renderer} from '@angular/compiler-cli/ngcc/src/rendering/renderer';
 
 @Component({
     selector: 'dados-basicos-create',
@@ -136,7 +135,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      * @param _loginService
      * @param _formBuilder
      * @param renderer
-     * @param _changeDetectorRef
      */
     constructor(
         private _store: Store<fromStore.DadosBasicosAppState>,
@@ -282,7 +280,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.processo = processo;
 
                 if (this.processo) {
-                    this.goToSepper(1);
+                    this.goToStepper(1);
                 }
             }
         );
@@ -353,6 +351,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
             this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
         }
+
+        this.isLinear = true;
     }
 
     /**
@@ -534,7 +534,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     onCompleteAssunto(): void {
         this.assuntoActivated = 'grid';
-        this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
+        // this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
         this._store.dispatch(new fromStore.GetAssuntos(this.assuntosPagination));
     }
 
@@ -575,7 +575,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     onCompleteInteressado(): void {
         this.interessadoActivated = 'grid';
-        this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
+        // this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
         this._store.dispatch(new fromStore.GetInteressados(this.interessadosPagination));
     }
 
@@ -674,13 +674,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }
     }
 
-    goToSepper(stepper): void {
+    goToStepper(stepper): void {
         this.isLinear = false;
 
         setTimeout(() => {
             this.selectedIndex = stepper;
         }, 1);
-
-        this.isLinear = true;
     }
 }
