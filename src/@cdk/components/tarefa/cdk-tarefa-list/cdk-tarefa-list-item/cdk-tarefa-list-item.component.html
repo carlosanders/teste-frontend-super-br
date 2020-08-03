@@ -9,9 +9,12 @@
 
         <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
 
+            <ng-template #dynamicText></ng-template>
+
             <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
 
             <div class="title" fxLayout="row">
+
                 <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
                 </mat-icon>
                 <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock

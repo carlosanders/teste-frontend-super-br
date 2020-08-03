@@ -80,6 +80,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     pluginLoading = false;
 
+    @ViewChild('dynamicText', {static: false, read: ViewContainerRef})
+    containerText: ViewContainerRef;
+
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
@@ -121,6 +124,16 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
                 module.components[path].forEach((c => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+
+        const pathItemText = '@cdk/components/tarefa/cdk-tarefa-list/cdk-tarefa-list-item#text';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(pathItemText)) {
+                module.components[pathItemText].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.containerText.createComponent(componentFactory));
                 }));
             }
         });
