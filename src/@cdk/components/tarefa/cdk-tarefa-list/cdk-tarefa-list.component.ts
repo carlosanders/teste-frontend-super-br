@@ -4,16 +4,17 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input, OnInit,
-    Output,
+    Input, OnChanges, OnInit,
+    Output, SimpleChange,
     ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
-import {DynamicService} from "../../../../modules/dynamic.service";
-import {modulesConfig} from "../../../../modules/modules-config";
+import {DynamicService} from '../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../modules/modules-config';
+import {CdkTarefaListService} from './cdk-tarefa-list.service';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -24,7 +25,7 @@ import {modulesConfig} from "../../../../modules/modules-config";
     animations: cdkAnimations,
     exportAs: 'dragTarefaList'
 })
-export class CdkTarefaListComponent implements AfterViewInit {
+export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input()
     loading: boolean;
@@ -99,6 +100,9 @@ export class CdkTarefaListComponent implements AfterViewInit {
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
+    removeTarefa = new EventEmitter<Tarefa>();
+
+    @Output()
     compartilharBloco = new EventEmitter<any>();
 
     @Output()
@@ -148,8 +152,16 @@ export class CdkTarefaListComponent implements AfterViewInit {
     constructor(
         private _dynamicService: DynamicService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService) {
+        private _cdkSidebarService: CdkSidebarService,
+        private _cdkTarefaListService: CdkTarefaListService
+    ) {
         this.listFilter = {};
+    }
+
+    /**
+     * On init
+     */
+    ngOnInit(): void {
     }
 
     ngAfterViewInit(): void {
@@ -162,6 +174,12 @@ export class CdkTarefaListComponent implements AfterViewInit {
                 }));
             }
         });
+    }
+
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['tarefas']) {
+            this._cdkTarefaListService.tarefas = this.tarefas;
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -204,6 +222,10 @@ export class CdkTarefaListComponent implements AfterViewInit {
         this.folder.emit(folder);
     }
 
+    doRemoveTarefa(tarefa: Tarefa): void {
+        this.removeTarefa.emit(tarefa);
+    }
+
     onScroll(): void {
         this.scrolled.emit();
     }
@@ -229,6 +251,7 @@ export class CdkTarefaListComponent implements AfterViewInit {
     selectAll(): void {
         const arr = Object.keys(this.tarefas).map(k => this.tarefas[k]);
         this.selectedIds = arr.map(tarefa => tarefa.id);
+        this._cdkTarefaListService.selectedIds = this.selectedIds;
         this.recompute();
     }
 
@@ -237,6 +260,7 @@ export class CdkTarefaListComponent implements AfterViewInit {
      */
     deselectAll(): void {
         this.selectedIds = [];
+        this._cdkTarefaListService.selectedIds = this.selectedIds;
         this.recompute();
     }
 
@@ -245,8 +269,10 @@ export class CdkTarefaListComponent implements AfterViewInit {
 
         if (selectedTarefaIds.find(id => id === tarefaId) !== undefined) {
             this.selectedIds = selectedTarefaIds.filter(id => id !== tarefaId);
+            this._cdkTarefaListService.selectedIds = this.selectedIds;
         } else {
             this.selectedIds = [...selectedTarefaIds, tarefaId];
+            this._cdkTarefaListService.selectedIds = this.selectedIds;
         }
         this.recompute();
     }

@@ -40,6 +40,9 @@ export const GET_DOCUMENTOS_FAILED = '[TAREFA DETAIL] GET DOCUMENTOS FAILED';
 
 export const DESELECT_TAREFA_ACTION = '[TAREFA DETAIL] DESELECT TAREFA ACTION';
 
+export const ADD_PLUGIN_LOADING = '[TAREFA DETAIL] ALL PLUGIN LOADING';
+export const REMOVE_PLUGIN_LOADING = '[TAREFA DETAIL] ALL PLUGIN LOADING';
+
 /**
  * Get Tarefa
  */
@@ -394,6 +397,30 @@ export class GetDocumentosFailed implements Action
     }
 }
 
+/**
+ * Add Plugin Loading
+ */
+export class AddPluginLoading implements Action
+{
+    readonly type = ADD_PLUGIN_LOADING;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Plugin Loading
+ */
+export class RemovePluginLoading implements Action
+{
+    readonly type = REMOVE_PLUGIN_LOADING;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefaDetailActionsAll
     = GetTarefa
     | GetTarefaSuccess
@@ -423,4 +450,6 @@ export type TarefaDetailActionsAll
     | DeselectTarefaAction
     | GetDocumentos
     | GetDocumentosSuccess
-    | GetDocumentosFailed;
+    | GetDocumentosFailed
+    | AddPluginLoading
+    | RemovePluginLoading;

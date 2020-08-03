@@ -1,6 +1,6 @@
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component, EventEmitter,
     Input, OnChanges, OnInit,
     Output, SimpleChange, SimpleChanges, ViewChild, ViewContainerRef,
@@ -64,6 +64,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
+    removeTarefa = new EventEmitter<Tarefa>();
+
+    @Output()
     loadAssuntos = new EventEmitter<any>();
 
     @Input()
@@ -75,11 +78,14 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     isOpen: boolean;
     loadedAssuntos: boolean;
 
+    pluginLoading = false;
+
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
     constructor(
         private _dynamicService: DynamicService,
+        private _changeDetectorRef: ChangeDetectorRef,
         private _cdkTarefaListItemService: CdkTarefaListItemService
     ) {
         this.isOpen = false;
@@ -97,6 +103,15 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             this.isOpen = true;
             this.loadedAssuntos = true;
         }
+
+        this._cdkTarefaListItemService.loading.subscribe((loading) => {
+            this.pluginLoading = loading.indexOf(this.tarefa.id) > -1;
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this._cdkTarefaListItemService.remove.subscribe((tarefa: Tarefa) => {
+            this.removeTarefa.emit(tarefa);
+        });
     }
 
     ngAfterViewInit(): void {

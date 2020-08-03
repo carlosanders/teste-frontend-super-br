@@ -133,8 +133,6 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedLanguage = _.find(this.languages, {id: this._translateService.currentLang});
     }
 
-
-
     /**
      * On destroy
      */
@@ -202,14 +200,6 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
                     switch (message.content.action) {
                         case 'count_notificacao':
                             this.notificacoesCount = message.content.count;
-                            break;
-                    }
-                }
-
-                if (message && message.type === 'normalizr_notificacao') {
-                    switch (message.content.action) {
-                        case 'addData':
-                            this._store.dispatch(new AddData<Notificacao>({data: [plainToClass(Notificacao, message.content.object)], schema: notificacaoSchema}));
                             break;
                     }
                 }
