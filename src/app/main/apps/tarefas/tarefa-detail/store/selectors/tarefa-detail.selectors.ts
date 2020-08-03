@@ -24,6 +24,11 @@ export const getIsLoading = createSelector(
     (state: TarefaDetailState) => state.loading
 );
 
+export const getPluginLoading = createSelector(
+    getTarefaState,
+    (state: TarefaDetailState) => state.pluginLoading
+);
+
 export const getIsSaving = createSelector(
     getTarefaState,
     (state: TarefaDetailState) => state.saving
