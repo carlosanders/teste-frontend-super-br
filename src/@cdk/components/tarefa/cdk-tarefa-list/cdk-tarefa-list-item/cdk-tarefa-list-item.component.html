@@ -11,45 +11,46 @@
 
             <ng-template #dynamicText></ng-template>
 
-            <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
+            <div class="mb-4">
+                <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
 
-            <div class="title" fxLayout="row">
+                <div class="title" fxLayout="row">
+                    <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
+                    </mat-icon>
+                    <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
+                    </mat-icon>
+                    <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
+                    <span dndDragImageRef>NUP {{tarefa.processo?.NUP | formatNup}}</span>
+                    <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                              *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
+                    </mat-icon>
+                    <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                              *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
+                    </mat-icon>
+                </div>
 
-                <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
-                </mat-icon>
-                <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
-                </mat-icon>
-                <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
-                <span dndDragImageRef>NUP {{tarefa.processo?.NUP | formatNup}}</span>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
-                          *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
-                </mat-icon>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
-                          *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
-                </mat-icon>
-            </div>
+                <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
+                    <span>{{tarefa.processo?.modalidadeMeio?.valor }} {{tarefa.processo?.especieProcesso?.nome }}</span>
+                </div>
 
-            <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-                <span>{{tarefa.processo?.modalidadeMeio?.valor }} {{tarefa.processo?.especieProcesso?.nome }}</span>
-            </div>
+                <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
+                    <span>Usuário com acesso negado ao processo</span>
+                </div>
 
-            <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
-                <span>Usuário com acesso negado ao processo</span>
-            </div>
-
-            <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
+                <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
                     <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
                     >Ofício vinculado pendente de resposta</span>
-                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
-            </div>
-
-            <div class="subtitle" fxLayout="row" *ngIf="isOpen">
-                <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
-                    <mat-spinner diameter=16></mat-spinner>
+                    <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
+                    >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
                 </div>
-                <div *ngIf="tarefa.processo?.assuntos?.length > 0">
-                    <span>ASSUNTO: {{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
+
+                <div class="subtitle" fxLayout="row" *ngIf="isOpen">
+                    <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
+                        <mat-spinner diameter=16></mat-spinner>
+                    </div>
+                    <div *ngIf="tarefa.processo?.assuntos?.length > 0">
+                        <span>ASSUNTO: {{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
+                    </div>
                 </div>
             </div>
 
@@ -73,7 +74,8 @@
                      fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.etiqueta?.nome">
                     <div class="etiqueta-color"
                          [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                    <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                    <div
+                        class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
                 </div>
             </div>
         </div>
