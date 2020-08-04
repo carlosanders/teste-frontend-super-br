@@ -3,7 +3,7 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component, EventEmitter,
     Input, OnChanges, OnInit,
-    Output, SimpleChange, SimpleChanges, ViewChild, ViewContainerRef,
+    Output, SimpleChange, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -133,7 +133,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             if (module.components.hasOwnProperty(pathItemText)) {
                 module.components[pathItemText].forEach((c => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.containerText.createComponent(componentFactory));
+                        .then(componentFactory => {
+                            this.containerText.createComponent(componentFactory);
+                            this._changeDetectorRef.detectChanges();
+                        });
                 }));
             }
         });

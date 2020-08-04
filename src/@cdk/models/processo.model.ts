@@ -44,6 +44,9 @@ export class Processo {
 
     NUP?: string;
 
+    @Exclude({toPlainOnly: true})
+    NUPFormatado?: string;
+
     semValorEconomico?: boolean;
 
     visibilidadeExterna?: boolean;
@@ -184,6 +187,7 @@ export class Processo {
         this.valorEconomico = null;
         this.semValorEconomico = null;
         this.NUP = null;
+        this.NUPFormatado = null;
         this.especieProcesso = null;
         this.visibilidadeExterna = null;
         this.dataHoraAbertura = null;
