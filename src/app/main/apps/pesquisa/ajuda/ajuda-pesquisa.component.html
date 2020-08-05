@@ -1,0 +1,87 @@
+<div *ngIf="titulo === 'pesquisa'">
+    <h3><strong>PESQUISA</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      No sistema existem duas opções de Pesquisa. 
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      A <strong>pesquisa rápida</strong> fica situada na parte superior da tela, ao lado do nome do usuário.
+      <!-- Pesquisa rápida ao lado do nome do usuário -->
+    </p>
+    <p style="text-align: center;">
+      Nessa modalidade de pesquisa é possível procurar um processo rapidamente. 
+      Aqui, tanto o Número do NUP ou do Processo podem ser escritos, sendo uma pesquisa global
+   </p>
+   <mat-expansion-panel style="text-align: center;margin-left: 20px">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          O QUE É UM NUP?
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p> 
+          O Número Único de Protocolo (NUP) é constituído de quinze dígitos principais, mais dois dígitos de verificação, separados em grupos (00000.000000/0000-00).<br><br>
+          O primeiro grupo é constituído de cinco dígitos, referentes ao código numérico atribuído a cada unidade protocolizadora e este código identifica o órgão de origem do processo, mantendo-se inalterado.<br><br>
+          O segundo grupo é constituído de seis dígitos, separados do primeiro por um ponto e determina o registro sequencial dos processos autuados, devendo este número ser reiniciado a cada ano.<br><br>
+          O terceiro grupo, constituído de quatro dígitos, separado do segundo grupo por uma barra, indica o ano de formação do processo.     
+      </p>
+    </mat-expansion-panel>
+    <p style="text-align: justify;text-indent: 20px">
+      Além da pesquisa rápida, existe um outro modo de pesquisar no sistema. Diferentemente da pesquisa rápida, essa forma possui vários metadados para afinar a pesquisa encontrando resultados mais específicos.
+    </p>
+    <p style="text-align: center;">
+      Para acessar essa pesquisa, navegue pelo painel lateral esquerdo, abaixo de Protocolo.
+   </p>
+   <h3><strong>Painel de Pesquisa</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      É possível pesquisar Processos e Documentos.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Vários metadados podem ser preenchidos para a pesquisa.
+    </p>
+    <div class="row">
+      <strong>Metadados da pesquisa de Processos:</strong><br><br>
+      <div class="column">
+        <li>Número do Processo</li>
+        <li>Nome do Interessado</li>
+        <li>CPF/CNPJ do Interessado</li>
+        <li>Setor Responsável</li>
+        <li>Título</li>
+        <li>Descrição</li>
+        <li>Outro Número</li>
+        <li>Valor Econômico</li>
+      </div>
+      <div class="column">
+        <li>Classificação</li>
+        <li>Procedência</li>
+        <li>Localizador</li>
+        <li>Data da Abertura</li>
+        <li>Modalidade da Fase</li>
+        <li>Modalidade Meio</li>
+        <li>Espécie Processo</li>
+        <li>Criado Em</li>
+      </div>
+    </div>
+    <div class="row">
+      <strong>Metadados da pesquisa de Documentos:</strong><br><br>
+      <div class="column">
+        <li>Conteúdo</li>
+        <li>Extensão</li>
+        <li>Processo de Origem</li>
+        <li>Criado Em</li>
+      </div>
+      <div class="column">
+        <li>Criado Por</li>
+        <li>Editor de Textos</li>
+        <li>Assinado</li>
+      </div>
+    </div>  
+    <p style="text-align: justify;text-indent: 20px">
+      No caso da pesquisa de Documentos, é necessário escrever o Conteúdo.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Após o preenchimento dos metadados, basta clicar no botão Buscar
+      <!-- Botão buscar -->
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      A pesquisa aparece em lista, no centro da tela.
+    </p>
+</div>
