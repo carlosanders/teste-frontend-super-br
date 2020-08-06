@@ -119,6 +119,18 @@
                 <div *ngIf="titulo === 'Arquivando Processos'">
                     <ajuda-arquivista></ajuda-arquivista>
                 </div>
+                <div *ngIf="titulo === 'Administrador'">
+                    <ajuda-admin></ajuda-admin>
+                </div>
+                <div *ngIf="titulo === 'Coordenador'">
+                    <ajuda-coordenador></ajuda-coordenador>
+                </div>
+                <div *ngIf="titulo === 'Configurações'">
+                    <ajuda-configuracoes></ajuda-configuracoes>
+                </div>
+                <div *ngIf="titulo === 'Pesquisa'">
+                    <ajuda-pesquisa></ajuda-pesquisa>
+                </div>
         </div>
 
         <div #container></div>

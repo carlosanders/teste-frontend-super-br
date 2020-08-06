@@ -21,6 +21,11 @@ import {topicosConfig as transicoesTopicosConfig} from '../app/main/apps/process
 import {topicosConfig as sigilosTopicosConfig} from '../app/main/apps/processo/processo-edit/sigilos/ajuda/topicos-config';
 import {topicosConfig as visibilidadesTopicosConfig} from '../app/main/apps/processo/processo-edit/visibilidades/ajuda/topicos-config';
 import {topicosConfig as arquivistaTopicosConfig} from '../app/main/apps/arquivista/ajuda/topicos-config';
+import {topicosConfig as administradorTopicosConfig} from '../app/main/apps/admin/ajuda/topicos-config';
+import {topicosConfig as coordenadorTopicosConfig} from '../app/main/apps/coordenador/ajuda/topicos-config';
+import {topicosConfig as configuracoesTopicosConfig} from '../app/main/apps/configuracoes/ajuda/topicos-config';
+import {topicosConfig as pesquisaTopicosConfig} from '../app/main/apps/pesquisa/ajuda/topicos-config';
+
 
 
 
@@ -50,6 +55,10 @@ export let topicosConfig = [
     ...sigilosTopicosConfig,
     ...visibilidadesTopicosConfig,
     ...arquivistaTopicosConfig,
+    ...administradorTopicosConfig,
+    ...coordenadorTopicosConfig,
+    ...configuracoesTopicosConfig,
+    ...pesquisaTopicosConfig,
 ];
 
 modulesConfig.forEach((modulo) => {
