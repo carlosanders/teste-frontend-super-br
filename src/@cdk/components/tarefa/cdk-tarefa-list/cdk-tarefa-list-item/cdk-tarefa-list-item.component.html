@@ -63,9 +63,17 @@
                     {{tarefa.setorResponsavel?.nome}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
                 </div>
 
-                <div>
+                <div *ngIf="tarefa.dataHoraFinalPrazo">
                     {{tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}}
                     ATÉ {{tarefa.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+                </div>
+
+                <div *ngIf="!tarefa.dataHoraFinalPrazo">
+                    {{(tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy')}}
+                    ATÉ
+                    <mat-icon class="secondary-text" matTooltip="Prazo fechado">
+                        lock
+                    </mat-icon>
                 </div>
             </div>
 
