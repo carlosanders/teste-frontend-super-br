@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
-    Component, ElementRef,
+    Component,
     OnDestroy,
     OnInit, Renderer2, ViewChild,
     ViewEncapsulation
@@ -40,7 +40,6 @@ import {getIsSaving as getIsSavingAssunto} from '../assuntos/assunto-edit/store/
 import {getIsSaving as getIsSavingInteressado} from '../interessados/interessado-edit/store/selectors';
 import {getIsSaving as getIsSavingVinculacao} from '../vinculacoes-processos/vinculacao-processo-edit/store/selectors';
 import {getIsSaving as getIsSavingTaarefa} from '../tarefas/tarefa-edit/store/selectors';
-import {Renderer} from '@angular/compiler-cli/ngcc/src/rendering/renderer';
 
 @Component({
     selector: 'dados-basicos-create',
@@ -244,19 +243,24 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             this.changeStep = 0;
         }
 
+        this.especieProcessoPagination.populate = ['generoProcesso'];
+        this.setorAtualPagination.populate = ['unidade', 'parent'];
+        this.setorAtualPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.classificacaoPagination.populate = ['parent'];
+
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    // this.especieProcessoPagination.filter = {'generoProcesso.nome' : 'eq:' + routerState.state.params.generoHandle.toUpperCase()};
                 }
             });
 
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: + this.processo.id};
-        this.especieProcessoPagination.populate = ['generoProcesso'];
-        this.setorAtualPagination.populate = ['unidade', 'parent'];
-        this.setorAtualPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
-        this.classificacaoPagination.populate = ['parent'];
+        this.logEntryPagination.filter = {
+            entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo',
+            id: +this.processo.id
+        };
 
         this.assunto = new Assunto();
         this.interessado = new Interessado();
@@ -314,7 +318,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             this.tarefa.processo = this.processo;
             this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
             this.tarefa.dataHoraInicioPrazo = moment();
-            this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
+            this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});
             this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
         }
     }
@@ -378,7 +382,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this._store.dispatch(new fromStore.PutProcesso(processo));
     }
 
-    onActivate(componentReference): void  {
+    onActivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.subscribe((pessoa: Pessoa) => {
                 this.procedencia = pessoa;
@@ -387,7 +391,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }
     }
 
-    onDeactivate(componentReference): void  {
+    onDeactivate(componentReference): void {
         if (componentReference.select) {
             componentReference.select.unsubscribe();
         }

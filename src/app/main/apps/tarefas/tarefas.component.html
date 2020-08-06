@@ -28,6 +28,7 @@
                 <div class="search" fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="secondary-text">search</mat-icon>
                     <cdk-etiqueta-chips [etiquetas]="etiquetas"
+                                        [placeholder]="'Filtre as tarefas pelas etiquetas'"
                                         (create)="addEtiqueta($event)"
                                         [pagination]="vinculacaoEtiquetaPagination"
                                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
