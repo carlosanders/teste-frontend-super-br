@@ -14,10 +14,8 @@ import {
     MatProgressSpinnerModule, MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-
 import {DadosBasicosCreateComponent} from './dados-basicos-create.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
@@ -69,7 +67,6 @@ modulesConfig.forEach((module) => {
         DadosBasicosCreateComponent
     ],
     imports: [
-
         RouterModule.forChild(routes),
         MatButtonModule,
         MatCheckboxModule,
@@ -84,13 +81,9 @@ modulesConfig.forEach((module) => {
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
-
         CdkProcessoFormModule,
-
         DadosBasicosStepsStoreModule,
-
         TranslateModule,
-
         CdkSharedModule,
         CdkSidebarModule,
         MatStepperModule,

@@ -5,10 +5,8 @@ import {
     MatIconModule, MatRippleModule, MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-
 import {ProcessoEditMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {ProcessoEditComponent} from './processo-edit.component';
 import {CommonModule} from '@angular/common';
@@ -71,7 +69,7 @@ const routes: Routes = [
             {
                 path: 'garantias',
                 loadChildren: () => import('./garantias/garantias.module').then(m => m.GarantiasModule)
-            },            
+            },
             {
                 path: 'remessas',
                 loadChildren: () => import('./remessas/remessas.module').then(m => m.RemessasModule)

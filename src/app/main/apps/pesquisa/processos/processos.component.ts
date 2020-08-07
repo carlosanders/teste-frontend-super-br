@@ -55,7 +55,7 @@ export class ProcessosComponent implements OnInit {
         this._profile = _loginService.getUserProfile();
 
         if (_loginService.isGranted('ROLE_COLABORADOR')) {
-            this.colunas = ['select', 'id', 'NUP', 'setorAtual.nome', 'unidade', 'actions'];
+            this.colunas = ['select', 'id', 'NUP', 'especieProcesso.nome', 'setorAtual.nome', 'unidade', 'actions'];
         }
     }
 

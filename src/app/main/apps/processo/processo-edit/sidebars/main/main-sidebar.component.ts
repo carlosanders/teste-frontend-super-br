@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../store';
 import {getRouterState} from 'app/store/reducers';
@@ -30,7 +30,8 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
 
     constructor(
         private _store: Store<fromStore.ProcessoAppState>,
-        public _loginService: LoginService
+        public _loginService: LoginService,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.processo$ = this._store.pipe(select(getProcesso));
     }
@@ -55,6 +56,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             processo => {
                 this.processo = processo;
                 this.generoProcesso = processo.especieProcesso.generoProcesso.nome;
+                this._changeDetectorRef.markForCheck();
             }
         );
 
