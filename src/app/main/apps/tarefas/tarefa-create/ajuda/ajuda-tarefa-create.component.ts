@@ -19,7 +19,7 @@ export class AjudaTarefaCreateComponent {
 
 
     topicos: Topico[] = [];
-    titulo = "tarefas";
+    titulo = 'tarefas';
 
     carregar(topico: string): void {
         this.titulo = topico;

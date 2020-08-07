@@ -1,4 +1,12 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
+    ViewEncapsulation
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {topicosConfig} from './topicos-config';
 import {Topico} from './topico';
@@ -19,8 +27,7 @@ export class AjudaComponent implements OnInit {
     topicos: Topico[] = [];
     resultado: Topico[] = [];
 
-    @ViewChild('container', { read: ElementRef, static: false })
-    container: ElementRef;
+    @ViewChild('container', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     card = 'form';
     titulo = '';
@@ -71,21 +78,15 @@ export class AjudaComponent implements OnInit {
         this.card = 'modulo';
         this.titulo = topico.titulo; 
         this._dynamicService.loadComponent(topico.module)
-            .then(({ host }) => {
-                this.current = host;
-                return this.containerElement.appendChild(host);
+            .then( componentFactory  => {
+                const component = this.container.createComponent(componentFactory);
+                this.current = component;
+                return component;
             });
     }
 
     back(): void {
         this.card = 'form';
-        if (this.current) {
-            this.containerElement.removeChild(this.current);
-            this.current = null;
-        }
-    }
-
-    get containerElement(): HTMLElement {
-        return this.container.nativeElement;
+        this.container.clear();
     }
 }
