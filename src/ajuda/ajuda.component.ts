@@ -1,7 +1,6 @@
 import {
     ChangeDetectorRef,
     Component,
-    ElementRef,
     OnInit,
     ViewChild,
     ViewContainerRef,
@@ -10,9 +9,9 @@ import {
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {topicosConfig} from './topicos-config';
 import {Topico} from './topico';
-import { CdkUtils } from '@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {DynamicService} from '../modules/dynamic.service';
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'ajuda',
@@ -34,7 +33,6 @@ export class AjudaComponent implements OnInit {
 
     isSubmited = false;
 
-    current: any;
     context: any;
 
     /**
@@ -76,13 +74,9 @@ export class AjudaComponent implements OnInit {
 
     carregar(topico: Topico): void {
         this.card = 'modulo';
-        this.titulo = topico.titulo; 
+        this.titulo = topico.titulo;
         this._dynamicService.loadComponent(topico.module)
-            .then( componentFactory  => {
-                const component = this.container.createComponent(componentFactory);
-                this.current = component;
-                return component;
-            });
+            .then(componentFactory => this.container.createComponent(componentFactory));
     }
 
     back(): void {
