@@ -13,6 +13,8 @@ export interface VinculacaoProcessoState {
     };
     loading: boolean;
     loaded: any;
+    deletingIds: number[];
+    deletedIds: number[];
 }
 
 export const VinculacaoProcessoInitialState: VinculacaoProcessoState = {
@@ -27,10 +29,15 @@ export const VinculacaoProcessoInitialState: VinculacaoProcessoState = {
         total: 0,
     },
     loading: false,
-    loaded: false
+    loaded: false,
+    deletingIds: [],
+    deletedIds: []
 };
 
-export function VinculacaoProcessoReducer(state = VinculacaoProcessoInitialState, action: VinculacaoProcessoActions.VinculacaoProcessoActionsAll): VinculacaoProcessoState {
+export function VinculacaoProcessoReducer(
+    state = VinculacaoProcessoInitialState,
+    action: VinculacaoProcessoActions.VinculacaoProcessoActionsAll): VinculacaoProcessoState {
+
     switch (action.type) {
 
         case VinculacaoProcessoActions.GET_VINCULACOES_PROCESSOS: {
@@ -91,6 +98,28 @@ export function VinculacaoProcessoReducer(state = VinculacaoProcessoInitialState
                     }
                 };
             }
+        }
+
+        case VinculacaoProcessoActions.DELETE_VINCULACAO_PROCESSO: {
+            return {
+                ...state,
+                deletingIds: [...state.deletingIds, action.payload]
+            };
+        }
+
+        case VinculacaoProcessoActions.DELETE_VINCULACAO_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
+            };
+        }
+
+        case VinculacaoProcessoActions.DELETE_VINCULACAO_PROCESSO_FAILED: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
         }
 
         default:
