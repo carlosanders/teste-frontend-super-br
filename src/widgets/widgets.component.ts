@@ -41,15 +41,10 @@ export class WidgetsComponent implements OnInit, AfterViewInit {
     ngOnInit(): void {
         this.widgets = widgetConfig;
         this.widgets.sort((a, b) => (a.ordem > b.ordem) ? 1 : -1);
-        // console.log(this.container);
     }
 
     ngAfterViewInit(): void {
-        console.log(this.container);
-        console.log(this.containerElementRef);
         this.widgets.forEach((widget: Widget) => {
-            console.log(widget);
-            console.log(widget.module);
             this._dynamicService.loadComponent(widget.module)
                 .then(componentFactory => this.container.createComponent(componentFactory));
         });

@@ -1,4 +1,4 @@
-<!-- WIDGET Tarefa -->
+<!-- WIDGET Tramitação -->
 <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'"
             fxFlex="100">
 
@@ -9,23 +9,18 @@
         </div>
 
         <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
-            <mat-spinner *ngIf="this.tarefasCount === false" diameter="72"></mat-spinner>
-            <div *ngIf="this.tarefasCount !== false" class="light-blue-fg font-size-72 line-height-72">
-                {{this.tarefasCount}}
+            <mat-spinner *ngIf="this.tramitacoesCount === false" diameter="72"></mat-spinner>
+            <div *ngIf="this.tramitacoesCount !== false" class="light-blue-fg font-size-72 line-height-72">
+                {{this.tramitacoesCount}}
             </div>
             <div class="h3 font-weight-500">
-                Tarefas Administrativas
+                Tramitações Pendentes
             </div>
         </div>
 
         <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
             <span class="h4 text-truncate">
-                Vencidas:
-            </span>
-            <mat-spinner class="ml-8" *ngIf="tarefasVencidasCount === false"
-                         diameter="15"></mat-spinner>
-            <span *ngIf="tarefasVencidasCount !== false" class="h4 ml-8 warn-500-fg">
-                {{tarefasVencidasCount}}
+                Autos físicos em trâmite para minha unidade
             </span>
         </div>
     </div>
@@ -39,10 +34,10 @@
         </button>
 
         <div>
-            Informa a quantidade de tarefas
+            Informa a quantidade de tramitações
         </div>
     </div>
     <!-- / Back -->
 
 </cdk-widget>
-<!-- / WIDGET 1 -->
+<!-- / WIDGET 3 -->
