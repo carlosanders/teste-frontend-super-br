@@ -7,3 +7,5 @@ export * from './atividade-documento.selectors';
 export * from './visibilidade.selectors';
 export * from  './sigilos.selectors';
 export * from  './assinaturas.selectors';
+export * from './juntada.selectors';
+

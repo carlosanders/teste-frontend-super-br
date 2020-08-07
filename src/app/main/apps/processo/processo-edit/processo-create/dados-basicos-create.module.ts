@@ -21,7 +21,7 @@ import {CdkSidebarModule} from '@cdk/components';
 import {DadosBasicosCreateComponent} from './dados-basicos-create.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkProcessoFormModule} from '@cdk/components/processo/cdk-processo-form/cdk-processo-form.module';
-import {DadosBasicosStoreModule} from './store/store.module';
+import {DadosBasicosStepsStoreModule} from './store/store.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromGuards from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
@@ -38,6 +38,9 @@ import {ProcessoTarefaEditModule} from '../tarefas/tarefa-edit/processo-tarefa-e
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk-juntada-grid.module';
+import {CdkAssuntoGridModule} from '@cdk/components/assunto/cdk-assunto-grid/cdk-assunto-grid.module';
+import {CdkInteressadoGridModule} from '@cdk/components/interessado/cdk-interessado-grid/cdk-interessado-grid.module';
+import {CdkVinculacaoProcessoGridModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-grid/cdk-vinculacao-processo-grid.module';
 
 const routes: Routes = [
     {
@@ -84,7 +87,7 @@ modulesConfig.forEach((module) => {
 
         CdkProcessoFormModule,
 
-        DadosBasicosStoreModule,
+        DadosBasicosStepsStoreModule,
 
         TranslateModule,
 
@@ -101,7 +104,10 @@ modulesConfig.forEach((module) => {
         AssuntoEditModule,
         InteressadoEditModule,
         VinculacaoProcessoEditModule,
-        ProcessoTarefaEditModule
+        ProcessoTarefaEditModule,
+        CdkAssuntoGridModule,
+        CdkInteressadoGridModule,
+        CdkVinculacaoProcessoGridModule
     ],
     providers: [
         ProcessoService,

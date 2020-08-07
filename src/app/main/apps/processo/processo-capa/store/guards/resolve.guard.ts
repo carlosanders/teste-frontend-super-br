@@ -10,7 +10,7 @@ import {ProcessoCapaAppState} from '../reducers';
 import * as fromStore from '../index';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getAssuntosLoaded, getInteressadosLoaded, getVinculacoesProcessosLoaded} from '../index';
+import {getAssuntosLoaded, getInteressadosLoaded, getVinculacoesProcessosLoaded, getTarefasLoaded} from '../index';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -54,7 +54,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkStore(): Observable<any> {
-        return forkJoin([this.getAssuntos(), this.getInteressados(), this.getVinculacoesProcessos()]).pipe(
+        return forkJoin([this.getAssuntos(), this.getInteressados(), this.getVinculacoesProcessos(), this.getTarefas()]).pipe(
             filter(([loaded]) => !!(loaded)),
             take(1),
             switchMap(() =>
@@ -160,8 +160,6 @@ export class ResolveGuard implements CanActivate {
                     filter: [
                         {
                             'processo.id': `eq:${this.routerState.params['processoHandle']}`,
-                        },
-                        {
                             'processoVinculado.id': `eq:${this.routerState.params['processoHandle']}`
                         }
                     ],
@@ -173,6 +171,42 @@ export class ResolveGuard implements CanActivate {
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetVinculacoesProcessos(params));
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
+    }
+
+
+    /**
+     * Get Tarefas
+     *
+     * @returns {Observable<any>}
+     */
+    getTarefas(): any {
+        this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
+
+        return this._store.pipe(
+            select(getTarefasLoaded),
+            tap(loaded => {
+                const params = {
+                    filter: [
+                        {
+                            'processo.id': `eq:${this.routerState.params['processoHandle']}`,
+                            'dataHoraConclusaoPrazo': 'isNull'
+                        }
+                    ],
+                    sort: {dataHoraFinalPrazo: 'ASC'},
+                    limit: 10,
+                    offset: 0,
+                    populate: ['processo', 'especieTarefa']
+                };
+
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    this._store.dispatch(new fromStore.GetTarefas(params));
                 }
             }),
             filter((loaded: any) => {

@@ -73,12 +73,25 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
             };
         }
 
-        case JuntadaListActions.RELOAD_JUNTADAS: {
-            return {
-                ...state,
-                loading: false,
-                loaded: false
-            };
+        case JuntadaListActions.UNLOAD_JUNTADAS: {
+
+            if (action.payload.reset) {
+                return {
+                    ...JuntadaListInitialState
+                };
+            } else {
+                return {
+                    ...state,
+                    entitiesId: [],
+                    pagination: {
+                        ...state.pagination,
+                        limit: 10,
+                        offset: 0,
+                        total: 0
+                    }
+                };
+            }
+
         }
 
         case JuntadaListActions.GET_JUNTADAS_FAILED: {

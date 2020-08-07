@@ -32,6 +32,7 @@ import {CdkAtividadeAutocompleteModule} from '../../atividade/cdk-atividade-auto
 import {CdkVolumeGridsearchModule} from '../../volume/cdk-volume-autocomplete/cdk-volume-gridsearch/cdk-volume-gridsearch.module';
 import {CdkTarefaAutocompleteModule} from '../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-autocomplete.module';
 import {CdkTarefaGridsearchModule} from '../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-gridsearch/cdk-tarefa-gridsearch.module';
+import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -63,6 +64,7 @@ import {CdkTarefaGridsearchModule} from '../../tarefa/cdk-tarefa-autocomplete/cd
         CdkTarefaGridsearchModule,
 
         CdkSharedModule,
+        CdkLogentryGridsearchModule,
     ],
     providers: [
         DocumentoService,

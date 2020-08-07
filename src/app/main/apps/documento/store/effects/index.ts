@@ -7,6 +7,7 @@ import { AtividadeDocumentoEffect } from './atividade-documento.effects';
 import {VisibilidadeEffect} from './visibilidade.effects';
 import {SigiloEffect} from './sigilos.effects';
 import {AssinaturaEffect} from './assinaturas.effects';
+import {JuntadaEffect} from './juntada.effects';
 
 export const effects = [
     DocumentoEffect,
@@ -17,7 +18,8 @@ export const effects = [
     AtividadeDocumentoEffect,
     VisibilidadeEffect,
     SigiloEffect,
-    AssinaturaEffect
+    AssinaturaEffect,
+    JuntadaEffect
 ];
 
 export * from './documento.effects';
@@ -29,3 +31,4 @@ export * from './atividade-documento.effects';
 export * from './visibilidade.effects';
 export * from './sigilos.effects';
 export * from './assinaturas.effects';
+export * from './juntada.effects';
