@@ -21,6 +21,13 @@
         <div class="content" fxLayout="column">
 
             <div fxLayout="row wrap" fxLayoutAlign="start start">
+                <widgets fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex="75"
+                         *cdkIfOnDom
+                         [@animateStagger]="{value:'50'}" #widgets></widgets>
+                <div class="p-12" fxFlex="25">
+                    <cdk-historico-timeline class="p-12" [isLoading]="historicoIsLoding"
+                                            [historicos]="historicos"></cdk-historico-timeline>
+                </div>
 
                 <div class="widget-group p-12" fxLayout="row wrap" fxLayoutAlign="space-between start" fxFlex="75"
                      *cdkIfOnDom
@@ -28,7 +35,7 @@
 
                     <!-- WIDGET Tarefa -->
                     <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'"
-                                 fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
+                                fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30">
 
                         <!-- Front -->
                         <div class="cdk-widget-front">
@@ -37,9 +44,8 @@
                             </div>
 
                             <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
-                                <mat-spinner *ngIf="tarefasCount === false" diameter="72"></mat-spinner>
-                                <div *ngIf="tarefasCount !== false" class="light-blue-fg font-size-72 line-height-72">
-                                    {{tarefasCount}}
+                                <div class="light-blue-fg font-size-72 line-height-72">
+                                    0
                                 </div>
                                 <div class="h3 font-weight-500">
                                     Tarefas Administrativas
@@ -50,11 +56,9 @@
                                <span class="h4 text-truncate">
                                    Vencidas:
                                </span>
-                                <mat-spinner class="ml-8" *ngIf="tarefasVencidasCount === false"
-                                             diameter="15"></mat-spinner>
-                                <span *ngIf="tarefasVencidasCount !== false" class="h4 ml-8 warn-500-fg">
-                                       {{tarefasVencidasCount}}
-                            </span>
+                                <span class="h4 ml-8 warn-500-fg">
+                                      0
+                                </span>
                             </div>
                         </div>
                         <!-- / Front -->
@@ -77,7 +81,7 @@
 
                     <!-- WIDGET Documento Avulso -->
                     <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
-                                 fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30" *showIfRole="'ROLE_COLABORADOR'">
+                                fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30" *showIfRole="'ROLE_COLABORADOR'">
 
                         <!-- Front -->
                         <div class="cdk-widget-front">
@@ -127,7 +131,7 @@
 
                     <!-- WIDGET Tramitação -->
                     <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
-                                 fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30" *showIfRole="'ROLE_COLABORADOR'">
+                                fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-md="30" *showIfRole="'ROLE_COLABORADOR'">
 
                         <!-- Front -->
                         <div class="cdk-widget-front">
@@ -171,7 +175,7 @@
 
                     <!-- WIDGET Alertas -->
                     <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column"
-                                 fxFlex="100">
+                                fxFlex="100">
 
                         <!-- Front -->
                         <div class="cdk-widget-front p-16">
@@ -200,7 +204,6 @@
                     <!-- / WIDGET 1 -->
 
                 </div>
-                <!-- / WIDGET GROUP -->
 
                 <div class="p-12" fxFlex="25">
                     <cdk-historico-timeline class="p-12" [isLoading]="historicoIsLoding"

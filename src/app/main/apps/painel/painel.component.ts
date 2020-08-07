@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 
 import { cdkAnimations } from '@cdk/animations';
 import { TarefaService } from '@cdk/services/tarefa.service';
@@ -11,6 +11,7 @@ import {HistoricoService} from '@cdk/services/historico.service';
 import {Historico} from '@cdk/models';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {Usuario} from '@cdk/models';
+import {WidgetsComponent} from '../../../../widgets/widgets.component';
 
 @Component({
     selector     : 'painel',
@@ -19,13 +20,10 @@ import {Usuario} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations   : cdkAnimations
 })
-export class PainelComponent implements OnInit
+export class PainelComponent implements OnInit, AfterViewInit
 {
 
     _profile: Usuario;
-
-    tarefasCount: any = false;
-    tarefasVencidasCount: any = false;
 
     documentosAvulsosCount: any = false;
     documentosAvulsosVencidosCount: any = false;
@@ -34,6 +32,8 @@ export class PainelComponent implements OnInit
 
     historicos: Historico[];
     historicoIsLoding = false;
+
+    @ViewChild('widgets', {static: false}) widgets: WidgetsComponent;
 
     /**
      * Constructor
@@ -59,22 +59,6 @@ export class PainelComponent implements OnInit
     ngOnInit(): void {
 
         if (this._loginService.isGranted('ROLE_COLABORADOR')) {
-            this._tarefaService.count(
-                `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull"}`)
-                .pipe(
-                    catchError(() => of([]))
-                ).subscribe(
-                value => this.tarefasCount = value
-            );
-
-            this._tarefaService.count(
-                `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
-                .pipe(
-                    catchError(() => of([]))
-                ).subscribe(
-                value => this.tarefasVencidasCount = value
-            );
-
             this._tramitacaoService.count(
                 `{"setorDestino.id": "in:${this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')}", "dataHoraRecebimento": "isNull"}`)
                 .pipe(
@@ -141,5 +125,9 @@ export class PainelComponent implements OnInit
                 this.historicos = value['entities'];
             }
         );
+    }
+
+    ngAfterViewInit(): void {
+        console.log(this.widgets);
     }
 }
