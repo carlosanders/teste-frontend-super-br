@@ -137,7 +137,7 @@ export class ArquivistaClassificacaoEditEffects {
                     routeTypeParam.subscribe(typeParam => {
                         let processoFilter = {};
 
-                        this.currentDate =  moment().format('YYYY-m-d[T]H:mm:ss');
+                        this.currentDate =  moment().format('YYYY-MM-DD[T]H:mm:ss');
 
                         if (this.routerState.params[typeParam] === 'pronto-transicao') {
                             processoFilter = {

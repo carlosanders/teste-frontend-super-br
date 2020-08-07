@@ -20,6 +20,7 @@ import {CdkHistoricoTimelineModule} from '@cdk/components/historico/cdk-historic
 import {HistoricoService} from '@cdk/services/historico.service';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {modulesConfig} from 'modules/modules-config';
+import {WidgetsModule} from 'widgets/widgets.module';
 
 const routes: Routes = [
     {
@@ -52,7 +53,8 @@ modulesConfig.forEach((module) => {
         CdkHistoricoTimelineModule,
 
         CdkSharedModule,
-        CdkWidgetModule
+        CdkWidgetModule,
+        WidgetsModule
     ],
     providers: [
         TarefaService,
