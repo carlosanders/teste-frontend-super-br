@@ -268,6 +268,25 @@
                     </div>
                 </div>
             </div>
+
+            <div class="card capa-content">
+                <div class="content-card">
+                    <div class="processo-container">
+                        <div class="card">
+                            <div class="content-card">
+                                <span class="subtitle">Tarefas</span>
+                                <cdk-tarefa-grid
+                                    [loading]="(loadingTarefas$ | async)"
+                                    (reload)="reloadTarefas($event)"
+                                    [tarefas]="tarefas"
+                                    [displayedColumns]="['id', 'processo.nup', 'especieTarefa.nome', 'dataHoraInicioPrazo', 'dataHoraFinalPrazo']"
+                                    [total]="(paginationTarefas$ | async)?.total">
+                                </cdk-tarefa-grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

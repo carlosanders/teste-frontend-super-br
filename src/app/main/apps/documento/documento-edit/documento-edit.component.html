@@ -1,5 +1,5 @@
 <div fxFlex fxLayout="row">
-    <div fxLayout="column" fxFlex="25" *showIfRole="'ROLE_COLABORADOR'">
+    <div fxLayout="column" fxFlex="30" *showIfRole="'ROLE_COLABORADOR'">
 
         <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
             <button *ngIf="(tarefa$ | async)" mat-icon-button aria-label="movimentar"
@@ -69,6 +69,15 @@
                         <ng-container>
                             <mat-icon class="black-fg">lock</mat-icon>
                             <span>Assinaturas</span>
+                        </ng-container>
+                    </button>
+
+                    <button mat-menu-item aria-label="juntada" *ngIf="juntada"
+                            matTooltip="Juntada" (click)="showJuntadas()"
+                            [ngClass]="{'active accent': activeCard === 'juntadas'}">
+                        <ng-container>
+                            <mat-icon class="black-fg">layers</mat-icon>
+                            <span>Juntada</span>
                         </ng-container>
                     </button>
 
@@ -321,6 +330,23 @@
                 (reload)="reloadAssinaturas($event)"
             >
             </cdk-assinatura-grid>
+
+        </div>
+
+        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'juntadas'">
+
+            <h3 style="font-weight: bold">Juntada</h3>
+
+            <cdk-juntada-form
+                [juntada]="juntada"
+                [form]="formJuntada"
+                [editDescricao]="true"
+                [logEntryPagination]="logEntryPagination"
+                [blocoEdit]="{blocoEditDescricao: true}"
+                [saving]="(juntadaIsSaving$ | async)"
+                [errors]="(juntadaErrors$ | async)"
+                (save)="submitJuntada($event)">
+            </cdk-juntada-form>
 
         </div>
 

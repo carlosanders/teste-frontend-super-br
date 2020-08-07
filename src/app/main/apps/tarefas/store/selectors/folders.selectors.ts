@@ -26,3 +26,28 @@ export const getFoldersLoaded = createSelector(
     getFoldersState,
     (state: FoldersState) => state.loaded
 );
+
+export const getIsSaving = createSelector(
+    getFoldersState,
+    (state: FoldersState) => state.saving
+);
+
+export const getErrors = createSelector(
+    getFoldersState,
+    (state: FoldersState) => state.errors
+);
+
+export const getDeletingIds = createSelector(
+    getFoldersState,
+    (state: FoldersState) => state.deletingIds
+);
+
+export const getDeletedIds = createSelector(
+    getFoldersState,
+    (state: FoldersState) => state.deletedIds
+);
+
+export const getIsLoadingFolder = createSelector(
+    getFoldersState,
+    (state: FoldersState) => state.loading
+);

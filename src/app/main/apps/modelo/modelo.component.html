@@ -4,6 +4,7 @@
         [modelos]="(modelos$ | async)"
         [total]="(pagination$ | async)?.total"
         [actions]="['select']"
+        [displayedColumns]="['id', 'nome', 'modalidadeModelo.valor', 'highlights', 'actions']"
         (selected)="doSelect($event)"
         (reload)="reload($event)">
     </cdk-modelo-grid>
