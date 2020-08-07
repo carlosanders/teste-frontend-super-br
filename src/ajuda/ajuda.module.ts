@@ -21,6 +21,11 @@ import {AjudaRemessasModule} from 'app/main/apps/processo/processo-edit/remessas
 import {AjudaTransicoesModule} from 'app/main/apps/processo/processo-edit/transicoes/ajuda/ajuda-transicoes.module';
 import {AjudaSigilosModule} from 'app/main/apps/processo/processo-edit/sigilos/ajuda/ajuda-sigilos.module';
 import {AjudaVisibilidadesModule} from 'app/main/apps/processo/processo-edit/visibilidades/ajuda/ajuda-visibilidades.module';
+import {AjudaArquivistaModule} from 'app/main/apps/arquivista/ajuda/ajuda-arquivista.module';
+import {AjudaAdminModule} from 'app/main/apps/admin/ajuda/ajuda-admin.module';
+import {AjudaCoordenadorModule} from 'app/main/apps/coordenador/ajuda/ajuda-coordenador.module';
+import {AjudaConfiguracoesModule} from 'app/main/apps/configuracoes/ajuda/ajuda-configuracoes.module';
+import {AjudaPesquisaModule} from 'app/main/apps/pesquisa/ajuda/ajuda-pesquisa.module';
 
 import {CdkSharedModule} from '../@cdk/shared.module';
 import {
@@ -30,7 +35,7 @@ import {
     MatInputModule,
     MatTooltipModule
 } from '@cdk/angular/material';
-import {AjudaArquivistaModule} from 'app/main/apps/arquivista/ajuda/ajuda-arquivista.module';
+
 
 @NgModule({
     declarations: [
@@ -65,6 +70,10 @@ import {AjudaArquivistaModule} from 'app/main/apps/arquivista/ajuda/ajuda-arquiv
         AjudaSigilosModule,
         AjudaVisibilidadesModule,
         AjudaArquivistaModule,
+        AjudaAdminModule,
+        AjudaCoordenadorModule,
+        AjudaConfiguracoesModule,
+        AjudaPesquisaModule,
     ],
     exports: [
         AjudaComponent

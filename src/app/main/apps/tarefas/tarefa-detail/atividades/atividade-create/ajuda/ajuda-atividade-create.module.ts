@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 
@@ -24,4 +24,10 @@ import { AjudaOficiosModule } from 'app/main/apps/oficios/ajuda/ajuda-oficios.mo
     ]
 })
 export class AjudaAtividadeCreateModule {
+    constructor(private resolver: ComponentFactoryResolver) {
+    }
+
+    public resolveComponentFactory(): ComponentFactory<AjudaAtividadeCreateComponent> {
+        return this.resolver.resolveComponentFactory(AjudaAtividadeCreateComponent);
+    }
 }

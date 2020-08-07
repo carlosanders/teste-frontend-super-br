@@ -1,4 +1,5 @@
-import {NgModule} from '@angular/core';
+import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
+
 
 import {AjudaAtividadeCreateBlocoComponent} from './ajuda-atividade-create-bloco.component';
 import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
@@ -17,4 +18,10 @@ import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
     ]
 })
 export class AjudaAtividadeCreateBlocoModule {
+    constructor(private resolver: ComponentFactoryResolver) {
+    }
+
+    public resolveComponentFactory(): ComponentFactory<AjudaAtividadeCreateBlocoComponent> {
+        return this.resolver.resolveComponentFactory(AjudaAtividadeCreateBlocoComponent);
+    }
 }
