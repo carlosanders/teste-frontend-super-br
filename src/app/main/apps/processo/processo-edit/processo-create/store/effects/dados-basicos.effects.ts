@@ -8,7 +8,7 @@ import * as DadosBasicosActions from '../actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {processo as processoSchema} from '@cdk/normalizr';
 import {Assunto, Interessado, Juntada, Processo, VinculacaoProcesso} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

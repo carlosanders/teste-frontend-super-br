@@ -11,7 +11,7 @@ import {Assunto} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
+import {assunto as assuntoSchema} from '@cdk/normalizr';
 import {AssuntoService} from '@cdk/services/assunto.service';
 
 @Injectable()
