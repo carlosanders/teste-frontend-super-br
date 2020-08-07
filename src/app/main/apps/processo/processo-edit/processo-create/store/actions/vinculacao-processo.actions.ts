@@ -1,10 +1,15 @@
 import { Action } from '@ngrx/store';
 
-export const GET_VINCULACOES_PROCESSOS = '[PROCESSO CAPA] GET VINCULACOES PROCESSOS';
-export const GET_VINCULACOES_PROCESSOS_SUCCESS = '[PROCESSO CAPA] GET VINCULACOES PROCESSOS SUCCESS';
-export const GET_VINCULACOES_PROCESSOS_FAILED = '[PROCESSO CAPA] GET VINCULACOES PROCESSOS FAILED';
+export const GET_VINCULACOES_PROCESSOS = '[DADOS BASICOS STEPS] GET VINCULACOES PROCESSOS';
+export const GET_VINCULACOES_PROCESSOS_SUCCESS = '[DADOS BASICOS STEPS] GET VINCULACOES PROCESSOS SUCCESS';
+export const GET_VINCULACOES_PROCESSOS_FAILED = '[DADOS BASICOS STEPS] GET VINCULACOES PROCESSOS FAILED';
 
-export const UNLOAD_VINCULACOES_PROCESSOS = '[PROCESSO CAPA] UNLOAD VINCULACOES PROCESSOS';
+export const UNLOAD_VINCULACOES_PROCESSOS = '[DADOS BASICOS STEPS] UNLOAD VINCULACOES PROCESSOS';
+export const RELOAD_VINCULACOES_PROCESSOS = '[DADOS BASICOS STEPS] RELOAD VINCULACOES PROCESSOS';
+
+export const DELETE_VINCULACAO_PROCESSO = '[DADOS BASICOS STEPS] DELETE VINCULACAO_PROCESSO';
+export const DELETE_VINCULACAO_PROCESSO_SUCCESS = '[DADOS BASICOS STEPS] DELETE VINCULACAO_PROCESSO SUCCESS';
+export const DELETE_VINCULACAO_PROCESSO_FAILED = '[DADOS BASICOS STEPS] DELETE VINCULACAO_PROCESSO FAILED';
 
 /**
  * Get Assuntos Processo
@@ -48,9 +53,61 @@ export class UnloadVinculacoesProcessos implements Action
     }
 }
 
+/**
+ * Reload VinculacoesProcessos
+ */
+export class ReloadVinculacoesProcessos implements Action
+{
+    readonly type = RELOAD_VINCULACOES_PROCESSOS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Delete VinculacaoProcesso
+ */
+export class DeleteVinculacaoProcesso implements Action
+{
+    readonly type = DELETE_VINCULACAO_PROCESSO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete VinculacaoProcesso Success
+ */
+export class DeleteVinculacaoProcessoSuccess implements Action
+{
+    readonly type = DELETE_VINCULACAO_PROCESSO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete VinculacaoProcesso Failed
+ */
+export class DeleteVinculacaoProcessoFailed implements Action
+{
+    readonly type = DELETE_VINCULACAO_PROCESSO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 
 export type VinculacaoProcessoActionsAll
     = GetVinculacoesProcessos
     | GetVinculacoesProcessosSuccess
     | GetVinculacoesProcessosFailed
-    | UnloadVinculacoesProcessos;
+    | UnloadVinculacoesProcessos
+    | ReloadVinculacoesProcessos
+    | DeleteVinculacaoProcesso
+    | DeleteVinculacaoProcessoSuccess
+    | DeleteVinculacaoProcessoFailed;

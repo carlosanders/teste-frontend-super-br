@@ -1,13 +1,10 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
-
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.actions';
-
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
@@ -66,6 +63,7 @@ export class ProcessoEffect {
                             'modalidadeFase',
                             'documentoAvulsoOrigem',
                             'especieProcesso',
+                            'especieProcesso.generoProcesso',
                             'classificacao',
                             'classificacao.modalidadeDestinacao',
                             'setorInicial',

@@ -156,6 +156,9 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     actions: string[] = ['edit', 'editConteudo', 'especie', 'delete', 'select'];
 
+    @Input()
+    checkboxSelection = true;
+
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
 
@@ -279,7 +282,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,

@@ -17,41 +17,60 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div fxLayout="column">
+        <div class="header" fxLayout="row" fxLayoutAlign="start center">
 
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center"
+                 *ngIf="!this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id">
+                <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
+                        (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') === -1"
+                        (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-xl>
+                    <mat-icon>menu</mat-icon>
+                </button>
+            </div>
 
-                <div class="sidebar-toggle">
-                    <button mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
-                            (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>
-                        <mat-icon>menu</mat-icon>
-                    </button>
-                    <button mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') === -1"
-                            (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-xl>
-                        <mat-icon>menu</mat-icon>
-                    </button>
+            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center"
+                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id">
+
+                <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
+                        (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>
+                    <mat-icon>menu</mat-icon>
+                </button>
+                <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') === -1"
+                        (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-xl>
+                    <mat-icon>menu</mat-icon>
+                </button>
+
+                <div class="search" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="secondary-text">label</mat-icon>
+                    <cdk-vinculacao-etiqueta-chips
+                        [placeholder]="'Coloque etiquetas para o processo'"
+                        [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
+                        (create)="onEtiquetaCreate($event)"
+                        (edit)="onEtiquetaEdit($event)"
+                        [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
+                        [errors]="(errors$ | async)"
+                        [pagination]="vinculacaoEtiquetaPagination"
+                        (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
                 </div>
 
-                <cdk-vinculacao-etiqueta-chips
-                    *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id"
-                    [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
-                    (create)="onEtiquetaCreate($event)"
-                    (edit)="onEtiquetaEdit($event)"
-                    [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
-                    [errors]="(errors$ | async)"
-                    [pagination]="vinculacaoEtiquetaPagination"
-                    (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
-
                 <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                        (click)="$event.stopPropagation()"
-                        fxHide.xs
-                        *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id && (processo$ | async)?.unidadeArquivistica !== 1">
+                        (click)="$event.stopPropagation()">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-
+                    <button mat-menu-item aria-label="imprimir etiqueta"
+                            >
+                        <ng-container>
+                            <mat-icon>video_label</mat-icon>
+                            <span>Imprimir Etiqueta</span>
+                        </ng-container>
+                    </button>
                     <button mat-menu-item aria-label="Autuar"
+                            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id && (processo$ | async)?.unidadeArquivistica !== 1"
                             (click)="doAutuar()">
                         <ng-container>
                             <mat-icon>check</mat-icon>

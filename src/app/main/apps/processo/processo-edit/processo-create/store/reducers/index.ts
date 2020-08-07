@@ -15,7 +15,7 @@ export interface DadosBasicosAppState
 }
 
 export const getDadosBasicosAppState = createFeatureSelector<DadosBasicosAppState>(
-    'dados-basicos-app'
+    'dados-basicos-steps-app'
 );
 
 export const getAppState = createSelector(

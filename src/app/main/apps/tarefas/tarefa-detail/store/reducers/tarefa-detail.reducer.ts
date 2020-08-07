@@ -6,6 +6,7 @@ export interface TarefaDetailState {
     loaded: any;
     saving: boolean;
     deleting: boolean;
+    pluginLoading: string[];
     errors: any;
     documentosId: number[];
     documentosLoaded: any;
@@ -20,6 +21,7 @@ export const TarefaDetailInitialState: TarefaDetailState = {
     deleting: false,
     errors: false,
     documentosId: [],
+    pluginLoading: [],
     documentosLoaded: false,
     savingVinculacaoEtiquetaId: null
 };
@@ -67,15 +69,7 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
 
         case TarefaDetailActions.CREATE_TAREFA: {
             return {
-                tarefaId: null,
-                loading: false,
-                loaded: false,
-                saving: false,
-                errors: false,
-                deleting: false,
-                documentosId: [],
-                documentosLoaded: false,
-                savingVinculacaoEtiquetaId: null
+                ...TarefaDetailInitialState
             };
         }
 
@@ -137,6 +131,19 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             };
         }
 
+        case TarefaDetailActions.ADD_PLUGIN_LOADING: {
+            return {
+                ...state,
+                pluginLoading: [...state.pluginLoading, action.payload]
+            };
+        }
+
+        case TarefaDetailActions.REMOVE_PLUGIN_LOADING: {
+            return {
+                ...state,
+                pluginLoading: state.pluginLoading.filter((value) => value !== action.payload)
+            };
+        }
 
         default:
             return state;

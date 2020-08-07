@@ -186,6 +186,20 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             };
         }
 
+        case TarefasActions.REMOVE_TAREFA: {
+            const entitiesId = state.entitiesId.filter(id => id !== action.payload.id);
+            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.id);
+            return {
+                ...state,
+                entitiesId: entitiesId,
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
+                },
+                selectedTarefaIds: selectedTarefaIds
+            };
+        }
+
         case TarefasActions.TOGGLE_LIDA_TAREFA: {
             return {
                 ...state,

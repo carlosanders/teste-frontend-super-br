@@ -19,6 +19,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 @Injectable()
 export class AssuntoEditEffect {
     routerState: any;
+    steps: any;
 
     constructor(
         private _actions: Actions,
@@ -32,7 +33,8 @@ export class AssuntoEditEffect {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
-            });    }
+            });
+    }
 
     /**
      * Get Assunto with router parameters

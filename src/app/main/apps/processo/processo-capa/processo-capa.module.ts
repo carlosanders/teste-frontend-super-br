@@ -23,7 +23,8 @@ import {CdkInteressadoGridModule} from '@cdk/components/interessado/cdk-interess
 import {MatGridListModule} from '@angular/material/grid-list';
 import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk-juntada-grid.module';
 import {MatCheckboxModule} from '@angular/material/checkbox';
-import {CdkVinculacaoProcessoGridModule} from "../../../../../@cdk/components/vinculacao-processo/cdk-vinculacao-processo-grid/cdk-vinculacao-processo-grid.module";
+import {CdkVinculacaoProcessoGridModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-grid/cdk-vinculacao-processo-grid.module';
+import {CdkTarefaGridModule} from '@cdk/components/tarefa/cdk-tarefa-grid/cdk-tarefa-grid.module';
 
 const routes: Routes = [
     {
@@ -62,6 +63,7 @@ const routes: Routes = [
         CdkJuntadaGridModule,
         MatCheckboxModule,
         CdkVinculacaoProcessoGridModule,
+        CdkTarefaGridModule,
     ],
     providers: [
         ProcessoService,

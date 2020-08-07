@@ -8,6 +8,7 @@ import { AtividadeDocumentoReducer, AtividadeDocumentoState } from './atividade-
 import {VisibilidadeReducer, VisibilidadeState} from './visibilidade.reducer';
 import {SigilosReducer, SigilosState} from './sigilos.reducer';
 import {AssinaturasReducer, AssinaturasState} from './assinaturas.reducer';
+import {JuntadaReducer, JuntadaState} from './juntada.reducer';
 
 export interface DocumentoAppState
 {
@@ -20,6 +21,7 @@ export interface DocumentoAppState
     visibilidades: VisibilidadeState;
     sigilos: SigilosState;
     assinaturas: AssinaturasState;
+    juntada: JuntadaState;
 }
 
 export const getDocumentoAppState = createFeatureSelector<DocumentoAppState>(
@@ -40,7 +42,8 @@ export const reducers: ActionReducerMap<DocumentoAppState> = {
     atividadeDocumento: AtividadeDocumentoReducer,
     visibilidades: VisibilidadeReducer,
     sigilos: SigilosReducer,
-    assinaturas: AssinaturasReducer
+    assinaturas: AssinaturasReducer,
+    juntada: JuntadaReducer
 };
 
 export * from './documento.reducer';
@@ -52,3 +55,4 @@ export * from './atividade-documento.reducer';
 export * from './visibilidade.reducer';
 export * from './sigilos.reducer';
 export * from './assinaturas.reducer';
+export * from './juntada.reducer';

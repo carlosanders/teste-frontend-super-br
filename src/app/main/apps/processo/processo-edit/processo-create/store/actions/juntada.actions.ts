@@ -1,10 +1,10 @@
 import { Action } from '@ngrx/store';
 
-export const GET_JUNTADAS = '[PROCESSO JUNTADA] GET JUNTADAS';
-export const GET_JUNTADAS_SUCCESS = '[PROCESSO JUNTADA] GET JUNTADAS SUCCESS';
-export const GET_JUNTADAS_FAILED = '[PROCESSO JUNTADA] GET JUNTADAS FAILED';
+export const GET_JUNTADAS = '[DADOS BASICOS STEPS] GET JUNTADAS';
+export const GET_JUNTADAS_SUCCESS = '[DADOS BASICOS STEPS] GET JUNTADAS SUCCESS';
+export const GET_JUNTADAS_FAILED = '[DADOS BASICOS STEPS] GET JUNTADAS FAILED';
 
-export const RELOAD_JUNTADAS = '[PROCESSO JUNTADA] RELOAD JUNTADAS';
+export const UNLOAD_JUNTADAS = '[DADOS BASICOS STEPS] UNLOAD JUNTADAS';
 
 /**
  * Get Juntadas
@@ -45,11 +45,11 @@ export class GetJuntadasFailed implements Action
 /**
  * Reload Juntadas
  */
-export class ReloadJuntadas implements Action
+export class UnloadJuntadas implements Action
 {
-    readonly type = RELOAD_JUNTADAS;
+    readonly type = UNLOAD_JUNTADAS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }
@@ -58,5 +58,5 @@ export type JuntadaListActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
     | GetJuntadasFailed
-    | ReloadJuntadas;
+    | UnloadJuntadas;
 

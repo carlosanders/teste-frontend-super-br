@@ -21,7 +21,8 @@ import {CdkAssinaturaGridModule} from '@cdk/components/assinatura/cdk-assinatura
 import {ResizableModule} from 'angular-resizable-element';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
-import {CdkVinculacaoEtiquetaChipsModule} from '../../../../../@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
+import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
+import {CdkJuntadaFormModule} from '@cdk/components/juntada/cdk-juntada-form/cdk-juntada-form.module';
 
 const routes: Routes = [
     {
@@ -84,6 +85,7 @@ modulesConfig.forEach((module) => {
         ResizableModule,
         CdkComponenteDigitalGridModule,
         CdkVinculacaoEtiquetaChipsModule,
+        CdkJuntadaFormModule,
     ],
     providers: [
         DocumentoService
