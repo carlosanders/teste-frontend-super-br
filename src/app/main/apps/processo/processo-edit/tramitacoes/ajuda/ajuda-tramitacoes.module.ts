@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 
 import {AjudaTramitacoesComponent} from './ajuda-tramitacoes.component';
 import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
@@ -18,4 +18,10 @@ import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
     ]
 })
 export class AjudaTramitacoesModule {
+    constructor(private resolver: ComponentFactoryResolver) {
+    }
+
+    public resolveComponentFactory(): ComponentFactory<AjudaTramitacoesComponent> {
+        return this.resolver.resolveComponentFactory(AjudaTramitacoesComponent);
+    }
 }

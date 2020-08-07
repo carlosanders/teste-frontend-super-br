@@ -1,4 +1,5 @@
-import {NgModule} from '@angular/core';
+import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
+
 import {MatExpansionModule} from '@angular/material/expansion';
 
 
@@ -31,4 +32,10 @@ import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
     ]
 })
 export class AjudaVinculacoesProcessosModule {
+    constructor(private resolver: ComponentFactoryResolver) {
+    }
+
+    public resolveComponentFactory(): ComponentFactory<AjudaVinculacoesProcessosComponent> {
+        return this.resolver.resolveComponentFactory(AjudaVinculacoesProcessosComponent);
+    }
 }
