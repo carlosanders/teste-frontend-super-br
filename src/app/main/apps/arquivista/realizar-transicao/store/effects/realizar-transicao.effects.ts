@@ -11,8 +11,8 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {AddData, RemoveData} from '@cdk/ngrx-normalizr';
-import {transicao as transicaoSchema} from '@cdk/normalizr/transicao.schema';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {transicao as transicaoSchema} from '@cdk/normalizr';
+import {processo as processoSchema} from '@cdk/normalizr';
 
 import {getRouterState, State} from '../../../../../../store/reducers';
 import * as RealizarTransicaoActions from '../actions/realizar-transicao.actions';

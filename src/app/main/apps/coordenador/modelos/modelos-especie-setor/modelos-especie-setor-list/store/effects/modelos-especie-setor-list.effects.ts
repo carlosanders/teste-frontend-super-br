@@ -11,7 +11,7 @@ import * as ModelosEspecieSetorListActions from '../actions';
 import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoModelo} from '@cdk/models';
-import {vinculacaoModelo as vinculacaoModeloSchema} from '@cdk/normalizr/vinculacao-modelo.schema';
+import {vinculacaoModelo as vinculacaoModeloSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class ModelosEspecieSetorListEffects {

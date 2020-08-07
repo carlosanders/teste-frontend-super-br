@@ -9,7 +9,7 @@ import * as RelevanciaListActions from '../../../relevancia-list/store/actions/r
 
 import {RelevanciaService} from '@cdk/services/relevancia.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {relevancia as relevanciaSchema} from '@cdk/normalizr/relevancia.schema';
+import {relevancia as relevanciaSchema} from '@cdk/normalizr';
 import {Relevancia} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

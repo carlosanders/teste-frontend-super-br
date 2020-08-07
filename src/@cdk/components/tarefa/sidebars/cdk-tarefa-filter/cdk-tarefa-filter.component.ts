@@ -1,7 +1,19 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, Input, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    OnInit,
+    Output,
+    Input,
+    ViewEncapsulation,
+    ViewChild, ViewContainerRef, AfterViewInit
+} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
+import {DynamicService} from '../../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../../modules/modules-config';
+import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
 
 @Component({
     selector: 'cdk-tarefa-filter',
@@ -11,17 +23,18 @@ import {cdkAnimations} from '@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkTarefaFilterComponent implements OnInit {
+export class CdkTarefaFilterComponent implements OnInit, AfterViewInit  {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    filters: any = {};
-
     @Input()
     mode = 'list';
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
 
     /**
      * Constructor
@@ -29,6 +42,8 @@ export class CdkTarefaFilterComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
+        private _dynamicService: DynamicService,
+        private _cdkTarefaFilterService: CdkTarefaFilterService
     ) {
         this.form = this._formBuilder.group({
             urgente: [null],
@@ -70,8 +85,8 @@ export class CdkTarefaFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('postIt').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkTarefaFilterService.filters = {
+                    ...this._cdkTarefaFilterService.filters,
                     postIt: `like:${value}%`
                 };
             }
@@ -79,8 +94,8 @@ export class CdkTarefaFilterComponent implements OnInit {
 
         this.form.get('observacao').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkTarefaFilterService.filters = {
+                    ...this._cdkTarefaFilterService.filters,
                     observacao: `like:${value}%`
                 };
             }
@@ -88,8 +103,8 @@ export class CdkTarefaFilterComponent implements OnInit {
 
         this.form.get('urgente').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkTarefaFilterService.filters = {
+                    ...this._cdkTarefaFilterService.filters,
                     urgente: `eq:${value}`
                 };
             }
@@ -97,8 +112,8 @@ export class CdkTarefaFilterComponent implements OnInit {
 
         this.form.get('redistribuida').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkTarefaFilterService.filters = {
+                    ...this._cdkTarefaFilterService.filters,
                     redistribuida: `eq:${value}`
                 };
             }
@@ -106,8 +121,8 @@ export class CdkTarefaFilterComponent implements OnInit {
 
         this.form.get('dataHoraLeitura').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkTarefaFilterService.filters = {
+                    ...this._cdkTarefaFilterService.filters,
                     dataHoraLeitura: `eq:${value}`
                 };
             }
@@ -115,8 +130,8 @@ export class CdkTarefaFilterComponent implements OnInit {
 
         this.form.get('dataHoraInicioPrazo').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkTarefaFilterService.filters = {
+                    ...this._cdkTarefaFilterService.filters,
                     dataHoraInicioPrazo: `eq:${value}`
                 };
             }
@@ -124,8 +139,8 @@ export class CdkTarefaFilterComponent implements OnInit {
 
         this.form.get('dataHoraFinalPrazo').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkTarefaFilterService.filters = {
+                    ...this._cdkTarefaFilterService.filters,
                     dataHoraFinalPrazo: `eq:${value}`
                 };
             }
@@ -133,8 +148,8 @@ export class CdkTarefaFilterComponent implements OnInit {
 
         this.form.get('dataHoraConclusaoPrazo').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkTarefaFilterService.filters = {
+                    ...this._cdkTarefaFilterService.filters,
                     dataHoraConclusaoPrazo: `eq:${value}`
                 };
             }
@@ -143,13 +158,14 @@ export class CdkTarefaFilterComponent implements OnInit {
         this.form.get('processo').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         'processo.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('processo.id')) {
-                        delete this.filters['processo.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('processo.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['processo.id'];
                     }
                 }
             }
@@ -158,13 +174,14 @@ export class CdkTarefaFilterComponent implements OnInit {
         this.form.get('especieTarefa').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         'especieTarefa.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('especieTarefa.id')) {
-                        delete this.filters['especieTarefa.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('especieTarefa.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['especieTarefa.id'];
                     }
                 }
             }
@@ -173,13 +190,14 @@ export class CdkTarefaFilterComponent implements OnInit {
         this.form.get('usuarioResponsavel').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         'usuarioResponsavel.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('usuarioResponsavel.id')) {
-                        delete this.filters['usuarioResponsavel.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('usuarioResponsavel.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['usuarioResponsavel.id'];
                     }
                 }
             }
@@ -188,13 +206,14 @@ export class CdkTarefaFilterComponent implements OnInit {
         this.form.get('setorOrigem').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         'setorOrigem.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('setorOrigem.id')) {
-                        delete this.filters['setorOrigem.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('setorOrigem.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['setorOrigem.id'];
                     }
                 }
             }
@@ -203,13 +222,14 @@ export class CdkTarefaFilterComponent implements OnInit {
         this.form.get('unidadeResponsavel').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         'unidadeResponsavel.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('unidadeResponsavel.id')) {
-                        delete this.filters['unidadeResponsavel.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('unidadeResponsavel.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['unidadeResponsavel.id'];
                     }
                 }
             }
@@ -218,13 +238,14 @@ export class CdkTarefaFilterComponent implements OnInit {
         this.form.get('setorResponsavel').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         'setorResponsavel.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('setorResponsavel.id')) {
-                        delete this.filters['setorResponsavel.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('setorResponsavel.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['setorResponsavel.id'];
                     }
                 }
             }
@@ -233,13 +254,14 @@ export class CdkTarefaFilterComponent implements OnInit {
         this.form.get('usuarioConclusaoPrazo').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         'usuarioConclusaoPrazo.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('usuarioConclusaoPrazo.id')) {
-                        delete this.filters['usuarioConclusaoPrazo.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('usuarioConclusaoPrazo.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['usuarioConclusaoPrazo.id'];
                     }
                 }
             }
@@ -247,8 +269,8 @@ export class CdkTarefaFilterComponent implements OnInit {
 
         this.form.get('criadoEm').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkTarefaFilterService.filters = {
+                    ...this._cdkTarefaFilterService.filters,
                     criadoEm: `eq:${value}`
                 };
             }
@@ -256,8 +278,8 @@ export class CdkTarefaFilterComponent implements OnInit {
 
         this.form.get('atualizadoEm').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkTarefaFilterService.filters = {
+                    ...this._cdkTarefaFilterService.filters,
                     atualizadoEm: `eq:${value}`
                 };
             }
@@ -266,13 +288,14 @@ export class CdkTarefaFilterComponent implements OnInit {
         this.form.get('criadoPor').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('criadoPor.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['criadoPor.id'];
                     }
                 }
             }
@@ -281,13 +304,14 @@ export class CdkTarefaFilterComponent implements OnInit {
         this.form.get('atualizadoPor').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         'atualizadoPor.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('atualizadoPor.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['atualizadoPor.id'];
                     }
                 }
             }
@@ -296,23 +320,36 @@ export class CdkTarefaFilterComponent implements OnInit {
         this.form.get('apagadoPor').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         'apagadoPor.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('apagadoPor.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['apagadoPor.id'];
                     }
                 }
             }
         });
     }
 
+    ngAfterViewInit(): void {
+        const path = '@cdk/components/tarefa/sidebars/cdk-tarefa-filter';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+    }
+
     emite(): void {
         const request = {
-            ...this.filters,
-            filters: this.filters
+            ...this._cdkTarefaFilterService.filters,
+            filters: this._cdkTarefaFilterService.filters
         };
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
@@ -323,7 +360,8 @@ export class CdkTarefaFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = {};
+        this._cdkTarefaFilterService.filters = {};
+        this._cdkTarefaFilterService.clear.next();
         this.emite();
         this.form.reset();
     }

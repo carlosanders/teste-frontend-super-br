@@ -10,8 +10,8 @@ import * as UsuariosListActions from '../../../usuarios-list/store/actions/usuar
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {usuario as usuarioSchema} from '@cdk/normalizr/usuario.schema';
-import {colaborador as colaboradorSchema} from '@cdk/normalizr/colaborador.schema';
+import {usuario as usuarioSchema} from '@cdk/normalizr';
+import {colaborador as colaboradorSchema} from '@cdk/normalizr';
 import {Usuario, Colaborador} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

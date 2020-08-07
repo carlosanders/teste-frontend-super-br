@@ -92,6 +92,6 @@ export class CdkAssuntoAdministrativoAutocompleteComponent implements OnInit {
     }
 
     displayAssuntoAdministrativoFn(assuntoAdministrativo): string {
-        return assuntoAdministrativo ? assuntoAdministrativo.nome + '(' + assuntoAdministrativo.id + ')' : null;
+        return assuntoAdministrativo ? assuntoAdministrativo.nome + ' (' + assuntoAdministrativo.id + ')' : null;
     }
 }

@@ -10,7 +10,7 @@ import * as TipoDocumentoListActions from '../../../tipo-documento-list/store/ac
 import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr/tipo-documento.schema';
+import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr';
 import {TipoDocumento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

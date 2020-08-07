@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getAtividadeCreateBlocoAppState, AtividadeCreateBlocoAppState, AtividadeBlocoCreateDocumentosState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Documento} from '@cdk/models';
-import {documento as documentoSchema} from '@cdk/normalizr/documento.schema';
+import {documento as documentoSchema} from '@cdk/normalizr';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 

@@ -9,7 +9,7 @@ import * as ModeloListActions from '../../../modelo-list/store/actions/modelo-li
 
 import {ModeloService} from '@cdk/services/modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {modelo as modeloSchema} from '@cdk/normalizr/modelo.schema';
+import {modelo as modeloSchema} from '@cdk/normalizr';
 import {Modelo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

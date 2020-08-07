@@ -11,7 +11,7 @@ import * as VolumeListActions from '../actions';
 import {VolumeService} from '@cdk/services/volume.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Volume} from '@cdk/models';
-import {volume as volumeSchema} from '@cdk/normalizr/volume.schema';
+import {volume as volumeSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class VolumeListEffect {

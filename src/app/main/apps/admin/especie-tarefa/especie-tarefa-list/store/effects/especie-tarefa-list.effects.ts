@@ -11,7 +11,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 import {EspecieTarefaService} from '../../../../../../../../@cdk/services/especie-tarefa.service';
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {EspecieTarefa} from '../../../../../../../../@cdk/models';
-import {especieTarefa as especieTarefaSchema} from '../../../../../../../../@cdk/normalizr/especie-tarefa.schema';
+import {especieTarefa as especieTarefaSchema} from '../../../../../../../../@cdk/normalizr';
 
 
 @Injectable()

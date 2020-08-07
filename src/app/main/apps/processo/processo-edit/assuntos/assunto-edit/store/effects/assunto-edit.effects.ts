@@ -9,7 +9,7 @@ import * as AssuntoListActions from '../../../assunto-list/store/actions/assunto
 
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {assunto as assuntoSchema} from '@cdk/normalizr/assunto.schema';
+import {assunto as assuntoSchema} from '@cdk/normalizr';
 import {Assunto} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

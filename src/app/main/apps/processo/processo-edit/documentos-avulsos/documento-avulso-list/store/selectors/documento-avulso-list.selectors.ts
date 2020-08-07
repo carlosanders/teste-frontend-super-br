@@ -6,7 +6,7 @@ import {
 } from 'app/main/apps/processo/processo-edit/documentos-avulsos/documento-avulso-list/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 import {DocumentoAvulso} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<DocumentoAvulso>(documentoAvulsoSchema);

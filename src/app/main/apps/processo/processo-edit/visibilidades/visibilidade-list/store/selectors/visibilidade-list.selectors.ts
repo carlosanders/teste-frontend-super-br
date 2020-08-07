@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {visibilidade as visibilidadeSchema} from '@cdk/normalizr/visibilidade.schema';
+import {visibilidade as visibilidadeSchema} from '@cdk/normalizr';
 import {Visibilidade} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Visibilidade>(visibilidadeSchema);

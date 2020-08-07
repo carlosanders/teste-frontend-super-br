@@ -9,7 +9,7 @@ import * as RepositoriosEspecieSetorListActions from '../../../repositorios-espe
 
 import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {vinculacaoRepositorio as vinculacaoRepositorioSchema} from '@cdk/normalizr/vinculacao-repositorio.schema';
+import {vinculacaoRepositorio as vinculacaoRepositorioSchema} from '@cdk/normalizr';
 import {VinculacaoRepositorio} from '@cdk/models/vinculacao-repositorio.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

@@ -11,7 +11,7 @@ import * as ProcessosActions from 'app/main/apps/pesquisa/processos/store/action
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData, } from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {processo as processoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class ProcessosEffect {

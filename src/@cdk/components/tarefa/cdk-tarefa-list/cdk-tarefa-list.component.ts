@@ -1,7 +1,20 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input, OnChanges, OnInit,
+    Output, SimpleChange,
+    ViewChild, ViewContainerRef,
+    ViewEncapsulation
+} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Tarefa} from '@cdk/models/tarefa.model';
+import {DynamicService} from '../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../modules/modules-config';
+import {CdkTarefaListService} from './cdk-tarefa-list.service';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -12,7 +25,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
     animations: cdkAnimations,
     exportAs: 'dragTarefaList'
 })
-export class CdkTarefaListComponent {
+export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges {
 
     @Input()
     loading: boolean;
@@ -87,6 +100,9 @@ export class CdkTarefaListComponent {
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
+    removeTarefa = new EventEmitter<Tarefa>();
+
+    @Output()
     compartilharBloco = new EventEmitter<any>();
 
     @Output()
@@ -127,13 +143,43 @@ export class CdkTarefaListComponent {
 
     isIndeterminate = false;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     /**
      * Constructor
      */
     constructor(
+        private _dynamicService: DynamicService,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService) {
+        private _cdkSidebarService: CdkSidebarService,
+        private _cdkTarefaListService: CdkTarefaListService
+    ) {
         this.listFilter = {};
+    }
+
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+    }
+
+    ngAfterViewInit(): void {
+        const path = '@cdk/components/tarefa/cdk-tarefa-list';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+    }
+
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['tarefas']) {
+            this._cdkTarefaListService.tarefas = this.tarefas;
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -176,6 +222,10 @@ export class CdkTarefaListComponent {
         this.folder.emit(folder);
     }
 
+    doRemoveTarefa(tarefa: Tarefa): void {
+        this.removeTarefa.emit(tarefa);
+    }
+
     onScroll(): void {
         this.scrolled.emit();
     }
@@ -201,6 +251,7 @@ export class CdkTarefaListComponent {
     selectAll(): void {
         const arr = Object.keys(this.tarefas).map(k => this.tarefas[k]);
         this.selectedIds = arr.map(tarefa => tarefa.id);
+        this._cdkTarefaListService.selectedIds = this.selectedIds;
         this.recompute();
     }
 
@@ -209,6 +260,7 @@ export class CdkTarefaListComponent {
      */
     deselectAll(): void {
         this.selectedIds = [];
+        this._cdkTarefaListService.selectedIds = this.selectedIds;
         this.recompute();
     }
 
@@ -217,8 +269,10 @@ export class CdkTarefaListComponent {
 
         if (selectedTarefaIds.find(id => id === tarefaId) !== undefined) {
             this.selectedIds = selectedTarefaIds.filter(id => id !== tarefaId);
+            this._cdkTarefaListService.selectedIds = this.selectedIds;
         } else {
             this.selectedIds = [...selectedTarefaIds, tarefaId];
+            this._cdkTarefaListService.selectedIds = this.selectedIds;
         }
         this.recompute();
     }

@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {municipio as municipioSchema} from '@cdk/normalizr/municipio.schema';
+import {municipio as municipioSchema} from '@cdk/normalizr';
 import {Municipio} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Municipio>(municipioSchema);

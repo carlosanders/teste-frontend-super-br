@@ -9,7 +9,7 @@ import * as AfastamentosListActions from '../../../afastamentos-list/store/actio
 
 import {AfastamentoService} from '@cdk/services/afastamento.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {afastamento as afastamentoSchema} from '@cdk/normalizr/afastamento.schema';
+import {afastamento as afastamentoSchema} from '@cdk/normalizr';
 import {Afastamento} from '@cdk/models/afastamento.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

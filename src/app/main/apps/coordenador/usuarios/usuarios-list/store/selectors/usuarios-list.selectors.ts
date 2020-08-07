@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {usuario as usuarioSchema} from '@cdk/normalizr/usuario.schema';
+import {usuario as usuarioSchema} from '@cdk/normalizr';
 import {Usuario} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Usuario>(usuarioSchema);

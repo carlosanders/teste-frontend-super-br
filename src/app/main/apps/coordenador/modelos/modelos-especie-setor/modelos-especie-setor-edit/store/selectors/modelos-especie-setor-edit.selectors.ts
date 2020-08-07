@@ -2,14 +2,14 @@ import {createSelector} from '@ngrx/store';
 import {getModelosEspecieSetorEditAppState, ModelosEspecieSetorEditAppState, ModelosEspecieSetorEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {VinculacaoModelo} from '@cdk/models/vinculacao-modelo.model';
-import {vinculacaoModelo as vinculacaoModeloSchema} from '@cdk/normalizr/vinculacao-modelo.schema';
+import {vinculacaoModelo as vinculacaoModeloSchema} from '@cdk/normalizr';
 import {getModelosEspecieSetorState} from '../../../store/selectors';
 import {getCoordenadorState} from '../../../../../store/selectors';
 import {ModelosEspecieSetorState} from '../../../store/reducers';
 import {ModalidadeOrgaoCentral, Modelo, Setor} from '@cdk/models';
-import {modelo as schemaModelo} from '@cdk/normalizr/modelo.schema';
-import {modalidadeOrgaoCentral as schemaOrgaoCentral} from '@cdk/normalizr/modalidade-orgao-central.schema';
-import {unidade as schemaUnidade} from '@cdk/normalizr/unidade.schema';
+import {modelo as schemaModelo} from '@cdk/normalizr';
+import {modalidadeOrgaoCentral as schemaOrgaoCentral} from '@cdk/normalizr';
+import {unidade as schemaUnidade} from '@cdk/normalizr';
 import {CoordenadorState} from '../../../../../store/reducers';
 
 const schemaVinculacaoModeloSelectors = createSchemaSelectors<VinculacaoModelo>(vinculacaoModeloSchema);

@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
-import { Route, Router, CanActivate, CanLoad, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-
-import { LoginService } from '../auth/login/login.service';
+import {Injectable} from '@angular/core';
+import {Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import {LoginService} from '../auth/login/login.service';
 import {environment} from '../../../environments/environment';
 import * as fromStore from '../../store';
 import {EventSourcePolyfill} from 'event-source-polyfill';
@@ -9,15 +8,19 @@ import {Store} from '@ngrx/store';
 import {State} from '../../store';
 import {HttpClient} from '@angular/common/http';
 
-@Injectable({ providedIn: 'root' })
-export class AuthGuard implements CanActivate, CanLoad {
+@Injectable({providedIn: 'root'})
+export class AuthGuard implements CanActivate {
+
+    firstConnection = true;
+
     constructor(
         private router: Router,
         private loginService: LoginService,
         private _store: Store<State>,
         private _loginService: LoginService,
         private http: HttpClient
-    ) { }
+    ) {
+    }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
         const token = this.loginService.getToken();
@@ -28,20 +31,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         }
 
         // not logged in so redirect to login page with the return url
-        this.router.navigate(['/auth/login'], { queryParams: { returnUrl: state.url } });
-
-        return false;
-    }
-
-    canLoad(route: Route): boolean {
-        const token = this.loginService.getToken();
-        if (token) {
-            this.setMercure();
-            return true;
-        }
-
-        // not logged in so redirect to login page with the return url
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/auth/login'], {queryParams: {returnUrl: state.url}});
 
         return false;
     }
@@ -56,7 +46,10 @@ export class AuthGuard implements CanActivate, CanLoad {
             }
         );
         es.onopen = e => {
-            this.http.get(`${environment.base_url}${'mercure'}` + environment.xdebug).subscribe();
+            if (this.firstConnection) {
+                this.http.get(`${environment.base_url}${'mercure'}` + environment.xdebug).subscribe();
+                this.firstConnection = false;
+            }
         };
 
         es.onmessage = e => {
@@ -67,4 +60,5 @@ export class AuthGuard implements CanActivate, CanLoad {
             }));
         };
     }
+
 }

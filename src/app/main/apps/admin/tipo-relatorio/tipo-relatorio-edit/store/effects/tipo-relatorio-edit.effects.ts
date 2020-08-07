@@ -9,7 +9,7 @@ import * as TipoRelatorioListActions from '../../../tipo-relatorio-list/store/ac
 
 import {TipoRelatorioService} from '@cdk/services/tipo-relatorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr/tipo-relatorio.schema';
+import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

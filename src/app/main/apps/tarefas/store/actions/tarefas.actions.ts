@@ -18,6 +18,8 @@ export const DELETE_TAREFA_FAILED = '[TAREFAS] DELETE TAREFA FAILED';
 
 export const CHANGE_SELECTED_TAREFAS = '[TAREFAS] CHANGE SELECTED TAREFAS';
 
+export const REMOVE_TAREFA = '[TAREFAS] REMOVE TAREFA';
+
 export const TOGGLE_MAXIMIZADO = '[TAREFAS] TOGGLE MAXIMIZADO';
 
 export const TOGGLE_LIDA_TAREFA = '[TAREFAS] TOGGLE LIDA TAREFA';
@@ -502,6 +504,15 @@ export class DarCienciaTarefaFailed implements Action
     }
 }
 
+/**
+ * Remove Tarefa
+ */
+export class RemoveTarefa implements Action {
+    readonly type = REMOVE_TAREFA;
+
+    constructor(public payload: any) {
+    }
+}
 
 export type TarefasActionsAll
     = UnloadTarefas
@@ -546,4 +557,5 @@ export type TarefasActionsAll
     | SetAssuntosLoadedFailed
     | DarCienciaTarefa
     | DarCienciaTarefaSuccess
-    | DarCienciaTarefaFailed;
+    | DarCienciaTarefaFailed
+    | RemoveTarefa;

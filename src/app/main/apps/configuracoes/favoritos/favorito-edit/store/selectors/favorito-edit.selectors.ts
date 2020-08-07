@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getFavoritoEditAppState, FavoritoEditAppState, FavoritoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Favorito} from '@cdk/models';
-import {favorito as favoritoSchema} from '@cdk/normalizr/favorito.schema';
+import {favorito as favoritoSchema} from '@cdk/normalizr';
 
 const schemaFavoritoSelectors = createSchemaSelectors<Favorito>(favoritoSchema);
 

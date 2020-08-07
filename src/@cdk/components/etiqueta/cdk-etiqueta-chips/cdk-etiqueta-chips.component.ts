@@ -34,6 +34,9 @@ export class CdkEtiquetaChipsComponent {
     @Output()
     create = new EventEmitter<Etiqueta>();
 
+    @Input()
+    placeholder: string;
+
     @ViewChild('etiquetaInput', {static: true}) etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta', {static: true}) matAutocomplete: MatAutocomplete;
 

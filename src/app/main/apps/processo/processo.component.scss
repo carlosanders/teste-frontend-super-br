@@ -1,3 +1,5 @@
+@import "../../../../@cdk/scss/cdk";
+
 processo {
 
   .processo-content {
@@ -13,9 +15,45 @@ processo {
 
   .center {
 
-    cdk-vinculacao-etiqueta-chips {
-      width: 100%;
-    }
+      .header {
+          height: 72px !important;
+          min-height: 72px !important;
+          max-height: 72px !important;
+
+          .search-wrapper {
+              border-radius: 28px;
+              overflow: hidden;
+              @include mat-elevation(1);
+
+              .sidebar-toggle {
+                  margin: 0 0 0 6px;
+                  width: 56px;
+                  height: 56px;
+                  border-radius: 0;
+                  border-right: 1px solid;
+              }
+
+              .search {
+                  width: 100%;
+                  height: 46px;
+                  line-height: 46px;
+                  padding: 0 8px;
+
+                  cdk-vinculacao-etiqueta-chips {
+                      width: 100%;
+                      margin-left: 16px;
+                      margin-right: 16px;
+                  }
+              }
+          }
+
+          &.current-tarefa-selected {
+              .search-wrapper {
+                  display: none !important;
+              }
+          }
+
+      }
 
   }
 }

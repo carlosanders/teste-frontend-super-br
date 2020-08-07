@@ -9,7 +9,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentoAvulsoActions from '../actions/documento-avulso.actions';
 
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr/documento-avulso.schema';
+import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {DocumentoAvulso} from '@cdk/models';

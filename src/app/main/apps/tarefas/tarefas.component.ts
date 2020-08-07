@@ -409,6 +409,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.DarCienciaTarefa(tarefa));
     }
 
+    doRemoveTarefa(tarefa: Tarefa): void {
+        this._store.dispatch(new fromStore.RemoveTarefa(tarefa));
+    }
+
     doCompartilhar(tarefaId): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/compartilhamentos/listar']).then();
     }
@@ -422,6 +426,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doMovimentarBloco(): void {
+        // tslint:disable-next-line:max-line-length
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/' + this.routeAtividadeBloco]).then();
     }
 

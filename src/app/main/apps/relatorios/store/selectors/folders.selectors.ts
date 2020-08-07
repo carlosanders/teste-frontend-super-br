@@ -1,7 +1,7 @@
 import {createSelector} from '@ngrx/store';
 import {FoldersState, getRelatoriosAppState, RelatoriosAppState} from 'app/main/apps/relatorios/store/reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {folder as folderSchema} from '@cdk/normalizr/folder.schema';
+import {folder as folderSchema} from '@cdk/normalizr';
 import {Folder} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Folder>(folderSchema);

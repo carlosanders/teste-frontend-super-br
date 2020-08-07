@@ -11,7 +11,7 @@ import * as TemplatesListActions from '../actions';
 import {TemplateService} from '@cdk/services/template.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Template} from '@cdk/models';
-import {template as templatesSchema} from '@cdk/normalizr/template.schema';
+import {template as templatesSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()

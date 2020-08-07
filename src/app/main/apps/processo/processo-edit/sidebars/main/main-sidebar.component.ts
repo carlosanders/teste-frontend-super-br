@@ -4,9 +4,10 @@ import * as fromStore from '../../../store';
 import {getRouterState} from 'app/store/reducers';
 import {Observable} from 'rxjs';
 import {Processo} from '@cdk/models';
-
 import {modulesConfig} from 'modules/modules-config';
 import {getProcesso} from '../../../store';
+import {filter} from 'rxjs/operators';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Component({
     selector: 'processo-edit-main-sidebar',
@@ -21,11 +22,16 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
+    generoProcesso = 'ADMINISTRATIVO';
+
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
-    constructor(private _store: Store<fromStore.ProcessoAppState>) {
+    constructor(
+        private _store: Store<fromStore.ProcessoAppState>,
+        public _loginService: LoginService
+    ) {
         this.processo$ = this._store.pipe(select(getProcesso));
     }
 
@@ -43,14 +49,29 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.processo$.subscribe(
-            processo => this.processo = processo
+        this.processo$.pipe(
+            filter((processo) => !!processo)
+        ).subscribe(
+            processo => {
+                this.processo = processo;
+                this.generoProcesso = processo.especieProcesso.generoProcesso.nome;
+            }
         );
 
-        this.links = [
+        this.links = [];
+
+        const path = 'app/main/apps/processo/processo-edit/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
+
+        this.links.push(
             {
                 nome: 'Dados Básicos',
-                link: 'dados-basicos'
+                link: 'dados-basicos',
             },
             {
                 nome: 'Assuntos',
@@ -62,7 +83,8 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             },
             {
                 nome: 'Volumes',
-                link: 'volumes'
+                link: 'volumes',
+                role: 'ROLE_COLABORADOR'
             },
             {
                 nome: 'Juntadas',
@@ -119,15 +141,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'transicoes',
                 role: 'ROLE_COLABORADOR'
             }
-        ];
-
-        const path = 'app/main/apps/processo/processo-edit/sidebars/main';
-
-        modulesConfig.forEach((module) => {
-            if (module.sidebars.hasOwnProperty(path)) {
-                module.sidebars[path].forEach((s => this.links.push(s)));
-            }
-        });
+        );
 
     }
 

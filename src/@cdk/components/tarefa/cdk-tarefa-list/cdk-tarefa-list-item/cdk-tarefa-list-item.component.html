@@ -9,44 +9,48 @@
 
         <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
 
-            <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
+            <ng-template #dynamicText></ng-template>
 
-            <div class="title" fxLayout="row">
-                <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
-                </mat-icon>
-                <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
-                </mat-icon>
-                <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
-                <span dndDragImageRef>NUP {{tarefa.processo?.NUP | formatNup}}</span>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
-                          *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
-                </mat-icon>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
-                          *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
-                </mat-icon>
-            </div>
+            <div class="mb-4">
+                <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
 
-            <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-                <span>{{tarefa.processo?.modalidadeMeio?.valor }} {{tarefa.processo?.especieProcesso?.nome }}</span>
-            </div>
+                <div class="title" fxLayout="row">
+                    <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
+                    </mat-icon>
+                    <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
+                    </mat-icon>
+                    <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
+                    <span dndDragImageRef>NUP {{tarefa.processo?.NUP | formatNup}}</span>
+                    <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                              *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
+                    </mat-icon>
+                    <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                              *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
+                    </mat-icon>
+                </div>
 
-            <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
-                <span>Usuário com acesso negado ao processo</span>
-            </div>
+                <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
+                    <span>{{tarefa.processo?.modalidadeMeio?.valor }} {{tarefa.processo?.especieProcesso?.nome }}</span>
+                </div>
 
-            <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
+                <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
+                    <span>Usuário com acesso negado ao processo</span>
+                </div>
+
+                <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
                     <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
                     >Ofício vinculado pendente de resposta</span>
-                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
-            </div>
-
-            <div class="subtitle" fxLayout="row" *ngIf="isOpen">
-                <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
-                    <mat-spinner diameter=16></mat-spinner>
+                    <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
+                    >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
                 </div>
-                <div *ngIf="tarefa.processo?.assuntos?.length > 0">
-                    <span>ASSUNTO: {{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
+
+                <div class="subtitle" fxLayout="row" *ngIf="isOpen">
+                    <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
+                        <mat-spinner diameter=16></mat-spinner>
+                    </div>
+                    <div *ngIf="tarefa.processo?.assuntos?.length > 0">
+                        <span>ASSUNTO: {{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
+                    </div>
                 </div>
             </div>
 
@@ -59,9 +63,17 @@
                     {{tarefa.setorResponsavel?.nome}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
                 </div>
 
-                <div>
+                <div *ngIf="tarefa.dataHoraFinalPrazo">
                     {{tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}}
                     ATÉ {{tarefa.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+                </div>
+
+                <div *ngIf="!tarefa.dataHoraFinalPrazo">
+                    {{(tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy')}}
+                    ATÉ
+                    <mat-icon class="secondary-text" matTooltip="Prazo fechado">
+                        lock
+                    </mat-icon>
                 </div>
             </div>
 
@@ -70,7 +82,8 @@
                      fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.etiqueta?.nome">
                     <div class="etiqueta-color"
                          [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                    <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                    <div
+                        class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
                 </div>
             </div>
         </div>
@@ -83,11 +96,11 @@
                 <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
             </button>
 
-            <div class="spinner-container m-8" *ngIf="deleting || ciencia">
+            <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading">
                 <mat-spinner diameter="24"></mat-spinner>
             </div>
 
-            <button *ngIf="!deleting && !ciencia" mat-icon-button [matMenuTriggerFor]="moreMenu"
+            <button *ngIf="!deleting && !ciencia && !pluginLoading" mat-icon-button [matMenuTriggerFor]="moreMenu"
                     aria-label="Ferramentas"
                     (click)="$event.stopPropagation()">
                 <mat-icon class="secondary-text">more_vert</mat-icon>
@@ -155,9 +168,11 @@
                         (click)="doCompartilhar()">
                     <ng-container>
                         <mat-icon>share</mat-icon>
-                        <span>Compartilhamento</span>
+                        <span>Compartilhar</span>
                     </ng-container>
                 </button>
+
+                <ng-template #dynamicComponent></ng-template>
 
             </mat-menu>
         </div>

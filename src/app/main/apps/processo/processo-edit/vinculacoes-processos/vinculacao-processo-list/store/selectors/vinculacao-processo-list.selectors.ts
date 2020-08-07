@@ -6,7 +6,7 @@ import {
 } from 'app/main/apps/processo/processo-edit/vinculacoes-processos/vinculacao-processo-list/store/reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr/vinculacao-processo.schema';
+import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<VinculacaoProcesso>(vinculacaoProcessoSchema);

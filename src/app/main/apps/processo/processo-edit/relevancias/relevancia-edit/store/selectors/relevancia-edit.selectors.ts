@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getRelevanciaEditAppState, RelevanciaEditAppState, RelevanciaEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Relevancia} from '@cdk/models';
-import {relevancia as relevanciaSchema} from '@cdk/normalizr/relevancia.schema';
+import {relevancia as relevanciaSchema} from '@cdk/normalizr';
 
 const schemaRelevanciaSelectors = createSchemaSelectors<Relevancia>(relevanciaSchema);
 

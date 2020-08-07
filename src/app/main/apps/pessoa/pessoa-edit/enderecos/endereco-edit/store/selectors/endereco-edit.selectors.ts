@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getEnderecoEditAppState, EnderecoEditAppState, EnderecoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Endereco} from '@cdk/models';
-import {endereco as enderecoSchema} from '@cdk/normalizr/endereco.schema';
+import {endereco as enderecoSchema} from '@cdk/normalizr';
 
 const schemaEnderecoSelectors = createSchemaSelectors<Endereco>(enderecoSchema);
 

@@ -9,7 +9,7 @@ import * as VolumeListActions from '../../../volume-list/store/actions/volume-li
 
 import {VolumeService} from '@cdk/services/volume.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {volume as volumeSchema} from '@cdk/normalizr/volume.schema';
+import {volume as volumeSchema} from '@cdk/normalizr';
 import {Volume} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

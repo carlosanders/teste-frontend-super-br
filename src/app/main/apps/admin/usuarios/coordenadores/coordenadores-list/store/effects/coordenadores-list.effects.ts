@@ -11,7 +11,7 @@ import * as CoordenadoresListActions from '../actions';
 import {CoordenadorService} from '@cdk/services/coordenador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Coordenador} from '@cdk/models/coordenador.model';
-import {coordenador as coordenadorSchema} from '@cdk/normalizr/coordenador.schema';
+import {coordenador as coordenadorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()

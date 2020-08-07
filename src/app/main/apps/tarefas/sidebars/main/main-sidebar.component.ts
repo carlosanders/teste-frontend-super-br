@@ -1,15 +1,25 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    OnDestroy,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {Coordenador, Folder} from '@cdk/models';
+import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
@@ -24,8 +34,14 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
+    @Output()
+    reload = new EventEmitter<any>();
+
     folders$: Observable<Folder[]>;
-    folders: Folder[];
+
+    loading$: Observable<boolean>;
+
+    listFilter = {};
 
     mode = 'Tarefas';
 
@@ -40,6 +56,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     usuariosAssessor: Usuario[] = [];
 
+    @ViewChild('inputFolder') inputFolder: ElementRef;
+
+    showAddFolder = false;
+
     /**
      *
      * @param _store
@@ -49,7 +69,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.TarefasAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
-        public _loginService: LoginService
+        public _loginService: LoginService,
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         const path = 'app/main/apps/tarefas/sidebars/main';
@@ -59,8 +79,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
-
-        this.folders$.subscribe((folders) => this.folders = folders);
     }
 
     /**
@@ -84,6 +102,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 this.typeHandle = routerState.state.params['typeHandle'];
             }
         });
+
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingFolder));
 
         this.setoresCoordenacao = [];
 
@@ -124,5 +144,40 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         if (this.mode === 'Tarefas') {
             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
         }
+    }
+
+    showFolderComponent() {
+        this.showAddFolder = true;
+        setTimeout(()=>{ // this will make the execution after the above boolean has changed
+            this.inputFolder.nativeElement.focus();
+        },200);
+    }
+
+    addFolder() {
+        if (this.inputFolder.nativeElement.value.length > 2) {
+            const folder = new Folder();
+            folder.nome = this.inputFolder.nativeElement.value;
+            folder.descricao = this.inputFolder.nativeElement.value;
+            folder.usuario = this._loginService.getUserProfile();
+            this._store.dispatch(new fromStore.SaveFolder(folder));
+            this.showAddFolder = false;
+        }
+    }
+
+    delFolder(folder: Folder) {
+        this._store.dispatch(new fromStore.DeleteFolder(folder.id));
+        setTimeout(()=>{
+            this.reloadTarefa();
+        },3000);
+    }
+
+    reloadTarefa() {
+        let tarefaFilter = {
+            'listFilter: {usuarioResponsavel.id': 'eq:' + this._loginService.getUserProfile().id,
+            'dataHoraConclusaoPrazo': 'isNull',
+            'especieTarefa.generoTarefa.nome': 'eq:' + 'ADMINISTRATIVO}'
+        };
+        const params = {listFilter: tarefaFilter};
+        this.reload.emit({params});
     }
 }

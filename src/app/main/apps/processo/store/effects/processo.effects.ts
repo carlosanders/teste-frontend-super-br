@@ -1,21 +1,18 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
-
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.actions';
-
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr/processo.schema';
+import {processo as processoSchema} from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models';
-import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr/vinculacao-etiqueta.schema';
+import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 
 @Injectable()
@@ -66,6 +63,7 @@ export class ProcessoEffect {
                             'modalidadeFase',
                             'documentoAvulsoOrigem',
                             'especieProcesso',
+                            'especieProcesso.generoProcesso',
                             'classificacao',
                             'classificacao.modalidadeDestinacao',
                             'setorInicial',

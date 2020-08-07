@@ -6,7 +6,7 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {volume as volumeSchema} from '@cdk/normalizr/volume.schema';
+import {volume as volumeSchema} from '@cdk/normalizr';
 import {Volume} from '@cdk/models';
 
 const schemaSelectors = createSchemaSelectors<Volume>(volumeSchema);

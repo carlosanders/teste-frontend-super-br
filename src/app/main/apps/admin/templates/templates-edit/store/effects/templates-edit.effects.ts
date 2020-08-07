@@ -9,7 +9,7 @@ import * as TemplatesListActions from '../../../templates-list/store/actions/tem
 
 import {TemplateService} from '@cdk/services/template.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {template as templatesSchema} from '@cdk/normalizr/template.schema';
+import {template as templatesSchema} from '@cdk/normalizr';
 import {Template} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

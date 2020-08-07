@@ -11,7 +11,7 @@ import * as FavoritoListActions from '../actions';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Favorito} from '@cdk/models';
-import {favorito as favoritoSchema} from '@cdk/normalizr/favorito.schema';
+import {favorito as favoritoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {relatorio as relatorioSchema} from '@cdk/normalizr/relatorio.schema';
+import {relatorio as relatorioSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';

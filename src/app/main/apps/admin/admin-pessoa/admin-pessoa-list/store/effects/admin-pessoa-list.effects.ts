@@ -11,7 +11,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 import {PessoaService} from '../../../../../../../../@cdk/services/pessoa.service';
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {Pessoa} from '../../../../../../../../@cdk/models';
-import {pessoa as pessoaSchema} from '../../../../../../../../@cdk/normalizr/pessoa.schema';
+import {pessoa as pessoaSchema} from '../../../../../../../../@cdk/normalizr';
 
 
 @Injectable()

@@ -11,7 +11,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 import {AssuntoAdministrativoService} from '../../../../../../../../@cdk/services/assunto-administrativo.service';
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {AssuntoAdministrativo} from '../../../../../../../../@cdk/models';
-import {assuntoAdministrativo as assuntoAdministrativoSchema} from '../../../../../../../../@cdk/normalizr/assunto-administrativo.schema';
+import {assuntoAdministrativo as assuntoAdministrativoSchema} from '../../../../../../../../@cdk/normalizr';
 
 
 @Injectable()

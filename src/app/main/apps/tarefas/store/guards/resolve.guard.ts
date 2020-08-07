@@ -125,7 +125,8 @@ export class ResolveGuard implements CanActivate {
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
-                        ]
+                        ],
+                        context: {modulo: this.routerState.params['generoHandle']}
                     };
 
                     const routeTypeParam = of('typeHandle');

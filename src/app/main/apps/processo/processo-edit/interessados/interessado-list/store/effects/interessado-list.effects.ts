@@ -11,7 +11,7 @@ import * as InteressadoListActions from 'app/main/apps/processo/processo-edit/in
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Interessado} from '@cdk/models';
-import {interessado as interessadoSchema} from '@cdk/normalizr/interessado.schema';
+import {interessado as interessadoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class InteressadoListEffect {

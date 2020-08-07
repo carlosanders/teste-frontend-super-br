@@ -35,7 +35,7 @@ const appRoutes: Routes = [
     {
         path: 'apps',
         loadChildren: () => import('./main/apps/apps.module').then(m => m.AppsModule),
-        canLoad: [AuthGuard]
+        canActivate: [AuthGuard]
     },
     {
         path: 'auth',

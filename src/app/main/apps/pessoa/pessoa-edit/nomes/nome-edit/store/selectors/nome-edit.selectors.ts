@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getNomeEditAppState, NomeEditAppState, NomeEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Nome} from '@cdk/models';
-import {nome as nomeSchema} from '@cdk/normalizr/nome.schema';
+import {nome as nomeSchema} from '@cdk/normalizr';
 
 const schemaNomeSelectors = createSchemaSelectors<Nome>(nomeSchema);
 

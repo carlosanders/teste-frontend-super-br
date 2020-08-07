@@ -11,7 +11,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 import {EspecieAtividadeService} from '../../../../../../../../@cdk/services/especie-atividade.service';
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {EspecieAtividade} from '../../../../../../../../@cdk/models';
-import {especieAtividade as especieAtividadeSchema} from '../../../../../../../../@cdk/normalizr/especie-atividade.schema';
+import {especieAtividade as especieAtividadeSchema} from '../../../../../../../../@cdk/normalizr';
 
 
 @Injectable()

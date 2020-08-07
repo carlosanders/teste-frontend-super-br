@@ -3,7 +3,7 @@ import {createSelector} from '@ngrx/store';
 import {Processo} from '@cdk/models';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {processo as processoShema} from '@cdk/normalizr/processo.schema';
+import {processo as processoShema} from '@cdk/normalizr';
 import {getRealizarTransicaoAppState, RealizarTransicaoAppState, RealizarTransicaoState} from '../reducers';
 import {getProcessosIds} from '../../../arquivista-list/store/selectors';
 

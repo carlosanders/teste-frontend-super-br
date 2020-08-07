@@ -11,7 +11,7 @@ import * as SetorListActions from '../actions';
 import {SetorService} from '@cdk/services/setor.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Setor} from '@cdk/models/setor.model';
-import {setor as setorSchema} from '@cdk/normalizr/setor.schema';
+import {setor as setorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()

@@ -44,6 +44,9 @@ export class Processo {
 
     NUP?: string;
 
+    @Exclude({toPlainOnly: true})
+    NUPFormatado?: string;
+
     semValorEconomico?: boolean;
 
     visibilidadeExterna?: boolean;
@@ -171,6 +174,8 @@ export class Processo {
     @Type(() => Interessado)
     interessados: Interessado[];
 
+    @Exclude({ toPlainOnly: true })
+    any: any;
 
     constructor() {
         this.id = null;
@@ -182,6 +187,7 @@ export class Processo {
         this.valorEconomico = null;
         this.semValorEconomico = null;
         this.NUP = null;
+        this.NUPFormatado = null;
         this.especieProcesso = null;
         this.visibilidadeExterna = null;
         this.dataHoraAbertura = null;
@@ -213,5 +219,6 @@ export class Processo {
         this.interessados = [];
         this.requerimento = null;
         this.protocoloEletronico = null;
+        this.any = null;
     }
 }

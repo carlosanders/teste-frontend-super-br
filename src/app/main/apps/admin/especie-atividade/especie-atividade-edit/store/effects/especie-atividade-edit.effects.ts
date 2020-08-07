@@ -11,7 +11,7 @@ import * as EspecieAtividadeListActions
 import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {especieAtividade as especieAtividadeSchema} from '@cdk/normalizr/especie-atividade.schema';
+import {especieAtividade as especieAtividadeSchema} from '@cdk/normalizr';
 import {EspecieAtividade} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
