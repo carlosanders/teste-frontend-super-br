@@ -23,7 +23,7 @@ export const getVinculacoesProcessos = createSelector(
     schemaSelectors.entitiesProjector
 );
 
-export const getPaginationVinculacoesProcessos = createSelector(
+export const getVinculacoesProcessosPagination = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.pagination
 );
@@ -33,7 +33,17 @@ export const getVinculacoesProcessosLoaded = createSelector(
     (state: VinculacaoProcessoState) => state.loaded
 );
 
-export const getIsVinculacoesProcessosLoading = createSelector(
+export const getVinculacoesProcessosIsLoading = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.loading
+);
+
+export const getVinculacoesProcessosDeletingIds = createSelector(
+    getVinculacaoProcessoState,
+    (state: VinculacaoProcessoState) => state.deletingIds
+);
+
+export const getVinculacoesProcessosDeletedIds = createSelector(
+    getVinculacaoProcessoState,
+    (state: VinculacaoProcessoState) => state.deletedIds
 );

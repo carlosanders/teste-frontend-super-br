@@ -1,12 +1,12 @@
 import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {tarefa as tarefaSchema} from '@cdk/normalizr';
+import {assunto as assuntoSchema, processo as processoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, concatMap, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, concatMap, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
@@ -19,8 +19,6 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 import {Assunto} from '@cdk/models/assunto.model';
 import {AssuntoService} from '@cdk/services/assunto.service';
-import {assunto as assuntoSchema} from '@cdk/normalizr';
-import {processo as processoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class TarefasEffect {

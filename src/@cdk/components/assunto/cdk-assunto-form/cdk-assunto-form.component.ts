@@ -46,6 +46,9 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
     @Input()
     form: FormGroup;
 
+    @Output()
+    completed = new EventEmitter<Assunto>();
+
     activeCard = 'form';
 
     assuntoAdministrativoList: AssuntoAdministrativo[] = [];
@@ -120,6 +123,7 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
+            this.completed.emit();
         }
     }
 

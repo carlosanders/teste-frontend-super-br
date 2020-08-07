@@ -16,6 +16,7 @@
             </button>
 
             <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="vinculacoesEtiquetas"
+                                           [placeholder]="'Coloque etiquetas para a tarefa'"
                                            (create)="onEtiquetaCreate($event)"
                                            (edit)="onEtiquetaEdit($event)"
                                            [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"

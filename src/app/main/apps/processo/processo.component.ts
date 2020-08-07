@@ -129,8 +129,10 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach((c => {
-                    this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                    if (this.container !== undefined) {
+                        this._dynamicService.loadComponent(c)
+                            .then(componentFactory => this.container.createComponent(componentFactory));
+                    }
                 }));
             }
         });
