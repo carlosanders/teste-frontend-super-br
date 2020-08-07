@@ -11,7 +11,7 @@ import {VinculacaoProcesso} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr/vinculacao-processo.schema';
+import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 
 @Injectable()
