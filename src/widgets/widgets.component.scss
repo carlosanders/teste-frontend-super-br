@@ -6,5 +6,8 @@ widgets {
     .widget-group {
         align-items: flex-start;
     }
+}
 
+widget-alerta {
+    align-self: end !important;
 }

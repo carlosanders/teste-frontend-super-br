@@ -1,17 +1,17 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 
-import { WidgetDocumentoAvulsoComponent } from './widget-documento-avulso.component';
+import { WidgetPessoaComponent } from './widget-pessoa.component';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkWidgetModule} from '@cdk/components';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
+import {PessoaService} from '@cdk/services/pessoa.service';
 
 @NgModule({
     declarations: [
-        WidgetDocumentoAvulsoComponent
+        WidgetPessoaComponent
     ],
     imports: [
         CdkSharedModule,
@@ -21,18 +21,18 @@ import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
         MatIconModule,
     ],
     providers: [
-        DocumentoAvulsoService,
+        PessoaService,
         LoginService
     ],
     exports: [
-        WidgetDocumentoAvulsoComponent
+        WidgetPessoaComponent
     ]
 })
-export class WidgetDocumentoAvulsoModule {
+export class WidgetPessoaModule {
 
     constructor(private resolver: ComponentFactoryResolver) {}
 
-    public resolveComponentFactory(): ComponentFactory<WidgetDocumentoAvulsoComponent> {
-        return this.resolver.resolveComponentFactory(WidgetDocumentoAvulsoComponent);
+    public resolveComponentFactory(): ComponentFactory<WidgetPessoaComponent> {
+        return this.resolver.resolveComponentFactory(WidgetPessoaComponent);
     }
 }

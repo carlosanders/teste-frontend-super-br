@@ -1,4 +1,4 @@
-<!-- WIDGET Tarefa -->
+<!-- WIDGET Documento Avulso -->
 <cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" fxFlex="100">
 
     <!-- Front -->
@@ -8,23 +8,23 @@
         </div>
 
         <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
-            <mat-spinner *ngIf="this.tarefasCount === false" diameter="72"></mat-spinner>
-            <div *ngIf="this.tarefasCount !== false" class="light-blue-fg font-size-72 line-height-72">
-                {{this.tarefasCount}}
+            <mat-spinner *ngIf="this.documentosAvulsosCount === false" diameter="72"></mat-spinner>
+            <div *ngIf="this.documentosAvulsosCount !== false" class="light-blue-fg font-size-72 line-height-72">
+                {{this.documentosAvulsosCount}}
             </div>
             <div class="h3 font-weight-500">
-                Tarefas Administrativas
+                Ofícios Pendentes
             </div>
         </div>
 
         <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
             <span class="h4 text-truncate">
-                Vencidas:
+                Vencidos:
             </span>
-            <mat-spinner class="ml-8" *ngIf="tarefasVencidasCount === false"
+            <mat-spinner class="ml-8" *ngIf="documentosAvulsosVencidosCount === false"
                          diameter="15"></mat-spinner>
-            <span *ngIf="tarefasVencidasCount !== false" class="h4 ml-8 warn-500-fg">
-                {{tarefasVencidasCount}}
+            <span *ngIf="documentosAvulsosVencidosCount !== false" class="h4 ml-8 warn-500-fg">
+                {{documentosAvulsosVencidosCount}}
             </span>
         </div>
     </div>
@@ -38,10 +38,10 @@
         </button>
 
         <div>
-            Informa a quantidade de tarefas
+            Informa a quantidade de ofícios
         </div>
     </div>
     <!-- / Back -->
 
 </cdk-widget>
-<!-- / WIDGET 1 -->
+<!-- / WIDGET 2 -->

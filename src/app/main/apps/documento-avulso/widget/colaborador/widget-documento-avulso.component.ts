@@ -10,30 +10,29 @@ import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {TramitacaoService} from '@cdk/services/tramitacao.service';
+import * as moment from 'moment';
+import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 
 @Component({
-    selector: 'widget-tramitacao',
-    templateUrl: './widget-tramitacao.component.html',
-    styleUrls: ['./widget-tramitacao.component.scss'],
+    selector: 'widget-documento-avulso-colaborador',
+    templateUrl: './widget-documento-avulso.component.html',
+    styleUrls: ['./widget-documento-avulso.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class WidgetTramitacaoComponent implements OnInit {
+export class WidgetDocumentoAvulsoComponent implements OnInit {
 
     _profile: Usuario;
 
-    tramitacoesCount: any = false;
+    documentosAvulsosCount: any = false;
+    documentosAvulsosVencidosCount: any = false;
 
     /**
-     *
-     * @param _tramitacaoService
-     * @param _loginService
-     * @param _changeDetectorRef
+     * Constructor
      */
     constructor(
-        private _tramitacaoService: TramitacaoService,
+        private _documentoAvulsoService: DocumentoAvulsoService,
         public _loginService: LoginService,
         public _changeDetectorRef: ChangeDetectorRef
     ) {
@@ -48,13 +47,24 @@ export class WidgetTramitacaoComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this._tramitacaoService.count(
-            `{"setorDestino.id": "in:${this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')}", "dataHoraRecebimento": "isNull"}`)
+        this._documentoAvulsoService.count(
+            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
             value => {
-                this.tramitacoesCount = value;
+                this.documentosAvulsosCount = value;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+
+        this._documentoAvulsoService.count(
+            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+            .pipe(
+                catchError(() => of([]))
+            ).subscribe(
+            value => {
+                this.documentosAvulsosVencidosCount = value;
                 this._changeDetectorRef.markForCheck();
             }
         );

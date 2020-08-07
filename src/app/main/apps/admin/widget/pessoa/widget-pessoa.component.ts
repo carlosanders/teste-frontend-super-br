@@ -6,34 +6,31 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Usuario} from '@cdk/models';
-
+import {PessoaService} from '@cdk/services/pessoa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {TramitacaoService} from '@cdk/services/tramitacao.service';
 
 @Component({
-    selector: 'widget-tramitacao',
-    templateUrl: './widget-tramitacao.component.html',
-    styleUrls: ['./widget-tramitacao.component.scss'],
+    selector: 'widget-pessoa',
+    templateUrl: './widget-pessoa.component.html',
+    styleUrls: ['./widget-pessoa.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class WidgetTramitacaoComponent implements OnInit {
+export class WidgetPessoaComponent implements OnInit {
 
     _profile: Usuario;
 
-    tramitacoesCount: any = false;
+    pessoasAguardandoValidacaoCount: any = false;
+    pessoasCount: any = false;
 
     /**
-     *
-     * @param _tramitacaoService
-     * @param _loginService
-     * @param _changeDetectorRef
+     * Constructor
      */
     constructor(
-        private _tramitacaoService: TramitacaoService,
+        private _pessoaService: PessoaService,
         public _loginService: LoginService,
         public _changeDetectorRef: ChangeDetectorRef
     ) {
@@ -48,13 +45,24 @@ export class WidgetTramitacaoComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this._tramitacaoService.count(
-            `{"setorDestino.id": "in:${this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')}", "dataHoraRecebimento": "isNull"}`)
+        this._pessoaService.count(
+            `{"pessoaValidada": "eq:false"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
             value => {
-                this.tramitacoesCount = value;
+                this.pessoasAguardandoValidacaoCount = value;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+
+        this._pessoaService.count(
+            `{}`)
+            .pipe(
+                catchError(() => of([]))
+            ).subscribe(
+            value => {
+                this.pessoasCount = value;
                 this._changeDetectorRef.markForCheck();
             }
         );
