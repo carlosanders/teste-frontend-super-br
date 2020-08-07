@@ -1,6 +1,6 @@
-import * as VinculacaoProcessoActions from '../actions/vinculacao-processo.actions';
+import * as TarefaActions from '../actions/tarefa.actions';
 
-export interface VinculacaoProcessoState {
+export interface TarefaState {
     entitiesId: number[];
     pagination: {
         limit: number;
@@ -13,11 +13,9 @@ export interface VinculacaoProcessoState {
     };
     loading: boolean;
     loaded: any;
-    deletingIds: number[];
-    deletedIds: number[];
 }
 
-export const VinculacaoProcessoInitialState: VinculacaoProcessoState = {
+export const TarefaInitialState: TarefaState = {
     entitiesId: [],
     pagination: {
         limit: 0,
@@ -29,18 +27,13 @@ export const VinculacaoProcessoInitialState: VinculacaoProcessoState = {
         total: 0,
     },
     loading: false,
-    loaded: false,
-    deletingIds: [],
-    deletedIds: []
+    loaded: false
 };
 
-export function VinculacaoProcessoReducer(
-    state = VinculacaoProcessoInitialState,
-    action: VinculacaoProcessoActions.VinculacaoProcessoActionsAll): VinculacaoProcessoState {
-
+export function TarefaReducer(state = TarefaInitialState, action: TarefaActions.TarefaActionsAll): TarefaState {
     switch (action.type) {
 
-        case VinculacaoProcessoActions.GET_VINCULACOES_PROCESSOS: {
+        case TarefaActions.GET_TAREFAS: {
             return {
                 ...state,
                 loading: true,
@@ -56,7 +49,7 @@ export function VinculacaoProcessoReducer(
             };
         }
 
-        case VinculacaoProcessoActions.GET_VINCULACOES_PROCESSOS_SUCCESS: {
+        case TarefaActions.GET_TAREFAS_SUCCESS: {
 
             const loaded = action.payload.loaded;
 
@@ -72,7 +65,7 @@ export function VinculacaoProcessoReducer(
             };
         }
 
-        case VinculacaoProcessoActions.GET_VINCULACOES_PROCESSOS_FAILED: {
+        case TarefaActions.GET_TAREFAS_FAILED: {
             return {
                 ...state,
                 loading: false,
@@ -80,11 +73,11 @@ export function VinculacaoProcessoReducer(
             };
         }
 
-        case VinculacaoProcessoActions.UNLOAD_VINCULACOES_PROCESSOS: {
+        case TarefaActions.UNLOAD_TAREFAS: {
 
             if (action.payload.reset) {
                 return {
-                    ...VinculacaoProcessoInitialState
+                    ...TarefaInitialState
                 };
             } else {
                 return {
@@ -98,28 +91,6 @@ export function VinculacaoProcessoReducer(
                     }
                 };
             }
-        }
-
-        case VinculacaoProcessoActions.DELETE_VINCULACAO_PROCESSO: {
-            return {
-                ...state,
-                deletingIds: [...state.deletingIds, action.payload]
-            };
-        }
-
-        case VinculacaoProcessoActions.DELETE_VINCULACAO_PROCESSO_SUCCESS: {
-            return {
-                ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
-            };
-        }
-
-        case VinculacaoProcessoActions.DELETE_VINCULACAO_PROCESSO_FAILED: {
-            return {
-                ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
-            };
         }
 
         default:

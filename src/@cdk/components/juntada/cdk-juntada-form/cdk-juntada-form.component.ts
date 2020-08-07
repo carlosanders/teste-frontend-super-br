@@ -43,6 +43,7 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
     @Output()
     abort = new EventEmitter<any>();
 
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -64,6 +65,17 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
 
     @Input()
     tarefaPagination: Pagination;
+
+    @Input()
+    editDescricao = false;
+
+    @Input()
+    blocoEdit = {
+        blocoEditDescricao: false
+    };
+
+    @Input()
+    logEntryPagination: Pagination;
 
     /**
      * Constructor
@@ -92,6 +104,7 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
         this.documentoAvulsoPagination = new Pagination();
         this.atividadePagination = new Pagination();
         this.tarefaPagination = new Pagination();
+        this.logEntryPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -266,5 +279,11 @@ export class CdkJuntadaFormComponent implements OnChanges, OnDestroy, OnInit {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    showLogEntryGrid(target: string): void {
+        const campo = {target: target};
+        Object.assign(this.logEntryPagination.filter, campo);
+        this.activeCard = 'logentry-gridsearch';
     }
 }
