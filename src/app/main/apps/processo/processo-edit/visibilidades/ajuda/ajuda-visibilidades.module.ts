@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 
 import {AjudaVisibilidadesComponent} from './ajuda-visibilidades.component';
 import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
@@ -18,4 +18,10 @@ import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
     ]
 })
 export class AjudaVisibilidadesModule {
+    constructor(private resolver: ComponentFactoryResolver) {
+    }
+
+    public resolveComponentFactory(): ComponentFactory<AjudaVisibilidadesComponent> {
+        return this.resolver.resolveComponentFactory(AjudaVisibilidadesComponent);
+    }
 }

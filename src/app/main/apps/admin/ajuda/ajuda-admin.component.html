@@ -1,0 +1,374 @@
+<div *ngIf="titulo === 'admin'">
+    <h3><strong>ADMINISTRADOR</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      O Administrador é um personagem primordial para o Sapiens. Ele pode realizar diversar operações que são limitadas ao usuário comum, 
+      de modo a organizar melhor o sistema e não permitir a perda de padrão para as variadas funcionalidades do sistema.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Sendo assim, o usuário Administrador possui um módulo separado para gerenciar e manipular essas funcionalidade.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      O módulo é acessado no painel lateral esquerdo, em <strong>MÓDULOS</strong>.
+    </p>
+    <p style="text-align: center;">
+      <img src="assets/images/ajuda/acessoadmin.png" style="width: 400px;" class="fr-fic fr-dib fr-fil">
+   </p>
+    <p style="text-align: justify;text-indent: 20px">
+      A tela aberta possui um MENU a esquerda em que é possível navegar nas variadas funcionalidades manipuláveis pelo Administrador.
+    </p>
+    <p style="text-align: center;">
+      <img src="assets/images/ajuda/menuadmin.png" style="width: 400px;" class="fr-fic fr-dib fr-fil">
+   </p>
+   <h3><strong>Espécie Tarefas</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      Essa funcionalidade permite Criar, editar, ativar/inativar tarefas.
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          TAREFAS
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p> 
+          A noção central do fluxo de trabalho no sistema é a <strong>tarefa</strong>.
+          Um usuário abre uma tarefa para outro usuário quando necessitar que uma ou mais atividades sejam realizadas, em um dado prazo.
+      </p>
+    </mat-expansion-panel>
+    <p style="text-align: justify;text-indent: 20px">
+      As espécies de tarefas já criadas ficam em lista no centro da tela. As informações de nome, descrição, gênero e ativo ficam expostas em colunas.
+      É possível também adicionar outras colunas, filtrar e recarregar a lista.
+    </p>
+    <div style="background-color: #d3d3d3;">
+      <p>
+        <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+      </p>
+      <p style="text-indent: 20px"> 
+        É importante salientar que as tarefas são utilizadas por toda a AGU e a simples mudança de algumas delas pode atrapalhar o trabalho de vários usuários.
+        Por isso, mudanças ou inativações tem que ser realizadas com cuidado, com a análise e o crivo do órgão central, se houver.      
+    </div> 
+   <h3><strong>Espécie Atividades</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      Essa funcionalidade permite Criar, editar, ativar/inativar atividades.
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          ATIVIDADES
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p> 
+        O usuário, ao receber uma tarefa de outro usuário, realizará uma ou mais atividades, dando assim continuidade ao fluxo de trabalho.
+        As atividades ficam acessíveis dentro do formulário das tarefas, em uma aba.
+        Uma atividade pode ou não encerrar uma tarefa,de modo que essa opção deverá ser marcada apenas quando o usuário já tiver lançado todas as atividades necessárias.
+        Toda atividade necessariamente possui uma espécie, que descreve em linhas gerais o que foi realizado.
+      </p>
+    </mat-expansion-panel>
+    <div style="background-color: #d3d3d3;">
+      <p>
+        <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+      </p>
+      <p style="text-indent: 20px"> 
+        Como na Tarefa, as Atividades podem ser utilizadas por todos os usuários do sistema, nos mais variados processos de trabalho.
+        Assim como na tarefa, para editar e excluir atividades, é importante uma conferência com o Órgão Central.        
+      </p>
+    </div>
+
+  <h3><strong>Unidades</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      Esse menu permite visualizar as Unidades cadastradas no sistema, além da possibilidade de incluir outras Unidades e alterar as existentes.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Também é possível visualizar os setores de cada Unidade e acrescentar novas competências (Municípios) àquela Unidade.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Ao optar por visualizar os setores, um grid é aberto, onde é possível editar o Setor, manipular lotações e localizadores, além da possibilidade de remover o Setor.
+    </p>
+
+  <h3><strong>Usuários</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      Esse menu permite visualizar os Colaboradores no sistema, que serão os Usuários "internos".
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Além de visualizar, também é possível adicionar novos, editar existentes, manipular lotações, visualizar e editar afastamentos, resetar a senha e configurar Coordenações.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Para incluir um novo usuário, basta acionar o botão de adição
+    </p>
+    <p style="text-align: center;">
+      <img src="assets/images/ajuda/adicao.png" style="width: 50px;" class="fr-fic fr-dib fr-fil">
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      As informações a serem preenchidas para um colaborador são:
+    </p>
+    <p style="text-align: justify;text-indent: 30px">
+      <li>CPF</li>
+      <li>Nome</li>
+      <li>Email</li>
+      <li>Nível de Acesso</li>
+      <li>Ativo</li>
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Também são necessárias outras informações, que o caracterizaram como um Colaborador do Órgão:
+    </p>
+    <p style="text-align: justify;text-indent: 30px">
+      <li>Modalidade</li>
+      <li>Cargo</li>
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          NÍVEL DE ACESSO
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>
+        O SAPIENS contempla 4 Níveis de Acesso, variando de 0 a 4, de acordo com a responsabilidade do Usuário:<br>
+        <li><strong>Nível 0</strong>: Nenhum tipo de direito especial. Esse Nível de Acesso deve ser atribuído a Estagiários e Usuários Externos. 
+          O Usuário não será capaz de visualizar Processos/Documentos Avulsos que tenham qualquer tipo de Sigilo.
+        </li>
+        <li>
+          <strong>Nível 1</strong>: Sigilo Legal ou Comum. Esse Nível de Acesso permite visualizar e atribuir Sigilos do tipo Comum (Sigilo Legal, 
+          tais como Sigilo Bancário ou Fiscal). É o Nível de Acesso que deverá ser atribuído para Advogados e Servidores como regra geral.        
+        </li>
+        <li>
+          <strong>Nível 2</strong>: Nível Reservado da Lei de Acesso à informação. Esse Nível de Acesso deverá ser atribuído para Servidores e Advogados 
+	        que exerçam funções de direção, comando ou chefia do Grupo-Direção e Assessoramento Superiores - DAS, nível DAS 101.5 ou superior, e seus equivalentes.
+        </li>
+        <li>
+          <strong>Nível 3</strong>: Nível Secreto. Esse Nível de Acesso deverá ser atribuído aos titulares de autarquias, fundações, empresas públicas e 
+	        sociedades de economia mista.
+        </li>
+        <li>
+          <strong>Nível 4</strong>: Nível Ultrassecreto. Esse Nível de Acesso deverá ser atribuído apenas ao Presidente da República, Vice-Presidente da República, 
+	        Ministros de Estado e autoridades com as mesmas prerrogativas, e Comandantes da Marinha, do Exército, da Aeronáutica, 
+	        Chefes de Missões Diplomáticas e Consulares permanentes no exterior.
+        </li>
+        Atenção: a atribuição do Nível de Acesso é uma grande responsabilidade para o administrador, que deverá concedê-lo de acordo com a legislação, sob pena de responsabilidade.
+      </p>
+    </mat-expansion-panel>
+    <p style="text-align: justify;text-indent: 20px">
+      As modalidades possíveis são:
+    </p>
+    <p style="text-align: justify;text-indent: 30px">
+      <li>Advogado</li>
+      <li>Servidor</li>
+      <li>Estagiário</li>
+      <li>Terceirizado</li>
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Os cargos possíveis são:
+    </p>
+    <p style="text-align: justify;text-indent: 30px">
+      <li>Procurador Federal</li>
+      <li>Advogado da União</li>
+      <li>Procurador da Fazenda Nacional</li>
+      <li>Servidor</li>
+      <li>Contador</li>
+    </p>
+
+  <h3><strong>Usuários Externos</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      Diferente do menu anterior, aqui estão os usuários "Externos" aos Órgãos que utilizam o sistema.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Esses usuários podem ser vinculados a uma Pessoa conveniada.
+    </p>
+    <mat-expansion-panel style="text-align: center;margin-left: 20px">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          PESSOA CONVENIADA
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <p>
+        Uma Pessoa, que seria um órgão externo a AGU, é marcado como conveniada quando há uma troca frequente de comunicação entre a AGU e esse órgão público.
+        Dado essa alta permuta, apresenta-se a necessidade de fazê-la de forma eletrônica pelo sistema.
+        Dessa forma, ao conveniar determinada Pessoa no Sistema, é possível que essa Pessoa acesse aos processos de seu interesse, inclusive podendo criar minutas e demandar tarefas nos autos dos referidos processos.
+      </p>
+    </mat-expansion-panel>
+    <p style="text-align: justify;text-indent: 20px">
+      Assim, esses usuários <strong>VINCULADOS</strong> tem acesso aos ofícios do interesse da Pessoa conveniada, além de poder utilizar o sistema para Protocolar Eletronicamente junto a AGU.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      O cadastro do usuário externo é feito por ele mesmo. O administrador <strong>NÃO</strong> realiza o cadastro dos usuários externos.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Para acessar a página de cadastro de usuário externo, basta acessar o link <u>Criar uma conta</u> na página inicial do sistema, canto inferior.
+    </p>
+    <p style="text-align: center;">
+      <img src="assets/images/ajuda/criarconta.png" style="width: 200px;" class="fr-fic fr-dib fr-fil">
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Apesar de não realizar o cadastramento, o Administrador pode editar os usuários externos, atualizando o email e realizar o reset de senha. Além disso, pode realizar a vinculação a Pessoa, conceito já explicado acima.
+    </p>
+
+  <h3><strong>Espécie Relevâncias</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      Pode-se atribuir uma ou mais relevâncias para um dado processo/documento avulso 
+      com o objetivo de facilitar a gestão destes cadastros.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Por exemplo, é interessante saber quais processos possuem pessoas idosas como interessados, ou que possuem alto valor econômico.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Dessa forma, a relevância é uma ferramente gerencial. Ela pode ser retirada a qualquer tempo.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Nesse menu, é possível cadastrar novas relevâncias, além de editar as já existentes
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Para cadastrar uma nova relevância, basta acionar o botão de adição.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Os campos a serem preenchidos para criar uma nova Relevância são: Nome, Descrição, Gênero Relevância e Ativo.
+    </p>
+
+  <h3><strong>Tipos de Documentos</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+   </p>
+    <p style="text-align: justify;text-indent: 20px">
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+    </p>
+
+  <h3><strong>Tipos de Relatórios</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      Nesse menu, se cadastram diferentes tipos de relatórios.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      O relatório é um atalho para uma extração no banco de dados. Sendo assim, ao notar que uma consulta é feita com habitualidade,
+      o Administrador pode desburocratizar a situação, permitindo que o usuário retire diretamente 
+      as informações por si só e não precise requisitar a extração.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Sendo assim, aqui é possível registrar novas consultas, além da possibilidade de editar consultas existentes.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Para registrar um novo Tipo de Relatório, basta acionar o botão de adição.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Os campos a serem preenchidos para criar um tipo de Relatório são:
+    </p>
+    <p style="text-align: justify;text-indent: 30px">
+      <li>Nome</li>
+      <li>Descrição</li>
+      <li>Espécie</li>
+      <li>Template HTML</li>
+      <li>Parâmetros</li>
+      <li>DQL</li>
+      <li>Ativo</li>
+    </p>
+
+  <h3><strong>Assuntos</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      Nos processos protocolados na AGU, ao menos um assunto é obrigatório, o que possibilitará a extração de relatórios mais fidedignos, 
+      além de  aumentar o grau de identificação do processo/documento avulso.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      É possível cadastrar mais de um assunto, porém algum deles sempre deverá ser marcado como principal.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Nesse menu é possível criar novos assuntos, além de editar os já existentes.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      É possível visualizar os Assuntos em Lista ou visualizá-los em Árvore, apresentando a hierarquia dos assuntos.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Para criar um novo assunto, basta acionar o botão de adição
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Os campos a serem preenchidos para criar são:
+    </p>
+    <p style="text-align: justify;text-indent: 30px">
+      <li>Nome</li>
+      <li>Dispositivo Legal</li>
+      <li>Código CNJ</li>
+      <li>Glossário</li>
+      <li>Assunto Pai</li>
+      <li>Ativo</li>
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Alguns assuntos possuem correspondentes criados pelo CNJ. Por isso existe o Código CNJ, para realizar a ponte entre os assuntos criados por eles e os assuntos existentes no Sapiens.
+    </p>
+
+  <h3><strong>Templates</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      É um documento de conteúdo, com apenas a apresentação visual (apenas cabeçalhos por exemplo) 
+      e instruções sobre onde e qual tipo de conteúdo deve entrar a cada parcela da apresentação.
+   </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Sendo assim, o Template é uma casca dos componentes digitais do Sapiens, contendo o cabeçalho.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Nesse menu é possível criar mais Templates, além de editar os existentes.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Para criar um novo template, basta acionar o botão de adição
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Os campos a serem preenchidos para criar são:
+    </p>
+    <p style="text-align: justify;text-indent: 30px">
+      <li>Nome</li>
+      <li>Descrição</li>
+      <li>Modalidade Template</li>
+      <li>Tipo Documento</li>
+      <li>Ativo</li>
+    </p>
+
+  <h3><strong>Classificações</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      A Classificação está relacionada a Gestão Arquivística dos documentos, algo primordial no Sapiens.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Essa classificação define o tempo de guarda e os períodos de transição arquivística.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      O “Código de classificação de documentos de arquivo para a administração pública: atividades-meio” e 
+      a “Tabela básica de temporalidade e destinação de documentos de arquivo relativos às atividades-meio da administração pública” aprovados pelo CONARQ
+       são instrumentos fundamentais para a implementação da gestão arquivística de documentos e são utilizados pelo Sistema.
+    </p>
+
+  <h3><strong>Pessoas</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      Aqui ficam os cadastros da base de Pessoas do Sapiens.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Instituições, órgãos, pessoas físicas, pessoas jurídicas podem ser visualizados aqui.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      O Administrador tem o poder de editar essas Pessoas, podendo consertar possíveis erros de digitação.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Também é possível marcar 3 opções disponíveis para a Pessoa no Sapiens:
+    </p>
+    <p style="text-align: justify;text-indent: 30px">
+      <li>Pessoa Representada:</li>
+      <li>Pessoa Conveniada: O convênio permite que seja possível vincular usuários externos a uma Pessoa. Esses usuários externos visualizarão no seu painel os ofícios enviados para a Pessoa, além de poder responder esses ofícios.</li>
+      <li>Pessoa Validada: A validação de um usuário externo permite que ,sem Certificado Digital, estes utilizem o Protocolo Eletrônico do sistema, podendo provocar a ação do órgão ao realizar requisições.</li>
+    </p> 
+
+  <h3><strong>Municípios</strong></h3>
+    <p style="text-align: justify;text-indent: 20px">
+      Nessa opção é possível editar e adicionar Munípios.
+   </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Essa funcionalidade é utilizada primordialmente para consertar possíveis erros no cadastro.
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      As informações de um Município são:
+    </p>
+    <p style="text-align: justify;text-indent: 30px">
+      <li>Brasília</li>
+      <li>Código IBGE</li>
+      <li>Estado</li>
+      <li>Ativo</li>
+    </p>
+    <p style="text-align: justify;text-indent: 20px">
+      Para adicionar um Município não existente, basta acionar o botão de adição.
+    </p>
+</div>

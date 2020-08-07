@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 
 import { AjudaProcessoEditComponent } from './ajuda-processo-edit.component';
@@ -44,4 +44,10 @@ import { AjudaVisibilidadesModule } from 'app/main/apps/processo/processo-edit/v
    ]
 })
 export class AjudaProcessoEditModule {
+    constructor(private resolver: ComponentFactoryResolver) {
+    }
+
+    public resolveComponentFactory(): ComponentFactory<AjudaProcessoEditComponent> {
+        return this.resolver.resolveComponentFactory(AjudaProcessoEditComponent);
+    }
 }

@@ -1,4 +1,4 @@
-<div>
+<div *ngIf="titulo === 'arquivista'">
     <h3><strong>ARQUIVISTA</strong></h3>
     <p style="text-align: justify;text-indent: 20px">
         O SUPP é um SIGAD que possui avançados recursos de apoio à produção de conteúdo jurídico e de controle de fluxos administrativos, focado na integração com os sistemas informatizados do Poder Judiciário e do Poder Executivo.
@@ -57,7 +57,7 @@
     </mat-expansion-panel>
     <p style="text-align: justify;text-indent: 20px">
         A passagem dos documentos de uma idade para outra é definida por meio do processo de avaliação (<strong>transição</strong>), que leva em conta a frequência de uso dos documentos por seus produtores e a identificação de seus valores primário e secundário. 
-        <!-- LINK PARA TRANSIÇÃO??? -->
+        Para mais informações, acesse a Ajuda de <a href="javascript:void(0)" (click)="carregar('transicoes')">Transições de um Processo</a>.
     </p>
     <mat-expansion-panel style="text-align: center;margin-left: 20px">
         <mat-expansion-panel-header>
@@ -288,10 +288,10 @@
 
     <h3><strong>Utilizando o módulo Arquivista</strong></h3>
     <p style="text-align: justify;margin-left: 40px">
-        1. Se o usuário possuir o perfil de Arquivista habilitado, para acessar módulo é preciso acessar o menu lateral esquerdo.
+        1. Se o usuário possuir o perfil de Arquivista habilitado, para acessar é preciso acessar o menu lateral esquerdo, em Módulos.
     </p>
     <p style="text-align: center;">
-        <!--IMAGEM ARQUIVISTA <img src="assets/images/ajuda/paginacao.png" style="width: 400px;" class="fr-fic fr-dib fr-fil"> -->
+       <img src="assets/images/ajuda/acessoarquivista.png" style="width: 400px;" class="fr-fic fr-dib fr-fil">
     </p>
     <p style="background-color: #d3d3d3;margin-left: 40px">
         É possível preencher o campo e escolher a espécie relacionada ou escolher a opção desejada na <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii"> e selecionar por meio do botão <img src="assets/images/ajuda/escolheropcao.png" class="fr-fic fr-dii">.
@@ -303,7 +303,7 @@
         3. No lado esquerdo, aparecem três opções. Essas opções representam as situações em que os Ofícios/Processos podem estar para a tomada de decisão arquivística.
     </p>
     <p style="text-align: center;">
-        <!-- IMAGEM DAS TRES OPÇÕES NO MENU LATERAL ESQUERDO<img src="assets/images/ajuda/paginacao.png" style="width: 400px;" class="fr-fic fr-dib fr-fil"> -->
+        <img src="assets/images/ajuda/menuarquivista.png" style="width: 400px;" class="fr-fic fr-dib fr-fil">
     </p>
     <p style="text-align: justify;margin-left: 40px">
         4. Ao clicar em qualquer das opções, no centro da tela aparecem uma pilha de processos e um espaço para visualização dos documentos juntados ao processo.
@@ -326,8 +326,8 @@
       <p style="text-align: justify;margin-left: 60px">
           7.1.2 Após escolher um processo, aparecem opções na parte superior direita.<br>
           É possível:
-          <li>Cadastrar um Lembrete <!-- Imagem da opção do Lembrete -->;</li>  
-          <li>Realizar Transição <!-- Imagem da opção do Lembrete -->, escolhendo a Modalidade de Transição, o Método, o Edital e acrescentando uma observação;</li>
+          <li>Cadastrar um Lembrete  <img src="assets/images/ajuda/lembrete.png" style="width: 15px;"class="fr-fic fr-dii">;</li>  
+          <li>Realizar Transição  <img src="assets/images/ajuda/realizartransicao.png" style="width: 15px;"class="fr-fic fr-dii">, escolhendo a Modalidade de Transição, o Método, o Edital e acrescentando uma observação;</li>
           <li>Visualizar a Classificação do Processo, conforme a classificação arquivística.</li>
       </p>
 
@@ -343,8 +343,8 @@
       <p style="text-align: justify;margin-left: 60px">
           7.2.3 Após escolher um processo, aparecem opções na parte superior direita.<br>
           É possível:
-          <li>Cadastrar um Lembrete <!-- Imagem da opção do Lembrete -->;</li>  
-          <li>Visualizar a Classificação do Processo <!-- Imagem da opção de Classificação do Processo -->, conforme a classificação arquivística.</li>
+          <li>Cadastrar um Lembrete  <img src="assets/images/ajuda/lembrete.png" style="width: 15px;"class="fr-fic fr-dii">;</li>  
+          <li>Visualizar a Classificação do Processo  <img src="assets/images/ajuda/classificacaoprocesso.png" style="width: 15px;"class="fr-fic fr-dii">, conforme a classificação arquivística.</li>
     </p>
       
     <p style="text-align: justify;margin-left: 40px">
@@ -359,9 +359,9 @@
       <p style="text-align: justify;margin-left: 60px">
           7.3.3 Após escolher um processo, aparecem opções na parte superior direita.<br>
           É possível:
-          <li>Cadastrar um Lembrete <!-- Imagem da opção do Lembrete -->;</li>  
-          <li>Adicionar Data Prevista para Transição <!-- Imagem da opção de Adicionar data prevista para transição -->, onde é possível cadastrar uma data para realizar a transição do Processo. A data é definida conforme uma escolha no calendário;</li>
-          <li>Visualizar a Classificação do Processo <!-- Imagem da opção de Classificação do Processo -->, conforme a classificação arquivística.</li>
+          <li>Cadastrar um Lembrete  <img src="assets/images/ajuda/lembrete.png" style="width: 15px;"class="fr-fic fr-dii">;</li>  
+          <li>Adicionar Data Prevista para Transição  <img src="assets/images/ajuda/dataprevistatransicao.png" style="width: 15px;"class="fr-fic fr-dii">, onde é possível cadastrar uma data para realizar a transição do Processo. A data é definida conforme uma escolha no calendário;</li>
+          <li>Visualizar a Classificação do Processo  <img src="assets/images/ajuda/classificacaoprocesso.png" style="width: 15px;"class="fr-fic fr-dii">, conforme a classificação arquivística.</li>
       </p>
     <p style="text-align: justify;margin-left: 40px">
         9. Na opção Lembrete é possível cadastrar um lembrete no processo.
@@ -394,4 +394,9 @@
             <li>Aplicar a classificação ao documento.</li>   
        </p>
     </mat-expansion-panel>       
+</div>
+
+<div *ngIf="titulo === 'transicoes'">
+  <ajuda-transicoes></ajuda-transicoes>
+  <a href="javascript:void(0)" (click)="carregar('arquivista')">Voltar ao <strong>ajuda Arquivista</strong></a>
 </div>
