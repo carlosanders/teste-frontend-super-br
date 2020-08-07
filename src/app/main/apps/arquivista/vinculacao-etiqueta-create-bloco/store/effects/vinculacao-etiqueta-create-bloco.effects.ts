@@ -47,7 +47,6 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
             .pipe(
                 ofType<VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiqueta>(VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
-                    console.log(action.payload);
                     return this._vinculacaoEtiquetaService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoEtiqueta) => [
                             new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaSuccess(action.payload),

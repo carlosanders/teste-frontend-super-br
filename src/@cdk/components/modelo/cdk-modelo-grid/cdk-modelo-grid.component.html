@@ -71,7 +71,7 @@
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
-                <ng-container matColumnDef="select">
+                <ng-container *ngIf="displayedColumns.indexOf('select') > -1" matColumnDef="select">
                     <th mat-header-cell *matHeaderCellDef>
                         <mat-checkbox (click)="toggleSelectAll($event)"
                                       [checked]="hasSelected"
@@ -89,7 +89,7 @@
                 </ng-container>
 
                 <!-- Id Column -->
-                <ng-container matColumnDef="id">
+                <ng-container *ngIf="displayedColumns.indexOf('id') > -1" matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Id: '
@@ -97,7 +97,7 @@
                 </ng-container>
 
                 <!-- Nome Column -->
-                <ng-container matColumnDef="nome">
+                <ng-container *ngIf="displayedColumns.indexOf('nome') > -1" matColumnDef="nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Nome
                     </th>
