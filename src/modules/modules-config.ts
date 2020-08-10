@@ -9,4 +9,4 @@ export const modulesConfig = [
     // modulesConfigEcarta,
     // modulesConfigDisciplinar,
     // modulesConfigRelatorio
-]; 
+];

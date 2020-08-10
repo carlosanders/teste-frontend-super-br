@@ -99,6 +99,11 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
             this._router.navigate([
                 'apps/processo/' + this.tarefa.processo.id + '/editar/remessas/editar/criar'
             ]).then();
+        } else {
+            this._router.navigate([
+                'apps/processo/' + this.tarefa.processo.id + '/editar/' + values.options
+            ]).then();
+
         }
     }
 

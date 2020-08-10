@@ -63,10 +63,6 @@ const routes: Routes = [
                 path: 'processo-capa',
                 loadChildren: () => import('./processo-capa/processo-capa.module').then(m => m.ProcessoCapaModule),
                 canActivate: [fromGuards.ResolveGuard]
-            },
-            {
-                path: '**',
-                redirectTo: 'visualizar'
             }
         ]
     }
@@ -78,6 +74,11 @@ modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
         module.routes[path].forEach((r => routes[0].children.push(r)));
     }
+});
+
+routes[0].children.push({
+    path: '**',
+    redirectTo: 'visualizar'
 });
 
 @NgModule({

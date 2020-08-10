@@ -3,12 +3,14 @@ import {
     ChangeDetectorRef,
     Component, EventEmitter, Input, OnChanges,
     OnDestroy,
-    Output, SimpleChange,
+    Output, SimpleChange, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
 import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import {DynamicService} from "../../../../modules/dynamic.service";
+import {modulesConfig} from "../../../../modules/modules-config";
 
 @Component({
     selector: 'cdk-encaminhamento-form',
@@ -37,12 +39,16 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
 
     form: FormGroup;
 
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _dynamicService: DynamicService
     ) {
 
         this.form = this._formBuilder.group({
@@ -73,6 +79,18 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
             }
         }
         this._changeDetectorRef.markForCheck();
+    }
+
+    ngAfterViewInit(): void {
+        const path = '@cdk/components/tarefa/cdk-encaminhamento-form';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
     }
 
     /**

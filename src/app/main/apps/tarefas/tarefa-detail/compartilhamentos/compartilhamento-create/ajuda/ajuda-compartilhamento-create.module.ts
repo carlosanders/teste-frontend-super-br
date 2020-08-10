@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 
 import {AjudaCompartilhamentoCreateComponent} from './ajuda-compartilhamento-create.component';
 import { AjudaVisibilidadesModule } from 'app/main/apps/processo/processo-edit/visibilidades/ajuda/ajuda-visibilidades.module';
@@ -22,4 +22,10 @@ import { AjudaCompartilhamentoCreateBlocoModule } from 'app/main/apps/tarefas/co
     ]
 })
 export class AjudaCompartilhamentoCreateModule {
+    constructor(private resolver: ComponentFactoryResolver) {
+    }
+
+    public resolveComponentFactory(): ComponentFactory<AjudaCompartilhamentoCreateComponent> {
+        return this.resolver.resolveComponentFactory(AjudaCompartilhamentoCreateComponent);
+    }
 }

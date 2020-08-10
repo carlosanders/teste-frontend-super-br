@@ -1,9 +1,5 @@
 ajuda-arquivista {
-	
-	/*Variáveis do Collapsible*/
-	$corAccordionClicked: #64bde0;
-
-    p {
+ p {
         text-align: left;
     }
     img {
@@ -21,21 +17,5 @@ ajuda-arquivista {
 		content: "";
 		display: table;
 		clear: both;
-	}
-	.mat-expansion-panel {
-		background-color: $corAccordionClicked;
-	}
-	.mat-expanded {
-		background-color: $corAccordionClicked;
-	}
-	.mat-expansion-panel-header.mat-expanded,
-	.mat-expansion-panel-header.mat-expanded:hover,
-	.mat-expansion-panel-header.mat-expanded:focus{
-		background-color: $corAccordionClicked;
-	}
-	.mat-expansion-panel-header.mat-disabled,
-	.mat-expansion-panel-header.mat-disabled:hover,
-	.mat-expansion-panel-header.mat-disabled:focus{
-		background-color: $corAccordionClicked;
 	}
 }
