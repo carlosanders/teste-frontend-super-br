@@ -79,7 +79,6 @@ export const navigation: CdkNavigation[] = [
                     {
                         id: 'administrativo',
                         title: 'Administrativo',
-                        translate: 'NAV.PROTOCOLO.ADMINISTRATIVO.TITLE',
                         type: 'item',
                         icon: 'book',
                         url: '/apps/processo/criar/editar/dados-basicos-steps/'
