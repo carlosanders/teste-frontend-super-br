@@ -1,0 +1,13 @@
+@import "src/@cdk/scss/cdk";
+
+widgets {
+    width: 100%;
+
+    .widget-group {
+        align-items: flex-start;
+    }
+}
+
+widget-alerta {
+    align-self: end !important;
+}
