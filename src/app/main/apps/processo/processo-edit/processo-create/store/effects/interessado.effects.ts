@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as InteressadoActions from '../actions/interessado.actions';
 
@@ -13,6 +13,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {interessado as interessadoSchema} from '@cdk/normalizr';
 import {InteressadoService} from '@cdk/services/interessado.service';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class InteressadosEffect {
@@ -94,6 +95,34 @@ export class InteressadosEffect {
                         catchError((err) => {
                             console.log(err);
                             return of(new InteressadoActions.DeleteInteressadoFailed(action.payload));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Save Interessado
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveInteressado: any =
+        this._actions
+            .pipe(
+                ofType<InteressadoActions.SaveInteressado>(InteressadoActions.SAVE_INTERESSADO),
+                switchMap((action) => {
+                    return this._interessadoService.save(action.payload).pipe(
+                        mergeMap((response: Interessado) => [
+                            new InteressadoActions.SaveInteressadoSuccess(),
+                            new AddData<Interessado>({data: [response], schema: interessadoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'interessado',
+                                content: `Interessado id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new InteressadoActions.SaveInteressadoFailed(err));
                         })
                     );
                 })

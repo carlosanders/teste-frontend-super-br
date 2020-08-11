@@ -7,6 +7,10 @@ export const GET_INTERESSADOS_FAILED = '[DADOS BASICOS STEPS] GET INTERESSADOS F
 export const RELOAD_INTERESSADOS = '[DADOS BASICOS STEPS] RELOAD INTERESSADOS';
 export const UNLOAD_INTERESSADOS = '[DADOS BASICOS STEPS] UNLOAD INTERESSADOS';
 
+export const SAVE_INTERESSADO = '[DADOS BASICOS STEPS] SAVE INTERESSADO';
+export const SAVE_INTERESSADO_SUCCESS = '[DADOS BASICOS STEPS] SAVE INTERESSADO SUCCESS';
+export const SAVE_INTERESSADO_FAILED = '[DADOS BASICOS STEPS] SAVE INTERESSADO FAILED';
+
 export const DELETE_INTERESSADO = '[DADOS BASICOS STEPS] DELETE INTERESSADO';
 export const DELETE_INTERESSADO_SUCCESS = '[DADOS BASICOS STEPS] DELETE INTERESSADO SUCCESS';
 export const DELETE_INTERESSADO_FAILED = '[DADOS BASICOS STEPS] DELETE INTERESSADO FAILED';
@@ -48,7 +52,7 @@ export class ReloadInteressados implements Action
 {
     readonly type = RELOAD_INTERESSADOS;
 
-    constructor(public payload: any)
+    constructor()
     {
     }
 }
@@ -101,6 +105,41 @@ export class DeleteInteressadoFailed implements Action
     }
 }
 
+/**
+ * Save Interessado
+ */
+export class SaveInteressado implements Action
+{
+    readonly type = SAVE_INTERESSADO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Interessado Success
+ */
+export class SaveInteressadoSuccess implements Action
+{
+    readonly type = SAVE_INTERESSADO_SUCCESS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Save Interessado Failed
+ */
+export class SaveInteressadoFailed implements Action
+{
+    readonly type = SAVE_INTERESSADO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
 
 export type InteressadoActionsAll
     = GetInteressados
@@ -110,4 +149,7 @@ export type InteressadoActionsAll
     | UnloadInteressados
     | DeleteInteressado
     | DeleteInteressadoSuccess
-    | DeleteInteressadoFailed;
+    | DeleteInteressadoFailed
+    | SaveInteressado
+    | SaveInteressadoSuccess
+    | SaveInteressadoFailed;

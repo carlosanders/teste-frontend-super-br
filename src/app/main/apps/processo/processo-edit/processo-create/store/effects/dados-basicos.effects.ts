@@ -9,18 +9,12 @@ import * as DadosBasicosActions from '../actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {processo as processoSchema} from '@cdk/normalizr';
-import {Assunto, Interessado, Juntada, Processo, VinculacaoProcesso} from '@cdk/models';
+import {Juntada, Processo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {assunto as assuntoSchema} from '@cdk/normalizr';
-import {interessado as interessadoSchema} from '@cdk/normalizr';
-import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
-import {AssuntoService} from '@cdk/services/assunto.service';
-import {InteressadoService} from '@cdk/services/interessado.service';
-import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {JuntadaService} from '@cdk/services/juntada.service';
 
 @Injectable()

@@ -47,3 +47,13 @@ export const getInteressadosDeletedIds = createSelector(
     getInteressadoState,
     (state: InteressadoState) => state.deletedIds
 );
+
+export const getInteressadoIsSaving = createSelector(
+    getInteressadoState,
+    (state: InteressadoState) => state.saving
+);
+
+export const getInteressadoErrors = createSelector(
+    getInteressadoState,
+    (state: InteressadoState) => state.errors
+);

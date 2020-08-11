@@ -47,3 +47,13 @@ export const getAssuntosDeletedIds = createSelector(
     getAssuntoState,
     (state: AssuntoState) => state.deletedIds
 );
+
+export const getAssuntoIsSaving = createSelector(
+    getAssuntoState,
+    (state: AssuntoState) => state.saving
+);
+
+export const getAssuntoErrors = createSelector(
+    getAssuntoState,
+    (state: AssuntoState) => state.errors
+);

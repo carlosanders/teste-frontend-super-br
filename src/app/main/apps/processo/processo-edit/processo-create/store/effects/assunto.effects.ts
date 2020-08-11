@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap, map} from 'rxjs/operators';
-
 import * as AssuntoActions from '../actions/assunto.actions';
-
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Assunto} from '@cdk/models';
 import {Router} from '@angular/router';
@@ -13,6 +10,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {assunto as assuntoSchema} from '@cdk/normalizr';
 import {AssuntoService} from '@cdk/services/assunto.service';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class AssuntosEffect {
@@ -99,4 +97,33 @@ export class AssuntosEffect {
                     );
                 })
             );
+
+    /**
+     * Save Assunto
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveAssunto: any =
+        this._actions
+            .pipe(
+                ofType<AssuntoActions.SaveAssunto>(AssuntoActions.SAVE_ASSUNTO),
+                switchMap((action) => {
+                    return this._assuntoService.save(action.payload).pipe(
+                        mergeMap((response: Assunto) => [
+                            new AssuntoActions.SaveAssuntoSuccess(),
+                            new AddData<Assunto>({data: [response], schema: assuntoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'assunto',
+                                content: `Assunto id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new AssuntoActions.SaveAssuntoFailed(err));
+                        })
+                    );
+                })
+            );
+
 }

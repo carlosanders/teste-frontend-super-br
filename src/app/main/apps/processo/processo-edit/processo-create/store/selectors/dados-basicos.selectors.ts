@@ -27,12 +27,12 @@ export const getProcessoLoaded = createSelector(
     (state: DadosBasicosState) => state.loaded
 );
 
-export const getIsSaving = createSelector(
+export const getProcessoIsSaving = createSelector(
     getDadosBasicosState,
     (state: DadosBasicosState) => state.saving
 );
 
-export const getErrors = createSelector(
+export const getProcessoErrors = createSelector(
     getDadosBasicosState,
     (state: DadosBasicosState) => state.errors
 );
