@@ -52,6 +52,9 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getModelos(): any {
+
+        this._store.dispatch(new fromStore.UnloadModelos());
+
         return this._store.pipe(
             select(fromStore.getModelosLoaded),
             tap((loaded: any) => {
