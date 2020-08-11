@@ -9,6 +9,10 @@ export const DELETE_ASSUNTO = '[DADOS BASICOS STEPS] DELETE ASSUNTO';
 export const DELETE_ASSUNTO_SUCCESS = '[DADOS BASICOS STEPS] DELETE ASSUNTO SUCCESS';
 export const DELETE_ASSUNTO_FAILED = '[DADOS BASICOS STEPS] DELETE ASSUNTO FAILED';
 
+export const SAVE_ASSUNTO = '[DADOS BASICOS STEPS] SAVE ASSUNTO';
+export const SAVE_ASSUNTO_SUCCESS = '[DADOS BASICOS STEPS] SAVE ASSUNTO SUCCESS';
+export const SAVE_ASSUNTO_FAILED = '[DADOS BASICOS STEPS] SAVE ASSUNTO FAILED';
+
 export const UNLOAD_ASSUNTOS = '[DADOS BASICOS STEPS] UNLOAD ASSUNTOS';
 
 /**
@@ -107,8 +111,43 @@ export class UnloadAssuntos implements Action
     }
 }
 
+/**
+ * Save Assunto
+ */
+export class SaveAssunto implements Action
+{
+    readonly type = SAVE_ASSUNTO;
 
-export type AssuntoListActionsAll
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Assunto Success
+ */
+export class SaveAssuntoSuccess implements Action
+{
+    readonly type = SAVE_ASSUNTO_SUCCESS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Save Assunto Failed
+ */
+export class SaveAssuntoFailed implements Action
+{
+    readonly type = SAVE_ASSUNTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export type AssuntoActionsAll
     = GetAssuntos
     | GetAssuntosSuccess
     | GetAssuntosFailed
@@ -116,6 +155,9 @@ export type AssuntoListActionsAll
     | ReloadAssuntos
     | DeleteAssunto
     | DeleteAssuntoSuccess
-    | DeleteAssuntoFailed;
+    | DeleteAssuntoFailed
+    | SaveAssunto
+    | SaveAssuntoSuccess
+    | SaveAssuntoFailed;
 
 

@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as VinculacoesProcessosActions from '../actions/vinculacao-processo.actions';
 
@@ -13,6 +13,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
+import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
 export class VinculacaoProcessoEffects {
@@ -77,4 +78,33 @@ export class VinculacaoProcessoEffects {
                     return caught;
                 })
             );
+
+    /**
+     * Save VinculacaoProcesso
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveVinculacaoProcesso: any =
+        this._actions
+            .pipe(
+                ofType<VinculacoesProcessosActions.SaveVinculacaoProcesso>(VinculacoesProcessosActions.SAVE_VINCULACAO_PROCESSO),
+                switchMap((action) => {
+                    return this._vinculacaoProcessoService.save(action.payload).pipe(
+                        mergeMap((response: VinculacaoProcesso) => [
+                            new VinculacoesProcessosActions.SaveVinculacaoProcessoSuccess(),
+                            new AddData<VinculacaoProcesso>({data: [response], schema: vinculacaoProcessoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'vinculacaoProcesso',
+                                content: `Vinculação do Processo id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new VinculacoesProcessosActions.SaveVinculacaoProcessoFailed(err));
+                        })
+                    );
+                })
+            );
+
 }

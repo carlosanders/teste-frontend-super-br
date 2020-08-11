@@ -54,7 +54,7 @@ export class UnloadJuntadas implements Action
     }
 }
 
-export type JuntadaListActionsAll
+export type JuntadaActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
     | GetJuntadasFailed

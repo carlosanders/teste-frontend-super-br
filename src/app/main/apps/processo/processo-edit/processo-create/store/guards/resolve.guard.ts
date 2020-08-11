@@ -15,7 +15,7 @@ import {
     getAssuntosLoaded,
     getInteressadosLoaded,
     getVinculacoesProcessosLoaded,
-    getJuntadaListLoaded
+    getJuntadaLoaded
 } from '../selectors';
 
 @Injectable()
@@ -101,7 +101,7 @@ export class ResolveGuard implements CanActivate {
             select(getAssuntosLoaded),
             tap(loaded => {
                 const params = {
-                    filter: {'processo.id': `eq:${this.routerState.params['processoHandle']}`, 'principal': 'eq:true'},
+                    filter: {'processo.id': `eq:${this.routerState.params['processoHandle']}`},
                     sort: {},
                     limit: 10,
                     offset: 0,
@@ -163,8 +163,7 @@ export class ResolveGuard implements CanActivate {
                 const params = {
                     filter: [
                         {
-                            'processo.id': `eq:${this.routerState.params['processoHandle']}`,
-                            'processoVinculado.id': `eq:${this.routerState.params['processoHandle']}`
+                            'processo.id': `eq:${this.routerState.params['processoHandle']}`
                         }
                     ],
                     sort: {},
@@ -193,7 +192,7 @@ export class ResolveGuard implements CanActivate {
         this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
 
         return this._store.pipe(
-            select(getJuntadaListLoaded),
+            select(getJuntadaLoaded),
             tap((loaded: any) => {
                 const params = {
                     filter: {

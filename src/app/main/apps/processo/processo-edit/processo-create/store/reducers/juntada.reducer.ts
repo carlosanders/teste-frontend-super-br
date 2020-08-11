@@ -1,6 +1,6 @@
-import * as JuntadaListActions from '../actions';
+import * as JuntadaActions from '../actions';
 
-export interface JuntadaListState {
+export interface JuntadaState {
     entitiesId: number[];
     pagination: {
         limit: number;
@@ -19,7 +19,7 @@ export interface JuntadaListState {
     copiadoIds: number[];
 }
 
-export const JuntadaListInitialState: JuntadaListState = {
+export const JuntadaInitialState: JuntadaState = {
     entitiesId: [],
     pagination: {
         limit: 0,
@@ -38,12 +38,13 @@ export const JuntadaListInitialState: JuntadaListState = {
     copiadoIds: []
 };
 
-export function JuntadaListReducer(state = JuntadaListInitialState, action: JuntadaListActions.JuntadaListActionsAll): JuntadaListState {
+export function JuntadaReducer(state = JuntadaInitialState, action: JuntadaActions.JuntadaActionsAll): JuntadaState {
     switch (action.type) {
 
-        case JuntadaListActions.GET_JUNTADAS: {
+        case JuntadaActions.GET_JUNTADAS: {
             return {
                 ...state,
+                entitiesId: [],
                 loading: true,
                 pagination: {
                     limit: action.payload.limit,
@@ -57,7 +58,7 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
             };
         }
 
-        case JuntadaListActions.GET_JUNTADAS_SUCCESS: {
+        case JuntadaActions.GET_JUNTADAS_SUCCESS: {
 
             const loaded = action.payload.loaded;
 
@@ -73,11 +74,11 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
             };
         }
 
-        case JuntadaListActions.UNLOAD_JUNTADAS: {
+        case JuntadaActions.UNLOAD_JUNTADAS: {
 
             if (action.payload.reset) {
                 return {
-                    ...JuntadaListInitialState
+                    ...JuntadaInitialState
                 };
             } else {
                 return {
@@ -94,7 +95,7 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
 
         }
 
-        case JuntadaListActions.GET_JUNTADAS_FAILED: {
+        case JuntadaActions.GET_JUNTADAS_FAILED: {
             return {
                 ...state,
                 loading: false,
