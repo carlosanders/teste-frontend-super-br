@@ -43,7 +43,7 @@ export const getDeletingIds = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.deletingIds
 );
-   
+
 export const getDeletedIds = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.deletedIds
