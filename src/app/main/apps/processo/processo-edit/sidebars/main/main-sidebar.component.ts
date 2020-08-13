@@ -8,6 +8,7 @@ import {modulesConfig} from 'modules/modules-config';
 import {getProcesso} from '../../../store';
 import {filter} from 'rxjs/operators';
 import {LoginService} from '../../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'processo-edit-main-sidebar',
@@ -157,6 +158,14 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 role: 'ROLE_COLABORADOR'
             }
         );
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
+
+        this.links = CdkUtils.sortArraySideBar(this.links);
 
         this.links = this.links.sort((a, b) => a.index - b.index);
     }

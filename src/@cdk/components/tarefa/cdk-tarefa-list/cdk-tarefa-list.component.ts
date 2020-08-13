@@ -4,9 +4,13 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input, OnChanges, OnInit,
-    Output, SimpleChange,
-    ViewChild, ViewContainerRef,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    SimpleChange,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
@@ -15,6 +19,8 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {SnackBarDeleteComponent} from '../../snack-bar-delete/snack-bar-delete.component';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -137,11 +143,16 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     cienciaIds: number[] = [];
-    
+
     listFilter: any;
     listSort: {} = {};
 
     isIndeterminate = false;
+
+    tarefasDeletadasTemporiamente: Tarefa [] = [];
+    sheetRef: MatSnackBarRef<SnackBarDeleteComponent>;
+
+    deleteTotal = false;
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
@@ -153,7 +164,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         private _dynamicService: DynamicService,
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
-        private _cdkTarefaListService: CdkTarefaListService
+        private _cdkTarefaListService: CdkTarefaListService,
+        private _snackBar: MatSnackBar,
+        // private bottomSheet: MatBottomSheet
     ) {
         this.listFilter = {};
     }
@@ -180,6 +193,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         if (changes['tarefas']) {
             this._cdkTarefaListService.tarefas = this.tarefas;
         }
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -191,6 +205,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     loadPage(): void {
+        this.deleteTotal = false;
         this.reload.emit({
             listFilter: this.listFilter.filters,
             listSort: this.listSort
@@ -210,12 +225,54 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.toggleUrgente.emit(tarefa);
     }
 
+    deleteTemporariamente(tarefaId): void {
+        const tarefaDeletada = this.tarefas.filter(tarefa => tarefa.id === tarefaId);
+        this.tarefasDeletadasTemporiamente.push(tarefaDeletada.shift());
+    }
+
+    desfazerDelete(tarefaId): void {
+        this.tarefasDeletadasTemporiamente = this.tarefasDeletadasTemporiamente.filter(tarefa => tarefa.id !== tarefaId);
+    }
+
     doDeleteTarefa(tarefaId): void {
-        this.delete.emit(tarefaId);
+        this.deleteTemporariamente(tarefaId);
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDeleteComponent, {
+            duration: 5000
+        });
+
+        this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this.desfazerDelete(tarefaId);
+            } else {
+                this.doDelete(tarefaId);
+            }
+        });
     }
 
     doDeleteTarefaBloco(): void {
-        this.selectedIds.forEach(tarefaId => this.doDeleteTarefa(tarefaId));
+
+        this.deleteTotal = this.selectedIds.length === this.tarefas.length;
+
+        this.selectedIds.forEach(tarefaId => this.deleteTemporariamente(tarefaId));
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDeleteComponent, {
+            duration: 5000
+        });
+
+        this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this.selectedIds.forEach(tarefaId => this.desfazerDelete(tarefaId));
+                this.deleteTotal = false;
+            } else {
+                this.selectedIds.forEach(tarefaId => this.doDelete(tarefaId));
+            }
+        });
+    }
+
+    doDelete(tarefaId): void {
+        console.log(tarefaId);
+        this.delete.emit(tarefaId);
     }
 
     setFolder(folder): void {

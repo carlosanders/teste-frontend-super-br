@@ -1,0 +1,28 @@
+.bottom-sheet {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 50px;
+    background: white;
+
+    div {
+        align-content: center;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+
+        span {
+            margin-left: 11px;
+        }
+    }
+}
+
+.bottom-sheet div {
+    flex: 1;
+}
+
+.mat-snack-bar-container {
+    background: white !important;
+    color: black !important;
+}
