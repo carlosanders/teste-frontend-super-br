@@ -1,7 +1,7 @@
-import {ActivatedRouteSnapshot, RouterStateSnapshot, Params} from '@angular/router';
-import {createFeatureSelector, ActionReducerMap, createSelector} from '@ngrx/store';
+import {ActivatedRouteSnapshot, Params, RouterStateSnapshot} from '@angular/router';
+import {ActionReducerMap, createFeatureSelector} from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
-import {NormalizedState, normalized} from '@cdk/ngrx-normalizr';
+import {normalized, NormalizedState} from '@cdk/ngrx-normalizr';
 import {MercureReducer, MercureState} from './mercure.reducer';
 import {AjudaReducer, AjudaState} from './ajuda.reducer';
 import {ScreenReducer, ScreenState} from './screen.reducer';

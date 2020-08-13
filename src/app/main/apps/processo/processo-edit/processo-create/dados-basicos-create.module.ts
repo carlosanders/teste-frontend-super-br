@@ -31,20 +31,20 @@ import {CdkInteressadoFormModule} from '@cdk/components/interessado/cdk-interess
 import {CdkDocumentoFormModule} from '@cdk/components/documento/cdk-documento-form/cdk-documento-form.module';
 import {CdkVinculacaoProcessoFormModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-form/cdk-vinculacao-processo-form.module';
 import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
-import {AssuntoEditModule} from '../assuntos/assunto-edit/assunto-edit.module';
-import {InteressadoEditModule} from '../interessados/interessado-edit/interessado-edit.module';
-import {VinculacaoProcessoEditModule} from '../vinculacoes-processos/vinculacao-processo-edit/vinculacao-processo-edit.module';
-import {ProcessoTarefaEditModule} from '../tarefas/tarefa-edit/processo-tarefa-edit.module';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk-juntada-grid.module';
 import {CdkAssuntoGridModule} from '@cdk/components/assunto/cdk-assunto-grid/cdk-assunto-grid.module';
 import {CdkInteressadoGridModule} from '@cdk/components/interessado/cdk-interessado-grid/cdk-interessado-grid.module';
 import {CdkVinculacaoProcessoGridModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-grid/cdk-vinculacao-processo-grid.module';
+import {AssuntoService} from '../../../../../../@cdk/services/assunto.service';
+import {InteressadoService} from '../../../../../../@cdk/services/interessado.service';
+import {VinculacaoProcessoService} from '../../../../../../@cdk/services/vinculacao-processo.service';
+import {TarefaService} from '../../../../../../@cdk/services/tarefa.service';
 
 const routes: Routes = [
     {
-        path: '',
+        path: ':generoHandle',
         component: DadosBasicosCreateComponent,
         children: [
             {
@@ -56,7 +56,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/processo/processo-create/dados-basicos-create';
+const path = 'app/main/apps/processo/processo-create/dados-basicos-create-steps';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -69,7 +69,6 @@ modulesConfig.forEach((module) => {
         DadosBasicosCreateComponent
     ],
     imports: [
-
         RouterModule.forChild(routes),
         MatButtonModule,
         MatCheckboxModule,
@@ -84,13 +83,9 @@ modulesConfig.forEach((module) => {
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
-
         CdkProcessoFormModule,
-
         DadosBasicosStepsStoreModule,
-
         TranslateModule,
-
         CdkSharedModule,
         CdkSidebarModule,
         MatStepperModule,
@@ -101,10 +96,6 @@ modulesConfig.forEach((module) => {
         CdkTarefaFormModule,
         CdkComponenteDigitalCardListModule,
         CdkJuntadaGridModule,
-        AssuntoEditModule,
-        InteressadoEditModule,
-        VinculacaoProcessoEditModule,
-        ProcessoTarefaEditModule,
         CdkAssuntoGridModule,
         CdkInteressadoGridModule,
         CdkVinculacaoProcessoGridModule
@@ -112,6 +103,10 @@ modulesConfig.forEach((module) => {
     providers: [
         ProcessoService,
         JuntadaService,
+        AssuntoService,
+        InteressadoService,
+        VinculacaoProcessoService,
+        TarefaService,
         fromGuards.ResolveGuard
     ]
 })

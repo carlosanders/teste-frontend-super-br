@@ -27,18 +27,18 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {SaveAssunto} from '../assuntos/assunto-edit/store/actions';
-import {SaveInteressado} from '../interessados/interessado-edit/store/actions';
-import {SaveVinculacaoProcesso} from '../vinculacoes-processos/vinculacao-processo-edit/store/actions';
-import {SaveTarefa} from '../tarefas/tarefa-edit/store/actions';
+import {SaveAssunto} from './store';
+import {SaveInteressado} from './store';
+import {SaveVinculacaoProcesso} from './store';
+import {SaveTarefa} from './store/actions';
 import {filter, takeUntil} from 'rxjs/operators';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import * as moment from 'moment';
-import {getIsSaving as getIsSavingAssunto} from '../assuntos/assunto-edit/store/selectors';
-import {getIsSaving as getIsSavingInteressado} from '../interessados/interessado-edit/store/selectors';
-import {getIsSaving as getIsSavingVinculacao} from '../vinculacoes-processos/vinculacao-processo-edit/store/selectors';
-import {getIsSaving as getIsSavingTaarefa} from '../tarefas/tarefa-edit/store/selectors';
+import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
+import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
+import {getVinculacaoProcessoIsSaving} from './store/selectors';
+import {getTarefaIsSaving} from './store/selectors';
 import {SetSteps} from '../../store/actions';
 import {getProcesso} from '../../store/selectors';
 
@@ -128,6 +128,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     @ViewChild('stepper') stepper: MatStepper;
     @ViewChild('ckdUpload', {static: false}) cdkUpload;
 
+    genero = 'administrativo';
+
     /**
      *
      * @param _store
@@ -143,8 +145,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         private _formBuilder: FormBuilder,
         private renderer: Renderer2,
     ) {
-        this.isSavingProcesso$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.isSavingProcesso$ = this._store.pipe(select(fromStore.getProcessoIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getProcessoErrors));
         this.processo$ = this._store.pipe(select(getProcesso));
         this._profile = this._loginService.getUserProfile();
 
@@ -162,18 +164,18 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.interessadosPagination$ = this._store.pipe(select(fromStore.getInteressadosPagination));
         this.interessadosLoading$ = this._store.pipe(select(fromStore.getInteressadosIsLoading));
 
-        this.isSavingVinculacao$ = this._store.pipe(select(getIsSavingVinculacao));
+        this.isSavingVinculacao$ = this._store.pipe(select(getVinculacaoProcessoIsSaving));
         this.vinculacoesProcessos$ = this._store.pipe(select(fromStore.getVinculacoesProcessos));
         this.vinculacoesProcessosDeletingIds$ = this._store.pipe(select(fromStore.getVinculacoesProcessosDeletingIds));
         this.vinculacoesProcessosDeletedIds$ = this._store.pipe(select(fromStore.getVinculacoesProcessosDeletedIds));
         this.vinculacoesProcessosPagination$ = this._store.pipe(select(fromStore.getVinculacoesProcessosPagination));
         this.vinculacoesProcessosLoading$ = this._store.pipe(select(fromStore.getVinculacoesProcessosIsLoading));
 
-        this.isSavingTarefa$ = this._store.pipe(select(getIsSavingTaarefa));
+        this.isSavingTarefa$ = this._store.pipe(select(getTarefaIsSaving));
 
-        this.juntadas$ = this._store.pipe(select(fromStore.getJuntadaList));
-        this.juntadasPagination$ = this._store.pipe(select(fromStore.getPagination));
-        this.juntadasLoading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.juntadas$ = this._store.pipe(select(fromStore.getJuntada));
+        this.juntadasPagination$ = this._store.pipe(select(fromStore.getJuntadaPagination));
+        this.juntadasLoading$ = this._store.pipe(select(fromStore.getJuntadaIsLoading));
 
         this.especieProcessoPagination = new Pagination();
         this.logEntryPagination = new Pagination();
@@ -269,6 +271,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    this.genero = this.routerState.params.generoHandle;
                 }
             });
 
@@ -279,6 +282,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             processo => {
                 this.processo = processo;
                 this.isLinear = false;
+
+                if (this.tarefa) {
+                    this.tarefa.processo = this.processo;
+                }
 
                 setTimeout(() => {
                     this.selectedIndex = 1;
@@ -295,6 +302,15 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: this.processo.id};
         this.especieProcessoPagination.populate = ['generoProcesso'];
+        this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:' + this.genero.toUpperCase()};
+
+        this.especieTarefaPagination.populate = ['generoTarefa'];
+        if (this.genero === 'administrativo') {
+            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
+        } else {
+            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'in:ADMINISTRATIVO,' + this.genero.toUpperCase()};
+        }
+
         this.setorAtualPagination.populate = ['unidade', 'parent'];
         this.setorAtualPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
         this.classificacaoPagination.populate = ['parent'];
@@ -383,7 +399,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     ngAfterViewInit(): void {
-        this.renderer.selectRootElement('#inputProcedencia').focus();
+        // this.renderer.selectRootElement('#inputProcedencia').focus();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -553,13 +569,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     onCompleteAssunto(): void {
         this.assuntoActivated = 'grid';
-        this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
         this._store.dispatch(new fromStore.GetAssuntos(this.assuntosPagination));
     }
 
     reloadAssuntos(params): void {
-        this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
-
         this._store.dispatch(new fromStore.GetAssuntos({
             ...this.assuntosPagination,
             filter: {
@@ -594,13 +607,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     onCompleteInteressado(): void {
         this.interessadoActivated = 'grid';
-        this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
         this._store.dispatch(new fromStore.GetInteressados(this.interessadosPagination));
     }
 
     reloadInteressados(params): void {
-        this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
-
         this._store.dispatch(new fromStore.GetInteressados({
             ...this.interessadosPagination,
             filter: {
@@ -635,13 +645,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     onCompleteVinculacaoProcesso(): void {
         this.vinculacaoProcessoActivated = 'grid';
-        this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
         this._store.dispatch(new fromStore.GetVinculacoesProcessos(this.vinculacoesProcessosPagination));
     }
 
     reloadVinculacoesProcessos(params): void {
-        this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
-
         this._store.dispatch(new fromStore.GetVinculacoesProcessos({
             ...this.vinculacoesProcessosPagination,
             filter: {

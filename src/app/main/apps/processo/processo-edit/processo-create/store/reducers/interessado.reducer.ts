@@ -15,6 +15,8 @@ export interface InteressadoState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    saving: boolean;
+    errors: any;
 }
 
 export const InteressadoInitialState: InteressadoState = {
@@ -31,7 +33,9 @@ export const InteressadoInitialState: InteressadoState = {
     loading: false,
     loaded: false,
     deletingIds: [],
-    deletedIds: []
+    deletedIds: [],
+    saving: false,
+    errors: false,
 };
 
 export function InteressadoReducer(state = InteressadoInitialState, action: InteressadoActions.InteressadoActionsAll): InteressadoState {
@@ -40,6 +44,7 @@ export function InteressadoReducer(state = InteressadoInitialState, action: Inte
         case InteressadoActions.GET_INTERESSADOS: {
             return {
                 ...state,
+                entitiesId: [],
                 loading: true,
                 pagination: {
                     limit: action.payload.limit,
@@ -124,6 +129,30 @@ export function InteressadoReducer(state = InteressadoInitialState, action: Inte
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case InteressadoActions.SAVE_INTERESSADO: {
+            return {
+                ...state,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case InteressadoActions.SAVE_INTERESSADO_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case InteressadoActions.SAVE_INTERESSADO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
             };
         }
 

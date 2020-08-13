@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
 import * as _ from 'lodash';
@@ -17,10 +17,7 @@ import {getMercureState} from 'app/store';
 import {Logout} from '../../../main/auth/login/store/actions';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
-import {getIsLoading, getNotificacaoList} from '../../../store/selectors';
-import {plainToClass} from 'class-transformer';
-import {AddData} from '../../../../@cdk/ngrx-normalizr';
-import {notificacao as notificacaoSchema} from '@cdk/normalizr';
+import {getIsLoading, getNormalizedNotificacaoEntities} from '../../../store/selectors';
 
 @Component({
     selector: 'toolbar',
@@ -38,10 +35,9 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedLanguage: any;
     userStatusOptions: any[];
     userProfile: Usuario;
-    // notificacoes: Notificacao[] = [];
+    notificacoes: Notificacao[] = [];
     notificacoesCount: string;
     carregandoNotificacao = true;
-    private notificacoes$: Observable<Notificacao[]>;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -149,15 +145,14 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
             };
             
             this._store.dispatch(new fromStore.GetNotificacoes(params));
-            // this._store
-            //     .pipe(
-            //         select(getNotificacaoList),
-            //         takeUntil(this._unsubscribeAll),
-            //     )
-            //     .subscribe(notificacoes => {
-            //             this.notificacoes = notificacoes;
-            //     }
-            //     );
+            this._store
+                .pipe(
+                    select(getNormalizedNotificacaoEntities),
+                    takeUntil(this._unsubscribeAll),
+                )
+                .subscribe(notificacoes => {
+                    this.notificacoes = notificacoes;
+                });
             this._store
                 .pipe(
                     select(getIsLoading),
@@ -165,12 +160,6 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
                 )
                 .subscribe(carregandoNotificacao => this.carregandoNotificacao = carregandoNotificacao);
         }
-
-        this.notificacoes$ = this._store
-            .pipe(
-                select(getNotificacaoList),
-                takeUntil(this._unsubscribeAll),
-            );
     }
 
     /**
@@ -243,17 +232,6 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
                             break;
                     }
                 }
-                // if (message && message.type === 'addData') {
-                //     console.log('message.content: ', message.content);
-                //     console.log('message.type: ', message.type);
-                //
-                //     switch (message.content.action) {
-                //         case 'addData':
-                //             console.log('Ok', message.content.object);
-                //             this._store.dispatch(new AddData<Notificacao>({data: [plainToClass(Notificacao, message.content.object)], schema: notificacaoSchema}));
-                //             break;
-                //     }
-                // }
             });
         }
     }

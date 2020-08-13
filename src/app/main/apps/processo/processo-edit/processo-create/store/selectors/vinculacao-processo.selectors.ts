@@ -4,7 +4,6 @@ import {getDadosBasicosAppState, DadosBasicosAppState, VinculacaoProcessoState} 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
-
 const schemaSelectors = createSchemaSelectors<VinculacaoProcesso>(vinculacaoProcessoSchema);
 
 export const getVinculacaoProcessoState = createSelector(
@@ -46,4 +45,14 @@ export const getVinculacoesProcessosDeletingIds = createSelector(
 export const getVinculacoesProcessosDeletedIds = createSelector(
     getVinculacaoProcessoState,
     (state: VinculacaoProcessoState) => state.deletedIds
+);
+
+export const getVinculacaoProcessoIsSaving = createSelector(
+    getVinculacaoProcessoState,
+    (state: VinculacaoProcessoState) => state.saving
+);
+
+export const getVinculacaoProcessoErrors = createSelector(
+    getVinculacaoProcessoState,
+    (state: VinculacaoProcessoState) => state.errors
 );

@@ -81,7 +81,7 @@ export const navigation: CdkNavigation[] = [
                         title: 'Administrativo',
                         type: 'item',
                         icon: 'book',
-                        url: '/apps/processo/criar/editar/dados-basicos-steps/'
+                        url: '/apps/processo/criar/editar/dados-basicos-steps/administrativo'
                     }
                 ],
                 role: 'ROLE_COLABORADOR'

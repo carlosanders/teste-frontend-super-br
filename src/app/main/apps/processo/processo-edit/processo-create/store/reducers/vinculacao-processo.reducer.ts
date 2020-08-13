@@ -15,6 +15,8 @@ export interface VinculacaoProcessoState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    saving: boolean;
+    errors: any;
 }
 
 export const VinculacaoProcessoInitialState: VinculacaoProcessoState = {
@@ -31,7 +33,9 @@ export const VinculacaoProcessoInitialState: VinculacaoProcessoState = {
     loading: false,
     loaded: false,
     deletingIds: [],
-    deletedIds: []
+    deletedIds: [],
+    saving: false,
+    errors: false,
 };
 
 export function VinculacaoProcessoReducer(
@@ -44,6 +48,7 @@ export function VinculacaoProcessoReducer(
             return {
                 ...state,
                 loading: true,
+                entitiesId: [],
                 pagination: {
                     limit: action.payload.limit,
                     offset: action.payload.offset,
@@ -119,6 +124,30 @@ export function VinculacaoProcessoReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case VinculacaoProcessoActions.SAVE_VINCULACAO_PROCESSO: {
+            return {
+                ...state,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case VinculacaoProcessoActions.SAVE_VINCULACAO_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case VinculacaoProcessoActions.SAVE_VINCULACAO_PROCESSO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
             };
         }
 

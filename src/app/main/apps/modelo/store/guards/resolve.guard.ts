@@ -8,7 +8,7 @@ import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 import {ModelosAppState} from 'app/main/apps/modelo/store/reducers';
 import * as fromStore from 'app/main/apps/modelo/store';
 import {getRouterState} from 'app/store/reducers';
-import {LoginService} from "../../../../auth/login/login.service";
+import {LoginService} from '../../../../auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -52,6 +52,9 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getModelos(): any {
+
+        this._store.dispatch(new fromStore.UnloadModelos());
+
         return this._store.pipe(
             select(fromStore.getModelosLoaded),
             tap((loaded: any) => {

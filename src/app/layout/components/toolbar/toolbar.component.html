@@ -65,8 +65,8 @@
                 </mat-icon>
             </button>
             <mat-menu #menuNoticacoes="matMenu" class="menuNotificacao" [overlapTrigger]="false" xPosition="before">
-                <mat-list *ngIf="(notificacoes$ | async)?.length>0; else vazio">
-                    <ng-container *ngFor="let notificacao of (notificacoes$ | async); let i = index; let len = count">
+                <mat-list *ngIf="notificacoes?.length>0; else vazio">
+                    <ng-container *ngFor="let notificacao of notificacoes; let i = index; let len = count">
                         <mat-list-item *ngIf="!notificacao.dataHoraLeitura">
                             <button mat-mini-fab (click)="toggleLida(notificacao)">
                                 <mat-icon class="secondary-text">check_circle</mat-icon>

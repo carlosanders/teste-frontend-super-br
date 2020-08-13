@@ -1,5 +1,4 @@
 import {createSelector} from '@ngrx/store';
-
 import {Notificacao} from '@cdk/models';
 import {notificacao as notificacaoSchema} from '@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
@@ -12,6 +11,12 @@ export const getNotificacaoListIds = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.entitiesId
 );
+
+export const getNormalizedNotificacaoEntities = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    schemaSelectors.entitiesProjector
+);
+
 
 export const getNotificacaoList = createSelector(
     schemaSelectors.getNormalizedEntities,
