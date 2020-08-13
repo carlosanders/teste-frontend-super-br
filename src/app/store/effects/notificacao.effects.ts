@@ -1,17 +1,15 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as NotificacaoListActions from '../actions';
-
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Notificacao} from '@cdk/models';
-import {notificacao as notificacaoSchema} from '@cdk/normalizr/notificacao.schema';
+import {notificacao as notificacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @Injectable()
@@ -44,7 +42,6 @@ export class NotificacaoEffect {
             .pipe(
                 ofType<NotificacaoListActions.GetNotificacoes>(NotificacaoListActions.GET_NOTIFICACOES),
                 switchMap((action) => {
-                    console.log('******************************getNotificacoes');
                     return this._notificacaoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
@@ -58,13 +55,13 @@ export class NotificacaoEffect {
                         mergeMap((response) => [
                             new AddData<Notificacao>({data: response['entities'], schema: notificacaoSchema}),
                             new NotificacaoListActions.GetNotificacoesSuccess({
-                                notificacoes: response['entities'].map(notificacao => notificacao.id),
+                                entitiesId: response['entities'].map(notificacao => notificacao.id),
                                 loaded: {
                                     id: 'usuarioHandle',
                                     value: this._loginService.getUserProfile().id
                                 },
                                 total: response['total']
-                            })
+                            }),
                         ]),
                         catchError((err) => {
                             console.log(err);
@@ -86,8 +83,9 @@ export class NotificacaoEffect {
                 mergeMap((action) => {
                     return this._notificacaoService.toggleLida(action.payload).pipe(
                         mergeMap((response) => [
+                            new NotificacaoListActions.ReloadNotificacoes(),
                             new UpdateData<Notificacao>({id: response.id, schema: notificacaoSchema, changes: {dataHoraLeitura: response.dataHoraLeitura}}),
-                            new NotificacaoListActions.ToggleLidaNotificacaoSuccess(response.id)
+                            new NotificacaoListActions.ToggleLidaNotificacaoSuccess(response.id),
                         ]),
                         catchError((err) => {
                             console.log(err);

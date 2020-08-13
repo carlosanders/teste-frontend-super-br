@@ -1,25 +1,45 @@
 import {createSelector} from '@ngrx/store';
 
 import {Notificacao} from '@cdk/models';
-import {notificacao as notificacaoSchema} from '@cdk/normalizr/notificacao.schema';
+import {notificacao as notificacaoSchema} from '@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {NotificacaoState} from '../reducers/notificacao.reducer';
-import {getNotificacaoState, State} from '../reducers';
+import {getNotificacoesState} from '../reducers';
 
-const schemaNotificacaoSelectors = createSchemaSelectors<Notificacao>(notificacaoSchema);
+const schemaSelectors = createSchemaSelectors<Notificacao>(notificacaoSchema);
 
-// export const getNotificacaoList = createSelector(
-//     getNotificacaoState,
-//     (state: Notificacao) => state
-// );
+export const getNotificacaoListIds = createSelector(
+    getNotificacoesState,
+    (state: NotificacaoState) => state.entitiesId
+);
 
-// export const getNotificacaoId = createSelector(
-//     getNotificacaoState,
-//     (state: NotificacaoState) => state
-// );
+export const getNotificacaoList = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getNotificacaoListIds,
+    schemaSelectors.entitiesProjector
+);
 
-// export const getNotificacao = createSelector(
-//     schemaNotificacaoSelectors.getNormalizedEntities,
-//     getNotificacaoId,
-//     schemaNotificacaoSelectors.entityProjector
-// );
+export const getPagination = createSelector(
+    getNotificacoesState,
+    (state: NotificacaoState) => state.pagination
+);
+
+export const getNotificacaoListLoaded = createSelector(
+    getNotificacoesState,
+    (state: NotificacaoState) => state.loaded
+);
+
+export const getIsLoading = createSelector(
+    getNotificacoesState,
+    (state: NotificacaoState) => state.loading
+);
+
+export const getDeletingIds = createSelector(
+    getNotificacoesState,
+    (state: NotificacaoState) => state.deletingIds
+);
+
+export const getDeletedIds = createSelector(
+    getNotificacoesState,
+    (state: NotificacaoState) => state.deletedIds
+);
