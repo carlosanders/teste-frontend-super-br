@@ -144,8 +144,12 @@ export class TarefasEffect {
                     return this._tarefaService.destroy(action.payload).pipe(
                         map((response) => new TarefasActions.DeleteTarefaSuccess(response.id)),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload,
+                                error: err
+                            };
                             console.log(err);
-                            return of(new TarefasActions.DeleteTarefaFailed(action.payload));
+                            return of(new TarefasActions.DeleteTarefaFailed(payload));
                         })
                     );
                 })

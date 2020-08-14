@@ -21,6 +21,7 @@ import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDeleteComponent} from '../../snack-bar-delete/snack-bar-delete.component';
+import {SnackBarDeleteService} from '../../snack-bar-delete/snack-bar-delete.service';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -53,6 +54,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Output()
     changeSelectedIds = new EventEmitter();
+
+    @Input()
+    error: any;
 
     @Input()
     pagination: any;
@@ -144,6 +148,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Input()
     cienciaIds: number[] = [];
 
+    @Input()
+    errorDelete: number[] = [];
+
     listFilter: any;
     listSort: {} = {};
 
@@ -151,7 +158,6 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     tarefasDeletadasTemporiamente: Tarefa [] = [];
     sheetRef: MatSnackBarRef<SnackBarDeleteComponent>;
-
     deleteTotal = false;
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
@@ -166,7 +172,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         private _cdkSidebarService: CdkSidebarService,
         private _cdkTarefaListService: CdkTarefaListService,
         private _snackBar: MatSnackBar,
-        // private bottomSheet: MatBottomSheet
+        private _snackBarDeleteService: SnackBarDeleteService,
     ) {
         this.listFilter = {};
     }
@@ -192,6 +198,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['tarefas']) {
             this._cdkTarefaListService.tarefas = this.tarefas;
+        }
+
+        if (changes['error'] && this.error) {
+            this.desfazerDelete(this.errorDelete[this.errorDelete.length - 1]);
         }
 
     }
@@ -231,47 +241,44 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     desfazerDelete(tarefaId): void {
+        this.deleteTotal = false;
         this.tarefasDeletadasTemporiamente = this.tarefasDeletadasTemporiamente.filter(tarefa => tarefa.id !== tarefaId);
     }
 
     doDeleteTarefa(tarefaId): void {
         this.deleteTemporariamente(tarefaId);
 
-        this.sheetRef = this._snackBar.openFromComponent(SnackBarDeleteComponent, {
-            duration: 5000
-        });
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDeleteComponent, this._snackBarDeleteService.config);
 
         this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
                 this.desfazerDelete(tarefaId);
             } else {
+                this.error = null;
                 this.doDelete(tarefaId);
             }
         });
     }
 
     doDeleteTarefaBloco(): void {
-
         this.deleteTotal = this.selectedIds.length === this.tarefas.length;
 
         this.selectedIds.forEach(tarefaId => this.deleteTemporariamente(tarefaId));
 
-        this.sheetRef = this._snackBar.openFromComponent(SnackBarDeleteComponent, {
-            duration: 5000
-        });
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDeleteComponent, this._snackBarDeleteService.config);
 
         this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
                 this.selectedIds.forEach(tarefaId => this.desfazerDelete(tarefaId));
                 this.deleteTotal = false;
             } else {
+                this.error = null;
                 this.selectedIds.forEach(tarefaId => this.doDelete(tarefaId));
             }
         });
     }
 
     doDelete(tarefaId): void {
-        console.log(tarefaId);
         this.delete.emit(tarefaId);
     }
 

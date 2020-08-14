@@ -173,7 +173,8 @@
             <mat-spinner class="tarefa-list-loading" diameter="24"></mat-spinner>
         </div>
 
-        <div *ngIf="tarefas.length === 0 && !loading || deleteTotal === true" fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="center center">
+        <div *ngIf="tarefas.length === 0 && !loading || deleteTotal === true" fxLayout="column" fxFlex="1 1 auto"
+             fxLayoutAlign="center center">
             <span class="no-tarefas-text hint-text">{{ 'TAREFA.NO_MESSAGES' | translate }}</span>
         </div>
 
@@ -186,8 +187,9 @@
              [infiniteScrollThrottle]="50"
              (scrolled)="onScroll()">
 
-            <div *ngFor="let tarefa of tarefas" >
-                <cdk-tarefa-list-item *ngIf="!deletingIds.length > 0 && !deletingIds.indexOf(tarefa.id) > -1"
+            <div *ngFor="let tarefa of tarefas">
+                <cdk-tarefa-list-item
+                    *ngIf="!deletingIds.length > 0 && !deletingIds.indexOf(tarefa.id) > -1 || errorDelete.indexOf(tarefa.id -1)"
                     matRipple
                     [tarefa]="tarefa"
                     (click)="selectTarefa(tarefa);"
@@ -212,7 +214,6 @@
                 >
                 </cdk-tarefa-list-item>
             </div>
-
 
         </div>
     </div>
