@@ -11,6 +11,7 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {CdkProcessoFilterService} from '../../../processo/sidebars/cdk-processo-filter/cdk-processo-filter.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
+import {LoginService} from "../../../../../app/main/auth/login/login.service";
 
 @Component({
     selector: 'cdk-processo-filter',
@@ -40,7 +41,8 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
         private _dynamicService: DynamicService,
-        private _cdkProcessoFilterService: CdkProcessoFilterService
+        private _cdkProcessoFilterService: CdkProcessoFilterService,
+        public _loginService: LoginService,
     ) {
         this.form = this._formBuilder.group({
             processo: [null],
@@ -408,15 +410,17 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const path = '@cdk/components/processo/sidebars/cdk-processo-filter';
-        modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
-                    this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
-                }));
-            }
-        });
+        if (this._loginService.isGranted('ROLE_COLABORADOR')) {
+            const path = '@cdk/components/processo/sidebars/cdk-processo-filter';
+            modulesConfig.forEach((module) => {
+                if (module.components.hasOwnProperty(path)) {
+                    module.components[path].forEach((c => {
+                        this._dynamicService.loadComponent(c)
+                            .then(componentFactory => this.container.createComponent(componentFactory));
+                    }));
+                }
+            });
+        }
     }
 
     emite(): void {

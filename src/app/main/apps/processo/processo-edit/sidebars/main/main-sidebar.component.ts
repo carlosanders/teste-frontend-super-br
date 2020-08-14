@@ -8,7 +8,6 @@ import {modulesConfig} from 'modules/modules-config';
 import {getProcesso} from '../../../store';
 import {filter} from 'rxjs/operators';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'processo-edit-main-sidebar',
@@ -62,6 +61,12 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
         this.links = [];
 
         const path = 'app/main/apps/processo/processo-edit/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
 
         this.links.push(
             {
@@ -135,30 +140,26 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             },
             {
                 index: 130,
-                nome: 'Tramitações',
-                link: 'tramitacoes',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 140,
                 nome: 'Remessas',
                 link: 'remessas',
                 role: 'ROLE_COLABORADOR'
             },
             {
-                index: 150,
+                index: 140,
                 nome: 'Transições',
                 link: 'transicoes',
                 role: 'ROLE_COLABORADOR'
             }
         );
 
-        modulesConfig.forEach((module) => {
-            if (module.sidebars.hasOwnProperty(path)) {
-                module.sidebars[path].forEach((s => this.links.unshift(s)));
-            }
-        });
-
+        if (this.processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+            this.links.push({
+                index: 150,
+                nome: 'Tramitações',
+                link: 'tramitacoes',
+                role: 'ROLE_COLABORADOR'
+            });
+        }
 
         this.links = this.links.sort((a, b) => a.index - b.index);
     }

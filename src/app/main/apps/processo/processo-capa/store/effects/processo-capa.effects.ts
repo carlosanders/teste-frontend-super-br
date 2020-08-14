@@ -63,14 +63,8 @@ export class ProcessoCapaEffect {
                         JSON.stringify([
                             'populateAll',
                             'setorAtual.unidade',
-                            'modalidadeMeio',
-                            'modalidadeFase',
-                            'documentoAvulsoOrigem',
-                            'especieProcesso',
-                            'classificacao',
-                            'classificacao.modalidadeDestinacao',
-                            'setorInicial',
-                            'setorAtual'
+                            'especieProcesso.generoProcesso',
+                            'classificacao.modalidadeDestinacao'
                         ]),
                         JSON.stringify(chaveAcesso));
                 }),

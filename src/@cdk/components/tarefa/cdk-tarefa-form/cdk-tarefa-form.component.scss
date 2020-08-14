@@ -17,8 +17,6 @@ cdk-tarefa-form {
     }
 
     .dates {
-        @include mat-elevation(1);
-        margin-bottom: 16px;
         .dias-input {
             width: 100px;
         }

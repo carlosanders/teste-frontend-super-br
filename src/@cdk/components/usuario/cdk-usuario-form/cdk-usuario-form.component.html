@@ -48,6 +48,11 @@
                       class="mr-16 mb-16" fxFlex="0 1 auto">
             Ativo
         </mat-checkbox>
+
+        <mat-checkbox formControlName="validado" *ngIf="usuarioExterno"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Validado
+        </mat-checkbox>
     </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

@@ -197,7 +197,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorAtualPagination = new Pagination();
         this.setorInicialPagination = new Pagination();
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['especieProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
+        this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
         this.generoSetorPagination = new Pagination();
         this.especieSetorPagination = new Pagination();
 

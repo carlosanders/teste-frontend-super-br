@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Atividade} from '@cdk/models';
+import {Atividade, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -67,6 +67,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
+    especieAtividadePagination: Pagination;
+
     /**
      *
      * @param _store
@@ -109,6 +111,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+
+        this.especieAtividadePagination.populate = ['generoAtividade'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -129,6 +133,12 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
             this.tarefas = tarefas;
             this.atividade.usuario = tarefas[0].usuarioResponsavel;
             this.atividade.setor = tarefas[0].setorResponsavel;
+
+            if (tarefas[0].especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
+            } else {
+                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefas[0].especieTarefa.generoTarefa.nome.toUpperCase()};
+            }
         });
 
         this._store.pipe(
