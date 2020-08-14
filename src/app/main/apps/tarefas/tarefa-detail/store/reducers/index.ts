@@ -1,9 +1,11 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import { TarefaDetailReducer, TarefaDetailState } from './tarefa-detail.reducer';
+import {EtiquetaReducer, EtiquetaState} from './etiqueta.reducer';
 
 export interface TarefaDetailAppState
 {
     tarefaDetail: TarefaDetailState;
+    etiqueta: EtiquetaState;
 }
 
 export const getTarefaDetailAppState = createFeatureSelector<TarefaDetailAppState>(
@@ -16,7 +18,9 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<TarefaDetailAppState> = {
-    tarefaDetail: TarefaDetailReducer
+    tarefaDetail: TarefaDetailReducer,
+    etiqueta: EtiquetaReducer,
 };
 
 export * from './tarefa-detail.reducer';
+export * from './etiqueta.reducer';
