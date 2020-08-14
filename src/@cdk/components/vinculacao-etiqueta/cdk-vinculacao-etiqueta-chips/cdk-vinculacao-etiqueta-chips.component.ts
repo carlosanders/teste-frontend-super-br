@@ -49,7 +49,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     savingVinculacaoEtiquetaId: number;
 
     @Input()
-    placeholderEtiq: string;
+    placeholder: string;
 
     @Input()
     errors: any;

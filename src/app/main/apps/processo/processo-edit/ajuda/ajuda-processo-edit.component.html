@@ -37,7 +37,8 @@
             Entretanto, quanto mais completa for a pesquisa, mais fidedigna será a base de dados do SAPIENS.
         </p>
         <p style="text-align: justify;text-indent: 20px">
-            Confirmada a inexistência de processo anterior, no menu lateral esquerdo o usuário deve selecionar
+            Confirmada a inexistência de processo anterior, o usuário deve iniciar o procedimento de criação de um novo processo no SUPP
+            No menu lateral esquerdo o usuário deve selecionar
             <strong>Protocolo&nbsp;</strong>&gt;
             <strong>Administrativo</strong>:
         </p>
@@ -45,15 +46,51 @@
             <img src="assets/images/ajuda/criarprocessoadm.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
         </p>
         <p style="text-align: justify;text-indent: 20px">
-            É aberta a página de <strong>criação de processo</strong>.
-            A opção <strong>Gerar NUP</strong> cria um processo, precisando de dados para preenchimento.
+            A página de <strong>criação de processo</strong> é aberta.
         </p>
         <p style="text-align: justify;text-indent: 20px">
-            Os vários campos dos dados básicos aparecem na tela, e os que necessarimente devem ser preenchidos possuem o carácter <strong>*</strong>.
+            Inicialmente, para começar a criação de um protocolo, é necessário escolher a Unidade Arquivística.
         </p>
-        <h3><strong>Preenchendo os dados básicos</strong></h3>
+        <p style="text-align: center;">
+            <!-- IMAGEM UNIDADE ARQUIVISTICA<img src="assets/images/ajuda/criarprocessoadm.png" style="width: 256px;" class="fr-fic fr-dib fr-fil"> -->
+        </p>
+        <mat-expansion-panel style="text-align: center;margin-left: 20px">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                UNIDADE ARQUIVÍSTICA
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+           <p>
+               Existem três tipos de unidade arquivística:
+                <li>Processo: Conjunto das peças apresentadas para servir à instrução e ao julgamento de uma questão</li>
+                <li>Documento Avulso: Um ofício, utilizado para comunicação externa</li>
+                <li>Pasta/Dossiê: Nem tudo é um processo administrativo. Pode ser apenas uma pasta, um depósito de documentos</li>
+           </p>
+        </mat-expansion-panel>
+        <p style="text-align: justify;text-indent: 20px">
+            Após a escolha da Unidade Arquivística mais apropriada, é necessário informar os Dados do Protocolo
+            O sistema precisa saber se o usuário deseja <strong>Atribuir Novo Protocolo</strong> ou <strong>Informar Protocolo Existente</strong>.
+            Essa escolha é importante porque o processo em questão pode já existir no Sapiens.
+        </p>
+        <div style="background-color: #d3d3d3;">
+            <p>
+                <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
+            </p>
+            <p style="text-indent: 20px">    
+                Ao escolher a opção Pasta/Dossiê como Unidade Arquivística, os Dados do Protocolo são limitados apenas a opção <strong>Não Possui Protocolo</strong>.            </p>
+        </div> 
+        <p style="text-align: justify;text-indent: 20px">
+            Após os Dados do Protocolo, se encontra a opção de <strong>Importar Dados de Processo Existente no Sistema</strong>. 
+            Essa opção permite a utilização de metadados iguais/semelhantes a um outro NUP cadastrado no sistema. Ao marcar a opção, a caixa de pesquisa de Processo Origem aparece.
+            Ao escolher um processo nesse campo, os metadados do processo são preenchidos, permitindo ainda ajustes por parte do usuário, que pode editar se existir algum metadado diferente.
+        </p>
+        <p style="text-align: justify;text-indent: 20px">
+            Ao não escolher a opção de Importar Dados de Processo Existente, é necessário preencher alguns dados para a criação do Protocolo.
+            Os campos marcados com o <strong>*</strong> são os campos que não podem ficar em branco.
+        </p>
+        <h3><strong>Preenchendo os dados do processo</strong></h3>
         <p style="text-align: justify;margin-left: 40px">
-            1. No campo <strong>Espécie</strong>, preenche-se a informação relacionada ao "tipo" do processo, sendo possível escolher entre as opções:
+            1. No campo <strong>Processo de Trabalho</strong>, preenche-se a informação relacionada ao "tipo" do processo, sendo possível escolher entre as opções:
                 <li>Administrativo</li>
                 <li>Consultivo</li>
                 <li>Correicional</li>

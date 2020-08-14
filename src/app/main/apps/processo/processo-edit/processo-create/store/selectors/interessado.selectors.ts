@@ -23,7 +23,7 @@ export const getInteressados = createSelector(
     schemaSelectors.entitiesProjector
 );
 
-export const getPaginationInteressados = createSelector(
+export const getInteressadosPagination = createSelector(
     getInteressadoState,
     (state: InteressadoState) => state.pagination
 );
@@ -33,7 +33,27 @@ export const getInteressadosLoaded = createSelector(
     (state: InteressadoState) => state.loaded
 );
 
-export const getIsInteressadosLoading = createSelector(
+export const getInteressadosIsLoading = createSelector(
     getInteressadoState,
     (state: InteressadoState) => state.loading
+);
+
+export const getInteressadosDeletingIds = createSelector(
+    getInteressadoState,
+    (state: InteressadoState) => state.deletingIds
+);
+
+export const getInteressadosDeletedIds = createSelector(
+    getInteressadoState,
+    (state: InteressadoState) => state.deletedIds
+);
+
+export const getInteressadoIsSaving = createSelector(
+    getInteressadoState,
+    (state: InteressadoState) => state.saving
+);
+
+export const getInteressadoErrors = createSelector(
+    getInteressadoState,
+    (state: InteressadoState) => state.errors
 );

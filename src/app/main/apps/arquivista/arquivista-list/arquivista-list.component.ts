@@ -260,10 +260,10 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
             processoId: processo.id,
             populate: [
                 'especieProcesso',
+                'especieProcesso.generoProcesso',
                 'modalidadeMeio',
                 'modalidadeFase',
                 'documentoAvulsoOrigem',
-                'especieProcesso',
                 'classificacao',
                 'classificacao.modalidadeDestinacao',
                 'setorInicial',

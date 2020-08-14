@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
+import {of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as DadosBasicosActions from '../actions';
@@ -9,18 +9,12 @@ import * as DadosBasicosActions from '../actions';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {processo as processoSchema} from '@cdk/normalizr';
-import {Assunto, Interessado, Juntada, Processo, VinculacaoProcesso} from '@cdk/models';
+import {Juntada, Processo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {assunto as assuntoSchema} from '@cdk/normalizr';
-import {interessado as interessadoSchema} from '@cdk/normalizr';
-import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
-import {AssuntoService} from '@cdk/services/assunto.service';
-import {InteressadoService} from '@cdk/services/interessado.service';
-import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {JuntadaService} from '@cdk/services/juntada.service';
 
 @Injectable()
@@ -31,9 +25,6 @@ export class DadosBasicosEffect {
      *
      * @param _actions
      * @param _processoService
-     * @param _assuntoService
-     * @param _interessadoService
-     * @param _vinculacaoProcessoService
      * @param _juntadaService
      * @param _store
      * @param _router
@@ -41,9 +32,6 @@ export class DadosBasicosEffect {
     constructor(
         private _actions: Actions,
         private _processoService: ProcessoService,
-        private _assuntoService: AssuntoService,
-        private _interessadoService: InteressadoService,
-        private _vinculacaoProcessoService: VinculacaoProcessoService,
         private _juntadaService: JuntadaService,
         private _store: Store<State>,
         private _router: Router
@@ -56,46 +44,6 @@ export class DadosBasicosEffect {
                 }
             });
     }
-
-    /**
-     * Save Processo
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveProcesso: any =
-        this._actions
-            .pipe(
-                ofType<DadosBasicosActions.SaveProcesso>(DadosBasicosActions.SAVE_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
-                        mergeMap((response: Processo) => [
-                            new DadosBasicosActions.SaveProcessoSuccess(response),
-                            new AddData<Processo>({data: [response], schema: processoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })              
-                        ]),
-                        catchError((err) => {
-                            return of(new DadosBasicosActions.SaveProcessoFailed(err));
-                        })
-                    );
-                })
-            );
-
-    /**
-     * Save Processo Success
-     */
-    @Effect({ dispatch: false })
-    saveProcessoSuccess: any =
-        this._actions
-            .pipe(
-                ofType<DadosBasicosActions.SaveProcessoSuccess>(DadosBasicosActions.SAVE_PROCESSO_SUCCESS),
-                tap((action) => {
-                    this._router.navigate([this.routerState.url.replace('criar', action.payload.id)]).then();
-                })
-            );
 
     /**
      * Get Processo
@@ -114,6 +62,7 @@ export class DadosBasicosEffect {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll',
+                            'especieProcesso.generoProcesso',
                             'setorAtual.unidade',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
@@ -137,116 +86,42 @@ export class DadosBasicosEffect {
             );
 
     /**
-     * Get Assuntos Processo
+     * Save Processo
      * @type {Observable<any>}
      */
     @Effect()
-    getAssuntosProcesso: Observable<any> =
+    saveProcesso: any =
         this._actions
             .pipe(
-                ofType<DadosBasicosActions.GetAssuntos>(DadosBasicosActions.GET_ASSUNTOS),
+                ofType<DadosBasicosActions.SaveProcesso>(DadosBasicosActions.SAVE_PROCESSO),
                 switchMap((action) => {
-                    return this._assuntoService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.listFilter
-                        }),
-                        action.payload.imit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
-                    new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
-                    new DadosBasicosActions.GetAssuntosSuccess({
-                        entitiesId: response['entities'].map(assunto => assunto.id),
-                        loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle,
-                        },
-                        total: response['total']
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DadosBasicosActions.GetAssuntosFailed(err));
-                    return caught;
+                    return this._processoService.save(action.payload).pipe(
+                        mergeMap((response: Processo) => [
+                            new DadosBasicosActions.SaveProcessoSuccess(response),
+                            new AddData<Processo>({data: [response], schema: processoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'processo',
+                                content: `Processo id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            return of(new DadosBasicosActions.SaveProcessoFailed(err));
+                        })
+                    );
                 })
             );
 
     /**
-     * Get Interessados Processo
-     * @type {Observable<any>}
+     * Save Processo Success
      */
-    @Effect()
-    getInteressadosProcesso: Observable<any> =
+    @Effect({ dispatch: false })
+    saveProcessoSuccess: any =
         this._actions
             .pipe(
-                ofType<DadosBasicosActions.GetInteressados>(DadosBasicosActions.GET_INTERESSADOS),
-                switchMap((action) => {
-                    return this._interessadoService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.listFilter
-                        }),
-                        action.payload.imit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
-                    new AddData<Interessado>({data: response['entities'], schema: interessadoSchema}),
-                    new DadosBasicosActions.GetInteressadosSuccess({
-                        entitiesId: response['entities'].map(interessado => interessado.id),
-                        loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle,
-                        },
-                        total: response['total']
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DadosBasicosActions.GetInteressadosFailed(err));
-                    return caught;
-                })
-            );
-
-    /**
-     * Get VinculacoesProcessos Processo
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getVinculacoesProcessosProcesso: Observable<any> =
-        this._actions
-            .pipe(
-                ofType<DadosBasicosActions.GetVinculacoesProcessos>(DadosBasicosActions.GET_VINCULACOES_PROCESSOS),
-                switchMap((action) => {
-                    return this._vinculacaoProcessoService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.listFilter
-                        }),
-                        action.payload.imit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
-                    new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
-                    new DadosBasicosActions.GetVinculacoesProcessosSuccess({
-                        entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
-                        loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle,
-                        },
-                        total: response['total']
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new DadosBasicosActions.GetVinculacoesProcessosFailed(err));
-                    return caught;
+                ofType<DadosBasicosActions.SaveProcessoSuccess>(DadosBasicosActions.SAVE_PROCESSO_SUCCESS),
+                tap((action) => {
+                    this._router.navigate([this.routerState.url.replace('criar', action.payload.id)]).then();
                 })
             );
 

@@ -3,7 +3,8 @@ import {DadosBasicosReducer, DadosBasicosState} from './dados-basicos.reducer';
 import {AssuntoReducer, AssuntoState} from './assunto.reducer';
 import {InteressadoReducer, InteressadoState} from './interessado.reducer';
 import {VinculacaoProcessoReducer, VinculacaoProcessoState} from './vinculacao-processo.reducer';
-import {JuntadaListReducer, JuntadaListState} from './juntada.reducer';
+import {JuntadaReducer, JuntadaState} from './juntada.reducer';
+import {TarefaState, TarefaReducer} from './tarefa.reducer';
 
 export interface DadosBasicosAppState
 {
@@ -11,11 +12,12 @@ export interface DadosBasicosAppState
     assuntos: AssuntoState;
     interessados: InteressadoState;
     vinculacoesProcessos: VinculacaoProcessoState;
-    juntadas: JuntadaListState;
+    juntadas: JuntadaState;
+    tarefa: TarefaState
 }
 
 export const getDadosBasicosAppState = createFeatureSelector<DadosBasicosAppState>(
-    'dados-basicos-app'
+    'dados-basicos-steps-app'
 );
 
 export const getAppState = createSelector(
@@ -28,7 +30,8 @@ export const reducers: ActionReducerMap<DadosBasicosAppState> = {
     assuntos: AssuntoReducer,
     interessados: InteressadoReducer,
     vinculacoesProcessos: VinculacaoProcessoReducer,
-    juntadas: JuntadaListReducer
+    juntadas: JuntadaReducer,
+    tarefa: TarefaReducer
 };
 
 export * from './dados-basicos.reducer';
@@ -36,4 +39,5 @@ export * from './assunto.reducer';
 export * from './interessado.reducer';
 export * from './vinculacao-processo.reducer';
 export * from './juntada.reducer';
+export * from './tarefa.reducer';
 

@@ -159,10 +159,10 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
             etiquetaFilter: etiquetaFilter,
             populate: [
                 'especieProcesso',
+                'especieProcesso.generoProcesso',
                 'modalidadeMeio',
                 'modalidadeFase',
                 'documentoAvulsoOrigem',
-                'especieProcesso',
                 'classificacao',
                 'classificacao.modalidadeDestinacao',
                 'setorInicial',

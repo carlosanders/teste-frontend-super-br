@@ -17,7 +17,7 @@
             </mat-icon>
         </mat-chip>
         <input #etiquetaInput
-               placeholder="{{placeholderEtiq}}"
+               [placeholder]="placeholder"
                [formControl]="etiquetaCtrl"
                [matAutocomplete]="etiqueta.autocomplete"
                [matChipInputFor]="chipList"

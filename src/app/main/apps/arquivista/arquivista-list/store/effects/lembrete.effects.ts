@@ -85,10 +85,10 @@ export class LembreteEffects {
                         sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
                         populate: [
                             'especieProcesso',
+                            'especieProcesso.generoProcesso',
                             'modalidadeMeio',
                             'modalidadeFase',
                             'documentoAvulsoOrigem',
-                            'especieProcesso',
                             'classificacao',
                             'classificacao.modalidadeDestinacao',
                             'setorInicial',
@@ -104,7 +104,7 @@ export class LembreteEffects {
                         let processoFilter = {};
 
 
-                        this.currentDate =  moment().format('YYYY-m-d[T]H:mm:ss');
+                        this.currentDate =  moment().format('YYYY-MM-DD[T]H:mm:ss');
 
                         if (this.routerState.params[typeParam] === 'pronto-transicao') {
                             processoFilter = {

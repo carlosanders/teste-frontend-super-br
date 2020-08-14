@@ -67,6 +67,7 @@ export class TarefaDetailEffect {
                         JSON.stringify([
                             'processo',
                             'processo.especieProcesso',
+                            'processo.especieProcesso.generoProcesso',
                             'processo.modalidadeMeio',
                             'processo.documentoAvulsoOrigem',
                             'especieTarefa',

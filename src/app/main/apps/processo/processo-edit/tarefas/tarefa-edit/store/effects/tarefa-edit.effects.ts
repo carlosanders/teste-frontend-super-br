@@ -15,7 +15,6 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {getSteps} from '../../../../../store/selectors';
 
 @Injectable()
 export class TarefaEditEffect {
@@ -33,14 +32,6 @@ export class TarefaEditEffect {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
-                }
-            });
-
-        this._store
-            .pipe(select(getSteps))
-            .subscribe(steps => {
-                if (steps) {
-                    this.steps = steps;
                 }
             });
     }
@@ -63,6 +54,7 @@ export class TarefaEditEffect {
                         JSON.stringify([
                             'processo',
                             'processo.especieProcesso',
+                            'processo.especieProcesso.generoProcesso',
                             'processo.modalidadeMeio',
                             'processo.documentoAvulsoOrigem',
                             'especieTarefa',
@@ -129,10 +121,6 @@ export class TarefaEditEffect {
             .pipe(
                 ofType<TarefaEditActions.SaveTarefaSuccess>(TarefaEditActions.SAVE_TAREFA_SUCCESS),
                 tap(() => {
-                    if (this.steps) {
-                        this._router.navigate([this.routerState.url.replace('dados-basicos-steps', 'dados-basicos')]).then();
-                    }
-
                     this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.tarefaHandle), 'listar')]).then();
                 })
             );

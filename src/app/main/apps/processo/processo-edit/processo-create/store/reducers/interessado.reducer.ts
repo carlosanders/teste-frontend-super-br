@@ -13,6 +13,10 @@ export interface InteressadoState {
     };
     loading: boolean;
     loaded: any;
+    deletingIds: number[];
+    deletedIds: number[];
+    saving: boolean;
+    errors: any;
 }
 
 export const InteressadoInitialState: InteressadoState = {
@@ -27,7 +31,11 @@ export const InteressadoInitialState: InteressadoState = {
         total: 0,
     },
     loading: false,
-    loaded: false
+    loaded: false,
+    deletingIds: [],
+    deletedIds: [],
+    saving: false,
+    errors: false,
 };
 
 export function InteressadoReducer(state = InteressadoInitialState, action: InteressadoActions.InteressadoActionsAll): InteressadoState {
@@ -36,6 +44,7 @@ export function InteressadoReducer(state = InteressadoInitialState, action: Inte
         case InteressadoActions.GET_INTERESSADOS: {
             return {
                 ...state,
+                entitiesId: [],
                 loading: true,
                 pagination: {
                     limit: action.payload.limit,
@@ -73,6 +82,14 @@ export function InteressadoReducer(state = InteressadoInitialState, action: Inte
             };
         }
 
+        case InteressadoActions.RELOAD_INTERESSADOS: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
+            };
+        }
+
         case InteressadoActions.UNLOAD_INTERESSADOS: {
 
             if (action.payload.reset) {
@@ -91,6 +108,52 @@ export function InteressadoReducer(state = InteressadoInitialState, action: Inte
                     }
                 };
             }
+        }
+
+        case InteressadoActions.DELETE_INTERESSADO: {
+            return {
+                ...state,
+                deletingIds: [...state.deletingIds, action.payload]
+            };
+        }
+
+        case InteressadoActions.DELETE_INTERESSADO_SUCCESS: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
+            };
+        }
+
+        case InteressadoActions.DELETE_INTERESSADO_FAILED: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case InteressadoActions.SAVE_INTERESSADO: {
+            return {
+                ...state,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case InteressadoActions.SAVE_INTERESSADO_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case InteressadoActions.SAVE_INTERESSADO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
         }
 
         default:

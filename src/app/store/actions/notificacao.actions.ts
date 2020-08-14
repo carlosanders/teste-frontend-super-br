@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_NOTIFICACOES = '[NOTIFICACAO] GET NOTIFICACOES';
 export const GET_NOTIFICACOES_SUCCESS = '[NOTIFICACAO] GET NOTIFICACOES SUCCESS';
@@ -17,9 +17,7 @@ export class GetNotificacoes implements Action
 {
     readonly type = GET_NOTIFICACOES;
 
-    constructor(public payload: any)
-    {
-    }
+    constructor(public payload: any) { }
 }
 
 /**
@@ -29,9 +27,7 @@ export class GetNotificacoesSuccess implements Action
 {
     readonly type = GET_NOTIFICACOES_SUCCESS;
 
-    constructor(public payload: any)
-    {
-    }
+    constructor(public payload: any) { }
 }
 
 /**
@@ -41,9 +37,7 @@ export class GetNotificacoesFailed implements Action
 {
     readonly type = GET_NOTIFICACOES_FAILED;
 
-    constructor(public payload: string)
-    {
-    }
+    constructor(public payload: string) { }
 }
 
 /**
@@ -53,9 +47,7 @@ export class ReloadNotificacoes implements Action
 {
     readonly type = RELOAD_NOTIFICACOES;
 
-    constructor()
-    {
-    }
+    constructor() { }
 }
 
 /**
@@ -65,9 +57,7 @@ export class ToggleLidaNotificacao implements Action
 {
     readonly type = TOGGLE_LIDA_NOTIFICACAO;
 
-    constructor(public payload: any)
-    {
-    }
+    constructor(public payload: any) { }
 }
 
 /**
@@ -77,9 +67,7 @@ export class ToggleLidaNotificacaoSuccess implements Action
 {
     readonly type = TOGGLE_LIDA_NOTIFICACAO_SUCCESS;
 
-    constructor(public payload: any)
-    {
-    }
+    constructor(public payload: any) { }
 }
 
 /**
@@ -89,9 +77,7 @@ export class ToggleLidaNotificacaoFailed implements Action
 {
     readonly type = TOGGLE_LIDA_NOTIFICACAO_FAILED;
 
-    constructor(public payload: any)
-    {
-    }
+    constructor(public payload: any) { }
 }
 
 export type NotificacaoActionsAll

@@ -1,10 +1,17 @@
-import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
+    ViewEncapsulation
+} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {topicosConfig} from './topicos-config';
 import {Topico} from './topico';
-import { CdkUtils } from '@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {DynamicService} from '../modules/dynamic.service';
-import { Router } from '@angular/router';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'ajuda',
@@ -19,15 +26,13 @@ export class AjudaComponent implements OnInit {
     topicos: Topico[] = [];
     resultado: Topico[] = [];
 
-    @ViewChild('container', { read: ElementRef, static: false })
-    container: ElementRef;
+    @ViewChild('container', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     card = 'form';
     titulo = '';
 
     isSubmited = false;
 
-    current: any;
     context: any;
 
     /**
@@ -47,9 +52,9 @@ export class AjudaComponent implements OnInit {
         this._router.events.subscribe(
             (next) => {
                 this.context = next;
-                // if(this.context.url){
-                //     this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split("/", 3)[2]);
-                // }
+                if(this.context.url){
+                    this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split("/", 3)[2]);
+                }
             }
         );
     }
@@ -69,23 +74,13 @@ export class AjudaComponent implements OnInit {
 
     carregar(topico: Topico): void {
         this.card = 'modulo';
-        this.titulo = topico.titulo; 
+        this.titulo = topico.titulo;
         this._dynamicService.loadComponent(topico.module)
-            .then(({ host }) => {
-                this.current = host;
-                return this.containerElement.appendChild(host);
-            });
+            .then(componentFactory => this.container.createComponent(componentFactory));
     }
 
     back(): void {
         this.card = 'form';
-        if (this.current) {
-            this.containerElement.removeChild(this.current);
-            this.current = null;
-        }
-    }
-
-    get containerElement(): HTMLElement {
-        return this.container.nativeElement;
+        this.container.clear();
     }
 }

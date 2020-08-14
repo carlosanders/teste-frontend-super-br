@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Pessoa, Tarefa} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
@@ -18,7 +18,6 @@ import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} fro
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {Responsavel} from '@cdk/models';
 
 @Component({
@@ -103,8 +102,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     unidadeResponsavelListIsLoading: boolean;
 
-    _profile: any;
-
     @Input()
     mode = 'regular';
 
@@ -135,14 +132,16 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     processo = new EventEmitter<Processo>();
 
+    @Output()
+    completed = new EventEmitter<Processo>();
+
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _favoritoService: FavoritoService,
-        public _loginService: LoginService
+        private _favoritoService: FavoritoService
     ) {
         this.form = this._formBuilder.group({
             id: [null],
@@ -168,8 +167,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['especieProcesso', 'setorAtual', 'setorAtual.unidade'];
+        this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'setorAtual', 'setorAtual.unidade'];
         this.especieTarefaPagination = new Pagination();
+        this.especieTarefaPagination.populate = ['generoTarefa'];
         this.unidadeResponsavelPagination = new Pagination();
         this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
         this.setorResponsavelPagination = new Pagination();
@@ -177,7 +177,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPaginationTree = new Pagination();
-        this._profile = _loginService.getUserProfile();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -188,6 +187,20 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+
+        if (this.form.get('processo').value) {
+            this.form.get('especieTarefa').enable();
+            if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
+                this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
+            } else {
+                this.especieTarefaPagination.filter = {
+                    'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
+                        this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
+                };
+            }
+        } else {
+            this.form.get('especieTarefa').disable();
+        }
 
         if (this.form.get('unidadeResponsavel').value) {
             this.form.get('setorResponsavel').enable();
@@ -215,8 +228,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     } else {
                         this.form.get('usuarioResponsavel').enable();
                     }
-                    if (this.blocoResponsaveis)
-                    {
+                    if (this.blocoResponsaveis) {
                         this.blocoResponsaveis = [];
                     }
                     this._changeDetectorRef.markForCheck();
@@ -292,6 +304,24 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     if (value && typeof value === 'object') {
                         this.processo.emit(this.form.get('processo').value);
+                        this.form.get('especieTarefa').enable();
+                        if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
+                            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
+                        } else {
+                            this.especieTarefaPagination.filter = {
+                                'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
+                                    this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
+                            };
+                        }
+                    } else {
+                        this.form.get('especieTarefa').disable();
+                    }
+
+                    if (this.form.get('blocoProcessos').value) {
+                        this.form.get('processo').clearValidators();
+                        this._changeDetectorRef.markForCheck();
+                    } else {
+                        this.form.get('processo').setValidators(Validators.required);
                     }
 
                     return of([]);
@@ -344,7 +374,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('dataHoraFinalPrazo').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
-            switchMap((value) => {
+            switchMap(() => {
                     this.alteraPrazoDias();
                     this.validaPrazo();
                     return of([]);
@@ -355,7 +385,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('dataHoraInicioPrazo').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
-            switchMap((value) => {
+            switchMap(() => {
                     this.alteraPrazoDias();
                     this.validaPrazo();
                     return of([]);
@@ -366,7 +396,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('prazoDias').valueChanges.pipe(
             debounceTime(500),
             distinctUntilChanged(),
-            switchMap((value) => {
+            switchMap(() => {
                     this.alteraPrazoFinal();
                     return of([]);
                 }
@@ -376,7 +406,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form.get('diasUteis').valueChanges.pipe(
             debounceTime(500),
             distinctUntilChanged(),
-            switchMap((value) => {
+            switchMap(() => {
                     this.alteraDiasUteis();
                     return of([]);
                 }
@@ -514,11 +544,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         if (changes['tarefa'] && this.tarefa && (!this.tarefa.id || (this.tarefa.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.tarefa});
 
-            if (this.tarefa.id) {
-                this.inputProcesso = true;
-            } else {
-                this.inputProcesso = false;
-            }
+            this.inputProcesso = !!this.tarefa.id;
 
             if (this.tarefa.especieTarefa) {
                 this.evento = this.tarefa.especieTarefa.evento;
@@ -555,21 +581,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         this._changeDetectorRef.markForCheck();
-
-        this.form.get('processo').valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((value) => {
-                    if (this.form.get('blocoProcessos').value) {
-                        this.form.get('processo').clearValidators();
-                        this._changeDetectorRef.markForCheck();
-                    } else {
-                        this.form.get('processo').setValidators(Validators.required);
-                    }
-                    return of([]);
-                }
-            )
-        ).subscribe();
     }
 
     /**
@@ -597,7 +608,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.blocoResponsaveis.forEach(responsavel => {
 
                             // caso seja distribuicao automatica manda somente o setorResponsavel
-                            if (this.form.get('distribuicaoAutomatica').value){
+                            if (this.form.get('distribuicaoAutomatica').value) {
                                 tarefa = {
                                     ...this.form.value,
                                     processo: processo,
@@ -636,7 +647,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.blocoResponsaveis.forEach(responsavel => {
 
                     // caso seja distribuicao automatica manda somente o setorResponsavel
-                    if (this.form.get('distribuicaoAutomatica').value){
+                    if (this.form.get('distribuicaoAutomatica').value) {
                         tarefa = {
                             ...this.form.value,
                             setorResponsavel: responsavel.setor
@@ -659,6 +670,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                 this.save.emit(this.form.value);
             }
+
+            this.completed.emit();
         }
     }
 

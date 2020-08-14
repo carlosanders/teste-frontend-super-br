@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
-    Component, ElementRef,
+    Component,
     OnDestroy,
     OnInit, Renderer2, ViewChild,
     ViewEncapsulation
@@ -24,23 +24,23 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getProcesso} from './store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {SaveAssunto} from '../assuntos/assunto-edit/store/actions';
-import {SaveInteressado} from '../interessados/interessado-edit/store/actions';
-import {SaveVinculacaoProcesso} from '../vinculacoes-processos/vinculacao-processo-edit/store/actions';
-import {SaveTarefa} from '../tarefas/tarefa-edit/store/actions';
+import {SaveAssunto} from './store';
+import {SaveInteressado} from './store';
+import {SaveVinculacaoProcesso} from './store';
+import {SaveTarefa} from './store/actions';
 import {filter, takeUntil} from 'rxjs/operators';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import * as moment from 'moment';
-import {getIsSaving as getIsSavingAssunto} from '../assuntos/assunto-edit/store/selectors';
-import {getIsSaving as getIsSavingInteressado} from '../interessados/interessado-edit/store/selectors';
-import {getIsSaving as getIsSavingVinculacao} from '../vinculacoes-processos/vinculacao-processo-edit/store/selectors';
-import {getIsSaving as getIsSavingTaarefa} from '../tarefas/tarefa-edit/store/selectors';
-import {Renderer} from '@angular/compiler-cli/ngcc/src/rendering/renderer';
+import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
+import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
+import {getVinculacaoProcessoIsSaving} from './store/selectors';
+import {getTarefaIsSaving} from './store/selectors';
+import {SetSteps} from '../../store/actions';
+import {getProcesso} from '../../store/selectors';
 
 @Component({
     selector: 'dados-basicos-create',
@@ -76,24 +76,42 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     isSavingAssunto$: Observable<boolean>;
     assunto: Assunto;
     formAssunto: FormGroup;
+    assuntosDeletingIds$: Observable<any>;
+    assuntosDeletedIds$: Observable<any>;
+    assuntosLoading$: Observable<boolean>;
+    assuntosPagination$: Observable<any>;
+    assuntosPagination: any;
+    assuntoActivated = 'from';
 
     interessados$: Observable<Interessado[]>;
     interessados: Interessado[] = [];
     isSavingInteressado$: Observable<boolean>;
     interessado: Interessado;
     formInteressado: FormGroup;
+    interessadosDeletingIds$: Observable<any>;
+    interessadosDeletedIds$: Observable<any>;
+    interessadosLoading$: Observable<boolean>;
+    interessadosPagination$: Observable<any>;
+    interessadosPagination: any;
+    interessadoActivated = 'from';
 
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
-    loading$: Observable<boolean>;
-    pagination$: Observable<any>;
-    pagination: any;
+    juntadasLoading$: Observable<boolean>;
+    juntadasPagination$: Observable<any>;
+    juntadasPagination: any;
 
     vinculacoesProcessos$: Observable<VinculacaoProcesso[]>;
     vinculacoesProcessos: VinculacaoProcesso[] = [];
     isSavingVinculacao$: Observable<boolean>;
     vinculacaoProcesso: VinculacaoProcesso;
     formVinculacaoProcesso: FormGroup;
+    vinculacoesProcessosDeletingIds$: Observable<any>;
+    vinculacoesProcessosDeletedIds$: Observable<any>;
+    vinculacoesProcessosLoading$: Observable<boolean>;
+    vinculacoesProcessosPagination$: Observable<any>;
+    vinculacoesProcessosPagination: any;
+    vinculacaoProcessoActivated = 'from';
 
     tarefa: Tarefa;
     isSavingTarefa$: Observable<boolean>;
@@ -102,12 +120,15 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     especieTarefaPagination: Pagination;
     setorOrigemPagination: Pagination;
 
-    changeStep = 1;
+    selectedIndex: number;
+    isLinear: boolean;
 
     private _unsubscribeAll: Subject<any>;
 
-    @ViewChild('stepper') private stepper: MatStepper;
+    @ViewChild('stepper') stepper: MatStepper;
     @ViewChild('ckdUpload', {static: false}) cdkUpload;
+
+    genero = 'administrativo';
 
     /**
      *
@@ -122,27 +143,39 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         private _router: Router,
         public _loginService: LoginService,
         private _formBuilder: FormBuilder,
-        private renderer: Renderer2
+        private renderer: Renderer2,
     ) {
-        this.isSavingProcesso$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.isSavingProcesso$ = this._store.pipe(select(fromStore.getProcessoIsSaving));
+        this.errors$ = this._store.pipe(select(fromStore.getProcessoErrors));
         this.processo$ = this._store.pipe(select(getProcesso));
         this._profile = this._loginService.getUserProfile();
 
         this.isSavingAssunto$ = this._store.pipe(select(getIsSavingAssunto));
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntos));
+        this.assuntosDeletingIds$ = this._store.pipe(select(fromStore.getAssuntosDeletingIds));
+        this.assuntosDeletedIds$ = this._store.pipe(select(fromStore.getAssuntosDeletedIds));
+        this.assuntosLoading$ = this._store.pipe(select(fromStore.getAssuntosIsLoading));
+        this.assuntosPagination$ = this._store.pipe(select(fromStore.getAssuntosPagination));
 
         this.isSavingInteressado$ = this._store.pipe(select(getIsSavingInteressado));
         this.interessados$ = this._store.pipe(select(fromStore.getInteressados));
+        this.interessadosDeletingIds$ = this._store.pipe(select(fromStore.getInteressadosDeletingIds));
+        this.interessadosDeletedIds$ = this._store.pipe(select(fromStore.getInteressadosDeletedIds));
+        this.interessadosPagination$ = this._store.pipe(select(fromStore.getInteressadosPagination));
+        this.interessadosLoading$ = this._store.pipe(select(fromStore.getInteressadosIsLoading));
 
-        this.isSavingVinculacao$ = this._store.pipe(select(getIsSavingVinculacao));
+        this.isSavingVinculacao$ = this._store.pipe(select(getVinculacaoProcessoIsSaving));
         this.vinculacoesProcessos$ = this._store.pipe(select(fromStore.getVinculacoesProcessos));
+        this.vinculacoesProcessosDeletingIds$ = this._store.pipe(select(fromStore.getVinculacoesProcessosDeletingIds));
+        this.vinculacoesProcessosDeletedIds$ = this._store.pipe(select(fromStore.getVinculacoesProcessosDeletedIds));
+        this.vinculacoesProcessosPagination$ = this._store.pipe(select(fromStore.getVinculacoesProcessosPagination));
+        this.vinculacoesProcessosLoading$ = this._store.pipe(select(fromStore.getVinculacoesProcessosIsLoading));
 
-        this.isSavingTarefa$ = this._store.pipe(select(getIsSavingTaarefa));
+        this.isSavingTarefa$ = this._store.pipe(select(getTarefaIsSaving));
 
-        this.juntadas$ = this._store.pipe(select(fromStore.getJuntadaList));
-        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
-        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.juntadas$ = this._store.pipe(select(fromStore.getJuntada));
+        this.juntadasPagination$ = this._store.pipe(select(fromStore.getJuntadaPagination));
+        this.juntadasLoading$ = this._store.pipe(select(fromStore.getJuntadaIsLoading));
 
         this.especieProcessoPagination = new Pagination();
         this.logEntryPagination = new Pagination();
@@ -233,27 +266,54 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      */
     ngOnInit(): void {
 
-        this.processo$.subscribe(
-            processo => this.processo = processo
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                    this.genero = this.routerState.params.generoHandle;
+                }
+            });
+
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(processo => !!processo)
+        ).subscribe(
+            processo => {
+                this.processo = processo;
+                this.isLinear = false;
+
+                this.tarefa = new Tarefa();
+                this.tarefa.processo = this.processo;
+                this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
+                this.tarefa.dataHoraInicioPrazo = moment();
+                this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
+                this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
+
+                setTimeout(() => {
+                    this.selectedIndex = 1;
+                }, 1000);
+            }
         );
 
         if (!this.processo) {
             this.processo = new Processo();
             this.processo.unidadeArquivistica = 1;
             this.processo.tipoProtocolo = 1;
-            this.changeStep = 0;
+            this.selectedIndex = 0;
         }
 
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: + this.processo.id};
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: this.processo.id};
         this.especieProcessoPagination.populate = ['generoProcesso'];
+        this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:' + this.genero.toUpperCase()};
+
+        this.especieTarefaPagination.populate = ['generoTarefa'];
+        if (this.genero === 'administrativo') {
+            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
+        } else {
+            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'in:ADMINISTRATIVO,' + this.genero.toUpperCase()};
+        }
+
         this.setorAtualPagination.populate = ['unidade', 'parent'];
         this.setorAtualPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
         this.classificacaoPagination.populate = ['parent'];
@@ -267,56 +327,63 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             takeUntil(this._unsubscribeAll),
             filter(assuntos => !!assuntos)
         ).subscribe(
-            assuntos => this.assuntos = assuntos
+            assuntos => {
+                this.assuntos = assuntos;
+
+                if (this.assuntos) {
+                    this.assuntoActivated = 'grid';
+                }
+            }
         );
+        this.assuntosPagination$.subscribe(pagination => {
+            this.assuntosPagination = pagination;
+        });
+
         this.interessados$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(interessados => !!interessados)
         ).subscribe(
-            interessados => this.interessados = interessados
+            interessados => {
+                this.interessados = interessados;
+
+                if (this.interessados) {
+                    this.interessadoActivated = 'grid';
+                }
+            }
         );
-        this.vinculacoesProcessos$.pipe(
-            takeUntil(this._unsubscribeAll),
-            filter(vinculacoesProcessos => !!vinculacoesProcessos)
-        ).subscribe(
-            vinculacoesProcessos => this.vinculacoesProcessos = vinculacoesProcessos
-        );
+        this.interessadosPagination$.subscribe(pagination => {
+            this.interessadosPagination = pagination;
+        });
+
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(juntadas => !!juntadas)
         ).subscribe(
             juntadas => this.juntadas = juntadas
         );
-        this.pagination$.subscribe(pagination => {
-            this.pagination = pagination;
+        this.juntadasPagination$.subscribe(pagination => {
+            this.juntadasPagination = pagination;
         });
 
-        if (this.assuntos.length > 0) {
-            this.assunto = this.assuntos[0];
-            this.assunto.processo = this.processo;
-            this.changeStep = 2;
-        }
-        if (this.interessados.length > 0) {
-            this.interessado = this.interessados[0];
-            this.interessado.processo = this.processo;
-            this.changeStep = 3;
-        }
-        if (this.juntadas.length > 0) {
-            this.changeStep = 4;
-        }
-        if (this.vinculacoesProcessos.length > 0) {
-            this.vinculacaoProcesso = this.vinculacoesProcessos[0];
-            this.vinculacaoProcesso.processo = this.processo;
-            this.changeStep = 5;
-        }
-        if (!this.tarefa) {
-            this.tarefa = new Tarefa();
-            this.tarefa.processo = this.processo;
-            this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
-            this.tarefa.dataHoraInicioPrazo = moment();
-            this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
-            this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
-        }
+        this.vinculacoesProcessos$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(vinculacoesProcessos => !!vinculacoesProcessos)
+        ).subscribe(
+            vinculacoesProcessos => {
+                this.vinculacoesProcessos = vinculacoesProcessos;
+
+                if (this.vinculacoesProcessos) {
+                    this.vinculacaoProcessoActivated = 'grid';
+                }
+            }
+        );
+        this.vinculacoesProcessosPagination$.subscribe(pagination => {
+            this.vinculacoesProcessosPagination = pagination;
+        });
+
+        this.tarefa = new Tarefa();
+
+        this.isLinear = true;
     }
 
     /**
@@ -328,7 +395,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     ngAfterViewInit(): void {
-        this.renderer.selectRootElement('#inputProcedencia').focus();
+        // this.renderer.selectRootElement('#inputProcedencia').focus();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -463,36 +530,169 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.cdkUpload.upload();
     }
 
-    onComplete(): void {
-        this._store.dispatch(new fromStore.GetJuntadas(this.pagination));
+    onCompleteJuntada(): void {
+        this._store.dispatch(new fromStore.GetJuntadas(this.juntadasPagination));
     }
 
-    reload(params): void {
+    reloadJuntadas(params): void {
         this._store.dispatch(new fromStore.GetJuntadas({
-            ...this.pagination,
+            ...this.juntadasPagination,
             filter: {
-                ...this.pagination.filter,
+                ...this.juntadasPagination.filter,
                 ...params.gridFilter
             },
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate
+            populate: this.juntadasPagination.populate
         }));
     }
 
-    excluded(params): void {
+    excludedJuntadas(params): void {
         this._store.dispatch(new fromStore.GetJuntadas({
-            ...this.pagination,
+            ...this.juntadasPagination,
             filter: {
-                ...this.pagination.filter,
+                ...this.juntadasPagination.filter,
                 ...params.gridFilter
             },
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate,
+            populate: this.juntadasPagination.populate,
             context: params.context
         }));
+    }
+
+    onCompleteAssunto(): void {
+        this.assuntoActivated = 'grid';
+        this._store.dispatch(new fromStore.GetAssuntos(this.assuntosPagination));
+    }
+
+    reloadAssuntos(params): void {
+        this._store.dispatch(new fromStore.GetAssuntos({
+            ...this.assuntosPagination,
+            filter: {
+                ...this.assuntosPagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.assuntosPagination.populate
+        }));
+    }
+
+    excludedAssuntos(params): void {
+        this._store.dispatch(new fromStore.GetAssuntos({
+            ...this.assuntosPagination,
+            filter: {
+                ...this.assuntosPagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.assuntosPagination.populate,
+            context: params.context
+        }));
+    }
+
+    deleteAssunto(assuntoId: number): void {
+        this._store.dispatch(new fromStore.DeleteAssunto(assuntoId));
+    }
+
+    onCompleteInteressado(): void {
+        this.interessadoActivated = 'grid';
+        this._store.dispatch(new fromStore.GetInteressados(this.interessadosPagination));
+    }
+
+    reloadInteressados(params): void {
+        this._store.dispatch(new fromStore.GetInteressados({
+            ...this.interessadosPagination,
+            filter: {
+                ...this.interessadosPagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.interessadosPagination.populate
+        }));
+    }
+
+    excludedInteressados(params): void {
+        this._store.dispatch(new fromStore.GetInteressados({
+            ...this.interessadosPagination,
+            filter: {
+                ...this.interessadosPagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.interessadosPagination.populate,
+            context: params.context
+        }));
+    }
+
+    deleteInteressado(interessadoId: number): void {
+        this._store.dispatch(new fromStore.DeleteInteressado(interessadoId));
+    }
+
+    onCompleteVinculacaoProcesso(): void {
+        this.vinculacaoProcessoActivated = 'grid';
+        this._store.dispatch(new fromStore.GetVinculacoesProcessos(this.vinculacoesProcessosPagination));
+    }
+
+    reloadVinculacoesProcessos(params): void {
+        this._store.dispatch(new fromStore.GetVinculacoesProcessos({
+            ...this.vinculacoesProcessosPagination,
+            filter: {
+                ...this.vinculacoesProcessosPagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.vinculacoesProcessosPagination.populate
+        }));
+    }
+
+    excludedVinculacoesProcessos(params): void {
+        this._store.dispatch(new fromStore.GetVinculacoesProcessos({
+            ...this.vinculacoesProcessosPagination,
+            filter: {
+                ...this.vinculacoesProcessosPagination.filter,
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.vinculacoesProcessosPagination.populate,
+            context: params.context
+        }));
+    }
+
+    deleteVinculacaoProcesso(vinculacaoProcessoId: number): void {
+        this._store.dispatch(new fromStore.DeleteVinculacaoProcesso(vinculacaoProcessoId));
+    }
+
+    onCompleteTarefa(): void {
+        this._store.dispatch(new SetSteps({steps: false}));
+        this._router.navigate([this.routerState.url.replace('dados-basicos-steps', 'tarefas/listar')]).then();
+    }
+
+    create(form): void {
+        switch (form) {
+            case 'assunto':
+                this.assuntoActivated = 'form';
+                break;
+            case 'interessado':
+                this.interessadoActivated = 'form';
+                break;
+            case 'vinculacao-processo':
+                this.vinculacaoProcessoActivated = 'form';
+                break;
+        }
     }
 }

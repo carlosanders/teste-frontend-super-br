@@ -16,10 +16,8 @@ import * as fromStore from 'app/store';
 import {getMercureState} from 'app/store';
 import {Logout} from '../../../main/auth/login/store/actions';
 import {Usuario} from '@cdk/models/usuario.model';
-import {AddData} from '@cdk/ngrx-normalizr';
 import {Notificacao} from '@cdk/models';
-import {notificacao as notificacaoSchema} from '@cdk/normalizr';
-import {plainToClass} from 'class-transformer';
+import {getIsLoading, getNormalizedNotificacaoEntities} from '../../../store/selectors';
 
 @Component({
     selector: 'toolbar',
@@ -37,8 +35,9 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
     selectedLanguage: any;
     userStatusOptions: any[];
     userProfile: Usuario;
-
+    notificacoes: Notificacao[] = [];
     notificacoesCount: string;
+    carregandoNotificacao = true;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -131,9 +130,37 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {id: this._translateService.currentLang});
+
+        if (this._loginService.getUserProfile() && this._loginService.getUserProfile().id) {
+            const params = {
+                filter: {
+                    'destinatario.id': 'eq:' + this._loginService.getUserProfile().id,
+                    'dataHoraLeitura': 'isNull'
+                },
+                gridFilter: {},
+                limit: 30,
+                offset: 0,
+                sort: {criadoEm: 'DESC'},
+                populate: ['populateAll']
+            };
+            
+            this._store.dispatch(new fromStore.GetNotificacoes(params));
+            this._store
+                .pipe(
+                    select(getNormalizedNotificacaoEntities),
+                    takeUntil(this._unsubscribeAll),
+                )
+                .subscribe(notificacoes => {
+                    this.notificacoes = notificacoes;
+                });
+            this._store
+                .pipe(
+                    select(getIsLoading),
+                    takeUntil(this._unsubscribeAll),
+                )
+                .subscribe(carregandoNotificacao => this.carregandoNotificacao = carregandoNotificacao);
+        }
     }
-
-
 
     /**
      * On destroy
@@ -205,15 +232,11 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
                             break;
                     }
                 }
-
-                if (message && message.type === 'normalizr_notificacao') {
-                    switch (message.content.action) {
-                        case 'addData':
-                            this._store.dispatch(new AddData<Notificacao>({data: [plainToClass(Notificacao, message.content.object)], schema: notificacaoSchema}));
-                            break;
-                    }
-                }
             });
         }
+    }
+
+    toggleLida(notificacao: Notificacao): void {
+        this._store.dispatch(new fromStore.ToggleLidaNotificacao(notificacao));
     }
 }

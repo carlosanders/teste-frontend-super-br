@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 
 import {AjudaVinculacaoEtiquetaCreateBlocoComponent} from './ajuda-vinculacao-etiqueta-create-bloco.component';
 import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
@@ -17,4 +17,10 @@ import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
     ]
 })
 export class AjudaVinculacaoEtiquetaCreateBlocoModule {
+    constructor(private resolver: ComponentFactoryResolver) {
+    }
+
+    public resolveComponentFactory(): ComponentFactory<AjudaVinculacaoEtiquetaCreateBlocoComponent> {
+        return this.resolver.resolveComponentFactory(AjudaVinculacaoEtiquetaCreateBlocoComponent);
+    }
 }

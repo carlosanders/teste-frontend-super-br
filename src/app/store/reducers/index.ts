@@ -1,12 +1,13 @@
-import {ActivatedRouteSnapshot, RouterStateSnapshot, Params} from '@angular/router';
-import {createFeatureSelector, ActionReducerMap} from '@ngrx/store';
+import {ActivatedRouteSnapshot, Params, RouterStateSnapshot} from '@angular/router';
+import {ActionReducerMap, createFeatureSelector} from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
-import {NormalizedState, normalized} from '@cdk/ngrx-normalizr';
+import {normalized, NormalizedState} from '@cdk/ngrx-normalizr';
 import {MercureReducer, MercureState} from './mercure.reducer';
 import {AjudaReducer, AjudaState} from './ajuda.reducer';
 import {ScreenReducer, ScreenState} from './screen.reducer';
 import {OperacoesReducer, OperacoesState} from './operacoes.reducer';
 import {LOGOUT} from '../../main/auth/login/store/actions';
+import {NotificacaoReducer, NotificacaoState} from './notificacao.reducer';
 
 export interface RouterStateUrl {
     url: string;
@@ -20,6 +21,7 @@ export interface State extends NormalizedState {
     ajudaReducer: AjudaState;
     screenReducer: ScreenState;
     operacoesReducer: OperacoesState;
+    notificacoes: NotificacaoState;
 }
 
 export const reducers: ActionReducerMap<State> = {
@@ -29,6 +31,7 @@ export const reducers: ActionReducerMap<State> = {
     ajudaReducer: AjudaReducer,
     screenReducer: ScreenReducer,
     operacoesReducer: OperacoesReducer,
+    notificacoes: NotificacaoReducer
 };
 
 export function clearState(reducer): any {
@@ -52,6 +55,8 @@ export const getAjudaState = createFeatureSelector<AjudaState>('ajudaReducer');
 export const getScreenState = createFeatureSelector<ScreenState>('screenReducer');
 
 export const getOperacoesState = createFeatureSelector<OperacoesState>('operacoesReducer');
+
+export const getNotificacoesState = createFeatureSelector<NotificacaoState>('notificacoes');
 
 export class CustomSerializer implements fromRouter.RouterStateSerializer<RouterStateUrl> {
     serialize(routerState: RouterStateSnapshot): RouterStateUrl {

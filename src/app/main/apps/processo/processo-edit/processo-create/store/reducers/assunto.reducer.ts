@@ -13,6 +13,10 @@ export interface AssuntoState {
     };
     loading: boolean;
     loaded: any;
+    deletingIds: number[];
+    deletedIds: number[];
+    saving: boolean;
+    errors: any;
 }
 
 export const AssuntoInitialState: AssuntoState = {
@@ -27,15 +31,20 @@ export const AssuntoInitialState: AssuntoState = {
         total: 0,
     },
     loading: false,
-    loaded: false
+    loaded: false,
+    deletingIds: [],
+    deletedIds: [],
+    saving: false,
+    errors: false
 };
 
-export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActions.AssuntoListActionsAll): AssuntoState {
+export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActions.AssuntoActionsAll): AssuntoState {
     switch (action.type) {
 
         case AssuntoActions.GET_ASSUNTOS: {
             return {
                 ...state,
+                entitiesId: [],
                 loading: true,
                 pagination: {
                     limit: action.payload.limit,
@@ -78,6 +87,72 @@ export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActio
                 ...state,
                 loading: false,
                 loaded: false
+            };
+        }
+
+        case AssuntoActions.UNLOAD_ASSUNTOS: {
+
+            if (action.payload.reset) {
+                return {
+                    ...AssuntoInitialState
+                };
+            } else {
+                return {
+                    ...state,
+                    entitiesId: [],
+                    pagination: {
+                        ...state.pagination,
+                        limit: 10,
+                        offset: 0,
+                        total: 0
+                    }
+                };
+            }
+        }
+
+        case AssuntoActions.DELETE_ASSUNTO: {
+            return {
+                ...state,
+                deletingIds: [...state.deletingIds, action.payload]
+            };
+        }
+
+        case AssuntoActions.DELETE_ASSUNTO_SUCCESS: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
+            };
+        }
+
+        case AssuntoActions.DELETE_ASSUNTO_FAILED: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case AssuntoActions.SAVE_ASSUNTO: {
+            return {
+                ...state,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case AssuntoActions.SAVE_ASSUNTO_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case AssuntoActions.SAVE_ASSUNTO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
             };
         }
 

@@ -65,6 +65,9 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     documentos$: Observable<Documento[]>;
     documentos: Documento[];
 
+    pluginLoading$: Observable<string[]>;
+    pluginLoading: string[];
+
     routerState: any;
 
     accept = 'application/pdf';
@@ -111,6 +114,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.pluginLoading$ = this._store.pipe(select(fromStore.getPluginLoading));
     }
 
     ngAfterViewInit(): void {
@@ -156,6 +160,12 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             maximizado => this.maximizado = maximizado
+        );
+
+        this.pluginLoading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            pluginLoading => this.pluginLoading = pluginLoading
         );
 
         this.screen$.pipe(

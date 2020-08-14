@@ -13,6 +13,10 @@ export interface VinculacaoProcessoState {
     };
     loading: boolean;
     loaded: any;
+    deletingIds: number[];
+    deletedIds: number[];
+    saving: boolean;
+    errors: any;
 }
 
 export const VinculacaoProcessoInitialState: VinculacaoProcessoState = {
@@ -27,16 +31,24 @@ export const VinculacaoProcessoInitialState: VinculacaoProcessoState = {
         total: 0,
     },
     loading: false,
-    loaded: false
+    loaded: false,
+    deletingIds: [],
+    deletedIds: [],
+    saving: false,
+    errors: false,
 };
 
-export function VinculacaoProcessoReducer(state = VinculacaoProcessoInitialState, action: VinculacaoProcessoActions.VinculacaoProcessoActionsAll): VinculacaoProcessoState {
+export function VinculacaoProcessoReducer(
+    state = VinculacaoProcessoInitialState,
+    action: VinculacaoProcessoActions.VinculacaoProcessoActionsAll): VinculacaoProcessoState {
+
     switch (action.type) {
 
         case VinculacaoProcessoActions.GET_VINCULACOES_PROCESSOS: {
             return {
                 ...state,
                 loading: true,
+                entitiesId: [],
                 pagination: {
                     limit: action.payload.limit,
                     offset: action.payload.offset,
@@ -91,6 +103,52 @@ export function VinculacaoProcessoReducer(state = VinculacaoProcessoInitialState
                     }
                 };
             }
+        }
+
+        case VinculacaoProcessoActions.DELETE_VINCULACAO_PROCESSO: {
+            return {
+                ...state,
+                deletingIds: [...state.deletingIds, action.payload]
+            };
+        }
+
+        case VinculacaoProcessoActions.DELETE_VINCULACAO_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
+            };
+        }
+
+        case VinculacaoProcessoActions.DELETE_VINCULACAO_PROCESSO_FAILED: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case VinculacaoProcessoActions.SAVE_VINCULACAO_PROCESSO: {
+            return {
+                ...state,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case VinculacaoProcessoActions.SAVE_VINCULACAO_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case VinculacaoProcessoActions.SAVE_VINCULACAO_PROCESSO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
         }
 
         default:

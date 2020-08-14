@@ -59,10 +59,10 @@ export class ProcessoDetailEffect {
                         JSON.stringify({}),
                         JSON.stringify([
                             'especieProcesso',
+                            'especieProcesso.generoProcesso',
                             'modalidadeMeio',
                             'modalidadeFase',
                             'documentoAvulsoOrigem',
-                            'especieProcesso',
                             'classificacao',
                             'classificacao.modalidadeDestinacao',
                             'setorInicial',
