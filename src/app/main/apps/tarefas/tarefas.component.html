@@ -6,7 +6,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="tarefas-main-sidebar" position="left"
-                  lockedOpen="gt-md">
+                 lockedOpen="gt-md">
         <tarefas-main-sidebar (reload)="reload($event)"></tarefas-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
@@ -56,11 +56,14 @@
                         'no-current-tarefa': !currentTarefaId
                      }">
                     <div fxLayout="row" fxLayoutAlign="center">
-                        <mat-progress-bar [mode]="'indeterminate'" *ngIf="(changingFolderIds$ | async)?.length"></mat-progress-bar>
+                        <mat-progress-bar [mode]="'indeterminate'"
+                                          *ngIf="(changingFolderIds$ | async)?.length"></mat-progress-bar>
                     </div>
                     <cdk-tarefa-list (scrolled)="onScroll()"
                                      [loading]="(loading$ | async)"
                                      [tarefas]="tarefas"
+                                     [error]="(error$ | async)"
+                                     [errorDelete]="(errorDelete$ | async)"
                                      [deletingIds]="(deletingIds$ | async)"
                                      [deletedIds]="(deletedIds$ | async)"
                                      [folders]="(folders$ | async)"
@@ -95,7 +98,7 @@
                                      [cienciaIds]="(cienciaIds$ | async)">
                     </cdk-tarefa-list>
                 </div>
-                
+
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      fxFlex

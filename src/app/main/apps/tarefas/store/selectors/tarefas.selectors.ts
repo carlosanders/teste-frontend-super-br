@@ -54,6 +54,17 @@ export const getIsLoading = createSelector(
     (state: TarefasState) => state.loading
 );
 
+export const getError = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.error
+);
+
+
+export const getErrorDelete = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.errorDelete
+);
+
 export const getDeletingTarefaIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.deletingTarefaIds

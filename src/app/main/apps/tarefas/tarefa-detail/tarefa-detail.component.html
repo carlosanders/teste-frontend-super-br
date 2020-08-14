@@ -15,14 +15,18 @@
                 <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
             </button>
 
-            <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="vinculacoesEtiquetas"
-                                           [placeholder]="'Coloque etiquetas para a tarefa'"
-                                           (create)="onEtiquetaCreate($event)"
-                                           (edit)="onEtiquetaEdit($event)"
-                                           [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
-                                           [errors]="(errors$ | async)"
-                                           [pagination]="vinculacaoEtiquetaPagination"
-                                           (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
+            <cdk-vinculacao-etiqueta-chips
+                [placeholderEtiq]="placeholderEtiq"
+                [vinculacoesEtiquetas]="vinculacoesEtiquetas"
+                (create)="onVinculacaoEtiquetaCreate($event)"
+                (edit)="onVinculacaoEtiquetaEdit($event)"
+                [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
+                [errors]="(errors$ | async)"
+                [pagination]="vinculacaoEtiquetaPagination"
+                (delete)="onVinculacaoEtiquetaDelete($event)"
+                (addEtiqueta)="addEtiqueta($event)"
+                [habilitarOpcaoBtnAddEtiqueta]="habilitarOpcaoBtnAddEtiqueta">
+            </cdk-vinculacao-etiqueta-chips>
 
         </div>
 

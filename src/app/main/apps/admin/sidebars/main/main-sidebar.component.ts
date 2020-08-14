@@ -3,6 +3,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 import {cdkAnimations} from '@cdk/animations';
 import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 
 
@@ -100,6 +101,7 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
             if (module.sidebars.hasOwnProperty(path)) {
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
+            this.links = CdkUtils.sortArraySideBar(this.links);
         });
     }
 

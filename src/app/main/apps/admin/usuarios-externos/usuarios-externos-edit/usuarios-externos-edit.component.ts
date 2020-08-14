@@ -62,6 +62,7 @@ export class UsuariosExternosEditComponent implements OnInit, OnDestroy {
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2)]],
             enabled: [null],
+            validado: [null],
             reset: [false]
         });
 

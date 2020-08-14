@@ -789,7 +789,6 @@ tarefa.define({
 
 template.define({
     modalidadeTemplate: modalidadeTemplate,
-    tipoDocumento: tipoDocumento,
     documento: documento,
     criadoPor: usuario,
     atualizadoPor: usuario,

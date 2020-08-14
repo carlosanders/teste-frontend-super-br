@@ -1,32 +1,37 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ViewContainerRef, OnDestroy,
-    OnInit, ViewChild, AfterViewInit,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
-import {Tarefa} from '@cdk/models';
+import {Documento, Etiqueta, Pagination, Tarefa, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Etiqueta} from '@cdk/models';
-import {VinculacaoEtiqueta} from '@cdk/models';
-import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculacaoEtiqueta} from './store';
-import {Documento} from '@cdk/models';
+import {
+    CreateVinculacaoEtiqueta,
+    DeleteVinculacaoEtiqueta,
+    getEtiqueta,
+    SaveConteudoVinculacaoEtiqueta,
+    SaveEtiqueta
+} from './store';
 import {getMaximizado} from '../store/selectors';
 import {ToggleMaximizado} from '../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
-import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
-import {Usuario} from '@cdk/models';
 
 @Component({
     selector: 'tarefa-detail',
@@ -41,12 +46,19 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     savingVinculacaoEtiquetaId$: Observable<any>;
-    errors$: Observable<any>; 
+    errors$: Observable<any>;
+    vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
+    vinculacaoEtiquetaPagination: Pagination;
+
+    etiqueta$: Observable<Etiqueta>;
+    etiqueta: Etiqueta;
+    showEtiqueta = false;
+    habilitarOpcaoBtnAddEtiqueta = true;
+
+    placeholderEtiq = "Adicionar uma nova etiqueta"
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
-
-    vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
 
     screen$: Observable<any>;
 
@@ -65,8 +77,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     maximizado$: Observable<boolean>;
     maximizado = false;
-
-    vinculacaoEtiquetaPagination: Pagination;
 
     private _profile: Usuario;
 
@@ -94,6 +104,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa)); 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
+        this.etiqueta$ = this._store.pipe(select(getEtiqueta));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
@@ -165,7 +176,6 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngOnDestroy(): void {
-
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -187,11 +197,11 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         // this.doToggleMaximizado();
     }
 
-    onEtiquetaCreate(etiqueta: Etiqueta): void {
+    onVinculacaoEtiquetaCreate(etiqueta: Etiqueta): void {
         this._store.dispatch(new CreateVinculacaoEtiqueta({tarefa: this.tarefa, etiqueta: etiqueta}));
     }
 
-    onEtiquetaEdit(values): void {   
+    onVinculacaoEtiquetaEdit(values): void {
         const vinculacaoEtiqueta = new VinculacaoEtiqueta();
         vinculacaoEtiqueta.id = values.id;
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
@@ -200,11 +210,17 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         }));         
     }
 
-    onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+    onVinculacaoEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
         this._store.dispatch(new DeleteVinculacaoEtiqueta({
             tarefaId: this.tarefa.id,
             vinculacaoEtiquetaId: vinculacaoEtiqueta.id
         }));
+    }
+
+    addEtiqueta(etiqueta: Etiqueta) {
+        this._store.dispatch(new SaveEtiqueta({etiqueta: etiqueta, tarefa: this.tarefa}));
+        this.etiqueta = null;
+        this.showEtiqueta = false;
     }
 
     complete(pending: number): void {

@@ -2,7 +2,7 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter, Input, OnChanges,
-    OnDestroy,
+    OnDestroy, OnInit,
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
@@ -11,6 +11,8 @@ import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pagination} from '@cdk/models/pagination';
 import {Lotacao, Setor, Usuario, Colaborador} from "@cdk/models";
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
     selector: 'cdk-lotacao-form',
@@ -20,7 +22,7 @@ import {Lotacao, Setor, Usuario, Colaborador} from "@cdk/models";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
+export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
 
     @Input()
     lotacao: Lotacao;
@@ -61,6 +63,13 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
 
     selectedSetor: Setor;
 
+    @Input()
+    unidadePagination: Pagination;
+
+    inputSetor = true;
+
+    inputArquivista = false;
+
     /**
      * Constructor
      */
@@ -71,6 +80,7 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
        this.form = this._formBuilder.group({
             id: [null],
             colaborador: [null, [Validators.required]],
+            unidade: [null, [Validators.required]],
             setor: [null, [Validators.required]],
             principal: [null],
             distribuidor: [null],
@@ -80,12 +90,54 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
             digito: [null]
         });
        this.colaboradorPagination = new Pagination();
-       this.setorPagination = new Pagination();
+        this.unidadePagination = new Pagination();
+        this.unidadePagination.filter = {parent: 'isNull'};
+        this.setorPagination = new Pagination();
+        this.setorPagination.filter = {parent: 'isNotNull'};
+
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
+
+    ngOnInit() {
+        if (!this.form.get('unidade').value) {
+            this.form.get('setor').disable();
+        }
+
+        this.form.get('unidade').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.form.get('setor').enable();
+                        this.form.get('setor').reset();
+                        this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this.setorPagination.filter['parent'] = `isNotNull`;
+                        this.inputSetor = false;
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('setor').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        if (this.form.get('setor').value.especieSetor.descricao === 'ARQUIVO') {
+                            this.inputArquivista = true;
+                            this._changeDetectorRef.markForCheck();
+                        }
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+    }
 
     /**
      * On change
@@ -97,10 +149,6 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
 
         if (this.usuario) {
             this.form.get('colaborador').setValue(this.usuario.colaborador);
-        }
-
-        if (this.setor) {
-            this.form.get('setor').setValue(this.setor);
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
@@ -193,4 +241,23 @@ export class CdkLotacaoFormComponent implements OnChanges, OnDestroy {
         Object.assign(this.logEntryPagination.filter, campo);
         this.activeCard = 'logentry-gridsearch';
     }
+
+    selectUnidade(setor: Setor): void {
+        if (setor) {
+            this.form.get('unidade').setValue(setor);
+        }
+        this.activeCard = 'form';
+    }
+
+    checkUnidade(): void {
+        const value = this.form.get('unidade').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('unidade').setValue(null);
+        }
+    }
+
+    showUnidadeGrid(): void {
+        this.activeCard = 'unidade-gridsearch';
+    }
+
 }
