@@ -173,11 +173,12 @@
             <mat-spinner class="tarefa-list-loading" diameter="24"></mat-spinner>
         </div>
 
-        <div *ngIf="tarefas.length === 0 && !loading" fxLayout="column" fxFlex="1 1 auto" fxLayoutAlign="center center">
+        <div *ngIf="tarefas.length === 0 && !loading || deleteTotal === true" fxLayout="column" fxFlex="1 1 auto"
+             fxLayoutAlign="center center">
             <span class="no-tarefas-text hint-text">{{ 'TAREFA.NO_MESSAGES' | translate }}</span>
         </div>
 
-        <div *ngIf="tarefas.length > 0"
+        <div *ngIf="tarefas.length > 0 && deleteTotal === false"
              cdkPerfectScrollbar
              infiniteScroll
              fxFlex="1 1 auto" fxLayout="column"
@@ -186,29 +187,35 @@
              [infiniteScrollThrottle]="50"
              (scrolled)="onScroll()">
 
-            <cdk-tarefa-list-item matRipple *ngFor="let tarefa of tarefas"
-                                  [tarefa]="tarefa"
-                                  (click)="selectTarefa(tarefa);"
-                                  [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
-                                  [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
-                                  (toggleInSelectedTarefas)="toggleInSelected($event)"
-                                  (delete)="doDeleteTarefa($event)"
-                                  (removeTarefa)="doRemoveTarefa($event)"
-                                  (movimentar)="doMovimentar($event)"
-                                  (compartilhar)="doCompartilhar($event)"
-                                  (toggleUrgente)="doToggleUrgente($event)"
-                                  (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
-                                  (createTarefa)="doCreateTarefa($event)"
-                                  (editTarefa)="doEditTarefa($event)"
-                                  (redistribuirTarefa)="doRedistribuirTarefa($event)"
-                                  (cienciaTarefa)="doCienciaTarefa($event)"
-                                  (editProcesso)="doEditProcesso($event)"
-                                  [ngClass]="{'selected':tarefa.id === currentTarefaId}"
-                                  (loadAssuntos)="doLoadAssuntos($event)"
-                                  [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
-                                  [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1">
-            </cdk-tarefa-list-item>
+            <div *ngFor="let tarefa of tarefas">
+                <cdk-tarefa-list-item
+                    *ngIf="!deletingIds.length > 0 && !deletingIds.indexOf(tarefa.id) > -1 || errorDelete.indexOf(tarefa.id -1)"
+                    matRipple
+                    [tarefa]="tarefa"
+                    (click)="selectTarefa(tarefa);"
+                    [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
+                    [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
+                    (toggleInSelectedTarefas)="toggleInSelected($event)"
+                    (delete)="doDeleteTarefa($event)"
+                    (removeTarefa)="doRemoveTarefa($event)"
+                    (movimentar)="doMovimentar($event)"
+                    (compartilhar)="doCompartilhar($event)"
+                    (toggleUrgente)="doToggleUrgente($event)"
+                    (createDocumentoAvulso)="doCreateDocumentoAvulso($event)"
+                    (createTarefa)="doCreateTarefa($event)"
+                    (editTarefa)="doEditTarefa($event)"
+                    (redistribuirTarefa)="doRedistribuirTarefa($event)"
+                    (cienciaTarefa)="doCienciaTarefa($event)"
+                    (editProcesso)="doEditProcesso($event)"
+                    [ngClass]="{'selected':tarefa.id === currentTarefaId, 'display-none':tarefasDeletadasTemporiamente?.indexOf(tarefa) > -1}"
+                    (loadAssuntos)="doLoadAssuntos($event)"
+                    [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
+                    [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
+                >
+                </cdk-tarefa-list-item>
+            </div>
 
         </div>
     </div>
+
 </div>
