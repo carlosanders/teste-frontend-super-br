@@ -13,8 +13,8 @@ import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.serv
 
 import {navigation} from 'app/navigation/navigation';
 import {locale as navigationEnglish} from 'app/navigation/i18n/en';
-import {select, Store} from '@ngrx/store';
-import {getMercureState, State} from 'app/store/reducers';
+import {Store} from '@ngrx/store';
+import {State} from 'app/store/reducers';
 import {SetScreen} from 'app/store';
 import {modulesConfig} from '../modules/modules-config';
 import {LoginService} from './main/auth/login/login.service';
@@ -73,8 +73,6 @@ export class AppComponent implements OnInit, OnDestroy {
                 });
             }
         });
-
-        console.log (this.navigation);
 
         // Register the navigation to the service
         this._cdkNavigationService.register('main', this.navigation);
@@ -191,31 +189,6 @@ export class AppComponent implements OnInit, OnDestroy {
                 }),
             );
         this.resize$.subscribe();
-
-        this._store
-            .pipe(
-                select(getMercureState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(message => {
-            if (message && message.type === 'count_tarefa') {
-                switch (message.content.action) {
-                    case 'eventos':
-                        this._cdkNavigationService.updateNavigationItem('eventos', {
-                            badge: {
-                                title: message.content.count
-                            }
-                        });
-                        break;
-                    default:
-                        this._cdkNavigationService.updateNavigationItem('tarefas_' + message.content.action, {
-                            badge    : {
-                                title    : message.content.count
-                            }
-                        });
-                        break;
-                }
-            }
-        });
     }
 
     /**

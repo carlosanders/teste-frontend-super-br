@@ -7,6 +7,7 @@ import {AjudaReducer, AjudaState} from './ajuda.reducer';
 import {ScreenReducer, ScreenState} from './screen.reducer';
 import {OperacoesReducer, OperacoesState} from './operacoes.reducer';
 import {LOGOUT} from '../../main/auth/login/store/actions';
+import {CounterReducer, CounterState} from './counter.reducer';
 
 export interface RouterStateUrl {
     url: string;
@@ -17,6 +18,7 @@ export interface RouterStateUrl {
 export interface State extends NormalizedState {
     routerReducer: fromRouter.RouterReducerState<RouterStateUrl>;
     mercureReducer: MercureState;
+    counterReducer: CounterState;
     ajudaReducer: AjudaState;
     screenReducer: ScreenState;
     operacoesReducer: OperacoesState;
@@ -26,6 +28,7 @@ export const reducers: ActionReducerMap<State> = {
     normalized,
     routerReducer: fromRouter.routerReducer,
     mercureReducer: MercureReducer,
+    counterReducer: CounterReducer,
     ajudaReducer: AjudaReducer,
     screenReducer: ScreenReducer,
     operacoesReducer: OperacoesReducer,
@@ -46,6 +49,8 @@ export function clearState(reducer): any {
 export const getRouterState = createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>('routerReducer');
 
 export const getMercureState = createFeatureSelector<MercureState>('mercureReducer');
+
+export const getCounterState = createFeatureSelector<CounterState>('counterReducer');
 
 export const getAjudaState = createFeatureSelector<AjudaState>('ajudaReducer');
 
