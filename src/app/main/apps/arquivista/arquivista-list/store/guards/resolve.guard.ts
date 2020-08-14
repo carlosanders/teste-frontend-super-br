@@ -91,10 +91,10 @@ export class ResolveGuard implements CanActivate {
                     sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
                     populate: [
                         'especieProcesso',
+                        'especieProcesso.generoProcesso',
                         'modalidadeMeio',
                         'modalidadeFase',
                         'documentoAvulsoOrigem',
-                        'especieProcesso',
                         'classificacao',
                         'classificacao.modalidadeDestinacao',
                         'setorInicial',

@@ -11,7 +11,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Assinatura, Atividade} from '@cdk/models';
+import {Assinatura, Atividade, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -53,6 +53,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     private _profile: Colaborador;
 
     routerState: any;
+
+    especieAtividadePagination: Pagination;
 
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
@@ -98,6 +100,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+
+        this.especieAtividadePagination.populate = ['generoAtividade'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -113,12 +117,19 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.atividade.dataHoraConclusao = moment();
 
         this.tarefa$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter((tarefa) => !!tarefa)
         ).subscribe(tarefa => {
             this.tarefa = tarefa;
             this.atividade.tarefa = tarefa;
             this.atividade.usuario = tarefa.usuarioResponsavel;
             this.atividade.setor = tarefa.setorResponsavel;
+
+            if (tarefa.especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
+            } else {
+                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
+            }
         });
 
         this._store.pipe(

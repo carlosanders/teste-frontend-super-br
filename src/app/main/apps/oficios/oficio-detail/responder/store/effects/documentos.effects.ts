@@ -245,6 +245,7 @@ export class DocumentosEffects {
                         JSON.stringify([
                             'processo',
                             'processo.especieProcesso',
+                            'processo.especieProcesso.generoProcesso',
                             'processo.modalidadeMeio',
                             'processo.documentoAvulsoOrigem',
                             'usuarioResponsavel',

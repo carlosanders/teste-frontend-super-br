@@ -89,6 +89,8 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
     }
 
     displayProcessoFn(processo): string {
-        return processo ? processo.NUP : null;
+        let displayed = processo ? processo.NUP : '';
+        displayed += (processo?.especieProcesso?.generoProcesso) ? (' (' + processo.especieProcesso.generoProcesso.nome + ')') : '';
+        return displayed;
     }
 }

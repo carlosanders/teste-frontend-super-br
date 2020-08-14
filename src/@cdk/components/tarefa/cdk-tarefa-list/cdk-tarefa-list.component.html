@@ -186,7 +186,8 @@
              [infiniteScrollThrottle]="50"
              (scrolled)="onScroll()">
 
-            <cdk-tarefa-list-item matRipple *ngFor="let tarefa of tarefas" [tarefa]="tarefa"
+            <cdk-tarefa-list-item matRipple *ngFor="let tarefa of tarefas"
+                                  [tarefa]="tarefa"
                                   (click)="selectTarefa(tarefa);"
                                   [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                                   [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
@@ -205,8 +206,7 @@
                                   [ngClass]="{'selected':tarefa.id === currentTarefaId}"
                                   (loadAssuntos)="doLoadAssuntos($event)"
                                   [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
-                                  [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
-            >
+                                  [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1">
             </cdk-tarefa-list-item>
 
         </div>

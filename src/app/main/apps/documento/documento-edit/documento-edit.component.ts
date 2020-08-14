@@ -152,6 +152,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
 
     logEntryPagination: Pagination;
 
+    especieAtividadePagination: Pagination;
+
     /**
      *
      * @param _store
@@ -294,6 +296,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             atividade: [null],
             tarefa: [null]
         });
+
+        this.especieAtividadePagination.populate = ['generoAtividade'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -315,6 +319,12 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
                 this.atividade.tarefa = tarefa;
                 this.atividade.usuario = tarefa.usuarioResponsavel;
                 this.atividade.setor = tarefa.setorResponsavel;
+
+                if (tarefa.especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                    this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
+                } else {
+                    this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
+                }
             });
         }
 
