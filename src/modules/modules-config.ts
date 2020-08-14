@@ -8,5 +8,4 @@ export const modulesConfig = [
     modulesConfigConsultivo,
     // modulesConfigEcarta,
     // modulesConfigDisciplinar,
-    // modulesConfigRelatorio
 ];

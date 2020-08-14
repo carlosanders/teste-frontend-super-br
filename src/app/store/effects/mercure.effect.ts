@@ -12,6 +12,7 @@ import {
 import {plainToClass} from 'class-transformer';
 import {Store} from '@ngrx/store';
 import {State} from '../reducers';
+import {SetCount} from '../actions';
 
 @Injectable()
 export class MercureEffects {
@@ -39,6 +40,10 @@ export class MercureEffects {
                                 this._store.dispatch(new AddData<OrigemDados>({data: [plainToClass(OrigemDados, action.payload.content)], schema: origemDadosSchema}));
                                 break;
                         }
+                    }
+
+                    if (action.payload.type === 'counter') {
+                        this._store.dispatch(new SetCount(action.payload.content));
                     }
                 })
             );

@@ -24,7 +24,7 @@ export const navigation: CdkNavigation[] = [
                 icon: 'check_box',
                 children: [
                     {
-                        id: 'eventos',
+                        id: 'tarefas_pendentes_eventos',
                         title: 'Calendário',
                         type: 'item',
                         icon: 'calendar_today',
@@ -36,7 +36,7 @@ export const navigation: CdkNavigation[] = [
                         }
                     },
                     {
-                        id: 'tarefas_administrativo',
+                        id: 'tarefas_pendentes_administrativo',
                         title: 'Administrativas',
                         translate: 'NAV.TAREFA.ADMINISTRATIVAS.TITLE',
                         type: 'item',
