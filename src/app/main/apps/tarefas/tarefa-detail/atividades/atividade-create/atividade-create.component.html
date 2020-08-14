@@ -59,6 +59,7 @@
                     [atividade]="atividade"
                     [temMinutas]="!!minutas.length"
                     [documentoAvulsoVinculado]="(tarefa$ | async)?.processo?.documentoAvulsoOrigem"
+                    [especieAtividadePagination]="especieAtividadePagination"
                     [saving]="(isSaving$ | async)"
                     [errors]="(errors$ | async)"
                     (save)="submit($event)"

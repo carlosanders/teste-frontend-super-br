@@ -157,7 +157,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         });
 
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['especieProcesso', 'setorAtual', 'setorAtual.unidade'];
+        this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'setorAtual', 'setorAtual.unidade'];
         this.especieDocumentoAvulsoPagination = new Pagination();
         this.modeloPagination = new Pagination();
         this.pessoaDestinoPagination = new Pagination();

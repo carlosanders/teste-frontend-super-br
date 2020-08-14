@@ -2,9 +2,11 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ElementRef,
+    Component,
+    ElementRef,
     OnDestroy,
-    OnInit, ViewChild,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
@@ -14,27 +16,22 @@ import {Observable, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Tarefa} from '@cdk/models';
+import {Etiqueta, Folder, Pagination, Tarefa, Usuario} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
+import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 
 import {getRouterState, getScreenState} from 'app/store/reducers';
 
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 
-import {Folder} from '@cdk/models';
-
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
-import {Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
-import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
-import {Usuario} from '@cdk/models';
-import {modulesConfig} from 'modules/modules-config';
 import {DynamicService} from 'modules/dynamic.service';
+import {modulesConfig} from '../../../../modules/modules-config';
 
 @Component({
     selector: 'tarefas',
@@ -65,6 +62,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
+
+    error$: Observable<any>;
+    errorDelete$: Observable<any>;
 
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
@@ -131,6 +131,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
+        this.error$ = this._store.pipe(select(fromStore.getError));
+        this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
 
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.selectedTarefas$ = this._store.pipe(select(fromStore.getSelectedTarefas));

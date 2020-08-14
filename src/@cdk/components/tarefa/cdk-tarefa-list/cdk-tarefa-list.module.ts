@@ -24,6 +24,9 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.module';
+import {SnackBarDeleteComponent} from '../../snack-bar-delete/snack-bar-delete.component';
+import {SnackBarDeleteModule} from '../../snack-bar-delete/snack-bar-delete.module';
+import {MatBottomSheet} from '@angular/material/bottom-sheet';
 
 @NgModule({
     declarations: [
@@ -57,16 +60,18 @@ import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-fi
         InfiniteScrollModule,
         MatExpansionModule,
 
-        CdkTarefaFilterModule
+        CdkTarefaFilterModule,
+        SnackBarDeleteModule
     ],
     providers: [
         EspecieTarefaService,
         ProcessoService,
-        AssuntoService
+        AssuntoService,
     ],
     exports: [
         CdkTarefaListComponent
-    ]
+    ],
+    entryComponents: [SnackBarDeleteComponent],
 })
 export class CdkTarefaListModule {
 }

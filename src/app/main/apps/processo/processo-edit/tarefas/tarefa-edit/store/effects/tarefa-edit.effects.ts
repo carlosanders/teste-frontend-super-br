@@ -54,6 +54,7 @@ export class TarefaEditEffect {
                         JSON.stringify([
                             'processo',
                             'processo.especieProcesso',
+                            'processo.especieProcesso.generoProcesso',
                             'processo.modalidadeMeio',
                             'processo.documentoAvulsoOrigem',
                             'especieTarefa',

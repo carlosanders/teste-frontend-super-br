@@ -62,6 +62,7 @@ export class DadosBasicosEffect {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll',
+                            'especieProcesso.generoProcesso',
                             'setorAtual.unidade',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'

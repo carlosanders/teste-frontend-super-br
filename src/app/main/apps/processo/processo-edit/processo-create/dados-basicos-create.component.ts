@@ -283,9 +283,12 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.processo = processo;
                 this.isLinear = false;
 
-                if (this.tarefa) {
-                    this.tarefa.processo = this.processo;
-                }
+                this.tarefa = new Tarefa();
+                this.tarefa.processo = this.processo;
+                this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
+                this.tarefa.dataHoraInicioPrazo = moment();
+                this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
+                this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
 
                 setTimeout(() => {
                     this.selectedIndex = 1;
@@ -378,14 +381,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             this.vinculacoesProcessosPagination = pagination;
         });
 
-        if (!this.tarefa) {
-            this.tarefa = new Tarefa();
-            this.tarefa.processo = this.processo;
-            this.tarefa.unidadeResponsavel = this._profile.colaborador.lotacoes[0].setor.unidade;
-            this.tarefa.dataHoraInicioPrazo = moment();
-            this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
-            this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
-        }
+        this.tarefa = new Tarefa();
 
         this.isLinear = true;
     }

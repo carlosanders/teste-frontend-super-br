@@ -140,23 +140,26 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             },
             {
                 index: 130,
-                nome: 'Tramitações',
-                link: 'tramitacoes',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
-                index: 140,
                 nome: 'Remessas',
                 link: 'remessas',
                 role: 'ROLE_COLABORADOR'
             },
             {
-                index: 150,
+                index: 140,
                 nome: 'Transições',
                 link: 'transicoes',
                 role: 'ROLE_COLABORADOR'
             }
         );
+
+        if (this.processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+            this.links.push({
+                index: 150,
+                nome: 'Tramitações',
+                link: 'tramitacoes',
+                role: 'ROLE_COLABORADOR'
+            });
+        }
 
         this.links = this.links.sort((a, b) => a.index - b.index);
     }
