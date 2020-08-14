@@ -55,11 +55,33 @@
             <button mat-icon-button
                     class="quick-panel-toggle-button"
                     aria-label="Notificações"
-                    (click)="goNotificacoes()">
-                <mat-icon [matBadge]="notificacoesCount" matBadgePosition="above after" [matBadgeColor]="notificacoesCount ? 'warn' : 'accent'" class="secondary-text">
+                    [matMenuTriggerFor]="menuNoticacoes">
+                <mat-icon *ngIf="carregandoNotificacao">
+                    <mat-spinner diameter="20"></mat-spinner>
+                </mat-icon>
+                <mat-icon *ngIf="!carregandoNotificacao" [matBadge]="notificacoesCount" matBadgePosition="above after"
+                          [matBadgeColor]="notificacoesCount ? 'warn' : 'accent'" class="secondary-text">
                     notifications
                 </mat-icon>
             </button>
+            <mat-menu #menuNoticacoes="matMenu" class="menuNotificacao" [overlapTrigger]="false" xPosition="before">
+                <mat-list *ngIf="notificacoes?.length>0; else vazio">
+                    <ng-container *ngFor="let notificacao of notificacoes; let i = index; let len = count">
+                        <mat-list-item *ngIf="!notificacao.dataHoraLeitura">
+                            <button mat-mini-fab (click)="toggleLida(notificacao)">
+                                <mat-icon class="secondary-text">check_circle</mat-icon>
+                            </button>
+                            <p style="margin: 15px 0px 15px 10px; text-align: justify;">
+                                {{notificacao.conteudo}}
+                            </p>
+                        </mat-list-item>
+                        <mat-divider *ngIf="i != len-1 && !notificacao.dataHoraLeitura"></mat-divider>
+                    </ng-container>
+                </mat-list>
+                <ng-template #vazio>
+                    <p class="textoMenu">Não há notificações</p>
+                </ng-template>
+            </mat-menu>
 
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
 

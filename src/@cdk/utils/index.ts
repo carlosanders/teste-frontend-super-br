@@ -1,5 +1,4 @@
-export class CdkUtils
-{
+export class CdkUtils {
     /**
      * Filter array by string
      *
@@ -7,10 +6,8 @@ export class CdkUtils
      * @param searchText
      * @returns {any}
      */
-    public static filterArrayByString(mainArr, searchText): any
-    {
-        if ( !searchText )
-        {
+    public static filterArrayByString(mainArr, searchText): any {
+        if (!searchText) {
             return mainArr;
         }
 
@@ -28,37 +25,26 @@ export class CdkUtils
      * @param searchText
      * @returns {boolean}
      */
-    public static searchInObj(itemObj, searchText): boolean
-    {
-        for ( const prop in itemObj )
-        {
-            if ( !itemObj.hasOwnProperty(prop) )
-            {
+    public static searchInObj(itemObj, searchText): boolean {
+        for (const prop in itemObj) {
+            if (!itemObj.hasOwnProperty(prop)) {
                 continue;
             }
 
             const value = itemObj[prop];
 
-            if ( typeof value === 'string' )
-            {
-                if ( this.searchInString(value, searchText) )
-                {
+            if (typeof value === 'string') {
+                if (this.searchInString(value, searchText)) {
+                    return true;
+                }
+            } else if (Array.isArray(value)) {
+                if (this.searchInArray(value, searchText)) {
                     return true;
                 }
             }
 
-            else if ( Array.isArray(value) )
-            {
-                if ( this.searchInArray(value, searchText) )
-                {
-                    return true;
-                }
-            }
-
-            if ( typeof value === 'object' )
-            {
-                if ( this.searchInObj(value, searchText) )
-                {
+            if (typeof value === 'object') {
+                if (this.searchInObj(value, searchText)) {
                     return true;
                 }
             }
@@ -72,22 +58,16 @@ export class CdkUtils
      * @param searchText
      * @returns {boolean}
      */
-    public static searchInArray(arr, searchText): boolean
-    {
-        for ( const value of arr )
-        {
-            if ( typeof value === 'string' )
-            {
-                if ( this.searchInString(value, searchText) )
-                {
+    public static searchInArray(arr, searchText): boolean {
+        for (const value of arr) {
+            if (typeof value === 'string') {
+                if (this.searchInString(value, searchText)) {
                     return true;
                 }
             }
 
-            if ( typeof value === 'object' )
-            {
-                if ( this.searchInObj(value, searchText) )
-                {
+            if (typeof value === 'object') {
+                if (this.searchInObj(value, searchText)) {
                     return true;
                 }
             }
@@ -101,8 +81,7 @@ export class CdkUtils
      * @param searchText
      * @returns {any}
      */
-    public static searchInString(value, searchText): any
-    {
+    public static searchInString(value, searchText): any {
         return value.toLowerCase().includes(searchText);
     }
 
@@ -111,13 +90,11 @@ export class CdkUtils
      *
      * @returns {string}
      */
-    public static generateGUID(): string
-    {
-        function S4(): string
-        {
+    public static generateGUID(): string {
+        function S4(): string {
             return Math.floor((1 + Math.random()) * 0x10000)
-                       .toString(16)
-                       .substring(1);
+                .toString(16)
+                .substring(1);
         }
 
         return S4() + S4();
@@ -129,14 +106,10 @@ export class CdkUtils
      * @param item
      * @param array
      */
-    public static toggleInArray(item, array): void
-    {
-        if ( array.indexOf(item) === -1 )
-        {
+    public static toggleInArray(item, array): void {
+        if (array.indexOf(item) === -1) {
             array.push(item);
-        }
-        else
-        {
+        } else {
             array.splice(array.indexOf(item), 1);
         }
     }
@@ -147,13 +120,17 @@ export class CdkUtils
      * @param text
      * @returns {string}
      */
-    public static handleize(text): string
-    {
+    public static handleize(text): string {
         return text.toString().toLowerCase()
-                   .replace(/\s+/g, '-')           // Replace spaces with -
-                   .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-                   .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-                   .replace(/^-+/, '')             // Trim - from start of text
-                   .replace(/-+$/, '');            // Trim - from end of text
+            .replace(/\s+/g, '-')           // Replace spaces with -
+            .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
+            .replace(/\-\-+/g, '-')         // Replace multiple - with single -
+            .replace(/^-+/, '')             // Trim - from start of text
+            .replace(/-+$/, '');            // Trim - from end of text
+    }
+
+    public static sortArraySideBar(array): any {
+        array.sort((a, b) => a.nome.localeCompare(b.nome));
+        return array;
     }
 }

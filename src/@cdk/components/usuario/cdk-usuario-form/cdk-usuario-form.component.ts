@@ -41,6 +41,9 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
 
     activeCard = 'form';
 
+    @Input()
+    usuarioExterno = false;
+
     /**
      * Constructor
      */
@@ -55,7 +58,8 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2), Validators.max(4)]],
-            enabled: [null]
+            enabled: [null],
+            validado: [null],
         });
     }
 
@@ -74,7 +78,8 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
                 nome: this.usuario.nome,
                 email: this.usuario.email,
                 nivelAcesso: this.usuario.nivelAcesso,
-                enabled: this.usuario.enabled
+                enabled: this.usuario.enabled,
+                validado: this.usuario.validado
             });
         }
 
