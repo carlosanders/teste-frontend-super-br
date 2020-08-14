@@ -58,16 +58,9 @@ export class ProcessoEffect {
                         JSON.stringify({dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'}),
                         JSON.stringify([
                             'populateAll',
-                            'setorAtual.unidade',
-                            'modalidadeMeio',
-                            'modalidadeFase',
-                            'documentoAvulsoOrigem',
-                            'especieProcesso',
                             'especieProcesso.generoProcesso',
-                            'classificacao',
+                            'setorAtual.unidade',
                             'classificacao.modalidadeDestinacao',
-                            'setorInicial',
-                            'setorAtual',
                             'lembretes',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'

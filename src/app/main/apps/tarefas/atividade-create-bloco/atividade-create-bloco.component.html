@@ -16,12 +16,13 @@
     </cdk-documento-card-list>
 
     <cdk-atividade-form *ngIf="operacoes.length === 0"
-        [atividade]="atividade"
-        [temMinutas]="!!minutas.length"
-        [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
-        (save)="submit($event)"
-        (abort)="doAbort()">
+                        [atividade]="atividade"
+                        [especieAtividadePagination]="especieAtividadePagination"
+                        [temMinutas]="!!minutas.length"
+                        [saving]="(isSaving$ | async)"
+                        [errors]="(errors$ | async)"
+                        (save)="submit($event)"
+                        (abort)="doAbort()">
     </cdk-atividade-form>
 
     <mat-list *ngIf="operacoes.length > 0" fxFlex>

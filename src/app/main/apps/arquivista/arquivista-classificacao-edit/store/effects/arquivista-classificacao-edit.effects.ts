@@ -119,10 +119,12 @@ export class ArquivistaClassificacaoEditEffects {
                         sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
                         populate: [
                             'especieProcesso',
+                            'especieProcesso.generoProcesso',
                             'modalidadeMeio',
                             'modalidadeFase',
                             'documentoAvulsoOrigem',
                             'especieProcesso',
+                            'especieProcesso.generoProcesso',
                             'classificacao',
                             'classificacao.modalidadeDestinacao',
                             'setorInicial',
