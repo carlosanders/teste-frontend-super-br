@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
-import {MatBadgeModule, MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule} from '@cdk/angular/material';
+import {MatBadgeModule, MatButtonModule, MatIconModule, MatMenuModule, MatToolbarModule, MatListModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 
 import {CdkSearchBarModule, CdkShortcutsModule} from '@cdk/components';
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -20,10 +20,13 @@ import {AjudaComponent} from '../../../../ajuda/ajuda.component';
         MatIconModule,
         MatMenuModule,
         MatToolbarModule,
+        MatListModule,
         MatBadgeModule,
+        MatProgressSpinnerModule,
+
         CdkSharedModule,
         CdkSearchBarModule,
-        CdkShortcutsModule
+        CdkShortcutsModule,
     ],
     providers: [
         LoginService,
