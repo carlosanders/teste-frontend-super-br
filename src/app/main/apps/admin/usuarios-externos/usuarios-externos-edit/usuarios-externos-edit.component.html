@@ -4,6 +4,7 @@
     [saving]="(isSaving$ | async)"
     [errors]="(errors$ | async)"
     (save)="submitUsuario($event)"
+    [usuarioExterno]="true"
     (abort)="doAbort()"
     class="form-user">
 </cdk-usuario-form>

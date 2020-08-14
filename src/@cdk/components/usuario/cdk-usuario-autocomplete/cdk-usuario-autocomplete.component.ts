@@ -48,6 +48,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
         this.usuarioListIsLoading = false;
 
         this.pagination = new Pagination();
+        this.pagination.populate = ['colaborador', 'colaborador.cargo'];
     }
 
     ngOnInit(): void {

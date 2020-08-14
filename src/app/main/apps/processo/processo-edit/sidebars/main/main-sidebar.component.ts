@@ -72,79 +72,98 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
 
         this.links.push(
             {
+                index: 10,
                 nome: 'Dados Básicos',
                 link: 'dados-basicos',
             },
             {
+                index: 20,
                 nome: 'Assuntos',
                 link: 'assuntos'
             },
             {
+                index: 30,
                 nome: 'Interessados',
                 link: 'interessados'
             },
             {
+                index: 40,
                 nome: 'Volumes',
                 link: 'volumes',
                 role: 'ROLE_COLABORADOR'
             },
             {
+                index: 50,
                 nome: 'Juntadas',
                 link: 'juntadas',
                 role: 'ROLE_COLABORADOR'
             },
             {
+                index: 60,
                 nome: 'Vinculações',
                 link: 'vinculacoes-processos',
                 role: 'ROLE_COLABORADOR'
             },
-            { 
+            {
+                index: 70,
                 nome: 'Relevâncias',
                 link: 'relevancias',
                 role: 'ROLE_COLABORADOR'
             },
             {
+                index: 80,
                 nome: 'Sigilos',
                 link: 'sigilos',
                 role: 'ROLE_COLABORADOR'
             },
             {
+                index: 90,
                 nome: 'Restrições de Acesso',
                 link: 'acessos',
                 role: 'ROLE_COLABORADOR'
             },
             {
+                index: 100,
+                nome: 'Garantias',
+                link: 'garantias',
+                role: 'ROLE_COLABORADOR'
+            },
+            {
+                index: 110,
                 nome: 'Tarefas',
                 link: 'tarefas',
                 role: 'ROLE_COLABORADOR'
             },
             {
+                index: 120,
                 nome: 'Ofícios',
                 link: 'oficios',
                 role: 'ROLE_COLABORADOR'
             },
             {
-                nome: 'Garantias',
-                link: 'garantias',
-                role: 'ROLE_COLABORADOR'
-            },            
-            {
-                nome: 'Tramitações',
-                link: 'tramitacoes',
-                role: 'ROLE_COLABORADOR'
-            },
-            {
+                index: 130,
                 nome: 'Remessas',
                 link: 'remessas',
                 role: 'ROLE_COLABORADOR'
             },
             {
+                index: 140,
                 nome: 'Transições',
                 link: 'transicoes',
                 role: 'ROLE_COLABORADOR'
             }
         );
 
+        if (this.processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+            this.links.push({
+                index: 150,
+                nome: 'Tramitações',
+                link: 'tramitacoes',
+                role: 'ROLE_COLABORADOR'
+            });
+        }
+
+        this.links = this.links.sort((a, b) => a.index - b.index);
     }
 
     /**

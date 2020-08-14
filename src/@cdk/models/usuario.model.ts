@@ -21,6 +21,8 @@ export class Usuario {
 
     enabled?: boolean;
 
+    validado?: boolean;
+
     nivelAcesso?: number;
 
     nome?: string;
@@ -84,6 +86,7 @@ export class Usuario {
         this.assinaturaHTML = null;
         this.email = null;
         this.enabled = null;
+        this.validado = null;
         this.nivelAcesso = null;
         this.colaborador = null;
         this.roles = null;
