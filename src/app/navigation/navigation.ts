@@ -2,26 +2,20 @@ import {CdkNavigation} from '@cdk/types';
 
 export const navigation: CdkNavigation[] = [
     {
-        id: 'gerencial',
-        title: 'Gerencial',
-        type: 'group',
-        children: [
-            {
-                id: 'painel',
-                title: 'Painel',
-                type: 'item',
-                icon: 'dashboard',
-                url: '/apps/painel',
-                role: 'ROLE_USER'
-            }
-        ]
-    },
-    {
         id: 'applications',
         title: 'Aplicações',
         translate: 'NAV.APPLICATIONS',
         type: 'group',
         children: [
+            {
+                id: 'painel',
+                title: 'Painel',
+                translate: 'NAV.PAINEL.TITLE',
+                type: 'item',
+                icon: 'dashboard',
+                url: '/apps/painel',
+                role: 'ROLE_USER'
+            },
             {
                 id: 'tarefas',
                 title: 'Tarefas',
@@ -100,15 +94,6 @@ export const navigation: CdkNavigation[] = [
                 icon: 'search',
                 url: '/apps/pesquisa/processos',
                 role: 'ROLE_USER'
-            },
-            {
-                id: 'relatorio',
-                title: 'Relatórios',
-                translate: 'NAV.RELATORIO.TITLE',
-                type: 'item',
-                icon: 'assessment',
-                url: '/apps/relatorios/administrativo/meus-relatorios/entrada',
-                role: 'ROLE_COLABORADOR'
             }
         ]
     },
@@ -118,6 +103,15 @@ export const navigation: CdkNavigation[] = [
         translate: 'NAV.MODULES',
         type: 'group',
         children: [
+            {
+                id: 'relatorio',
+                title: 'Relatórios',
+                translate: 'NAV.RELATORIO.TITLE',
+                type: 'item',
+                icon: 'assessment',
+                url: '/apps/relatorios/administrativo/meus-relatorios/entrada',
+                role: 'ROLE_COLABORADOR'
+            },
             {
                 id: 'admin',
                 title: 'Administrador',

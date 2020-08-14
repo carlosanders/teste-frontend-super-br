@@ -74,6 +74,8 @@ export class AppComponent implements OnInit, OnDestroy {
             }
         });
 
+        console.log (this.navigation);
+
         // Register the navigation to the service
         this._cdkNavigationService.register('main', this.navigation);
 
