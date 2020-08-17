@@ -1,19 +1,17 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
 import * as _ from 'lodash';
-
 import {CdkConfigService} from '@cdk/services/config.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-
 import {navigation} from 'app/navigation/navigation';
 import {Router} from '@angular/router';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
-import {getMercureState} from 'app/store';
+import {getCounterState} from 'app/store';
 import {Logout} from '../../../main/auth/login/store/actions';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
@@ -26,7 +24,7 @@ import {getIsLoading, getNormalizedNotificacaoEntities} from '../../../store/sel
     encapsulation: ViewEncapsulation.None
 })
 
-export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
+export class ToolbarComponent implements OnInit, OnDestroy {
     horizontalNavbar: boolean;
     rightNavbar: boolean;
     hiddenNavbar: boolean;
@@ -143,7 +141,7 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
                 sort: {criadoEm: 'DESC'},
                 populate: ['populateAll']
             };
-            
+
             this._store.dispatch(new fromStore.GetNotificacoes(params));
             this._store
                 .pipe(
@@ -159,6 +157,17 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
                     takeUntil(this._unsubscribeAll),
                 )
                 .subscribe(carregandoNotificacao => this.carregandoNotificacao = carregandoNotificacao);
+
+            this._store
+                .pipe(
+                    select(getCounterState),
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe(value => {
+                    if (value && value['notificacoes_pendentes'] !== undefined) {
+                        this.notificacoesCount = value['notificacoes_pendentes'];
+                    }
+                }
+            );
         }
     }
 
@@ -216,24 +225,6 @@ export class ToolbarComponent implements OnInit, OnDestroy, AfterViewInit {
 
         // Use the selected language for translations
         this._translateService.use(lang.id);
-    }
-
-    ngAfterViewInit(): void {
-        if (this.userProfile && this.userProfile.id) {
-            this._store
-                .pipe(
-                    select(getMercureState),
-                    takeUntil(this._unsubscribeAll)
-                ).subscribe(message => {
-                if (message && message.type === 'count_notificacao') {
-                    switch (message.content.action) {
-                        case 'count_notificacao':
-                            this.notificacoesCount = message.content.count;
-                            break;
-                    }
-                }
-            });
-        }
     }
 
     toggleLida(notificacao: Notificacao): void {
