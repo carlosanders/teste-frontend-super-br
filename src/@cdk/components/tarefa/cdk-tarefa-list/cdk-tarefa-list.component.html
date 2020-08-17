@@ -189,7 +189,7 @@
 
             <div *ngFor="let tarefa of tarefas">
                 <cdk-tarefa-list-item
-                    *ngIf="!deletingIds.length > 0 && !deletingIds.indexOf(tarefa.id) > -1 || errorDelete.indexOf(tarefa.id -1)"
+                    *ngIf="(deletingIds.indexOf(tarefa.id) === -1) || (errorDelete.indexOf(tarefa.id) > -1)"
                     matRipple
                     [tarefa]="tarefa"
                     (click)="selectTarefa(tarefa);"
