@@ -243,6 +243,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     desfazerDelete(tarefaId): void {
         this.deleteTotal = false;
         this.tarefasDeletadasTemporiamente = this.tarefasDeletadasTemporiamente.filter(tarefa => tarefa.id !== tarefaId);
+        this._changeDetectorRef.detectChanges();
     }
 
     doDeleteTarefa(tarefaId): void {
