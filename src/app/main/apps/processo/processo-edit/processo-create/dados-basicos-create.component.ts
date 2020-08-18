@@ -484,6 +484,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         assunto.processo = this.processo;
 
         this._store.dispatch(new SaveAssunto(assunto));
+
+        this.assuntoActivated = 'grid';
     }
 
     submitInteressado(values): void {
@@ -498,6 +500,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         interessado.processo = this.processo;
 
         this._store.dispatch(new SaveInteressado(interessado));
+
+        this.interessadoActivated = 'grid';
     }
 
     submitVinculacaoProcesso(values): void {
@@ -512,6 +516,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         vinculacaoProcesso.processo = this.processo;
 
         this._store.dispatch(new SaveVinculacaoProcesso(vinculacaoProcesso));
+
+        this.vinculacaoProcessoActivated = 'grid';
     }
 
     submitTarefa(values): void {
@@ -563,11 +569,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }));
     }
 
-    onCompleteAssunto(): void {
-        this.assuntoActivated = 'grid';
-        this._store.dispatch(new fromStore.GetAssuntos(this.assuntosPagination));
-    }
-
     reloadAssuntos(params): void {
         this._store.dispatch(new fromStore.GetAssuntos({
             ...this.assuntosPagination,
@@ -599,11 +600,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     deleteAssunto(assuntoId: number): void {
         this._store.dispatch(new fromStore.DeleteAssunto(assuntoId));
-    }
-
-    onCompleteInteressado(): void {
-        this.interessadoActivated = 'grid';
-        this._store.dispatch(new fromStore.GetInteressados(this.interessadosPagination));
     }
 
     reloadInteressados(params): void {
@@ -639,11 +635,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this._store.dispatch(new fromStore.DeleteInteressado(interessadoId));
     }
 
-    onCompleteVinculacaoProcesso(): void {
-        this.vinculacaoProcessoActivated = 'grid';
-        this._store.dispatch(new fromStore.GetVinculacoesProcessos(this.vinculacoesProcessosPagination));
-    }
-
     reloadVinculacoesProcessos(params): void {
         this._store.dispatch(new fromStore.GetVinculacoesProcessos({
             ...this.vinculacoesProcessosPagination,
@@ -675,11 +666,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     deleteVinculacaoProcesso(vinculacaoProcessoId: number): void {
         this._store.dispatch(new fromStore.DeleteVinculacaoProcesso(vinculacaoProcessoId));
-    }
-
-    onCompleteTarefa(): void {
-        this._store.dispatch(new SetSteps({steps: false}));
-        this._router.navigate([this.routerState.url.replace('dados-basicos-steps', 'tarefas/listar')]).then();
     }
 
     create(form): void {

@@ -132,9 +132,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     processo = new EventEmitter<Processo>();
 
-    @Output()
-    completed = new EventEmitter<Processo>();
-
     /**
      * Constructor
      */
@@ -670,8 +667,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                 this.save.emit(this.form.value);
             }
-
-            this.completed.emit();
         }
     }
 

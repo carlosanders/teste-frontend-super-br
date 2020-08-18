@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import * as InteressadoActions from '../actions/interessado.actions';
 
@@ -14,6 +14,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {interessado as interessadoSchema} from '@cdk/normalizr';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
+import {getInteressadosPagination} from '../selectors';
 
 @Injectable()
 export class InteressadosEffect {
@@ -126,5 +127,20 @@ export class InteressadosEffect {
                         })
                     );
                 })
+            );
+
+    /**
+     * Save Interessado Success
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    saveInteressadoSuccess: any =
+        this._actions
+            .pipe(
+                ofType<InteressadoActions.SaveInteressadoSuccess>(InteressadoActions.SAVE_INTERESSADO_SUCCESS),
+                withLatestFrom(this._store.pipe(select(getInteressadosPagination))),
+                tap(([action, pagination]) => {
+                    this._store.dispatch(new InteressadoActions.GetInteressados(pagination));
+                }),
             );
 }

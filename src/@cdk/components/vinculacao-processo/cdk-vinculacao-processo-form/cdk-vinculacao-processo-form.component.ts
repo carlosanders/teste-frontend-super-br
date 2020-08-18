@@ -39,9 +39,6 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
     @Output()
     abort = new EventEmitter<any>();
 
-    @Output()
-    completed = new EventEmitter<VinculacaoProcesso>();
-
     @Input()
     form: FormGroup;
 
@@ -132,7 +129,6 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
-            this.completed.emit();
         }
     }
 

@@ -56,13 +56,8 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
 
         case DadosBasicosActions.UNLOAD_PROCESSO: {
             return {
-                processoId: undefined,                
-//                loaded: undefined,
-                loaded: {
-                    id: undefined,
-                    value: undefined,
-                    acessoNegado: false
-                },
+                processoId: null,
+                loaded: false,
                 loading: false,
                 saving: false,
                 errors: false,   

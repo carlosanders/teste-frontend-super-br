@@ -10,7 +10,6 @@ import {DadosBasicosAppState} from '../reducers';
 import * as fromStore from '../';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {SetSteps} from '../../../../store/actions';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {

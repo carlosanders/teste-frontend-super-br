@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, map} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, map, withLatestFrom, tap} from 'rxjs/operators';
 import * as AssuntoActions from '../actions/assunto.actions';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Assunto} from '@cdk/models';
@@ -11,6 +11,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {assunto as assuntoSchema} from '@cdk/normalizr';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
+import {getAssuntosPagination} from '../selectors';
 
 @Injectable()
 export class AssuntosEffect {
@@ -124,6 +125,21 @@ export class AssuntosEffect {
                         })
                     );
                 })
+            );
+
+    /**
+     * Save Assunto Success
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    saveAssuntoSuccess: any =
+        this._actions
+            .pipe(
+                ofType<AssuntoActions.SaveAssuntoSuccess>(AssuntoActions.SAVE_ASSUNTO_SUCCESS),
+                withLatestFrom(this._store.pipe(select(getAssuntosPagination))),
+                tap(([action, pagination]) => {
+                    this._store.dispatch(new AssuntoActions.GetAssuntos(pagination));
+                }),
             );
 
 }

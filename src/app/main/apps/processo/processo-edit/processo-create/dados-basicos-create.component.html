@@ -26,8 +26,7 @@
             [saving]="(isSavingAssunto$ | async)"
             [errors]="(errors$ | async)"
             (save)="submitAssunto($event)"
-            (abort)="doAbort()"
-            (completed)="onCompleteAssunto()">
+            (abort)="doAbort()">
         </cdk-assunto-form>
 
         <cdk-assunto-grid *ngIf="(assuntos$ | async) && assuntoActivated === 'grid'"
@@ -51,8 +50,7 @@
             [saving]="(isSavingInteressado$ | async)"
             [errors]="(errors$ | async)"
             (save)="submitInteressado($event)"
-            (abort)="doAbort()"
-            (completed)="onCompleteInteressado()">
+            (abort)="doAbort()">
         </cdk-interessado-form>
 
         <cdk-interessado-grid *ngIf="(interessados$ | async) && interessadoActivated === 'grid'"
@@ -100,8 +98,7 @@
             [saving]="(isSavingVinculacao$ | async)"
             [errors]="(errors$ | async)"
             (save)="submitVinculacaoProcesso($event)"
-            (abort)="doAbort()"
-            (completed)="onCompleteVinculacaoProcesso()">
+            (abort)="doAbort()">
         </cdk-vinculacao-processo-form>
 
         <cdk-vinculacao-processo-grid *ngIf="(vinculacoesProcessos$ | async) && vinculacaoProcessoActivated === 'grid'"
@@ -127,8 +124,7 @@
             [especieTarefaPagination]="especieTarefaPagination"
             [logEntryPagination]="logEntryPagination"
             (save)="submitTarefa($event)"
-            (abort)="doAbort()"
-            (completed)="onCompleteTarefa()">
+            (abort)="doAbort()">
         </cdk-tarefa-form>
     </mat-step>
 </mat-horizontal-stepper>
