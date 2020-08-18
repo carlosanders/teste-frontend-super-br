@@ -297,6 +297,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             tarefa: [null]
         });
 
+        this.especieAtividadePagination = new Pagination();
         this.especieAtividadePagination.populate = ['generoAtividade'];
     }
 

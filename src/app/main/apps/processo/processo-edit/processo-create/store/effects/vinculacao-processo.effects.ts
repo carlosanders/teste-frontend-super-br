@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import * as VinculacoesProcessosActions from '../actions/vinculacao-processo.actions';
 
@@ -14,6 +14,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
+import {getVinculacoesProcessosPagination} from '../selectors';
 
 @Injectable()
 export class VinculacaoProcessoEffects {
@@ -105,6 +106,21 @@ export class VinculacaoProcessoEffects {
                         })
                     );
                 })
+            );
+
+    /**
+     * Save VinculacaoProcesso Success
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    saveVinculacoesProcessosSuccess: any =
+        this._actions
+            .pipe(
+                ofType<VinculacoesProcessosActions.SaveVinculacaoProcessoSuccess>(VinculacoesProcessosActions.SAVE_VINCULACAO_PROCESSO_SUCCESS),
+                withLatestFrom(this._store.pipe(select(getVinculacoesProcessosPagination))),
+                tap(([action, pagination]) => {
+                    this._store.dispatch(new VinculacoesProcessosActions.GetVinculacoesProcessos(pagination));
+                }),
             );
 
 }

@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {SetSteps} from '../../../../store/actions';
 
 @Injectable()
 export class TarefaEffect {
@@ -48,6 +49,7 @@ export class TarefaEffect {
                     return this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaActions.SaveTarefaSuccess(),
+                            new SetSteps({steps: false}),
                             new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'tarefa',
