@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Tarefa} from '@cdk/models';
+import {Colaborador, Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
@@ -20,6 +20,7 @@ import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {Responsavel} from '@cdk/models';
 import {SetorService} from '@cdk/services/setor.service';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -104,9 +105,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     unidadeResponsavelListIsLoading: boolean;
 
     @Input()
-    unidadeResponsavel: Setor;
-
-    @Input()
     mode = 'regular';
 
     inputProcesso: boolean;
@@ -116,6 +114,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     evento = false;
 
     editable = true;
+
+    _profile: Colaborador;
 
     @Input()
     blocoEdit = {
@@ -145,8 +145,11 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
         private _favoritoService: FavoritoService,
-        private _setorService: SetorService
+        private _setorService: SetorService,
+        private _loginService: LoginService
     ) {
+        this._profile = _loginService.getUserProfile().colaborador;
+
         this.form = this._formBuilder.group({
             id: [null],
             diasUteis: [null],
@@ -255,7 +258,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
                         this.editable = true;
 
-                        if (value.apenasProtocolo && this.unidadeResponsavel && value.id !== this.unidadeResponsavel.id) {
+                        if (value.apenasProtocolo && value.id !== this._profile.lotacoes[0].setor.unidade.id) {
                             this.form.get('distribuicaoAutomatica').setValue(true);
                             this.form.get('setorResponsavel').enable();
                             this.getSetorProtocolo();
@@ -273,7 +276,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                    this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'] = `eq:${false}`;
+                    delete this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'];
 
                     // criacao normal de tarefa sem distribuicao automatica
                     if (value && typeof value === 'object' && !this.form.get('distribuicaoAutomatica').value) {
@@ -301,7 +304,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     }
 
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
-                    if (typeof value === 'object' && value && value.apenasDistribuidor) {
+                    if (typeof value === 'object' && value && value.apenasDistribuidor && value.id !== this._profile.lotacoes[0].setor.id) {
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'] = `eq:${true}`;
                     }
 
