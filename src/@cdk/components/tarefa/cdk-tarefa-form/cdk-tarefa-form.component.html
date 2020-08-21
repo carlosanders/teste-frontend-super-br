@@ -130,6 +130,7 @@
                         <input matInput placeholder="Setor Responsável"
                                formControlName="setorResponsavel"
                                [matAutocomplete]="setor.autocomplete" required
+                               [readonly]="!editable"
                                (blur)="checkSetorResponsavel()">
                     </div>
                     <cdk-setor-autocomplete
@@ -139,21 +140,22 @@
                         [control]="form.get('setorResponsavel')"
                         [pagination]="setorResponsavelPagination">
                     </cdk-setor-autocomplete>
-                    <button [disabled]="!form.get('processo').value || !form.get('unidadeResponsavel').value" matSuffix
-                            mat-button mat-icon-button
+                    <button [disabled]="!form.get('processo').value || !form.get('unidadeResponsavel').value || !editable"
+                            matSuffix mat-button mat-icon-button
                             (click)="getFavoritosSetorResponsavel()">
                         <mat-icon matTooltip="Favoritos">star</mat-icon>
                     </button>
-                    <button matSuffix mat-button mat-icon-button
+                    <button matSuffix mat-button mat-icon-button [disabled]="!editable"
                             *ngIf="form.value.id && !blocoEdit.blocoEditDistribuicao"
                             (click)="showLogEntryGrid('setorResponsavel')">
                         <mat-icon matTooltip="Histórico">history</mat-icon>
                     </button>
-                    <button matSuffix mat-button mat-icon-button
+                    <button matSuffix mat-button mat-icon-button [disabled]="!editable"
                             (click)="showSetorTree()">
                         <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
                     </button>
-                    <button *ngIf="form.get('setorResponsavel').enabled" matSuffix mat-button mat-icon-button
+                    <button *ngIf="form.get('setorResponsavel').enabled" [disabled]="!editable"
+                            matSuffix mat-button mat-icon-button
                             (click)="showSetorResponsavelGrid()">
                         <mat-icon matTooltip="Procurar">search</mat-icon>
                     </button>

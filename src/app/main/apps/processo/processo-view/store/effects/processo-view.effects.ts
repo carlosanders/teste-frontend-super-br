@@ -115,7 +115,8 @@ export class ProcessoViewEffect {
                 switchMap(([action, index, currentStep]) => {
                     this._router.navigate([this.routerState.url.replace('/capa', '')]).then();
                     if (typeof index[currentStep.step] === 'undefined' || typeof index[currentStep.step][currentStep.subStep] === 'undefined') {
-                        return throwError(new Error('não há documentos'));
+                        // return throwError(new Error('não há documentos'));
+                        this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
                     }
                     const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
                         {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
