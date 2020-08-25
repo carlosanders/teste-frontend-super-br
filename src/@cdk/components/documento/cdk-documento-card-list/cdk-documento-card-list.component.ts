@@ -144,7 +144,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     doAlterarTipoDocumento(documentoTipoDocumento): void {
         // @ts-ignore
-        this.alterarTipoDocumento.emit({documento: documentoTipoDocumento, tipoDocumento: documentoTipoDocumento.tipoDocumento});
+        this.alterarTipoDocumento.emit({documento: documentoTipoDocumento.documento, tipoDocumento: documentoTipoDocumento.tipoDocumento});
     }
 
     onClick(documento): void {
