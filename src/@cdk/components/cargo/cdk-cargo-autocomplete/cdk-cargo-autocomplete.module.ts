@@ -3,9 +3,8 @@ import {
     MatProgressSpinnerModule,
     MatAutocompleteModule
 } from '@cdk/angular/material';
-
-import { CdkSharedModule } from '@cdk/shared.module';
-import { CargoService } from '@cdk/services/cargo.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CargoService} from '@cdk/services/cargo.service';
 import {CdkCargoAutocompleteComponent} from './cdk-cargo-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 
@@ -14,12 +13,9 @@ import {PipesModule} from '@cdk/pipes/pipes.module';
         CdkCargoAutocompleteComponent,
     ],
     imports: [
-
         MatAutocompleteModule,
         MatProgressSpinnerModule,
-
         PipesModule,
-
         CdkSharedModule,
     ],
     providers: [

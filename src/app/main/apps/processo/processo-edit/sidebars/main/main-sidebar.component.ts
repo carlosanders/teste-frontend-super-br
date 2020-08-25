@@ -154,7 +154,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             }
         );
 
-        if (this.processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+        if (this.processo?.modalidadeMeio.valor === 'ELETRÔNICO') {
             this.links.push({
                 index: 150,
                 nome: 'Tramitações',
