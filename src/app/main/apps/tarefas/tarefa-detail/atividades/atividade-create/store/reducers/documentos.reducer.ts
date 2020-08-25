@@ -5,6 +5,7 @@ export interface AtividadeCreateDocumentosState {
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
+    alterandoDocumentoIds: number[];
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
@@ -19,6 +20,7 @@ export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosSta
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
+    alterandoDocumentoIds: [],
     removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
     loading: false,
@@ -65,6 +67,34 @@ export function AtividadeCreateDocumentosReducer(
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
                 selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
                 documentosId: state.documentosId.filter(id => id !== action.payload)
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.UPDATE_DOCUMENTO: {
+            return {
+                ...state,
+                alterandoDocumentoIds: [...state.alterandoDocumentoIds, action.payload.documento.id],
+                loaded: false,
+                loading: true,
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.UPDATE_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                alterandoDocumentoIds: state.alterandoDocumentoIds.filter(id => id !== action.payload),
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
+                documentosId: state.documentosId.filter(id => id !== action.payload),
+                loaded: true,
+                loading: false,
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.UPDATE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                loaded: false,
+                loading: false,
             };
         }
 
