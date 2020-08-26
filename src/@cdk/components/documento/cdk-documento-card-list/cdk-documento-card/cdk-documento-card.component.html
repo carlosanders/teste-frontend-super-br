@@ -12,9 +12,16 @@
             <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">picture_as_pdf</mat-icon>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa" class="ml-8 mr-8">mail</mat-icon>
             <div class="mr-8">{{documento.tipoDocumento?.sigla || 'OUT'}}</div>
-            <mat-icon *ngIf="documento.documentoAvulsoRemessa && !documento.documentoAvulsoRemessa.dataHoraRemessa" class="ml-8 mr-8">edit</mat-icon>
-            <mat-icon *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraRemessa && !documento.documentoAvulsoRemessa.dataHoraResposta" class="ml-8 mr-8">screen_share</mat-icon>
-            <mat-icon *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta" class="ml-8 mr-8">reply</mat-icon>
+            <mat-icon *ngIf="documento.documentoAvulsoRemessa && !documento.documentoAvulsoRemessa.dataHoraRemessa"
+                      class="ml-8 mr-8">edit
+            </mat-icon>
+            <mat-icon
+                *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraRemessa && !documento.documentoAvulsoRemessa.dataHoraResposta"
+                class="ml-8 mr-8">screen_share
+            </mat-icon>
+            <mat-icon *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta"
+                      class="ml-8 mr-8">reply
+            </mat-icon>
             <mat-icon *ngIf="documento.assinado" class="ml-8 mr-8">lock</mat-icon>
         </div>
 
@@ -25,17 +32,19 @@
 
     <div class="more-vert"
          [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
-        <button *ngIf="!deleting && !assinando && !convertendo && !removendoAssinatura" mat-icon-button [matMenuTriggerFor]="card20Menu" aria-label="more">
+        <button *ngIf="!deleting && !assinando && !convertendo && !removendoAssinatura && !alterando && !maisDeUmItemSelecionado" mat-icon-button
+                [matMenuTriggerFor]="menuDocumento" #menuTrigger="matMenuTrigger" aria-label="more">
             <mat-icon>expand_more</mat-icon>
         </button>
 
-        <div *ngIf="deleting || assinando || convertendo || removendoAssinatura" class="spinner-container m-8">
+        <div *ngIf="deleting || assinando || convertendo || removendoAssinatura || alterando" class="spinner-container m-8">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <mat-menu #card20Menu="matMenu">
-            <button *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa) && this._loginService.isGranted('ROLE_COLABORADOR')"
-                    fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
+        <mat-menu #menuDocumento="matMenu">
+            <button
+                *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa) && this._loginService.isGranted('ROLE_COLABORADOR')"
+                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
                 <mat-icon color="accent">delete</mat-icon>
                 <span>Apagar Minuta</span>
             </button>
@@ -43,7 +52,8 @@
                 <mat-icon color="accent">lock</mat-icon>
                 <span>Assinar</span>
             </button>
-            <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(documento.id)" mat-menu-item *ngIf="documento.assinado">
+            <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(documento.id)" mat-menu-item
+                    *ngIf="documento.assinado">
                 <mat-icon color="accent">lock_open</mat-icon>
                 <span>Remover Assinatura</span>
             </button>
@@ -51,13 +61,43 @@
                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                 <span>Converter em PDF</span>
             </button>
-            <button *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta" f
-                    xLayout="row" fxLayoutAlign="start center" (click)="doVerResposta(documento.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
+            <button *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta"
+                    fxLayout="row" fxLayoutAlign="start center"
+                    (click)="doVerResposta(documento.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                 <span>Ver Resposta</span>
             </button>
+            <button fxLayout="row" fxLayoutAlign="start center" [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
+                <mat-icon color="accent">edit</mat-icon>
+                <span>Alterar tipo de Documento</span>
+            </button>
         </mat-menu>
     </div>
+
+    <mat-menu #tipoDocumentoMenu="matMenu" class="menuTipoDocumento" id="testeMenu">
+        <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+              fxFlex="1 0 auto" name="form" [formGroup]="form" (click)="$event.stopPropagation()">
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input mat-menu-item matInput placeholder="Tipo de Documento"
+                           formControlName="tipoDocumento"
+                           [matAutocomplete]="tipoDocumento.autocomplete"
+                           (blur)="checkTipoDocumento()">
+                </div>
+                <cdk-tipo-documento-autocomplete
+                    #tipoDocumento="tipoDocumentoAutocomplete"
+                    [control]="form.get('tipoDocumento')"
+                    [pagination]="tipoDocumentoPagination">
+                </cdk-tipo-documento-autocomplete>
+                <mat-error *ngIf="form.get('tipoDocumento').hasError('formError')">
+                    {{form.get('tipoDocumento').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="accent" (click)="salvarTipoDocumento(documento)">
+                SALVAR
+            </button>
+        </form>
+    </mat-menu>
 
     <div class="card-divider full-width"></div>
 
@@ -69,3 +109,4 @@
     </div>
 
 </div>
+
