@@ -2,19 +2,16 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, map, tap, switchMap} from 'rxjs/operators';
-
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as AtividadeCreateDocumentosActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
-
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {assinatura as assinaturaSchema, documento as documentoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {environment} from 'environments/environment';
-import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 
@@ -97,6 +94,30 @@ export class AtividadeCreateDocumentosEffect {
                     console.log(err);
                     this._store.dispatch(new AtividadeCreateDocumentosActions.GetDocumentosFailed(err));
                     return caught;
+                })
+            );
+
+    /**
+     * Update Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    updateDocumento: any =
+        this._actions
+            .pipe(
+                ofType<AtividadeCreateDocumentosActions.UpdateDocumento>(AtividadeCreateDocumentosActions.UPDATE_DOCUMENTO),
+                mergeMap((action) => {
+                    return this._documentoService.patch(action.payload.documento, {tipoDocumento: action.payload.tipoDocumento.id}).pipe(
+                        mergeMap((response: Documento) => [
+                            new AtividadeCreateDocumentosActions.UpdateDocumentoSuccess(response.id),
+                            new AddData<Documento>({data: [response], schema: documentoSchema}),
+                            new AtividadeCreateDocumentosActions.GetDocumentos()
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new AtividadeCreateDocumentosActions.UpdateDocumentoFailed(err));
+                        })
+                    );
                 })
             );
 

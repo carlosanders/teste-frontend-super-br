@@ -1,17 +1,24 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input,
-    OnInit, Output,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Documento} from '@cdk/models';
+import {Documento, Pagination, TipoDocumento} from '@cdk/models';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {filter} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MatAutocomplete} from '../../../../angular/material';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
     selector: 'cdk-documento-card',
@@ -27,6 +34,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     documento: Documento;
 
     @Input()
+    maisDeUmItemSelecionado = false;
+
+    @Input()
     selected = true;
 
     @Input()
@@ -34,6 +44,9 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     @Input()
     assinando = false;
+
+    @Input()
+    alterando = false;
 
     @Input()
     removendoAssinatura = false;
@@ -46,6 +59,9 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     @Output()
     verResposta = new EventEmitter<Documento>();
+
+    @Output()
+    alterarTipoDocumento = new EventEmitter<Documento>();
 
     @Output()
     assinatura = new EventEmitter<number>();
@@ -62,14 +78,32 @@ export class CdkDocumentoCardComponent implements OnInit {
     @Output()
     changedSelected = new EventEmitter<boolean>();
 
+    @Input()
+    tipoDocumentoPagination: Pagination;
+
+    @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+
+    @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+
+    form: FormGroup;
+
+    activeCard = 'form';
+
+    habilitarTipoDocumentoSalvar = false;
+
     /**
      * Constructor
      */
     constructor(
         public _loginService: LoginService,
         public dialog: MatDialog,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _formBuilder: FormBuilder
     ) {
+        this.form = this._formBuilder.group({
+            tipoDocumento: [null],
+        });
+        this.tipoDocumentoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -116,5 +150,37 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     onClick(documento): void {
         this.clicked.emit(documento);
+    }
+
+    selectTipoDocumento(tipoDocumento: TipoDocumento): void {
+        if (tipoDocumento) {
+            this.form.get('tipoDocumento').setValue(tipoDocumento);
+        }
+        this.activeCard = 'form';
+    }
+
+    showTipoDocumentoGrid(): void {
+        this.activeCard = 'tipo-documento-list-gridsearch';
+    }
+
+    checkTipoDocumento(): void {
+        const value = this.form.get('tipoDocumento').value;
+        if (!value || typeof value !== 'object') {
+            this.habilitarTipoDocumentoSalvar = false;
+            this.form.get('tipoDocumento').setValue(null);
+        } else {
+            this.habilitarTipoDocumentoSalvar = true;
+        }
+    }
+
+    salvarTipoDocumento(documento: Documento): void {
+        const tipoDocumento = this.form.get('tipoDocumento').value;
+        this.menuTrigger.closeMenu();
+        // @ts-ignore
+        this.alterarTipoDocumento.emit({documento: documento, tipoDocumento: tipoDocumento});
+    }
+
+    cancel(): void {
+        this.activeCard = 'form';
     }
 }

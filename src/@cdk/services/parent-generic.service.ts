@@ -4,6 +4,7 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
 import {map} from 'rxjs/operators';
+import {environment} from '../../environments/environment';
 
 export class ParentGenericService<T> {
 
@@ -70,6 +71,18 @@ export class ParentGenericService<T> {
         }
     }
 
+    patch(t: T, changes: any): Observable<T> {
+        return this.modelService.http.patch(
+            `${environment.api_url}${this.path}/${t['id']}` + environment.xdebug,
+            JSON.stringify(changes)
+        ).pipe(
+            map(response => {
+                response = plainToClass(this.clz, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new this.clz(), {...t, ...response});
+            })
+        );
+    }
 
     destroy(id: number, context: any = '{}'): Observable<T> {
         const params = {};
