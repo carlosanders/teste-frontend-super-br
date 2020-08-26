@@ -64,6 +64,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     selectedOficios: Documento[] = [];
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
+    alterandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
@@ -97,6 +98,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
+
+        this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
@@ -147,27 +150,31 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
             ).subscribe(message => {
-                if (message && message.type === 'assinatura') {
-                    switch (message.content.action) {
-                        case 'assinatura_iniciada':
-                            this.javaWebStartOK = true;
-                            break;
-                        case 'assinatura_cancelada':
-                            this.javaWebStartOK = false;
-                            this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                            break;
-                        case 'assinatura_erro':
-                            this.javaWebStartOK = false;
-                            this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                            break;
-                        case 'assinatura_finalizada':
-                            this.javaWebStartOK = false;
-                            this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                            this._store.dispatch(new UpdateData<Documento>({id: message.content.documentoId, schema: documentoSchema, changes: {assinado: true}}));
-                            break;
-                    }
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
+                        break;
                 }
-            });
+            }
+        });
 
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
@@ -270,6 +277,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
+    doAlterarTipoDocumento(values): void {
+        this._store.dispatch(new fromStore.UpdateDocumento(values));
+    }
+
     doAssinatura(result): void {
         if (result.certificadoDigital) {
             this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
@@ -282,7 +293,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 assinatura.cadeiaCertificadoPkiPath = 'A1';
                 assinatura.assinatura = 'A1';
 
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura, password: result.password}));
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    password: result.password
+                }));
             });
         }
     }
@@ -300,7 +314,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     doConverte(documentoId): void {
-        
+
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 

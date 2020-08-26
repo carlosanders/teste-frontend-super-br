@@ -7,7 +7,7 @@
                   *ngIf="documentos.length > 1">
     </mat-checkbox>
 
-    <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+    <button mat-icon-button [matMenuTriggerFor]="moreMenu" #menuTriggerList="matMenuTrigger"
             aria-label="Ferramentas" (click)="$event.stopPropagation()"
             *ngIf="selectedIds?.length > 1">
         <mat-icon class="secondary-text">more_vert</mat-icon>
@@ -47,23 +47,52 @@
             </ng-container>
         </button>
 
+        <button fxLayout="row" aria-label="alterar tipo documento" fxLayoutAlign="start center"
+                [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
+            <mat-icon>edit</mat-icon>
+            <span>Alterar tipo de Documento</span>
+        </button>
     </mat-menu>
-
 </div>
 
+<mat-menu #tipoDocumentoMenu="matMenu" class="menuTipoDocumento">
+    <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+          fxFlex="1 0 auto" [formGroup]="form" (click)="$event.stopPropagation()">
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
+                <input matInput placeholder="Tipo de Documento"
+                       formControlName="tipoDocumen"
+                       [matAutocomplete]="tipoDocumento.autocomplete"
+                       (blur)="checkTipoDocument()">
+            </div>
+            <cdk-tipo-documento-autocomplete
+                #tipoDocumento="tipoDocumentoAutocomplete"
+                [control]="form.get('tipoDocumen')"
+                [pagination]="tipoDocumentoPagination">
+            </cdk-tipo-documento-autocomplete>
+        </mat-form-field>
+        <button mat-raised-button color="accent" (click)="doAlterarDocumentoBloco()">
+            SALVAR
+        </button>
+    </form>
+</mat-menu>
+
 <cdk-documento-card class="ml-8 mb-8"
-                           *ngFor="let documento of documentos"
-                           [documento]="documento"
-                           [selected]="selectedIds !== undefined && selectedIds.indexOf(documento.id) > -1"
-                           [deleting]="deletingId !== undefined && deletingId.indexOf(documento.id) > -1"
-                           [assinando]="assinandoId !== undefined && assinandoId.indexOf(documento.id) > -1"
-                           [removendoAssinatura]="removendoAssinaturaId !== undefined && removendoAssinaturaId.indexOf(documento.id) > -1"
-                           [convertendo]="convertendoId != undefined && convertendoId.indexOf(documento.id) > -1"
-                           (delete)="doDelete($event)"
-                           (verResposta)="doVerResposta($event)"
-                           (assinatura)="doAssinatura($event)"
-                           (removeAssinatura)="doRemoveAssinatura($event)"
-                           (converte)="doConverte($event)"
-                           (clicked)="onClick($event)"
-                           (changedSelected)="toggleInSelected($event)">
+                    *ngFor="let documento of documentos"
+                    [documento]="documento"
+                    [selected]="selectedIds !== undefined && selectedIds.indexOf(documento.id) > -1"
+                    [deleting]="deletingId !== undefined && deletingId.indexOf(documento.id) > -1"
+                    [assinando]="assinandoId !== undefined && assinandoId.indexOf(documento.id) > -1"
+                    [alterando]="alterandoId !== undefined && alterandoId.indexOf(documento.id) > -1"
+                    [removendoAssinatura]="removendoAssinaturaId !== undefined && removendoAssinaturaId.indexOf(documento.id) > -1"
+                    [convertendo]="convertendoId != undefined && convertendoId.indexOf(documento.id) > -1"
+                    [maisDeUmItemSelecionado]="selectedIds?.length > 1"
+                    (delete)="doDelete($event)"
+                    (verResposta)="doVerResposta($event)"
+                    (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
+                    (assinatura)="doAssinatura($event)"
+                    (removeAssinatura)="doRemoveAssinatura($event)"
+                    (converte)="doConverte($event)"
+                    (clicked)="onClick($event)"
+                    (changedSelected)="toggleInSelected($event)">
 </cdk-documento-card>
