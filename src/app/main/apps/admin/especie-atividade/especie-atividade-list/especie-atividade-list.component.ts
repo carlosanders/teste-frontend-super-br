@@ -50,6 +50,8 @@ export class EspecieAtividadeListComponent implements OnInit {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
