@@ -84,7 +84,7 @@ export class LotacaoListEffect {
                 ofType<RootLotacaoListActions.DeleteLotacao>(RootLotacaoListActions.DELETE_LOTACAO),
                 mergeMap((action) => {
                     return this._lotacaoService.destroy(action.payload).pipe(
-                        map((response) => new RootLotacaoListActions.DeleteLotacaoSuccess(response.id)),
+                        map((response) => new RootLotacaoListActions.DeleteLotacaoSuccess(action.payload)),
                         catchError((err) => {
                             console.log(err);
                             return of(new RootLotacaoListActions.DeleteLotacaoFailed(action.payload));

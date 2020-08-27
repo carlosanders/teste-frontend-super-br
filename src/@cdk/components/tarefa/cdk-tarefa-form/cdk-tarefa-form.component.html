@@ -71,9 +71,12 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+            <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column"
+                      *ngIf="mode === 'regular' ||
+                      mode === 'bloco-create' ||
+                      blocoEdit.blocoEditDistribuicao">
 
-                <mat-card-subtitle>Responsável</mat-card-subtitle>
+                <mat-card-subtitle *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao">Responsável</mat-card-subtitle>
 
                 <mat-slide-toggle formControlName="distribuicaoAutomatica"
                                   *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao"
@@ -163,7 +166,10 @@
                 </mat-form-field>
 
                 <mat-form-field fxFlex="100"
-                                *ngIf="!form.get('usuarioResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || (form.value.unidadeResponsavel && blocoEdit.blocoEditDistribuicao))">
+                                *ngIf="
+                                !form.get('usuarioResponsavel').disabled &&
+                                (mode === 'regular' || mode === 'bloco-create' ||
+                                (form.value.unidadeResponsavel && blocoEdit.blocoEditDistribuicao))">
                     <div fxLayout="row" fxLayoutAlign="start center">
                         <input matInput placeholder="Usuário Responsável"
                                formControlName="usuarioResponsavel"
