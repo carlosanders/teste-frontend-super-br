@@ -24,7 +24,7 @@ export const getSetorId = createSelector(
 
 export const getUnidadeId = createSelector(
     getCoordenadorState,
-    (state: CoordenadorState) => state.loaded ? state.loaded.value : null
+    (state: CoordenadorState) => state.loaded ? state.unidadeId : null
 );
 
 export const getUnidade = createSelector(
