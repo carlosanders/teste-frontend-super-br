@@ -22,6 +22,7 @@ import {CoordenadorAfastamentosComponent} from './coordenador-afastamentos.compo
 import {AfastamentosStoreModule} from './store/store.module';
 import {AfastamentoService} from '@cdk/services/afastamento.service';
 import {modulesConfig} from 'modules/modules-config';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {
@@ -77,6 +78,7 @@ modulesConfig.forEach((module) => {
         AfastamentosStoreModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         AfastamentoService,
