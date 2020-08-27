@@ -112,6 +112,35 @@ export function UsuarioEditReducer(
             };
         }
 
+        case UsuarioEditActions.UPDATE_USUARIO: {
+            return {
+                ...state,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case UsuarioEditActions.UPDATE_USUARIO_SUCCESS: {
+            return {
+                ...state,
+                usuarioId: action.payload.id,
+                loaded: {
+                    id: 'usuarioHandle',
+                    value: action.payload.id
+                },
+                saving: false,
+                errors: false
+            };
+        }
+
+        case UsuarioEditActions.UPDATE_USUARIO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
+        }
+
         default:
             return state;
     }

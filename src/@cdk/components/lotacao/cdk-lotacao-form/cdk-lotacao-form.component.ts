@@ -10,9 +10,9 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pagination} from '@cdk/models/pagination';
-import {Lotacao, Setor, Usuario, Colaborador} from "@cdk/models";
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
-import {of} from "rxjs";
+import {Lotacao, Setor, Usuario, Colaborador} from '@cdk/models';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-lotacao-form',
@@ -61,8 +61,6 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
 
     activeCard = 'form';
 
-    selectedSetor: Setor;
-
     @Input()
     unidadePagination: Pagination;
 
@@ -90,10 +88,10 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
             digito: [null]
         });
        this.colaboradorPagination = new Pagination();
-        this.unidadePagination = new Pagination();
-        this.unidadePagination.filter = {parent: 'isNull'};
-        this.setorPagination = new Pagination();
-        this.setorPagination.filter = {parent: 'isNotNull'};
+       this.unidadePagination = new Pagination();
+       this.unidadePagination.filter = {parent: 'isNull'};
+       this.setorPagination = new Pagination();
+       this.setorPagination.filter = {parent: 'isNotNull'};
 
     }
 
@@ -101,6 +99,7 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
+    // tslint:disable-next-line:typedef
     ngOnInit() {
         if (!this.form.get('unidade').value) {
             this.form.get('setor').disable();
@@ -145,6 +144,10 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['lotacao'] && this.lotacao && ((!this.lotacao.id && !this.form.dirty) || (this.lotacao.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.lotacao});
+
+            if (this.lotacao.setor) {
+                this.form.get('unidade').setValue(this.lotacao.setor.unidade);
+            }
         }
 
         if (this.usuario) {
@@ -214,10 +217,8 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
 
     checkSetor(): void {
         const value = this.form.get('setor').value;
-        this.selectedSetor = value;
         if (!value || typeof value !== 'object') {
             this.form.get('setor').setValue(null);
-            this.selectedSetor = null;
         }
     }
 
