@@ -191,4 +191,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             vinculacaoEtiquetaId: vinculacaoEtiqueta.id
         }));
     }
+
+    visualizarProcessoNovaAba(): void {
+        window.open(this.routerState.url.split('/')[1] + '/processo/' + this.processo.id
+            + '/visualizar', '_blank');
+    }
 }
