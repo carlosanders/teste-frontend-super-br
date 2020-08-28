@@ -1,11 +1,11 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/store';
-import {takeUntil} from 'rxjs/operators';
+import {filter, switchMap, takeUntil} from 'rxjs/operators';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
@@ -60,7 +60,18 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'edit',
                 link: 'editar',
                 processo: true,
-                role: 'ROLE_COLABORADOR'
+                role: 'ROLE_COLABORADOR',
+                canShow: (processo$: Observable<Processo>): Observable<boolean> => {
+                    return processo$.pipe(
+                        filter((processo) => !!processo),
+                        switchMap((processo) => {
+                            if (processo.somenteLeitura) {
+                                return of(false);
+                            }
+                            return of(true);
+                        })
+                    );
+                }
             },
             {
                 nome: 'Download',
