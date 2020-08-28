@@ -57,7 +57,6 @@ export class ResolveGuard implements CanActivate {
             select(getHasLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    console.log(this.routerState.params['setorHandle']);
                     if (this.routerState.params['setorHandle'] === 'criar') {
                         this._store.dispatch(new fromStore.CreateSetor());
                     } else {

@@ -47,25 +47,27 @@ export class PainelComponent implements OnInit, AfterViewInit
      */
     ngOnInit(): void {
 
-        this.historicoIsLoding = true;
-        this._historicoService.query(
-            `{"criadoPor.id": "eq:${this._profile.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
-            5,
-            0,
-            '{}',
-            '["populateAll"]')
-            .pipe(
-                catchError(() => {
-                        this.historicoIsLoding = false;
-                        return of([]);
-                    }
-                )
-            ).subscribe(
-            value => {
-                this.historicoIsLoding = false;
-                this.historicos = value['entities'];
-            }
-        );
+        if (this._loginService.isGranted('ROLE_COLABORADOR')) {
+            this.historicoIsLoding = true;
+            this._historicoService.query(
+                `{"criadoPor.id": "eq:${this._profile.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
+                5,
+                0,
+                '{}',
+                '["populateAll"]')
+                .pipe(
+                    catchError(() => {
+                            this.historicoIsLoding = false;
+                            return of([]);
+                        }
+                    )
+                ).subscribe(
+                value => {
+                    this.historicoIsLoding = false;
+                    this.historicos = value['entities'];
+                }
+            );
+        }
     }
 
     ngAfterViewInit(): void {

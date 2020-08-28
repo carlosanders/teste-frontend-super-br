@@ -51,9 +51,6 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
 
     mobileMode = false;
 
-    prontoTransicao: boolean;
-
-
     /**
      * @param _changeDetectorRef
      * @param _router
@@ -101,13 +98,6 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-
-                if (this.routerState.params.typeHandle === 'pronto-transicao'){
-                    this.prontoTransicao = true;
-                }
-                else{
-                    this.prontoTransicao = false;
-                }
             }
         });
         this.processo$.pipe(
@@ -178,7 +168,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
     ngAfterViewInit(): void {
     }
 
-    isPendenciaAnalise(): boolean{
+    isPendenciaAnalise(): boolean {
         return this.routerState.params.typeHandle === 'pendencia-analise' ? true : false;
     }
 }

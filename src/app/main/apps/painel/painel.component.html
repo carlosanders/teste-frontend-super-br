@@ -26,7 +26,7 @@
                          [@animateStagger]="{value:'50'}" #widgets></widgets>
 
                 <div class="p-12" fxFlex="25">
-                    <cdk-historico-timeline class="p-12" [isLoading]="historicoIsLoding"
+                    <cdk-historico-timeline class="p-12" [isLoading]="historicoIsLoding" *showIfRole="'ROLE_COLABORADOR'"
                                             [historicos]="historicos"></cdk-historico-timeline>
                 </div>
             </div>

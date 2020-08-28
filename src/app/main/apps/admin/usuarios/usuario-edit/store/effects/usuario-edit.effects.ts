@@ -141,6 +141,19 @@ export class UsuarioEditEffects {
             );
 
     /**
+     * Uppdate Usuario Success
+     */
+    @Effect({dispatch: false})
+    updateUsuarioSuccess: any =
+        this._actions
+            .pipe(
+                ofType<UsuarioEditActions.UpdateUsuarioSuccess>(UsuarioEditActions.UPDATE_USUARIO_SUCCESS),
+                tap((action) => {
+                    this._router.navigate([this.routerState.url.replace(('criar'), action.payload.id)]).then();
+                })
+            );
+
+    /**
      * Save Colaborador
      * @type {Observable<any>}
      */

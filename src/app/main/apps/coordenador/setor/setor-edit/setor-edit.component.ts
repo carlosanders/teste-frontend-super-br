@@ -64,9 +64,11 @@ export class SetorEditComponent implements OnInit, OnDestroy {
 
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll'];
+        const unidadeId = this.routerState.params['unidadeHandle'] ?
+            this.routerState.params['unidadeHandle'] : this.routerState.params['entidadeHandle'];
         this.setorPagination.filter = {
-            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
-        }
+            'unidade.id': 'eq:' + unidadeId
+        };
         this.especieSetorPagination = new Pagination();
         this.especieSetorPagination.populate = ['populateAll'];
 
@@ -113,6 +115,10 @@ export class SetorEditComponent implements OnInit, OnDestroy {
                 setor[key] = value;
             }
         );
+
+        if (!setor.sequenciaInicialNUP) {
+            setor.sequenciaInicialNUP = 0;
+        }
 
         this._store.dispatch(new fromStore.SaveSetor(setor));
 

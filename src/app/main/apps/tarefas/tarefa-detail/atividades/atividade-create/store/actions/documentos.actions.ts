@@ -10,6 +10,10 @@ export const DELETE_DOCUMENTO = '[ATIVIDADE CREATE] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] DELETE DOCUMENTO SUCCESS';
 export const DELETE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] DELETE DOCUMENTO FAILED';
 
+export const UPDATE_DOCUMENTO = '[ATIVIDADE CREATE] UPDATE DOCUMENTO';
+export const UPDATE_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] UPDATE DOCUMENTO SUCCESS';
+export const UPDATE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] UPDATE DOCUMENTO FAILED';
+
 export const ASSINA_DOCUMENTO = '[ATIVIDADE CREATE] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] ASSINA DOCUMENTO FAILED';
@@ -109,6 +113,42 @@ export class DeleteDocumentoSuccess implements Action
 export class DeleteDocumentoFailed implements Action
 {
     readonly type = DELETE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento
+ */
+export class UpdateDocumento implements Action
+{
+    readonly type = UPDATE_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Update Documento Success
+ */
+export class UpdateDocumentoSuccess implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Documento Failed
+ */
+export class UpdateDocumentoFailed implements Action
+{
+    readonly type = UPDATE_DOCUMENTO_FAILED;
 
     constructor(public payload: any)
     {
@@ -302,6 +342,9 @@ export type AtividadeCreateDocumentosActionsAll
     | RemoveAssinaturaDocumento
     | RemoveAssinaturaDocumentoSuccess
     | RemoveAssinaturaDocumentoFailed
+    | UpdateDocumento
+    | UpdateDocumentoSuccess
+    | UpdateDocumentoFailed
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
