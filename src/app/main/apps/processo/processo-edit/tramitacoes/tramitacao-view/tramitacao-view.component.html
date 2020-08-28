@@ -1,0 +1,40 @@
+<div class="left-sidebar" fxFlex fxLayout="row">
+
+    <!-- CENTER -->
+    <div class="center" fxFlex fxLayout="column">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+            <button mat-icon-button
+                    (click)="back()"
+                    aria-label="voltar"
+                    matTooltip="Voltar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <div class="m-8" fxLayoutAlign="center">Tramitações - GUIA DE TRAMITAÇÃO</div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT -->
+        <div fxFlex class="content">
+
+            <div class="tramitacao-view-tramitacao" cdkPerfectScrollbar>
+
+                <div fxLayout="column" fxFlex
+                     fxLayoutAlign="center center">
+                    <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
+                </div>
+
+                <div *ngIf="!loading" class="tramitacao-view-content">
+                    <iframe id="iframe-tramitacao" [src]="src"></iframe>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>
