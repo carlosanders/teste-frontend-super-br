@@ -79,11 +79,8 @@ export class WorkflowEditComponent implements OnInit {
                 workflow[key] = value;
             }
         );
-        if (this.formWorkflow.value.id) {
-            this._store.dispatch(new fromStore.UpdateWorkflow(workflow));
-        } else {
-            this._store.dispatch(new fromStore.SaveWorkflow(workflow));
-        }
+        this._store.dispatch(new fromStore.SaveWorkflow(workflow));
+
     }
 
     doAbort(): void {
