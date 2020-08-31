@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import {Usuario} from '@cdk/models';
+import {TipoDocumento, Usuario} from '@cdk/models';
 import {ModalidadeTemplate} from '@cdk/models';
 import {Documento} from '@cdk/models';
 
@@ -27,6 +27,10 @@ export class Template {
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     documento?: Documento;
+
+    @Type(() => TipoDocumento)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    tipoDocumento?: TipoDocumento;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -66,6 +70,7 @@ export class Template {
         this.ativo = null;
         this.modalidadeTemplate = null;
         this.documento = null;
+        this.tipoDocumento = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
