@@ -185,7 +185,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     ngOnInit(): void {
 
-        if (this.form.get('processo').value) {
+        if (this.form.get('processo').value && this.form.get('processo').value.NUP) {
             this.form.get('especieTarefa').enable();
             if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
                 this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
@@ -197,6 +197,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         } else {
             this.form.get('especieTarefa').disable();
+        }
+
+        if (this.blocoEdit.blocoEditEspecie) {
+            this.form.get('especieTarefa').enable();
         }
 
         if (this.form.get('unidadeResponsavel').value) {
@@ -352,15 +356,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             }
                         }
 
+                        this.clearValidators();
                         this._changeDetectorRef.markForCheck();
-                    }
-
-                    if (this.valid && this.blocoEdit.blocoEditDistribuicao) {
-                        this.form.get('processo').clearValidators();
-                        this.form.get('dataHoraInicioPrazo').clearValidators();
-                        this.form.get('dataHoraFinalPrazo').clearValidators();
-                        this.form.get('especieTarefa').clearValidators();
-                        this.form.get('setorOrigem').clearValidators();
                     }
 
                     return of([]);
@@ -372,6 +369,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap(() => {
+                    this.clearValidators();
                     this.alteraPrazoDias();
                     this.validaPrazo();
                     return of([]);
@@ -383,6 +381,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap(() => {
+                    this.clearValidators();
                     this.alteraPrazoDias();
                     this.validaPrazo();
                     return of([]);
@@ -415,6 +414,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value) {
+                        this.clearValidators();
                         this.evento = value.evento;
                         if (!this.evento) {
                             this.form.get('localEvento').reset();
@@ -915,5 +915,15 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             }
         );
+    }
+
+    clearValidators(): void {
+        if (this.valid && this.blocoEdit.blocoEditDistribuicao) {
+            this.form.get('processo').clearValidators();
+            this.form.get('dataHoraInicioPrazo').clearValidators();
+            this.form.get('dataHoraFinalPrazo').clearValidators();
+            this.form.get('especieTarefa').clearValidators();
+            this.form.get('setorOrigem').clearValidators();
+        }
     }
 }

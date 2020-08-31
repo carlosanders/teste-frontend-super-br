@@ -68,8 +68,10 @@ export class CompetenciasListComponent implements OnInit {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
-                ...params.gridFilter,
                 'setor.id': 'eq:' + this.routerState.params['unidadeHandle']
+            },
+            gridFilter: {
+                ...params.gridFilter
             },
             sort: params.sort,
             limit: params.limit,

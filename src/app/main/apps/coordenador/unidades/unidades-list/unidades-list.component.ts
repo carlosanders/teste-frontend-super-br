@@ -68,9 +68,11 @@ export class UnidadesOrgaoCentralListComponent implements OnInit {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
-                ...params.gridFilter,
                 'modalidadeOrgaoCentral.id': this.routerState.params.entidadeHandle,
                 'parent': 'isNull'
+            },
+            gridFilter: {
+                ...params.gridFilter
             },
             sort: params.sort,
             limit: params.limit,

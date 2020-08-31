@@ -270,38 +270,36 @@
             </mat-form-field>
         </mat-card>
 
-        <div *ngIf="!form.value.id && form.value.temProcessoOrigem === true">
-            <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
-                <mat-slide-toggle *ngIf="!form.value.id" formControlName="temProcessoOrigem"
-                                  class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
-                    Importar Dados de Processo Existente no Sistema
-                </mat-slide-toggle>
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
+            <mat-slide-toggle *ngIf="!form.value.id" formControlName="temProcessoOrigem"
+                              class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
+                Importar Dados de Processo Existente no Sistema
+            </mat-slide-toggle>
 
-                <mat-form-field *ngIf="!form.value.id && form.value.temProcessoOrigem === true">
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Processo Origem"
-                               formControlName="processoOrigem"
-                               [matAutocomplete]="processoOrigem.autocomplete" required
-                               (blur)="checkProcesso()">
-                    </div>
+            <mat-form-field *ngIf="!form.value.id && form.value.temProcessoOrigem === true">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Processo Origem"
+                           formControlName="processoOrigem"
+                           [matAutocomplete]="processoOrigem.autocomplete" required
+                           (blur)="checkProcesso()">
+                </div>
 
-                    <cdk-processo-autocomplete
-                        #processoOrigem="processoAutocomplete"
-                        [control]="form.get('processoOrigem')"
-                        [pagination]="processoPagination">
-                    </cdk-processo-autocomplete>
+                <cdk-processo-autocomplete
+                    #processoOrigem="processoAutocomplete"
+                    [control]="form.get('processoOrigem')"
+                    [pagination]="processoPagination">
+                </cdk-processo-autocomplete>
 
-                    <button *ngIf="form.get('processoOrigem').enabled" matSuffix mat-button
-                            mat-icon-button
-                            (click)="showProcessoGrid()">
-                        <mat-icon matTooltip="Procurar">search</mat-icon>
-                    </button>
-                    <mat-error *ngIf="form.get('processoOrigem').hasError('formError')">
-                        {{form.get('processoOrigem').errors.formError}}
-                    </mat-error>
-                </mat-form-field>
-            </mat-card>
-        </div>
+                <button *ngIf="form.get('processoOrigem').enabled" matSuffix mat-button
+                        mat-icon-button
+                        (click)="showProcessoGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('processoOrigem').hasError('formError')">
+                    {{form.get('processoOrigem').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+        </mat-card>
 
         <ng-template *showIfRole="'ROLE_COLABORADOR'">
             <mat-form-field fxFlex>

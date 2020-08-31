@@ -2,12 +2,14 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter, Input, OnChanges,
-    OnInit, Output,
+    OnInit, Output, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Documento} from '@cdk/models';
+import {Documento, Pagination} from '@cdk/models';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
     selector: 'cdk-documento-card-list',
@@ -40,11 +42,17 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     @Output()
     verResposta = new EventEmitter<Documento>();
 
+    @Output()
+    alterarTipoDocumento = new EventEmitter<Documento>();
+
     @Input()
     deletingId: number[] = [];
 
     @Input()
     assinandoId: number[] = [];
+
+    @Input()
+    alterandoId: number[] = [];
 
     @Input()
     removendoAssinaturaId: number[] = [];
@@ -55,18 +63,34 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     @Output()
     changedSelectedIds = new EventEmitter<number[]>();
 
+    @Input()
+    tipoDocumentoPagination: Pagination;
+
+    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
+
     selectedIds: number[] = [];
 
     hasSelected = false;
 
     isIndeterminate = false;
 
+    form: FormGroup;
+
+    habilitarTipoDocumentoSalvar = false;
+
+
     /**
      * @param _changeDetectorRef
+     * @param _formBuilder
      */
     constructor(
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _formBuilder: FormBuilder
     ) {
+        this.form = this._formBuilder.group({
+            tipoDocumen: [null],
+        });
+        this.tipoDocumentoPagination = new Pagination();
     }
 
     ngOnInit(): void {
@@ -108,6 +132,21 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
         this.verResposta.emit(documento);
     }
 
+    doAlterarDocumentoBloco(): void {
+        const tipoDocumento = this.form.get('tipoDocumen').value;
+
+        this.selectedIds.forEach(documentoId => {
+            const documentos = this.documentos.filter(doc => doc.id === documentoId);
+            this.doAlterarTipoDocumento({documento: documentos[0], tipoDocumento: tipoDocumento});
+        });
+        this.menuTriggerList.closeMenu();
+    }
+
+    doAlterarTipoDocumento(documentoTipoDocumento): void {
+        // @ts-ignore
+        this.alterarTipoDocumento.emit({documento: documentoTipoDocumento.documento, tipoDocumento: documentoTipoDocumento.tipoDocumento});
+    }
+
     onClick(documento): void {
         this.clicked.emit(documento);
     }
@@ -122,6 +161,16 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     doRemoveAssinaturaDocumentoBloco(): void {
         this.selectedIds.forEach(documentoId => this.doRemoveAssinatura(documentoId));
+    }
+
+    checkTipoDocument(): void {
+        const value = this.form.get('tipoDocumen').value;
+        if (!value || typeof value !== 'object') {
+            this.habilitarTipoDocumentoSalvar = false;
+            this.form.get('tipoDocumen').setValue(null);
+        } else {
+            this.habilitarTipoDocumentoSalvar = true;
+        }
     }
 
     /**
@@ -162,7 +211,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     // **********************************MUDANÇA CONVERTE
-    doConverte(documentoId): void { 
+    doConverte(documentoId): void {
         this.converte.emit(documentoId);
     }
 

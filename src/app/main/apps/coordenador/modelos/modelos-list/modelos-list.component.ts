@@ -85,7 +85,9 @@ export class ModelosListComponent implements OnInit {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
-                ...params.gridFilter,
+            },
+            gridFilter: {
+                ...params.gridFilter
             },
             sort: params.sort,
             limit: params.limit,

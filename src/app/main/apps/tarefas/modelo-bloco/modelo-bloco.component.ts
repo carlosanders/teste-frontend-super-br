@@ -103,6 +103,8 @@ export class ModeloBlocoComponent implements OnInit, OnDestroy  {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,

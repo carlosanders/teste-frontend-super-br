@@ -2,11 +2,11 @@ import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../../store';
 import {getRouterState} from 'app/store/reducers';
-import {Observable} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {Processo} from '@cdk/models';
 import {modulesConfig} from 'modules/modules-config';
 import {getProcesso} from '../../../store';
-import {filter} from 'rxjs/operators';
+import {filter, switchMap} from 'rxjs/operators';
 import {LoginService} from '../../../../../auth/login/login.service';
 
 @Component({
@@ -22,7 +22,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
     processo$: Observable<Processo>;
     processo: Processo;
 
-    generoProcesso = 'ADMINISTRATIVO';
+    canShowTramitacao$: Subject<boolean>;
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
@@ -55,7 +55,6 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
         ).subscribe(
             processo => {
                 this.processo = processo;
-                this.generoProcesso = processo.especieProcesso.generoProcesso.nome;
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -151,17 +150,25 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Transições',
                 link: 'transicoes',
                 role: 'ROLE_COLABORADOR'
-            }
-        );
-
-        if (this.processo.modalidadeMeio.valor === 'ELETRÔNICO') {
-            this.links.push({
+            },
+            {
                 index: 150,
                 nome: 'Tramitações',
                 link: 'tramitacoes',
-                role: 'ROLE_COLABORADOR'
-            });
-        }
+                role: 'ROLE_COLABORADOR',
+                canShow: (processo$: Observable<Processo>): Observable<boolean> => {
+                    return processo$.pipe(
+                        filter((processo) => !!processo),
+                        switchMap((processo) => {
+                            if (!processo.modalidadeMeio || processo.modalidadeMeio.valor === 'ELETRÔNICO') {
+                                return of(false);
+                            }
+                            return of(true);
+                        })
+                    );
+                }
+            }
+        );
 
         this.links = this.links.sort((a, b) => a.index - b.index);
     }
