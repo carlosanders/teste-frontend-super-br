@@ -92,6 +92,11 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Municípios',
                 icon: 'location_on',
                 link: 'municipios'
+            },
+            {
+                nome: 'WorkFlows',
+                icon: 'low_priority',
+                link: 'workflows'
             }
         ];
 

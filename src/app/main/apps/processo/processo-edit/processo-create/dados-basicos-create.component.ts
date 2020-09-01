@@ -130,6 +130,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     genero = 'administrativo';
 
+    pessoa: Pessoa;
+
     /**
      *
      * @param _store
@@ -290,6 +292,13 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.tarefa.dataHoraFinalPrazo = moment().add(5, 'days').set({ hour : 20, minute : 0, second : 0 });
                 this.tarefa.setorOrigem = this._profile.colaborador.lotacoes[0].setor;
 
+                this.assuntoActivated = 'form';
+                this.interessadoActivated = 'form';
+                this.vinculacaoProcessoActivated = 'form';
+
+                this.assunto = new Assunto();
+                this.assunto.processo = this.processo;
+
                 setTimeout(() => {
                     this.selectedIndex = 1;
                 }, 1000);
@@ -301,6 +310,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             this.processo.unidadeArquivistica = 1;
             this.processo.tipoProtocolo = 1;
             this.selectedIndex = 0;
+            this.assuntoActivated = 'form';
+            this.interessadoActivated = 'form';
+            this.vinculacaoProcessoActivated = 'form';
         }
 
         this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: this.processo.id};
@@ -323,6 +335,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.interessado = new Interessado();
         this.vinculacaoProcesso = new VinculacaoProcesso();
         this.vinculacaoProcesso.processo = this.processo;
+        if (this.processo.id) {
+            this.assunto.processo = this.processo;
+        }
 
         this.assuntos$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -331,7 +346,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             assuntos => {
                 this.assuntos = assuntos;
 
-                if (this.assuntos) {
+                if (this.assuntos.length > 0) {
                     this.assuntoActivated = 'grid';
                 }
             }
@@ -449,7 +464,13 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     onActivate(componentReference): void  {
         if (componentReference.select) {
             componentReference.select.subscribe((pessoa: Pessoa) => {
-                this.procedencia = pessoa;
+                if (!this.processo.id) {
+                    this.procedencia = pessoa;
+                }
+                else {
+                    this.pessoa = pessoa;
+                    this.interessadoActivated = 'form';
+                }
                 this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
             });
         }
@@ -469,8 +490,24 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
     }
 
+    gerirPessoa(): void {
+        this._router.navigate([this.routerState.url + '/pessoa/listar']).then();
+    }
+
+    editPessoa(pessoaId: number): void {
+        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
+    }
+
     doAbort(): void {
-        this.stepper.previous();
+        if (this.stepper['_selectedIndex'] === 1) {
+            this.assuntoActivated = 'grid';
+        }
+        if (this.stepper['_selectedIndex'] === 2) {
+            this.interessadoActivated = 'grid';
+        }
+        if (this.stepper['_selectedIndex'] === 4) {
+            this.vinculacaoProcessoActivated = 'grid';
+        }
     }
 
     submitAssunto(values): void {
@@ -485,8 +522,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         assunto.processo = this.processo;
 
         this._store.dispatch(new SaveAssunto(assunto));
-
-        this.assuntoActivated = 'grid';
     }
 
     submitInteressado(values): void {
@@ -501,8 +536,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         interessado.processo = this.processo;
 
         this._store.dispatch(new SaveInteressado(interessado));
-
-        this.interessadoActivated = 'grid';
     }
 
     submitVinculacaoProcesso(values): void {
@@ -517,8 +550,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         vinculacaoProcesso.processo = this.processo;
 
         this._store.dispatch(new SaveVinculacaoProcesso(vinculacaoProcesso));
-
-        this.vinculacaoProcessoActivated = 'grid';
     }
 
     submitTarefa(values): void {
@@ -672,9 +703,12 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     create(form): void {
         switch (form) {
             case 'assunto':
+                this.assunto = new Assunto();
                 this.assuntoActivated = 'form';
                 break;
             case 'interessado':
+                this.interessado = new Interessado();
+                this.pessoa = new Pessoa();
                 this.interessadoActivated = 'form';
                 break;
             case 'vinculacao-processo':

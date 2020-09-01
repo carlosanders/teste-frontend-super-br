@@ -116,7 +116,7 @@ routes[0].children.push({
         VinculacaoEtiquetaService,
         LoginService,
         fromGuards.ResolveGuard
-    ]
+    ],
 })
 export class ProcessoModule {
 }

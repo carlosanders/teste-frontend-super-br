@@ -18,8 +18,8 @@
     <div class="nav material2">
 
         <div class="nav-item" *ngFor="let link of links">
-            <a *ngIf="this._loginService.isGranted(link.role) && (!link.processo || (processo$ | async))" class="nav-link" matRipple [routerLink]="link.link"
-
+            <a *ngIf="(link.canShow === undefined || (link.canShow(this.processo$) | async) === true) && this._loginService.isGranted(link.role) && (!link.processo || (processo$ | async))"
+               class="nav-link" matRipple [routerLink]="link.link"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
                 <span>{{link.nome | titlecase}}</span>

@@ -109,3 +109,4 @@ export * from './vinculacao-usuario.model';
 export * from './visibilidade.model';
 export * from './vinculacao-pessoa-usuario.model';
 export * from './volume.model';
+export * from './workflow.model';
