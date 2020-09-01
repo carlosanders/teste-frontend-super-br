@@ -62,8 +62,7 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="imprimir etiqueta"
-                            >
+                    <button mat-menu-item aria-label="imprimir etiqueta" (click)="imprimirEtiqueta()">
                         <ng-container>
                             <mat-icon>video_label</mat-icon>
                             <span>Imprimir Etiqueta</span>

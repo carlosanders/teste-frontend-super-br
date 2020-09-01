@@ -28,6 +28,7 @@ import {Usuario} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
+import {ProcessoService} from '../../../../@cdk/services/processo.service';
 
 @Component({
     selector: 'processo',
@@ -43,6 +44,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     processo$: Observable<Processo>;
     processo: Processo;
+    processoService: ProcessoService;
 
     loading$: Observable<boolean>;
     routerState: any;
@@ -195,5 +197,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     visualizarProcessoNovaAba(): void {
         window.open(this.routerState.url.split('/')[1] + '/processo/' + this.processo.id
             + '/visualizar', '_blank');
+    }
+
+    imprimirEtiqueta(): void {
+        /// Aqui...
     }
 }
