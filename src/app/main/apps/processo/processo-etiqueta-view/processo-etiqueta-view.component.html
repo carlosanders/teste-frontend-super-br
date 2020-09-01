@@ -1,0 +1,40 @@
+<div class="left-sidebar" fxFlex fxLayout="row">
+
+    <!-- CENTER -->
+    <div class="center" fxFlex fxLayout="column">
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+            <button mat-icon-button
+                    (click)="back()"
+                    aria-label="voltar"
+                    matTooltip="Voltar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+            <div class="m-8" fxLayoutAlign="center">Processo Etiqueta</div>
+        </div>
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT -->
+        <div fxFlex class="content">
+
+            <div class="processo-etiqueta-view-etiqueta" cdkPerfectScrollbar>
+
+                <div fxLayout="column" fxFlex
+                     fxLayoutAlign="center center">
+                    <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
+                </div>
+
+                <div *ngIf="!loading" class="processo-etiqueta-view-content">
+                    <iframe id="iframe-processo-etiqueta" [src]="src"></iframe>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

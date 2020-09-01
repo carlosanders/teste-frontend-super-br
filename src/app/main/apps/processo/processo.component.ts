@@ -121,7 +121,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.processo$.subscribe(processo => {
             this.processo = processo;
         });
-
     }
 
     ngAfterViewInit(): void {
@@ -136,9 +135,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                 }));
             }
         });
-
-
-
     }
 
     /**
@@ -195,7 +191,12 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         }));
     }
 
-    imprimir(): void {
-        console.log(this.container);
+    visualizarProcessoNovaAba(): void {
+        window.open(this.routerState.url.split('/')[1] + '/processo/' + this.processo.id
+            + '/visualizar', '_blank');
+    }
+
+    imprimirEtiqueta(): void {
+        this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'etiqueta']).then();
     }
 }

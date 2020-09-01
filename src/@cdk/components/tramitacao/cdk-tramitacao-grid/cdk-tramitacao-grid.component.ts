@@ -143,7 +143,7 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     pageSize = 5;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'view'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -156,6 +156,9 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
 
     @Output()
     cancel = new EventEmitter<any>();
+
+    @Output()
+    view = new EventEmitter<number>();
 
     @Output()
     edit = new EventEmitter<number>();
@@ -273,6 +276,10 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
         else {
             this.loadPage();
         }
+    }
+
+    viewTramitacao(tramitacaoId): void {
+        this.view.emit(tramitacaoId);
     }
 
     editTramitacao(tramitacaoId): void {
