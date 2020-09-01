@@ -69,6 +69,8 @@ export class TarefaListComponent implements OnInit {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
@@ -93,7 +95,7 @@ export class TarefaListComponent implements OnInit {
         }));
     }
 
-    create () : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

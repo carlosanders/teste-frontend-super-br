@@ -72,8 +72,10 @@ export class SetorListComponent implements OnInit {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
-                ...params.gridFilter,
-                'parent': 'isNotNull'
+                parent: 'isNotNull'
+            },
+            gridFilter: {
+                ...params.gridFilter
             },
             sort: params.sort,
             limit: params.limit,

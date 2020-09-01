@@ -68,8 +68,10 @@ export class UnidadesListComponent implements OnInit {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
-                ...params.gridFilter,
-                'parent': 'isNull'
+                parent: 'isNull'
+            },
+            gridFilter: {
+                ...params.gridFilter
             },
             sort: params.sort,
             limit: params.limit,

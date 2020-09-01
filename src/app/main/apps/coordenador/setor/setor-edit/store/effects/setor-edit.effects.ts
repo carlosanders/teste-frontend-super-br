@@ -106,7 +106,7 @@ export class SetorEditEffects {
             .pipe(
                 ofType<SetorEditActions.SaveSetorSuccess>(SetorEditActions.SAVE_SETOR_SUCCESS),
                 tap(() => {
-                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.setorHandle), 'listar')]).then();
+                    this._router.navigate([this.routerState.url.replace(('setor/'), 'setor/default/listar')]).then();
                 })
             );
 }

@@ -142,6 +142,8 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,

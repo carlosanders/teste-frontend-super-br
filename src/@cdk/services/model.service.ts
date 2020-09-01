@@ -7,7 +7,7 @@ import { environment } from 'environments/environment';
 export class ModelService {
 
     constructor(
-        private http: HttpClient
+        public http: HttpClient
     ) {}
 
     getOne(path: string, id: number, params: HttpParams = new HttpParams()): Observable<any> {

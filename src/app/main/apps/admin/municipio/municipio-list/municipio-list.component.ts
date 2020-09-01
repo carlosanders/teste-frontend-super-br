@@ -45,11 +45,21 @@ export class MunicipioListComponent implements OnInit {
         });
     }
 
+    /**
+     *
+     * colaborador.lotacoes.setor.id: eq:1
+     *
+     * nome: like:eduardo
+     *
+     */
+
     reload(params): void {
         this._store.dispatch(new fromStore.GetMunicipio({
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,

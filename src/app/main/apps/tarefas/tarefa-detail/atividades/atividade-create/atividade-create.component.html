@@ -40,12 +40,14 @@
                     <cdk-documento-card-list [documentos]="minutas"
                                              [deletingId]="(deletingDocumentosId$ | async)"
                                              [assinandoId]="(assinandoDocumentosId$ | async)"
+                                             [alterandoId]="(alterandoDocumentosId$ | async)"
                                              [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
                                              [convertendoId]="(convertendoDocumentosId$ | async)"
                                              (delete)="doDelete($event)"
                                              (removeAssinatura)="doRemoveAssinatura($event)"
                                              (assinatura)="doAssinatura($event)"
                                              (converte)="doConverte($event)"
+                                             (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                                              (clicked)="onClicked($event)"
                                              (changedSelectedIds)="changedSelectedIds($event)">
                     </cdk-documento-card-list>

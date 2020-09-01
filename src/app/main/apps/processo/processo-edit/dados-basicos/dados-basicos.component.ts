@@ -102,6 +102,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.especieProcessoPagination.populate = ['generoProcesso'];
         this.setorAtualPagination.populate = ['unidade', 'parent'];
         this.setorAtualPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+        this.classificacaoPagination.filter = {permissaoUso: 'eq:true'};
         this.classificacaoPagination.populate = ['parent'];
     }
 
