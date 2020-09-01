@@ -103,4 +103,9 @@ export class ProcessoService extends ParentGenericService<Processo> {
             })
         );
     }
+
+    imprimirEtiqueta(id: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
+        params['context'] = context;
+        return this.http.get(`${environment.api_url}processo/imprime_etiqueta/${id}` + environment.xdebug, {params});
+    }
 }

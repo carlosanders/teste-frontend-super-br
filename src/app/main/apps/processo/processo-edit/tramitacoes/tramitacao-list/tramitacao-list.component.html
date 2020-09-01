@@ -4,10 +4,11 @@
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['create', 'edit', 'delete', 'showDeleted']"
+        [actions]="['create', 'edit', 'delete', 'showDeleted', 'view']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"
+        (view)="view($event)"
         (create)="create()"
         (delete)="delete($event)">
 </cdk-tramitacao-grid>

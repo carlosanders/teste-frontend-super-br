@@ -24,7 +24,6 @@ import {ProcessoDownloadModule} from './processo-download/processo-download.modu
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {modulesConfig} from 'modules/modules-config';
-import {ProcessoDisciplinarComponent} from '../../../../modules/disciplinar/app/main/apps/processo/processo-disciplinar.component';
 
 const routes: Routes = [
     {
@@ -63,6 +62,11 @@ const routes: Routes = [
             {
                 path: 'processo-capa',
                 loadChildren: () => import('./processo-capa/processo-capa.module').then(m => m.ProcessoCapaModule),
+                canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path: 'etiqueta',
+                loadChildren: () => import('./processo-etiqueta-view/processo-etiqueta-view.module').then(m => m.ProcessoEtiquetaViewModule),
                 canActivate: [fromGuards.ResolveGuard]
             }
         ]
