@@ -63,6 +63,11 @@ const routes: Routes = [
                 path: 'processo-capa',
                 loadChildren: () => import('./processo-capa/processo-capa.module').then(m => m.ProcessoCapaModule),
                 canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path: 'etiqueta',
+                loadChildren: () => import('./processo-etiqueta-view/processo-etiqueta-view.module').then(m => m.ProcessoEtiquetaViewModule),
+                canActivate: [fromGuards.ResolveGuard]
             }
         ]
     }
