@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import * as VinculacoesProcessosActions from '../actions/vinculacao-processo.actions';
 
@@ -123,4 +123,23 @@ export class VinculacaoProcessoEffects {
                 }),
             );
 
+    /**
+     * Delete VinculacaoProcesso
+     * @type {Observable<any>}
+     */
+    @Effect()
+    deleteVinculacaoProcesso: any =
+        this._actions
+            .pipe(
+                ofType<VinculacoesProcessosActions.DeleteVinculacaoProcesso>(VinculacoesProcessosActions.DELETE_VINCULACAO_PROCESSO),
+                mergeMap((action) => {
+                    return this._vinculacaoProcessoService.destroy(action.payload).pipe(
+                        map((response) => new VinculacoesProcessosActions.DeleteVinculacaoProcessoSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new VinculacoesProcessosActions.DeleteVinculacaoProcessoFailed(action.payload));
+                        })
+                    );
+                })
+            );
 }

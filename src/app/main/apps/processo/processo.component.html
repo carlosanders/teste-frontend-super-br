@@ -62,7 +62,7 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="imprimir etiqueta"
+                    <button (click)="imprimir()"mat-menu-item aria-label="imprimir etiqueta"
                             >
                         <ng-container>
                             <mat-icon>video_label</mat-icon>
@@ -77,8 +77,11 @@
                             <span>Autuar</span>
                         </ng-container>
                     </button>
-                    <ng-template #dynamicComponent></ng-template>
+                    <ng-template #dynamicComponent> </ng-template>
+
                 </mat-menu>
+
+
 
             </div>
         </div>
