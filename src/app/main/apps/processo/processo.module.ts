@@ -24,7 +24,6 @@ import {ProcessoDownloadModule} from './processo-download/processo-download.modu
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {modulesConfig} from 'modules/modules-config';
-import {ProcessoDisciplinarComponent} from '../../../../modules/disciplinar/app/main/apps/processo/processo-disciplinar.component';
 
 const routes: Routes = [
     {

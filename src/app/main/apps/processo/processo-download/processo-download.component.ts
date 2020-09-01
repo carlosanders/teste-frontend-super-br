@@ -83,10 +83,8 @@ export class ProcessoDownloadComponent implements OnInit, OnDestroy {
     }
 
     submitDownload(values): void {
-
         let sequencial = '';
-        if (values['parcial'])
-        {
+        if (values['parcial']) {
             sequencial = values['sequencial'];
         }
 

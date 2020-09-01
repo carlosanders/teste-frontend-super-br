@@ -26,7 +26,6 @@ import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
-import {ProcessoDisciplinarComponent} from '../../../../modules/disciplinar/app/main/apps/processo/processo-disciplinar.component';
 
 @Component({
     selector: 'processo',
