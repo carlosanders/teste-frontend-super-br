@@ -1,8 +1,8 @@
 <div class="page-layout left-sidebar" fxFlex>
 
     <!-- SIDEBAR -->
-    <cdk-sidebar name="cdk-workflow-filter" position="left">
-        <cdk-workflow-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-workflow-filter>
+    <cdk-sidebar name="cdk-transicao-workflow-filter" position="left">
+        <cdk-transicao-workflow-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-transicao-workflow-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -26,7 +26,7 @@
             </button>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteWorkflows(selectedIds)"
+                    (click)="deleteTransicoesWorkflows(selectedIds)"
                     aria-label="remover"
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>
@@ -78,11 +78,11 @@
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
-                    <td mat-cell *matCellDef="let workflow">
-                        <mat-checkbox [checked]="selectedIds.indexOf(workflow.id) > -1"
-                                      (change)="toggleInSelected(workflow.id)"
+                    <td mat-cell *matCellDef="let transicaoWorkflow">
+                        <mat-checkbox [checked]="selectedIds.indexOf(transicaoWorkflow.id) > -1"
+                                      (change)="toggleInSelected(transicaoWorkflow.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(workflow.id) > -1 || hasExcluded">
+                                      [disabled]="deletedIds?.indexOf(transicaoWorkflow.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -91,27 +91,55 @@
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
-                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.id}} </td>
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.id}} </td>
                 </ng-container>
 
-                <!-- Especie Tarefa Inicial Column -->
-                <ng-container matColumnDef="especieTarefaInicial.nome">
+                <!-- Especie Column -->
+
+                <ng-container matColumnDef="workflow.especieProcesso.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Espécie Tarefa Inicial
+                        Workflow
                     </th>
-                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
-                        data-label='Espécie Tarefa Inicial: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.especieTarefaInicial?.nome}} </td>
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
+                        data-label='Workflow: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.workflow?.especieProcesso?.nome}} </td>
                 </ng-container>
 
-                <!-- Espécie Processo Column -->
-                <ng-container matColumnDef="especieProcesso.nome">
+                <ng-container matColumnDef="workflow.especieTarefa.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Espécie Processo
+                        Workflow
                     </th>
-                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile' data-label='Espécie Processo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.especieProcesso?.nome}} </td>
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
+                        data-label='Workflow: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.workflow?.especieProcesso?.nome}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="especieAtividade.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Espécie Atividade
+                    </th>
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Espécie Atividade: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow?.especieAtividade?.nome}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="especieTarefaFrom.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Espécie Tarefa From
+                    </th>
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Espécie Tarefa From: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow?.especieTarefaFrom?.nome}} </td>
+                </ng-container>
+
+                <!--  Column -->
+                <ng-container matColumnDef="especieTarefaTo.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Espécie Tarefa To
+                    </th>
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Espécie Tarefa From: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow?.especieTarefaTo?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -119,9 +147,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -129,8 +157,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Criado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -139,9 +167,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -149,9 +177,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -159,9 +187,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -169,19 +197,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
                         data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let workflow">
+                    <td mat-cell *matCellDef="let transicaoWorkflow">
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
-                                (click)="selectWorkflow(workflow)"
+                                (click)="selectTransicaoWorkflow(transicaoWorkflow)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
                             <mat-icon>keyboard_return</mat-icon>
@@ -189,36 +217,36 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('edit') > -1"
-                                [disabled]="deletedIds?.indexOf(workflow.id) > -1 && !hasExcluded"
-                                (click)="editWorkflow(workflow.id)"
+                                [disabled]="deletedIds?.indexOf(transicaoWorkflow.id) > -1 && !hasExcluded"
+                                (click)="editTransicaoWorkflow(transicaoWorkflow.id)"
                                 aria-label="editar"
                                 matTooltip="Editar">
                             <mat-icon>edit</mat-icon>
                         </button>
 
-                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(workflow.id) > -1">
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(transicaoWorkflow.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(workflow.id) === -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(workflow.id) > -1"
-                                (click)="deleteWorkflow(workflow.id)"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(transicaoWorkflow.id) === -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(transicaoWorkflow.id) > -1"
+                                (click)="deleteTransicaoWorkflow(transicaoWorkflow.id)"
                                 aria-label="remover"
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('favorito') > -1 && deletingIds?.indexOf(workflow.id) === -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(workflow.id) > -1"
-                                (click)="salvarFavorito(workflow.favoritos[0])"
+                                *ngIf="actions.indexOf('favorito') > -1 && deletingIds?.indexOf(transicaoWorkflow.id) === -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(transicaoWorkflow.id) > -1"
+                                (click)="salvarFavorito(transicaoWorkflow.favoritos[0])"
                                 aria-label="favorito"
                                 matTooltip="Favorito">
 
-                            <mat-icon class="amber-fg" *ngIf="workflow.favoritos[0]?.prioritario">star
+                            <mat-icon class="amber-fg" *ngIf="transicaoWorkflow.favoritos[0]?.prioritario">star
                             </mat-icon>
-                            <mat-icon class="secondary-text" *ngIf="!workflow.favoritos[0]?.prioritario">
+                            <mat-icon class="secondary-text" *ngIf="!transicaoWorkflow.favoritos[0]?.prioritario">
                                 star_border
                             </mat-icon>
                         </button>
@@ -226,7 +254,7 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-                <tr mat-row *matRowDef="let workflow; columns: displayedColumns;">
+                <tr mat-row *matRowDef="let transicaoWorkflow; columns: displayedColumns;">
                 </tr>
             </table>
         </div>
