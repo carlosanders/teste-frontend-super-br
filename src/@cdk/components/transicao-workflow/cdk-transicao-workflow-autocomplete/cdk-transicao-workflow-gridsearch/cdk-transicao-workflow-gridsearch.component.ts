@@ -16,18 +16,18 @@ import {catchError, finalize} from 'rxjs/operators';
 
 import {Pagination} from '@cdk/models';
 
-import {WorkflowService} from '@cdk/services/workflow.service';
-import {Workflow} from '@cdk/models';
+import {TransicaoWorkflowService} from '@cdk/services/transicao-workflow.service';
+import {TransicaoWorkflow} from '@cdk/models';
 
 @Component({
-    selector: 'cdk-workflow-gridsearch',
-    templateUrl: './cdk-workflow-gridsearch.component.html',
-    styleUrls: ['./cdk-workflow-gridsearch.component.scss'],
+    selector: 'cdk-transicao-workflow-gridsearch',
+    templateUrl: './cdk-transicao-workflow-gridsearch.component.html',
+    styleUrls: ['./cdk-transicao-workflow-gridsearch.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkWorkflowGridsearchComponent implements OnInit {
+export class CdkTransicaoWorkflowGridsearchComponent implements OnInit {
 
     @Input()
     pagination: Pagination;
@@ -38,7 +38,7 @@ export class CdkWorkflowGridsearchComponent implements OnInit {
     @Output()
     cancel = new EventEmitter();
 
-    workflows: Workflow[];
+    transicoesWorkflows: TransicaoWorkflow[];
 
     total = 0;
 
@@ -48,16 +48,16 @@ export class CdkWorkflowGridsearchComponent implements OnInit {
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieTarefaInicial.nome', 'especieProcesso.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'especieTarefa.nome', 'actions'];
 
     /**
      *
      * @param _changeDetectorRef
-     * @param _workflowService
+     * @param _transicaoWorkflowService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _workflowService: WorkflowService
+        private _transicaoWorkflowService: TransicaoWorkflowService
     ) {
         this.loading = false;
         this.pagination = new Pagination();
@@ -71,7 +71,7 @@ export class CdkWorkflowGridsearchComponent implements OnInit {
 
         this.loading = true;
 
-        this._workflowService.query(
+        this._transicaoWorkflowService.query(
             JSON.stringify(params.filter),
             params.limit,
             params.offset,
@@ -80,7 +80,7 @@ export class CdkWorkflowGridsearchComponent implements OnInit {
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-                this.workflows = response['entities'];
+                this.transicoesWorkflows = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });
@@ -101,8 +101,8 @@ export class CdkWorkflowGridsearchComponent implements OnInit {
         this.load (params);
     }
 
-    select(workflow): void {
-        this.selected.emit(workflow);
+    select(transicaoWorkflow): void {
+        this.selected.emit(transicaoWorkflow);
     }
 
     doCancel(): void {

@@ -1,0 +1,10 @@
+<mat-autocomplete [displayWith]="displayTransicaoWorkflowFn">
+    <mat-option *ngFor="let transicaoWorkflow of transicoesWorkflowsList"
+                [value]="transicaoWorkflow">
+        <span [innerHTML]="displayTransicaoWorkflowFn(transicaoWorkflow) | highlightOption: this.control.value">
+        </span>
+    </mat-option>
+    <mat-option *ngIf="transicaoWorkflowListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>
