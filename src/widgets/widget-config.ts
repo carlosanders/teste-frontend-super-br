@@ -6,8 +6,8 @@ import {widgetConfig as documentosAvulsosConveniadoWidgetConfig} from 'app/main/
 import {widgetConfig as tramitacoesWidgetConfig} from 'app/main/apps/processo/widget/widget-config';
 import {widgetConfig as pessoasWidgetConfig} from 'app/main/apps/admin/widget/pessoa/widget-config';
 import {widgetConfig as tarefasCoordenacaoWidgetConfig} from 'app/main/apps/coordenador/widget/tarefas-pendentes/widget-config';
-import {widgetConfig as alertaWidgetConfig} from 'app/main/apps/widget-alerta/widget-config';
-
+import {widgetConfig as alertaWidgetConfig} from './widget-alerta/widget-config';
+import {widgetConfig as historicoWidgetConfig} from './widget-historico/widget-config';
 
 export let widgetConfig = [
     ...tarefasWidgetConfig,
@@ -17,6 +17,7 @@ export let widgetConfig = [
     ...pessoasWidgetConfig,
     ...tarefasCoordenacaoWidgetConfig,
     ...alertaWidgetConfig,
+    ...historicoWidgetConfig
 ];
 
 modulesConfig.forEach((modulo) => {

@@ -1,17 +1,18 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 
-import { WidgetPessoaComponent } from './widget-pessoa.component';
+import { WidgetAlertaComponent } from './widget-alerta.component';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkWidgetModule} from '@cdk/components';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {PessoaService} from '@cdk/services/pessoa.service';
+import {MatCardModule} from '@angular/material/card';
+import {MatButtonModule} from '@angular/material/button';
 
 @NgModule({
     declarations: [
-        WidgetPessoaComponent
+        WidgetAlertaComponent
     ],
     imports: [
         CdkSharedModule,
@@ -19,20 +20,21 @@ import {PessoaService} from '@cdk/services/pessoa.service';
         CdkWidgetModule,
         MatProgressSpinnerModule,
         MatIconModule,
+        MatCardModule,
+        MatButtonModule,
     ],
     providers: [
-        PessoaService,
         LoginService
     ],
     exports: [
-        WidgetPessoaComponent
+        WidgetAlertaComponent
     ]
 })
-export class WidgetPessoaModule {
+export class WidgetAlertaModule {
 
     constructor(private resolver: ComponentFactoryResolver) {}
 
-    public resolveComponentFactory(): ComponentFactory<WidgetPessoaComponent> {
-        return this.resolver.resolveComponentFactory(WidgetPessoaComponent);
+    public resolveComponentFactory(): ComponentFactory<WidgetAlertaComponent> {
+        return this.resolver.resolveComponentFactory(WidgetAlertaComponent);
     }
 }

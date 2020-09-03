@@ -8,9 +8,6 @@ import {cdkAnimations} from '@cdk/animations';
 import {Usuario} from '@cdk/models';
 
 import {LoginService} from 'app/main/auth/login/login.service';
-import {catchError} from 'rxjs/operators';
-import {of} from 'rxjs';
-import {TramitacaoService} from '@cdk/services/tramitacao.service';
 
 @Component({
     selector: 'widget-alerta',

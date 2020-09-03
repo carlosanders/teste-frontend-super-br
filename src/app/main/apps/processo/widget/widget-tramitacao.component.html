@@ -1,42 +1,25 @@
-<!-- WIDGET Tramitação -->
-<cdk-widget [@animate]="{value:'*',params:{y:'100%'}}" class="widget" fxLayout="column" fxFlex="100">
-
-    <!-- Front -->
-    <div class="cdk-widget-front">
-        <div class="pl-16 pr-8 py-16 h-52" fxLayout="row"
-             fxLayoutAlign="end center">
-        </div>
-
-        <div class="pt-8 pb-32" fxLayout="column" fxLayoutAlign="center center">
+<mat-card class="scrollable-content">
+    <mat-card-header>
+        <mat-icon class="s-52" mat-card-avatar>inbox</mat-icon>
+        <mat-card-title>Tramitações</mat-card-title>
+        <mat-card-subtitle>Pendentes de recebimento</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="p-12" fxLayout="column" fxLayoutAlign="center center">
             <mat-spinner *ngIf="this.tramitacoesCount === false" diameter="72"></mat-spinner>
             <div *ngIf="this.tramitacoesCount !== false" class="light-blue-fg font-size-72 line-height-72">
                 {{this.tramitacoesCount}}
             </div>
             <div class="h3 font-weight-500">
-                Tramitações Pendentes
+                A caminho
             </div>
         </div>
-
-        <div class="p-16 border-top" fxLayout="row" fxLayoutAlign="start center">
+    </mat-card-content>
+    <mat-card-footer>
+        <div class="p-12 border-top" fxLayout="row" fxLayoutAlign="start center">
             <span class="h4 text-truncate">
-                Autos físicos em trâmite para minha unidade
+               Autos físicos em trâmite para minha unidade
             </span>
         </div>
-    </div>
-    <!-- / Front -->
-
-    <!-- Back -->
-    <div class="cdk-widget-back p-16 pt-32">
-        <button mat-icon-button cdkWidgetToggle class="cdk-widget-flip-button"
-                aria-label="Flip widget">
-            <mat-icon class="s-16">close</mat-icon>
-        </button>
-
-        <div>
-            Informa a quantidade de tramitações
-        </div>
-    </div>
-    <!-- / Back -->
-
-</cdk-widget>
-<!-- / WIDGET 3 -->
+    </mat-card-footer>
+</mat-card>
