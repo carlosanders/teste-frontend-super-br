@@ -102,7 +102,7 @@
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
                         data-label='Espécie Tarefa Inicial: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.especieTarefaInicial.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.especieTarefaInicial?.nome}} </td>
                 </ng-container>
 
                 <!-- Espécie Processo Column -->
@@ -111,7 +111,7 @@
                         Espécie Processo
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile' data-label='Espécie Processo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.especieProcesso.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.especieProcesso?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->

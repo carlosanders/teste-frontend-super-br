@@ -48,7 +48,7 @@ export class CdkWorkflowGridsearchComponent implements OnInit {
     mode = 'list';
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieTarefa.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'especieTarefaInicial.nome', 'especieProcesso.nome', 'actions'];
 
     /**
      *

@@ -31,28 +31,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="!this.usuario">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Usuario"
-                           formControlName="colaborador"
-                           [matAutocomplete]="colaborador.autocomplete"
-                           (blur)="checkColaborador()" required>
-                </div>
-                <cdk-colaborador-autocomplete
-                    #colaborador="colaboradorAutocomplete"
-                    [control]="form.get('colaborador')"
-                    [pagination]="colaboradorPagination">
-                </cdk-colaborador-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showColaboradorGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('colaborador').hasError('formError')">
-                    {{form.get('colaborador').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100" *ngIf="!this.setor">
+            <mat-form-field fxFlex="100" *ngIf="form.get('unidade').value">
                 <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Setor"
                            formControlName="setor"
@@ -75,7 +54,28 @@
                 </mat-error>
             </mat-form-field>
 
-            <div fxFlex="100" fxLayoutAlign="column" fxLayoutAlign="start center">
+            <mat-form-field fxFlex="100" *ngIf="!this.usuario">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Usuario"
+                           formControlName="colaborador"
+                           [matAutocomplete]="colaborador.autocomplete"
+                           (blur)="checkColaborador()" required>
+                </div>
+                <cdk-colaborador-autocomplete
+                    #colaborador="colaboradorAutocomplete"
+                    [control]="form.get('colaborador')"
+                    [pagination]="colaboradorPagination">
+                </cdk-colaborador-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showColaboradorGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('colaborador').hasError('formError')">
+                    {{form.get('colaborador').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <div fxFlex="100" fxLayoutAlign="start center">
                 <mat-checkbox formControlName="principal">
                     Principal
                 </mat-checkbox>
@@ -85,7 +85,7 @@
                 </button>
             </div>
 
-            <div fxFlex="100" fxLayoutAlign="column" fxLayoutAlign="start center">
+            <div fxFlex="100" fxLayoutAlign="start center">
                 <mat-checkbox formControlName="distribuidor">
                     Distribuidor
                 </mat-checkbox>
@@ -95,7 +95,7 @@
                 </button>
             </div>
 
-            <div fxFlex="100" fxLayoutAlign="column" fxLayoutAlign="start center" *ngIf="inputArquivista">
+            <div fxFlex="100" fxLayoutAlign="start center" *ngIf="inputArquivista">
                 <mat-checkbox formControlName="arquivista">
                     Arquivista
                 </mat-checkbox>

@@ -37,6 +37,7 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
     usuario$: Observable<Usuario>;
     setor$: Observable<Setor>;
+    setor: Setor;
     setorPagination: Pagination;
     colaboradorPagination: Pagination;
 
@@ -103,8 +104,14 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
             lotacao => this.lotacao = lotacao
         );
 
+        this.setor$.subscribe(
+            setor => this.setor = setor
+        );
+
         if (!this.lotacao) {
             this.lotacao = new Lotacao();
+            this.lotacao.setor = this.setor;
+            this.lotacao.peso = 100;
         }
     }
 
