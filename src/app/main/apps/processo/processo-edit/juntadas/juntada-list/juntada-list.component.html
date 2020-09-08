@@ -1,8 +1,16 @@
-<div fxLayout="row" class="mt-8">
+<div fxLayout="row" class="m-12">
     <button mat-mini-fab
-            class="m-4 active accent"
-            (click)="upload()">
+            class="m-8 active accent"
+            (click)="upload()"
+            matTooltip="Anexar">
         <mat-icon class="secondary-text">attach_file</mat-icon>
+    </button>
+
+    <button mat-mini-fab
+            class="m-8 active accent"
+            (click)="desentranhar()"
+            matTooltip="Desentranhar">
+        <mat-icon class="secondary-text">low_priority</mat-icon>
     </button>
 
     <cdk-componente-digital-card-list #ckdUpload
@@ -12,15 +20,14 @@
 </div>
 
 <cdk-juntada-grid
-        [loading]="(loading$ | async)"
-        [juntadas]="(juntadas$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [actions]="['desentranhar', 'copiar','edit', 'showDeleted']"
-        (reload)="reload($event)"
-        (excluded)="excluded($event)"
-        (copiar)="copiar($event)"
-        (edit)="editar($event)"
-        (desentranhar)="desentranhar($event)">
+    [loading]="(loading$ | async)"
+    [juntadas]="(juntadas$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [actions]="['copiar','edit', 'showDeleted']"
+    (reload)="reload($event)"
+    (excluded)="excluded($event)"
+    (copiar)="copiar($event)"
+    (edit)="editar($event)">
 </cdk-juntada-grid>
 
 <router-outlet></router-outlet>

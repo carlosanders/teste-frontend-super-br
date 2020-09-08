@@ -1,22 +1,18 @@
 import {
-    ChangeDetectionStrategy, ChangeDetectorRef,
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
-
-import {Desentranhamento} from '@cdk/models';
+import {Desentranhamento, Juntada} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
-
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Juntada} from '@cdk/models';
-import {getDesentranhandoJuntadas} from '../juntada-list/store/selectors';
-import {getOperacoesState, getRouterState} from 'app/store/reducers';
+import {getOperacoesState, getRouterState, getScreenState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 
@@ -33,17 +29,24 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     juntadas$: Observable<Juntada[]>;
-    juntadas: Juntada[];
+    juntadas: Juntada[] = [];
+    juntadasSelecionadas: Juntada[] = [];
 
     desentranhamento: Desentranhamento;
+
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    loading$: Observable<boolean>;
+    pagination$: Observable<any>;
+    screen$: Observable<any>;
 
     operacoes: any[] = [];
+    pagination: any;
+    routerState: any;
+
+    mobileMode = false;
 
     private _profile: any;
-
-    routerState: any;
 
     /**
      *
@@ -56,23 +59,28 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.DesentranhamentoCreateBlocoAppState>,
         public _loginService: LoginService,
         private _router: Router,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
     ) {
-        this.juntadas$ = this._store.pipe(select(getDesentranhandoJuntadas));
+        this.juntadas$ = this._store.pipe(select(fromStore.getJuntadaList));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();
-
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+        this.screen$ = this._store.pipe(select(getScreenState));
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
-
     ngOnInit(): void {
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(juntadas => this.juntadas = juntadas);
+        ).subscribe(juntadas => {
+            if (juntadas !== undefined) {
+                return this.juntadas = juntadas.filter(j => j.ativo);
+            }
+        });
 
         this._store
             .pipe(
@@ -97,6 +105,16 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
                 this.operacoes = [];
             }
         });
+
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(screen => {
+            if (screen.size !== 'desktop') {
+                this.mobileMode = true;
+            } else {
+                this.mobileMode = false;
+            }
+        });
     }
 
     ngOnDestroy(): void {
@@ -108,23 +126,37 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-
     submit(values): void {
-
         this.operacoes = [];
-
-        this.juntadas.forEach(juntada => {
+        this.juntadasSelecionadas.forEach(juntada => {
             const desentranhamento = new Desentranhamento();
-
             Object.entries(values).forEach(
                 ([key, value]) => {
                     desentranhamento[key] = value;
                 }
             );
-
             desentranhamento.juntada = juntada;
-
             this._store.dispatch(new fromStore.SaveDesentranhamento(desentranhamento));
         });
+    }
+
+    reload(params): void {
+        this._store.dispatch(new fromStore.GetJuntadas({
+            ...this.pagination,
+            filter: {
+                ...this.pagination.filter,
+            },
+            gridFilter: {
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate
+        }));
+    }
+
+    juntadasAdicionadas(juntadas: Juntada[]): void {
+        this.juntadasSelecionadas = juntadas;
     }
 }

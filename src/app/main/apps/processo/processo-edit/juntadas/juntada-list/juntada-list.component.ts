@@ -2,7 +2,8 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -13,7 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {getProcesso} from "../../../store/selectors";
+import {getProcesso} from '../../../store/selectors';
 
 @Component({
     selector: 'juntada-list',
@@ -113,8 +114,10 @@ export class JuntadaListComponent implements OnInit {
         this._store.dispatch(new fromStore.GetJuntadas(this.pagination));
     }
 
-    desentranhar(juntadaId: number[]): void {
-        this._store.dispatch(new fromStore.DesentranharJuntada(juntadaId));
+    desentranhar(): void {
+        this.juntadas$.subscribe(juntadas => {
+            this._store.dispatch(new fromStore.DesentranharJuntada(juntadas));
+        });
     }
 
     copiar(juntadaId: number[]): void {

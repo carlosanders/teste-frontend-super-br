@@ -1,26 +1,77 @@
-<!-- CONTENT -->
-<div class="content p-16" fxLayout="column" fxFlex="100">
+<mat-horizontal-stepper linear *ngIf="!mobileMode">
+    <mat-step>
+        <ng-template matStepLabel class="secondary-text">Selecione as juntadas que serão desentranhadas</ng-template>
+        <cdk-juntada-grid-select [loading]="(loading$ | async)"
+                                 [juntadas]="juntadas"
+                                 (juntadasSelecionadas)="juntadasAdicionadas($event)"
+                                 [total]="(pagination$ | async)?.total">
+        </cdk-juntada-grid-select>
+        <div>
+            <button matStepperNext mat-raised-button color="accent" class="mr-sm-12"
+                    [disabled]="juntadasSelecionadas.length===0">
+                Próximo
+            </button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel class="secondary-text">Selecione o destino das juntada</ng-template>
+        <div fxLayout="column">
+            <mat-list *ngIf="operacoes.length > 0">
+                <h3 matSubheader>
+                    <span>Resultado do Bloco</span>
+                </h3>
+                <div *ngFor="let operacao of operacoes">
+                    <p matLine class="mb-4 p-8 secondary-text"
+                       [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+                </div>
+            </mat-list>
+            <cdk-desentranhamento-form [desentranhamento]="desentranhamento"
+                                       [valid]="(juntadas$ | async)?.length > 0"
+                                       [saving]="(isSaving$ | async)"
+                                       (save)="submit($event)">
+            </cdk-desentranhamento-form>
+            <div>
+                <button matStepperPrevious mat-raised-button color="accent" class="mr-sm-12">Retornar</button>
+            </div>
+        </div>
+    </mat-step>
+</mat-horizontal-stepper>
 
-    <h2>Desentranhamento em bloco de juntadas</h2>
-
-    <h3>{{(juntadas$ | async)?.length}} juntada(s) selecionada(s) </h3>
-
-    <cdk-desentranhamento-form
-            [desentranhamento]="desentranhamento"
-            [valid]="(juntadas$ | async)?.length > 0"
-            [saving]="(isSaving$ | async)"
-            (save)="submit($event)">
-    </cdk-desentranhamento-form>
-
-    <mat-list *ngIf="operacoes.length > 0" fxFlex>
-        <h3 matSubheader>
-            <span>Resultado do Bloco</span>
-        </h3>
-
-        <mat-list-item *ngFor="let operacao of operacoes">
-            <p matLine class="mb-4 p-8 secondary-text"
-               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
-        </mat-list-item>
-    </mat-list>
-
-</div>
+<mat-vertical-stepper linear *ngIf="mobileMode">
+    <mat-step>
+        <ng-template matStepLabel class="secondary-text">Selecione as juntadas que serão desentranhadas</ng-template>
+        <cdk-juntada-grid-select [loading]="(loading$ | async)"
+                                 [juntadas]="juntadas"
+                                 (juntadasSelecionadas)="juntadasAdicionadas($event)"
+                                 [total]="(pagination$ | async)?.total">
+        </cdk-juntada-grid-select>
+        <div>
+            <button matStepperNext mat-raised-button color="accent" class="mr-sm-12"
+                    [disabled]="juntadasSelecionadas.length===0">
+                Próximo
+            </button>
+        </div>
+    </mat-step>
+    <mat-step>
+        <ng-template matStepLabel class="secondary-text">Selecione o destino das juntada</ng-template>
+        <div fxLayout="column">
+            <mat-list *ngIf="operacoes.length > 0">
+                <h3 matSubheader>
+                    <span>Resultado do Bloco</span>
+                </h3>
+                <div *ngFor="let operacao of operacoes">
+                    <p matLine class="mb-4 p-8 secondary-text"
+                       [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+                </div>
+            </mat-list>
+            <cdk-desentranhamento-form [desentranhamento]="desentranhamento"
+                                       [valid]="(juntadas$ | async)?.length > 0"
+                                       [saving]="(isSaving$ | async)"
+                                       (save)="submit($event)">
+            </cdk-desentranhamento-form>
+            <div>
+                <button matStepperPrevious mat-raised-button color="accent" class="mr-sm-12">Retornar</button>
+            </div>
+        </div>
+    </mat-step>
+</mat-vertical-stepper>
