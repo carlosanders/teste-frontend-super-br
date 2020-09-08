@@ -3,6 +3,7 @@
         <ng-template matStepLabel class="secondary-text">Selecione as juntadas que serão desentranhadas</ng-template>
         <cdk-juntada-grid-select [loading]="(loading$ | async)"
                                  [juntadas]="juntadas"
+                                 [juntadasAdicionadas]="juntadasSelecionadas"
                                  (juntadasSelecionadas)="juntadasAdicionadas($event)"
                                  [total]="(pagination$ | async)?.total">
         </cdk-juntada-grid-select>
@@ -42,6 +43,7 @@
         <ng-template matStepLabel class="secondary-text">Selecione as juntadas que serão desentranhadas</ng-template>
         <cdk-juntada-grid-select [loading]="(loading$ | async)"
                                  [juntadas]="juntadas"
+                                 [juntadasAdicionadas]="juntadasSelecionadas"
                                  (juntadasSelecionadas)="juntadasAdicionadas($event)"
                                  [total]="(pagination$ | async)?.total">
         </cdk-juntada-grid-select>

@@ -78,7 +78,9 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(juntadas => {
             if (juntadas !== undefined) {
-                return this.juntadas = juntadas.filter(j => j.ativo);
+                if (this.juntadas.length===0) {
+                    this.juntadas = juntadas.filter(j => j.ativo);
+                }
             }
         });
 
@@ -109,6 +111,9 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
+            this.juntadasSelecionadas = this.juntadasSelecionadas;
+            let diferencaArray = this.juntadas.filter(x => !this.juntadasSelecionadas.includes(x));
+            this.juntadas = diferencaArray;
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
             } else {

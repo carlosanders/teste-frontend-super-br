@@ -33,6 +33,9 @@ export class CdkJuntadaGridSelectComponent implements OnInit, OnChanges {
     juntadas: Juntada[];
 
     @Input()
+    juntadasAdicionadas: Juntada[];
+
+    @Input()
     total = 0;
 
     @Input()
@@ -43,10 +46,6 @@ export class CdkJuntadaGridSelectComponent implements OnInit, OnChanges {
 
     @Output()
     juntadasSelecionadas = new EventEmitter<Juntada[]>();
-
-    juntadasAdicionadas: Juntada[] = [];
-
-    cssMovimentar = 'teste';
 
     dataSourceJuntadasAdicionadas: JuntadaDataSource;
 
@@ -95,7 +94,6 @@ export class CdkJuntadaGridSelectComponent implements OnInit, OnChanges {
         let posicaoInicial = this.juntadasAdicionadas.indexOf(juntada);
         this.alterarItemArray(this.juntadasAdicionadas, posicaoInicial, --posicaoInicial);
         this.dataSourceJuntadasAdicionadas = new JuntadaDataSource(of(this.juntadasAdicionadas));
-        this.cssMovimentar = 'teste2';
     }
 
     descerJuntada(juntada: Juntada): void {
