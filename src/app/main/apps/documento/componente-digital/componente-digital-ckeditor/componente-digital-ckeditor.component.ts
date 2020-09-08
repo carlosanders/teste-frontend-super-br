@@ -93,7 +93,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(saving => {
             this.saving = saving;
-            this._changeDetectorRef.markForCheck();
+            this._changeDetectorRef.detectChanges();
         });
 
         this._store

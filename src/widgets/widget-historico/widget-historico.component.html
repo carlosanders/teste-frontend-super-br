@@ -1,0 +1,35 @@
+<mat-card class="scrollable-content">
+    <mat-card-header>
+        <mat-icon class="s-52" mat-card-avatar>history</mat-icon>
+        <mat-card-title>Histórico</mat-card-title>
+        <mat-card-subtitle>Últimos dias</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="p-12" fxLayout="column" *ngIf="historicoIsLoding" fxLayoutAlign="center center">
+            <mat-spinner diameter="72"></mat-spinner>
+            <div class="h3 font-weight-500">
+                Carregando
+            </div>
+        </div>
+        <div class="activities" *ngIf="historicos.length > 0">
+            <div class="activity" fxLayout="row" fxLayoutAlign="start start"
+                 *ngFor="let historico of historicos">
+                <mat-icon>book</mat-icon>
+                <div fxLayout="column">
+                    <div>
+                        <span class="username">{{historico.processo.NUP}}</span>
+                    </div>
+                    <div>
+                        <span class="message"> {{historico.descricao}}</span>
+                    </div>
+                    <span class="time secondary-text">{{historico.criadoEm | date: 'dd/MM/yyyy HH:mm'}}</span>
+                </div>
+            </div>
+        </div>
+        <div fxLayout="column" *ngIf="!historicoIsLoding && historicos.length === 0">
+            <div>
+                <span class="username">Nenhuma ação recente</span>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

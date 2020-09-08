@@ -41,7 +41,6 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             extensao: [null],
             processoOrigem: [null],
             editavel: [null],
-            assinado: [null],
             criadoPor: [null],
             criadoEm: [null],
             codigo: [null]
@@ -88,15 +87,6 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
                 this.filters = {
                     ...this.filters,
                     editavel: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('assinado').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    assinado: `eq:${value}`
                 };
             }
         });

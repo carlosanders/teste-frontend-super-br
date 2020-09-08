@@ -115,6 +115,10 @@ export class SetorEditComponent implements OnInit, OnDestroy {
             }
         );
 
+        if (!setor.sequenciaInicialNUP) {
+            setor.sequenciaInicialNUP = 0;
+        }
+
         this._store.dispatch(new fromStore.SaveSetor(setor));
 
     }

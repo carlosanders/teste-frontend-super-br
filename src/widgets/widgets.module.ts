@@ -9,6 +9,8 @@ import {
     MatInputModule,
     MatTooltipModule
 } from '@cdk/angular/material';
+import {MatGridListModule} from '@angular/material/grid-list';
+import {DirectivesModule} from '../@cdk/directives/directives';
 
 @NgModule({
     declarations: [
@@ -21,6 +23,8 @@ import {
         MatButtonModule,
         MatIconModule,
         MatTooltipModule,
+        MatGridListModule,
+        DirectivesModule
     ],
     exports: [
         WidgetsComponent

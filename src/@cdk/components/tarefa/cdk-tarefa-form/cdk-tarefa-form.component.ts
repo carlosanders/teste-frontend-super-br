@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Tarefa} from '@cdk/models';
+import {Colaborador, Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
@@ -19,6 +19,8 @@ import {of} from 'rxjs';
 import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {Responsavel} from '@cdk/models';
+import {SetorService} from '@cdk/services/setor.service';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-tarefa-form',
@@ -111,6 +113,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     evento = false;
 
+    editable = true;
+
+    _profile: Colaborador;
+
     @Input()
     blocoEdit = {
         blocoEditEspecie: false,
@@ -138,8 +144,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _favoritoService: FavoritoService
+        private _favoritoService: FavoritoService,
+        private _setorService: SetorService,
+        private _loginService: LoginService
     ) {
+        this._profile = _loginService.getUserProfile().colaborador;
+
         this.form = this._formBuilder.group({
             id: [null],
             diasUteis: [null],
@@ -185,7 +195,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     ngOnInit(): void {
 
-        if (this.form.get('processo').value) {
+        if (this.form.get('processo').value && this.form.get('processo').value.NUP) {
             this.form.get('especieTarefa').enable();
             if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
                 this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
@@ -197,6 +207,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         } else {
             this.form.get('especieTarefa').disable();
+        }
+
+        if (this.blocoEdit.blocoEditEspecie) {
+            this.form.get('especieTarefa').enable();
         }
 
         if (this.form.get('unidadeResponsavel').value) {
@@ -243,8 +257,18 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('setorResponsavel').reset();
                         this.form.get('usuarioResponsavel').reset();
                         this.form.get('usuarioResponsavel').disable();
+                        this.form.get('distribuicaoAutomatica').reset();
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
                         this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
+                        this.editable = true;
+
+                        if (value.apenasProtocolo && value.id !== this._profile.lotacoes[0].setor.unidade.id) {
+                            this.form.get('distribuicaoAutomatica').setValue(true);
+                            this.form.get('setorResponsavel').enable();
+                            this.getSetorProtocolo();
+                            this.editable = false;
+                        }
+
                         this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
@@ -256,13 +280,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
+                    delete this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'];
 
                     // criacao normal de tarefa sem distribuicao automatica
                     if (value && typeof value === 'object' && !this.form.get('distribuicaoAutomatica').value) {
                         this.form.get('usuarioResponsavel').enable();
                         this.form.get('usuarioResponsavel').reset();
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${value.id}`;
-                        this._changeDetectorRef.markForCheck();
                     }
 
                     // bloco de processos
@@ -281,9 +305,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                                 this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
                             }
                         }
-
-                        this._changeDetectorRef.markForCheck();
                     }
+
+                    // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
+                    if (typeof value === 'object' && value && value.apenasDistribuidor && value.id !== this._profile.lotacoes[0].setor.id) {
+                        this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'] = `eq:${true}`;
+                    }
+
+                    this._changeDetectorRef.markForCheck();
 
                     return of([]);
                 }
@@ -352,15 +381,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             }
                         }
 
+                        this.clearValidators();
                         this._changeDetectorRef.markForCheck();
-                    }
-
-                    if (this.valid && this.blocoEdit.blocoEditDistribuicao) {
-                        this.form.get('processo').clearValidators();
-                        this.form.get('dataHoraInicioPrazo').clearValidators();
-                        this.form.get('dataHoraFinalPrazo').clearValidators();
-                        this.form.get('especieTarefa').clearValidators();
-                        this.form.get('setorOrigem').clearValidators();
                     }
 
                     return of([]);
@@ -372,6 +394,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap(() => {
+                    this.clearValidators();
                     this.alteraPrazoDias();
                     this.validaPrazo();
                     return of([]);
@@ -383,6 +406,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(300),
             distinctUntilChanged(),
             switchMap(() => {
+                    this.clearValidators();
                     this.alteraPrazoDias();
                     this.validaPrazo();
                     return of([]);
@@ -415,6 +439,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value) {
+                        this.clearValidators();
                         this.evento = value.evento;
                         if (!this.evento) {
                             this.form.get('localEvento').reset();
@@ -911,6 +936,38 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.usuarioResponsavelList = [];
                 response['entities'].forEach((favorito) => {
                     this.usuarioResponsavelList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    clearValidators(): void {
+        if (this.valid && this.blocoEdit.blocoEditDistribuicao) {
+            this.form.get('processo').clearValidators();
+            this.form.get('dataHoraInicioPrazo').clearValidators();
+            this.form.get('dataHoraFinalPrazo').clearValidators();
+            this.form.get('especieTarefa').clearValidators();
+            this.form.get('setorOrigem').clearValidators();
+        }
+    }
+
+    getSetorProtocolo(): void {
+        this._setorService.query(
+            JSON.stringify({
+                'unidade.id': `eq:${this.form.get('unidadeResponsavel').value.id}`,
+                'parent': 'isNotNull', 'nome': 'eq:PROTOCOLO'
+            }),
+            1,
+            0,
+            JSON.stringify({}),
+            JSON.stringify(['unidade', 'parent'])
+        ).pipe(
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                response['entities'].forEach((setor) => {
+                    this.form.get('setorResponsavel').setValue(setor);
                 });
                 this._changeDetectorRef.markForCheck();
             }

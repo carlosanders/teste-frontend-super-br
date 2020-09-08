@@ -62,8 +62,7 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="imprimir etiqueta"
-                            >
+                    <button mat-menu-item aria-label="imprimir etiqueta" (click)="imprimirEtiqueta()">
                         <ng-container>
                             <mat-icon>video_label</mat-icon>
                             <span>Imprimir Etiqueta</span>
@@ -77,7 +76,14 @@
                             <span>Autuar</span>
                         </ng-container>
                     </button>
-                    <ng-template #dynamicComponent></ng-template>
+                    <button mat-menu-item aria-label="abrir nova aba" (click)="visualizarProcessoNovaAba()">
+                        <ng-container>
+                            <mat-icon>open_in_new</mat-icon>
+                            <span>Abrir nova aba</span>
+                        </ng-container>
+                    </button>
+                    <ng-template #dynamicComponent> </ng-template>
+
                 </mat-menu>
 
             </div>

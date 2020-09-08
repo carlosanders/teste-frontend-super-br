@@ -111,6 +111,10 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
             }
         );
 
+        if (!unidade.sequenciaInicialNUP) {
+            unidade.sequenciaInicialNUP = 0;
+        }
+
         this._store.dispatch(new fromStore.SaveUnidade(unidade));
     }
 }

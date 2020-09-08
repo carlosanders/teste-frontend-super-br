@@ -1,26 +1,12 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-    MatSelectModule
-} from '@cdk/angular/material';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkWidgetModule} from '@cdk/components/widget/widget.module';
-
 import {PainelComponent} from './painel.component';
-
-import {TarefaService} from '@cdk/services/tarefa.service';
-import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {LoginService} from '../../auth/login/login.service';
-import {CdkHistoricoTimelineModule} from '@cdk/components/historico/cdk-historico-timeline/cdk-historico-timeline.module';
-import {HistoricoService} from '@cdk/services/historico.service';
-import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {modulesConfig} from 'modules/modules-config';
 import {WidgetsModule} from 'widgets/widgets.module';
+import {DirectivesModule} from '../../../../@cdk/directives/directives';
 
 const routes: Routes = [
     {
@@ -43,24 +29,12 @@ modulesConfig.forEach((module) => {
     ],
     imports: [
         RouterModule.forChild(routes),
-
-        MatButtonModule,
-        MatIconModule,
-        MatMenuModule,
-        MatSelectModule,
-        MatProgressSpinnerModule,
-
-        CdkHistoricoTimelineModule,
-
+        DirectivesModule,
         CdkSharedModule,
         CdkWidgetModule,
-        WidgetsModule
+        WidgetsModule,
     ],
     providers: [
-        TarefaService,
-        DocumentoAvulsoService,
-        TramitacaoService,
-        HistoricoService,
         LoginService
     ]
 })

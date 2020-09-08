@@ -68,6 +68,14 @@ const routes: Routes = [
                 path: 'municipios',
                 loadChildren: () => import('./municipio/municipio.module').then(m => m.MunicipioModule)
             },
+            {
+                path: 'workflows',
+                loadChildren: () => import('./workflow/workflow.module').then(m => m.WorkflowModule)
+            },
+            {
+                path: 'transicoes-workflows',
+                loadChildren: () => import('./transicao-workflow/transicao-workflow.module').then(m => m.TransicaoWorkflowModule)
+            },
         ],
         canActivate: [fromGuards.ResolveGuard]
     },

@@ -55,6 +55,9 @@ export class Processo {
     acessoNegado?: boolean;
 
     @Exclude({toPlainOnly: true})
+    somenteLeitura?: boolean;
+
+    @Exclude({toPlainOnly: true})
     acessoRestrito?: boolean;
 
     titulo?: string;
@@ -192,6 +195,7 @@ export class Processo {
         this.visibilidadeExterna = null;
         this.dataHoraAbertura = null;
         this.acessoNegado = null;
+        this.somenteLeitura = null;
         this.acessoRestrito = null;
         this.dataHoraProximaTransicao = null;
         this.dataHoraPrazoResposta = null;

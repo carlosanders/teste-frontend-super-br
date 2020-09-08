@@ -2,9 +2,11 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, ComponentFactoryResolver,
     OnDestroy,
-    OnInit, ViewChild, ViewContainerRef,
+    OnInit,
+    ViewChild,
+    ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {select, Store} from '@ngrx/store';
@@ -13,18 +15,14 @@ import {Observable, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Processo} from '@cdk/models';
+import {Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import * as fromStore from 'app/main/apps/processo/store';
 
 import {locale as english} from 'app/main/apps/processo/i18n/en';
 import {cdkAnimations} from '@cdk/animations';
 import {getRouterState} from '../../../store/reducers';
-import {Etiqueta} from '@cdk/models';
-import {VinculacaoEtiqueta} from '@cdk/models';
-import {Pagination} from '@cdk/models';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
-import {Usuario} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
@@ -56,7 +54,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     chaveAcesso: string;
     steps$: Observable<boolean>;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    @ViewChild('dynamicComponent', {read: ViewContainerRef})
     container: ViewContainerRef;
 
     private _profile: Usuario;
@@ -78,7 +76,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         private _store: Store<fromStore.ProcessoAppState>,
         public _loginService: LoginService,
         private _router: Router,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private componentFactoryResolver: ComponentFactoryResolver
     ) {
         // Set the defaults
         this._profile = _loginService.getUserProfile();
@@ -190,5 +189,14 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             processoId: this.processo.id,
             vinculacaoEtiquetaId: vinculacaoEtiqueta.id
         }));
+    }
+
+    visualizarProcessoNovaAba(): void {
+        window.open(this.routerState.url.split('/')[1] + '/processo/' + this.processo.id
+            + '/visualizar', '_blank');
+    }
+
+    imprimirEtiqueta(): void {
+        this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'etiqueta']).then();
     }
 }

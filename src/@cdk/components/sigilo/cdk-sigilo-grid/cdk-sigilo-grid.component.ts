@@ -292,7 +292,7 @@ export class CdkSigiloGridComponent implements AfterViewInit, OnInit, OnChanges 
                 limit: this.paginator.pageSize,
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
-                context: {'mostrarApagadas': true}
+                context: {mostrarApagadas: true}
             });
         }
         else {

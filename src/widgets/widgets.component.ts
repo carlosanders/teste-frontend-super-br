@@ -3,8 +3,8 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    OnInit,
-    ViewChild, ViewContainerRef,
+    OnInit, QueryList,
+    ViewChild, ViewChildren, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {widgetConfig} from './widget-config';
@@ -23,13 +23,14 @@ import {LoginService} from '../app/main/auth/login/login.service';
 export class WidgetsComponent implements OnInit, AfterViewInit {
 
     widgets: Widget[] = [];
-    conteudo: any[] = [];
 
-    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
-    container: ViewContainerRef;
+    @ViewChildren('dynamicComponent', {read: ViewContainerRef})
+    public containers: QueryList<ViewContainerRef>;
 
-    @ViewChild('container', {read: ElementRef, static: true})
-    containerElementRef: ElementRef;
+    gridColsInstance: any;
+
+    maxColspan = 1;
+    maxRowspan = 1;
 
     /**
      *
@@ -51,19 +52,16 @@ export class WidgetsComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.widgets.filter((widget) => widget.ordem !== 999).forEach((widget: Widget) => {
-            this._dynamicService.loadComponent(widget.module)
-                .then(componentFactory => this.container.createComponent(componentFactory));
-        });
-        setTimeout(() => {
-            this.widgets.filter((widget) => widget.ordem === 999).forEach((widget: Widget) => {
-                this._dynamicService.loadComponent(widget.module)
-                    .then(componentFactory => this.container.createComponent(componentFactory));
-            });
-        }, 100);
+        this.containers.map(
+            (vcr: ViewContainerRef, index: number) => {
+                this._dynamicService.loadComponent(this.widgets[index].module)
+                    .then(componentFactory => vcr.createComponent(componentFactory));
+            }
+        );
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
+    colsChanged(cols): void {
+        this.maxColspan = cols;
+        this.maxRowspan = Math.ceil((this.widgets.length / cols));
+    }
 }
