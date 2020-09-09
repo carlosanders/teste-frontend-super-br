@@ -11,6 +11,6 @@ export class DocumentoIdentificadorService extends ParentGenericService<Document
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'documento_identificador', DocumentoIdentificador);
+        super(modelService, 'administrativo/documento_identificador', DocumentoIdentificador);
     }
 }

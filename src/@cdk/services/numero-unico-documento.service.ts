@@ -15,12 +15,12 @@ export class NumeroUnicoDocumentoService extends ParentGenericService<NumeroUnic
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'numero_unico_documento', NumeroUnicoDocumento);
+        super(modelService, 'administrativo/numero_unico_documento', NumeroUnicoDocumento);
     }
 
     patch(numeroUnicoDocumento: NumeroUnicoDocumento, changes: any): Observable<NumeroUnicoDocumento> {
         return this.http.patch(
-            `${environment.api_url}${'numero_unico_documento'}/${numeroUnicoDocumento.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/numero_unico_documento'}/${numeroUnicoDocumento.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {

@@ -15,14 +15,14 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'tarefa', Tarefa);
+        super(modelService, 'administrativo/tarefa', Tarefa);
     }
 
     ciencia(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'tarefa'}/${tarefa.id}/${'ciencia'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}/${'ciencia'}` + environment.xdebug,
             JSON.stringify(classToPlain(tarefa)),
             {params}
         ).pipe(
@@ -38,7 +38,7 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'tarefa'}/${tarefa.id}/${'toggle_lida'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}/${'toggle_lida'}` + environment.xdebug,
             JSON.stringify(classToPlain(tarefa)),
             {params}
         ).pipe(
@@ -54,7 +54,7 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'tarefa'}/${tarefa.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}` + environment.xdebug,
             JSON.stringify(changes),
             {params}
         ).pipe(

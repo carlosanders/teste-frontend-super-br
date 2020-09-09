@@ -16,23 +16,23 @@ export class ProcessoService extends ParentGenericService<Processo> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'processo', Processo);
+        super(modelService, 'administrativo/processo', Processo);
     }
 
     downloadAsPdf(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
-        return this.http.get(`${environment.api_url}processo/${id}/download_as_pdf/${sequencial}` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}administrativo/processo/${id}/download_as_pdf/${sequencial}` + environment.xdebug, {params});
     }
 
     downloadAsZip(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
-        return this.http.get(`${environment.api_url}processo/${id}/download_as_zip/${sequencial}` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}administrativo/processo/${id}/download_as_zip/${sequencial}` + environment.xdebug, {params});
     }
 
     getVisibilidade(id: number, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
-        return this.http.get(`${environment.api_url}${'processo'}/${id}/visibilidade` + environment.xdebug, {params})
+        return this.http.get(`${environment.api_url}administrativo/${'processo'}/${id}/visibilidade` + environment.xdebug, {params})
             .pipe(
                 map(response => plainToClass(Visibilidade, response))
             );
@@ -42,7 +42,7 @@ export class ProcessoService extends ParentGenericService<Processo> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.put(
-            `${environment.api_url}${'processo'}/${processoId}/${'visibilidade'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/processo'}/${processoId}/${'visibilidade'}` + environment.xdebug,
             JSON.stringify(visibilidade),
             {params}
         ).pipe(
@@ -54,7 +54,7 @@ export class ProcessoService extends ParentGenericService<Processo> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.delete(
-            `${environment.api_url}${'processo'}/${processoId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/processo'}/${processoId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug,
             {params}
         );
     }
@@ -63,7 +63,7 @@ export class ProcessoService extends ParentGenericService<Processo> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'processo'}/${processo.id}/${'arquivar'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/processo'}/${processo.id}/${'arquivar'}` + environment.xdebug,
             JSON.stringify(classToPlain(processo)),
             {params}
         ).pipe(
@@ -79,7 +79,7 @@ export class ProcessoService extends ParentGenericService<Processo> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'processo'}/${processo.id}/${'autuar'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/processo'}/${processo.id}/${'autuar'}` + environment.xdebug,
             JSON.stringify(classToPlain(processo)),
             {params}
         ).pipe(
@@ -93,7 +93,7 @@ export class ProcessoService extends ParentGenericService<Processo> {
 
     patch(processo: Processo, changes: any): Observable<Processo> {
         return this.http.patch(
-            `${environment.api_url}${'processo'}/${processo.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/processo'}/${processo.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {
@@ -106,6 +106,6 @@ export class ProcessoService extends ParentGenericService<Processo> {
 
     imprimirEtiqueta(id: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
-        return this.http.get(`${environment.api_url}processo/imprime_etiqueta/${id}` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}administrativo/processo/imprime_etiqueta/${id}` + environment.xdebug, {params});
     }
 }

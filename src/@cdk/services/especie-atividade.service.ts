@@ -15,12 +15,12 @@ export class EspecieAtividadeService extends ParentGenericService<EspecieAtivida
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'especie_atividade', EspecieAtividade);
+        super(modelService, 'administrativo/especie_atividade', EspecieAtividade);
     }
 
     patch(especieAtividade: EspecieAtividade, changes: any): Observable<EspecieAtividade> {
         return this.http.patch(
-            `${environment.api_url}${'especieAtividade'}/${especieAtividade.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/especieAtividade'}/${especieAtividade.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {

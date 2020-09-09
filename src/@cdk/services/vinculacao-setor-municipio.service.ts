@@ -11,6 +11,6 @@ export class VinculacaoSetorMunicipioService extends ParentGenericService<Vincul
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'vinculacao_setor_municipio', VinculacaoSetorMunicipio);
+        super(modelService, 'administrativo/vinculacao_setor_municipio', VinculacaoSetorMunicipio);
     }
 }

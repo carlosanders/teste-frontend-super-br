@@ -14,7 +14,7 @@ export class VinculacaoEtiquetaService extends ParentGenericService<VinculacaoEt
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'vinculacao_etiqueta', VinculacaoEtiqueta);
+        super(modelService, 'administrativo/vinculacao_etiqueta', VinculacaoEtiqueta);
     }
 
     patch(vinculacaoEtiqueta: VinculacaoEtiqueta, changes: any, context: any = '{}'): Observable<VinculacaoEtiqueta> {

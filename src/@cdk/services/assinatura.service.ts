@@ -11,6 +11,6 @@ export class AssinaturaService extends ParentGenericService<Assinatura> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'assinatura', Assinatura);
+        super(modelService, 'administrativo/assinatura', Assinatura);
     }
 }

@@ -11,6 +11,6 @@ export class LocalizadorService extends ParentGenericService<Localizador> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'localizador', Localizador);
+        super(modelService, 'administrativo/localizador', Localizador);
     }
 }

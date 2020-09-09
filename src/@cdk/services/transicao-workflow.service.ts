@@ -10,6 +10,6 @@ export class TransicaoWorkflowService extends ParentGenericService<TransicaoWork
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'transicao_workflow', TransicaoWorkflow);
+        super(modelService, 'administrativo/transicao_workflow', TransicaoWorkflow);
     }
 }

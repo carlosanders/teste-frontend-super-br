@@ -10,6 +10,6 @@ export class AcaoService extends ParentGenericService<Acao> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'acao', Acao);
+        super(modelService, 'administrativo/acao', Acao);
     }
 }

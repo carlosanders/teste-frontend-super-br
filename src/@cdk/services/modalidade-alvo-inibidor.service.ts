@@ -11,6 +11,6 @@ export class ModalidadeAlvoInibidorService extends ParentGenericService<Modalida
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modalidade_alvo_inibidor', ModalidadeAlvoInibidor);
+        super(modelService, 'administrativo/modalidade_alvo_inibidor', ModalidadeAlvoInibidor);
     }
 }

@@ -11,6 +11,6 @@ export class VolumeService extends ParentGenericService<Volume> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'volume', Volume);
+        super(modelService, 'administrativo/volume', Volume);
     }
 }

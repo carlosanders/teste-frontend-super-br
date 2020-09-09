@@ -11,6 +11,6 @@ export class HistoricoService extends ParentGenericService<Historico> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'historico', Historico);
+        super(modelService, 'administrativo/historico', Historico);
     }
 }

@@ -11,6 +11,6 @@ export class CoordenadorService extends ParentGenericService<Coordenador> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'coordenador', Coordenador);
+        super(modelService, 'administrativo/coordenador', Coordenador);
     }
 }

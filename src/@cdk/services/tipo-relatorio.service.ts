@@ -15,12 +15,12 @@ export class TipoRelatorioService extends ParentGenericService<TipoRelatorio> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'tipo_relatorio', TipoRelatorio);
+        super(modelService, 'administrativo/tipo_relatorio', TipoRelatorio);
     }
 
     patch(tipoRelatorio: TipoRelatorio, changes: any): Observable<TipoRelatorio> {
         return this.http.patch(
-            `${environment.api_url}${'tipoRelatorio'}/${tipoRelatorio.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/tipoRelatorio'}/${tipoRelatorio.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {

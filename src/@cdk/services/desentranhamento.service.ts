@@ -11,6 +11,6 @@ export class DesentranhamentoService extends ParentGenericService<Desentranhamen
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'desentranhamento', Desentranhamento);
+        super(modelService, 'administrativo/desentranhamento', Desentranhamento);
     }
 }

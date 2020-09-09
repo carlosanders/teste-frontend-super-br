@@ -11,6 +11,6 @@ export class FeriadoService extends ParentGenericService<Feriado> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'feriado', Feriado);
+        super(modelService, 'administrativo/feriado', Feriado);
     }
 }

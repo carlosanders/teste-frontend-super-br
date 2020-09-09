@@ -15,12 +15,12 @@ export class DocumentoAvulsoService extends ParentGenericService<DocumentoAvulso
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'documento_avulso', DocumentoAvulso);
+        super(modelService, 'administrativo/documento_avulso', DocumentoAvulso);
     }
 
     remeter(documentoAvulso: DocumentoAvulso): Observable<DocumentoAvulso> {
         return this.http.patch(
-            `${environment.api_url}${'documento_avulso'}/${documentoAvulso.id}/${'remeter'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/documento_avulso'}/${documentoAvulso.id}/${'remeter'}` + environment.xdebug,
             JSON.stringify(classToPlain(documentoAvulso))
         ).pipe(
             map(response => {
@@ -33,7 +33,7 @@ export class DocumentoAvulsoService extends ParentGenericService<DocumentoAvulso
 
     toggleEncerramento(documentoAvulso: DocumentoAvulso): Observable<DocumentoAvulso> {
         return this.http.patch(
-            `${environment.api_url}${'documento_avulso'}/${documentoAvulso.id}/${'toggle_encerramento'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/documento_avulso'}/${documentoAvulso.id}/${'toggle_encerramento'}` + environment.xdebug,
             JSON.stringify(classToPlain(documentoAvulso))
         ).pipe(
             map(response => {

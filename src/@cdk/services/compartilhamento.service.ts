@@ -11,6 +11,6 @@ export class CompartilhamentoService extends ParentGenericService<Compartilhamen
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'compartilhamento', Compartilhamento);
+        super(modelService, 'administrativo/compartilhamento', Compartilhamento);
     }
 }

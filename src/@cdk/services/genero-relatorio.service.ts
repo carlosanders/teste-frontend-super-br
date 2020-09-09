@@ -11,6 +11,6 @@ export class GeneroRelatorioService extends ParentGenericService<GeneroRelatorio
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'genero_relatorio', GeneroRelatorio);
+        super(modelService, 'administrativo/genero_relatorio', GeneroRelatorio);
     }
 }

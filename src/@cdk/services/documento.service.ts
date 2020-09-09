@@ -18,7 +18,7 @@ export class DocumentoService extends ParentGenericService<Documento> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'documento', Documento);
+        super(modelService, 'administrativo/documento', Documento);
     }
 
     preparaAssinatura(documentosId: any = '[]', context: any = '{}'): any {
@@ -26,19 +26,19 @@ export class DocumentoService extends ParentGenericService<Documento> {
         p['documentosId'] = documentosId;
         const params = new HttpParams({fromObject: p});
         params['context'] = context;
-        return this.http.get(`${environment.api_url}${'documento'}` + '/prepara_assinatura' + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}administrativo/${'documento'}` + '/prepara_assinatura' + environment.xdebug, {params});
     }
 
     removeAssinatura(documentosId: number, context: any = '{}'): any {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
-        return this.http.delete(`${environment.api_url}${'documento'}/${documentosId}/delete_assinatura` + environment.xdebug, {params});
+        return this.http.delete(`${environment.api_url}administrativo/${'documento'}/${documentosId}/delete_assinatura` + environment.xdebug, {params});
     }
 
     getVisibilidade(id: number, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
-        return this.http.get(`${environment.api_url}${'documento'}/${id}/visibilidade` + environment.xdebug, {params})
+        return this.http.get(`${environment.api_url}administrativo/${'documento'}/${id}/visibilidade` + environment.xdebug, {params})
             .pipe(
                 map(response => plainToClass(Visibilidade, response))
             );
@@ -48,7 +48,7 @@ export class DocumentoService extends ParentGenericService<Documento> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.put(
-            `${environment.api_url}${'documento'}/${documentosId}/${'visibilidade'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/documento'}/${documentosId}/${'visibilidade'}` + environment.xdebug,
             JSON.stringify(visibilidade),
             {params}
         ).pipe(
@@ -60,7 +60,7 @@ export class DocumentoService extends ParentGenericService<Documento> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.delete(
-            `${environment.api_url}${'documento'}/${documentosId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/documento'}/${documentosId}/${'visibilidade'}/${visibilidadeId}` + environment.xdebug,
             {params}
         );
     }
@@ -72,7 +72,7 @@ export class DocumentoService extends ParentGenericService<Documento> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'componente_digital'}/${documentoId}/${'convertToPdf'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/componente_digital'}/${documentoId}/${'convertToPdf'}` + environment.xdebug,
             JSON.stringify(changes),
             {params}
         )

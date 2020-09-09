@@ -10,6 +10,6 @@ export class WorkflowService extends ParentGenericService<Workflow> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'workflow', Workflow);
+        super(modelService, 'administrativo/workflow', Workflow);
     }
 }

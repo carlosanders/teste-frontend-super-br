@@ -11,6 +11,6 @@ export class ModalidadeRelacionamentoPessoalService extends ParentGenericService
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modalidade_relacionamento_pessoal', ModalidadeRelacionamentoPessoal);
+        super(modelService, 'administrativo/modalidade_relacionamento_pessoal', ModalidadeRelacionamentoPessoal);
     }
 }

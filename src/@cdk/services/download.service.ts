@@ -11,7 +11,7 @@ export class DownloadService {
     ) {}
 
     getOne(id: number, params: HttpParams = new HttpParams()): Observable<any> {
-        return this.http.get(`${environment.api_url}componente_digital/${id}/download` + environment.xdebug, { params });
+        return this.http.get(`${environment.api_url}administrativo/componente_digital/${id}/download` + environment.xdebug, { params });
     }
 
 }

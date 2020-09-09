@@ -15,14 +15,14 @@ export class NotificacaoService extends ParentGenericService<Notificacao> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'notificacao', Notificacao);
+        super(modelService, 'administrativo/notificacao', Notificacao);
     }
 
     toggleLida(notificacao: Notificacao, context: any = '{}'): Observable<Notificacao> {
         const params = {};
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'notificacao'}/${notificacao.id}/${'toggle_lida'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/notificacao'}/${notificacao.id}/${'toggle_lida'}` + environment.xdebug,
             JSON.stringify(classToPlain(notificacao)),
             {params}
         ).pipe(

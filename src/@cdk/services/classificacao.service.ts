@@ -15,12 +15,12 @@ export class ClassificacaoService extends ParentGenericService<Classificacao> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'classificacao', Classificacao);
+        super(modelService, 'administrativo/classificacao', Classificacao);
     }
 
     patch(classificacao: Classificacao, changes: any): Observable<Classificacao> {
         return this.http.patch(
-            `${environment.api_url}${'classificacao'}/${classificacao.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/classificacao'}/${classificacao.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {

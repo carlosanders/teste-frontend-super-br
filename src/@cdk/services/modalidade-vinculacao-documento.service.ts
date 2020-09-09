@@ -11,6 +11,6 @@ export class ModalidadeVinculacaoDocumentoService extends ParentGenericService<M
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modalidade_vinculacao_documento', ModalidadeVinculacaoDocumento);
+        super(modelService, 'administrativo/modalidade_vinculacao_documento', ModalidadeVinculacaoDocumento);
     }
 }

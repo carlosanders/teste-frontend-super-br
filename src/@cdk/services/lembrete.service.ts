@@ -11,6 +11,6 @@ export class LembreteService extends ParentGenericService<Lembrete> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'lembrete', Lembrete);
+        super(modelService, 'administrativo/lembrete', Lembrete);
     }
 }

@@ -50,6 +50,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     btVersoes = true;
     logEntryPagination: Pagination;
 
+    mode = 'documento';
+
     /**
      * @param _changeDetectorRef
      * @param _store
@@ -73,14 +75,38 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this._store
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+
+                if (this.routerState.url.indexOf('/documento/') > -1) {
+                    this.mode = 'documento';
+                }
+
+                if (this.routerState.url.indexOf('/modelo/') > -1) {
+                    this.mode = 'modelo';
+                }
+
+                if (this.routerState.url.indexOf('/repositorio/') > -1) {
+                    this.mode = 'repositorio';
+                }
+
+                if (this.routerState.url.indexOf('/template/') > -1) {
+                    this.mode = 'template';
+                }
+            }
+        });
+
         this.componenteDigital$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(cd => {
             this.componenteDigital = cd;
 
-            if (!this.componenteDigital) {
-                this.btVersoes = false;
-            } else {
+            if (this.componenteDigital) {
                 this.logEntryPagination = new Pagination();
                 this.logEntryPagination.filter = {
                     entity: 'SuppCore\\AdministrativoBackend\\Entity\\ComponenteDigital',
@@ -94,16 +120,6 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         ).subscribe(saving => {
             this.saving = saving;
             this._changeDetectorRef.detectChanges();
-        });
-
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
         });
 
         this._store

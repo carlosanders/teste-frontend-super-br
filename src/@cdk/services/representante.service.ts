@@ -12,6 +12,6 @@ export class RepresentanteService extends ParentGenericService<Representante> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'representante', Representante);
+        super(modelService, 'administrativo/representante', Representante);
     }
 }

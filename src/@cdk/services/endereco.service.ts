@@ -15,14 +15,14 @@ export class EnderecoService extends ParentGenericService<Endereco> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'endereco', Endereco);
+        super(modelService, 'administrativo/endereco', Endereco);
     }
 
     getFromCorreiosByCep(cep: string, context: any = '{}'): Observable<Endereco> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.get(
-            `${environment.api_url}${'endereco'}/${cep}/${'correios'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/endereco'}/${cep}/${'correios'}` + environment.xdebug,
             {params}
         ).pipe(
             map(response => {

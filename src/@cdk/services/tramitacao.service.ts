@@ -13,11 +13,11 @@ export class TramitacaoService extends ParentGenericService<Tramitacao> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'tramitacao', Tramitacao);
+        super(modelService, 'administrativo/tramitacao', Tramitacao);
     }
 
     imprimirGuia(id: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
-        return this.http.get(`${environment.api_url}tramitacao/imprime_guia/${id}` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}administrativo/tramitacao/imprime_guia/${id}` + environment.xdebug, {params});
     }
 }

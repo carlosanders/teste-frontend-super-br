@@ -1,5 +1,7 @@
 import { Action } from '@ngrx/store';
 
+export const UNLOAD_COMPARTILHAMENTOS = '[COMPARTILHAMENTO LIST] UNLOAD COMPARTILHAMENTOS';
+
 export const GET_COMPARTILHAMENTOS = '[COMPARTILHAMENTO LIST] GET COMPARTILHAMENTOS';
 export const GET_COMPARTILHAMENTOS_SUCCESS = '[COMPARTILHAMENTO LIST] GET COMPARTILHAMENTOS SUCCESS';
 export const GET_COMPARTILHAMENTOS_FAILED = '[COMPARTILHAMENTO LIST] GET COMPARTILHAMENTOS FAILED';
@@ -7,6 +9,18 @@ export const GET_COMPARTILHAMENTOS_FAILED = '[COMPARTILHAMENTO LIST] GET COMPART
 export const DELETE_COMPARTILHAMENTO = '[COMPARTILHAMENTO LIST] DELETE COMPARTILHAMENTO';
 export const DELETE_COMPARTILHAMENTO_SUCCESS = '[COMPARTILHAMENTO LIST] DELETE COMPARTILHAMENTO SUCCESS';
 export const DELETE_COMPARTILHAMENTO_FAILED = '[COMPARTILHAMENTO LIST] DELETE COMPARTILHAMENTO FAILED';
+
+/**
+ * Unload Compartilhamentos
+ */
+export class UnloadCompartilhamentos implements Action
+{
+    readonly type = UNLOAD_COMPARTILHAMENTOS;
+
+    constructor()
+    {
+    }
+}
 
 /**
  * Get Compartilhamentos
@@ -81,7 +95,8 @@ export class DeleteCompartilhamentoFailed implements Action
 }
 
 export type CompartilhamentoListActionsAll
-    = GetCompartilhamentos
+    = UnloadCompartilhamentos
+    | GetCompartilhamentos
     | GetCompartilhamentosSuccess
     | GetCompartilhamentosFailed
     | DeleteCompartilhamento
