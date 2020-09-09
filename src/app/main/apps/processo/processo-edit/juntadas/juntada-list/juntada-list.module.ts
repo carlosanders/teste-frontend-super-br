@@ -1,16 +1,17 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -30,7 +31,7 @@ const routes: Routes = [
         component: JuntadaListComponent,
         children: [
             {
-                path       : 'documento',
+                path: 'documento',
                 loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
             }
         ],
@@ -64,6 +65,7 @@ modulesConfig.forEach((module) => {
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
+        MatTooltipModule,
 
         TranslateModule,
 

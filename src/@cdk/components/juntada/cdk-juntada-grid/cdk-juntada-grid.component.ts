@@ -1,9 +1,15 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    EventEmitter,
+    Input,
+    OnChanges,
+    OnInit,
+    Output,
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -11,7 +17,6 @@ import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
 import {ComponenteDigital, Juntada} from '@cdk/models';
 import {JuntadaDataSource} from '@cdk/data-sources/juntada-data-source';
 import {FormControl} from '@angular/forms';
@@ -41,6 +46,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Output()
     create = new EventEmitter<any>();
+
+    @Output()
+    desentranharBloco = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions'];
@@ -402,5 +410,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
                     });
             }
         );
+    }
+
+    addDesentranhar(juntada: Juntada): void {
+        this.desentranharBloco.emit(juntada);
     }
 }

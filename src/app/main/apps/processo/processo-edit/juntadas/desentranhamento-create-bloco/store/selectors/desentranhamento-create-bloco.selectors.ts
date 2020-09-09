@@ -1,5 +1,9 @@
 import {createSelector} from '@ngrx/store';
-import {getDesentranhamentoCreateBlocoAppState, DesentranhamentoCreateBlocoAppState, DesentranhamentoCreateBlocoState} from '../reducers';
+import {
+    DesentranhamentoCreateBlocoAppState,
+    DesentranhamentoCreateBlocoState,
+    getDesentranhamentoCreateBlocoAppState
+} from '../reducers';
 
 export const getDesentranhamentoCreateBlocoState = createSelector(
     getDesentranhamentoCreateBlocoAppState,

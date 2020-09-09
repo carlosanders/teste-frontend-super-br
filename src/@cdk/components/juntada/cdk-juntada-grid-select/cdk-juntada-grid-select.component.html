@@ -1,0 +1,82 @@
+<div fxLayout="column">
+
+    <div class="titulo">Selecione as juntadas que serão desentranhadas</div>
+    <cdk-juntada-grid [loading]="loading"
+                      [juntadas]="juntadas"
+                      [total]="total"
+                      [actions]="actions"
+                      [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions']"
+                      (desentranharBloco)="desentranharBloco($event)"
+                      [actions]="['desentranharBloco']">
+    </cdk-juntada-grid>
+
+    <div class="div-tabela content responsive-grid" fxLayout="column">
+        <div class="titulo">Juntada selecionadas</div>
+
+        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+            <table mat-table [dataSource]="dataSourceJuntadasAdicionadas" matSort [hidden]="loading">
+                <!-- Id Column -->
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Id: '>
+                        {{juntada.id}} </td>
+                </ng-container>
+
+                <!-- Descricao Column -->
+                <ng-container matColumnDef="descricao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Descrição
+                    </th>
+                    <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Descrição: '>
+                        {{juntada.descricao}} </td>
+                </ng-container>
+
+                <!-- NumeracaoSequencial Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('numeracaoSequencial') > -1"
+                              matColumnDef="numeracaoSequencial">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Sequencial
+                    </th>
+                    <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile'
+                        data-label='Sequencial: '> {{juntada.numeracaoSequencial}} </td>
+                </ng-container>
+
+                <!-- Documento Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('documento.tipoDocumento.nome') > -1"
+                              matColumnDef="documento.tipoDocumento.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Tipo de Documento
+                    </th>
+                    <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile'
+                        data-label='Tipo de Documento: '> {{juntada.documento?.tipoDocumento?.nome}} </td>
+                </ng-container>
+
+                <!-- Actions Column -->
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let juntada" class="cssMovimentar">
+                        <button mat-icon-button (click)="removerDesentranhamento(juntada)" aria-label="retirar"
+                                matTooltip="Retirar">
+                            <mat-icon>remove_circle</mat-icon>
+                        </button>
+                        <button mat-icon-button (click)="subirJuntada(juntada)" aria-label="subir"
+                                matTooltip="Subir" *ngIf="juntadasAdicionadas.indexOf(juntada) !== 0">
+                            <mat-icon>arrow_drop_up</mat-icon>
+                        </button>
+                        <div class="espaco-seta" *ngIf="juntadasAdicionadas.indexOf(juntada) === 0"></div>
+                        <button mat-icon-button (click)="descerJuntada(juntada)" aria-label="descer"
+                                matTooltip="Descer"
+                                *ngIf="juntadasAdicionadas.indexOf(juntada) !== juntadasAdicionadas.length - 1">
+                            <mat-icon>arrow_drop_down</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
+                <tr mat-row *matRowDef="let juntada; columns: displayedColumns;">
+                </tr>
+            </table>
+        </div>
+
+    </div>
+</div>
