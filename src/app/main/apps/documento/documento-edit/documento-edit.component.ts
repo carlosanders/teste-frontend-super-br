@@ -35,6 +35,7 @@ import {modulesConfig} from '../../../../../modules/modules-config';
 import {DocumentoEditService} from './shared/documento-edit.service';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Back} from "../../../../store/actions";
 
 @Component({
     selector: 'documento-edit',
@@ -763,6 +764,10 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         );
 
         this._store.dispatch(new fromStore.SaveJuntada(juntada));
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }
 

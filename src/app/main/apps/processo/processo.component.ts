@@ -2,7 +2,7 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ComponentFactoryResolver,
+    Component,
     OnDestroy,
     OnInit,
     ViewChild,
@@ -77,7 +77,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         public _loginService: LoginService,
         private _router: Router,
         private _dynamicService: DynamicService,
-        private componentFactoryResolver: ComponentFactoryResolver
     ) {
         // Set the defaults
         this._profile = _loginService.getUserProfile();

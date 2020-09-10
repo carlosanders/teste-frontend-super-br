@@ -23,7 +23,7 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}/${'ciencia'}` + environment.xdebug,
-            JSON.stringify(classToPlain(tarefa)),
+            null,
             {params}
         ).pipe(
             map(response => {
@@ -39,7 +39,7 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         params['context'] = context;
         return this.http.patch(
             `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}/${'toggle_lida'}` + environment.xdebug,
-            JSON.stringify(classToPlain(tarefa)),
+            null,
             {params}
         ).pipe(
             map(response => {

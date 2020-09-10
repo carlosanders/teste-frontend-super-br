@@ -19,6 +19,7 @@ import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Tarefa} from '@cdk/models';
+import {Back} from "../../../../store/actions";
 
 @Component({
     selector: 'documento-avulso-create',
@@ -125,5 +126,9 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
 
             this._store.dispatch(new fromStore.SaveDocumentoAvulso(documentoAvulso));
         });
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }

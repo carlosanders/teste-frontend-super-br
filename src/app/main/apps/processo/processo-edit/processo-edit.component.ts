@@ -12,7 +12,6 @@ import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
 import {getRouterState} from '../../../../store/reducers';
-import {Observable} from 'rxjs';
 import {getSteps} from '../store';
 
 @Component({
@@ -55,6 +54,7 @@ export class ProcessoEditComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.refresh();
             }
         });
 

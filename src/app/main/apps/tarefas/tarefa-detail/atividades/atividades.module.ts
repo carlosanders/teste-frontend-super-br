@@ -1,7 +1,5 @@
 import {NgModule} from '@angular/core';
-
 import {TranslateModule} from '@ngx-translate/core';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {AtividadesComponent} from './atividades.component';
 import {RouterModule, Routes} from '@angular/router';
