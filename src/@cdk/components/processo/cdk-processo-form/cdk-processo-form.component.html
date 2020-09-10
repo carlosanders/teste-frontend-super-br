@@ -176,7 +176,7 @@
             </div>
 
             <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2" fxFlex>
-                <mat-label>NUP</mat-label>
+                <mat-label>{{form.value.unidadeArquivistica !== 3 ? 'NUP' : 'Dossiê'}}</mat-label>
                 <input matInput #NUP
                        name="NUP"
                        formControlName="NUP"

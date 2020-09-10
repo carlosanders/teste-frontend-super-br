@@ -209,6 +209,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('especieTarefa').disable();
         }
 
+        if (this.mode === 'bloco-create') {
+            this.form.get('especieTarefa').enable();
+        }
+
         if (this.blocoEdit.blocoEditEspecie) {
             this.form.get('especieTarefa').enable();
         }

@@ -24,6 +24,7 @@ import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {Usuario} from "../../../../../@cdk/models/usuario.model";
+import {Back} from "../../../../store/actions";
 
 @Component({
     selector: 'documento-avulso-create',
@@ -174,6 +175,10 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.SaveDocumentoAvulso(documentoAvulso));
 
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
 }
