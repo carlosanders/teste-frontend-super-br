@@ -24,18 +24,6 @@ export const navigation: CdkNavigation[] = [
                 icon: 'check_box',
                 children: [
                     {
-                        id: 'tarefas_pendentes_eventos',
-                        title: 'Calendário',
-                        type: 'item',
-                        icon: 'calendar_today',
-                        url: '/apps/calendario/minhas-tarefas/todas',
-                        badge : {
-                            title: '0',
-                            bg: '#F44336',
-                            fg: '#FFFFFF'
-                        }
-                    },
-                    {
                         id: 'tarefas_pendentes_administrativo',
                         title: 'Administrativas',
                         translate: 'NAV.TAREFA.ADMINISTRATIVAS.TITLE',

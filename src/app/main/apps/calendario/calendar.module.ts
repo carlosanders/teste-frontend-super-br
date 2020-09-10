@@ -26,6 +26,7 @@ import * as fromGuards from 'app/main/apps/calendario/store/guards';
 import {CalendarioStoreModule} from './store/store.module';
 import {CalendarioMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {MatRippleModule} from '@angular/material/core';
+import {MatDividerModule} from '@angular/material/divider';
 
 const routes: Routes = [
     {
@@ -54,6 +55,10 @@ const routes: Routes = [
         MatSlideToggleModule,
         MatToolbarModule,
         MatTooltipModule,
+        MatDatetimepickerModule,
+        MatNativeDatetimeModule,
+        MatRippleModule,
+        MatDividerModule,
 
         AngularCalendarModule.forRoot({
             provide: DateAdapter,
@@ -63,12 +68,9 @@ const routes: Routes = [
 
         CdkSharedModule,
         CdkConfirmDialogModule,
-        MatDatetimepickerModule,
-        MatNativeDatetimeModule,
 
         CalendarioStoreModule,
-        MatRippleModule,
-        CdkSidebarModule
+        CdkSidebarModule,
     ],
     providers: [
         CalendarService,
