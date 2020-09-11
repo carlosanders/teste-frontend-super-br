@@ -12,6 +12,8 @@ import {Tramitacao} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {Setor} from '@cdk/models';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-tramitacao-form',
@@ -52,7 +54,13 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
     setorOrigemPaginationTree: Pagination;
 
     @Input()
+    unidadePagination: Pagination;
+
+    @Input()
     setorDestinoPagination: Pagination;
+
+    @Input()
+    setorDestinoPaginationTree: Pagination;
 
     setorOrigemListIsLoading: boolean;
 
@@ -73,13 +81,17 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
             urgente: [null],
             setorOrigem: [null, [Validators.required]],
             setorDestino: [null, [Validators.required]],
-            observacao: [null, [Validators.maxLength(255)]]
+            observacao: [null, [Validators.maxLength(255)]],
+            unidade: [null, [Validators.required]],
         });
 
         this.processoPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.setorDestinoPagination = new Pagination();
         this.setorOrigemPaginationTree = new Pagination();
+        this.setorDestinoPaginationTree = new Pagination();
+        this.unidadePagination = new Pagination();
+        this.unidadePagination.filter = {parent: 'isNull'};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -91,6 +103,22 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
      */
     ngOnInit(): void {
 
+        this.form.get('unidade').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.form.get('setorDestino').enable();
+                        this.form.get('setorDestino').reset();
+                        this.setorDestinoPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this.setorDestinoPagination.filter['parent'] = `isNotNull`;
+                        this.setorDestinoPaginationTree.filter['unidade.id'] = `eq:${value.id}`;
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
 
     }
 
@@ -213,5 +241,23 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    selectUnidade(setor: Setor): void {
+        if (setor) {
+            this.form.get('unidade').setValue(setor);
+        }
+        this.activeCard = 'form';
+    }
+
+    checkUnidade(): void {
+        const value = this.form.get('unidade').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('unidade').setValue(null);
+        }
+    }
+
+    showUnidadeGrid(): void {
+        this.activeCard = 'unidade-gridsearch';
     }
 }

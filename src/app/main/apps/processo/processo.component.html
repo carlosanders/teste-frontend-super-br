@@ -62,6 +62,12 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
+                    <button mat-menu-item aria-label="imprimir etiqueta" (click)="arquivarProcesso()">
+                        <ng-container>
+                            <mat-icon>archive</mat-icon>
+                            <span>Arquivar</span>
+                        </ng-container>
+                    </button>
                     <button mat-menu-item aria-label="imprimir etiqueta" (click)="imprimirEtiqueta()">
                         <ng-container>
                             <mat-icon>video_label</mat-icon>

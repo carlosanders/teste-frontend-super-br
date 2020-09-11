@@ -12,9 +12,10 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Tramitacao} from '@cdk/models';
+import {Tramitacao, Usuario} from '@cdk/models';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
 import {FormControl} from '@angular/forms';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-remessa-grid',
@@ -42,8 +43,8 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'setorOrigem.nome', 'setorDestino.nome',
-        'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'setorOrigem.nome', 'pessoaDestino.nome',
+        'dataHoraRecebimento', 'usuarioRecebimento.nome', 'urgente', 'actions'];
 
     allColumns: any[] = [
         {
@@ -168,6 +169,15 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Output()
     selectedIds: number[] = [];
+
+    @Output()
+    recebimento = new EventEmitter<number>();
+
+    @Input()
+    recebendoIds: number[] = [];
+
+    @Input()
+    recebidoIds: number[] = [];
 
     dataSource: TramitacaoDataSource;
 
@@ -352,4 +362,9 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     doCreate(): void {
         this.create.emit();
     }
+
+    editRecebimento(tramitacaoId): void {
+        this.recebimento.emit(tramitacaoId);
+    }
+
 }
