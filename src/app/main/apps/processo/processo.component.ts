@@ -199,4 +199,8 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     imprimirEtiqueta(): void {
         this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'etiqueta']).then();
     }
+
+    arquivarProcesso(): void {
+        this._store.dispatch(new fromStore.ArquivarProcesso(this.processo));
+    }
 }

@@ -102,6 +102,10 @@ export class TramitacaoListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + tramitacaoId]);
     }
 
+    recebimento(tramitacaoId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'recebimento/') + tramitacaoId]);
+    }
+
     delete(tramitacaoId: number): void {
         this._store.dispatch(new fromStore.DeleteTramitacao(tramitacaoId));
     }

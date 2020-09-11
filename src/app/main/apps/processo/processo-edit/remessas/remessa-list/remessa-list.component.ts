@@ -8,11 +8,12 @@ import {
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Tramitacao} from '@cdk/models';
+import {Tramitacao, Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Component({
     selector: 'remessa-list',
@@ -32,16 +33,21 @@ export class RemessaListComponent implements OnInit {
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
 
+    _profile: Usuario;
     /**
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.RemessaListAppState>,
+        public _loginService: LoginService
     ) {
+        this._profile = this._loginService.getUserProfile();
+
         this.tramitacoes$ = this._store.pipe(select(fromStore.getRemessaList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
@@ -63,7 +69,7 @@ export class RemessaListComponent implements OnInit {
         });
     }
 
-    create () : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
@@ -100,6 +106,10 @@ export class RemessaListComponent implements OnInit {
 
     edit(tramitacaoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + tramitacaoId]).then();
+    }
+
+    recebimento(tramitacaoId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'recebimento/') + tramitacaoId]);
     }
 
     delete(tramitacaoId: number): void {
