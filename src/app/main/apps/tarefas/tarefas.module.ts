@@ -12,7 +12,10 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatProgressSpinnerModule,
+    MatTooltipModule,
+    MatDividerModule,
+    MatProgressBarModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -37,12 +40,11 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chips/cdk-etiqueta-chips.module';
 import {DndModule} from 'ngx-drag-drop';
 import {LoginService} from '../../auth/login/login.service';
-import { AssuntoService } from '@cdk/services/assunto.service';
+import {AssuntoService} from '@cdk/services/assunto.service';
 import {AssuntoListStoreModule} from 'app/main/apps/processo/processo-edit/assuntos/assunto-list/store/store.module';
 import {modulesConfig} from 'modules/modules-config';
 import {InteressadoService} from '../../../../@cdk/services/interessado.service';
 import {DocumentoService} from '../../../../@cdk/services/documento.service';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 const routes: Routes = [
     {
@@ -140,6 +142,8 @@ modulesConfig.forEach((module) => {
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
+        MatProgressBarModule,
+        MatDividerModule,
 
         DndModule,
 
@@ -162,7 +166,6 @@ modulesConfig.forEach((module) => {
         TarefasStoreModule,
 
         AssuntoListStoreModule,
-        MatProgressBarModule
     ],
     providers: [
         TarefaService,
