@@ -14,6 +14,7 @@ import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.servi
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class ProcessoEffect {
@@ -25,7 +26,8 @@ export class ProcessoEffect {
         private _processoService: ProcessoService,
         public _loginService: LoginService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _router: Router
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -202,4 +204,45 @@ export class ProcessoEffect {
                     }
                 ));
 
+    /**
+     * Arquivar Processo
+     * @type {Observable<any>}
+     */
+    @Effect()
+    arquivarProcesso: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoActions.ArquivarProcesso>(ProcessoActions.ARQUIVAR_PROCESSO),
+                switchMap((action) => {
+                    return this._processoService.arquivar(action.payload).pipe(
+                        mergeMap((response: Processo) => [
+                            new ProcessoActions.ArquivarProcessoSuccess(response),
+                            new AddData<Processo>({data: [response], schema: processoSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'processo',
+                                content: `Processo id ${response.id} arquivado com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            return of(new ProcessoActions.ArquivarProcessoFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Save Processo Success
+     */
+    @Effect({ dispatch: false })
+    arquivarProcessoSuccess: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoActions.ArquivarProcesso>(ProcessoActions.ARQUIVAR_PROCESSO_SUCCESS),
+                tap(() => {
+                    this._router.navigate(['apps/processo/' +
+                    this.routerState.params.processoHandle +
+                    '/editar/tarefas']).then();
+                })
+            );
 }

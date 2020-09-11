@@ -100,23 +100,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         NUP
                     </th>
-                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='NUP: '>
-                        <mat-checkbox
-                            [disabled]="true"
-                            [checked]="tramitacao.processo?.NUP"></mat-checkbox>
-                    </td>
-                </ng-container>
-
-                <!-- Urgente Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('urgente') > -1" matColumnDef="urgente">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Urgente
-                    </th>
-                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Urgente: '>
-                        <mat-checkbox
-                            [disabled]="true"
-                            [checked]="tramitacao.urgente"></mat-checkbox>
-                    </td>
+                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Setor de Origem: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao.apagadoEm}"> {{tramitacao.processo?.NUP}} </td>
                 </ng-container>
 
                 <!-- SetorOrigem Column -->
@@ -147,7 +132,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile'
                         data-label='Data de Recebimento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao.apagadoEm}"> {{tramitacao.dataHoraRecebimento | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao.apagadoEm}"> {{tramitacao.dataHoraRecebimento | date: 'dd/MM/yyyy H:mm'}} </td>
                 </ng-container>
 
                 <!-- UsuarioRecebimento Column -->
@@ -159,6 +144,18 @@
                     <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile'
                         data-label='Usuário Recebimento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao.apagadoEm}"> {{tramitacao.usuarioRecebimento?.nome}} </td>
+                </ng-container>
+
+                <!-- Urgente Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('urgente') > -1" matColumnDef="urgente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Urgente
+                    </th>
+                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Urgente: '>
+                        <mat-checkbox
+                            [disabled]="true"
+                            [checked]="tramitacao.urgente"></mat-checkbox>
+                    </td>
                 </ng-container>
 
                 <!-- Observacao Column -->
@@ -249,7 +246,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded && !tramitacao.dataHoraRecebimento"
                                 [disabled]="deletedIds?.indexOf(tramitacao.id) > -1"
                                 (click)="editTramitacao(tramitacao.id)"
                                 aria-label="editar"
@@ -258,12 +255,25 @@
                         </button>
 
                         <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1 &&
+                                !hasExcluded &&
+                                idsSetoresLotacao.indexOf(tramitacao.setorDestino.id) > -1 &&
+                                !tramitacao.dataHoraRecebimento"
+                                [disabled]="deletedIds?.indexOf(tramitacao.id) > -1"
+                                (click)="editRecebimento(tramitacao.id)"
+                                aria-label="receber"
+                                matTooltip="Receber Tramitação">
+                            <mat-icon>save_alt</mat-icon>
+                        </button>
+
+
+                        <button mat-icon-button
                                 *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(tramitacao.id) > -1"
                                 (click)="viewTramitacao(tramitacao.id)"
                                 aria-label="visualizar"
-                                matTooltip="visualizar">
-                            <mat-icon>desktop_windows</mat-icon>
+                                matTooltip="Guia de tramitação">
+                            <mat-icon>calendar_view_day</mat-icon>
                         </button>
 
 
@@ -272,7 +282,9 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(tramitacao.id) === -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('delete') > -1 &&
+                                    deletingIds?.indexOf(tramitacao.id) === -1 && !hasExcluded &&
+                                    !tramitacao.dataHoraRecebimento"
                                 [disabled]="deletedIds?.indexOf(tramitacao.id) > -1"
                                 (click)="deleteTramitacao(tramitacao.id)"
                                 aria-label="remover"

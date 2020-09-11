@@ -39,6 +39,10 @@ const routes: Routes = [
                 loadChildren: () => import('./tramitacao-view/tramitacao-view.module').then(m => m.TramitacaoViewModule),
             },
             {
+                path       : 'recebimento',
+                loadChildren: () => import('./recebimento/recebimento.module').then(m => m.RecebimentoModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

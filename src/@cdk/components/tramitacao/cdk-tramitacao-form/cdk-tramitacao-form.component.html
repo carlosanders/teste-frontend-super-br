@@ -61,6 +61,27 @@
 
             <mat-form-field fxFlex="100">
                 <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="Unidade"
+                           formControlName="unidade"
+                           [matAutocomplete]="unidade.autocomplete" required
+                           (blur)="checkUnidade()">
+                </div>
+                <cdk-setor-autocomplete
+                    #unidade="setorAutocomplete"
+                    [control]="form.get('unidade')"
+                    [pagination]="unidadePagination">
+                </cdk-setor-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showUnidadeGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('unidade').hasError('formError')">
+                    {{form.get('unidade').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="100" *ngIf="form.get('unidade').value">
+                <div fxLayout="row" fxLayoutAlign="start center">
                     <input matInput placeholder="Setor de Destino"
                            formControlName="setorDestino"
                            [matAutocomplete]="setorDestino.autocomplete" required
@@ -152,6 +173,15 @@
 <cdk-setor-tree
     fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-destino-tree'"
+    [pagination]="setorDestinoPaginationTree"
     (selected)="selectSetorDestino($event)"
     (cancel)="cancel()">
 </cdk-setor-tree>
+
+<cdk-setor-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'unidade-gridsearch'"
+    [pagination]="unidadePagination"
+    (selected)="selectUnidade($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>

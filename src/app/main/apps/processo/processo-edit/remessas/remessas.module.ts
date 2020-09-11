@@ -34,6 +34,10 @@ const routes: Routes = [
                 loadChildren: () => import('./remessa-edit/remessa-edit.module').then(m => m.RemessaEditModule),
             },
             {
+                path       : 'recebimento',
+                loadChildren: () => import('./recebimento/recebimento.module').then(m => m.RecebimentoModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

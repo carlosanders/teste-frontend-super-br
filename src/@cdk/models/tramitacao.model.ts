@@ -30,6 +30,11 @@ export class Tramitacao {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     setorDestino?: Setor;
 
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    setorAtual?: Setor;
+
+
     @Type(() => Pessoa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     pessoaDestino?: Pessoa;
@@ -79,6 +84,7 @@ export class Tramitacao {
         this.urgente = null;
         this.processo = null;
         this.setorDestino = null;
+        this.setorAtual = null;
         this.setorOrigem = null;
         this.pessoaDestino = null;
         this.dataHoraRecebimento = null;
