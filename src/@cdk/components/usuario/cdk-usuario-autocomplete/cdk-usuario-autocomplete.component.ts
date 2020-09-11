@@ -38,6 +38,9 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
     @Input()
     usuarioListIsLoading: boolean;
 
+    @Input()
+    filtrarPor: string = 'nome';
+
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
@@ -55,14 +58,24 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
-            filter(term => !!term && term.length >= 2),
+            filter(term => !!term && term.length > 1),
             switchMap((value) => {
+                    console.log('filtrarPor', this.filtrarPor);
+                    console.log('value', value);
                     let termFilter = {};
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = {
-                            ...termFilter,
-                            nome: `like:%${bit}%`
-                        };
+                    value.split(' ').filter(bit => !!bit && bit.length > 1).forEach(bit => {
+                        if (this.filtrarPor === 'nome') {
+                            termFilter = {
+                                ...termFilter,
+                                nome: `like:%${bit}%`
+                            };
+                        }
+                        if (this.filtrarPor === 'username') {
+                            termFilter = {
+                                ...termFilter,
+                                username: `like:%${bit}%`
+                            };
+                        }
                     });
                     if (typeof value === 'string') {
                         this.usuarioListIsLoading = true;
@@ -89,10 +102,16 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
         ).subscribe(response => {
             this.usuarioList = response['entities'];
             this._changeDetectorRef.markForCheck();
+            console.log('this._changeDetectorRef', this._changeDetectorRef);
+            console.log('this._changeDetectorRef', this._changeDetectorRef.markForCheck());
         });
     }
 
-    displayUsuarioFn(usuario): string {
+    displayUsuarioFn(usuario: Usuario): string {
+        console.log('this.filtrarPor', this.filtrarPor, this.filtrarPor === 'username');
+        if (this.filtrarPor === 'username')
+            return usuario ? usuario.username : null;
+        console.log('DEPOIS');
         return usuario ? usuario.nome : null;
     }
 }

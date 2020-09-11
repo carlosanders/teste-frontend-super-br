@@ -9,7 +9,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Usuario} from '@cdk/models';
+import {Pagination, Usuario} from '@cdk/models';
 
 @Component({
     selector: 'cdk-usuario-form',
@@ -44,6 +44,9 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
     @Input()
     usuarioExterno = false;
 
+    @Input()
+    usuarioPagination: Pagination;
+
     /**
      * Constructor
      */
@@ -54,13 +57,16 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             id: [null],
-            username: [null, [Validators.required, Validators.maxLength(255)]],
+            username: [null, [Validators.required, Validators.maxLength(11), Validators.minLength(11)]],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2), Validators.max(4)]],
             enabled: [null],
             validado: [null],
+            usuarioAux: [null]
         });
+
+        this.usuarioPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -128,5 +134,47 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    // selectUsuario(usuario: Usuario): void {
+    //     console.log('****selectUsuario', usuario);
+    //     if (usuario) {
+    //         console.log('****selectUsuario', usuario);
+    //         this.form.get('usuario').setValue(usuario);
+    //     }
+    //     this.activeCard = 'form';
+    // }
+    //
+    // showUsuarioGrid(): void {
+    //     this.activeCard = 'usuario-gridsearch';
+    // }
+    //
+    // checkUsuario(): void {
+    //     const value = this.form.get('username').value;
+    //     console.log('checkUsuario', value);
+    //     console.log('Pagination', this.usuarioPagination);
+    //     if (!value && value.trim().length==0) {
+    //         console.log('checkUsuariotop IF', value);
+    //         this.form.get('username').setValue(null);
+    //     }
+    // }
+
+
+    checkUsuario(): void {
+        const value = this.form.get('usuarioAux').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('usuarioAux').setValue(null);
+        }
+    }
+
+    selectUsuario(usuario: Usuario): void {
+        if (usuario) {
+            this.form.get('usuarioAux').setValue(usuario);
+        }
+        this.activeCard = 'form';
+    }
+
+    showUsuarioGrid(): void {
+        this.activeCard = 'usuario-gridsearch';
     }
 }

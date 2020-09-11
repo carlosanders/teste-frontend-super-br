@@ -41,7 +41,7 @@ export class NotificacaoEffect {
             .pipe(
                 ofType<NotificacaoListActions.GetNotificacoes>(NotificacaoListActions.GET_NOTIFICACOES),
                 switchMap((action) => {
-                    if (this._loginService && this._loginService.getUserProfile() && this._loginService.getUserProfile().id) {
+                    if (this._loginService && this._loginService.getUserProfile() && this._loginService.getUserProfile().id != null) {
                         return this._notificacaoService.query(
                             JSON.stringify({
                                 ...action.payload.filter,

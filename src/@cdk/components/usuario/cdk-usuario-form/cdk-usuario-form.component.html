@@ -6,6 +6,52 @@
 
     <div  fxLayout="column" >
 
+<!--        <mat-form-field fxFlex>-->
+<!--            <div fxLayout="row" fxLayoutAlign="start center">-->
+<!--                <input matInput placeholder="CPF"-->
+<!--                       formControlName="username"-->
+<!--                       required-->
+<!--                       maxlength="11"-->
+<!--                       [matAutocomplete]="usuario.autocomplete"-->
+<!--                       (blur)="checkUsuario()">-->
+<!--            </div>-->
+<!--            <cdk-usuario-autocomplete-->
+<!--                #usuario="usuarioAutocomplete"-->
+<!--                [control]="form.get('username')"-->
+<!--                [pagination]="usuarioPagination"-->
+<!--                [filtrarPor]="'username'">-->
+<!--            </cdk-usuario-autocomplete>-->
+<!--            <button matSuffix mat-button mat-icon-button-->
+<!--                    (click)="showUsuarioGrid()">-->
+<!--                <mat-icon matTooltip="Procurar">search</mat-icon>-->
+<!--            </button>-->
+<!--            <mat-error *ngIf="form.get('username').hasError('formError')">-->
+<!--                {{form.get('username').errors.formError}}-->
+<!--            </mat-error>-->
+<!--        </mat-form-field>-->
+
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="CPF2"
+                       formControlName="usuario"
+                       [matAutocomplete]="usuario.autocomplete" required
+                       (blur)="checkUsuario()">
+            </div>
+            <cdk-usuario-autocomplete
+                #usuario="usuarioAutocomplete"
+                [control]="form.get('usuarioAux')"
+                [pagination]="usuarioPagination"
+                [filtrarPor]="'username'">
+            </cdk-usuario-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showUsuarioGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('usuarioAux') && form.get('usuarioAux').hasError('formError')">
+                {{form.get('usuarioAux').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
         <mat-form-field fxFlex="100">
             <mat-label>CPF</mat-label>
             <input matInput #username
@@ -74,3 +120,11 @@
     </div>
 </form>
 </div>
+
+<cdk-usuario-gridsearch
+    fxFlex
+    *ngIf="activeCard === 'usuario-gridsearch'"
+    [pagination]="usuarioPagination"
+    (selected)="selectUsuario($event)"
+    (cancel)="cancel()">
+</cdk-usuario-gridsearch>
