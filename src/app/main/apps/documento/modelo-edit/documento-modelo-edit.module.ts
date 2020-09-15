@@ -13,6 +13,9 @@ import {CdkModeloFormModule} from '@cdk/components/modelo/cdk-modelo-form/cdk-mo
 import {ModeloEditComponent} from './modelo-edit.component';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {modulesConfig} from 'modules/modules-config';
+import {AtividadeCreateStoreModule} from '../../tarefas/tarefa-detail/atividades/atividade-create/store/store.module';
+import {ModeloEditAnexosModule} from './anexos/modelo-edit-anexos.module';
+import {ModeloEditDadosBasicosModule} from './dados-basicos/modelo-edit-dados-basicos.module';
 
 const routes: Routes = [
     {
@@ -54,13 +57,18 @@ modulesConfig.forEach((module) => {
         CdkDocumentoCardListModule,
         CdkUploadModule,
 
+        AtividadeCreateStoreModule,
+
+        ModeloEditAnexosModule,
+
         TranslateModule,
         CdkSharedModule,
         MatTooltipModule,
+        ModeloEditDadosBasicosModule,
     ],
     providers: [
         DocumentoService,
-        ModeloService
+        ModeloService,
     ],
     exports: [
         ModeloEditComponent

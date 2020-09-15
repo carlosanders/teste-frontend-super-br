@@ -1,0 +1,9 @@
+<div class="documentos-vinculados mb-48" fxFlex fxLayout="column" *ngIf="!(isLoading$ | async)">
+    <h3>Template</h3>
+
+    <cdk-template-form fxFlex [template]="template$ | async"
+                       [saving]="(isSaving$ | async)"
+                       [errors]="(errors$ | async)"
+                       (save)="submit($event)">
+    </cdk-template-form>
+</div>

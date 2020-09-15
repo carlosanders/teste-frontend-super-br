@@ -1,5 +1,5 @@
 <div fxFlex fxLayout="row">
-    <div fxLayout="column" fxFlex="30" *showIfRole="'ROLE_COLABORADOR'">
+    <div class="sidebar" *showIfRole="'ROLE_COLABORADOR'">
 
         <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
             <button *ngIf="(tarefa$ | async)" mat-icon-button aria-label="movimentar"
@@ -17,7 +17,7 @@
 
             <button mat-icon-button aria-label="editar o documento"
                     matTooltip="Editar o Documento" (click)="showForm()"
-                    [ngClass]="{'active accent': activeCard === 'form'}">
+                    [ngClass]="{'active accent': activeCard === 'dados-basicos'}">
                 <mat-icon class="black-fg">edit</mat-icon>
             </button>
 
@@ -58,7 +58,7 @@
 
                     <button mat-menu-item aria-label="componentes digitais"
                             matTooltip="Componentes Digitais" (click)="showComponentesDigitais()"
-                            [ngClass]="{'active accent': activeCard === 'componentesDigitais'}">
+                            [ngClass]="{'active accent': activeCard === 'componentes-digitais'}">
                         <ng-container>
                             <mat-icon class="black-fg">picture_as_pdf</mat-icon>
                             <span>Componentes Digitais</span>
@@ -76,7 +76,7 @@
 
                     <button mat-menu-item aria-label="juntada" *ngIf="juntada"
                             matTooltip="Juntada" (click)="showJuntadas()"
-                            [ngClass]="{'active accent': activeCard === 'juntadas'}">
+                            [ngClass]="{'active accent': activeCard === 'juntada'}">
                         <ng-container>
                             <mat-icon class="black-fg">layers</mat-icon>
                             <span>Juntada</span>
@@ -113,249 +113,59 @@
         <div class="documentos-vinculados m-16" fxFlex fxLayout="column"
              *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal && activeCard === 'anexos'">
 
-            <h3 style="font-weight: bold">Anexos</h3>
-
-            <button mat-mini-fab *ngIf="documento.minuta"
-                    class="ml-8 mb-16 active accent add-file-button"
-                    [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
-                    (click)="$event.stopPropagation()">
-                <mat-icon class="secondary-text">attach_file</mat-icon>
-            </button>
-
-            <mat-menu #moreMenu="matMenu">
-                <button mat-menu-item aria-label="upload de anexo"
-                        (click)="upload()">
-                    <ng-container>
-                        <mat-icon>picture_as_pdf</mat-icon>
-                        <span>Upload</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="anexar uma cópia de um documento"
-                        (click)="anexarCopia()">
-                    <ng-container>
-                        <mat-icon>file_copy</mat-icon>
-                        <span>Por Cópia</span>
-                    </ng-container>
-                </button>
-
-                <button *ngIf="!(isSaving$ | async)" mat-menu-item aria-label="aprova um documento"
-                        (click)="aprovar()">
-                    <ng-container>
-                        <mat-icon>file_copy</mat-icon>
-                        <span>Aprovar</span>
-                    </ng-container>
-                </button>
-
-                <ng-template #dynamicComponent></ng-template>
-            </mat-menu>
-
-            <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
-                                     [deletingId]="(deletingDocumentosVinculadosId$ | async)"
-                                     [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
-                                     (delete)="doDeleteDocumentoVinculado($event)"
-                                     (assinatura)="doAssinaturaDocumentoVinculado($event)"
-                                     (clicked)="onClickedDocumentoVinculado($event)"
-                                     (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">
-            </cdk-documento-card-list>
-
-            <cdk-componente-digital-card-list #ckdUpload
-                                              [documentoOrigem]="documento$ | async"
-                                              (completed)="onCompleteDocumentoVinculado()">
-            </cdk-componente-digital-card-list>
-
+            <documento-edit-anexos [documento]="(documento$ | async)"></documento-edit-anexos>
 
         </div>
 
-        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'atividade'">
+        <div *ngIf="activeCard === 'atividade'">
 
-            <cdk-atividade-form
-                [atividade]="atividade"
-                [documentoAvulsoVinculado]="(tarefa$ | async)?.processo?.documentoAvulsoOrigem"
-                [especieAtividadePagination]="especieAtividadePagination"
-                [temMinutas]="true"
-                [mode]="'vertical'"
-                [saving]="(atividadeIsSaving$ | async)"
-                [errors]="(atividadeErrors$ | async)"
-                (save)="submitAtividade($event)"
-                (abort)="doAbort()">
-            </cdk-atividade-form>
+            <documento-edit-atividade [tarefa]="(tarefa$ | async)" [documento]="(documento$ | async)"></documento-edit-atividade>
 
         </div>
 
-        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'form'">
+        <div *ngIf="activeCard === 'dados-basicos'">
 
-            <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento
-                Principal</h3>
-            <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
-
-            <cdk-documento-form fxFlex cdkPerfectScrollbar [documento]="(documento$ | async)"
-                                [saving]="(isSaving$ | async)"
-                                [errors]="(errors$ | async)"
-                                (save)="submit($event)">
-            </cdk-documento-form>
+            <documento-edit-dados-basicos [documento]="(documento$ | async)"></documento-edit-dados-basicos>
 
         </div>
 
-        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'inteligencia'">
-            <cdk-repositorio-grid
-                [layout]="'vertical'"
-                [loading]="(loading$ | async)"
-                [repositorios]="(repositorios$ | async)"
-                [total]="(pagination$ | async)?.total"
-                [mode]="'search'"
-                [actions]="['download']"
-                (download)="doDownload($event)"
-                [downloadingId]="(repositorioIdLoadind$ | async)"
-                [downloadedId]="(repositorioIdLoaded$ | async)"
-                (reload)="reload($event)">
-            </cdk-repositorio-grid>
+        <div *ngIf="activeCard === 'inteligencia'">
+
+            <documento-edit-inteligencia></documento-edit-inteligencia>
 
         </div>
 
-        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'acesso-restrito'">
+        <div *ngIf="activeCard === 'acesso-restrito'">
 
-            <h3 style="font-weight: bold">Acesso Restrito</h3>
-
-            <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
-                <button mat-raised-button
-                        class="mat-accent"
-                        aria-label="novo"
-                        (click)="showFormAcessoRestrito()"
-                        *ngIf="!formAcessoRestrito"
-                        matTooltip="Novo">
-                    Novo
-                </button>
-                <button mat-icon-button
-                        (click)="showFormAcessoRestrito()"
-                        *ngIf="formAcessoRestrito"
-                        aria-label="voltar"
-                        matTooltip="Voltar">
-                    <mat-icon>arrow_back</mat-icon>
-                </button>
-            </div>
-
-            <cdk-visibilidade-form cdkPerfectScrollbar *ngIf="formAcessoRestrito"
-                                   [visibilidade]="visibilidade"
-                                   [saving]="(visibilidadeIsSaving$ | async)"
-                                   [errors]="(errors$ | async)"
-                                   [unidadePagination]="unidadePagination"
-                                   [setorPagination]="setorPagination"
-                                   [usuarioPagination]="usuarioPagination"
-                                   (save)="submitVisibilidade($event)">
-            </cdk-visibilidade-form>
-
-            <cdk-visibilidade-list class="mr-8" *ngIf="!formAcessoRestrito"
-                                   [loading]="(loadingAcessoRestrito$ | async)"
-                                   [visibilidades]="(visibilidades$ | async)"
-                                   [deletingIds]="(deletingVisibilidadeIds$ | async)"
-                                   [deletedIds]="(deletedVisibilidadeIds$ | async)"
-                                   [actions]="['delete']"
-                                   (delete)="deleteVisibilidade($event)">
-            </cdk-visibilidade-list>
+            <documento-edit-visibilidade [documento]="(documento$ | async)"></documento-edit-visibilidade>
 
         </div>
 
-        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'sigilos'">
+        <div *ngIf="activeCard === 'sigilos'">
 
-            <h3 style="font-weight: bold">Sigilos</h3>
-
-            <cdk-sigilo-form class="mr-8" *ngIf="formSigilos"
-                             [sigilo]="sigilo"
-                             [loading]="(sigiloLoading$ | async)"
-                             [saving]="(sigiloIsSaving$ | async)"
-                             [errors]="(sigiloErrors$ | async)"
-                             (save)="submitSigilo($event)"
-            ></cdk-sigilo-form>
-
-            <cdk-sigilo-grid
-                *ngIf="!formSigilos"
-                [loading]="(sigiloLoading$ | async)"
-                [sigilos]="(sigilos$ | async)"
-                [total]="(paginationSigilo$ | async)?.total"
-                [actions]="['create', 'edit','delete']"
-                [displayedColumns]="['id', 'tipoSigilo.nome','desclassificado',  'actions']"
-                [deletingIds]="(deletingSigiloIds$ | async)"
-                [deletedIds]="(deletedSigiloIds$ | async)"
-                (create)="showFormSigilos()"
-                (delete)="deleteSigilo($event)"
-                (reload)="reloadSigilos($event)"
-                (edit)="editSigilo($event)"
-            >
-            </cdk-sigilo-grid>
+            <documento-edit-sigilos [documento]="documento$ | async"></documento-edit-sigilos>
 
         </div>
 
-        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'componentesDigitais'">
+        <div *ngIf="activeCard === 'componentes-digitais'">
 
-            <h3 style="font-weight: bold">Componentes Digitais</h3>
-
-            <button mat-mini-fab *ngIf="documento.minuta"
-                    class="ml-8 mb-16 active accent add-file-button"
-                    matTooltip="Novo Componente Digital" aria-label="novo componente digital"
-                    (click)="uploadComponenteDigital()">
-                <mat-icon class="secondary-text">attach_file</mat-icon>
-            </button>
-
-            <cdk-componente-digital-card-list #ckdUploadComponenteDigital
-                                              [documento]="documento$ | async"
-                                              (completed)="onCompleteComponenteDigital()">
-            </cdk-componente-digital-card-list>
-
-            <cdk-componente-digital-grid
-                *ngIf="!formComponentesDigitais"
-                [loading]="(componenteDigitalLoading$ | async)"
-                [componentesDigitais]="(componentesDigitais$ | async)"
-                [total]="(paginationComponenteDigital$ | async)?.total"
-                [actions]="['edit', 'delete']"
-                [displayedColumns]="['id', 'fileName', 'numeracaoSequencial', 'tamanho', 'extensao', 'criadoPor.nome', 'actions']"
-                [deletingIds]="(deletingComponenteDigitalIds$ | async)"
-                [deletedIds]="(deletedComponenteDigitalIds$ | async)"
-                (delete)="deleteComponenteDigital($event)"
-                (reload)="reloadComponentesDigitais($event)"
-            >
-            </cdk-componente-digital-grid>
+            <documento-edit-componentes-digitais [documento]="documento$ | async"></documento-edit-componentes-digitais>
 
         </div>
 
-        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'assinaturas'">
+        <div *ngIf="activeCard === 'assinaturas'">
 
-            <h3 style="font-weight: bold">Assinaturas</h3>
-
-            <cdk-assinatura-grid
-                *ngIf="!formAssinaturas"
-                [loading]="(assinaturaLoading$ | async)"
-                [assinaturas]="(assinaturas$ | async)"
-                [total]="(paginationAssinatura$ | async)?.total"
-                [actions]="['delete']"
-                [displayedColumns]="['id', 'dataHoraAssinatura', 'criadoPor.nome', 'actions']"
-                [deletingIds]="(deletingAssinaturaIds$ | async)"
-                [deletedIds]="(deletedAssinaturaIds$ | async)"
-                (delete)="deleteAssinatura($event)"
-                (reload)="reloadAssinaturas($event)"
-            >
-            </cdk-assinatura-grid>
+            <documento-edit-assinaturas [documento]="documento$ | async"></documento-edit-assinaturas>
 
         </div>
 
-        <div class="m-16" fxFlex fxLayout="column" *ngIf="activeCard === 'juntadas'">
+        <div *ngIf="activeCard === 'juntada'">
 
-            <h3 style="font-weight: bold">Juntada</h3>
-
-            <cdk-juntada-form
-                [juntada]="juntada"
-                [form]="formJuntada"
-                [editDescricao]="true"
-                [logEntryPagination]="logEntryPagination"
-                [blocoEdit]="{blocoEditDescricao: true}"
-                [saving]="(juntadaIsSaving$ | async)"
-                [errors]="(juntadaErrors$ | async)"
-                (save)="submitJuntada($event)">
-            </cdk-juntada-form>
+            <documento-edit-juntada></documento-edit-juntada>
 
         </div>
 
-        <div div class="m-16" fxFlex fxLayout="column">
+        <div class="m-16" fxFlex fxLayout="column">
             <ng-template #dynamicForm></ng-template>
         </div>
 

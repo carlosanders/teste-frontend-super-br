@@ -13,12 +13,17 @@ import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-dig
 import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {modulesConfig} from 'modules/modules-config';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {DocumentoAvulsoEditDadosBasicosModule} from './dados-basicos/documento-avulso-edit-dados-basicos.module';
+import {DocumentoAvulsoEditAnexosModule} from './anexos/documento-avulso-edit-anexos.module';
+import {DocumentoAvulsoInteligenciaModule} from './inteligencia/documento-avulso-inteligencia.module';
+import {DocumentoAvulsoEditStoreModule} from './store/store.module';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
-        path: '',
+        path: ':sidebarHandle',
         component: DocumentoAvulsoEditComponent,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path       : 'componente-digital',
@@ -29,6 +34,10 @@ const routes: Routes = [
                 loadChildren: () => import('../anexar-copia/anexar-copia.module').then(m => m.AnexarCopiaModule)
             }
         ]
+    },
+    {
+        path: '**',
+        redirectTo: 'anexos'
     }
 ];
 
@@ -51,7 +60,7 @@ modulesConfig.forEach((module) => {
         MatButtonModule,
         CdkDocumentoAvulsoFormModule,
 
-        DocumentoStoreModule,
+        DocumentoAvulsoEditStoreModule,
 
         TranslateModule,
         CdkSharedModule,
@@ -63,9 +72,13 @@ modulesConfig.forEach((module) => {
         CdkComponenteDigitalCardListModule,
         CdkRepositorioGridModule,
         CdkUploadModule,
+        DocumentoAvulsoEditDadosBasicosModule,
+        DocumentoAvulsoEditAnexosModule,
+        DocumentoAvulsoInteligenciaModule,
     ],
     providers: [
-        DocumentoAvulsoService
+        DocumentoAvulsoService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         DocumentoAvulsoEditComponent

@@ -13,6 +13,7 @@ import {CdkRepositorioFormModule} from '@cdk/components/repositorio/cdk-reposito
 import {RepositorioEditComponent} from './repositorio-edit.component';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {modulesConfig} from 'modules/modules-config';
+import {RepositorioEditDadosBasicosModule} from './dados-basicos/repositorio-edit-dados-basicos.module';
 
 const routes: Routes = [
     {
@@ -56,6 +57,7 @@ modulesConfig.forEach((module) => {
 
         TranslateModule,
         CdkSharedModule,
+        RepositorioEditDadosBasicosModule,
     ],
     providers: [
         DocumentoService,

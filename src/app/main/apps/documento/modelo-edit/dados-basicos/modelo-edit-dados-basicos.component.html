@@ -1,0 +1,10 @@
+<div class="documentos-vinculados mb-48" fxFlex fxLayout="column">
+    <h3 *ngIf="!documento?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Modelo</h3>
+    <h3 *ngIf="documento?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
+
+    <cdk-modelo-form fxFlex [modelo]="documento?.modelo"
+                     [saving]="(isSaving$ | async)"
+                     [errors]="(errors$ | async)"
+                     (save)="submit($event)">
+    </cdk-modelo-form>
+</div>

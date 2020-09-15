@@ -6,7 +6,6 @@ import {TranslateModule} from '@ngx-translate/core';
 import {DocumentoEditComponent} from './documento-edit.component';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {CdkDocumentoFormModule} from '@cdk/components/documento/cdk-documento-form/cdk-documento-form.module';
-import {DocumentoStoreModule} from '../store/store.module';
 import {MatButtonModule, MatIconModule, MatMenuModule, MatTooltipModule} from '@cdk/angular/material';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
@@ -23,11 +22,23 @@ import {modulesConfig} from 'modules/modules-config';
 import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
 import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
 import {CdkJuntadaFormModule} from '@cdk/components/juntada/cdk-juntada-form/cdk-juntada-form.module';
+import {DocumentoEditDadosBasicosModule} from './dados-basicos/documento-edit-dados-basicos.module';
+import {DocumentoEditAtividadeModule} from './atividade/documento-edit-atividade.module';
+import * as fromGuards from './store/guards';
+import {DocumentoEditStoreModule} from './store/store.module';
+import {DocumentoEditInteligenciaModule} from './inteligencia/documento-edit-inteligencia.module';
+import {DocumentoEditAnexosModule} from './anexos/documento-edit-anexos.module';
+import {DocumentoEditVisibilidadeModule} from './visibilidade/documento-edit-visibilidade.module';
+import {DocumentoEditSigilosModule} from './sigilos/documento-edit-sigilos.module';
+import {DocumentoEditComponentesDigitaisModule} from './componentes-digitais/documento-edit-componentes-digitais.module';
+import {DocumentoEditAssinaturasModule} from './assinaturas/documento-edit-assinaturas.module';
+import {DocumentoEditJuntadaModule} from './juntada/documento-edit-juntada.module';
 
 const routes: Routes = [
     {
-        path: '',
+        path: ':sidebarHandle',
         component: DocumentoEditComponent,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path       : 'componente-digital',
@@ -66,7 +77,7 @@ modulesConfig.forEach((module) => {
         MatButtonModule,
         MatMenuModule,
 
-        DocumentoStoreModule,
+        DocumentoEditStoreModule,
 
         CdkComponenteDigitalCardListModule,
         CdkDocumentoCardListModule,
@@ -86,9 +97,19 @@ modulesConfig.forEach((module) => {
         CdkComponenteDigitalGridModule,
         CdkVinculacaoEtiquetaChipsModule,
         CdkJuntadaFormModule,
+        DocumentoEditDadosBasicosModule,
+        DocumentoEditAtividadeModule,
+        DocumentoEditInteligenciaModule,
+        DocumentoEditAnexosModule,
+        DocumentoEditVisibilidadeModule,
+        DocumentoEditSigilosModule,
+        DocumentoEditComponentesDigitaisModule,
+        DocumentoEditAssinaturasModule,
+        DocumentoEditJuntadaModule,
     ],
     providers: [
-        DocumentoService
+        DocumentoService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         DocumentoEditComponent

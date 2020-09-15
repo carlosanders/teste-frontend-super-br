@@ -1,20 +1,12 @@
 <div class="p-8" fxFlex fxLayout="row">
-    <div fxLayout="column" fxFlex="25" *showIfRole="'ROLE_COLABORADOR'">
+    <div fxLayout="column" fxFlex="25">
         <!-- HEADER -->
         <div>
         </div>
         <!-- / HEADER -->
 
-        <div class="mb-16" fxFlex fxLayout="column">
-
-            <h3 style="font-weight: bold">Repositório</h3>
-
-            <cdk-repositorio-form fxFlex [repositorio]="(documento$ | async)?.repositorio"
-                                [saving]="(isSaving$ | async)"
-                                [errors]="(errors$ | async)"
-                                (save)="submit($event)">
-            </cdk-repositorio-form>
-
+        <div>
+            <repositorio-edit-dados-basicos [documento]="(documento$ | async)"></repositorio-edit-dados-basicos>
         </div>
     </div>
     <router-outlet></router-outlet>

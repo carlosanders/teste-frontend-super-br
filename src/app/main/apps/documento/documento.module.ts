@@ -15,9 +15,10 @@ import {CdkSidebarModule} from '@cdk/components';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {MatTabsModule} from '@angular/material/tabs';
 import {modulesConfig} from 'modules/modules-config';
+import {DocumentoModeloEditModule} from './modelo-edit/documento-modelo-edit.module';
+import {ComponenteDigitalModule} from './componente-digital/componente-digital.module';
 
 const routes: Routes = [
     {
@@ -34,7 +35,7 @@ const routes: Routes = [
             },
             {
                 path       : 'modelo',
-                loadChildren: () => import('./modelo-edit/documento-modelo-edit.module').then(m => m.DocumentoModeloEditModule),
+                loadChildren: () => import('./modelo-edit/documento-modelo-edit.module').then(m => m.DocumentoModeloEditModule)
             },
             {
                 path       : 'template',
@@ -44,10 +45,6 @@ const routes: Routes = [
                 path       : 'repositorio',
                 loadChildren: () => import('./repositorio-edit/documento-repositorio-edit.module').then(m => m.DocumentoRepositorioEditModule),
             },
-            {
-                path : '**',
-                redirectTo: 'editar'
-            }
         ],
         canActivate: [fromGuards.ResolveGuard]
     }
@@ -74,13 +71,16 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         DocumentoEditModule,
         DocumentoStoreModule,
+        ComponenteDigitalModule,
 
         CdkDocumentoCardListModule,
 
         CdkSidebarModule,
         MatTooltipModule,
         MatSlideToggleModule,
-        MatTabsModule
+        MatTabsModule,
+
+        DocumentoModeloEditModule
     ],
     providers: [
         DocumentoService,

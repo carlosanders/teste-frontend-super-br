@@ -1,0 +1,167 @@
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    Component, Input,
+    OnDestroy,
+    OnInit, ViewChild, ViewContainerRef,
+    ViewEncapsulation
+} from '@angular/core';
+
+import {cdkAnimations} from '@cdk/animations';
+import {Observable} from 'rxjs';
+import * as fromStore from './store';
+import {select, Store} from '@ngrx/store';
+import {Location} from '@angular/common';
+import {getRouterState} from 'app/store/reducers';
+import {DynamicService} from '../../../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../../../modules/modules-config';
+import {Router} from '@angular/router';
+import {Documento, Pagination, Usuario, Visibilidade} from '@cdk/models';
+import {DomSanitizer} from '@angular/platform-browser';
+import {LoginService} from '../../../../auth/login/login.service';
+
+@Component({
+    selector: 'documento-edit-visibilidade',
+    templateUrl: './documento-edit-visibilidade.component.html',
+    styleUrls: ['./documento-edit-visibilidade.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
+})
+export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    @Input()
+    documento: Documento;
+
+    visibilidades$: Observable<Visibilidade[]>;
+    visibilidade$: Observable<Visibilidade>;
+    visibilidade: Visibilidade;
+
+    deletingVisibilidadeIds$: Observable<any>;
+    deletedVisibilidadeIds$: Observable<any>;
+    visibilidadeIsSaving$: Observable<boolean>;
+    errors$: Observable<any>;
+
+    unidadePagination: Pagination;
+    setorPagination: Pagination;
+    usuarioPagination: Pagination;
+
+    formAcessoRestrito = false;
+    loadingAcessoRestrito$: Observable<boolean>;
+
+    _profile: Usuario;
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    routerState: any;
+
+    /**
+     *
+     * @param _store
+     * @param _location
+     * @param _router
+     * @param _sanitizer
+     * @param _loginService
+     * @param _dynamicService
+     * @param _ref
+     * @param _formBuilder
+     */
+    constructor(
+        private _store: Store<fromStore.DocumentoEditVisibilidadeAppState>,
+        private _location: Location,
+        private _router: Router,
+        private _sanitizer: DomSanitizer,
+        public _loginService: LoginService,
+        private _dynamicService: DynamicService,
+        private _ref: ChangeDetectorRef
+    ) {
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
+
+        this._profile = _loginService.getUserProfile();
+        this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeList));
+        this.visibilidade$ = this._store.pipe(select(fromStore.getVisibilidade));
+        this.deletingVisibilidadeIds$ = this._store.pipe(select(fromStore.getDeletingVisibilidadeIds));
+        this.deletedVisibilidadeIds$ = this._store.pipe(select(fromStore.getDeletedVisibilidadeIds));
+        this.loadingAcessoRestrito$ = this._store.pipe(select(fromStore.getVisibilidadeIsLoading));
+        this.visibilidadeIsSaving$ = this._store.pipe(select(fromStore.getIsSavingVisibilidade));
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
+
+        this.unidadePagination = new Pagination();
+        this.unidadePagination.filter = {parent: 'isNull'};
+
+        this.setorPagination = new Pagination();
+        this.setorPagination.populate = ['unidade', 'parent'];
+        this.setorPagination.filter = {parent: 'isNotNull'};
+
+        this.usuarioPagination = new Pagination();
+        this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void {
+        this.visibilidade$.subscribe(
+            visibilidade => this.visibilidade = visibilidade
+        );
+
+        if (!this.visibilidade) {
+            this.visibilidade = new Visibilidade();
+        }
+
+    }
+
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/documento/documento-edit/visibilidade';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then( componentFactory  => {
+                            this.container.createComponent(componentFactory);
+                            this._ref.markForCheck();
+                        });
+                }));
+            }
+        });
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    showFormAcessoRestrito(): void {
+        this.formAcessoRestrito = !this.formAcessoRestrito;
+    }
+
+    submitVisibilidade(visibilidade): void {
+        this._store.dispatch(new fromStore.SaveVisibilidadeDocumento({documentoId: this.documento.id, visibilidade: visibilidade}));
+        this.visibilidadeIsSaving$.subscribe((next) => {
+            if (!next) {
+                this.formAcessoRestrito = false;
+            }
+        });
+    }
+
+    deleteVisibilidade(visibilidadeId: number): void {
+        this._store.dispatch(new fromStore.DeleteVisibilidade({documentoId: this.routerState.params.documentoHandle, visibilidadeId: visibilidadeId}));
+    }
+}

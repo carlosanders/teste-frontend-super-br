@@ -5,11 +5,11 @@
 
             <button mat-icon-button aria-label="editar o documento"
                     matTooltip="Editar o Documento" (click)="showForm()"
-                    [ngClass]="{'active accent': activeCard === 'oficio'}">
+                    [ngClass]="{'active accent': activeCard === 'dados-basicos'}">
                 <mat-icon class="black-fg">edit</mat-icon>
             </button>
 
-            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Visualizar Processo"
+            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Gerir Anexos"
                     matTooltip="Gerir Anexos" (click)="showAnexos()"
                     [ngClass]="{'active accent': activeCard === 'anexos'}">
                 <mat-icon class="black-fg">attachment</mat-icon>
@@ -22,126 +22,19 @@
             </button>
         </div>
 
-        <div fxLayout="column" *ngIf="activeCard === 'oficio'">
-
-            <div class="mb-8">
-                <button mat-raised-button color="accent" class="mr-sm-12"
-                        mat-icon-button [matMenuTriggerFor]="remeter"
-                        [disabled]="this.documento.documentoAvulsoRemessa.dataHoraRemessa != null || (isRemetendo$ | async)"
-                        aria-label="remeter ofício"
-                        matTooltip="Remeter Ofício">
-                    <mat-icon class="black-fg">send</mat-icon>
-                </button>
-
-                <mat-menu #remeter="matMenu">
-                    <button mat-menu-item
-                            (click)="remeterDocumentoAvulso()">
-                        <mat-icon>send</mat-icon>
-                        <span>Manual</span>
-                    </button>
-
-                    <ng-template #dynamicButtons></ng-template>
-                </mat-menu>
-            </div>
-            <div [hidden]="!this.documento.documentoAvulsoRemessa.dataHoraRemessa">
-                <span *ngIf="this.documento.documentoAvulsoRemessa.dataHoraRemessa != null">
-                    Objeto remetido em: {{this.documento.documentoAvulsoRemessa.dataHoraRemessa | date: 'dd/MM/yyyy HH:mm:ss':'-0300'}}
-                </span>
-                <br />
-                <span *ngIf="this.documento.documentoAvulsoRemessa.usuarioRemessa != null">
-                    Remetido por: {{this.documento.documentoAvulsoRemessa.usuarioRemessa.nome}}
-                </span>
-
-                <ng-template #dynamicStatus></ng-template>
-            </div>
-            <div *ngIf="(isRemetendo$ | async)" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-                 fxLayoutAlign="center center">
-                <mat-spinner color="accent" diameter="24"></mat-spinner>
-            </div>
-            <div *ngIf="!(isRemetendo$ | async)" style="overflow-scrolling: auto">
-                <div>
-                    <mat-slide-toggle [checked]="!!!documento.documentoAvulsoRemessa.dataHoraEncerramento"
-                                      (change)="toggleEncerramento()"
-                                      class="mt-16 mr-16 mb-16">
-                        Acompanhar a resposta
-                    </mat-slide-toggle>
-                </div>
-                <cdk-documento-avulso-form
-                    [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
-                    [saving]="(isSaving$ | async)"
-                    [errors]="(errors$ | async)"
-                    (save)="submit($event)"
-                    (abort)="doAbort()">
-                </cdk-documento-avulso-form>
-            </div>
-
+        <div *ngIf="activeCard === 'dados-basicos'">
+            <documento-avulso-edit-dados-basicos [documento]="(documento$ | async)"></documento-avulso-edit-dados-basicos>
         </div>
 
-        <div fxLayout="column"
-             *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal && activeCard === 'anexos'">
-
-            <h3 style="font-weight: bold">Anexos</h3>
-
-            <button mat-mini-fab
-                    class="ml-8 mb-16 active accent add-file-button"
-                    [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
-                    (click)="$event.stopPropagation()">
-                <mat-icon class="secondary-text">attach_file</mat-icon>
-            </button>
-
-            <mat-menu #moreMenu="matMenu">
-                <button mat-menu-item aria-label="upload de anexo"
-                        (click)="upload()">
-                    <ng-container>
-                        <mat-icon>picture_as_pdf</mat-icon>
-                        <span>Upload</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="anexar uma cópia de um documento"
-                        (click)="anexarCopia()">
-                    <ng-container>
-                        <mat-icon>file_copy</mat-icon>
-                        <span>Por Cópia</span>
-                    </ng-container>
-                </button>
-
-                <ng-template #dynamicComponent></ng-template>
-            </mat-menu>
-
-            <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
-                                     [deletingId]="(deletingDocumentosVinculadosId$ | async)"
-                                     [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
-                                     (delete)="doDeleteDocumentoVinculado($event)"
-                                     (assinatura)="doAssinaturaDocumentoVinculado($event)"
-                                     (clicked)="onClickedDocumentoVinculado($event)"
-                                     (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">
-            </cdk-documento-card-list>
-
-            <cdk-componente-digital-card-list #ckdUpload
-                                              [documentoOrigem]="documento$ | async"
-                                              (completed)="onCompleteDocumentoVinculado()">
-            </cdk-componente-digital-card-list>
-
-
+        <div *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal && activeCard === 'anexos'">
+<!--            <ng-template #dynamicAnexos></ng-template>-->
+            <documento-avulso-edit-anexos [documento]="(documento$ | async)"></documento-avulso-edit-anexos>
         </div>
 
-        <div fxLayout="column" *ngIf="activeCard === 'inteligencia'">
-            <cdk-repositorio-grid
-                [layout]="'vertical'"
-                [loading]="(loading$ | async)"
-                [repositorios]="(repositorios$ | async)"
-                [total]="(pagination$ | async)?.total"
-                [mode]="'search'"
-                [actions]="['download']"
-                (download)="doDownload($event)"
-                [downloadingId]="(repositorioIdLoadind$ | async)"
-                [downloadedId]="(repositorioIdLoaded$ | async)"
-                (reload)="reload($event)">
-            </cdk-repositorio-grid>
-
+        <div *ngIf="activeCard === 'inteligencia'">
+<!--            <ng-template #dynamicInteligencia></ng-template>-->
+            <documento-avulso-inteligencia></documento-avulso-inteligencia>
         </div>
-
     </div>
     <router-outlet></router-outlet>
 </div>

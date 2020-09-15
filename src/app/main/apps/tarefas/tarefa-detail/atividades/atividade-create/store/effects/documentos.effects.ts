@@ -248,9 +248,10 @@ export class AtividadeCreateDocumentosEffect {
                 ofType<AtividadeCreateDocumentosActions.ClickedDocumento>(AtividadeCreateDocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
                     if (!action.payload.documentoAvulsoRemessa) {
-                        this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/editar']).then();
+                        console.log('chegou aqui');
+                        this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/editar/default']).then();
                     } else {
-                        this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio']).then();
+                        this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio/dados-basicos']).then();
                     }
 
                 })
