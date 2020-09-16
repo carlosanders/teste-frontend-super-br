@@ -1,7 +1,8 @@
 repositorio-edit-dados-basicos {
-    flex: 1 1 auto;
+    flex: 1 0 auto;
     .dados-basicos {
         flex-direction: column;
-        flex: 1 1 auto;
+        flex: 1 0 auto;
+        overflow-y: auto;
     }
 }
