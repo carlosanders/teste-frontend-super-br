@@ -13,7 +13,6 @@ import {CdkRepositorioFormModule} from '@cdk/components/repositorio/cdk-reposito
 import {RepositorioEditComponent} from './repositorio-edit.component';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {modulesConfig} from 'modules/modules-config';
-import {RepositorioEditDadosBasicosModule} from './dados-basicos/repositorio-edit-dados-basicos.module';
 
 const routes: Routes = [
     {
@@ -21,8 +20,8 @@ const routes: Routes = [
         component: RepositorioEditComponent,
         children: [
             {
-                path       : 'componente-digital',
-                loadChildren: () => import('../componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
+                path: 'dados-basicos',
+                loadChildren: () => import('./dados-basicos/repositorio-edit-dados-basicos.module').then(m => m.RepositorioEditDadosBasicosModule)
             }
         ]
     }
@@ -57,7 +56,6 @@ modulesConfig.forEach((module) => {
 
         TranslateModule,
         CdkSharedModule,
-        RepositorioEditDadosBasicosModule,
     ],
     providers: [
         DocumentoService,

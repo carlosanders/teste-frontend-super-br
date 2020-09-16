@@ -13,7 +13,6 @@ import * as fromStore from './store';
 import {Documento, Repositorio} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
-import {Modelo} from '@cdk/models';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 
@@ -27,8 +26,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 })
 export class RepositorioEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input()
-    documento: Documento;
+    documento$: Observable<Documento>;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -46,6 +44,7 @@ export class RepositorioEditDadosBasicosComponent implements OnInit, OnDestroy, 
         private _location: Location,
         private _dynamicService: DynamicService
     ) {
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }

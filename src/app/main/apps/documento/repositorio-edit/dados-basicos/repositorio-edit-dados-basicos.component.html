@@ -1,7 +1,7 @@
-<div class="mb-16" fxFlex fxLayout="column">
+<div class="dados-basicos mb-16">
     <h3 style="font-weight: bold">Repositório</h3>
 
-    <cdk-repositorio-form fxFlex [repositorio]="documento?.repositorio"
+    <cdk-repositorio-form fxFlex [repositorio]="(documento$ | async)?.repositorio"
                       [saving]="(isSaving$ | async)"
                       [errors]="(errors$ | async)"
                       (save)="submit($event)">
