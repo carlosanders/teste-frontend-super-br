@@ -19,7 +19,7 @@
                        formControlName="conteudo">
             </mat-form-field>
 
-            <mat-form-field *showIfNotRole="'ROLE_COLABORADOR'">
+            <mat-form-field *showIfRole="'ROLE_USUÁRIO_EXTERNO'">
                 <mat-label>Código da Assinatura Digital</mat-label>
                 <input matInput #codigo
                        required
@@ -72,7 +72,7 @@
                 Buscar
             </button>
 
-            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode==='list'">
+            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
                 Limpar
             </button>
         </div>

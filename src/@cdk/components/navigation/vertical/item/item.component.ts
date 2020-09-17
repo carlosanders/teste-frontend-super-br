@@ -1,18 +1,17 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { merge, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit} from '@angular/core';
+import {merge, Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
 
-import { CdkNavigationItem } from '@cdk/types';
-import { CdkNavigationService } from '@cdk/components/navigation/navigation.service';
+import {CdkNavigationItem} from '@cdk/types';
+import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({
-    selector   : 'cdk-nav-vertical-item',
+    selector: 'cdk-nav-vertical-item',
     templateUrl: './item.component.html',
-    styleUrls  : ['./item.component.scss']
+    styleUrls: ['./item.component.scss']
 })
-export class CdkNavVerticalItemComponent implements OnInit, OnDestroy
-{
+export class CdkNavVerticalItemComponent implements OnInit, OnDestroy {
     @HostBinding('class')
     classes = 'nav-item';
 
@@ -39,8 +38,7 @@ export class CdkNavVerticalItemComponent implements OnInit, OnDestroy
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkNavigationService: CdkNavigationService,
         public _loginService: LoginService
-    )
-    {
+    ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -52,37 +50,49 @@ export class CdkNavVerticalItemComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Subscribe to navigation item
         merge(
             this._cdkNavigationService.onNavigationItemAdded,
             this._cdkNavigationService.onNavigationItemUpdated,
             this._cdkNavigationService.onNavigationItemRemoved
         ).pipe(takeUntil(this._unsubscribeAll))
-         .subscribe(() => {
+            .subscribe(() => {
 
-             const badge = this.item.badge;
+                const badge = this.item.badge;
 
-             if (badge) {
-                 delete this.item['badge'];
-                 this._changeDetectorRef.detectChanges();
-                 this.item['badge'] = badge;
-             }
+                if (badge) {
+                    delete this.item['badge'];
+                    this._changeDetectorRef.detectChanges();
+                    this.item['badge'] = badge;
+                }
 
-             // Mark for check
-             this._changeDetectorRef.markForCheck();
-         });
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
 
-        this.isGrantedRole = this._loginService.isGranted(this.item.role);
+        this.isGrantedRole = true;
+
+        if (this.item.role) {
+            this.isGrantedRole = false;
+            if (Array.isArray(this.item.role)) {
+                this.item.role.forEach((role) => {
+                    if (!this.isGrantedRole) {
+                        this.isGrantedRole = this._loginService.isGranted(role);
+                    }
+                });
+            } else {
+                this.isGrantedRole = this._loginService.isGranted(this.item.role);
+            }
+        }
+
         this.isCoordenador = this._loginService.isCoordenador();
     }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();

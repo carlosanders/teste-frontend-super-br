@@ -20,7 +20,7 @@ export class VinculacaoEtiquetaService extends ParentGenericService<VinculacaoEt
     patch(vinculacaoEtiqueta: VinculacaoEtiqueta, changes: any, context: any = '{}'): Observable<VinculacaoEtiqueta> {
         const params = {};
         params['context'] = context;
-        return this.modelService.patch('vinculacao_etiqueta', vinculacaoEtiqueta.id, changes, new HttpParams({fromObject: params}))
+        return this.modelService.patch('administrativo/vinculacao_etiqueta', vinculacaoEtiqueta.id, changes, new HttpParams({fromObject: params}))
             .pipe(
                 map(response => {
                     response = plainToClass(VinculacaoEtiqueta, response);
