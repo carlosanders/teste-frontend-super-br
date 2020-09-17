@@ -19,7 +19,7 @@ export interface CdkNavigationItem
         fg?: string;
     };
     children?: CdkNavigationItem[];
-    role?: string;
+    role?: string|string[];
     isCoordenador?: boolean;
 }
 

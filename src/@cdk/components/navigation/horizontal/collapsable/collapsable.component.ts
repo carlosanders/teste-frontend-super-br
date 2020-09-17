@@ -27,6 +27,9 @@ export class CdkNavHorizontalCollapsableComponent implements OnInit, OnDestroy
     // Private
     private _unsubscribeAll: Subject<any>;
 
+    isGrantedRole: boolean;
+    isCoordenador: boolean;
+
     /**
      *
      * @param _cdkConfigService
@@ -58,6 +61,23 @@ export class CdkNavHorizontalCollapsableComponent implements OnInit, OnDestroy
                     this.cdkConfig = config;
                 }
             );
+
+        this.isGrantedRole = true;
+
+        if (this.item.role) {
+            this.isGrantedRole = false;
+            if (Array.isArray(this.item.role)) {
+                this.item.role.forEach((role) => {
+                    if (!this.isGrantedRole) {
+                        this.isGrantedRole = this._loginService.isGranted(role);
+                    }
+                });
+            } else {
+                this.isGrantedRole = this._loginService.isGranted(this.item.role);
+            }
+        }
+
+        this.isCoordenador = this._loginService.isCoordenador();
     }
 
     /**
