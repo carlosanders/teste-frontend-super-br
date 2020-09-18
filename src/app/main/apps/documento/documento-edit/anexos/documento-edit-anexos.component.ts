@@ -17,7 +17,6 @@ import {getMercureState, getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
-import {getDocumento} from '../../store/selectors';
 
 @Component({
     selector: 'documento-edit-anexos',
@@ -64,7 +63,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         private _router: Router,
         private _dynamicService: DynamicService
     ) {
-        this.documento$ = this._store.pipe(select(getDocumento));
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
