@@ -1,19 +1,19 @@
 <div class="actions p-16">
     <button mat-icon-button aria-label="editar o documento"
             matTooltip="Editar o Documento" (click)="showForm()"
-            [ngClass]="{'active accent': activeCard === 'dados-basicos'}">
+            [routerLinkActive]="['active', 'accent']">
         <mat-icon class="black-fg">edit</mat-icon>
     </button>
 
     <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Gerir Anexos"
             matTooltip="Gerir Anexos" (click)="showAnexos()"
-            [ngClass]="{'active accent': activeCard === 'anexos'}">
+            [routerLinkActive]="['active', 'accent']">
         <mat-icon class="black-fg">attachment</mat-icon>
     </button>
 
     <button mat-icon-button aria-label="inteligência jurídica"
             matTooltip="Inteligência Jurídica" (click)="showInteligencia()"
-            [ngClass]="{'active accent': activeCard === 'inteligencia'}">
+            [routerLinkActive]="['active', 'accent']">
         <mat-icon class="black-fg">gavel</mat-icon>
     </button>
 </div>
