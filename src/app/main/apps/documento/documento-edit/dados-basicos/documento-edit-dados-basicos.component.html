@@ -1,9 +1,9 @@
-<div class="m-4 inner-scroll" fxFlex fxLayout="column" *ngIf="this.documento">
-    <h3 *ngIf="!documento?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento
+<div class="m-4 dados-basicos" *ngIf="(documento$ | async)">
+    <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Documento
         Principal</h3>
-    <h3 *ngIf="documento?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
+    <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
 
-    <cdk-documento-form [documento]="documento"
+    <cdk-documento-form [documento]="(documento$ | async)"
                         [saving]="(isSaving$ | async)"
                         [errors]="(errors$ | async)"
                         (save)="submit($event)">

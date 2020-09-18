@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, Input,
+    Component,
     OnDestroy,
     OnInit,
     ViewEncapsulation
@@ -25,8 +25,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 })
 export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input()
-    documento: Documento;
+    documento$: Observable<Documento>;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -44,6 +43,8 @@ export class DocumentoEditDadosBasicosComponent implements OnInit, OnDestroy, Af
         private _componenteDigitalService: ComponenteDigitalService,
         private _ref: ChangeDetectorRef
     ) {
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
+
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
