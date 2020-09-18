@@ -95,12 +95,12 @@ export class ComponenteDigitalEffects {
                 switchMap((action) => {
                     return this._componenteDigitalService.download(action.payload.componenteDigitalId).pipe(
                         mergeMap((response: ComponenteDigital) => [
+                            new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo}}),
                             new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
                                     componenteDigitalId: response.id,
                                     repositorioId: action.payload.repositorioId
                                 }
                             ),
-                            new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo}})
                         ]),
                     );
                 }),

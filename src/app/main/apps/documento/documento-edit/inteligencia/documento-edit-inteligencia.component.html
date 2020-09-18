@@ -1,14 +1,12 @@
-<div class="m-4" fxFlex fxLayout="column">
-    <cdk-repositorio-grid
-        [layout]="'vertical'"
-        [loading]="(loading$ | async)"
-        [repositorios]="(repositorios$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [mode]="'search'"
-        [actions]="['download']"
-        (download)="doDownload($event)"
-        [downloadingId]="(repositorioIdLoadind$ | async)"
-        [downloadedId]="(repositorioIdLoaded$ | async)"
-        (reload)="reload($event)">
-    </cdk-repositorio-grid>
-</div>
+<cdk-repositorio-grid
+    [layout]="'vertical'"
+    [loading]="(loading$ | async)"
+    [repositorios]="(repositorios$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [mode]="'search'"
+    [actions]="['download']"
+    (download)="doDownload($event)"
+    [downloadingId]="(repositorioIdLoadind$ | async)"
+    [downloadedId]="(repositorioIdLoaded$ | async)"
+    (reload)="reload($event)">
+</cdk-repositorio-grid>
