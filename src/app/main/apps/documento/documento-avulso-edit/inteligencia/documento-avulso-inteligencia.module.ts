@@ -14,11 +14,13 @@ import {RepositorioService} from '@cdk/services/repositorio.service';
 import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';
 import {DocumentoAvulsoEditInteligenciaStoreModule} from './store/store.module';
 import {DocumentoAvulsoInteligenciaComponent} from './documento-avulso-inteligencia.component';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoAvulsoInteligenciaComponent
+        component: DocumentoAvulsoInteligenciaComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -51,7 +53,8 @@ modulesConfig.forEach((module) => {
     providers: [
         DocumentoService,
         ComponenteDigitalService,
-        RepositorioService
+        RepositorioService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         DocumentoAvulsoInteligenciaComponent

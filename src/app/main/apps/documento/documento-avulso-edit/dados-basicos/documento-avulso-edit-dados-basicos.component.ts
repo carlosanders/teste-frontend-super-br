@@ -27,7 +27,8 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 })
 export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input()
+    documento$: Observable<Documento>;
+
     documento: Documento;
 
     isSaving$: Observable<boolean>;
@@ -64,6 +65,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         private _componenteDigitalService: ComponenteDigitalService,
         private _ref: ChangeDetectorRef
     ) {
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.isRemetendo$ = this._store.pipe(select(fromStore.getIsRemetendo));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -83,6 +85,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
      * On init
      */
     ngOnInit(): void {
+        this.documento$.subscribe(documento => this.documento = documento);
     }
 
     ngAfterViewInit(): void {

@@ -1,4 +1,16 @@
 documento-avulso-edit-dados-basicos {
-    width: 100%;
-    height: 100%;
+    flex: 1 0 auto;
+
+    .dados-basicos {
+        flex-direction: column;
+        flex: 1 0 auto;
+        overflow-y: auto;
+    }
+
+    .remetendo {
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        flex: 0 0 auto;
+    }
 }

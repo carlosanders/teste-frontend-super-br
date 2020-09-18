@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {forkJoin, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {DocumentoAvulsoEditAnexosAppState} from '../reducers';
@@ -41,9 +41,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return forkJoin(
-            this.getDocumentosVinculados(),
-        ).pipe(
+        return this.getDocumentosVinculados().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
@@ -55,7 +53,6 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getDocumentosVinculados(): any {
-        console.log('ué 1');
         return this._store.pipe(
             select(getDocumentosVinculadosHasLoaded),
             tap((loaded: any) => {

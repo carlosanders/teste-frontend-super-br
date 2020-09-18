@@ -31,7 +31,6 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
 
     documento$: Observable<Documento>;
 
-    @Input()
     documento: Documento;
 
     documentosVinculados$: Observable<Documento[]>;

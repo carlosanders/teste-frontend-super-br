@@ -13,7 +13,7 @@ import * as fromStore from './store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {Documento} from '@cdk/models';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 
@@ -31,8 +31,6 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     documento: Documento;
 
-    activeCard = '';
-
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     /**
@@ -47,12 +45,6 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
-    inteligencia: any = () => import('./inteligencia/documento-avulso-inteligencia.module')
-        .then(m => m.DocumentoAvulsoInteligenciaModule)
-
-    anexos: any = () => import('./anexos/documento-avulso-edit-anexos.module')
-        .then(m => m.DocumentoAvulsoEditAnexosModule)
-
     /**
      *
      * @param _store
@@ -60,13 +52,15 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      * @param _dynamicService
      * @param _router
      * @param _ref
+     * @param _activatedRoute
      */
     constructor(
         private _store: Store<fromStore.DocumentoAvulsoEditAppState>,
         private _location: Location,
         private _dynamicService: DynamicService,
         private _router: Router,
-        private _ref: ChangeDetectorRef
+        private _ref: ChangeDetectorRef,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
     }
@@ -87,33 +81,8 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-
-                this.activeCard = this.routerState.params['sidebarHandle'];
-                this._ref.detectChanges();
-                // if (this.activeCard === 'inteligencia') {
-                //     this.iniciaInteligencia();
-                // }
-                // if (this.activeCard === 'anexos') {
-                //     this.iniciaAnexos();
-                // }
             }
         });
-    }
-
-    iniciaInteligencia(): void {
-        this._dynamicService.loadComponent(this.inteligencia)
-            .then(componentFactory => {
-                this.containerInteligencia.createComponent(componentFactory);
-                this._ref.markForCheck();
-            });
-    }
-
-    iniciaAnexos(): void {
-        this._dynamicService.loadComponent(this.anexos)
-            .then(componentFactory => {
-                this.containerAnexos.createComponent(componentFactory);
-                this._ref.markForCheck();
-            });
     }
 
     /**
@@ -131,23 +100,14 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
     }
 
     showForm(): void {
-        if (this.activeCard !== 'dados-basicos') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'dados-basicos')])
-                .then();
-        }
+        this._router.navigate(['dados-basicos'], {relativeTo: this._activatedRoute.parent});
     }
 
     showAnexos(): void {
-        if (this.activeCard !== 'anexos') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'anexos')])
-                .then();
-        }
+        this._router.navigate(['anexos'], {relativeTo: this._activatedRoute.parent});
     }
 
     showInteligencia(): void {
-        if (this.activeCard !== 'inteligencia') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'inteligencia')])
-                .then();
-        }
+        this._router.navigate(['inteligencia'], {relativeTo: this._activatedRoute.parent});
     }
 }
