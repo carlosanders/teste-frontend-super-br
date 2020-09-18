@@ -58,7 +58,7 @@ export class NotificacaoEffect {
                                     entitiesId: response['entities'].map(notificacao => notificacao.id),
                                     loaded: {
                                         id: 'usuarioHandle',
-                                        value: this._loginService.getUserProfile().id
+                                        value: this._loginService?.getUserProfile()?.id
                                     },
                                     total: response['total']
                                 }),
