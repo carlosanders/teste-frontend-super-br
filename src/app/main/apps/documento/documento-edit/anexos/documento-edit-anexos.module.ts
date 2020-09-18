@@ -15,11 +15,13 @@ import {DocumentoEditAnexosComponent} from './documento-edit-anexos.component';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoEditAnexosComponent
+        component: DocumentoEditAnexosComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -54,7 +56,8 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         AssinaturaService,
-        DocumentoService
+        DocumentoService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         DocumentoEditAnexosComponent

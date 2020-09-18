@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
-    Component, Input,
+    Component,
     OnDestroy,
     OnInit, ViewChild, ViewContainerRef,
     ViewEncapsulation
@@ -33,7 +33,6 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
 
     isSaving$: Observable<boolean>;
 
-    @Input()
     documento: Documento;
 
     documentosVinculados$: Observable<Documento[]>;
