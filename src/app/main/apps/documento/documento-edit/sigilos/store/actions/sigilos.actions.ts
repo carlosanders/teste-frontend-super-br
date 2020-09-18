@@ -6,6 +6,8 @@ export const GET_SIGILOS_DOCUMENTO_FAILED = '[DOCUMENTO EDIT SIGILO] GET SIGILOS
 
 export const RELOAD_SIGILOS_DOCUMENTO = '[DOCUMENTO EDIT SIGILO] RELOAD SIGILOS';
 
+export const UNLAOD_SIGILOS = '[DOCUMENTO EDIT SIGILO] UNLOAD SIGILO';
+
 export const DELETE_SIGILO_DOCUMENTO = '[DOCUMENTO EDIT SIGILO] DELETE SIGILO';
 export const DELETE_SIGILO_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT SIGILO] DELETE SIGILO SUCCESS';
 export const DELETE_SIGILO_DOCUMENTO_FAILED = '[DOCUMENTO EDIT SIGILO] DELETE SIGILO FAILED';
@@ -63,6 +65,14 @@ export class ReloadSigilos implements Action
 
     constructor()
     {
+    }
+}
+
+export class UnloadSigilos implements Action {
+
+    readonly  type = UNLAOD_SIGILOS;
+
+    constructor() {
     }
 }
 
@@ -184,6 +194,7 @@ export type SigiloActionsAll
     | GetSigiloSuccess
     | GetSigiloFailed
     | ReloadSigilos
+    | UnloadSigilos
     | DeleteSigilo
     | DeleteSigiloSuccess
     | DeleteSigiloFailed

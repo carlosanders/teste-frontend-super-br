@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, Input,
+    Component,
     OnDestroy,
     OnInit, ViewChild, ViewContainerRef,
     ViewEncapsulation
@@ -30,7 +30,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 })
 export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input()
+    documento$: Observable<Documento>;
     documento: Documento;
 
     pagination: any;
@@ -76,6 +76,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
         private _dynamicService: DynamicService,
         private _ref: ChangeDetectorRef
     ) {
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this._store
             .pipe(
                 select(getRouterState)
@@ -119,6 +120,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
                 this.sigilo = sigilo;
             }
         );
+        this.documento$.subscribe(documento => this.documento = documento);
 
         this.paginationSigilo$.subscribe(pagination => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
@@ -150,6 +152,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
      * On destroy
      */
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadSigilos());
     }
 
     // -----------------------------------------------------------------------------------------------------

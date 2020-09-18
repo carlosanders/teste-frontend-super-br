@@ -160,6 +160,12 @@ export function SigilosReducer(
             };
         }
 
+        case SigilosActions.UNLAOD_SIGILOS: {
+            return {
+                ...SigilosInitialState
+            };
+        }
+
         default:
             return state;
     }
