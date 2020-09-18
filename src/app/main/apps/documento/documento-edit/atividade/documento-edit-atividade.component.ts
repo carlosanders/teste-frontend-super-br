@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
-    Component, Input,
+    Component,
     OnDestroy,
     OnInit,
     ViewEncapsulation
@@ -13,6 +13,7 @@ import * as fromStore from './store';
 import {Atividade, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
+import {getTarefa} from '../../../tarefas/tarefa-detail/store/selectors';
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -24,10 +25,10 @@ import * as moment from 'moment';
 })
 export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input()
+    tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
 
-    @Input()
+    documento$: Observable<Documento>;
     documento: Documento;
 
     atividade: Atividade;
@@ -44,6 +45,10 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
     constructor(
         private _store: Store<fromStore.DocumentoEditAtividadeAppState>,
     ) {
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
+
+        this.tarefa$ = this._store.pipe(select(getTarefa));
+
         this.atividadeIsSaving$ = this._store.pipe(select(fromStore.getAtividadeIsSaving));
         this.atividadeErrors$ = this._store.pipe(select(fromStore.getAtividadeErrors));
 
@@ -59,6 +64,11 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
      * On init
      */
     ngOnInit(): void {
+        this.tarefa$.subscribe(tarefa => {
+            this.tarefa = tarefa;
+        });
+        this.documento$.subscribe(documento => this.documento = documento);
+
         this.atividade = new Atividade();
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();
@@ -70,7 +80,6 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
         } else {
             this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + this.tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
         }
-
     }
 
     ngAfterViewInit(): void {
