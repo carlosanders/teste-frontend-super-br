@@ -1,4 +1,9 @@
-modelo-edit-dados-basicos {
-    width: 100%;
-    height: 100%;
+template-edit-dados-basicos {
+    flex: 1 0 auto;
+
+    .dados-basicos {
+        flex-direction: column;
+        flex: 1 0 auto;
+        overflow-y: auto;
+    }
 }

@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {forkJoin, Observable, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {TemplateEditDadosBasicosAppState} from '../reducers';
@@ -40,9 +40,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return forkJoin(
-            this.getTemplate(),
-        ).pipe(
+        return this.getTemplate().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );

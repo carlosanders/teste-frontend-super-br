@@ -24,7 +24,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/documento/modelo-edit/dados-basicos';
+const path = 'app/main/apps/documento/template-edit/dados-basicos';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

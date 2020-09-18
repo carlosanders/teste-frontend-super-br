@@ -58,7 +58,6 @@ export class TemplateEditDadosBasicosComponent implements OnInit, OnDestroy, Aft
      * On init
      */
     ngOnInit(): void {
-        console.log('Aqui');
     }
 
     ngAfterViewInit(): void {

@@ -10,7 +10,6 @@ import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-dig
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {DocumentoTemplateEditComponent} from './documento-template-edit.component';
 import {CdkTemplateFormModule} from '../../../../../@cdk/components/template/cdk-template-form/cdk-template-form.module';
-import {TemplateEditDadosBasicosModule} from './dados-basicos/template-edit-dados-basicos.module';
 import {TemplateService} from '../../../../../@cdk/services/template.service';
 
 const routes: Routes = [
@@ -19,8 +18,8 @@ const routes: Routes = [
         component: DocumentoTemplateEditComponent,
         children: [
             {
-                path       : 'componente-digital',
-                loadChildren: () => import('../componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
+                path: 'dados-basicos',
+                loadChildren: () => import('./dados-basicos/template-edit-dados-basicos.module').then(m => m.TemplateEditDadosBasicosModule)
             }
         ]
     }
@@ -46,7 +45,6 @@ const routes: Routes = [
         CdkSharedModule,
         MatTooltipModule,
         CdkTemplateFormModule,
-        TemplateEditDadosBasicosModule,
     ],
     providers: [
         DocumentoService,

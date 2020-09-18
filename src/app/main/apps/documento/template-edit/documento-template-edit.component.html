@@ -1,13 +1,8 @@
-<div class="p-8" fxFlex fxLayout="row">
-    <div fxLayout="column" fxFlex="25" *showIfRole="'ROLE_ADMIN'">
-        <!-- HEADER -->
-        <div>
-        </div>
-        <!-- / HEADER -->
-
-        <div>
-            <template-edit-dados-basicos></template-edit-dados-basicos>
-        </div>
+<div class="router" *showIfRole="'ROLE_ADMIN'">
+    <!-- HEADER -->
+    <div>
     </div>
+    <!-- / HEADER -->
+
     <router-outlet></router-outlet>
 </div>
