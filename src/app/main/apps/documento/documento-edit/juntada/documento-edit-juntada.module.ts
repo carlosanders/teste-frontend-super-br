@@ -13,11 +13,13 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {DocumentoEditJuntadaStoreModule} from './store/store.module';
 import {CdkJuntadaFormModule} from '@cdk/components/juntada/cdk-juntada-form/cdk-juntada-form.module';
 import {JuntadaService} from '@cdk/services/juntada.service';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoEditJuntadaComponent
+        component: DocumentoEditJuntadaComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -49,7 +51,8 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoService,
-        JuntadaService
+        JuntadaService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         DocumentoEditJuntadaComponent

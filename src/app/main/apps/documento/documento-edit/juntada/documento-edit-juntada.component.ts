@@ -120,6 +120,7 @@ export class DocumentoEditJuntadaComponent implements OnInit, OnDestroy, AfterVi
      * On destroy
      */
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadJuntada());
     }
 
     // -----------------------------------------------------------------------------------------------------
