@@ -1,7 +1,7 @@
 import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Template} from '../../../../../../@cdk/models';
-import {Router} from '@angular/router';
+import {Documento, Template} from '../../../../../../@cdk/models';
+import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
@@ -23,6 +23,7 @@ export class TemplatesListComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.TemplatesListAppState>,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.templates$ = this._store.pipe(select(fromStore.getTemplatesList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -65,11 +66,31 @@ export class TemplatesListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + templateId]);
     }
 
-    editConteudo(documentoId: number): void {
-        this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/template']).then();
+    editConteudo(documento: Documento): void {
+        let primary: string;
+        primary = 'componente-digital/';
+        if (documento.componentesDigitais[0]) {
+            primary += documento.componentesDigitais[0].id;
+        } else {
+            primary += '0';
+        }
+        this._router.navigate([
+                'documento/' + documento.id,
+                {
+                    outlets:
+                        {
+                            primary: primary,
+                            sidebar: 'modelo/anexos'
+                        }
+                }
+            ],
+            {
+                relativeTo: this._activatedRoute.parent
+            }
+        ).then();
     }
 
-    create() {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 }

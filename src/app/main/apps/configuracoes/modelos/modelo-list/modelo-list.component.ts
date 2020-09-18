@@ -8,7 +8,7 @@ import {
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Modelo} from '@cdk/models';
+import {Documento, Modelo} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -33,9 +33,11 @@ export class ModeloListComponent implements OnInit {
     deletedIds$: Observable<any>;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _route
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -105,8 +107,24 @@ export class ModeloListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]);
     }
 
-    editConteudo(documentoId: number): void {
-        this._router.navigate(['documento/' + documentoId + '/modelo'],
+    editConteudo(documento: Documento): void {
+        let primary: string;
+        primary = 'componente-digital/';
+        if (documento.componentesDigitais[0]) {
+            primary += documento.componentesDigitais[0].id;
+        } else {
+            primary += '0';
+        }
+        this._router.navigate([
+                'documento/' + documento.id,
+                {
+                    outlets:
+                        {
+                            primary: primary,
+                            sidebar: 'modelo/anexos'
+                        }
+                }
+            ],
             {
                 relativeTo: this._route.parent
             }

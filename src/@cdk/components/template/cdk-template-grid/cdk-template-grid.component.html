@@ -159,7 +159,7 @@
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('editConteudo') > -1"
                                 [disabled]="deletedIds?.indexOf(template.id) > -1"
-                                (click)="editConteudoModelo(template.documento.componentesDigitais[0].id)"
+                                (click)="editConteudoModelo(template.documento)"
                                 aria-label="editar conteúdo"
                                 matTooltip="Editar Conteúdo">
                             <mat-icon>desktop_windows</mat-icon>
