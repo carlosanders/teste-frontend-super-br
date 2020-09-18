@@ -27,8 +27,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 })
 export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input()
-    documento: Documento;
+    documento$: Observable<Documento>;
 
     documentosVinculados$: Observable<Documento[]>;
 
@@ -54,6 +53,7 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
         private _location: Location,
         private _dynamicService: DynamicService
     ) {
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.documentosVinculados$ = this._store.pipe(select(fromStore.getDocumentosVinculados));
         this.selectedDocumentosVinculados$ = this._store.pipe(select(fromStore.getSelectedDocumentosVinculados));
         this.deletingDocumentosVinculadosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosVinculadosId));

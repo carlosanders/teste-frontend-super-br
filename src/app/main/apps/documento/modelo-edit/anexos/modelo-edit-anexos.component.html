@@ -1,4 +1,4 @@
-<div class="documentos-vinculados mb-48" fxFlex fxLayout="column">
+<div class="documentos-vinculados mb-48">
     <h3 style="font-weight: bold">Anexos</h3>
 
     <button mat-mini-fab
@@ -29,7 +29,7 @@
     </cdk-documento-card-list>
 
     <cdk-componente-digital-card-list #ckdUpload
-                                      [documentoOrigem]="documento"
+                                      [documentoOrigem]="(documento$ | async)"
                                       (completed)="onCompleteDocumentoVinculado()">
     </cdk-componente-digital-card-list>
 </div>

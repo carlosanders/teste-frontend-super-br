@@ -1,42 +1,27 @@
-<div class="p-8" fxFlex fxLayout="row">
-    <div fxLayout="column" fxFlex="25">
-        <!-- HEADER -->
-        <div>
-        </div>
-        <!-- / HEADER -->
+<!-- HEADER -->
+<div class="actions p-16">
 
-        <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
+    <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Gerir Anexos"
+            matTooltip="Gerir Anexos" routerLink="anexos"
+            [routerLinkActive]="['active', 'accent']">
+        <mat-icon class="black-fg">attachment</mat-icon>
+    </button>
 
-            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Gerir Anexos"
-                    matTooltip="Gerir Anexos" (click)="showAnexos()"
-                    [ngClass]="{'active accent': activeCard === 'anexos'}">
-                <mat-icon class="black-fg">attachment</mat-icon>
-            </button>
+    <button mat-icon-button aria-label="Editar o Modelo"
+            matTooltip="Editar o Modelo" routerLink="dados-basicos"
+            [routerLinkActive]="['active', 'accent']">
+        <mat-icon class="black-fg">edit</mat-icon>
+    </button>
 
-            <button mat-icon-button aria-label="Editar o Modelo"
-                    matTooltip="Editar o Modelo" (click)="showForm()"
-                    [ngClass]="{'active accent': activeCard === 'form'}">
-                <mat-icon class="black-fg">edit</mat-icon>
-            </button>
-
-        </div>
-
-        <div *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal">
-            <button class="back" mat-icon-button
-                    (click)="onClickedDocumentoVinculado(documentoPrincipal)"
-                    aria-label="cancelar"
-                    matTooltip="Cancelar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-        </div>
-
-        <div *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal && activeCard === 'anexos'">
-            <modelo-edit-anexos [documento]="(documento$ | async)"></modelo-edit-anexos>
-        </div>
-
-        <div *ngIf="activeCard === 'form'">
-            <modelo-edit-dados-basicos [documento]="(documento$ | async)"></modelo-edit-dados-basicos>
-        </div>
-    </div>
-    <router-outlet></router-outlet>
 </div>
+<!-- / HEADER -->
+
+<div *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal">
+    <button class="back" mat-icon-button
+            (click)="onClickedDocumentoVinculado(documentoPrincipal)"
+            aria-label="cancelar"
+            matTooltip="Cancelar">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
+</div>
+<router-outlet></router-outlet>

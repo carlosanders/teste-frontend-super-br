@@ -12,7 +12,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
@@ -27,7 +27,8 @@ export class DocumentosVinculadosEffects {
         private _documentoService: DocumentoService,
         private _assinaturaService: AssinaturaService,
         private _router: Router,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _activatedRoute: ActivatedRoute
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -68,6 +69,7 @@ export class DocumentosVinculadosEffects {
                             'tipoDocumento',
                             'vinculacaoDocumentoPrincipal',
                             'vinculacaoDocumentoPrincipal.documento',
+                            'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
                             'componentesDigitais'
                         ]
                     };
@@ -203,7 +205,21 @@ export class DocumentosVinculadosEffects {
             .pipe(
                 ofType<DocumentosVinculadosActions.ClickedDocumentoVinculado>(DocumentosVinculadosActions.CLICKED_DOCUMENTO_VINCULADO),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id + '/modelo']).then();
+                    let sidebar = 'modelo/anexos';
+                    let primary: string;
+                    primary = 'componente-digital/';
+                    if (action.payload.componentesDigitais[0]) {
+                        primary += action.payload.componentesDigitais[0].id + '/editor/ckeditor';
+                    } else {
+                        primary += '0';
+                    }
+                    if (action.payload.vinculacaoDocumentoPrincipal) {
+                        sidebar = 'modelo/dados-basicos';
+                    }
+                    this._router.navigate([this.routerState.url.split('/documento/')[0] + '/documento/' + action.payload.id, {outlets: {primary: primary, sidebar: sidebar}}],
+                        {
+                            relativeTo: this._activatedRoute.parent // <--- PARENT activated route.
+                        }).then();
                 })
             );
 

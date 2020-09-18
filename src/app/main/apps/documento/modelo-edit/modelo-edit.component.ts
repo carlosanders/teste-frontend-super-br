@@ -16,6 +16,7 @@ import {Location} from '@angular/common';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {ClickedDocumentoVinculado} from './anexos/store/actions';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'modelo-edit',
@@ -31,20 +32,23 @@ export class ModeloEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
     documentoPrincipal: Documento;
 
-    activeCard = 'anexos';
-
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
     /**
+     *
      * @param _store
      * @param _location
      * @param _dynamicService
+     * @param _router
+     * @param _activatedRoute
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
         private _location: Location,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
     }
@@ -58,12 +62,9 @@ export class ModeloEditComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     ngOnInit(): void {
         this.documento$.subscribe(documento => {
-           if (documento && documento.vinculacaoDocumentoPrincipal) {
-               this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
-               this.activeCard = 'form';
-           } else {
-               this.activeCard = 'anexos';
-           }
+            if (documento && documento.vinculacaoDocumentoPrincipal) {
+                this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
+            }
         });
     }
 
@@ -98,11 +99,11 @@ export class ModeloEditComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     showAnexos(): void {
-        this.activeCard = 'anexos';
+        this._router.navigate(['anexos'], {relativeTo: this._activatedRoute.parent});
     }
 
     showForm(): void {
-        this.activeCard = 'form';
+        this._router.navigate(['dados-basicos'], {relativeTo: this._activatedRoute.parent});
     }
 
 }

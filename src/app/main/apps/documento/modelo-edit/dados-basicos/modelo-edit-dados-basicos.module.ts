@@ -15,7 +15,7 @@ import {CdkModeloFormModule} from '@cdk/components/modelo/cdk-modelo-form/cdk-mo
 
 const routes: Routes = [
     {
-        path: 'dados-basicos',
+        path: '',
         component: ModeloEditDadosBasicosComponent
     }
 ];

@@ -40,9 +40,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return forkJoin(
-            this.getDocumentosVinculados(),
-        ).pipe(
+        return this.getDocumentosVinculados().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
