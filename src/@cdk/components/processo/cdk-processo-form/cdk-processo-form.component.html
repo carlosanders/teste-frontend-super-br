@@ -21,7 +21,7 @@
             </mat-card>
         </div>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_PESSOA_VINCULADA'">
             <mat-form-field fxFlex>
                 <mat-label>Estado</mat-label>
                 <mat-select
@@ -176,7 +176,7 @@
             </div>
 
             <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2" fxFlex>
-                <mat-label>NUP</mat-label>
+                <mat-label>{{form.value.unidadeArquivistica !== 3 ? 'NUP' : 'Dossiê'}}</mat-label>
                 <input matInput #NUP
                        name="NUP"
                        formControlName="NUP"
@@ -236,7 +236,7 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_CONVENIADO'">
+        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_PESSOA_VINCULADA'">
             <mat-form-field fxFlex>
                 <mat-label>Resumo</mat-label>
                 <input matInput #descricao

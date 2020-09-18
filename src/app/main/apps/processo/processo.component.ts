@@ -2,7 +2,7 @@ import {
     AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ComponentFactoryResolver,
+    Component,
     OnDestroy,
     OnInit,
     ViewChild,
@@ -77,7 +77,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         public _loginService: LoginService,
         private _router: Router,
         private _dynamicService: DynamicService,
-        private componentFactoryResolver: ComponentFactoryResolver
     ) {
         // Set the defaults
         this._profile = _loginService.getUserProfile();
@@ -198,5 +197,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     imprimirEtiqueta(): void {
         this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'etiqueta']).then();
+    }
+
+    arquivarProcesso(): void {
+        this._store.dispatch(new fromStore.ArquivarProcesso(this.processo));
     }
 }

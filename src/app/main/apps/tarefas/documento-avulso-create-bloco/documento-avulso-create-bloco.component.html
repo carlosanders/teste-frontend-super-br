@@ -10,7 +10,8 @@
             [valid]="(tarefas$ | async)?.length > 0"
             [saving]="(isSaving$ | async)"
             [mode]="'bloco'"
-            (save)="submit($event)">
+            (save)="submit($event)"
+            (abort)="doAbort()">
     </cdk-documento-avulso-form>
 
     <mat-list *ngIf="operacoes.length > 0" fxFlex>

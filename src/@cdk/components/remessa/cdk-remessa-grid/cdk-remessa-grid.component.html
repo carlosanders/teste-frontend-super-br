@@ -32,7 +32,7 @@
                 <mat-icon>delete</mat-icon>
             </button>
 
-            <mat-form-field class="colunas mr-8">
+            <mat-form-field class="colunas mr-8" aria-label="colunas" matTooltip="Colunas">
                 <mat-select [formControl]="columns" multiple>
                     <div *ngFor="let column of allColumns">
                         <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
@@ -248,7 +248,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded && !remessa.dataHoraRecebimento"
                                 [disabled]="deletedIds?.indexOf(remessa.id) > -1"
                                 (click)="editRemessa(remessa.id)"
                                 aria-label="editar"
@@ -256,13 +256,24 @@
                             <mat-icon>edit</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1 &&
+                                recebendoIds?.indexOf(remessa.id) === -1 &&
+                                !hasExcluded &&
+                                !remessa.dataHoraRecebimento"
+                                [disabled]="deletedIds?.indexOf(remessa.id) > -1"
+                                (click)="editRecebimento(remessa.id)"
+                                aria-label="receber"
+                                matTooltip="Receber Remessa">
+                            <mat-icon>save_alt</mat-icon>
+                        </button>
 
-                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(remessa.id) > -1">
+                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(remessa.id) > -1 || recebendoIds?.indexOf(remessa.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(remessa.id) === -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(remessa.id) === -1 && !hasExcluded && !remessa.dataHoraRecebimento"
                                 [disabled]="deletedIds?.indexOf(remessa.id) > -1"
                                 (click)="deleteRemessa(remessa.id)"
                                 aria-label="remover"

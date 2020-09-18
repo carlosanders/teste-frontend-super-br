@@ -177,7 +177,8 @@
                 [mode]="'vertical'"
                 [saving]="(atividadeIsSaving$ | async)"
                 [errors]="(atividadeErrors$ | async)"
-                (save)="submitAtividade($event)">
+                (save)="submitAtividade($event)"
+                (abort)="doAbort()">
             </cdk-atividade-form>
 
         </div>

@@ -24,18 +24,6 @@ export const navigation: CdkNavigation[] = [
                 icon: 'check_box',
                 children: [
                     {
-                        id: 'tarefas_pendentes_eventos',
-                        title: 'Calendário',
-                        type: 'item',
-                        icon: 'calendar_today',
-                        url: '/apps/calendario/minhas-tarefas/todas',
-                        badge : {
-                            title: '0',
-                            bg: '#F44336',
-                            fg: '#FFFFFF'
-                        }
-                    },
-                    {
                         id: 'tarefas_pendentes_administrativo',
                         title: 'Administrativas',
                         translate: 'NAV.TAREFA.ADMINISTRATIVAS.TITLE',
@@ -58,7 +46,7 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'archive',
                 url: '/apps/oficios/entrada',
-                role: 'ROLE_CONVENIADO'
+                role: ['ROLE_USUARIO_EXTERNO', 'ROLE_DISCIPLINAR_INTERESSADO']
             },
             {
                 id: 'protocolo-externo',
@@ -67,7 +55,7 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'check_box',
                 url: '/apps/protocolo-externo/meus-processos/entrada',
-                role: 'ROLE_CONVENIADO'
+                role: 'ROLE_USUARIO_EXTERNO'
             },
             {
                 id: 'protocolo',

@@ -1,21 +1,20 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { merge, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import {ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {merge, Subject} from 'rxjs';
+import {filter, takeUntil} from 'rxjs/operators';
 
-import { CdkNavigationItem } from '@cdk/types';
-import { cdkAnimations } from '@cdk/animations';
-import { CdkNavigationService } from '@cdk/components/navigation/navigation.service';
+import {CdkNavigationItem} from '@cdk/types';
+import {cdkAnimations} from '@cdk/animations';
+import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({
-    selector   : 'cdk-nav-vertical-collapsable',
+    selector: 'cdk-nav-vertical-collapsable',
     templateUrl: './collapsable.component.html',
-    styleUrls  : ['./collapsable.component.scss'],
-    animations : cdkAnimations
+    styleUrls: ['./collapsable.component.scss'],
+    animations: cdkAnimations
 })
-export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
-{
+export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
     @Input()
     item: CdkNavigationItem;
 
@@ -27,6 +26,9 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
 
     // Private
     private _unsubscribeAll: Subject<any>;
+
+    isGrantedRole: boolean;
+    isCoordenador: boolean;
 
     /**
      *
@@ -40,8 +42,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
         private _cdkNavigationService: CdkNavigationService,
         private _router: Router,
         public _loginService: LoginService
-    )
-    {
+    ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -53,8 +54,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         // Listen for router events
         this._router.events
             .pipe(
@@ -65,12 +65,9 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
 
                 // Check if the url can be found in
                 // one of the children of this item
-                if ( this.isUrlInChildren(this.item, event.urlAfterRedirects) )
-                {
+                if (this.isUrlInChildren(this.item, event.urlAfterRedirects)) {
                     this.expand();
-                }
-                else
-                {
+                } else {
                     this.collapse();
                 }
             });
@@ -80,25 +77,21 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(
                 (clickedItem) => {
-                    if ( clickedItem && clickedItem.children )
-                    {
+                    if (clickedItem && clickedItem.children) {
                         // Check if the clicked item is one
                         // of the children of this item
-                        if ( this.isChildrenOf(this.item, clickedItem) )
-                        {
+                        if (this.isChildrenOf(this.item, clickedItem)) {
                             return;
                         }
 
                         // Check if the url can be found in
                         // one of the children of this item
-                        if ( this.isUrlInChildren(this.item, this._router.url) )
-                        {
+                        if (this.isUrlInChildren(this.item, this._router.url)) {
                             return;
                         }
 
                         // If the clicked item is not this item, collapse...
-                        if ( this.item !== clickedItem )
-                        {
+                        if (this.item !== clickedItem) {
                             this.collapse();
                         }
                     }
@@ -107,12 +100,9 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
 
         // Check if the url can be found in
         // one of the children of this item
-        if ( this.isUrlInChildren(this.item, this._router.url) )
-        {
+        if (this.isUrlInChildren(this.item, this._router.url)) {
             this.expand();
-        }
-        else
-        {
+        } else {
             this.collapse();
         }
 
@@ -122,18 +112,34 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
             this._cdkNavigationService.onNavigationItemUpdated,
             this._cdkNavigationService.onNavigationItemRemoved
         ).pipe(takeUntil(this._unsubscribeAll))
-         .subscribe(() => {
+            .subscribe(() => {
 
-             // Mark for check
-             this._changeDetectorRef.markForCheck();
-         });
+                // Mark for check
+                this._changeDetectorRef.markForCheck();
+            });
+
+        this.isGrantedRole = true;
+
+        if (this.item.role) {
+            this.isGrantedRole = false;
+            if (Array.isArray(this.item.role)) {
+                this.item.role.forEach((role) => {
+                    if (!this.isGrantedRole) {
+                        this.isGrantedRole = this._loginService.isGranted(role);
+                    }
+                });
+            } else {
+                this.isGrantedRole = this._loginService.isGranted(this.item.role);
+            }
+        }
+
+        this.isCoordenador = this._loginService.isCoordenador();
     }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -148,8 +154,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
      *
      * @param ev
      */
-    toggleOpen(ev): void
-    {
+    toggleOpen(ev): void {
         ev.preventDefault();
 
         this.isOpen = !this.isOpen;
@@ -162,10 +167,8 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
     /**
      * Expand the collapsable navigation
      */
-    expand(): void
-    {
-        if ( this.isOpen )
-        {
+    expand(): void {
+        if (this.isOpen) {
             return;
         }
 
@@ -180,10 +183,8 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
     /**
      * Collapse the collapsable navigation
      */
-    collapse(): void
-    {
-        if ( !this.isOpen )
-        {
+    collapse(): void {
+        if (!this.isOpen) {
             return;
         }
 
@@ -203,26 +204,20 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
      * @param item
      * @returns {boolean}
      */
-    isChildrenOf(parent, item): boolean
-    {
+    isChildrenOf(parent, item): boolean {
         const children = parent.children;
 
-        if ( !children )
-        {
+        if (!children) {
             return false;
         }
 
-        if ( children.indexOf(item) > -1 )
-        {
+        if (children.indexOf(item) > -1) {
             return true;
         }
 
-        for ( const child of children )
-        {
-            if ( child.children )
-            {
-                if ( this.isChildrenOf(child, item) )
-                {
+        for (const child of children) {
+            if (child.children) {
+                if (this.isChildrenOf(child, item)) {
                     return true;
                 }
             }
@@ -239,27 +234,21 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy
      * @param url
      * @returns {boolean}
      */
-    isUrlInChildren(parent, url): boolean
-    {
+    isUrlInChildren(parent, url): boolean {
         const children = parent.children;
 
-        if ( !children )
-        {
+        if (!children) {
             return false;
         }
 
-        for ( const child of children )
-        {
-            if ( child.children )
-            {
-                if ( this.isUrlInChildren(child, url) )
-                {
+        for (const child of children) {
+            if (child.children) {
+                if (this.isUrlInChildren(child, url)) {
                     return true;
                 }
             }
 
-            if ( child.url === url || url.includes(child.url) )
-            {
+            if (child.url === url || url.includes(child.url)) {
                 return true;
             }
         }

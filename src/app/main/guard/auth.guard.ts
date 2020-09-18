@@ -5,7 +5,7 @@ import {environment} from '../../../environments/environment';
 import * as fromStore from '../../store';
 import {EventSourcePolyfill} from 'event-source-polyfill';
 import {Store} from '@ngrx/store';
-import {State} from '../../store';
+import {GetNotificacoes, State} from '../../store';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable({providedIn: 'root'})
@@ -26,6 +26,18 @@ export class AuthGuard implements CanActivate {
         const token = this.loginService.getToken();
         if (token) {
             this.setMercure();
+            const params = {
+                filter: {
+                    'destinatario.id': 'eq:' + this._loginService.getUserProfile().id,
+                    'dataHoraLeitura': 'isNull'
+                },
+                gridFilter: {},
+                limit: 30,
+                offset: 0,
+                sort: {criadoEm: 'DESC'},
+                populate: ['populateAll']
+            };
+            this._store.dispatch(new GetNotificacoes(params));
             // logged in so return true
             return true;
         }
@@ -41,7 +53,7 @@ export class AuthGuard implements CanActivate {
         const es = new EventSource(environment.mercure_hub + '?topic=' + this._loginService.getUserProfile().username,
             {
                 headers: {
-                    Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJtZXJjdXJlIjp7InB1Ymxpc2giOltdfX0.R2VYhXy7uBsCqiXb9TRhEccaAiidwkZm_1sQP0JPutw'
+                    Authorization: 'Bearer ' + this._loginService.getUserProfile().jwt
                 }
             }
         );

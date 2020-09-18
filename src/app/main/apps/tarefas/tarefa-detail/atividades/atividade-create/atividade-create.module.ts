@@ -14,10 +14,8 @@ import {
     MatProgressSpinnerModule, MatTooltipModule, MatTableModule, MatBadgeModule, MatTabsModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-
 import {AtividadeCreateComponent} from './atividade-create.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
@@ -26,7 +24,6 @@ import {AtividadeService} from '@cdk/services/atividade.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
@@ -60,9 +57,7 @@ modulesConfig.forEach((module) => {
         AtividadeCreateComponent
     ],
     imports: [
-
         RouterModule.forChild(routes),
-
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -78,17 +73,12 @@ modulesConfig.forEach((module) => {
         MatTooltipModule,
         MatTabsModule,
         MatBadgeModule,
-
         CdkComponenteDigitalCardListModule,
         CdkDocumentoCardListModule,
         CdkUploadModule,
-
         CdkAtividadeFormModule,
-
         AtividadeCreateStoreModule,
-
         TranslateModule,
-
         CdkSharedModule,
         CdkSidebarModule,
     ],

@@ -22,6 +22,7 @@ import {ComponenteDigital} from '@cdk/models';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {Back} from "../../../../store/actions";
 
 @Component({
     selector: 'documento-avulso-edit',
@@ -359,6 +360,10 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy, AfterVie
                 this.routerState.params.documentoHandle + '/oficio/anexar-copia/' + this.documento.processoOrigem.id + '/visualizar'
             ]
         ).then();
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
 }

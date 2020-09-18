@@ -12,9 +12,12 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Tramitacao} from '@cdk/models';
+import {Lotacao, Tramitacao, Usuario} from '@cdk/models';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
 import {FormControl} from '@angular/forms';
+import {Router} from '@angular/router';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {lotacao} from '../../../normalizr';
 
 @Component({
     selector: 'cdk-tramitacao-grid',
@@ -45,8 +48,8 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     excluded = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'observacao', 'urgente', 'setorOrigem.nome', 'setorDestino.nome',
-        'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'processo', 'setorOrigem.nome', 'setorDestino.nome',
+        'dataHoraRecebimento', 'usuarioRecebimento.nome', 'urgente', 'actions'];
 
     allColumns: any[] = [
         {
@@ -164,6 +167,9 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     edit = new EventEmitter<number>();
 
     @Output()
+    recebimento = new EventEmitter<number>();
+
+    @Output()
     delete = new EventEmitter<number>();
 
     @Output()
@@ -182,16 +188,24 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
     isIndeterminate = false;
     hasExcluded = false;
 
+    _profile: Usuario;
+    idsSetoresLotacao: number[] = [];
+
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService
+        private _cdkSidebarService: CdkSidebarService,
+        public _loginService: LoginService
     ) {
         this.gridFilter = {};
         this.tramitacoes = [];
+        this._profile = this._loginService.getUserProfile();
+
+        this._profile.colaborador.lotacoes.map(lot => lot.setor.id).forEach(id => this.idsSetoresLotacao.push(id));
     }
 
     ngOnChanges(): void {
@@ -263,7 +277,7 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,
@@ -284,6 +298,10 @@ export class CdkTramitacaoGridComponent implements AfterViewInit, OnInit, OnChan
 
     editTramitacao(tramitacaoId): void {
         this.edit.emit(tramitacaoId);
+    }
+
+    editRecebimento(tramitacaoId): void {
+        this.recebimento.emit(tramitacaoId);
     }
 
     selectTramitacao(tramitacao: Tramitacao): void {

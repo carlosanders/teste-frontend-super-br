@@ -1,26 +1,10 @@
 <!-- SIDEBAR HEADER -->
-<div fxLayout="column" fxLayoutAlign="space-between start"
-     class="header accent p-24 pb-4">
-    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-            check_box
-        </mat-icon>
-        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Tarefas</span>
-    </div>
+<div fxLayout="column" fxLayoutAlign="space-between start">
 </div>
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="side-content" cdkPerfectScrollbar>
-
-    <div class="px-24 pt-32 pb-12">
-        <button mat-raised-button
-                class="mat-accent compose-dialog-button w-100-p"
-                (click)="create()"
-                aria-label="Criar">
-            CRIAR
-        </button>
-    </div>
+<div class="content" cdkPerfectScrollbar>
 
     <div class="nav material2">
 
@@ -67,3 +51,17 @@
     </div>
 </div>
 <!-- / SIDEBAR CONTENT -->
+
+<!-- SIDEBAR FOOT -->
+<div fxLayout="column" fxLayoutAlign="end stretch" >
+    <mat-divider></mat-divider>
+    <mat-toolbar>
+        <button mat-icon-button class="secondary-text" routerLink="/apps/tarefas/administrativo/minhas-tarefas/entrada" routerLinkActive="mat-accent" matTooltip="Tarefas">
+            <mat-icon>check_box</mat-icon>
+        </button>
+        <button disabled mat-icon-button class="secondary-text" routerLink="/apps/calendario/minhas-tarefas/todas" routerLinkActive="mat-accent" matTooltip="Calendário">
+            <mat-icon>calendar_today</mat-icon>
+        </button>
+    </mat-toolbar>
+</div>
+<!-- / SIDEBAR FOOT -->
