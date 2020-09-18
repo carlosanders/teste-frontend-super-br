@@ -29,8 +29,7 @@ import {ComponenteDigital, Documento, Usuario} from '@cdk/models';
 })
 export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input()
-    documento: Documento;
+    documento$: Observable<Documento>;
 
     routerState: any;
     pagination: any;
@@ -68,6 +67,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         private _dynamicService: DynamicService,
         private _ref: ChangeDetectorRef
     ) {
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.componentesDigitais$ = this._store.pipe(select(fromStore.getComponentesDigitais));
         this.paginationComponenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigitalPagination));
         this.deletingComponenteDigitalIds$ = this._store.pipe(select(fromStore.getDeletingComponenteDigitalIds));
@@ -95,9 +95,8 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
 
         this.paginationComponenteDigital$.subscribe(pagination => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
-
                 this.pagination = pagination;
-
+                this.reloadComponentesDigitais(this.pagination);
             } else {
                 this.pagination = pagination;
             }

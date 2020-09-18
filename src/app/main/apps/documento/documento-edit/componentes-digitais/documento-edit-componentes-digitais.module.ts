@@ -13,11 +13,13 @@ import {DocumentoEditComponentesDigitaisStoreModule} from './store/store.module'
 import {DocumentoEditComponentesDigitaisComponent} from './documento-edit-componentes-digitais.component';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoEditComponentesDigitaisComponent
+        component: DocumentoEditComponentesDigitaisComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -50,6 +52,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         DocumentoEditComponentesDigitaisComponent
