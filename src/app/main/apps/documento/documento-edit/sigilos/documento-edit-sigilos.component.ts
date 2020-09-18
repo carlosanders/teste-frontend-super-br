@@ -19,7 +19,6 @@ import {Router} from '@angular/router';
 import {Documento, Pagination, Sigilo, Usuario} from '@cdk/models';
 import {DomSanitizer} from '@angular/platform-browser';
 import {LoginService} from '../../../../auth/login/login.service';
-import {FormBuilder} from '@angular/forms';
 
 @Component({
     selector: 'documento-edit-sigilos',
@@ -123,9 +122,8 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
 
         this.paginationSigilo$.subscribe(pagination => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
-
                 this.pagination = pagination;
-
+                this.reloadSigilos(this.pagination);
             } else {
                 this.pagination = pagination;
             }

@@ -13,11 +13,13 @@ import {DocumentoEditSigilosComponent} from './documento-edit-sigilos.component'
 import {DocumentoEditSigilosStoreModule} from './store/store.module';
 import {CdkSigiloFormModule} from '@cdk/components/sigilo/cdk-sigilo-form/cdk-sigilo-form.module';
 import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-sigilo-grid.module';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoEditSigilosComponent
+        component: DocumentoEditSigilosComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -50,6 +52,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         DocumentoEditSigilosComponent
