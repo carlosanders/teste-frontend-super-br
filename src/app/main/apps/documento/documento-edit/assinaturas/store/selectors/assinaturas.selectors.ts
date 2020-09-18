@@ -47,3 +47,8 @@ export const getAssinaturasPagination = createSelector(
     getAssinaturasState,
     (state: AssinaturasState) => state.pagination
 );
+
+export const getAssinaturasLoaded = createSelector(
+    getAssinaturasState,
+    (state: AssinaturasState) => state.loaded
+);

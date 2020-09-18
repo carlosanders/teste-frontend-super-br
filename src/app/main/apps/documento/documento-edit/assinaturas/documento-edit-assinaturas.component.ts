@@ -19,7 +19,6 @@ import {Router} from '@angular/router';
 import {Assinatura, Documento} from '../../../../../../@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
 
-
 @Component({
     selector: 'documento-edit-assinaturas',
     templateUrl: './documento-edit-assinaturas.component.html',
@@ -90,9 +89,8 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
 
         this.paginationAssinatura$.subscribe(pagination => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
-
                 this.pagination = pagination;
-
+                this.reloadAssinaturas(this.pagination);
             } else {
                 this.pagination = pagination;
             }

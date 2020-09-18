@@ -1,17 +1,15 @@
-<div class="m-4" fxFlex fxLayout="column">
-    <h3 style="font-weight: bold">Assinaturas</h3>
+<h3 style="font-weight: bold">Assinaturas</h3>
 
-    <cdk-assinatura-grid
-        *ngIf="!formAssinaturas"
-        [loading]="(assinaturaLoading$ | async)"
-        [assinaturas]="(assinaturas$ | async)"
-        [total]="(paginationAssinatura$ | async)?.total"
-        [actions]="['delete']"
-        [displayedColumns]="['id', 'dataHoraAssinatura', 'criadoPor.nome', 'actions']"
-        [deletingIds]="(deletingAssinaturaIds$ | async)"
-        [deletedIds]="(deletedAssinaturaIds$ | async)"
-        (delete)="deleteAssinatura($event)"
-        (reload)="reloadAssinaturas($event)"
-    >
-    </cdk-assinatura-grid>
-</div>
+<cdk-assinatura-grid
+    *ngIf="!formAssinaturas"
+    [loading]="(assinaturaLoading$ | async)"
+    [assinaturas]="(assinaturas$ | async)"
+    [total]="(paginationAssinatura$ | async)?.total"
+    [actions]="['delete']"
+    [displayedColumns]="['id', 'dataHoraAssinatura', 'criadoPor.nome', 'actions']"
+    [deletingIds]="(deletingAssinaturaIds$ | async)"
+    [deletedIds]="(deletedAssinaturaIds$ | async)"
+    (delete)="deleteAssinatura($event)"
+    (reload)="reloadAssinaturas($event)"
+>
+</cdk-assinatura-grid>

@@ -12,11 +12,13 @@ import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {DocumentoEditAssinaturasStoreModule} from './store/store.module';
 import {DocumentoEditAssinaturasComponent} from './documento-edit-assinaturas.component';
 import {CdkAssinaturaGridModule} from '@cdk/components/assinatura/cdk-assinatura-grid/cdk-assinatura-grid.module';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoEditAssinaturasComponent
+        component: DocumentoEditAssinaturasComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -48,6 +50,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         AssinaturaService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         DocumentoEditAssinaturasComponent
