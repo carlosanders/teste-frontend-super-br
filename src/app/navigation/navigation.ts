@@ -46,7 +46,7 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'archive',
                 url: '/apps/oficios/entrada',
-                role: 'ROLE_CONVENIADO'
+                role: ['ROLE_USUARIO_EXTERNO', 'ROLE_DISCIPLINAR_INTERESSADO']
             },
             {
                 id: 'protocolo-externo',
@@ -55,7 +55,7 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'check_box',
                 url: '/apps/protocolo-externo/meus-processos/entrada',
-                role: 'ROLE_CONVENIADO'
+                role: 'ROLE_USUARIO_EXTERNO'
             },
             {
                 id: 'protocolo',

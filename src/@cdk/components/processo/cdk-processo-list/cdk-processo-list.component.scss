@@ -3,6 +3,10 @@ cdk-processo-list {
     border-right: 1px solid rgba(0, 0, 0, 0.12);
     height: 100%;
 
+    cdk-processo-filter {
+        height: 100%;
+    }
+
     .processo-list-loading {
         z-index: 9999;
         margin-top: 48px;

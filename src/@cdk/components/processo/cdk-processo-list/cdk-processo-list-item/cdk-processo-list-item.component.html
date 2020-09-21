@@ -41,7 +41,7 @@
                     Data Abertura:  {{processo.dataHoraAbertura | date: 'dd/MM/yyyy'}}
                 </div>
 
-                <div *showIfNotRole="'ROLE_CONVENIADO'">
+                <div *showIfRole="'ROLE_COLABORADOR'">
                     <div>
                         Data Transição: {{processo.dataHoraProximaTransicao | date: 'dd/MM/yyyy'}}
                     </div>
@@ -81,7 +81,7 @@
             </mat-expansion-panel>
         </div>
 
-        <div class="actions" fxLayout="row" fxLayoutAlign="start center" *showIfNotRole="'ROLE_CONVENIADO'">
+        <div class="actions" fxLayout="row" fxLayoutAlign="start center" *showIfRole="'ROLE_COLABORADOR'">
 
             <div class="spinner-container m-8" *ngIf="deleting">
                 <mat-spinner diameter="24"></mat-spinner>

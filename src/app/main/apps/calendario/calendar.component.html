@@ -1,9 +1,5 @@
 <div id="calendar" class="page-layout simple left-sidebar inner-scroll">
 
-    <!-- TOP BACKGROUND -->
-    <div class="top-bg accent"></div>
-    <!-- / TOP BACKGROUND -->
-
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="calendario-main-sidebar" position="left"
                  lockedOpen="gt-md">
@@ -98,7 +94,7 @@
         <!-- / HEADER -->
 
         <!-- CONTENT -->
-        <div class="content" cdkPerfectScrollbar [@animate]="{value:'*',params:{delay:'200ms',y:'50px'}}">
+        <div class="content" class="p-24" cdkPerfectScrollbar [@animate]="{value:'*',params:{delay:'200ms',y:'50px'}}">
             <div [ngSwitch]="view">
                 <mwl-calendar-month-view
                     *ngSwitchCase="'month'"

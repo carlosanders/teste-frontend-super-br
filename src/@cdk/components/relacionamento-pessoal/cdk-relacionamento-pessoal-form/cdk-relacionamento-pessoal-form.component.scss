@@ -1,31 +1,29 @@
 cdk-relacionamento-pessoal-form {
-    height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
     form {
-        width: 100%;
-    }
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
 
-    .div-form {
-        width: 350px;
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
+        mat-form-field {
+            flex: 1 1 auto;
         }
-    }
 
-    cdk-pessoa-gridsearch {
-        width: 100%;
-    }
+        .dates {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+        }
 
-    cdk-modalidade-relacionamento-pessoal-gridsearch {
-        width: 100%;
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }

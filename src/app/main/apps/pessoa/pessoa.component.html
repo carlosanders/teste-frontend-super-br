@@ -1,31 +1,15 @@
-<div class="full-screen" fxLayout="column">
-
-    <div class="accent p-8" fxLayout="row" fxLayoutAlign="end center">
-        <button class="close mr-8" mat-icon-button
-                (click)="back()"
-                aria-label="fechar"
-                matTooltip="Fechar">
-            <mat-icon>close</mat-icon>
-        </button>
+<div class="full-screen" disabled>
+    <div class="modal">
+        <div class="header accent">
+            <button class="close mr-8" mat-icon-button
+                    (click)="back()"
+                    aria-label="fechar"
+                    matTooltip="Fechar">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <div class="content">
+            <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
+        </div>
     </div>
-
-    <!-- CONTENT CARD -->
-    <div class="pessoa-content" fxLayout="column">
-
-            <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
-                <button mat-raised-button
-                        class="mat-accent"
-                        [routerLink]="'editar/criar'"
-                        *ngIf="action == 'listar'"
-                        aria-label="novo"
-                        matTooltip="Criar Pessoa">
-                    Novo
-                </button>
-            </div>
-
-            <div class="pessoa-sub-content">
-                <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>
-            </div>
-    </div>
-
 </div>

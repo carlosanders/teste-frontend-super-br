@@ -83,7 +83,7 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
             ];
         }
 
-        if (this._loginService.isGranted('ROLE_CONVENIADO')) {
+        if (this._loginService.isGranted('ROLE_PESSOA_VINCULADA')) {
             this.links = [
                 {
                     nome: 'Perfil',

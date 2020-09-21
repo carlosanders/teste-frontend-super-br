@@ -79,6 +79,10 @@ export class RelacionamentoListComponent implements OnInit {
         }));
     }
 
+    create(): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(relacionamentoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + relacionamentoId]);
     }

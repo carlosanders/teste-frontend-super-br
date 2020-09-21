@@ -79,6 +79,10 @@ export class EnderecoListComponent implements OnInit {
         }));
     }
 
+    create(): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     edit(enderecoId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + enderecoId]);
     }

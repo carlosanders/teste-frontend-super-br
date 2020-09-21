@@ -21,6 +21,7 @@ import {CdkMunicipioGridsearchModule} from '@cdk/components/municipio/cdk-munici
 import {CdkModalidadeGeneroPessoaGridsearchModule} from '@cdk/components/modalidade-genero-pessoa/cdk-modalidade-genero-pessoa-autocomplete/cdk-modalidade-genero-pessoa-gridsearch/cdk-modalidade-genero-pessoa-gridsearch.module';
 import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modalidade-genero-pessoa/cdk-modalidade-genero-pessoa-autocomplete/cdk-modalidade-genero-pessoa-autocomplete.module';
 import {CdkLogentryGridsearchModule} from "../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module";
+import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
 
 @NgModule({
     declarations: [
@@ -48,6 +49,7 @@ import {CdkLogentryGridsearchModule} from "../../logentry/cdk-logentry-grid/cdk-
 
         CdkSharedModule,
         CdkLogentryGridsearchModule,
+        NgxUpperCaseDirectiveModule,
     ],
     providers: [],
     exports: [

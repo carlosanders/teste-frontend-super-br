@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import * as fromGuards from './dados-pessoa-edit/store/guards';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {modulesConfig} from 'modules/modules-config';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatRippleModule} from '@angular/material/core';
 
 const routes: Routes = [
     {
@@ -67,7 +69,7 @@ modulesConfig.forEach((module) => {
         PessoaEditComponent,
         PessoaEditMainSidebarComponent
     ],
-    imports        : [
+    imports: [
         CommonModule,
         RouterModule.forChild(routes),
 
@@ -77,7 +79,9 @@ modulesConfig.forEach((module) => {
         TranslateModule,
 
         CdkSharedModule,
-        CdkSidebarModule
+        CdkSidebarModule,
+        MatTooltipModule,
+        MatRippleModule
     ],
     providers      : [
         PessoaService,

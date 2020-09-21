@@ -17,6 +17,7 @@ import {Pessoa} from '@cdk/models';
 import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
 import {Pagination} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'nome-edit',
@@ -104,4 +105,7 @@ export class NomeEditComponent implements OnInit, OnDestroy {
 
     }
 
+    cancel(): void {
+        this._store.dispatch(new Back());
+    }
 }
