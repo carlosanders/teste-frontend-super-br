@@ -13,7 +13,7 @@
 
     <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+        <div class="actions">
 
             <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
                     (click)="doCancel()"

@@ -2,7 +2,7 @@
 
     <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+        <div class="actions">
 
             <button mat-icon-button *ngIf="selectedIds.length > 1"
                     (click)="deleteDestinatarios(selectedIds)"
