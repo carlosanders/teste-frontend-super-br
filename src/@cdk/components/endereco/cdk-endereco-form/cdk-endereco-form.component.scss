@@ -1,28 +1,29 @@
 cdk-endereco-form {
-    height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
     form {
-        width: 100%;
-    }
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
 
-    .form-card {
-        border-radius: 8px;
-    }
+        mat-form-field {
+            flex: 1 1 auto;
+        }
 
-    .form-errors-model {
-        flex: 1;
+        .dates {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+        }
 
-        code {
-            background: none !important;
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
         }
     }
-
-    cdk-municipio-gridsearch {
-        width: 100%;
-    }
-
-    cdk-pais-gridsearch {
-        width: 100%;
-    }
-
 }

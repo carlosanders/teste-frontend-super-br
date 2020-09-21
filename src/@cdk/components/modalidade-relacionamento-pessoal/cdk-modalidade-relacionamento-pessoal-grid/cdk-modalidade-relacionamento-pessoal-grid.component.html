@@ -1,29 +1,32 @@
-<div class="page-layout left-sidebar" fxFlex>
+<div class="cdk-modalidade-relacionamento-pessoal-grid page-layout left-sidebar">
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-modalidade-relacionamento-pessoal-filter" position="left">
-        <cdk-modalidade-relacionamento-pessoal-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-modalidade-relacionamento-pessoal-filter>
+        <cdk-modalidade-relacionamento-pessoal-filter (selected)="setFilter($event)"
+                                                   [mode]="this.mode"></cdk-modalidade-relacionamento-pessoal-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" fxFlex fxLayout="column">
+    <div class="responsive-grid">
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+        <div class="actions">
 
-            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
-                    (click)="doCreate()"
-                    aria-label="novo"
-                    matTooltip="Novo">
-                <mat-icon>add</mat-icon>
-            </button>
+            <div class="back">
+                <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
 
-            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
-                    (click)="doCancel()"
-                    aria-label="cancelar"
-                    matTooltip="Cancelar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
+                <button class="accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                        (click)="doCreate()"
+                        aria-label="novo"
+                        matTooltip="Novo">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
                     (click)="deleteModalidadeRelacionamentoPessoal(selectedIds)"
@@ -62,11 +65,12 @@
             </button>
         </div>
 
-        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+        <div class="loading" *ngIf="loading">
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
+
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
@@ -78,11 +82,11 @@
                                       [indeterminate]="isIndeterminate">
                         </mat-checkbox>
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal">
-                        <mat-checkbox [checked]="selectedIds.indexOf(modalidaderelacionamentoPessoal.id) > -1"
-                                      (change)="toggleInSelected(modalidaderelacionamentoPessoal.id)"
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa">
+                        <mat-checkbox [checked]="selectedIds.indexOf(modalidadequalificacaoPessoa.id) > -1"
+                                      (change)="toggleInSelected(modalidadequalificacaoPessoa.id)"
                                       (click)="$event.stopPropagation();"
-                                      [disabled]="deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1 || hasExcluded">
+                                      [disabled]="deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1 || hasExcluded">
                         </mat-checkbox>
                     </td>
                 </ng-container>
@@ -91,10 +95,10 @@
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> &nbsp; Id
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa" class='has_label_on_mobile'
                         data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1}">
-                        &nbsp;{{modalidaderelacionamentoPessoal.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1}">
+                        &nbsp;{{modalidadequalificacaoPessoa.id}} </td>
                 </ng-container>
 
                 <!-- Descrição Column -->
@@ -102,9 +106,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Descrição
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa" class='has_label_on_mobile'
                         data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1}"> {{modalidaderelacionamentoPessoal.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1}"> {{modalidadequalificacaoPessoa.descricao}} </td>
                 </ng-container>
 
                 <!-- Valor Column -->
@@ -112,9 +116,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Valor
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa" class='has_label_on_mobile'
                         data-label='Valor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1}"> {{modalidaderelacionamentoPessoal.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1}"> {{modalidadequalificacaoPessoa.valor}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -122,11 +126,10 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Ativo
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa" class='has_label_on_mobile'
                         data-label='Ativo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1}">
-                        <mat-checkbox [disabled]="true"
-                                      [checked]="modalidaderelacionamentoPessoal.ativo"></mat-checkbox>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1}">
+                        <mat-checkbox [disabled]="true" [checked]="modalidadequalificacaoPessoa.ativo"></mat-checkbox>
                     </td>
                 </ng-container>
 
@@ -135,9 +138,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Por
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1}"> {{modalidaderelacionamentoPessoal.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1}"> {{modalidadequalificacaoPessoa.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -145,9 +148,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa" class='has_label_on_mobile'
                         data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1}"> {{modalidaderelacionamentoPessoal.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1}"> {{modalidadequalificacaoPessoa.criadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -156,9 +159,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Por
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1}"> {{modalidaderelacionamentoPessoal.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1}"> {{modalidadequalificacaoPessoa.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -166,9 +169,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1}"> {{modalidaderelacionamentoPessoal.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1}"> {{modalidadequalificacaoPessoa.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -176,9 +179,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Por
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1}"> {{modalidaderelacionamentoPessoal.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1}"> {{modalidadequalificacaoPessoa.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -186,19 +189,19 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal" class='has_label_on_mobile'
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa" class='has_label_on_mobile'
                         data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1}"> {{modalidaderelacionamentoPessoal.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1}"> {{modalidadequalificacaoPessoa.apagadoEm | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
-                    <td mat-cell *matCellDef="let modalidaderelacionamentoPessoal">
+                    <td mat-cell *matCellDef="let modalidadequalificacaoPessoa">
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
-                                (click)="selectModalidadeRelacionamentoPessoal(modalidaderelacionamentoPessoal)"
+                                (click)="selectModalidadeRelacionamentoPessoal(modalidadequalificacaoPessoa)"
                                 aria-label="selecionar"
                                 matTooltip="Selecionar">
                             <mat-icon>keyboard_return</mat-icon>
@@ -206,22 +209,22 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1"
-                                (click)="editModalidadeRelacionamentoPessoal(modalidaderelacionamentoPessoal.id)"
+                                [disabled]="deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1"
+                                (click)="editModalidadeRelacionamentoPessoal(modalidadequalificacaoPessoa.id)"
                                 aria-label="editar"
                                 matTooltip="Editar">
                             <mat-icon>edit</mat-icon>
                         </button>
 
                         <div class="spinner-container m-8"
-                             *ngIf="deletingIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1">
+                             *ngIf="deletingIds?.indexOf(modalidadequalificacaoPessoa.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modalidaderelacionamentoPessoal.id) === -1 && !hasExcluded"
-                                [disabled]="deletedIds?.indexOf(modalidaderelacionamentoPessoal.id) > -1"
-                                (click)="deleteModalidadeRelacionamentoPessoal(modalidaderelacionamentoPessoal.id)"
+                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(modalidadequalificacaoPessoa.id) === -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(modalidadequalificacaoPessoa.id) > -1"
+                                (click)="deleteModalidadeRelacionamentoPessoal(modalidadequalificacaoPessoa.id)"
                                 aria-label="remover"
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
@@ -230,15 +233,13 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;"></tr>
-                <tr mat-row *matRowDef="let modalidaderelacionamentoPessoal; columns: displayedColumns;">
+                <tr mat-row *matRowDef="let modalidadequalificacaoPessoa; columns: displayedColumns;">
                 </tr>
             </table>
         </div>
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+        <div class="footer">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>
-
     </div>
-
 </div>

@@ -1,6 +1,7 @@
 <cdk-endereco-grid
         [loading]="loading"
         [enderecos]="enderecos"
+        [displayedColumns]="['id', 'logradouro', 'municipio.nome', 'municipio.estado.uf', 'principal', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

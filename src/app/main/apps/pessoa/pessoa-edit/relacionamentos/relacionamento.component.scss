@@ -1,16 +1,9 @@
-#relacionamentos {
-
-  .header {
-
-    .actions {
-      .is-active {
-        display: none;
-      }
+relacionamentos {
+    display: flex;
+    flex: 1 1 auto;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
     }
-
-  }
-
-  .content {
-
-  }
 }

@@ -107,11 +107,11 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
             switch (this.processo?.unidadeArquivistica) {
                 case 1:
                     this.label = 'Processo';
-                    this.nup = this.processo?.NUP;
+                    this.nup = this.processo?.NUPFormatado;
                     break;
                 case 2:
                     this.label = 'Documento Avulso';
-                    this.nup = this.processo?.NUP;
+                    this.nup = this.processo?.NUPFormatado;
                     break;
                 case 3:
                     this.label = 'Pasta';

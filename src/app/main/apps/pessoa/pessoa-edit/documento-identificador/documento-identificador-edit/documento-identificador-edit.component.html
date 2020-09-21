@@ -3,5 +3,6 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeDocumentoIdentificadorPagination]="documentoIdentificadorPagination"
+        (abort)="cancel()"
         (save)="submit($event)">
 </cdk-documento-identificador-form>

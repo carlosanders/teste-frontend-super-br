@@ -41,8 +41,7 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'modalidadeDocumentoIdentificador.valor', 'codigoDocumento', 'emissorDocumento',
-        'dataEmissao', 'origemDados', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'modalidadeDocumentoIdentificador.valor', 'codigoDocumento', 'actions'];
 
     allColumns: any[] = [
         {
@@ -252,7 +251,7 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,

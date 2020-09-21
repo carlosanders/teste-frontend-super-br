@@ -1,6 +1,7 @@
 <cdk-pessoa-grid
         [loading]="loading"
         [pessoas]="pessoas"
+        [displayedColumns]="['id', 'nome', 'numeroDocumentoPrincipal', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

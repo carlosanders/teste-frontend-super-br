@@ -3,5 +3,6 @@
         [relacionamentoPessoal]="relacionamento"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        (abort)="cancel()"
         (save)="submit($event)">
 </cdk-relacionamento-pessoal-form>

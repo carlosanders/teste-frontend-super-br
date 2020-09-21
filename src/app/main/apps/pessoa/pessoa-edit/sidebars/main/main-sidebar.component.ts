@@ -1,18 +1,20 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Observable} from 'rxjs';
 import {Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../dados-pessoa-edit/store';
-import {modulesConfig} from "../../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../../modules/modules-config';
+import {cdkAnimations} from '../../../../../../../@cdk/animations';
 
 @Component({
     selector: 'pessoa-edit-main-sidebar',
     templateUrl: './main-sidebar.component.html',
-    styleUrls: ['./main-sidebar.component.scss']
+    styleUrls: ['./main-sidebar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
-
-    private _unsubscribeAll: Subject<any> = new Subject();
 
     pessoa$: Observable<Pessoa>;
     pessoa: Pessoa;
@@ -20,8 +22,6 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
     links: any;
 
     /**
-     * @param _changeDetectorRef
-     * @param _cdkSidebarService
      * @param _store
      */
     constructor(

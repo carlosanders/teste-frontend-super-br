@@ -1,6 +1,7 @@
 <cdk-modalidade-qualificacao-pessoa-grid
         [loading]="loading"
         [modalidadequalificacaoPessoas]="modalidadequalificacaoPessoas"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

@@ -41,7 +41,7 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'pessoaRelacionada.nome', 'modalidadeRelacionamentoPessoal.valor',
-        'origemDados.servico', 'actions'];
+        'actions'];
 
     allColumns: any[] = [
         {
