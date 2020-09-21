@@ -6,7 +6,7 @@
 
     <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
 
-        <div class="info" fxFlex [ngClass]="{'nao-respondido': !documentoAvulso.dataHoraResposta}">
+        <div class="info" fxFlex [ngClass]="{'nao-lido': !documentoAvulso.dataHoraLeitura}">
 
             <div class="title" fxLayout="row">
                 <mat-icon *ngIf="documentoAvulso.processo?.documentoAvulsoOrigem">mail</mat-icon>

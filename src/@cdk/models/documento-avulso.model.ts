@@ -79,6 +79,11 @@ export class DocumentoAvulso {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+    dataHoraLeitura?: Date|moment.Moment;
+
+    @Exclude({ toPlainOnly: true })
+    @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
+    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataHoraReiteracao?: Date|moment.Moment;
 
     @Type(() => Documento)
@@ -178,6 +183,7 @@ export class DocumentoAvulso {
         this.dataHoraInicioPrazo = null;
         this.dataHoraFinalPrazo = null;
         this.dataHoraConclusaoPrazo = null;
+        this.dataHoraLeitura = null;
         this.pessoaDestino = null;
         this.setorDestino = null;
         this.dataHoraRemessa = null;
