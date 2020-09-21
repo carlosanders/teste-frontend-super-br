@@ -10,19 +10,21 @@
 
         <div class="actions">
 
-            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
-                    (click)="doCreate()"
-                    aria-label="novo"
-                    matTooltip="Novo">
-                <mat-icon>add</mat-icon>
-            </button>
+            <div class="back">
+                <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
 
-            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
-                    (click)="doCancel()"
-                    aria-label="cancelar"
-                    matTooltip="Cancelar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
+                <button class="accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                        (click)="doCreate()"
+                        aria-label="novo"
+                        matTooltip="Novo">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
                     (click)="deleteTipoSigilos(selectedIds)"

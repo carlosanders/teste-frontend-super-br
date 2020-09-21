@@ -4,6 +4,15 @@
 
         <div class="actions">
 
+            <div class="back">
+                <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
+            </div>
+
             <button mat-icon-button *ngIf="selectedIds.length > 1"
                     (click)="deleteDestinatarios(selectedIds)"
                     aria-label="remover"
