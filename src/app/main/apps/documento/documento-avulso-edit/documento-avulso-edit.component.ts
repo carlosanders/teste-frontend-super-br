@@ -98,16 +98,4 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
     back(): void {
         this._location.back();
     }
-
-    showForm(): void {
-        this._router.navigate(['dados-basicos'], {relativeTo: this._activatedRoute.parent});
-    }
-
-    showAnexos(): void {
-        this._router.navigate(['anexos'], {relativeTo: this._activatedRoute.parent});
-    }
-
-    showInteligencia(): void {
-        this._router.navigate(['inteligencia'], {relativeTo: this._activatedRoute.parent});
-    }
 }

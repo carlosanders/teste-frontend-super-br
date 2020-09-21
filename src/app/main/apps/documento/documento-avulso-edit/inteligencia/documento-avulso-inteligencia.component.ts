@@ -98,8 +98,6 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
         });
 
         this.pagination$.subscribe(pagination => {
-            console.log(pagination);
-            console.log(this.pagination);
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reload(this.pagination);

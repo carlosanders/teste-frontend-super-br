@@ -17,41 +17,9 @@ export const DocumentoInitialState: DocumentoState = {
 export function DocumentoReducer(state = DocumentoInitialState, action: DocumentoActions.DocumentoActionsAll): DocumentoState {
     switch (action.type) {
 
-        case DocumentoActions.GET_DOCUMENTO: {
-            return {
-                ...DocumentoInitialState
-            };
-        }
-
         case DocumentoActions.UNLOAD_DOCUMENTO: {
             return {
                 ...DocumentoInitialState
-            };
-        }
-
-        case DocumentoActions.GET_DOCUMENTO_SUCCESS: {
-
-            return {
-                documentoId: action.payload.documentoId,
-                currentComponenteDigitalId: action.payload.currentComponenteDigitalId,
-                loading: false,
-                loaded: action.payload.loaded,
-            };
-        }
-
-        case DocumentoActions.GET_DOCUMENTO_FAILED: {
-            return {
-                documentoId: null,
-                currentComponenteDigitalId: null,
-                loading: false,
-                loaded: false,
-            };
-        }
-
-        case DocumentoActions.SET_CURRENT_STEP: {
-            return {
-                ...state,
-                currentComponenteDigitalId: action.payload.id
             };
         }
 

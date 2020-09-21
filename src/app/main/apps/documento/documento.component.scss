@@ -1,32 +1,59 @@
 documento {
-
-    height: 100%;
-
     .full-screen {
         position: fixed;
         top: 0;
         left: 0;
         height: 100%;
         width: 100%;
-        z-index: 1001;
+        z-index: 1000000;
+        display: flex;
+        flex-direction: column;
 
         .sidebar {
-
             &:not(.locked-open) {
                 background: white;
             }
         }
 
-        .content {
+        > .header {
+            flex: 0 0 auto;
+            justify-content: flex-start;
+            align-items: center;
+            display: flex;
+            flex-direction: row;
 
-            height: 100%;
+            .white-space {
+                flex-grow: 0.25;
+            }
 
-            .header {
-                height: 64px !important;
-                min-height: 64px !important;
-                max-height: 64px !important;
+            .acoes {
+                flex-grow: 0.75;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+            }
+        }
 
-                .componentes-digitais-navigation {
+        > .content {
+            flex: 1 0 auto;
+            display: flex;
+            flex-direction: column;
+
+            > .actions {
+                flex: 0 0 auto;
+                justify-content: flex-start;
+                align-items: center;
+                display: flex;
+            }
+
+            > .header {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+
+                > .componentes-digitais-navigation {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
@@ -40,6 +67,24 @@ documento {
                     .done {
                         margin-left: auto;
                     }
+                }
+            }
+
+            .documento-navegacao {
+                display: flex;
+                flex-direction: row;
+                flex: 1 0 100%;
+
+                .left {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 0.25 0 25%;
+                }
+
+                .documento-navegacao-content {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 0.75 0 75%;
                 }
             }
         }

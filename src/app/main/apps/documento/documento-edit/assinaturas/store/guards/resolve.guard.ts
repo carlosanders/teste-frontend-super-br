@@ -48,7 +48,7 @@ export class ResolveGuard implements CanActivate {
     }
 
     /**
-     * Get Repositorios
+     * Get Assinaturas
      *
      * @returns {Observable<any>}
      */

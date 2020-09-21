@@ -3,13 +3,32 @@ documento-edit {
         width: 92% !important;
     }
 
-    .documento-edit-content {
-        flex: 0.7 1 auto;
+    .documento-edit {
+        flex: 0 1 auto;
         flex-direction: column;
     }
 
-    .sidebar {
-        flex: 0.3 1 auto;
+    .documento-edit-content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .documento-edit-actions {
+        flex: 0 0 auto;
+        justify-content: flex-end;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .documento-edit-buttons {
+        flex: 0 0 auto;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .dynamic-form {
         flex-direction: column;
     }
 }

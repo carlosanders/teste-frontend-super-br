@@ -1,10 +1,10 @@
-<div class="full-screen page-layout carded left-sidebar inner-scroll" fxLayout="column">
+<div class="full-screen page-layout inner-scroll">
 
-    <div class="documento-header p-8" fxLayout="row" fxLayoutAlign="start center">
+    <div class="header p-8">
 
-        <div fxFlex="25"></div>
+        <div class="white-space"></div>
 
-        <div class="ml-32" fxFlex="75" fxLayout="row" fxLayoutAlign="start center">
+        <div class="ml-32 acoes">
             <mat-tab-group class="mr-16" (selectedTabChange)="visualizarProcesso(this.modoProcesso)"
                            *ngIf="(documento$ | async)?.processoOrigem?.id">
                 <mat-tab label="Editar a Minuta">
@@ -32,9 +32,8 @@
         </div>
     </div>
 
-    <div class="content" fxLayout="column">
-        <div *ngIf="(documento$ | async)?.componentesDigitais.length > 1" class="header accent p-16" fxLayout="row"
-             fxLayoutAlign="start center">
+    <div class="content">
+        <div *ngIf="(documento$ | async)?.componentesDigitais.length > 1" class="header accent p-16">
 
             <div class="componentes-digitais-navigation">
 
@@ -57,6 +56,14 @@
                 </button>
             </div>
         </div>
-        <router-outlet></router-outlet>
+
+        <div class="p-8 documento-navegacao">
+            <div class="left">
+                <router-outlet name="sidebar"></router-outlet>
+            </div>
+            <div class="documento-navegacao-content">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
     </div>
 </div>

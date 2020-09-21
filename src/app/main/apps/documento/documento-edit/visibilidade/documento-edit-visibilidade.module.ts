@@ -13,11 +13,13 @@ import {DocumentoEditVisibilidadeStoreModule} from './store/store.module';
 import {DocumentoEditVisibilidadeComponent} from './documento-edit-visibilidade.component';
 import {CdkVisibilidadeFormModule} from '@cdk/components/visibilidade/cdk-visibilidade-form/cdk-visibilidade-form.module';
 import {CdkVisibilidadeListModule} from '@cdk/components/visibilidade/cdk-visibilidade-list/cdk-visibilidade-list.module';
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoEditVisibilidadeComponent
+        component: DocumentoEditVisibilidadeComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -50,6 +52,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoService,
+        fromGuards.ResolveGuard
     ],
     exports: [
         DocumentoEditVisibilidadeComponent

@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, Input,
+    Component,
     OnDestroy,
     OnInit, ViewChild, ViewContainerRef,
     ViewEncapsulation
@@ -30,7 +30,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 })
 export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, AfterViewInit {
 
-    @Input()
+    documento$: Observable<Documento>;
     documento: Documento;
 
     visibilidades$: Observable<Visibilidade[]>;
@@ -65,7 +65,6 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
      * @param _loginService
      * @param _dynamicService
      * @param _ref
-     * @param _formBuilder
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditVisibilidadeAppState>,
@@ -84,6 +83,7 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
                 this.routerState = routerState.state;
             }
         });
+        this.documento$ = this._store.pipe(select(fromStore.getDocumento));
 
         this._profile = _loginService.getUserProfile();
         this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeList));
@@ -116,6 +116,7 @@ export class DocumentoEditVisibilidadeComponent implements OnInit, OnDestroy, Af
         this.visibilidade$.subscribe(
             visibilidade => this.visibilidade = visibilidade
         );
+        this.documento$.subscribe(documento => this.documento = documento);
 
         if (!this.visibilidade) {
             this.visibilidade = new Visibilidade();

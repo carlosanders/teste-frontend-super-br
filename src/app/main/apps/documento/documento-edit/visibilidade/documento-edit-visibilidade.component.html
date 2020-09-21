@@ -1,40 +1,38 @@
-<div class="m-4" fxFlex fxLayout="column">
-    <h3 style="font-weight: bold">Acesso Restrito</h3>
+<h3 style="font-weight: bold">Acesso Restrito</h3>
 
-    <div class="actions m-16" fxLayout="row" fxLayoutAlign="start center">
-        <button mat-raised-button
-                class="mat-accent"
-                aria-label="novo"
-                (click)="showFormAcessoRestrito()"
-                *ngIf="!formAcessoRestrito"
-                matTooltip="Novo">
-            Novo
-        </button>
-        <button mat-icon-button
-                (click)="showFormAcessoRestrito()"
-                *ngIf="formAcessoRestrito"
-                aria-label="voltar"
-                matTooltip="Voltar">
-            <mat-icon>arrow_back</mat-icon>
-        </button>
-    </div>
-
-    <cdk-visibilidade-form cdkPerfectScrollbar *ngIf="formAcessoRestrito"
-                           [visibilidade]="visibilidade"
-                           [saving]="(visibilidadeIsSaving$ | async)"
-                           [errors]="(errors$ | async)"
-                           [unidadePagination]="unidadePagination"
-                           [setorPagination]="setorPagination"
-                           [usuarioPagination]="usuarioPagination"
-                           (save)="submitVisibilidade($event)">
-    </cdk-visibilidade-form>
-
-    <cdk-visibilidade-list class="mr-8" *ngIf="!formAcessoRestrito"
-                           [loading]="(loadingAcessoRestrito$ | async)"
-                           [visibilidades]="(visibilidades$ | async)"
-                           [deletingIds]="(deletingVisibilidadeIds$ | async)"
-                           [deletedIds]="(deletedVisibilidadeIds$ | async)"
-                           [actions]="['delete']"
-                           (delete)="deleteVisibilidade($event)">
-    </cdk-visibilidade-list>
+<div class="visibilidade-actions m-16">
+    <button mat-raised-button
+            class="mat-accent"
+            aria-label="novo"
+            (click)="showFormAcessoRestrito()"
+            *ngIf="!formAcessoRestrito"
+            matTooltip="Novo">
+        Novo
+    </button>
+    <button mat-icon-button
+            (click)="showFormAcessoRestrito()"
+            *ngIf="formAcessoRestrito"
+            aria-label="voltar"
+            matTooltip="Voltar">
+        <mat-icon>arrow_back</mat-icon>
+    </button>
 </div>
+
+<cdk-visibilidade-form cdkPerfectScrollbar *ngIf="formAcessoRestrito"
+                       [visibilidade]="visibilidade"
+                       [saving]="(visibilidadeIsSaving$ | async)"
+                       [errors]="(errors$ | async)"
+                       [unidadePagination]="unidadePagination"
+                       [setorPagination]="setorPagination"
+                       [usuarioPagination]="usuarioPagination"
+                       (save)="submitVisibilidade($event)">
+</cdk-visibilidade-form>
+
+<cdk-visibilidade-list class="mr-8" *ngIf="!formAcessoRestrito"
+                       [loading]="(loadingAcessoRestrito$ | async)"
+                       [visibilidades]="(visibilidades$ | async)"
+                       [deletingIds]="(deletingVisibilidadeIds$ | async)"
+                       [deletedIds]="(deletedVisibilidadeIds$ | async)"
+                       [actions]="['delete']"
+                       (delete)="deleteVisibilidade($event)">
+</cdk-visibilidade-list>

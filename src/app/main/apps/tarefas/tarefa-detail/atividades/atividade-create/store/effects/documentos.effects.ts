@@ -10,7 +10,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {assinatura as assinaturaSchema, documento as documentoSchema} from '@cdk/normalizr';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
@@ -24,7 +24,8 @@ export class AtividadeCreateDocumentosEffect {
         private _documentoService: DocumentoService,
         private _assinaturaService: AssinaturaService,
         private _router: Router,
-        private _store: Store<State>
+        private _store: Store<State>,
+        public activatedRoute: ActivatedRoute
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -247,12 +248,26 @@ export class AtividadeCreateDocumentosEffect {
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.ClickedDocumento>(AtividadeCreateDocumentosActions.CLICKED_DOCUMENTO),
                 tap((action) => {
-                    if (!action.payload.documentoAvulsoRemessa) {
-                        console.log('chegou aqui');
-                        this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/editar/default']).then();
+                    let primary: string;
+                    primary = 'componente-digital/';
+                    if (action.payload.componentesDigitais[0]) {
+                        primary += action.payload.componentesDigitais[0].id;
                     } else {
-                        this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio/dados-basicos']).then();
+                        primary += '0';
                     }
+                    let sidebar = 'oficio/dados-basicos';
+                    if (!action.payload.documentoAvulsoRemessa) {
+                        sidebar = 'editar/anexos';
+                    }
+                    this._router.navigate([this.routerState.url + '/documento/' + action.payload.id, {
+                            outlets: {
+                                primary: primary,
+                                sidebar: sidebar
+                            }
+                        }],
+                        {
+                            relativeTo: this.activatedRoute.parent // <--- PARENT activated route.
+                        }).then();
 
                 })
             );

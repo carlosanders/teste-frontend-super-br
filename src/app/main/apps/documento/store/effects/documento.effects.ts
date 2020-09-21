@@ -16,7 +16,7 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {template as templateSchema} from '@cdk/normalizr';
 import {Assinatura, Documento, Template, VinculacaoEtiqueta} from '@cdk/models';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
@@ -33,6 +33,7 @@ export class DocumentoEffect {
     private _profile: any;
 
     /**
+     *
      * @param _actions
      * @param _documentoService
      * @param _modeloService
@@ -42,6 +43,7 @@ export class DocumentoEffect {
      * @param _vinculacaoEtiquetaService
      * @param _router
      * @param _store
+     * @param activatedRoute
      */
     constructor(
         private _actions: Actions,
@@ -52,7 +54,8 @@ export class DocumentoEffect {
         public _loginService: LoginService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _router: Router,
-        private _store: Store<State>
+        private _store: Store<State>,
+        public activatedRoute: ActivatedRoute
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -131,9 +134,11 @@ export class DocumentoEffect {
                             'documentoAvulsoRemessa.usuarioRemessa',
                             'vinculacaoDocumentoPrincipal',
                             'vinculacaoDocumentoPrincipal.documento',
+                            'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
                             'vinculacaoDocumentoPrincipal.documento.documentoAvulsoRemessa',
                             'vinculacoesDocumentos',
                             'vinculacoesDocumentos.documentoVinculado',
+                            'vinculacoesDocumentos.documentoVinculado.componentesDigitais',
                             'vinculacoesDocumentos.documentoVinculado.tipoDocumento',
                             'sigilos',
                             'sigilos.tipoSigilo',
@@ -266,10 +271,19 @@ export class DocumentoEffect {
                     if (this.routerState.url.indexOf('/assinaturas') > -1) {
                         type = '/assinaturas';
                     }
-                    // this._router.navigate([
-                    //         this.routerState.url.split('/componente-digital/')[0] + '/componente-digital/' + action.payload.id + type
-                    //     ]
-                    // ).then();
+                    const sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1];
+                    this._router.navigate([
+                            this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
+                            {
+                                outlets: {
+                                    primary: 'componente-digital/' + this.routerState.params['componenteDigitalHandle'] + type,
+                                    sidebar: sidebar
+                                }
+                            }
+                        ],
+                        {
+                            relativeTo: this.activatedRoute.parent // <--- PARENT activated route.
+                        }).then();
                 })
             );
 

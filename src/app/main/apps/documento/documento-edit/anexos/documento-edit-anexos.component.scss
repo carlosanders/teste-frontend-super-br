@@ -1,7 +1,9 @@
 documento-edit-anexos {
-    flex: 1 0 auto;
+    flex: 0 1 auto;
+    display: flex;
 
     .documentos-vinculados {
+        display: flex;
         flex-direction: column;
         flex: 1 0 auto;
         overflow-y: auto;

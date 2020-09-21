@@ -18,7 +18,6 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {LoginService} from '../../../../auth/login/login.service';
-import {JuntadaService} from '../../../../../../@cdk/services/juntada.service';
 
 @Component({
     selector: 'documento-edit-juntada',
@@ -49,7 +48,6 @@ export class DocumentoEditJuntadaComponent implements OnInit, OnDestroy, AfterVi
      * @param _loginService
      * @param _dynamicService
      * @param _ref
-     * @param _juntadaService
      * @param _formBuilder
      */
     constructor(
@@ -59,7 +57,6 @@ export class DocumentoEditJuntadaComponent implements OnInit, OnDestroy, AfterVi
         public _loginService: LoginService,
         private _dynamicService: DynamicService,
         private _ref: ChangeDetectorRef,
-        private _juntadaService: JuntadaService,
         private _formBuilder: FormBuilder
     ) {
         this.juntada$ = this._store.pipe(select(fromStore.getJuntada));

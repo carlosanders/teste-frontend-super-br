@@ -28,7 +28,6 @@ export class ResolveGuard implements CanActivate {
     constructor(
         private _store: Store<DocumentoAvulsoEditAppState>
     ) {
-        console.log('ué');
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {

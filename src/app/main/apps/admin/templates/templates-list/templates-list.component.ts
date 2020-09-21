@@ -80,7 +80,7 @@ export class TemplatesListComponent implements OnInit {
                     outlets:
                         {
                             primary: primary,
-                            sidebar: 'modelo/anexos'
+                            sidebar: 'template/dados-basicos'
                         }
                 }
             ],

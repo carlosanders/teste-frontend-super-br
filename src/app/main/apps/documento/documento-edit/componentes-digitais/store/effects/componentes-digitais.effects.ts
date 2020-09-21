@@ -46,7 +46,6 @@ export class ComponenteDigitalEffects {
             .pipe(
                 ofType<ComponenteDigitalActions.GetComponentesDigitais>(ComponenteDigitalActions.GET_COMPONENTES_DIGITAIS),
                 switchMap((action) => {
-
                     const params = {
                         filter: action.payload.filter ? action.payload.filter : {
                             'documento.id': 'eq:' + action.payload
@@ -67,7 +66,7 @@ export class ComponenteDigitalEffects {
                         JSON.stringify(params.populate));
                 }),
                 mergeMap((response) => [
-                    // new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
                     new ComponenteDigitalActions.GetComponentesDigitaisSuccess({
                         entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),
                         loaded: {

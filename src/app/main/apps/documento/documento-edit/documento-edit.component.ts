@@ -14,14 +14,13 @@ import {Documento, Etiqueta, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getRouterState} from 'app/store/reducers';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {filter} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../tarefas/tarefa-detail/store/selectors';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
-import {Assinatura} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
@@ -38,8 +37,6 @@ import {DocumentoEditService} from './shared/documento-edit.service';
 export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
     documento$: Observable<Documento>;
-    pagination$: Observable<any>;
-    pagination: any;
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
@@ -47,8 +44,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     documentoPrincipal: Documento;
 
     documento: Documento;
-
-    activeCard: string;
 
     @ViewChild('dynamicForm', {read: ViewContainerRef}) containerForm: ViewContainerRef;
 
@@ -69,8 +64,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     savingVinculacaoEtiquetaId$: Observable<any>;
     vinculacaoEtiquetaErrors$: Observable<any>;
 
-    logEntryPagination: Pagination;
-
     /**
      *
      * @param _store
@@ -81,6 +74,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
      * @param _dynamicService
      * @param _ref
      * @param _documentoEditService
+     * @param _activatedRoute
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
@@ -91,6 +85,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         private _dynamicService: DynamicService,
         private _ref: ChangeDetectorRef,
         private _documentoEditService: DocumentoEditService,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
 
@@ -117,8 +112,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         };
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.vinculacaoEtiquetaErrors$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaErrors));
-
-        this.logEntryPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -142,9 +135,6 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-
-                this.activeCard = this.routerState.params['sidebarHandle'];
-                this._ref.detectChanges();
             }
         });
 
@@ -154,23 +144,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
             this.documento = documento;
             if (documento && documento.vinculacaoDocumentoPrincipal) {
                 this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
-                if (this.routerState.params['sidebarHandle'] !== 'dados-basicos') {
-                    this.showForm();
-                }
             }
         });
-
-        this.pagination$.subscribe(pagination => {
-            if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
-
-                this.pagination = pagination;
-
-            } else {
-                this.pagination = pagination;
-            }
-        });
-
-        // this._documentoEditService.activeCard.subscribe(activeCard => this.activeCard = activeCard);
     }
 
     ngAfterViewInit(): void {
@@ -208,124 +183,12 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    anexarCopia(): void {
-        this._router.navigate([
-                this.routerState.url.split(this.routerState.params.documentoHandle + '/editar')[0] +
-                this.routerState.params.documentoHandle + '/editar/anexar-copia/' + this.documento.processoOrigem.id + '/visualizar'
-            ]
-        ).then();
-    }
-
-    aprovar(): void {
-        this._store.dispatch(new fromStore.ApproveComponenteDigital({
-            documentoOrigem: this.documento
-        }));
-
-    }
-
-    changedSelectedDocumentosVinculadosId(selectedIds): void {
-        this._store.dispatch(new fromStore.ChangeSelectedDocumentosVinculados(selectedIds));
-    }
-
-    doDeleteDocumentoVinculado(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumentoVinculado(documentoId));
-    }
-
-    doAssinaturaDocumentoVinculado(result): void {
-        if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumentoVinculado(result.documento.id));
-        } else {
-            result.documento.componentesDigitais.forEach((componenteDigital) => {
-                const assinatura = new Assinatura();
-                assinatura.componenteDigital = componenteDigital;
-                assinatura.algoritmoHash = 'A1';
-                assinatura.cadeiaCertificadoPEM = 'A1';
-                assinatura.cadeiaCertificadoPkiPath = 'A1';
-                assinatura.assinatura = 'A1';
-
-                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({assinatura: assinatura, password: result.password}));
-            });
-        }
-    }
-
     onClickedDocumentoVinculado(documento): void {
         this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
     }
 
     back(): void {
         this._location.back();
-    }
-
-    showAtividade(): void {
-        if (this.activeCard !== 'atividade') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'atividade')])
-                .then();
-        }
-        // this._documentoEditService.doChangeCard('atividade');
-    }
-
-    showAnexos(): void {
-        if (this.activeCard !== 'anexos') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'anexos')])
-                .then();
-        }
-        // this._documentoEditService.doChangeCard('anexos');
-    }
-
-    showInteligencia(): void {
-        if (this.activeCard !== 'inteligencia') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'inteligencia')])
-                .then();
-        }
-        // this._documentoEditService.doChangeCard('inteligencia');
-    }
-
-    showAcessoRestrito(): void {
-        if (this.activeCard !== 'acesso-restrito') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'acesso-restrito')])
-                .then();
-        }
-        // this._documentoEditService.doChangeCard('acesso-restrito');
-    }
-
-    showSigilo(): void {
-        if (this.activeCard !== 'sigilos') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'sigilos')])
-                .then();
-        }
-        // this._documentoEditService.doChangeCard('sigilos');
-    }
-
-    showAssinaturas(): void {
-        if (this.activeCard !== 'assinaturas') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'assinaturas')])
-                .then();
-        }
-        // this._documentoEditService.doChangeCard('assinaturas');
-    }
-
-    showComponentesDigitais(): void {
-        if (this.activeCard !== 'componentes-digitais') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'componentes-digitais')])
-                .then();
-        }
-        // this._documentoEditService.doChangeCard('componentesDigitais');
-    }
-
-    showJuntadas(): void {
-        if (this.activeCard !== 'juntadas') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'juntadas')])
-                .then();
-        }
-        // this._documentoEditService.doChangeCard('juntadas');
-    }
-
-    showForm(): void {
-        if (this.activeCard !== 'dados-basicos') {
-            this._router.navigate([this.routerState.url.replace(this.routerState.params.sidebarHandle, 'dados-basicos')])
-                .then();
-        }
-        // this._documentoEditService.doChangeCard('form');
     }
 
     onEtiquetaCreate(etiqueta: Etiqueta): void {

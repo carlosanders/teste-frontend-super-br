@@ -14,6 +14,7 @@ import {DocumentoEditSigilosStoreModule} from './store/store.module';
 import {CdkSigiloFormModule} from '@cdk/components/sigilo/cdk-sigilo-form/cdk-sigilo-form.module';
 import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-sigilo-grid.module';
 import * as fromGuards from './store/guards';
+import {SigiloService} from '../../../../../../@cdk/services/sigilo.service';
 
 const routes: Routes = [
     {
@@ -52,6 +53,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoService,
+        SigiloService,
         fromGuards.ResolveGuard
     ],
     exports: [

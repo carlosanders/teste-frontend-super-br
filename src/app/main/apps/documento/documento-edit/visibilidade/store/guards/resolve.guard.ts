@@ -6,10 +6,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
-import {DocumentoEditComponentesDigitaisAppState} from '../reducers';
+import {DocumentoEditVisibilidadeAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {getComponenteDigitalLoaded, getComponenteDigitalPagination} from '../';
+import {getVisibilidadeListLoaded} from '../';
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
@@ -18,11 +18,12 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<DocumentoEditComponentesDigitaisAppState>} _store
+     * @param {Store<DocumentoEditVisibilidadeAppState>} _store
      */
     constructor(
-        private _store: Store<DocumentoEditComponentesDigitaisAppState>
+        private _store: Store<DocumentoEditVisibilidadeAppState>
     ) {
+
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -40,32 +41,35 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getComponentesDigitais().pipe(
+        return this.getVisibilidade().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
     }
 
     /**
-     * Get Componentes Digitais
+     * Get Visibilidade
      *
      * @returns {Observable<any>}
      */
-    getComponentesDigitais(): any {
+    getVisibilidade(): any {
         return this._store.pipe(
-            select(getComponenteDigitalLoaded),
+            select(getVisibilidadeListLoaded),
             tap((loaded: any) => {
-                if (!loaded || !this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    const params = {
-                        filter: {
-                            'documento.id': 'eq:' + this.routerState.params.documentoHandle
-                        }
-                    };
-                    this._store.dispatch(new fromStore.GetComponentesDigitais(params));
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+
+                    let documentoId = null;
+
+                    const routeParams = of('documentoHandle');
+                    routeParams.subscribe(param => {
+                        documentoId = this.routerState.params[param];
+                    });
+
+                    this._store.dispatch(new fromStore.GetVisibilidades(documentoId));
                 }
             }),
             filter((loaded: any) => {
-                return loaded && this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
             }),
             take(1)
         );
