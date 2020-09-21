@@ -25,6 +25,10 @@ export const SET_FOLDER_ON_SELECTED_DOCUMENTOS_AVULSO_FAILED = '[OFICIO] SET FOL
 
 export const UNLOAD_DOCUMENTOS_AVULSO = '[OFICIO] UNLOAD DOCUMENTOS AVULSO FAILED';
 
+export const TOGGLE_LIDA_DOCUMENTOS_AVULSO = '[OFICIO] TOGGLE LIDA DOCUMENTO AVULSO';
+export const TOGGLE_LIDA_DOCUMENTOS_AVULSO_SUCCESS = '[OFICIO] TOGGLE LIDA DOCUMENTO AVULSO SUCCESS';
+export const TOGGLE_LIDA_DOCUMENTOS_AVULSO_FAILED = '[OFICIO] TOGGLE LIDA DOCUMENTO AVULSO FAILED';
+
 /**
  *
  * Get DocumentosAvulso
@@ -210,6 +214,36 @@ export class UnloadDocumentosAvulso implements Action {
     }
 }
 
+/**
+ * Toggle Lida DocumentosAvulso
+ */
+export class ToggleLidaDocumentosAvulso implements Action {
+    readonly type = TOGGLE_LIDA_DOCUMENTOS_AVULSO;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Toggle Lida DocumentosAvulso Success
+ */
+export class ToggleLidaDocumentosAvulsoSuccess implements Action {
+    readonly type = TOGGLE_LIDA_DOCUMENTOS_AVULSO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Toggle Lida DocumentosAvulso Failed
+ */
+export class ToggleLidaDocumentosAvulsoFailed implements Action {
+    readonly type = TOGGLE_LIDA_DOCUMENTOS_AVULSO_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
 
 export type DocumentosAvulsoActionsAll
     = GetDocumentosAvulso
@@ -228,4 +262,7 @@ export type DocumentosAvulsoActionsAll
     | SetFolderOnSelectedDocumentosAvulso
     | SetFolderOnSelectedDocumentosAvulsoSuccess
     | SetFolderOnSelectedDocumentosAvulsoFailed
-    | UnloadDocumentosAvulso;
+    | UnloadDocumentosAvulso
+    | ToggleLidaDocumentosAvulso
+    | ToggleLidaDocumentosAvulsoSuccess
+    | ToggleLidaDocumentosAvulsoFailed;

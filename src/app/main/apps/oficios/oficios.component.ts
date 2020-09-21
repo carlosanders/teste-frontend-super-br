@@ -279,12 +279,22 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             });
 
             dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+
+                if (!documentoAvulso.dataHoraLeitura) {
+                    this._store.dispatch(new fromStore.ToggleLidaDocumentosAvulso(documentoAvulso));
+                }
+
                 this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({
                     documentoAvulsoId: documentoAvulso.id, processoId: documentoAvulso.processo.id,
                     acessoNegado: documentoAvulso.processo.acessoNegado, chaveAcesso: result
                 }));
             });
         } else {
+
+            if (!documentoAvulso.dataHoraLeitura) {
+                this._store.dispatch(new fromStore.ToggleLidaDocumentosAvulso(documentoAvulso));
+            }
+
             this._store.dispatch(new fromStore.SetCurrentDocumentoAvulso({
                 documentoAvulsoId: documentoAvulso.id,
                 processoId: documentoAvulso.processo.id,
