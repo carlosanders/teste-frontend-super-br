@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Pessoa} from '@cdk/models';
 import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
 import {Pagination} from '@cdk/models';
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'relacionamento-edit',
@@ -96,6 +97,10 @@ export class RelacionamentoEditComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.SaveRelacionamento(relacionamento));
 
+    }
+
+    cancel(): void {
+        this._store.dispatch(new Back());
     }
 
 }

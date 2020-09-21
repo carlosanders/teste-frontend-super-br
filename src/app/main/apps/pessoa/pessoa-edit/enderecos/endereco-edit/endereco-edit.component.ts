@@ -17,6 +17,7 @@ import {Pessoa} from '@cdk/models';
 import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
 import {Pagination} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'endereco-edit',
@@ -102,6 +103,10 @@ export class EnderecoEditComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.SaveEndereco(endereco));
 
+    }
+
+    cancel(): void {
+        this._store.dispatch(new Back());
     }
 
 }

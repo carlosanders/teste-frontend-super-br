@@ -1,6 +1,7 @@
 <cdk-municipio-grid
         [loading]="loading"
         [municipios]="municipios"
+        [displayedColumns]="['id', 'nome', 'sigla', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

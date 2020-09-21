@@ -1,74 +1,60 @@
-<div *ngIf="activeCard === 'form'" cdkPerfectScrollbar class="inner-scroll form" >
-    <form  class="mr-24" fxLayoutGap="1px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form" (submit)="submit()">
+<form fxLayoutGap="16px"
+      name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-        <div  fxLayout="column" >
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Nome</mat-label>
-                <input matInput #nome
-                       name="nome"
-                       formControlName="nome"
-                       maxlength="255" upperCase>
-                <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
-            </mat-form-field>
+    <mat-form-field>
+        <mat-label>Código IBGE</mat-label>
+        <input matInput #codigoIBGE
+               name="codigoIBGE"
+               formControlName="codigoIBGE"
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{codigoIBGE.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Código IBGE</mat-label>
-                <input matInput #codigoIBGE
-                       name="codigoIBGE"
-                       formControlName="codigoIBGE"
-                       maxlength="255" upperCase>
-                <mat-hint align="end">{{codigoIBGE.value.length}} / 255</mat-hint>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Estado"
-                           formControlName="estado"
-                           [matAutocomplete]="estado.autocomplete">
-                </div>
-                <cdk-estado-autocomplete
-                    #estado="estadoAutocomplete"
-                    [control]="form.get('estado')">
-                </cdk-estado-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showEstadoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-            </mat-form-field>
-
-            <mat-checkbox formControlName="ativo"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-                Ativo
-            </mat-checkbox>
+    <mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Estado"
+                   formControlName="estado"
+                   [matAutocomplete]="estado.autocomplete">
         </div>
+        <cdk-estado-autocomplete
+            #estado="estadoAutocomplete"
+            [control]="form.get('estado')">
+        </cdk-estado-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showEstadoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+    <mat-checkbox formControlName="ativo"
+                  class="mr-16 mb-16">
+        Ativo
+    </mat-checkbox>
 
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
-
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+    <div class="actions">
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+</form>
 
 <cdk-estado-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'estado-gridsearch'"
     [pagination]="estadoPagination"
     (selected)="selectEstado($event)"

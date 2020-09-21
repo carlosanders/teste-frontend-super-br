@@ -1,28 +1,39 @@
 pessoa-edit {
+    display: flex;
+    flex: 1 1 auto;
 
-  overflow-y: auto;
+    .pessoa-edit {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: row;
 
-  .sidebar {
+        > .sidebar {
+            background: transparent !important;
+            box-shadow: none !important;
+            &:not(.locked-open) {
+                background: white;
+            }
+        }
 
-    background: transparent !important;
-    box-shadow: none !important;
+        > .center {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
 
-    &:not(.locked-open) {
-      background: white;
+            > .header {
+                flex: 1 0 auto;
+                display: flex;
+                .actions {
+                    margin-left: auto;
+                    margin-right: 16px;
+                }
+            }
+
+            > .content {
+                flex: 1 1 auto;
+                display: flex;
+                height: 0;
+            }
+        }
     }
-  }
-
-  .center {
-
-    width: 100%;
-
-    .header {
-
-      .actions {
-        margin-left: auto;
-        margin-right: 16px;
-      }
-
-    }
-  }
 }

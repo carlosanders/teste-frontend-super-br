@@ -146,14 +146,14 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         }
     }
 
-    showFolderComponent() {
+    showFolderComponent(): void {
         this.showAddFolder = true;
-        setTimeout(()=>{ // this will make the execution after the above boolean has changed
+        setTimeout(() => { // this will make the execution after the above boolean has changed
             this.inputFolder.nativeElement.focus();
-        },200);
+        }, 200);
     }
 
-    addFolder() {
+    addFolder(): void {
         if (this.inputFolder.nativeElement.value.length > 2) {
             const folder = new Folder();
             folder.nome = this.inputFolder.nativeElement.value;
@@ -164,15 +164,15 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         }
     }
 
-    delFolder(folder: Folder) {
+    delFolder(folder: Folder): void {
         this._store.dispatch(new fromStore.DeleteFolder(folder.id));
-        setTimeout(()=>{
+        setTimeout(() => {
             this.reloadTarefa();
-        },3000);
+        }, 3000);
     }
 
-    reloadTarefa() {
-        let tarefaFilter = {
+    reloadTarefa(): void {
+        const tarefaFilter = {
             'listFilter: {usuarioResponsavel.id': 'eq:' + this._loginService.getUserProfile().id,
             'dataHoraConclusaoPrazo': 'isNull',
             'especieTarefa.generoTarefa.nome': 'eq:' + 'ADMINISTRATIVO}'

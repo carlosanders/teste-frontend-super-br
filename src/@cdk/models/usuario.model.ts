@@ -29,6 +29,8 @@ export class Usuario {
 
     password?: string;
 
+    jwt?: string;
+
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -100,5 +102,6 @@ export class Usuario {
         this.vinculacoesPessoasUsuarios = [];
         this.coordenadores = [];
         this.password = null;
+        this.jwt = null;
     }
 }

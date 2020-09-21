@@ -1,10 +1,8 @@
 import { ChangeDetectorRef, Component, HostBinding, Input, OnDestroy, OnInit } from '@angular/core';
 import { merge, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
 import { CdkNavigationItem } from '@cdk/types';
 import { CdkNavigationService } from '@cdk/components/navigation/navigation.service';
-import {Router} from '@angular/router';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({
@@ -22,6 +20,9 @@ export class CdkNavVerticalGroupComponent implements OnInit, OnDestroy
 
     // Private
     private _unsubscribeAll: Subject<any>;
+
+    isGrantedRole: boolean;
+    isCoordenador: boolean;
 
     /**
      * Constructor
@@ -63,6 +64,23 @@ export class CdkNavVerticalGroupComponent implements OnInit, OnDestroy
              // Mark for check
              this._changeDetectorRef.markForCheck();
          });
+
+        this.isGrantedRole = true;
+
+        if (this.item.role) {
+            this.isGrantedRole = false;
+            if (Array.isArray(this.item.role)) {
+                this.item.role.forEach((role) => {
+                    if (!this.isGrantedRole) {
+                        this.isGrantedRole = this._loginService.isGranted(role);
+                    }
+                });
+            } else {
+                this.isGrantedRole = this._loginService.isGranted(this.item.role);
+            }
+        }
+
+        this.isCoordenador = this._loginService.isCoordenador();
     }
 
     /**

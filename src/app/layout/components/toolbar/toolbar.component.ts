@@ -129,46 +129,31 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         // Set the selected language from default languages
         this.selectedLanguage = _.find(this.languages, {id: this._translateService.currentLang});
 
-        if (this._loginService.getUserProfile() && this._loginService.getUserProfile().id) {
-            const params = {
-                filter: {
-                    'destinatario.id': 'eq:' + this._loginService.getUserProfile().id,
-                    'dataHoraLeitura': 'isNull'
-                },
-                gridFilter: {},
-                limit: 30,
-                offset: 0,
-                sort: {criadoEm: 'DESC'},
-                populate: ['populateAll']
-            };
+        this._store
+            .pipe(
+                select(getNormalizedNotificacaoEntities),
+                takeUntil(this._unsubscribeAll),
+            )
+            .subscribe(notificacoes => {
+                this.notificacoes = notificacoes;
+            });
+        this._store
+            .pipe(
+                select(getIsLoading),
+                takeUntil(this._unsubscribeAll),
+            )
+            .subscribe(carregandoNotificacao => this.carregandoNotificacao = carregandoNotificacao);
 
-            this._store.dispatch(new fromStore.GetNotificacoes(params));
-            this._store
-                .pipe(
-                    select(getNormalizedNotificacaoEntities),
-                    takeUntil(this._unsubscribeAll),
-                )
-                .subscribe(notificacoes => {
-                    this.notificacoes = notificacoes;
-                });
-            this._store
-                .pipe(
-                    select(getIsLoading),
-                    takeUntil(this._unsubscribeAll),
-                )
-                .subscribe(carregandoNotificacao => this.carregandoNotificacao = carregandoNotificacao);
-
-            this._store
-                .pipe(
-                    select(getCounterState),
-                    takeUntil(this._unsubscribeAll)
-                ).subscribe(value => {
-                    if (value && value['notificacoes_pendentes'] !== undefined) {
-                        this.notificacoesCount = value['notificacoes_pendentes'];
-                    }
+        this._store
+            .pipe(
+                select(getCounterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(value => {
+                if (value && value['notificacoes_pendentes'] !== undefined) {
+                    this.notificacoesCount = value['notificacoes_pendentes'];
                 }
-            );
-        }
+            }
+        );
     }
 
     /**

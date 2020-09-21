@@ -1,35 +1,44 @@
 cdk-pessoa-form {
-    height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
     form {
-        width: 100%;
-    }
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
 
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
+        mat-form-field {
+            flex: 1 1 auto;
         }
-    }
 
-    cdk-modalidade-qualificacao-pessoa-gridsearch {
-        width: 100%;
-    }
+        .responsive-group {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            mat-form-field:first-child {
+                margin: 0 8px 0 0;
+            }
+        }
 
-    cdk-modalidade-genero-pessoa-gridsearch {
-        width: 100%;
-    }
+        .responsive-group[max-width~="600px"] {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            mat-form-field:first-child {
+                margin: 0;
+            }
+        }
 
-    cdk-pais-gridsearch {
-        width: 100%;
-    }
-
-    cdk-municipio-gridsearch {
-        width: 100%;
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            button:first-child {
+                margin: 0 8px 0 8px;
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
+import {Back} from '../../../../store/actions';
 
 @Component({
     selector: 'pessoa-list',
@@ -99,8 +100,16 @@ export class PessoaListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + pessoaId]);
     }
 
+    create(): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
     delete(pessoaId: number): void {
         this._store.dispatch(new fromStore.DeletePessoa(pessoaId));
+    }
+
+    cancel(): void {
+        this._store.dispatch(new Back());
     }
 
     doSelect(pessoa: Pessoa): void {

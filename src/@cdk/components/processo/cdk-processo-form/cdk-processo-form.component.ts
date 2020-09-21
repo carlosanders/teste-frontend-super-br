@@ -221,7 +221,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('NUP').setValue(null);
             this.form.get('NUP').disable();
 
-            if (this._loginService.isGranted('ROLE_CONVENIADO')) {
+            if (this._loginService.isGranted('ROLE_PESSOA_VINCULADA')) {
                 this.form.get('generoSetor').setValue(null);
                 this.form.get('generoSetor').disable();
 
@@ -288,7 +288,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
-        if (this._loginService.isGranted('ROLE_CONVENIADO')) {
+        if (this._loginService.isGranted('ROLE_PESSOA_VINCULADA')) {
             this.form.get('estado').valueChanges.subscribe(value => {
                 if (value) {
                     this.form.get('generoSetor').enable();

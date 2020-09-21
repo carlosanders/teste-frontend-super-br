@@ -21,7 +21,7 @@ export class LogEntryService {
         params['populate'] = populate;
         params['context'] = context;
 
-        const url = `${environment.base_url}v1/logEntry/logentry` + environment.xdebug;
+        const url = `${environment.base_url}v1/administrativo/logEntry/logentry` + environment.xdebug;
         return this.http.get(url, {params});
     }
 

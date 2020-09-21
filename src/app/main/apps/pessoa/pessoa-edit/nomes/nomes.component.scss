@@ -1,16 +1,9 @@
-#nomes {
-
-  .header {
-
-    .actions {
-      .is-active {
-        display: none;
-      }
+nomes {
+    display: flex;
+    flex: 1 1 auto;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
     }
-
-  }
-
-  .content {
-
-  }
 }

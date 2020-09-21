@@ -22,7 +22,7 @@
                            maxlength="255">
                     <mat-hint align="end">{{NUP.value.length}} / 255</mat-hint>
                 </mat-form-field>
-                <mat-form-field *showIfRole="'ROLE_CONVENIADO'">
+                <mat-form-field *showIfRole="'ROLE_PESSOA_VINCULADA'">
                     <mat-label>Nome do Interessado</mat-label>
                     <input matInput #nome
                            name="nome"
@@ -38,7 +38,7 @@
                            maxlength="255">
                     <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
                 </mat-form-field>
-                <mat-form-field *showIfRole="'ROLE_CONVENIADO'">
+                <mat-form-field *showIfRole="'ROLE_PESSOA_VINCULADA'">
                     <mat-label>CPF/CNPJ do Interessado</mat-label>
                     <input matInput #cpfCnpj
                            name="cpfCnpj"
@@ -184,12 +184,15 @@
     <ng-template #dynamicComponent></ng-template>
 </div>
 
-<div class="p-16" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
-    <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
-        Buscar
-    </button>
-
-    <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
-        Limpar
-    </button>
+<!-- SIDEBAR FOOT -->
+<div fxLayout="column" fxLayoutAlign="end stretch">
+    <mat-divider></mat-divider>
+    <div class="p-8" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
+            Buscar
+        </button>
+        <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
+            Limpar
+        </button>
+    </div>
 </div>

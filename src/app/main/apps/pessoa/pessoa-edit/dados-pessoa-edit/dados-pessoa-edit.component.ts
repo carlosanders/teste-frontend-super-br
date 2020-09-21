@@ -13,8 +13,8 @@ import {Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Pagination} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'dados-pessoa-edit',
@@ -65,7 +65,7 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
             this.pessoa = new Pessoa();
         }
 
-        if (this.pessoa.modalidadeQualificacaoPessoa && this.pessoa.modalidadeQualificacaoPessoa.valor !== 'PESSOA FÍSICA'){
+        if (this.pessoa.modalidadeQualificacaoPessoa && this.pessoa.modalidadeQualificacaoPessoa.valor !== 'PESSOA FÍSICA') {
             this.hidden = true;
         }
     }
@@ -95,6 +95,10 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.SavePessoa(pessoa));
 
+    }
+
+    cancel(): void {
+        this._store.dispatch(new Back());
     }
 
 }

@@ -1,16 +1,9 @@
-#documentoIdentificador {
-
-  .header {
-
-    .actions {
-      .is-active {
-        display: none;
-      }
+documento-identificador {
+    display: flex;
+    flex: 1 1 auto;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
     }
-
-  }
-
-  .content {
-
-  }
 }

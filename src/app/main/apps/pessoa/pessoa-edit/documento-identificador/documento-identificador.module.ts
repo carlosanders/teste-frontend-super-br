@@ -19,6 +19,7 @@ import {DocumentoIdentificadorComponent} from './documento-identificador.compone
 import {DocumentoIdentificadorService} from '@cdk/services/documento-identificador.service';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const routes: Routes = [
     {
@@ -71,6 +72,7 @@ modulesConfig.forEach((module) => {
         TranslateModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         DocumentoIdentificadorService
