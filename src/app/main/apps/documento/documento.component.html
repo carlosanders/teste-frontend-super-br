@@ -1,68 +1,68 @@
-<div class="full-screen page-layout inner-scroll">
+<div class="full-screen" disabled>
+    <div class="modal">
+        <div class="modal-header" [ngClass]="{'accent': !this.documento?.processoOrigem}">
+            <div class="white-space"></div>
 
-    <div class="header p-8">
+            <div class="ml-32 acoes">
+                <mat-tab-group class="mr-16" (selectedTabChange)="visualizarProcesso(this.modoProcesso)"
+                               *ngIf="(documento$ | async)?.processoOrigem?.id">
+                    <mat-tab label="Editar a Minuta">
+                    </mat-tab>
+                    <mat-tab label="Visualizar o Processo">
+                    </mat-tab>
+                </mat-tab-group>
 
-        <div class="white-space"></div>
-
-        <div class="ml-32 acoes">
-            <mat-tab-group class="mr-16" (selectedTabChange)="visualizarProcesso(this.modoProcesso)"
-                           *ngIf="(documento$ | async)?.processoOrigem?.id">
-                <mat-tab label="Editar a Minuta">
-                </mat-tab>
-                <mat-tab label="Visualizar o Processo">
-                </mat-tab>
-            </mat-tab-group>
-
-            <button style="margin-left: auto;" *ngIf="(documento$ | async)?.processoOrigem?.id"
-                    mat-raised-button color="accent" class="mr-sm-12"
-                    aria-label="visualizar processo"
-                    matTooltip="Visualizar Processo em Nova Aba"
-                    (click)="visualizarProcessoNovaAba()">
-                <mat-icon class="black-fg">open_in_new</mat-icon>
-            </button>
-
-            <button
-                [ngStyle]="{'margin-left': (!this.documento?.processoOrigem || !this.documento?.processoOrigem?.id)? 'auto' : '0px' }"
-                class="mr-8" mat-icon-button
-                (click)="back()"
-                aria-label="fechar"
-                matTooltip="Fechar">
-                <mat-icon>close</mat-icon>
-            </button>
-        </div>
-    </div>
-
-    <div class="content">
-        <div *ngIf="(documento$ | async)?.componentesDigitais.length > 1" class="header accent p-16">
-
-            <div class="componentes-digitais-navigation">
-
-                <button mat-mini-fab class="previous mat-accent cdk-white-fg"
-                        (click)="gotoPreviousStep()"
-                        [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial <= 1">
-                    <mat-icon>chevron_left</mat-icon>
+                <button style="margin-left: auto;" *ngIf="(documento$ | async)?.processoOrigem?.id"
+                        mat-raised-button color="accent" class="mr-sm-12"
+                        aria-label="visualizar processo"
+                        matTooltip="Visualizar Processo em Nova Aba"
+                        (click)="visualizarProcessoNovaAba()">
+                    <mat-icon class="black-fg">open_in_new</mat-icon>
                 </button>
 
-                <div>
-                    <h3>{{(currentComponenteDigital$ | async)?.fileName}}
-                        ({{(currentComponenteDigital$ | async)?.numeracaoSequencial}}
-                        /{{(documento$ | async).componentesDigitais.length}})</h3>
+                <button
+                    [ngStyle]="{'margin-left': (!this.documento?.processoOrigem || !this.documento?.processoOrigem?.id)? 'auto' : '0px' }"
+                    class="mr-8" mat-icon-button
+                    (click)="back()"
+                    aria-label="fechar"
+                    matTooltip="Fechar">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div *ngIf="(documento$ | async)?.componentesDigitais.length > 1" class="header accent p-16">
+
+                <div class="componentes-digitais-navigation">
+
+                    <button mat-mini-fab class="previous mat-accent cdk-white-fg"
+                            (click)="gotoPreviousStep()"
+                            [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial <= 1">
+                        <mat-icon>chevron_left</mat-icon>
+                    </button>
+
+                    <div>
+                        <h3>{{(currentComponenteDigital$ | async)?.fileName}}
+                            ({{(currentComponenteDigital$ | async)?.numeracaoSequencial}}
+                            /{{(documento$ | async).componentesDigitais.length}})</h3>
+                    </div>
+
+                    <button mat-mini-fab class="next mat-accent cdk-white-fg"
+                            (click)="gotoNextStep()"
+                            [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial >= (documento$ | async).componentesDigitais.length">
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
                 </div>
-
-                <button mat-mini-fab class="next mat-accent cdk-white-fg"
-                        (click)="gotoNextStep()"
-                        [disabled]="(currentComponenteDigital$ | async)?.numeracaoSequencial >= (documento$ | async).componentesDigitais.length">
-                    <mat-icon>chevron_right</mat-icon>
-                </button>
             </div>
-        </div>
 
-        <div class="p-8 documento-navegacao">
-            <div class="left">
-                <router-outlet name="sidebar"></router-outlet>
-            </div>
-            <div class="documento-navegacao-content">
-                <router-outlet></router-outlet>
+            <div class="p-8 documento-navegacao">
+                <div class="left">
+                    <router-outlet name="sidebar"></router-outlet>
+                </div>
+                <div class="documento-navegacao-content">
+                    <router-outlet></router-outlet>
+                </div>
             </div>
         </div>
     </div>

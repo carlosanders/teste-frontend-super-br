@@ -1,10 +1,33 @@
 modelo-edit {
+    display: flex;
     flex: 1 1 auto;
     flex-direction: column;
-    .actions {
+
+    .modelo-edit {
+        display: flex;
         flex: 1 1 auto;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: flex-end;
+        flex-direction: column;
+
+        > .center {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            > .actions {
+                display: flex;
+                flex: 0 0 auto;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: flex-start;
+            }
+
+            > .content {
+                flex: 1 1 auto;
+                display: flex;
+                height: 0;
+                overflow-y: auto;
+            }
+        }
+
     }
 }

@@ -1,17 +1,14 @@
 cdk-componente-digital-view {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
-  .header {
+    > .src {
+        display: flex;
+        flex: 1 1 auto;
 
-  }
-
-  .content {
-
-    width: 100%;
-    height: 100%;
-
-    .src {
-      width: 100%;
-      height: 100%;
+        > iframe {
+            display: flex;
+        }
     }
-  }
 }

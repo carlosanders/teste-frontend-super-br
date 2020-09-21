@@ -47,7 +47,7 @@ export class CdkModalidadeTemplateGridsearchComponent implements OnInit {
     /**
      *
      * @param _changeDetectorRef
-     * @param _modalidadetemplateService
+     * @param _modalidadeTemplateService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

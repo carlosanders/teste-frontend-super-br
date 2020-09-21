@@ -5,6 +5,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {TranslateModule} from '@ngx-translate/core';
 import {modulesConfig} from 'modules/modules-config';
 import {DocumentoEditAnexosStoreModule} from './store/store.module';
+import {DocumentoEditDadosBasicosStoreModule} from '../dados-basicos/store/store.module';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
@@ -45,6 +46,7 @@ modulesConfig.forEach((module) => {
         MatMenuModule,
 
         DocumentoEditAnexosStoreModule,
+        DocumentoEditDadosBasicosStoreModule,
 
         CdkUploadModule,
 

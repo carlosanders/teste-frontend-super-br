@@ -1,5 +1,5 @@
 <div class="toolbar pt-8 pb-8 pl-8 pr-8"
-     fxLayout="row" fxLayoutAlign="start center" *ngIf="documentos.length > 0">
+     *ngIf="documentos.length > 0">
 
     <mat-checkbox (click)="toggleSelectAll($event)"
                   [checked]="selectedIds.length"

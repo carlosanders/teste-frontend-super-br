@@ -1,8 +1,14 @@
-<div class="router" *showIfRole="'ROLE_ADMIN'">
-    <!-- HEADER -->
-    <div>
-    </div>
-    <!-- / HEADER -->
+<div class="template-edit page-layout full-width inner-scroll" *showIfRole="'ROLE_ADMIN'">
+    <!-- CENTER -->
+    <div class="center">
+        <!-- CONTENT HEADER -->
+        <!-- / CONTENT HEADER -->
 
-    <router-outlet></router-outlet>
+        <!-- CONTENT -->
+        <div class="content" cdkPerfectScrollbar>
+            <router-outlet></router-outlet>
+        </div>
+        <!-- / CONTENT -->
+    </div>
+    <!-- / CENTER -->
 </div>

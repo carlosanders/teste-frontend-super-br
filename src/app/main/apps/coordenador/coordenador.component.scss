@@ -1,5 +1,7 @@
 coordenador {
-    width: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
 
     .sidebar {
         background: transparent !important;
@@ -9,9 +11,18 @@ coordenador {
             background: white !important;
         }
     }
-    .center {
 
-        width: 100%;
+    .center {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+
+        .header {
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
 
         .content-card {
             flex: 1 0 100%;

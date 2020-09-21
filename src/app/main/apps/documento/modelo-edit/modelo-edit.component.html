@@ -1,27 +1,35 @@
-<!-- HEADER -->
-<div class="actions p-16">
+<div class="modelo-edit page-layout full-width inner-scroll">
+    <!-- CENTER -->
+    <div class="center">
+        <!-- CONTENT HEADER -->
+        <div class="actions p-16">
 
-    <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Gerir Anexos"
-            matTooltip="Gerir Anexos" routerLink="anexos"
-            [routerLinkActive]="['active', 'accent']">
-        <mat-icon class="black-fg">attachment</mat-icon>
-    </button>
+            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Gerir Anexos"
+                    matTooltip="Gerir Anexos" routerLink="anexos"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">attachment</mat-icon>
+            </button>
 
-    <button mat-icon-button aria-label="Editar o Modelo"
-            matTooltip="Editar o Modelo" routerLink="dados-basicos"
-            [routerLinkActive]="['active', 'accent']">
-        <mat-icon class="black-fg">edit</mat-icon>
-    </button>
+            <button mat-icon-button aria-label="Editar o Modelo"
+                    matTooltip="Editar o Modelo" routerLink="dados-basicos"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">edit</mat-icon>
+            </button>
 
+        </div>
+        <!-- / HEADER -->
+
+        <div *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal">
+            <button class="back" mat-icon-button
+                    (click)="onClickedDocumentoVinculado(documentoPrincipal)"
+                    aria-label="cancelar"
+                    matTooltip="Cancelar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+        <!-- CONTENT -->
+        <div class="content" cdkPerfectScrollbar>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </div>
-<!-- / HEADER -->
-
-<div *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal">
-    <button class="back" mat-icon-button
-            (click)="onClickedDocumentoVinculado(documentoPrincipal)"
-            aria-label="cancelar"
-            matTooltip="Cancelar">
-        <mat-icon>arrow_back</mat-icon>
-    </button>
-</div>
-<router-outlet></router-outlet>

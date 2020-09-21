@@ -1,7 +1,7 @@
-<div class="dados-basicos mb-48" *ngIf="!(isLoading$ | async)">
-    <h3>Template</h3>
+<div class="dados-basicos mb-16" *ngIf="!(isLoading$ | async)">
+    <h3 style="font-weight: bold">Template</h3>
 
-    <cdk-template-form fxFlex [template]="template$ | async"
+    <cdk-template-form cdkPerfectScrollbar [template]="template$ | async"
                        [saving]="(isSaving$ | async)"
                        [errors]="(errors$ | async)"
                        (save)="submit($event)">

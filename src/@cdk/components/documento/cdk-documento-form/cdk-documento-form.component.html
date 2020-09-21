@@ -1,173 +1,156 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form class="p-24 mr-24" fxLayoutGap="16px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form" (submit)="submit()">
+<form fxLayoutGap="16px"
+      name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-        <div fxFlex="1 0 auto" fxLayout="column">
+    <mat-form-field>
+            <input matInput placeholder="Tipo de Documento"
+                   formControlName="tipoDocumento"
+                   [matAutocomplete]="tipoDocumento.autocomplete"
+                   (blur)="checkTipoDocumento()" required>
+        <cdk-tipo-documento-autocomplete
+            #tipoDocumento="tipoDocumentoAutocomplete"
+            [control]="form.get('tipoDocumento')"
+            [pagination]="tipoDocumentoPagination">
+        </cdk-tipo-documento-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showTipoDocumentoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('tipoDocumento').hasError('formError')">
+            {{form.get('tipoDocumento').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Tipo de Documento"
-                           formControlName="tipoDocumento"
-                           [matAutocomplete]="tipoDocumento.autocomplete"
-                           (blur)="checkTipoDocumento()" required>
-                </div>
-                <cdk-tipo-documento-autocomplete
-                    #tipoDocumento="tipoDocumentoAutocomplete"
-                    [control]="form.get('tipoDocumento')"
-                    [pagination]="tipoDocumentoPagination">
-                </cdk-tipo-documento-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showTipoDocumentoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('tipoDocumento').hasError('formError')">
-                    {{form.get('tipoDocumento').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field>
+        <mat-label>Outro Número</mat-label>
+        <input matInput #outroNumero
+               name="outroNumero"
+               formControlName="outroNumero"
+               maxlength="255">
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Outro Número</mat-label>
-                <input matInput #outroNumero
-                       name="outroNumero"
-                       formControlName="outroNumero"
-                       maxlength="255">
-            </mat-form-field>
+    <mat-slide-toggle formControlName="copia"
+                      class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
+        Cópia/Digitalização
+    </mat-slide-toggle>
 
-            <mat-slide-toggle formControlName="copia"
-                              class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
-                Cópia/Digitalização
-            </mat-slide-toggle>
+    <mat-form-field *ngIf="form.get('copia').value">
+        <mat-label>Localizador do Original</mat-label>
+        <input matInput #localizadorOriginal
+               name="localizadorOriginal"
+               formControlName="localizadorOriginal"
+               maxlength="255">
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('ativo')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="form.get('copia').value">
-                <mat-label>Localizador do Original</mat-label>
-                <input matInput #localizadorOriginal
-                       name="localizadorOriginal"
-                       formControlName="localizadorOriginal"
-                       maxlength="255">
-                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                        (click)="showLogEntryGrid('ativo')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
-            </mat-form-field>
+    <mat-form-field>
+        <mat-label>Número de Folhas</mat-label>
+        <input matInput #numeroFolhas
+               name="numeroFolhas"
+               type="number"
+               formControlName="numeroFolhas"
+               maxlength="255">
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Número de Folhas</mat-label>
-                <input matInput #numeroFolhas
-                       name="numeroFolhas"
-                       type="number"
-                       formControlName="numeroFolhas"
-                       maxlength="255">
-            </mat-form-field>
+    <mat-form-field>
+        <mat-label>Autor</mat-label>
+        <input matInput #autor
+               name="autor"
+               formControlName="autor"
+               maxlength="255">
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Autor</mat-label>
-                <input matInput #autor
-                       name="autor"
-                       formControlName="autor"
-                       maxlength="255">
-            </mat-form-field>
+    <mat-form-field>
+        <mat-label>Redator</mat-label>
+        <input matInput #redator
+               name="redator"
+               formControlName="redator"
+               maxlength="255">
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Redator</mat-label>
-                <input matInput #redator
-                       name="redator"
-                       formControlName="redator"
-                       maxlength="255">
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Procedência"
-                           formControlName="procedencia"
-                           [matAutocomplete]="procedencia.autocomplete"
-                           (blur)="checkProcedencia()">
-                </div>
-                <cdk-pessoa-autocomplete
-                    #procedencia="pessoaAutocomplete"
-                    [control]="form.get('procedencia')"
-                    [pagination]="procedenciaPagination">
-                </cdk-pessoa-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showProcedenciaGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('procedencia').hasError('formError')">
-                    {{form.get('procedencia').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="mr-sm-12" fxFlex>
-                <mat-label>Data da Produção</mat-label>
-                <input matInput formControlName="dataHoraProducao" [matDatetimepicker]="dataHoraProducao">
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraProducao"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraProducao type="datetime" openOnFocus="true"
-                                    timeInterval="5"></mat-datetimepicker>
-            </mat-form-field>
-
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Setor de Origem"
-                           formControlName="setorOrigem"
-                           [matAutocomplete]="setorOrigem.autocomplete"
-                           [readonly]="form.get('id').value"
-                           (blur)="checkSetorOrigem()">
-                </div>
-                <cdk-setor-autocomplete
-                    #setorOrigem="setorAutocomplete"
-                    [control]="form.get('setorOrigem')"
-                    [pagination]="setorOrigemPagination">
-                </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        [disabled]="form.get('id').value"
-                        (click)="showSetorOrigemGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('setorOrigem').hasError('formError')">
-                    {{form.get('setorOrigem').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-            <!-- Observacao Column -->
-            <ng-container matColumnDef="observacao">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center" maxlength="255">
-                    Observação
-                </th>
-            </ng-container>
-
+    <mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Procedência"
+                   formControlName="procedencia"
+                   [matAutocomplete]="procedencia.autocomplete"
+                   (blur)="checkProcedencia()">
         </div>
+        <cdk-pessoa-autocomplete
+            #procedencia="pessoaAutocomplete"
+            [control]="form.get('procedencia')"
+            [pagination]="procedenciaPagination">
+        </cdk-pessoa-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showProcedenciaGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('procedencia').hasError('formError')">
+            {{form.get('procedencia').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
+    <mat-form-field class="mr-sm-12">
+        <mat-label>Data da Produção</mat-label>
+        <input matInput formControlName="dataHoraProducao" [matDatetimepicker]="dataHoraProducao">
+        <mat-datetimepicker-toggle matSuffix [for]="dataHoraProducao"></mat-datetimepicker-toggle>
+        <mat-datetimepicker #dataHoraProducao type="datetime" openOnFocus="true"
+                            timeInterval="5"></mat-datetimepicker>
+    </mat-form-field>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
+    <mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Setor de Origem"
+                   formControlName="setorOrigem"
+                   [matAutocomplete]="setorOrigem.autocomplete"
+                   [readonly]="form.get('id').value"
+                   (blur)="checkSetorOrigem()">
         </div>
+        <cdk-setor-autocomplete
+            #setorOrigem="setorAutocomplete"
+            [control]="form.get('setorOrigem')"
+            [pagination]="setorOrigemPagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                [disabled]="form.get('id').value"
+                (click)="showSetorOrigemGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('setorOrigem').hasError('formError')">
+            {{form.get('setorOrigem').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+    <!-- Observacao Column -->
+    <ng-container matColumnDef="observacao">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header
+            maxlength="255">
+            Observação
+        </th>
+    </ng-container>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+</form>
 
 <cdk-tipo-documento-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'tipo-documento-list-gridsearch'"
     (selected)="selectTipoDocumento($event)"
     (cancel)="cancel()">
 </cdk-tipo-documento-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-origem-gridsearch'"
     [pagination]="setorOrigemPagination"
     (selected)="selectSetorOrigem($event)"
@@ -175,7 +158,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-pessoa-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'procedencia-gridsearch'"
     [pagination]="procedenciaPagination"
     (selected)="selectProcedencia($event)"
@@ -183,7 +165,6 @@
 </cdk-pessoa-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
