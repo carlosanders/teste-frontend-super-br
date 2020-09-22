@@ -1,4 +1,10 @@
 visibilidade {
-  width: 100%;
-  height: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    height: 0;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
+    }
 }

@@ -1,6 +1,5 @@
-<div fxLayout="column" *ngIf="(processo$ | async)?.id">
-    <cdk-download-form
-        [saving]="(saving$ | async)"
-        (save)="submitDownload($event)">
-    </cdk-download-form>
-</div>
+<cdk-download-form
+    [saving]="(saving$ | async)"
+    (save)="submitDownload($event)">
+</cdk-download-form>
+

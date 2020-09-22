@@ -1,4 +1,5 @@
 <mat-form-field class="cdk-etiqueta-chips-list">
+    <mat-placeholder class="placeholder">{{placeholder}}</mat-placeholder>
     <mat-chip-list #chipList>
         <mat-chip
                 [ngStyle]="{'background-color': etiqueta.corHexadecimal}"
@@ -10,7 +11,6 @@
             <mat-icon matChipRemove>cancel</mat-icon>
         </mat-chip>
         <input #etiquetaInput
-               [placeholder]="placeholder"
                [formControl]="etiquetaCtrl"
                [matAutocomplete]="etiqueta.autocomplete"
                [matChipInputFor]="chipList"

@@ -1,8 +1,10 @@
-.transicoes {
-    height: 100%;
-
-    .altura {
-        height: 100%;
+transicoes {
+    display: flex;
+    flex: 1 1 auto;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
     }
 }
 

@@ -1,7 +1,6 @@
 <!-- SIDEBAR HEADER -->
-<div fxLayout="column" fxLayoutAlign="space-between start"
-     class="header accent p-24 pb-4">
-    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
+<div class="header accent">
+    <div class="logo">
         <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
             check_box
         </mat-icon>
@@ -13,11 +12,11 @@
 <!-- SIDEBAR CONTENT -->
 <div class="content" cdkPerfectScrollbar>
 
-    <div fxLayout="row" fxLayoutAlign="center">
+    <div class="progress-bar">
         <mat-progress-bar [mode]="'indeterminate'" *ngIf="(loading$ | async)"></mat-progress-bar>
     </div>
 
-    <div class="px-24 pt-32 pb-12">
+    <div class="create-button">
         <button mat-raised-button
                 class="mat-accent compose-dialog-button w-100-p"
                 (click)="create()"
@@ -68,7 +67,8 @@
                     <mat-icon class="nav-link-icon">{{ folder.icon ? folder.icon : 'folder' }}</mat-icon>
                     <span>{{folder.nome | titlecase}}</span>
                 </a>
-                <button mat-icon-button [matMenuTriggerFor]="menuFolder" class="btn_menu_folder" aria-label="Menu do Item">
+                <button mat-icon-button [matMenuTriggerFor]="menuFolder" class="btn_menu_folder"
+                        aria-label="Menu do Item">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
                 <mat-menu #menuFolder="matMenu">
@@ -126,15 +126,20 @@
 <!-- / SIDEBAR CONTENT -->
 
 <!-- SIDEBAR FOOT -->
-<div fxLayout="column" fxLayoutAlign="end stretch" >
+<div class="footer">
     <mat-divider></mat-divider>
-    <mat-toolbar>
-        <button disabled mat-icon-button class="secondary-text" routerLink="/apps/tarefas/administrativo/minhas-tarefas/entrada" routerLinkActive="mat-accent" matTooltip="Tarefas">
-            <mat-icon>check_box</mat-icon>
-        </button>
-        <button mat-icon-button class="secondary-text" routerLink="/apps/calendario/minhas-tarefas/todas" routerLinkActive="mat-accent" matTooltip="Calendário">
-            <mat-icon>calendar_today</mat-icon>
-        </button>
-    </mat-toolbar>
+    <div class="actions">
+        <mat-toolbar>
+            <button disabled mat-icon-button class="secondary-text"
+                    routerLink="/apps/tarefas/administrativo/minhas-tarefas/entrada" routerLinkActive="mat-accent"
+                    matTooltip="Tarefas">
+                <mat-icon>check_box</mat-icon>
+            </button>
+            <button mat-icon-button class="secondary-text" routerLink="/apps/calendario/minhas-tarefas/todas"
+                    routerLinkActive="mat-accent" matTooltip="Calendário">
+                <mat-icon>calendar_today</mat-icon>
+            </button>
+        </mat-toolbar>
+    </div>
 </div>
 <!-- / SIDEBAR FOOT -->

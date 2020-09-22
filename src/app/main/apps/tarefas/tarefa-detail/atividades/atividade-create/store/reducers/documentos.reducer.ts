@@ -11,7 +11,6 @@ export interface AtividadeCreateDocumentosState {
     convertendoDocumentoIds: number[];
     loading: boolean;
     loaded: boolean;
-
 }
 
 export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosState = {

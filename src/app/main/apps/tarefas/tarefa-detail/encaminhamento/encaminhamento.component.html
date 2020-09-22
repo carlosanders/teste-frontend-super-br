@@ -1,6 +1,8 @@
-<cdk-encaminhamento-form
+<div class="content">
+    <cdk-encaminhamento-form
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"
         (abort)="cancel()">
-</cdk-encaminhamento-form>
+    </cdk-encaminhamento-form>
+</div>

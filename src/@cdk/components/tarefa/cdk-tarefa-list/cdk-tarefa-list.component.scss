@@ -1,40 +1,74 @@
 cdk-tarefa-list {
 
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
     border-right: 1px solid rgba(0, 0, 0, 0.12);
-    height: 100%;
 
-    cdk-tarefa-filter {
-        height: 100%;
-    }
+    > .page-layout {
 
-    .tarefa-list-loading {
-        z-index: 9999;
-        margin-top: 48px;
+        flex: 1 1 auto;
         display: flex;
-        position: fixed;
-        transform: translate(-50%, -50%);
-    }
+        flex-direction: column;
 
-    .content {
-        .toolbar {
+        > .header {
+
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 8px;
 
             border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
-            .toolbar-separator {
+            > .toolbar-separator {
                 height: 32px;
                 width: 1px;
                 margin: 0 12px;
             }
 
-            .tarefa-list-control {
+            > .tarefa-list-control {
                 margin-left: auto;
             }
         }
-    }
 
-    .no-tarefas-text {
-        font-size: 16px;
-        font-weight: 300;
+        > .content {
+
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            > .loading-wrapper {
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+
+                > .loading {
+                    z-index: 9999;
+                    margin-top: 48px;
+                    display: flex;
+                    position: fixed;
+                    transform: translate(-50%, -50%);
+                }
+            }
+
+
+            > .no-tarefas-text {
+                flex: 1 1 auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                > .hint-text {
+                    font-size: 16px;
+                    font-weight: 300;
+                }
+            }
+        }
     }
 }
 

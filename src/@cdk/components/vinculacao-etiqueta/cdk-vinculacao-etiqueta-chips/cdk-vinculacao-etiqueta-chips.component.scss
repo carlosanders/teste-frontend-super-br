@@ -1,5 +1,15 @@
 cdk-vinculacao-etiqueta-chips {
+    display: flex;
+    flex: 1 1 auto;
     .icon {
         margin-right: 6px;
+    }
+
+    mat-form-field {
+        flex: 1 1 auto;
+    }
+
+    .mat-focused .placeholder {
+        color: transparent;
     }
 }
