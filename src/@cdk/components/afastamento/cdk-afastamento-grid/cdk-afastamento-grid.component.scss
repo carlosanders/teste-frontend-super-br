@@ -1,11 +1,10 @@
 @import "../../../scss/cdk";
 
 cdk-afastamento-grid {
-
     display: flex;
     flex: 1 1 auto;
 
-    .cdk-afastamento-grid {
+    > .page-layout {
         display: flex;
         flex: 1 1 auto;
 
