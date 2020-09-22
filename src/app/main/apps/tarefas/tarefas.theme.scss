@@ -43,11 +43,12 @@
                     }
                 }
 
-                // Tarefa list
-                .tarefa-list {
-                    border-right-color: map-get($foreground, divider);
+                .content {
+                    // Tarefa list
+                    .tarefa-list {
+                        border-right-color: map-get($foreground, divider);
+                    }
                 }
-
             }
         }
     }
@@ -166,7 +167,7 @@
 
     // Todo edit
     tarefa-detail {
-        .tarefa-header {
+        > .header {
             background: map-get($background, background);
             border-bottom-color: map-get($foreground, divider);
 

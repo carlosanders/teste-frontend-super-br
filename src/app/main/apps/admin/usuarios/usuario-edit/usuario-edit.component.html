@@ -7,14 +7,16 @@
             [saving]="(isSaving$ | async)"
             [errors]="(errors$ | async)"
             (save)="submitUsuario($event)"
-            (abort)="doAbortUsuario()">
+            (abort)="doAbortUsuario()"
+            (usuarioCarregado)="usuarioCarregado($event)"
+        >
         </cdk-usuario-form>
     </mat-step>
     <mat-step [stepControl]="formColaborador">
         <ng-template matStepLabel>Colaborador</ng-template>
         <cdk-colaborador-form
             [colaborador]="colaborador"
-            [usuario]="(usuario$ | async)"
+            [usuario]="usuario"
             [form]="formColaborador"
             [saving]="(isSaving$ | async)"
             [errors]="(errors$ | async)"

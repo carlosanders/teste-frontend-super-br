@@ -1,25 +1,28 @@
 atividades {
 
-    height: 100%;
-    width: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
-    .atividades-wrapper {
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
+        padding: 8px;
 
-        height: 100%;
-
-        .atividades-header {
-
-            padding: 8px;
-
-            .actions {
-                min-width: 88px;
-                margin-left: auto;
-            }
+        > .actions {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            align-items: center;
         }
+    }
 
-        .content {
-            height: 100%;
-        }
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        height: 0;
+        overflow-y: auto;
     }
 
 }

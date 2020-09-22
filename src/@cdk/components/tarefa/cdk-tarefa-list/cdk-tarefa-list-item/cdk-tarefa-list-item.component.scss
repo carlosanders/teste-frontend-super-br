@@ -1,53 +1,88 @@
-@import 'src/@cdk/scss/cdk';
-
 cdk-tarefa-list-item {
-    display: block;
-    position: relative;
+
+    flex: 0 1 auto;
+    display: flex;
     padding: 16px 16px 16px 24px;
-    border-bottom: 1px solid;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     text-transform: none;
     cursor: pointer;
-    flex-shrink: 0;
 
-    .info {
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
 
-        &.nao-lido {
-            font-weight: bold;
+        .check {
+            flex: 0 1 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        margin: 0 16px 0 8px;
+        .info {
 
-        .title {
-            font-size: 15px;
-            font-weight: 600;
-        }
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
 
-        .subtitle {
-            font-style: italic;
-            font-size: 12px;
-        }
+            &.nao-lido {
+                font-weight: bold;
+            }
 
-        .body {
-            margin-top: 6px;
-        }
+            margin: 0 16px 0 8px;
 
-        .etiquetas {
-            margin-top: 8px;
+            .title {
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: row;
+                font-size: 15px;
+                font-weight: 600;
+            }
 
-            .etiqueta {
-                font-size: 11px;
-                border-radius: 4px;
-                margin-bottom: 4px;
-                margin-right: 4px;
-                padding: 3px 8px;
+            .subtitle {
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: row;
+                font-style: italic;
+                font-size: 12px;
+            }
 
-                .etiqueta-color {
-                    width: 8px;
-                    height: 8px;
-                    margin-right: 8px;
-                    border-radius: 50%;
+            .body {
+                margin-top: 6px;
+            }
+
+            .etiquetas {
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                margin-top: 8px;
+
+                .etiqueta {
+                    font-size: 11px;
+                    border-radius: 4px;
+                    margin-bottom: 4px;
+                    margin-right: 4px;
+                    padding: 3px 8px;
+
+                    .etiqueta-color {
+                        width: 8px;
+                        height: 8px;
+                        margin-right: 8px;
+                        border-radius: 50%;
+                    }
                 }
             }
+        }
+
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
         }
     }
 }

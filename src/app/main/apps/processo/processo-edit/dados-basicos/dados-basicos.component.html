@@ -6,6 +6,8 @@
         [setorAtualPagination]="setorAtualPagination"
         [_classificacaoPagination]="classificacaoPagination"
         [procedencia]="procedencia"
+        [colaborador]="_loginService.isGranted('ROLE_COLABORADOR')"
+        [pessoaVinculada]="_loginService.isGranted('ROLE_PESSOA_VINCULADA')"
         [logEntryPagination]="logEntryPagination"
         (gerirProcedencia)="gerirProcedencia()"
         (editProcedencia)="editProcedencia($event)"

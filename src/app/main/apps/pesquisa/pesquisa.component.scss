@@ -1,25 +1,5 @@
 pesquisa {
-
-    width: 100%;
-    height: 100%;
-
-    componentes-digitais {
-        height: 100%;
-    }
-
-    .sidebar {
-        height: 100%;
-
-        &:not(.locked-open) {
-            background: white;
-        }
-    }
-
-    .center {
-
-        width: 100%;
-        height: 100%;
-
-    }
+    flex: 1 1 auto;
+    display: flex;
 }
 

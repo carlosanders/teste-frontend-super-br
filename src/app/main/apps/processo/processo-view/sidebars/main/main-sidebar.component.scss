@@ -1,36 +1,63 @@
 processo-view-main-sidebar {
-
     display: flex;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     flex-direction: column;
-    position: relative;
-    height: 100%;
 
-    .header {
+    > .header {
 
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
+        padding: 8px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
-        .toolbar-separator {
-            margin-left: auto;
-            height: 32px;
-            width: 1px;
+        > .actions {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            > .toolbar-separator {
+                margin-left: auto;
+                height: 32px;
+                width: 1px;
+            }
+        }
+
+        > .filters {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
         }
     }
 
-    .juntada-list-loading {
-
-        z-index: 9999;
-        margin-top: 48px;
+    > .content {
+        flex: 1 1 auto;
         display: flex;
-        position: fixed;
-        transform: translate(-50%, -50%);
+        flex-direction: column;
+        height: 0;
+        overflow-y: auto;
 
-    }
+        > .loading {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
 
-    .juntadas {
+            > .juntada-list-loading {
+                z-index: 9999;
+                margin-top: 48px;
+                display: flex;
+                position: fixed;
+                transform: translate(-50%, -50%);
+
+            }
+        }
 
         .juntada {
-            position: relative;
+            flex: 0 0 auto;
             display: flex;
             justify-content: flex-start;
             align-items: center;

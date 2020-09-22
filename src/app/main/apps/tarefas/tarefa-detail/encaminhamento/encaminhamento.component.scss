@@ -1,25 +1,11 @@
 encaminhamento {
-
-  mat-radio-group {
     display: flex;
-    flex-direction: column;
-    margin: 15px 0;
-  }
+    flex: 1 1 auto;
+    height: 0;
 
-  mat-radio-button {
-    margin: 5px;
-  }
-
-  .form-card {
-    border-radius: 8px;
-  }
-
-  .form-errors-model {
-    flex: 1;
-
-    code {
-      background: none !important;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
     }
-  }
-
 }

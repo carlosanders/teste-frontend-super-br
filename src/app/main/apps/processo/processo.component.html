@@ -1,4 +1,4 @@
-<div class="processo-content page-layout carded left-sidebar inner-scroll">
+<div class="page-layout carded left-sidebar inner-scroll">
 
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
@@ -7,7 +7,6 @@
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="processo-main-sidebar" position="left"
                  [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
-
         <processo-main-sidebar [@animate]="{value:'*'}"></processo-main-sidebar>
     </cdk-sidebar>
 
@@ -17,10 +16,9 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" fxLayout="row" fxLayoutAlign="start center">
-
-            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center"
-                 *ngIf="!this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id">
+        <div class="header">
+            <div class="search-wrapper"
+                 *ngIf="this._loginService.isGranted('ROLE_USUARIO_EXTERNO') && (processo$ | async)?.id">
                 <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
                         (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>
                     <mat-icon>menu</mat-icon>
@@ -31,9 +29,8 @@
                 </button>
             </div>
 
-            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center"
+            <div class="search-wrapper"
                  *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id">
-
                 <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
                         (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>
                     <mat-icon>menu</mat-icon>
@@ -43,7 +40,7 @@
                     <mat-icon>menu</mat-icon>
                 </button>
 
-                <div class="search" fxLayout="row" fxLayoutAlign="start center">
+                <div class="search">
                     <mat-icon class="secondary-text">label</mat-icon>
                     <cdk-vinculacao-etiqueta-chips
                         [placeholder]="'Coloque etiquetas para o processo'"
@@ -88,7 +85,7 @@
                             <span>Abrir nova aba</span>
                         </ng-container>
                     </button>
-                    <ng-template #dynamicComponent> </ng-template>
+                    <ng-template #dynamicComponent></ng-template>
 
                 </mat-menu>
 

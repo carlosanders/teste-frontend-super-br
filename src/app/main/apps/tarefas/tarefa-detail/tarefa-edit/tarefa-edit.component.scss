@@ -1,11 +1,10 @@
-tarefa-edit {
-
-    width: 100%;
-
-    .content {
-
-        height: 100%;
-
+tarefa-create {
+    display: flex;
+    flex: 1 1 auto;
+    height: 0;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
     }
-
 }

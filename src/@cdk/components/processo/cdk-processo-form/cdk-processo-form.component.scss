@@ -1,76 +1,57 @@
 @import "../../../scss/cdk";
 
 cdk-processo-form {
-    height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
     form {
-        width: 100%;
-    }
-
-    .spinner-wrapper {
+        flex: 0 1 auto;
         display: flex;
-        align-items: center;
-        justify-content: flex-start;
-    }
+        flex-direction: column;
 
-    width: 100%;
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .owl-dt-popup-container {
-        width: 20%;
-        height: 20%;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
+        mat-card {
+            flex: 1 1 auto;
+            display: flex !important;
+            flex-direction: column;
+            padding: 8px !important;
+            margin-bottom: 16px !important;
         }
-    }
 
-    mat-radio-group {
+        mat-form-field {
+            flex: 1 1 auto;
+        }
 
-        &.poderes-rg {
-            //      padding: 16px;
-            margin: 0px 0px 8px 8px;
+        .responsive-group {
+            flex: 1 1 auto;
             display: flex;
             flex-direction: row;
-            //    margin: top right bottom left
-            //      @include mat-elevation(1);
+            mat-radio-group {
+                margin-bottom: 8px;
+                mat-radio-button {
+                    margin-right: 24px;
+                }
+            }
         }
-    }
 
-    mat-radio-button {
-        margin-right: 100px;
-        margin-left: 3px;
-        margin-bottom: 15px;
-    }
+        .responsive-group[max-width~="600px"] {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            mat-radio-button {
+                margin-right: 0;
+            }
+        }
 
-    cdk-especie-processo-grid {
-        height: 100%;
-    }
-
-    cdk-especie-processo-gridsearch {
-        width: 100%;
-    }
-
-    cdk-modalidade-fase-gridsearch {
-        width: 100%;
-    }
-
-    cdk-modalidade-meio-gridsearch {
-        width: 100%;
-    }
-
-    cdk-classificacao-gridsearch {
-        width: 100%;
-    }
-
-    cdk-setor-gridsearch {
-        width: 100%;
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            button:first-child {
+                margin: 0 8px 0 8px;
+            }
+        }
     }
 }

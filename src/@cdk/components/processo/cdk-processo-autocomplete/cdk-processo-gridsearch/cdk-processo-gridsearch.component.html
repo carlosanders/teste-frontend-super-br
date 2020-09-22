@@ -1,6 +1,7 @@
 <cdk-processo-grid
         [loading]="loading"
         [processos]="processos"
+        [displayedColumns]="['id', 'NUP', 'setorAtual.nome', 'unidade', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

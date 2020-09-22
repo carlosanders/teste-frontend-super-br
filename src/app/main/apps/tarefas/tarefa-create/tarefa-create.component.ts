@@ -23,6 +23,7 @@ import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '../../../../../@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
+import {Back} from "../../../../store/actions";
 
 @Component({
     selector: 'tarefa-create',
@@ -196,6 +197,10 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.SaveTarefa(tarefa));
 
+    }
+
+    cancel(): void {
+        this._store.dispatch(new Back());
     }
 
 }

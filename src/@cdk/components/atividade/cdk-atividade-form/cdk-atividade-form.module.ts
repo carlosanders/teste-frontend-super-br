@@ -25,6 +25,7 @@ import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
+import {MatCardModule} from "@angular/material/card";
 
 @NgModule({
     declarations: [
@@ -56,6 +57,7 @@ import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-s
         NgxUpperCaseDirectiveModule,
 
         CdkSharedModule,
+        MatCardModule,
     ],
     providers: [
         EspecieAtividadeService,

@@ -1,55 +1,71 @@
 @import "../../../scss/cdk";
 
 cdk-atividade-form {
-    height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
     form {
-        width: 100%;
-
-        .submerter-aprovacao {
-            margin-left: auto;
-        }
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
-    }
-
-    cdk-especie-atividade-gridsearch {
-        width: 100%;
-    }
-
-    cdk-usuario-gridsearch {
-        width: 100%;
-    }
-
-    mat-radio-group {
-        padding: 16px;
+        flex: 0 1 auto;
         display: flex;
+        flex-direction: column;
 
-        &.horizontal {
-            flex-direction: row;
-        }
-
-        &.vertical {
+        mat-card {
+            flex: 1 1 auto;
+            display: flex !important;
             flex-direction: column;
+            padding: 8px !important;
+            margin-bottom: 16px !important;
         }
 
-        margin: 15px 0;
-        @include mat-elevation(1);
-    }
+        mat-form-field {
+            flex: 1 1 auto;
+        }
 
-    mat-radio-button {
-        margin-right: 10px;
-        margin-bottom: 10px;
+        mat-radio-group {
+            padding: 16px;
+            display: flex;
+
+            &.horizontal {
+                flex-direction: row;
+            }
+
+            &.vertical {
+                flex-direction: column;
+            }
+        }
+
+        mat-radio-button {
+            margin-right: 10px;
+        }
+
+        .responsive-group {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            mat-form-field:first-child {
+                margin: 0 8px 0 0;
+            }
+        }
+
+        .responsive-group[max-width~="600px"] {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            mat-form-field:first-child {
+                margin: 0;
+            }
+        }
+
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            button:first-child {
+                margin: 0 8px 0 8px;
+            }
+        }
     }
 }
