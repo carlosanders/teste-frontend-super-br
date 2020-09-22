@@ -1,80 +1,78 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form class="p-24 mr-24" fxLayoutGap="36px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+<form class="p-24 mr-24" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      name="form" [formGroup]="form">
 
-        <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
+    <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
 
-            <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Pessoa"
-                           formControlName="pessoa"
-                           [matAutocomplete]="pessoa.autocomplete"
-                           (blur)="checkPessoa()"
-                           autofocus required>
-                </div>
-                <cdk-pessoa-autocomplete
-                    #pessoa="pessoaAutocomplete"
-                    [control]="form.get('pessoa')"
-                    [pagination]="pessoaPagination">
-                </cdk-pessoa-autocomplete>
-                <button *ngIf="form.get('pessoa').value && form.get('pessoa').value.id" matSuffix mat-button mat-icon-button
-                        (click)="doEditPessoa()">
-                    <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
-                </button>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="doGerirPessoa()">
-                    <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('pessoa').hasError('formError')">
-                    {{form.get('pessoa').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Modalidade"
-                           formControlName="modalidadeInteressado"
-                           [matAutocomplete]="modalidadeInteressado.autocomplete"
-                           (blur)="checkModalidadeInteressado()"
-                           required>
-                </div>
-                <cdk-modalidade-interessado-autocomplete
-                    #modalidadeInteressado="modalidadeInteressadoAutocomplete"
-                    [control]="form.get('modalidadeInteressado')"
-                    [pagination]="modalidadeInteressadoPagination">
-                </cdk-modalidade-interessado-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showModalidadeInteressadoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('modalidadeInteressado').hasError('formError')">
-                    {{form.get('modalidadeInteressado').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-        </div>
-
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
+        <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Pessoa"
+                       formControlName="pessoa"
+                       [matAutocomplete]="pessoa.autocomplete"
+                       (blur)="checkPessoa()"
+                       autofocus required>
+            </div>
+            <cdk-pessoa-autocomplete
+                #pessoa="pessoaAutocomplete"
+                [control]="form.get('pessoa')"
+                [pagination]="pessoaPagination">
+            </cdk-pessoa-autocomplete>
+            <button *ngIf="form.get('pessoa').value && form.get('pessoa').value.id" matSuffix mat-button mat-icon-button
+                    (click)="doEditPessoa()">
+                <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
             </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
+            <button matSuffix mat-button mat-icon-button
+                    (click)="doGerirPessoa()">
+                <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
             </button>
-        </div>
+            <mat-error *ngIf="form.get('pessoa').hasError('formError')">
+                {{form.get('pessoa').errors.formError}}
+            </mat-error>
+        </mat-form-field>
 
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+        <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Modalidade"
+                       formControlName="modalidadeInteressado"
+                       [matAutocomplete]="modalidadeInteressado.autocomplete"
+                       (blur)="checkModalidadeInteressado()"
+                       required>
+            </div>
+            <cdk-modalidade-interessado-autocomplete
+                #modalidadeInteressado="modalidadeInteressadoAutocomplete"
+                [control]="form.get('modalidadeInteressado')"
+                [pagination]="modalidadeInteressadoPagination">
+            </cdk-modalidade-interessado-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showModalidadeInteressadoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('modalidadeInteressado').hasError('formError')">
+                {{form.get('modalidadeInteressado').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+            CANCELAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
 
 <cdk-modalidade-interessado-gridsearch
     fxFlex="1 0 auto"

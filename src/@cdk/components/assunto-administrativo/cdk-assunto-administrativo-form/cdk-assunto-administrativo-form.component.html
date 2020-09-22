@@ -1,93 +1,91 @@
-<div *ngIf="activeCard === 'form'" cdkPerfectScrollbar class="inner-scroll form" >
-    <form  class="mr-24" fxLayoutGap="1px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form" (submit)="submit()">
+<form class="mr-24" fxLayoutGap="1px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      name="form" [formGroup]="form" (submit)="submit()">
 
-        <div  fxLayout="column" >
+    <div fxLayout="column">
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Nome</mat-label>
-                <input matInput #nome
-                       name="nome"
-                       formControlName="nome"
-                       maxlength="255" upperCase>
-                <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
-            </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Nome</mat-label>
+            <input matInput #nome
+                   name="nome"
+                   formControlName="nome"
+                   maxlength="255" upperCase>
+            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Dispositivo Legal</mat-label>
-                <input matInput #dispositivoLegal
-                       name="dispositivoLegal"
-                       formControlName="dispositivoLegal"
-                       maxlength="255" upperCase>
-                <mat-hint align="end">{{dispositivoLegal.value.length}} / 255</mat-hint>
-            </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Dispositivo Legal</mat-label>
+            <input matInput #dispositivoLegal
+                   name="dispositivoLegal"
+                   formControlName="dispositivoLegal"
+                   maxlength="255" upperCase>
+            <mat-hint align="end">{{dispositivoLegal.value.length}} / 255</mat-hint>
+        </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Código CNJ</mat-label>
-                <input matInput #codigoCNJ
-                       name="codigoCNJ"
-                       formControlName="codigoCNJ"
-                       maxlength="255" upperCase>
-                <mat-hint align="end">{{codigoCNJ.value.length}} / 255</mat-hint>
-            </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Código CNJ</mat-label>
+            <input matInput #codigoCNJ
+                   name="codigoCNJ"
+                   formControlName="codigoCNJ"
+                   maxlength="255" upperCase>
+            <mat-hint align="end">{{codigoCNJ.value.length}} / 255</mat-hint>
+        </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Glossário</mat-label>
-                <textarea formControlName="glossario"
-                          matInput #glossario
-                          cdkTextareaAutosize
-                          #autosize="cdkTextareaAutosize"
-                          cdkAutosizeMinRows="4"
-                          cdkAutosizeMaxRows="10"></textarea>
-                <mat-hint align="end">{{glossario.value.length}} / 1000</mat-hint>
-            </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Glossário</mat-label>
+            <textarea formControlName="glossario"
+                      matInput #glossario
+                      cdkTextareaAutosize
+                      #autosize="cdkTextareaAutosize"
+                      cdkAutosizeMinRows="4"
+                      cdkAutosizeMaxRows="10"></textarea>
+            <mat-hint align="end">{{glossario.value.length}} / 1000</mat-hint>
+        </mat-form-field>
 
-            <mat-form-field fxFlex="100">
+        <mat-form-field fxFlex="100">
 
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Assunto Pai"
-                           formControlName="parent"
-                           [matAutocomplete]="assuntoAdministrativo.autocomplete">
-                </div>
-                <cdk-assunto-administrativo-autocomplete
-                    #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
-                    [control]="form.get('parent')">
-                </cdk-assunto-administrativo-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showAssuntoAdministrativoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-
-            </mat-form-field>
-
-            <mat-checkbox formControlName="ativo"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-                Ativo
-            </mat-checkbox>
-        </div>
-
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12"
-                    [disabled]="form.invalid">
-                SALVAR
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Assunto Pai"
+                       formControlName="parent"
+                       [matAutocomplete]="assuntoAdministrativo.autocomplete">
+            </div>
+            <cdk-assunto-administrativo-autocomplete
+                #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
+                [control]="form.get('parent')">
+            </cdk-assunto-administrativo-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showAssuntoAdministrativoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
 
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
+        </mat-form-field>
 
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+        <mat-checkbox formControlName="ativo"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+            Ativo
+        </mat-checkbox>
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+            CANCELAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
 
 <cdk-assunto-administrativo-gridsearch
     fxFlex="1 0 auto"

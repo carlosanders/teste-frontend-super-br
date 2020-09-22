@@ -1,63 +1,61 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form class="p-16" fxLayoutGap="36px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+<form class="p-16" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      name="form" [formGroup]="form">
 
-        <div fxFlex="1 0 auto" fxLayout="column">
+    <div fxFlex="1 0 auto" fxLayout="column">
 
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-slide-toggle formControlName="encerraTarefa">
+                Encerra Tarefa
+            </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('encerraTarefa')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+        </div>
+
+        <mat-form-field>
             <div fxLayout="row" fxLayoutAlign="start center">
-                <mat-slide-toggle formControlName="encerraTarefa">
-                    Encerra Tarefa
-                </mat-slide-toggle>
-                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                        (click)="showLogEntryGrid('encerraTarefa')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
+                <input matInput placeholder="Assessor"
+                       formControlName="usuarioVinculado"
+                       [matAutocomplete]="usuarioVinculado.autocomplete" required
+                       (blur)="checkUsuarioVinculado()">
             </div>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Assessor"
-                           formControlName="usuarioVinculado"
-                           [matAutocomplete]="usuarioVinculado.autocomplete" required
-                           (blur)="checkUsuarioVinculado()">
-                </div>
-                <cdk-usuario-autocomplete
-                    #usuarioVinculado="usuarioAutocomplete"
-                    [control]="form.get('usuarioVinculado')"
-                    [pagination]="usuarioVinculadoPagination">
-                </cdk-usuario-autocomplete>
-                <button *ngIf="form.get('usuarioVinculado').enabled" matSuffix mat-button mat-icon-button
-                        (click)="showUsuarioVinculadoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('usuarioVinculado').hasError('formError')">
-                    {{form.get('usuarioVinculado').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-        </div>
-
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
+            <cdk-usuario-autocomplete
+                #usuarioVinculado="usuarioAutocomplete"
+                [control]="form.get('usuarioVinculado')"
+                [pagination]="usuarioVinculadoPagination">
+            </cdk-usuario-autocomplete>
+            <button *ngIf="form.get('usuarioVinculado').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showUsuarioVinculadoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
+            <mat-error *ngIf="form.get('usuarioVinculado').hasError('formError')">
+                {{form.get('usuarioVinculado').errors.formError}}
+            </mat-error>
+        </mat-form-field>
 
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+    </div>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+            CANCELAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
 
 <cdk-usuario-gridsearch
     fxFlex="1 0 auto"

@@ -1,80 +1,84 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="36px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="36px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      name="form" [formGroup]="form">
 
-        <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
+    <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Senha</mat-label>
-                <input type="password"
-                       matInput #senhaAtual
-                       name="senhaAtual"
-                       formControlName="senhaAtual"
-                       required
-                       minlength="8"
-                       maxlength="16">
-                <mat-hint align="end">{{senhaAtual.value.length}} / 16</mat-hint>
-                <mat-error *ngIf="form.get('senhaAtual').hasError('formError')">{{form.get('senhaAtual').errors.formError}}</mat-error>
-                <mat-error *ngIf="form.get('senhaAtual').hasError('required')">Campo obrigatório!</mat-error>
-                <mat-error *ngIf="form.get('senhaAtual').hasError('minlength')">Campo deve ter no mínimo 8 dígitos!</mat-error>
-                <mat-error *ngIf="form.get('senhaAtual').hasError('maxlength')">Campo deve ter no máximo 16 dígitos!</mat-error>
-            </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Senha</mat-label>
+            <input type="password"
+                   matInput #senhaAtual
+                   name="senhaAtual"
+                   formControlName="senhaAtual"
+                   required
+                   minlength="8"
+                   maxlength="16">
+            <mat-hint align="end">{{senhaAtual.value.length}} / 16</mat-hint>
+            <mat-error
+                *ngIf="form.get('senhaAtual').hasError('formError')">{{form.get('senhaAtual').errors.formError}}</mat-error>
+            <mat-error *ngIf="form.get('senhaAtual').hasError('required')">Campo obrigatório!</mat-error>
+            <mat-error *ngIf="form.get('senhaAtual').hasError('minlength')">Campo deve ter no mínimo 8 dígitos!
+            </mat-error>
+            <mat-error *ngIf="form.get('senhaAtual').hasError('maxlength')">Campo deve ter no máximo 16 dígitos!
+            </mat-error>
+        </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Nova senha</mat-label>
-                <input type="password"
-                       matInput #password
-                       name="password"
-                       formControlName="password"
-                       required
-                       minlength="8"
-                       maxlength="16">
-                <mat-hint align="end">{{password.value.length}} / 16</mat-hint>
-                <mat-error *ngIf="form.get('password').hasError('formError')">{{form.get('password').errors.formError}}</mat-error>
-                <mat-error *ngIf="form.get('password').hasError('required')">Campo obrigatório!</mat-error>
-                <mat-error *ngIf="form.get('password').hasError('minlength')">Campo deve ter no mínimo 8 dígitos!</mat-error>
-                <mat-error *ngIf="form.get('password').hasError('maxlength')">Campo deve ter no máximo 16 dígitos!</mat-error>
-            </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Nova senha</mat-label>
+            <input type="password"
+                   matInput #password
+                   name="password"
+                   formControlName="password"
+                   required
+                   minlength="8"
+                   maxlength="16">
+            <mat-hint align="end">{{password.value.length}} / 16</mat-hint>
+            <mat-error
+                *ngIf="form.get('password').hasError('formError')">{{form.get('password').errors.formError}}</mat-error>
+            <mat-error *ngIf="form.get('password').hasError('required')">Campo obrigatório!</mat-error>
+            <mat-error *ngIf="form.get('password').hasError('minlength')">Campo deve ter no mínimo 8 dígitos!
+            </mat-error>
+            <mat-error *ngIf="form.get('password').hasError('maxlength')">Campo deve ter no máximo 16 dígitos!
+            </mat-error>
+        </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Repita a nova senha</mat-label>
-                <input type="password"
-                       matInput #confirmPass
-                       name="password2"
-                       formControlName="confirmPass"
-                       [errorStateMatcher]="matcher"
-                       required
-                       minlenth="8"
-                       maxlength="16">
-                <mat-hint align="end">{{confirmPass.value.length}} / 16</mat-hint>
-                <mat-error *ngIf="form.get('confirmPass').hasError('required')">
-                    Campo obrigatório!
-                </mat-error>
-                <mat-error *ngIf="form.hasError('notSame')">
-                    Senhas não conferem!
-                </mat-error>
-            </mat-form-field>
+        <mat-form-field fxFlex="100">
+            <mat-label>Repita a nova senha</mat-label>
+            <input type="password"
+                   matInput #confirmPass
+                   name="password2"
+                   formControlName="confirmPass"
+                   [errorStateMatcher]="matcher"
+                   required
+                   minlenth="8"
+                   maxlength="16">
+            <mat-hint align="end">{{confirmPass.value.length}} / 16</mat-hint>
+            <mat-error *ngIf="form.get('confirmPass').hasError('required')">
+                Campo obrigatório!
+            </mat-error>
+            <mat-error *ngIf="form.hasError('notSame')">
+                Senhas não conferem!
+            </mat-error>
+        </mat-form-field>
 
-        </div>
+    </div>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+            CANCELAR
+        </button>
+    </div>
 
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>

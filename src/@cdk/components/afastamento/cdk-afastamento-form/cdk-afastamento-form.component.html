@@ -1,41 +1,39 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+<form class="p-24 mr-24" fxLayoutGap="16px"
+      fxLayout="column"
+      fxLayoutAlign="start"
+      name="form" [formGroup]="form">
 
-    <form class="p-24 mr-24" fxLayoutGap="16px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+    <div fxFlex="1 0 auto" fxLayout="column">
 
-        <div fxFlex="1 0 auto" fxLayout="column">
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Modalidade"
+                       formControlName="modalidadeAfastamento"
+                       [matAutocomplete]="modalidadeafastamento.autocomplete"
+                       (blur)="checkModalidadeAfastamento()" required>
+            </div>
+            <cdk-modalidade-afastamento-autocomplete
+                #modalidadeafastamento="modalidadeAfastamentoAutocomplete"
+                [control]="form.get('modalidadeAfastamento')"
+                [pagination]="modalidadeAfastamentoPagination">
+            </cdk-modalidade-afastamento-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showModalidadeAfastamentoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('modalidadeAfastamento').hasError('formError')">
+                {{form.get('modalidadeAfastamento').errors.formError}}
+            </mat-error>
+        </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Modalidade"
-                           formControlName="modalidadeAfastamento"
-                           [matAutocomplete]="modalidadeafastamento.autocomplete"
-                           (blur)="checkModalidadeAfastamento()" required>
-                </div>
-                <cdk-modalidade-afastamento-autocomplete
-                    #modalidadeafastamento="modalidadeAfastamentoAutocomplete"
-                    [control]="form.get('modalidadeAfastamento')"
-                    [pagination]="modalidadeAfastamentoPagination">
-                </cdk-modalidade-afastamento-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showModalidadeAfastamentoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('modalidadeAfastamento').hasError('formError')">
-                    {{form.get('modalidadeAfastamento').errors.formError}}
-                </mat-error>
+        <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
+
+            <mat-form-field class="mr-sm-12" fxFlex>
+                <mat-label>Início do Afastamento</mat-label>
+                <input matInput formControlName="dataInicio" [matDatepicker]="dataInicio" required>
+                <mat-datepicker-toggle matSuffix [for]="dataInicio"></mat-datepicker-toggle>
+                <mat-datepicker #dataInicio></mat-datepicker>
             </mat-form-field>
-
-            <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
-
-                <mat-form-field class="mr-sm-12" fxFlex>
-                    <mat-label>Início do Afastamento</mat-label>
-                    <input matInput formControlName="dataInicio" [matDatepicker]="dataInicio" required>
-                    <mat-datepicker-toggle matSuffix [for]="dataInicio"></mat-datepicker-toggle>
-                    <mat-datepicker #dataInicio></mat-datepicker>
-                </mat-form-field>
 
             <mat-form-field class="mr-sm-12" fxFlex>
                 <mat-label>Final do Afastamento</mat-label>
@@ -48,49 +46,48 @@
                 </mat-error>
             </mat-form-field>
 
-            </div>
+        </div>
 
-            <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
+        <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
 
-                <mat-form-field class="mr-sm-12" fxFlex>
-                    <mat-label>Início do Bloqueio</mat-label>
-                    <input matInput [matDatepicker]="dataInicioBloqueio"
-                           formControlName="dataInicioBloqueio" required>
-                    <mat-datepicker-toggle matSuffix [for]="dataInicioBloqueio"></mat-datepicker-toggle>
-                    <mat-datepicker #dataInicioBloqueio></mat-datepicker>
-                </mat-form-field>
+            <mat-form-field class="mr-sm-12" fxFlex>
+                <mat-label>Início do Bloqueio</mat-label>
+                <input matInput [matDatepicker]="dataInicioBloqueio"
+                       formControlName="dataInicioBloqueio" required>
+                <mat-datepicker-toggle matSuffix [for]="dataInicioBloqueio"></mat-datepicker-toggle>
+                <mat-datepicker #dataInicioBloqueio></mat-datepicker>
+            </mat-form-field>
 
-                <mat-form-field class="mr-sm-12" fxFlex>
-                    <mat-label>Final do Bloqueio</mat-label>
-                    <input matInput [matDatepicker]="dataFimBloqueio"
-                           formControlName="dataFimBloqueio" required>
-                    <mat-datepicker-toggle matSuffix [for]="dataFimBloqueio"></mat-datepicker-toggle>
-                    <mat-datepicker #dataFimBloqueio></mat-datepicker>
-                </mat-form-field>
-
-            </div>
+            <mat-form-field class="mr-sm-12" fxFlex>
+                <mat-label>Final do Bloqueio</mat-label>
+                <input matInput [matDatepicker]="dataFimBloqueio"
+                       formControlName="dataFimBloqueio" required>
+                <mat-datepicker-toggle matSuffix [for]="dataFimBloqueio"></mat-datepicker-toggle>
+                <mat-datepicker #dataFimBloqueio></mat-datepicker>
+            </mat-form-field>
 
         </div>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+    </div>
 
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                [disabled]="form.invalid">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+            CANCELAR
+        </button>
+    </div>
+
+    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+         fxLayoutAlign="center center">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+</form>
 
 <cdk-modalidade-afastamento-gridsearch
     fxFlex="1 0 auto"
