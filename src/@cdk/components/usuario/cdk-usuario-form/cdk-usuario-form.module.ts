@@ -17,6 +17,8 @@ import { CdkUsuarioFormComponent } from './cdk-usuario-form.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {UsuarioService} from '@cdk/services/usuario.service';
+import {CdkUsuarioAutocompleteModule} from '../cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkUsuarioGridsearchModule} from '../cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 
 @NgModule({
     declarations: [
@@ -38,6 +40,8 @@ import {UsuarioService} from '@cdk/services/usuario.service';
 
         CdkSharedModule,
         NgxUpperCaseDirectiveModule,
+        CdkUsuarioAutocompleteModule,
+        CdkUsuarioGridsearchModule,
     ],
     providers: [
         UsuarioService

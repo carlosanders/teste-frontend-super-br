@@ -2,14 +2,13 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter, Input, OnChanges,
-    OnDestroy,
+    OnDestroy, OnInit,
     Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
-
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Usuario} from '@cdk/models';
+import {Pagination, Usuario} from '@cdk/models';
 
 @Component({
     selector: 'cdk-usuario-form',
@@ -19,7 +18,7 @@ import {Usuario} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
+export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     usuario: Usuario;
@@ -30,19 +29,29 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
     @Input()
     errors: any;
 
+    @Input()
+    form: FormGroup;
+
+    @Input()
+    usuarioExterno = false;
+
+    @Input()
+    usuarioPagination: Pagination;
+
     @Output()
     save = new EventEmitter<any>();
 
     @Output()
     abort = new EventEmitter<any>();
 
-    @Input()
-    form: FormGroup;
+    @Output()
+    usuarioCarregado = new EventEmitter<any>();
 
     activeCard = 'form';
 
-    @Input()
-    usuarioExterno = false;
+    isCarregadoAutocomplete = false;
+
+    isCpfValido = false;
 
     /**
      * Constructor
@@ -51,21 +60,28 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {
-
         this.form = this._formBuilder.group({
             id: [null],
-            username: [null, [Validators.required, Validators.maxLength(255)]],
-            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            username: [null, [Validators.required, Validators.maxLength(11), Validators.minLength(11)]],
+            nome: [null, [Validators.required, Validators.maxLength(255), Validators.minLength(5)]],
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2), Validators.max(4)]],
             enabled: [null],
             validado: [null],
         });
+
+        this.usuarioPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
+    /**
+     * On Init
+     */
+    ngOnInit(): void {
+        localStorage.setItem('filtrarPor', 'username');
+    }
 
     /**
      * On change
@@ -111,6 +127,7 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        localStorage.removeItem('filtrarPor');
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -129,4 +146,52 @@ export class CdkUsuarioFormComponent implements OnChanges, OnDestroy {
     cancel(): void {
         this.activeCard = 'form';
     }
+
+    checkUsuario(): void {
+        const value = this.form.get('username').value;
+        if(value) {
+            if (typeof value === 'string') {
+                this.isCpfValido = value.trim().length === 11;
+                if (this.isCpfValido) {
+                    this.usuario = new Usuario();
+                    this.usuario.username = value.trim();
+                    this.carregarForm(this.usuario);
+                }
+            } else {
+                this.usuarioCarregado.emit(value);
+                this.carregarForm(value);
+                this.isCpfValido = true;
+            }
+        }
+    }
+
+    selectUsuario(usuario: Usuario): void {
+        if (usuario) {
+            this.form.get('username').setValue(usuario);
+            this.carregarForm(usuario);
+        }
+        this.activeCard = 'form';
+    }
+
+    carregarForm(usuario: Usuario): void {
+        if (usuario) {
+            this.form.patchValue({
+                id: usuario.id,
+                nome: usuario.nome,
+                email: usuario.email,
+                nivelAcesso: usuario.nivelAcesso,
+                enabled: usuario.enabled,
+                validado: usuario.validado
+            });
+        }
+    }
+
+    showUsuarioGrid(): void {
+        this.activeCard = 'usuario-gridsearch';
+    }
+
+    usuarioAutocompleteLoading(isCarregandoAutocomplete: boolean) {
+        this.isCarregadoAutocomplete = !isCarregandoAutocomplete;
+    }
 }
+
