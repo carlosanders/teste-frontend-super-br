@@ -1,8 +1,4 @@
-<form
-    *ngIf="activeCard === 'form'" class="p-16" fxLayoutGap="0"
-    fxLayout="column"
-    fxLayoutAlign="start"
-    name="form" [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <div class="title-lembrete">
         <h2>CADASTRAR LEMBRETE</h2>
