@@ -1,6 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <mat-select placeholder="Tipo de coordenação"
                         formControlName="tipo" required
@@ -15,7 +15,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100" *ngIf="form.get('tipo').value === 'M'">
+    <mat-form-field *ngIf="form.get('tipo').value === 'M'">
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Modalidade de órgão central"
                    formControlName="orgaoCentral"
@@ -36,7 +36,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100" *ngIf="form.get('tipo').value === 'U'">
+    <mat-form-field *ngIf="form.get('tipo').value === 'U'">
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Unidade"
                    formControlName="unidade"
@@ -57,7 +57,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100" *ngIf="form.get('tipo').value === 'S'">
+    <mat-form-field *ngIf="form.get('tipo').value === 'S'">
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Setor"
                    formControlName="setor"
@@ -81,10 +81,10 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions" *ngIf="!saving">
-       <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>

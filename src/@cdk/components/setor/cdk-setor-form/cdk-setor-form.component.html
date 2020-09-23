@@ -1,6 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -10,7 +10,7 @@
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -20,7 +20,7 @@
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -30,7 +30,7 @@
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Espécie Setor"
                    formControlName="especieSetor"
@@ -56,7 +56,7 @@
     </mat-form-field>
 
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Município"
                    formControlName="municipio"
@@ -81,7 +81,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Setor Pai"
                    formControlName="parent"
@@ -108,7 +108,7 @@
 
     <div class="legendaGrupo">Distribuição Automática:</div>
 
-    <mat-radio-group fxFlex="100" class="distribuicaoCentena"
+    <mat-radio-group class="distribuicaoCentena"
                      formControlName="distribuicaoCentena"
                      aria-labelledby="Tipo Prevenção Absoluta"
                      fxLayoutAlign="row">
@@ -212,11 +212,11 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div class="actions" *ngIf="!saving">
-       <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+    <div class="actions">
+       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>

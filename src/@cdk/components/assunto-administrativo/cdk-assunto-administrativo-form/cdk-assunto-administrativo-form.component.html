@@ -1,6 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" (submit)="submit()">
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <mat-label>Nome</mat-label>
         <input matInput #nome
                name="nome"
@@ -9,7 +9,7 @@
         <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <mat-label>Dispositivo Legal</mat-label>
         <input matInput #dispositivoLegal
                name="dispositivoLegal"
@@ -18,7 +18,7 @@
         <mat-hint align="end">{{dispositivoLegal.value.length}} / 255</mat-hint>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <mat-label>Código CNJ</mat-label>
         <input matInput #codigoCNJ
                name="codigoCNJ"
@@ -27,7 +27,7 @@
         <mat-hint align="end">{{codigoCNJ.value.length}} / 255</mat-hint>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <mat-label>Glossário</mat-label>
         <textarea formControlName="glossario"
                   matInput #glossario
@@ -38,7 +38,7 @@
         <mat-hint align="end">{{glossario.value.length}} / 1000</mat-hint>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
 
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Assunto Pai"
@@ -63,11 +63,11 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div class="actions" *ngIf="!saving">
-       <button mat-raised-button color="accent" class="mr-sm-12" [disabled]="form.invalid" *ngIf="!saving">
+    <div class="actions">
+       <button mat-raised-button color="accent" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>

@@ -22,11 +22,11 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions" *ngIf="!saving">
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+        <button mat-raised-button color="accent" (click)="submit()"
                 [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()"
+        <button mat-raised-button color="warn" (click)="doAbort()"
                 [disabled]="form.invalid" *ngIf="!saving">
             CANCELAR
         </button>

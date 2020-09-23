@@ -1,18 +1,18 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Modalidade Template"
                    formControlName="modalidadeTemplate"
@@ -34,7 +34,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Tipo Documento"
                    formControlName="tipoDocumento"
@@ -63,12 +63,12 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div class="actions" *ngIf="!saving">
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
                 [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
+        <button mat-raised-button color="warn" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>

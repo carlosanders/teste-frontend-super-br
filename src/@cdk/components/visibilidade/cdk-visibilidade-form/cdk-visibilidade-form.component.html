@@ -11,7 +11,7 @@
         </mat-radio-button>
     </mat-radio-group>
 
-    <mat-form-field fxFlex="100" *ngIf="this.form.get('tipo').value === 'usuario'">
+    <mat-form-field *ngIf="this.form.get('tipo').value === 'usuario'">
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Usuario"
                    formControlName="usuario"
@@ -33,7 +33,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100" *ngIf="this.form.get('tipo').value === 'setor'">
+    <mat-form-field *ngIf="this.form.get('tipo').value === 'setor'">
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Unidade Responsável"
                    formControlName="unidade"
@@ -54,7 +54,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100" *ngIf="this.form.get('tipo').value === 'setor'">
+    <mat-form-field *ngIf="this.form.get('tipo').value === 'setor'">
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Setor"
                    formControlName="setor"
@@ -99,10 +99,10 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div *ngIf="!saving" class="actions">
-       <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>

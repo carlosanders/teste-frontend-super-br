@@ -4,7 +4,7 @@
         Urgente
     </mat-slide-toggle>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
 
         <input matInput placeholder="Processo"
                formControlName="processo"
@@ -24,7 +24,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Setor de Origem"
                    formControlName="setorOrigem"
@@ -52,7 +52,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Pessoa"
                    formControlName="pessoaDestino"
@@ -88,11 +88,11 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div class="actions" *ngIf="!saving">
-       <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+    <div class="actions">
+       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>

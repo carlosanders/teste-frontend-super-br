@@ -45,7 +45,7 @@
                 <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
                     <div fxLayout="column" class="formClassificacao">
                         <div fxLayout="row" *ngIf="activeCard == 'form'">
-                            <mat-form-field fxFlex="100" class="input-tree">
+                            <mat-form-field class="input-tree">
                                 <div fxLayout="row" fxLayoutAlign="start center">
                                     <input matInput placeholder="Código" formControlName="codigo" minlength="3"
                                            maxlength="25" required>
@@ -56,7 +56,7 @@
                                 </div>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="100" class="input-tree">
+                            <mat-form-field class="input-tree">
                                 <div fxLayout="row" fxLayoutAlign="start center">
                                     <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required>
                                     <button matSuffix mat-button mat-icon-button *ngIf="formClassificacao.value.id"
@@ -66,7 +66,7 @@
                                 </div>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="100" class="input-tree">
+                            <mat-form-field class="input-tree">
                                 <div fxLayout="row" fxLayoutAlign="start center">
                                     <input matInput placeholder="Destinação"
                                            formControlName="modalidadeDestinacao"
@@ -141,7 +141,7 @@
                                     </mat-form-field>
                                 </section>
                                 <p>
-                                    <mat-form-field fxFlex="100" class="input-tree">
+                                    <mat-form-field class="input-tree">
                                         <div fxLayout="row" fxLayoutAlign="start center">
                                             <input matInput placeholder="Evento"
                                                    formControlName="prazoGuardaFaseCorrenteEvento">
@@ -192,7 +192,7 @@
                                     </mat-form-field>
                                 </section>
                                 <p>
-                                    <mat-form-field fxFlex="100">
+                                    <mat-form-field>
                                         <div fxLayout="row" fxLayoutAlign="start center">
                                             <input matInput placeholder="Evento"
                                                    formControlName="prazoGuardaFaseIntermediariaEvento">
@@ -240,13 +240,13 @@
                             >{{formClassificacao.errors.rulesError}}
                             </mat-error>
 
-                            <div class="actions" *ngIf="!saving">
-                                <button mat-raised-button color="accent" class="mr-sm-12"
+                            <div class="actions">
+                                <button mat-raised-button color="accent"
                                         [disabled]="formClassificacao.invalid"
                                         (click)="submit(node)" *ngIf="!saving">
                                     SALVAR
                                 </button>
-                                <button mat-raised-button color="warn" type="button" class="mr-sm-12"
+                                <button mat-raised-button color="warn" type="button"
                                         (click)="doAbort(node)" *ngIf="!saving">
                                     CANCELAR
                                 </button>

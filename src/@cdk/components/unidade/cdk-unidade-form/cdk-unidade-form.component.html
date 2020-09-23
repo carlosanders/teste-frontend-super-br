@@ -1,43 +1,43 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Prefixo NUP" formControlName="prefixoNUP" required maxlength="255">
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="NUP Inicial" formControlName="sequenciaInicialNUP" maxlength="11">
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput #email placeholder="Email" formControlName="email" maxlength="255" upperCase>
             <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
         </div>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Órgão Central"
                    formControlName="modalidadeOrgaoCentral"
@@ -58,7 +58,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Unidade Pai"
                    formControlName="unidadePai"
@@ -79,7 +79,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Gênero"
                    formControlName="generoSetor"
@@ -105,7 +105,7 @@
         Ativo
     </mat-checkbox>
 
-    <mat-form-field fxFlex="100">
+    <mat-form-field>
         <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Município"
                    formControlName="municipio"
@@ -143,11 +143,11 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div *ngIf="!saving" class="actions">
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()" [disabled]="form.invalid"
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid"
                 *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
