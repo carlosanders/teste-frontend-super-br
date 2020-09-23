@@ -1,6 +1,5 @@
 <!-- SIDEBAR HEADER -->
-<div fxLayout="column" fxLayoutAlign="center center"
-     class="header accent p-24 pb-4">
+<div class="header accent">
     <div class="logo" fxLayout="row" fxLayoutAlign="start center">
         <mat-icon class="logo-icon s-32" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
             book
@@ -13,10 +12,8 @@
 
 <!-- SIDEBAR CONTENT -->
 
-<div class="content mt-16" cdkPerfectScrollbar>
-
+<div class="content" cdkPerfectScrollbar>
     <div class="nav material2">
-
         <div class="nav-item" *ngFor="let link of links">
             <a *ngIf="(link.canShow === undefined || (link.canShow(this.processo$) | async) === true) && this._loginService.isGranted(link.role) && (!link.processo || (processo$ | async))"
                class="nav-link" matRipple [routerLink]="link.link"
@@ -25,8 +22,6 @@
                 <span>{{link.nome | titlecase}}</span>
             </a>
         </div>
-
     </div>
-
 </div>
 <!-- / SIDEBAR CONTENT -->

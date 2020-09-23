@@ -48,7 +48,7 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
      */
     ngOnInit(): void {
         this._documentoAvulsoService.count(
-            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull"}`)
+            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull","dataHoraRemessa": "isNotNull"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
@@ -59,7 +59,7 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
         );
 
         this._documentoAvulsoService.count(
-            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+            `{"usuarioResponsavel.id": "eq:${this._profile.id}", "dataHoraResposta": "isNull", "dataHoraRemessa": "isNotNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(

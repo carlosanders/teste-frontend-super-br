@@ -1,7 +1,16 @@
 @import "../../../../../@cdk/scss/cdk";
 
 redistribuicao-edit-bloco {
-  .bloco-edit {
-    @include mat-elevation(1);
-  }
+    display: flex;
+    flex: 1 1 auto;
+    height: 0;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
+        .bloco-edit {
+            @include mat-elevation(1);
+        }
+    }
+
 }

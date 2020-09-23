@@ -1,11 +1,13 @@
-<cdk-compartilhamento-grid
-    [loading]="(loading$ | async)"
-    [compartilhamentos]="(compartilhamentos$ | async)"
-    [total]="(pagination$ | async)?.total"
-    [deletingIds]="(deletingIds$ | async)"
-    [deletedIds]="(deletedIds$ | async)"
-    [actions]="['create', 'delete']"
-    (create)="create()"
-    (delete)="delete($event)"
-    (reload)="reload($event)">
-</cdk-compartilhamento-grid>
+<div class="content">
+    <cdk-compartilhamento-grid
+        [loading]="(loading$ | async)"
+        [compartilhamentos]="(compartilhamentos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['create', 'delete']"
+        (create)="create()"
+        (delete)="delete($event)"
+        (reload)="reload($event)">
+    </cdk-compartilhamento-grid>
+</div>

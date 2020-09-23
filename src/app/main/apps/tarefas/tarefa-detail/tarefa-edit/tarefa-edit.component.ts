@@ -18,6 +18,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
 import {Pagination} from '@cdk/models';
+import {Back} from "../../../../../store/actions";
 
 @Component({
     selector: 'tarefa-edit',
@@ -109,5 +110,9 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new SaveTarefa(tarefa));
 
+    }
+
+    cancel(): void {
+        this._store.dispatch(new Back());
     }
 }

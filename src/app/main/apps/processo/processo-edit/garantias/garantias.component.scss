@@ -1,7 +1,9 @@
-.garantias {
-    height: 100%;
-
-    .altura {
-        height: 100%;
+garantias {
+    display: flex;
+    flex: 1 1 auto;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
     }
 }

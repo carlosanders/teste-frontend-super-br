@@ -95,7 +95,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         private _router: Router,
         private _formBuilder: FormBuilder,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _loginService: LoginService,
+        public _loginService: LoginService,
         private _dynamicService: DynamicService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));

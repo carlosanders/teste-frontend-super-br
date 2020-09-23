@@ -51,7 +51,7 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
         this._profile.vinculacoesPessoasUsuarios.forEach((pessoaConveniada) => pessoaIds.push(pessoaConveniada.pessoa.id));
 
         this._documentoAvulsoService.count(
-            `{"pessoaDestino.id": "in:${pessoaIds}", "dataHoraResposta": "isNull"}`)
+            `{"pessoaDestino.id": "in:${pessoaIds}", "dataHoraResposta": "isNull", "dataHoraRemessa": "isNotNull"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
@@ -62,7 +62,7 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
         );
 
         this._documentoAvulsoService.count(
-            `{"pessoaDestino.id": "eq:${pessoaIds}", "dataHoraResposta": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+            `{"pessoaDestino.id": "eq:${pessoaIds}", "dataHoraResposta": "isNull", "dataHoraRemessa": "isNotNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(

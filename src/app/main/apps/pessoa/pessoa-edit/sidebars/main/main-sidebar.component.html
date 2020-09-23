@@ -1,12 +1,12 @@
 <!-- SIDEBAR HEADER -->
-<div class="header p-24" fxLayout="row" fxLayoutAlign="start center">
+<div class="header">
     <mat-icon class="mr-16">person</mat-icon>
     <span class="h5">Pessoa</span>
 </div>
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content py-16">
+<div class="content" cdkPerfectScrollbar>
     <div class="nav material2">
         <div class="nav-item" *ngFor="let link of links">
             <a *ngIf="!link.pessoa || (pessoa$ | async)" class="nav-link" matRipple [routerLink]="[link.link]"

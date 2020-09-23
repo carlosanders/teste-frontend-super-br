@@ -1,61 +1,104 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
+    <form *ngIf="activeCard === 'form'" class="mr-24"
+          fxLayout="column"
+          fxLayoutAlign="start"
+          name="form" [formGroup]="form">
 
-    <mat-form-field>
-        <mat-label>CPF</mat-label>
-        <input matInput #username
-               name="username"
-               formControlName="username"
-               [readonly]="form.value.id"
-               maxlength="255" upperCase>
-        <mat-hint align="end">{{username.value.length}} / 255</mat-hint>
-    </mat-form-field>
+        <div fxLayout="column">
 
-    <mat-form-field>
-        <mat-label>Nome</mat-label>
-        <input matInput #nome
-               name="nome"
-               formControlName="nome"
-               maxlength="255" upperCase>
-        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
-    </mat-form-field>
+            <mat-form-field fxFlex="100">
+                <div fxLayout="row" fxLayoutAlign="start center">
+                    <input matInput placeholder="CPF"
+                           formControlName="username"
+                           [matAutocomplete]="usuarioAutocomplete.autocomplete"
+                           required
+                           (blur)="checkUsuario()"
+                           maxlength="11"
+                           minlength="11">
+                </div>
+                <cdk-usuario-autocomplete
+                    #usuarioAutocomplete="usuarioAutocomplete"
+                    [control]="form.get('username')"
+                    [pagination]="usuarioPagination"
+                    (usuarioListIsLoadingEmit)="usuarioAutocompleteLoading($event)">
+                </cdk-usuario-autocomplete>
+                <button matSuffix mat-button mat-icon-button
+                        (click)="showUsuarioGrid()">
+                    <mat-icon matTooltip="Procurar">search</mat-icon>
+                </button>
+                <mat-error *ngIf="form.get('username').hasError('formError')">
+                    {{form.get('username').errors.formError}}
+                </mat-error>
+            </mat-form-field>
+            <ng-template
+                [ngIf]="(isCarregadoAutocomplete && isCpfValido) ||
+                        (usuario && usuario.username && usuario.username.length===11)">
+                <mat-form-field fxFlex="100">
+                    <mat-label>Nome</mat-label>
+                    <input matInput #nome
+                           name="nome"
+                           formControlName="nome"
+                           maxlength="255" upperCase>
+                    <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+                </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput #email
-               name="email"
-               formControlName="email"
-               maxlength="255">
-        <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
-    </mat-form-field>
+                <mat-form-field fxFlex="100">
+                    <mat-label>Email</mat-label>
+                    <input matInput #email
+                           name="email"
+                           formControlName="email"
+                           maxlength="255">
+                    <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
+                </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Nível de Acesso</mat-label>
-        <input matInput #nivelAcesso
-               name="nivelAcesso"
-               formControlName="nivelAcesso"
-               type="number"
-               max="4"
-               maxlength="2">
-    </mat-form-field>
+                <mat-form-field fxFlex="100">
+                    <mat-label>Nível de Acesso</mat-label>
+                    <input matInput #nivelAcesso
+                           name="nivelAcesso"
+                           formControlName="nivelAcesso"
+                           type="number"
+                           max="4"
+                           maxlength="2">
+                </mat-form-field>
 
-    <mat-checkbox formControlName="enabled">
-        Ativo
-    </mat-checkbox>
+                <mat-checkbox formControlName="enabled"
+                              class="mr-16 mb-16" fxFlex="0 1 auto">
+                    Ativo
+                </mat-checkbox>
 
-    <mat-checkbox formControlName="validado" *ngIf="usuarioExterno">
-        Validado
-    </mat-checkbox>
+                <mat-checkbox formControlName="validado" *ngIf="usuarioExterno"
+                              class="mr-16 mb-16" fxFlex="0 1 auto">
+                    Validado
+                </mat-checkbox>
+            </ng-template>
+        </div>
 
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
-            SALVAR
-        </button>
-        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
-            CANCELAR
-        </button>
-        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
-    </div>
+        <ng-template [ngIf]="(isCarregadoAutocomplete && isCpfValido) || (usuario && usuario.id)">
+            <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+                 fxLayoutAlign="center center">
+                <button type="button" mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+                        [disabled]="form.invalid && isCarregadoAutocomplete">
+                    SALVAR
+                </button>
+                <button type="button" mat-raised-button color="warn" class="mr-sm-12" (click)="doAbort()">
+                    CANCELAR
+                </button>
+            </div>
+        </ng-template>
 
-</form>
+        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
+             fxLayoutAlign="center center">
+            <mat-spinner color="accent" diameter="24"></mat-spinner>
+        </div>
+    </form>
+</div>
+
+<cdk-usuario-gridsearch
+    fxFlex="1 0 auto"
+    *ngIf="activeCard === 'usuario-gridsearch'"
+    [pagination]="usuarioPagination"
+    (selected)="selectUsuario($event)"
+    (cancel)="cancel()">
+</cdk-usuario-gridsearch>

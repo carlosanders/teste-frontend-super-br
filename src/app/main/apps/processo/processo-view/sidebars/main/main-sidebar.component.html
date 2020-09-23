@@ -1,7 +1,6 @@
 <!-- SIDEBAR HEADER -->
 <div class="header p-8">
-    <div class="juntada-list-control" fxLayout="row" fxLayoutAlign="start center">
-
+    <div class="actions">
         <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) != '{}'}" mat-icon-button
                 (click)="toggleFilter()"
                 aria-label="filtrar"
@@ -27,71 +26,71 @@
         <div>
             {{juntadas.length}}/{{pagination.total}}
         </div>
+
+    </div>
+
+    <div class="filters" *ngIf="showListFilter">
+        <h3>Filtros</h3>
+
+        <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+              fxFlex="1 0 auto" name="form" [formGroup]="form">
+
+            <div fxFlex="1 0 auto" fxLayout="column">
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Volume"
+                               formControlName="volume"
+                               [matAutocomplete]="volume.autocomplete">
+                    </div>
+                    <cdk-volume-autocomplete
+                        #volume="volumeAutocomplete"
+                        [pagination]="volumePaginaton"
+                        [control]="form.get('volume')">
+                    </cdk-volume-autocomplete>
+                </mat-form-field>
+
+
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center">
+                        <input matInput placeholder="Documento"
+                               formControlName="tipoDocumento"
+                               [matAutocomplete]="tipoDocumento.autocomplete">
+                    </div>
+                    <cdk-tipo-documento-autocomplete
+                        #tipoDocumento="tipoDocumentoAutocomplete"
+                        [control]="form.get('tipoDocumento')">
+                    </cdk-tipo-documento-autocomplete>
+                </mat-form-field>
+
+            </div>
+
+            <div fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
+                 fxLayoutAlign="center center">
+                <button mat-raised-button color="accent" class="mr-sm-12"
+                        [disabled]="(listFilter | json) == '{}'" (click)="pesquisar()">
+                    Pesquisar
+                </button>
+                <button mat-raised-button color="warn" class="mr-sm-12"
+                        (click)="limpar()">
+                    Limpar
+                </button>
+            </div>
+        </form>
     </div>
 
 </div>
 <!-- / SIDEBAR HEADER -->
 
-<div class="m-8" *ngIf="showListFilter" fxLayout="column" fxLayoutAlign="start center">
-    <h3>Filtros</h3>
-
-    <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
-          fxFlex="1 0 auto" name="form" [formGroup]="form">
-
-        <div fxFlex="1 0 auto" fxLayout="column">
-
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Volume"
-                           formControlName="volume"
-                           [matAutocomplete]="volume.autocomplete">
-                </div>
-                <cdk-volume-autocomplete
-                    #volume="volumeAutocomplete"
-                    [pagination]="volumePaginaton"
-                    [control]="form.get('volume')">
-                </cdk-volume-autocomplete>
-            </mat-form-field>
-
-
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Documento"
-                           formControlName="tipoDocumento"
-                           [matAutocomplete]="tipoDocumento.autocomplete">
-                </div>
-                <cdk-tipo-documento-autocomplete
-                    #tipoDocumento="tipoDocumentoAutocomplete"
-                    [control]="form.get('tipoDocumento')">
-                </cdk-tipo-documento-autocomplete>
-            </mat-form-field>
-
-        </div>
-
-        <div fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12"
-                    [disabled]="(listFilter | json) == '{}'" (click)="pesquisar()">
-                Pesquisar
-            </button>
-            <button mat-raised-button color="warn" class="mr-sm-12"
-                    (click)="limpar()">
-                Limpar
-            </button>
-        </div>
-    </form>
-</div>
-
-<div *ngIf="(isLoading$ | async)" fxLayout="column" fxFlex
-     fxLayoutAlign="center center">
-    <mat-spinner class="juntada-list-loading" diameter="24"></mat-spinner>
-</div>
-
-<div class="juntadas" cdkPerfectScrollbar infiniteScroll
+<div class="content" cdkPerfectScrollbar infiniteScroll
      [scrollWindow]="false"
      [infiniteScrollDistance]="2"
      [infiniteScrollThrottle]="50"
      (scrolled)="onScroll()">
+
+    <div class="loading" *ngIf="(isLoading$ | async)">
+        <mat-spinner class="juntada-list-loading" diameter="24"></mat-spinner>
+    </div>
 
     <div class="juntada capa" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"
          (click)="goToCapaProcesso()"
@@ -126,7 +125,8 @@
             <div *ngIf="juntada.ativo">
                 <div class="descricao">{{juntada.descricao}}</div>
                 <div class="criado-em">{{juntada.criadoEm | date: 'dd/MM/yyyy'}}</div>
-                <div *ngIf="juntada.documento.origemDados !== undefined && juntada.documento.origemDados.status === 0">
+                <div
+                    *ngIf="juntada.documento.origemDados !== undefined && juntada.documento.origemDados.status === 0">
                     <div fxLayout="row" fxLayoutAlign="start center">
                         <mat-spinner diameter="24"></mat-spinner>
                     </div>
@@ -152,7 +152,8 @@
                           [ngClass]="{'current-tipo-documento': index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{juntada.documento.tipoDocumento.nome}}</span>
                     <div *ngIf="j>0">{{j + 1}}</div>
                     <mat-icon class="ml-4 s-24"
-                              *ngIf="index[currentStep.step][currentStep.subStep] === componenteDigital.id">arrow_left
+                              *ngIf="index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                        arrow_left
                     </mat-icon>
                 </div>
                 <div *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); let k = index;"
@@ -182,5 +183,4 @@
             </div>
         </div>
     </div>
-
 </div>
