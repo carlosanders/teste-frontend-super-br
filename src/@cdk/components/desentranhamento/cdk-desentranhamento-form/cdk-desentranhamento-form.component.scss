@@ -1,26 +1,7 @@
+@import "../../../scss/partials/cdk-form";
+
 cdk-desentranhamento-form {
-    height: 100%;
-
-    form {
-        width: 100%;
-
-        mat-radio-button {
-            margin-top: 5px;
-            margin-right: 15px;
-            margin-bottom: 15px;
-        }
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
-    }
-
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }

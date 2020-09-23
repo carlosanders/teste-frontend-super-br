@@ -1,23 +1,7 @@
+@import "../../../scss/partials/cdk-form";
+
 cdk-vinculacao-setor-municipio-form {
-    height: 100%;
-
-    form {
-        width: 100%;
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
-    }
-
-    cdk-municipio-gridsearch {
-        width: 100%;
-    }
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }

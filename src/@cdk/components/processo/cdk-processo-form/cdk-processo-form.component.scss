@@ -1,57 +1,7 @@
-@import "../../../scss/cdk";
+@import "../../../scss/partials/cdk-form";
 
 cdk-processo-form {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-
-    form {
-        flex: 0 1 auto;
-        display: flex;
-        flex-direction: column;
-
-        mat-card {
-            flex: 1 1 auto;
-            display: flex !important;
-            flex-direction: column;
-            padding: 8px !important;
-            margin-bottom: 16px !important;
-        }
-
-        mat-form-field {
-            flex: 1 1 auto;
-        }
-
-        .responsive-group {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: row;
-            mat-radio-group {
-                margin-bottom: 8px;
-                mat-radio-button {
-                    margin-right: 24px;
-                }
-            }
-        }
-
-        .responsive-group[max-width~="600px"] {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-            mat-radio-button {
-                margin-right: 0;
-            }
-        }
-
-        .actions {
-            flex: 0 1 auto;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            button:first-child {
-                margin: 0 8px 0 8px;
-            }
-        }
-    }
 }

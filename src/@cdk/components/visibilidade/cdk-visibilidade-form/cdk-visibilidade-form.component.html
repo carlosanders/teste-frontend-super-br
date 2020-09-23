@@ -1,135 +1,112 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form class="p-24 mr-24" fxLayoutGap="16px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-        <div fxFlex="1 0 auto" fxLayout="column">
+    <label id="tipo-rg">Quem receberá o acesso</label>
 
-            <label id="tipo-rg">Quem receberá o acesso</label>
+    <mat-radio-group class="tipo-rg" formControlName="tipo" aria-labelledby="tipo-rg">
+        <mat-radio-button [value]="'usuario'">
+            Usuário
+        </mat-radio-button>
+        <mat-radio-button [value]="'setor'">
+            Setor
+        </mat-radio-button>
+    </mat-radio-group>
 
-            <div class="target" fxLayout="column">
-                <mat-radio-group class="tipo-rg" formControlName="tipo" aria-labelledby="tipo-rg">
-                    <mat-radio-button [value]="'usuario'">
-                        Usuário
-                    </mat-radio-button>
-                    <mat-radio-button [value]="'setor'">
-                        Setor
-                    </mat-radio-button>
-                </mat-radio-group>
+    <mat-form-field *ngIf="this.form.get('tipo').value === 'usuario'">
+        <input matInput placeholder="Usuario"
+               formControlName="usuario"
+               required
+               [matAutocomplete]="usuario.autocomplete"
+               (blur)="checkUsuario()">
+        <cdk-usuario-autocomplete
+            #usuario="usuarioAutocomplete"
+            [control]="form.get('usuario')"
+            [pagination]="usuarioPagination">
+        </cdk-usuario-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showUsuarioGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('usuario').hasError('formError')">
+            {{form.get('usuario').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-                <mat-form-field fxFlex="100" *ngIf="this.form.get('tipo').value === 'usuario'">
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Usuario"
-                               formControlName="usuario"
-                               required
-                               [matAutocomplete]="usuario.autocomplete"
-                               (blur)="checkUsuario()">
-                    </div>
-                    <cdk-usuario-autocomplete
-                        #usuario="usuarioAutocomplete"
-                        [control]="form.get('usuario')"
-                        [pagination]="usuarioPagination">
-                    </cdk-usuario-autocomplete>
-                    <button matSuffix mat-button mat-icon-button
-                            (click)="showUsuarioGrid()">
-                        <mat-icon matTooltip="Procurar">search</mat-icon>
-                    </button>
-                    <mat-error *ngIf="form.get('usuario').hasError('formError')">
-                        {{form.get('usuario').errors.formError}}
-                    </mat-error>
-                </mat-form-field>
+    <mat-form-field *ngIf="this.form.get('tipo').value === 'setor'">
+        <input matInput placeholder="Unidade Responsável"
+               formControlName="unidade"
+               [matAutocomplete]="unidade.autocomplete" required
+               (blur)="checkUnidade()">
+        <cdk-setor-autocomplete
+            #unidade="setorAutocomplete"
+            [control]="form.get('unidade')"
+            [pagination]="unidadePagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showUnidadeGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('unidade').hasError('formError')">
+            {{form.get('unidade').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-                <mat-form-field fxFlex="100" *ngIf="this.form.get('tipo').value === 'setor'">
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Unidade Responsável"
-                               formControlName="unidade"
-                               [matAutocomplete]="unidade.autocomplete" required
-                               (blur)="checkUnidade()">
-                    </div>
-                    <cdk-setor-autocomplete
-                        #unidade="setorAutocomplete"
-                        [control]="form.get('unidade')"
-                        [pagination]="unidadePagination">
-                    </cdk-setor-autocomplete>
-                    <button matSuffix mat-button mat-icon-button
-                            (click)="showUnidadeGrid()">
-                        <mat-icon matTooltip="Procurar">search</mat-icon>
-                    </button>
-                    <mat-error *ngIf="form.get('unidade').hasError('formError')">
-                        {{form.get('unidade').errors.formError}}
-                    </mat-error>
-                </mat-form-field>
+    <mat-form-field *ngIf="this.form.get('tipo').value === 'setor'">
+        <input matInput placeholder="Setor"
+               formControlName="setor"
+               required
+               [matAutocomplete]="setor.autocomplete"
+               (blur)="checkSetor()">
+        <cdk-setor-autocomplete
+            #setor="setorAutocomplete"
+            [control]="form.get('setor')"
+            [pagination]="setorPagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorTree()">
+            <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('setor').hasError('formError')">
+            {{form.get('setor').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-                <mat-form-field fxFlex="100" *ngIf="this.form.get('tipo').value === 'setor'">
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Setor"
-                               formControlName="setor"
-                               required
-                               [matAutocomplete]="setor.autocomplete"
-                               (blur)="checkSetor()">
-                    </div>
-                    <cdk-setor-autocomplete
-                        #setor="setorAutocomplete"
-                        [control]="form.get('setor')"
-                        [pagination]="setorPagination">
-                    </cdk-setor-autocomplete>
-                    <button matSuffix mat-button mat-icon-button
-                            (click)="showSetorTree()">
-                        <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
-                    </button>
-                    <button matSuffix mat-button mat-icon-button
-                            (click)="showSetorGrid()">
-                        <mat-icon matTooltip="Procurar">search</mat-icon>
-                    </button>
-                    <mat-error *ngIf="form.get('setor').hasError('formError')">
-                        {{form.get('setor').errors.formError}}
-                    </mat-error>
-                </mat-form-field>
+    <label id="poderes-rg">Selecione os poderes</label>
+    <mat-radio-group class="poderes-rg" formControlName="poderes" aria-labelledby="poderes-rg" required>
+        <mat-radio-button [value]="'master'">
+            Administrador
+        </mat-radio-button>
+        <mat-radio-button [value]="'ver'">
+            Apenas Ver
+        </mat-radio-button>
+        <mat-radio-button [value]="'ver_editar'">
+            Apenas Ver e Editar
+        </mat-radio-button>
+        <mat-radio-button [value]="'ver_editar_apagar'">
+            Ver, Editar e Apagar
+        </mat-radio-button>
+    </mat-radio-group>
 
-            </div>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-            <label id="poderes-rg">Selecione os poderes</label>
-            <mat-radio-group class="poderes-rg" formControlName="poderes" aria-labelledby="poderes-rg" required>
-                <mat-radio-button [value]="'master'">
-                    Administrador
-                </mat-radio-button>
-                <mat-radio-button [value]="'ver'">
-                    Apenas Ver
-                </mat-radio-button>
-                <mat-radio-button [value]="'ver_editar'">
-                    Apenas Ver e Editar
-                </mat-radio-button>
-                <mat-radio-button [value]="'ver_editar_apagar'">
-                    Ver, Editar e Apagar
-                </mat-radio-button>
-            </mat-radio-group>
-        </div>
+    <div *ngIf="!saving" class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+    <div>{{form.errors}}</div>
 
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
-
-        <div>{{form.errors}}</div>
-
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+</form>
 
 <cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'usuario-gridsearch'"
     (selected)="selectUsuario($event)"
     [pagination]="usuarioPagination"
@@ -137,7 +114,6 @@
 </cdk-usuario-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'unidade-gridsearch'"
     [pagination]="unidadePagination"
     (selected)="selectUnidade($event)"
@@ -145,7 +121,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorPagination"
     (selected)="selectSetor($event)"
@@ -153,7 +128,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-setor-tree
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-tree'"
     (selected)="selectSetor($event)"
     (cancel)="cancel()">

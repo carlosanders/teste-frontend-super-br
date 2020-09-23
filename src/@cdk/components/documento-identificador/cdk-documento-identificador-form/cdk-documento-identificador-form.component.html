@@ -1,5 +1,4 @@
-<form fxLayoutGap="16px"
-      name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
         <input matInput placeholder="Número" formControlName="codigoDocumento" maxlength="255" required>
@@ -26,9 +25,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Emissor" formControlName="emissorDocumento" maxlength="255" required>
-        </div>
     </mat-form-field>
 
     <mat-form-field>
@@ -42,11 +39,11 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
+        <button mat-raised-button color="accent" (click)="submit()"
                 [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>

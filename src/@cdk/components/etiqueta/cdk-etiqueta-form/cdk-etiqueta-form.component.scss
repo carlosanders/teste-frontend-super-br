@@ -1,31 +1,7 @@
+@import "../../../scss/partials/cdk-form";
+
 cdk-etiqueta-form {
-    height: 100%;
-
-    form {
-        width: 100%;
-    }
-
-    .selected-color {
-        height: 25px;
-        width: 25px;
-        border-radius: 50%;
-        display: inline-block;
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
-    }
-
-    cdk-modalidade-etiqueta-gridsearch {
-        width: 100%;
-    }
-
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }

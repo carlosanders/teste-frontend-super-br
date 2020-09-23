@@ -1,50 +1,39 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form *ngIf="activeCard === 'form'" class="p-24"
-          fxLayout="column"
-          fxLayoutAlign="start" name="form" [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Pessoa"
-                       formControlName="pessoa"
-                       [matAutocomplete]="pessoa.autocomplete"
-                       (blur)="checkPessoa()" required>
-            </div>
-            <cdk-pessoa-autocomplete
-                #pessoa="pessoaAutocomplete"
-                [control]="form.get('pessoa')"
-                [pagination]="pessoaPagination">
-            </cdk-pessoa-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showPessoaGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('pessoa').hasError('formError')">
-                {{form.get('pessoa').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Pessoa"
+               formControlName="pessoa"
+               [matAutocomplete]="pessoa.autocomplete"
+               (blur)="checkPessoa()" required>
+        <cdk-pessoa-autocomplete
+            #pessoa="pessoaAutocomplete"
+            [control]="form.get('pessoa')"
+            [pagination]="pessoaPagination">
+        </cdk-pessoa-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showPessoaGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('pessoa').hasError('formError')">
+            {{form.get('pessoa').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
+    <div *ngIf="!saving" class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
 
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16"
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+</form>
 
 <cdk-pessoa-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'pessoa-gridsearch'"
     [pagination]="pessoaPagination"
     (selected)="selectPessoa($event)"
