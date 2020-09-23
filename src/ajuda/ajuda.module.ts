@@ -26,6 +26,10 @@ import {AjudaAdminModule} from 'app/main/apps/admin/ajuda/ajuda-admin.module';
 import {AjudaCoordenadorModule} from 'app/main/apps/coordenador/ajuda/ajuda-coordenador.module';
 import {AjudaConfiguracoesModule} from 'app/main/apps/configuracoes/ajuda/ajuda-configuracoes.module';
 import {AjudaPesquisaModule} from 'app/main/apps/pesquisa/ajuda/ajuda-pesquisa.module';
+import {AjudaConsultivoModule} from 'modules/consultivo/ajuda/ajuda-consultivo.module';
+import {AjudaJudicialModule} from 'modules/judicial/ajuda/ajuda-judicial.module';
+
+
 
 import {CdkSharedModule} from '../@cdk/shared.module';
 import {
@@ -74,6 +78,8 @@ import {
         AjudaCoordenadorModule,
         AjudaConfiguracoesModule,
         AjudaPesquisaModule,
+        AjudaConsultivoModule,
+        AjudaJudicialModule
     ],
     exports: [
         AjudaComponent

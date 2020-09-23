@@ -25,6 +25,11 @@ import {topicosConfig as administradorTopicosConfig} from '../app/main/apps/admi
 import {topicosConfig as coordenadorTopicosConfig} from '../app/main/apps/coordenador/ajuda/topicos-config';
 import {topicosConfig as configuracoesTopicosConfig} from '../app/main/apps/configuracoes/ajuda/topicos-config';
 import {topicosConfig as pesquisaTopicosConfig} from '../app/main/apps/pesquisa/ajuda/topicos-config';
+import {topicosConfig as consultivoTopicosConfig} from '../modules/consultivo/ajuda/topicos-config';
+import {topicosConfig as judicialTopicosConfig} from '../modules/judicial/ajuda/topicos-config';
+
+
+
 
 
 
@@ -59,6 +64,8 @@ export let topicosConfig = [
     ...coordenadorTopicosConfig,
     ...configuracoesTopicosConfig,
     ...pesquisaTopicosConfig,
+    ...consultivoTopicosConfig,
+    ...judicialTopicosConfig
 ];
 
 modulesConfig.forEach((modulo) => {
