@@ -1,6 +1,7 @@
 <cdk-genero-documento-grid
         [loading]="loading"
         [generoDocumentos]="generoDocumentos"
+        [displayedColumns]="['id', 'nome', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

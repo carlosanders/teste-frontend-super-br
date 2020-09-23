@@ -1,6 +1,7 @@
 <cdk-cadastro-identificador-grid
         [loading]="loading"
         [cadastroIdentificadors]="cadastroIdentificadors"
+        [displayedColumns]="['id', 'numero', 'origemDados', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

@@ -1,6 +1,7 @@
 d<cdk-relevancia-grid
         [loading]="loading"
         [relevancias]="relevancias"
+        [displayedColumns]="['id', 'processo', 'especieRelevancia.nome', 'observacao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

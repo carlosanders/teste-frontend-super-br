@@ -1,6 +1,7 @@
 d<cdk-assunto-grid
         [loading]="loading"
         [assuntos]="assuntos"
+        [displayedColumns]="['id', 'assuntoAdministrativo.nome', 'principal', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

@@ -1,6 +1,7 @@
 <cdk-especie-setor-grid
         [loading]="loading"
         [especieSetors]="especieSetors"
+        [displayedColumns]="['id', 'nome', 'descricao', 'generoSetor.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

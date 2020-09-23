@@ -1,6 +1,7 @@
 <cdk-estado-grid
         [loading]="loading"
         [estados]="estados"
+        [displayedColumns]="['id', 'nome', 'pais.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

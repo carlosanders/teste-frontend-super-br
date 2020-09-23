@@ -1,6 +1,7 @@
 <cdk-genero-atividade-grid
         [loading]="loading"
         [generoAtividades]="generoAtividades"
+        [displayedColumns]="['id', 'nome', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

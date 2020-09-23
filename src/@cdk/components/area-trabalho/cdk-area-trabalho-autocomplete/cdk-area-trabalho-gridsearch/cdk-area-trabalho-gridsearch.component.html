@@ -1,6 +1,7 @@
 <cdk-area-trabalho-grid
         [loading]="loading"
         [areaTrabalhos]="areaTrabalhos"
+        [displayedColumns]="['id', 'usuario.nome', 'dono', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

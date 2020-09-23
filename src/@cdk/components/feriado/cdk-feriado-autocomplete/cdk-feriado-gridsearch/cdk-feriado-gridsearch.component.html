@@ -1,6 +1,7 @@
 d<cdk-feriado-grid
         [loading]="loading"
         [feriados]="feriados"
+        [displayedColumns]="['id', 'nome', 'dataFeriado', 'municipio.nome', 'estado.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"
