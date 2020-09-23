@@ -1,4 +1,4 @@
-<div class="m-16 atividade" *ngIf="this.atividade && this.tarefa">
+<div class="atividade" *ngIf="this.atividade && this.tarefa">
     <cdk-atividade-form
         [atividade]="atividade"
         [documentoAvulsoVinculado]="tarefa.processo?.documentoAvulsoOrigem"

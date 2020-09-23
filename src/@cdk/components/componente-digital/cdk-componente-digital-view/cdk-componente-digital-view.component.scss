@@ -9,6 +9,7 @@ cdk-componente-digital-view {
 
         > iframe {
             display: flex;
+            flex: 1 1 auto;
         }
     }
 }

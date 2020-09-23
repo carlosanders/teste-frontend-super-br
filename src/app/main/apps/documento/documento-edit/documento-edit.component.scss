@@ -1,34 +1,44 @@
 documento-edit {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
     cdk-vinculacao-etiqueta-chips {
         width: 92% !important;
+        display: flex;
+        flex-direction: column;
+        flex: 0 1 auto;
     }
 
     .documento-edit {
-        flex: 0 1 auto;
-        flex-direction: column;
-    }
-
-    .documento-edit-content {
+        display: flex;
         flex: 1 1 auto;
-        display: flex;
         flex-direction: column;
-    }
 
-    .documento-edit-actions {
-        flex: 0 0 auto;
-        justify-content: flex-end;
-        align-items: center;
-        display: flex;
-        flex-direction: row;
-    }
+        > .center {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
 
-    .documento-edit-buttons {
-        flex: 0 0 auto;
-        justify-content: flex-start;
-        align-items: center;
-    }
+            > .actions {
+                display: flex;
+                flex: 0 0 auto;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: flex-start;
+            }
 
-    .dynamic-form {
-        flex-direction: column;
+            > .dynamic-form {
+                display: flex;
+                flex: 0 1 auto;
+                flex-direction: column;
+            }
+
+            > .content {
+                flex: 1 1 auto;
+                display: flex;
+                padding: 16px;
+            }
+        }
     }
 }

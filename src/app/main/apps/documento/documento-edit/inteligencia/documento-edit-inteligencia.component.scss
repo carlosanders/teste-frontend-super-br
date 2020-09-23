@@ -1,5 +1,13 @@
 documento-edit-inteligencia {
-    flex: 0 1 auto;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
+
+    > cdk-repositorio-grid {
+        display: flex;
+        box-sizing: border-box;
+        flex-direction: row;
+        flex: 1 1 auto;
+    }
 }
