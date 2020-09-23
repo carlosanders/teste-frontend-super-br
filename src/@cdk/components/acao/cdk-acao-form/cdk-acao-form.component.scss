@@ -1,48 +1,7 @@
-@import "../../../scss/cdk";
+@import "../../../scss/partials/cdk-form";
 
 cdk-acao-form {
-    height: 100%;
-
-    form {
-        width: 100%;
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    mat-radio-group {
-
-        &.poderes-rg {
-            padding: 16px;
-            display: flex;
-            flex-direction: column;
-            margin: 15px 0;
-            @include mat-elevation(1);
-        }
-    }
-
-    .target {
-        @include mat-elevation(1);
-        padding: 16px;
-        margin: 15px 0;
-    }
-
-    mat-radio-button {
-        margin-right: 5px;
-        margin-bottom: 5px;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
-    }
-
-    cdk-modelo-gridsearch {
-        width: 100%;
-    }
-
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }

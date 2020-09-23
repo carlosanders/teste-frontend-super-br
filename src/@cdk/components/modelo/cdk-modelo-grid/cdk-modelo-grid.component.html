@@ -1,4 +1,4 @@
-<div class="cdk-modelo-grid page-layout left-sidebar">
+<div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-modelo-filter" position="left">
@@ -6,8 +6,7 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <!-- CONTENT -->
-    <div class="responsive-grid">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
 
         <div class="actions">
 
@@ -274,7 +273,7 @@
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('editConteudo') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(modelo.id) > -1"
-                                (click)="editConteudoModelo(modelo.documento)"
+                                (click)="editConteudoModelo(modelo.documento.id)"
                                 aria-label="editar conteúdo"
                                 matTooltip="Editar Conteúdo">
                             <mat-icon>desktop_windows</mat-icon>
@@ -310,7 +309,6 @@
                 </tr>
             </table>
         </div>
-
         <div class="footer">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>

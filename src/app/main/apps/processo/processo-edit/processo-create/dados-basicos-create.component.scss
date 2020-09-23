@@ -1,12 +1,12 @@
 dados-basicos-create {
-
-    width: 100%;
-    height: 100%;
-
-    scroll-snap-align: start;
-
-    .content {
-
+    display: flex;
+    flex: 1 1 auto;
+    > mat-horizontal-stepper {
+        flex: 1 1 auto;
+        display: flex !important;
+        flex-direction: column;
+        > .mat-horizontal-content-container {
+            overflow-y: auto !important;
+        }
     }
-
 }

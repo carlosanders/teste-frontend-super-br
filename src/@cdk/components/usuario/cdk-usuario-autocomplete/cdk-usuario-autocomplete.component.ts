@@ -1,8 +1,8 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnInit, ViewChild,
+    Component, EventEmitter, Input,
+    OnInit, Output, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -38,7 +38,12 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
     @Input()
     usuarioListIsLoading: boolean;
 
+    @Output()
+    usuarioListIsLoadingEmit = new EventEmitter<any>();
+
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+
+    filtrarPor: string;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -48,10 +53,10 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
         this.usuarioListIsLoading = false;
 
         this.pagination = new Pagination();
-        this.pagination.populate = ['colaborador', 'colaborador.cargo'];
     }
 
     ngOnInit(): void {
+        this.filtrarPor = localStorage.getItem('filtrarPor');
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
@@ -59,13 +64,22 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
             switchMap((value) => {
                     let termFilter = {};
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = {
-                            ...termFilter,
-                            nome: `like:%${bit}%`
-                        };
+                        if (this.filtrarPor && this.filtrarPor === 'username') {
+                            this.pagination.populate = ['populateAll', 'colaborador', 'colaborador.cargo', 'colaborador.modalidadeColaborador'];
+                            termFilter = {
+                                ...termFilter,
+                                username: `like:%${bit}%`
+                            };
+                        } else {
+                            termFilter = {
+                                ...termFilter,
+                                nome: `like:%${bit}%`
+                            };
+                        }
                     });
                     if (typeof value === 'string') {
                         this.usuarioListIsLoading = true;
+                        this.usuarioListIsLoadingEmit.emit(this.usuarioListIsLoading);
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
@@ -78,7 +92,10 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
                             JSON.stringify(this.pagination.sort),
                             JSON.stringify(this.pagination.populate))
                             .pipe(
-                                finalize(() => this.usuarioListIsLoading = false),
+                                finalize(() => {
+                                    this.usuarioListIsLoading = false;
+                                    this.usuarioListIsLoadingEmit.emit(this.usuarioListIsLoading);
+                                }),
                                 catchError(() => of([]))
                             );
                     } else {
@@ -92,7 +109,20 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
         });
     }
 
-    displayUsuarioFn(usuario): string {
-        return usuario ? usuario.nome : null;
+    displayUsuarioFn(usuario: Usuario): string {
+        this.filtrarPor = localStorage.getItem('filtrarPor');
+        if (this.filtrarPor && this.filtrarPor === 'username') {
+            if (usuario) {
+                if (usuario.username) {
+                    return usuario.username;
+                } else {
+                    return usuario.toString();
+                }
+            } else {
+                return null;
+            }
+        } else {
+            return usuario ? usuario.nome : null;
+        }
     }
 }

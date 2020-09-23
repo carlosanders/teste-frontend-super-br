@@ -1,4 +1,4 @@
-<div class="page-layout left-sidebar" fxFlex>
+<div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-distribuicao-filter" position="left">
@@ -6,24 +6,25 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <!-- CONTENT -->
-    <div class="content responsive-grid" fxFlex fxLayout="column">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+        <div class="actions">
 
-            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
-                    (click)="doCreate()"
-                    aria-label="novo"
-                    matTooltip="Novo">
-                <mat-icon>add</mat-icon>
-            </button>
+            <div class="back">
+                <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
 
-            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
-                    (click)="doCancel()"
-                    aria-label="cancelar"
-                    matTooltip="Cancelar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
+                <button class="accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                        (click)="doCreate()"
+                        aria-label="novo"
+                        matTooltip="Novo">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
                     (click)="deleteDistribuicoes(selectedIds)"
@@ -62,11 +63,11 @@
             </button>
         </div>
 
-        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+        <div class="loading" *ngIf="loading">
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
@@ -306,7 +307,7 @@
             </table>
         </div>
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+        <div class="footer">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>
 

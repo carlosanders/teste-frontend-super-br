@@ -1,4 +1,4 @@
-<div class="cdk-modalidade-repositorio-grid page-layout left-sidebar">
+<div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-modalidade-repositorio-filter" position="left">
@@ -6,8 +6,7 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <!-- CONTENT -->
-    <div class="responsive-grid">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
 
         <div class="actions">
 

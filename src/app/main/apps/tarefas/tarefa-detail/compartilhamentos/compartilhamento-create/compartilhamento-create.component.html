@@ -1,9 +1,9 @@
-<div class="content p-16">
-        <cdk-compartilhamento-form
-                [compartilhamento]="compartilhamento"
-                [saving]="(isSaving$ | async)"
-                [errors]="(errors$ | async)"
-                (save)="submit($event)"
-                (abort)="doAbort()">
-        </cdk-compartilhamento-form>
+<div class="content">
+    <cdk-compartilhamento-form
+        [compartilhamento]="compartilhamento"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-compartilhamento-form>
 </div>

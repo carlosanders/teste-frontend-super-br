@@ -20,6 +20,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from '../../../store/actions';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'documento',
@@ -47,12 +48,14 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     /**
      *
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      * @param _cdkTranslationLoaderService
      * @param _store
      * @param _router
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
+        private _cdkSidebarService: CdkSidebarService,
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _store: Store<fromStore.DocumentoAppState>,
         private _router: Router
@@ -110,6 +113,15 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Toggle the sidebar
+     *
+     * @param name
+     */
+    toggleSidebar(name): void {
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
+    }
 
     /**
      * Refresh

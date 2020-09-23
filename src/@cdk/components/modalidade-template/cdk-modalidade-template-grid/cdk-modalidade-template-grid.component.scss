@@ -1,11 +1,10 @@
 @import "../../../scss/cdk";
 
 cdk-modalidade-template-grid {
-
     display: flex;
     flex: 1 1 auto;
 
-    .cdk-modalidade-template-grid {
+    > .page-layout {
         display: flex;
         flex: 1 1 auto;
 
@@ -74,6 +73,7 @@ cdk-modalidade-template-grid {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+            padding: 8px;
         }
 
         .responsive-grid[max-width~="600px"] {
@@ -151,3 +151,4 @@ cdk-modalidade-template-grid {
         }
     }
 }
+

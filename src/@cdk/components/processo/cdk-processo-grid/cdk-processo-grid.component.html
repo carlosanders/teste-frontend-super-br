@@ -1,5 +1,4 @@
-<div class="page-layout left-sidebar" fxFlex>
-
+<div class="page-layout left-sidebar">
     <!-- SIDEBAR -->
     <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''"
                  name="cdk-processo-filter"
@@ -9,7 +8,7 @@
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="content responsive-grid" [ngClass]="{'search': (this.mode == 'search')}" fxFlex fxLayout="column">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
 
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
 
@@ -69,7 +68,8 @@
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
+
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
@@ -434,8 +434,6 @@
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>
-
     </div>
-
 </div>
 

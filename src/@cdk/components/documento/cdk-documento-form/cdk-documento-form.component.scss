@@ -1,44 +1,7 @@
+@import "../../../scss/partials/cdk-form";
+
 cdk-documento-form {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
-
-    form {
-        flex: 0 1 auto;
-        display: flex;
-        flex-direction: column;
-
-        mat-form-field {
-            flex: 1 1 auto;
-        }
-
-        .responsive-group {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: row;
-            mat-form-field:first-child {
-                margin: 0 8px 0 0;
-            }
-        }
-
-        .responsive-group[max-width~="600px"] {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-            mat-form-field:first-child {
-                margin: 0;
-            }
-        }
-
-        .actions {
-            flex: 0 1 auto;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            button:first-child {
-                margin: 0 8px 0 8px;
-            }
-        }
-    }
 }

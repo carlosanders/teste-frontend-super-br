@@ -1,7 +1,6 @@
-<form fxLayoutGap="16px"
-      name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-checkbox formControlName="ativo" class="mr-16 mb-16">
+    <mat-checkbox formControlName="ativo">
         Ativo
     </mat-checkbox>
 
@@ -34,11 +33,11 @@
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Modalidade"
-               formControlName="modalidadeRepositorio"
-               [matAutocomplete]="modalidadeRepositorio.autocomplete"
-               (blur)="checkModalidadeRepositorio()"
-               required>
+            <input matInput placeholder="Modalidade"
+                   formControlName="modalidadeRepositorio"
+                   [matAutocomplete]="modalidadeRepositorio.autocomplete"
+                   (blur)="checkModalidadeRepositorio()"
+                   required>
         <cdk-modalidade-repositorio-autocomplete
             #modalidadeRepositorio="modalidadeRepositorioAutocomplete"
             [control]="form.get('modalidadeRepositorio')"
@@ -56,7 +55,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-        <button mat-raised-button color="accent" (click)="submit()"
+        <button mat-raised-button color="accent" type="submit" (click)="submit()"
                 [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
@@ -65,6 +64,7 @@
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
+
 </form>
 
 <cdk-setor-gridsearch

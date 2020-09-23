@@ -1,11 +1,10 @@
 @import "../../../scss/cdk";
 
 cdk-modelo-grid {
-
     display: flex;
     flex: 1 1 auto;
 
-    .cdk-modelo-grid {
+    > .page-layout {
         display: flex;
         flex: 1 1 auto;
 
@@ -74,6 +73,7 @@ cdk-modelo-grid {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+            padding: 8px;
         }
 
         .responsive-grid[max-width~="600px"] {

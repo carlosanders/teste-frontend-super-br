@@ -1,4 +1,4 @@
-<div class="cdk-vinculacao-modelo-grid page-layout left-sidebar">
+<div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-vinculacao-modelo-filter" position="left">
@@ -8,8 +8,7 @@
         </cdk-vinculacao-modelo-filter>
     </cdk-sidebar>
 
-    <!-- CONTENT -->
-    <div class="responsive-grid">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
 
         <div class="actions">
 

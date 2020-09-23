@@ -1,5 +1,13 @@
 atividade-create-bloco {
-    mat-card {
-        margin-bottom: 5px;
+    display: flex;
+    flex: 1 1 auto;
+    height: 0;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
+        mat-card {
+            margin-bottom: 5px;
+        }
     }
 }

@@ -6,6 +6,8 @@
                 [form]="formProcesso"
                 [saving]="(isSaving$ | async)"
                 [errors]="(errors$ | async)"
+                [colaborador]="_loginService.isGranted('ROLE_COLABORADOR')"
+                [pessoaVinculada]="_loginService.isGranted('ROLE_PESSOA_VINCULADA')"
                 [setorInicialPagination]="unidadePagination"
                 [procedenciaPagination]="procedenciaPagination"
                 [estados]="estados"

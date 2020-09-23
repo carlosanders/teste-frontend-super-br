@@ -1,239 +1,208 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form *ngIf="activeCard === 'form'" class="p-24"
-          fxLayout="column"
-          fxLayoutAlign="start" name="form" [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
-                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                        (click)="showLogEntryGrid('nome')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
-            </div>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
-                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                        (click)="showLogEntryGrid('sigla')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
-            </div>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
-                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                        (click)="showLogEntryGrid('endereco')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
-            </div>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Espécie Setor"
-                       formControlName="especieSetor"
-                       [matAutocomplete]="especieSetor.autocomplete"
-                       (blur)="checkEspecieSetor()" required>
-            </div>
-            <cdk-especie-setor-autocomplete
-                #especieSetor="especieSetorAutocomplete"
-                [control]="form.get('especieSetor')"
-                [pagination]="especieSetorPagination">
-            </cdk-especie-setor-autocomplete>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('especieSetor')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showEspecieSetorGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
-                {{form.get('especieSetor').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Município"
-                       formControlName="municipio"
-                       [matAutocomplete]="municipio.autocomplete"
-                       (blur)="checkMunicipio()" required>
-            </div>
-            <cdk-municipio-autocomplete
-                #municipio="municipioAutocomplete"
-                [control]="form.get('municipio')"
-                [pagination]="municipioPagination">
-            </cdk-municipio-autocomplete>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('municipio')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showMunicipioGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('municipio').hasError('formError')">
-                {{form.get('municipio').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Setor Pai"
-                       formControlName="parent"
-                       [matAutocomplete]="setor.autocomplete"
-                       (blur)="checkSetor()">
-            </div>
-            <cdk-setor-autocomplete
-                #setor="setorAutocomplete"
-                [control]="form.get('parent')"
-                [pagination]="setorPagination">
-            </cdk-setor-autocomplete>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('parent')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showSetorGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('parent').hasError('formError')">
-                {{form.get('parent').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <div class="legendaGrupo">Distribuição Automática:</div>
-
-        <mat-radio-group fxFlex="100" class="distribuicaoCentena"
-                         formControlName="distribuicaoCentena"
-                         aria-labelledby="Tipo Prevenção Absoluta"
-                         fxLayoutAlign="row">
-            <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
-                 fxLayoutAlign="start center">
-                <label id="distribuicaoCentena" class="flex legenda">Tipo Prevenção Absoluta</label>
-
-                <mat-radio-button [value]="false">
-                    DÍGITO
-                </mat-radio-button>
-                <mat-radio-button [value]="true">
-                    CENTENA
-                </mat-radio-button>
-            </div>
-        </mat-radio-group>
+    <mat-form-field>
+        <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('distribuicaoCentena')">
+                (click)="showLogEntryGrid('nome')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
+    </mat-form-field>
 
-
-        <mat-radio-group class="prazoEqualizacao"
-                         formControlName="prazoEqualizacao"
-                         aria-labelledby="Prazo Máximo Equalização"
-                         fxLayoutAlign="row">
-            <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
-                 fxLayoutAlign="start center">
-                <label id="prazoEqualizacao" class="flex legenda">Prazo Máximo Equalização </label>
-                <mat-radio-button [value]="7">
-                    7 DIAS
-                </mat-radio-button>
-                <mat-radio-button [value]="30">
-                    30 DIAS
-                </mat-radio-button>
-            </div>
-        </mat-radio-group>
+    <mat-form-field>
+        <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('prazoEqualizacao')">
+                (click)="showLogEntryGrid('sigla')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
+    </mat-form-field>
 
-
-        <mat-radio-group class="divergenciaMaxima"
-                         formControlName="divergenciaMaxima"
-                         aria-labelledby="Divergência Máxima Diária"
-                         fxLayoutAlign="row">
-            <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
-                 fxLayoutAlign="start center">
-                <label id="divergenciaMaxima" class="flex legenda">Divergência Máxima Diária </label>
-                <mat-radio-button [value]="25">
-                    PEQUENA
-                </mat-radio-button>
-                <mat-radio-button [value]="100">
-                    GRANDE
-                </mat-radio-button>
-            </div>
-        </mat-radio-group>
+    <mat-form-field>
+        <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('divergenciaMaxima')">
+                (click)="showLogEntryGrid('endereco')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
+    </mat-form-field>
 
-        <mat-checkbox formControlName="apenasDistribuicaoAutomatica"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Desconsiderar Distribuição Manual
-        </mat-checkbox>
+    <mat-form-field>
+        <input matInput placeholder="Espécie Setor"
+               formControlName="especieSetor"
+               [matAutocomplete]="especieSetor.autocomplete"
+               (blur)="checkEspecieSetor()" required>
+        <cdk-especie-setor-autocomplete
+            #especieSetor="especieSetorAutocomplete"
+            [control]="form.get('especieSetor')"
+            [pagination]="especieSetorPagination">
+        </cdk-especie-setor-autocomplete>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('apenasDistribuicaoAutomatica')">
+                (click)="showLogEntryGrid('especieSetor')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showEspecieSetorGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
+            {{form.get('especieSetor').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <mat-checkbox formControlName="comPrevencaoRelativa"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Aplicar Prevenção Relativa
-        </mat-checkbox>
+
+    <mat-form-field>
+        <input matInput placeholder="Município"
+               formControlName="municipio"
+               [matAutocomplete]="municipio.autocomplete"
+               (blur)="checkMunicipio()" required>
+        <cdk-municipio-autocomplete
+            #municipio="municipioAutocomplete"
+            [control]="form.get('municipio')"
+            [pagination]="municipioPagination">
+        </cdk-municipio-autocomplete>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('comPrevencaoRelativa')">
+                (click)="showLogEntryGrid('municipio')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showMunicipioGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('municipio').hasError('formError')">
+            {{form.get('municipio').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <div class="legendaGrupo mat-form-field-wrapper">Funcionamento:</div>
-
-        <mat-checkbox formControlName="ativo"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Ativo
-        </mat-checkbox>
+    <mat-form-field>
+        <input matInput placeholder="Setor Pai"
+               formControlName="parent"
+               [matAutocomplete]="setor.autocomplete"
+               (blur)="checkSetor()">
+        <cdk-setor-autocomplete
+            #setor="setorAutocomplete"
+            [control]="form.get('parent')"
+            [pagination]="setorPagination">
+        </cdk-setor-autocomplete>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('ativo')">
+                (click)="showLogEntryGrid('parent')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
-
-        <mat-checkbox formControlName="apenasDistribuidor"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Distribuidor
-        </mat-checkbox>
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('apenasDistribuidor')">
-            <mat-icon matTooltip="Histórico">history</mat-icon>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
+        <mat-error *ngIf="form.get('parent').hasError('formError')">
+            {{form.get('parent').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
+    <div class="legendaGrupo">Distribuição Automática:</div>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+    <mat-radio-group class="distribuicaoCentena"
+                     formControlName="distribuicaoCentena"
+                     aria-labelledby="Tipo Prevenção Absoluta">
+        <div class="start center mat-form-field-wrapper">
+            <label id="distribuicaoCentena" class="flex legenda">Tipo Prevenção Absoluta</label>
 
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
+            <mat-radio-button [value]="false">
+                DÍGITO
+            </mat-radio-button>
+            <mat-radio-button [value]="true">
+                CENTENA
+            </mat-radio-button>
         </div>
+    </mat-radio-group>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('distribuicaoCentena')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
 
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16"
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
+
+    <mat-radio-group class="prazoEqualizacao"
+                     formControlName="prazoEqualizacao"
+                     aria-labelledby="Prazo Máximo Equalização">
+        <div class="start center mat-form-field-wrapper">
+            <label id="prazoEqualizacao" class="flex legenda">Prazo Máximo Equalização </label>
+            <mat-radio-button [value]="7">
+                7 DIAS
+            </mat-radio-button>
+            <mat-radio-button [value]="30">
+                30 DIAS
+            </mat-radio-button>
         </div>
-    </form>
-</div>
+    </mat-radio-group>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('prazoEqualizacao')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
+
+
+    <mat-radio-group class="divergenciaMaxima"
+                     formControlName="divergenciaMaxima"
+                     aria-labelledby="Divergência Máxima Diária">
+        <div class="start center mat-form-field-wrapper">
+            <label id="divergenciaMaxima" class="flex legenda">Divergência Máxima Diária </label>
+            <mat-radio-button [value]="25">
+                PEQUENA
+            </mat-radio-button>
+            <mat-radio-button [value]="100">
+                GRANDE
+            </mat-radio-button>
+        </div>
+    </mat-radio-group>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('divergenciaMaxima')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
+
+    <mat-checkbox formControlName="apenasDistribuicaoAutomatica">
+        Desconsiderar Distribuição Manual
+    </mat-checkbox>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('apenasDistribuicaoAutomatica')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
+
+    <mat-checkbox formControlName="comPrevencaoRelativa">
+        Aplicar Prevenção Relativa
+    </mat-checkbox>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('comPrevencaoRelativa')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
+
+    <div class="legendaGrupo mat-form-field-wrapper">Funcionamento:</div>
+
+    <mat-checkbox formControlName="ativo">
+        Ativo
+    </mat-checkbox>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('ativo')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
+
+    <mat-checkbox formControlName="apenasDistribuidor">
+        Distribuidor
+    </mat-checkbox>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('apenasDistribuidor')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
+
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>
 
 <cdk-especie-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-setor-gridsearch'"
     [pagination]="especieSetorPagination"
     (selected)="selectEspecieSetor($event)"
@@ -241,14 +210,12 @@
 </cdk-especie-setor-gridsearch>
 
 <cdk-municipio-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'municipio-gridsearch'"
     (selected)="selectMunicipio($event)"
     (cancel)="cancel()">
 </cdk-municipio-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorPagination"
     (selected)="selectSetor($event)"
@@ -256,7 +223,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">

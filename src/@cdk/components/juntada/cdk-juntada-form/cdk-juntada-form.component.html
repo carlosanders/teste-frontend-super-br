@@ -1,187 +1,159 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form class="p-24 mr-24" fxLayoutGap="16px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-        <div fxFlex="1 0 auto" fxLayout="column">
+    <mat-slide-toggle formControlName="ativo" *ngIf="!editDescricao">
+        Ativo
+    </mat-slide-toggle>
 
-            <mat-slide-toggle formControlName="ativo" *ngIf="!editDescricao"
-                              class="mr-16 mb-16" fxFlex="0 1 auto">
-                Ativo
-            </mat-slide-toggle>
+    <mat-form-field *ngIf="!editDescricao">
+        <mat-label>Numeração Sequencial</mat-label>
+        <input matInput #numeracaoSequencial
+               name="numeracaoSequencial"
+               formControlName="numeracaoSequencial">
+        <mat-hint align="end">{{numeracaoSequencial.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="!editDescricao">
-                <mat-label>Numeração Sequencial</mat-label>
-                <input matInput #numeracaoSequencial
-                       name="numeracaoSequencial"
-                       formControlName="numeracaoSequencial">
-                <mat-hint align="end">{{numeracaoSequencial.value.length}} / 255</mat-hint>
-            </mat-form-field>
+    <mat-form-field *ngIf="!editDescricao">
+        <input matInput placeholder="Documento"
+               formControlName="documento"
+               [matAutocomplete]="documento.autocomplete" required
+               (blur)="checkDocumento()">
+        <cdk-documento-autocomplete
+            #documento="documentoAutocomplete"
+            [control]="form.get('documento')"
+            [pagination]="documentoPagination">
+        </cdk-documento-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showDocumentoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('documento').hasError('formError')">
+            {{form.get('documento').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="!editDescricao">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Documento"
-                           formControlName="documento"
-                           [matAutocomplete]="documento.autocomplete" required
-                           (blur)="checkDocumento()">
-                </div>
-                <cdk-documento-autocomplete
-                    #documento="documentoAutocomplete"
-                    [control]="form.get('documento')"
-                    [pagination]="documentoPagination">
-                </cdk-documento-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showDocumentoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('documento').hasError('formError')">
-                    {{form.get('documento').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field>
+        <mat-label>Descrição</mat-label>
+        <input matInput #descricao
+               name="descricao"
+               formControlName="descricao"
+               maxlength="4000" upperCase minlength="3" maxlength="255" required>
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id && blocoEdit.blocoEditDescricao"
+                (click)="showLogEntryGrid('descricao')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+        <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Descrição</mat-label>
-                <input matInput #descricao
-                       name="descricao"
-                       formControlName="descricao"
-                       maxlength="4000" upperCase minlength="3" maxlength="255" required>
-                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id && blocoEdit.blocoEditDescricao"
-                        (click)="showLogEntryGrid('descricao')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
-                <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
-            </mat-form-field>
+    <mat-form-field *ngIf="!editDescricao">
+        <input matInput placeholder="Origem de Dados"
+               formControlName="origemDados"
+               [matAutocomplete]="origemDados.autocomplete" required
+               (blur)="checkOrigemDados()">
+        <cdk-origem-dados-autocomplete
+            #origemDados="origemDadosAutocomplete"
+            [control]="form.get('origemDados')"
+            [pagination]="origemDadosPagination">
+        </cdk-origem-dados-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showOrigemDadosGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('origemDados').hasError('formError')">
+            {{form.get('origemDados').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="!editDescricao">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Origem de Dados"
-                           formControlName="origemDados"
-                           [matAutocomplete]="origemDados.autocomplete" required
-                           (blur)="checkOrigemDados()">
-                </div>
-                <cdk-origem-dados-autocomplete
-                    #origemDados="origemDadosAutocomplete"
-                    [control]="form.get('origemDados')"
-                    [pagination]="origemDadosPagination">
-                </cdk-origem-dados-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showOrigemDadosGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('origemDados').hasError('formError')">
-                    {{form.get('origemDados').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field *ngIf="!editDescricao">
+        <input matInput placeholder="Volume"
+               formControlName="volume"
+               [matAutocomplete]="volume.autocomplete" required
+               (blur)="checkVolume()">
+        <cdk-volume-autocomplete
+            #volume="volumeAutocomplete"
+            [control]="form.get('volume')"
+            [pagination]="volumePagination">
+        </cdk-volume-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showVolumeGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('volume').hasError('formError')">
+            {{form.get('volume').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="!editDescricao">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Volume"
-                           formControlName="volume"
-                           [matAutocomplete]="volume.autocomplete" required
-                           (blur)="checkVolume()">
-                </div>
-                <cdk-volume-autocomplete
-                    #volume="volumeAutocomplete"
-                    [control]="form.get('volume')"
-                    [pagination]="volumePagination">
-                </cdk-volume-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showVolumeGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('volume').hasError('formError')">
-                    {{form.get('volume').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field *ngIf="!editDescricao">
+        <input matInput placeholder="Documento Avulso"
+               formControlName="documentoAvulso"
+               [matAutocomplete]="documentoAvulso.autocomplete" required
+               (blur)="checkDocumentoAvulso()">
+        <cdk-documento-avulso-autocomplete
+            #documentoAvulso="documentoAvulsoAutocomplete"
+            [control]="form.get('documentoAvulso')"
+            [pagination]="documentoAvulsoPagination">
+        </cdk-documento-avulso-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showDocumentoAvulsoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('documentoAvulso').hasError('formError')">
+            {{form.get('documentoAvulso').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="!editDescricao">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Documento Avulso"
-                           formControlName="documentoAvulso"
-                           [matAutocomplete]="documentoAvulso.autocomplete" required
-                           (blur)="checkDocumentoAvulso()">
-                </div>
-                <cdk-documento-avulso-autocomplete
-                    #documentoAvulso="documentoAvulsoAutocomplete"
-                    [control]="form.get('documentoAvulso')"
-                    [pagination]="documentoAvulsoPagination">
-                </cdk-documento-avulso-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showDocumentoAvulsoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('documentoAvulso').hasError('formError')">
-                    {{form.get('documentoAvulso').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field *ngIf="!editDescricao">
+        <input matInput placeholder="Atividade"
+               formControlName="atividade"
+               [matAutocomplete]="atividade.autocomplete" required
+               (blur)="checkAtividade()">
+        <cdk-atividade-autocomplete
+            #atividade="atividadeAutocomplete"
+            [control]="form.get('atividade')"
+            [pagination]="atividadePagination">
+        </cdk-atividade-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showAtividadeGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('atividade').hasError('formError')">
+            {{form.get('atividade').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="!editDescricao">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Atividade"
-                           formControlName="atividade"
-                           [matAutocomplete]="atividade.autocomplete" required
-                           (blur)="checkAtividade()">
-                </div>
-                <cdk-atividade-autocomplete
-                    #atividade="atividadeAutocomplete"
-                    [control]="form.get('atividade')"
-                    [pagination]="atividadePagination">
-                </cdk-atividade-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showAtividadeGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('atividade').hasError('formError')">
-                    {{form.get('atividade').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field *ngIf="!editDescricao">
+            <input matInput placeholder="Tarefa"
+                   formControlName="tarefa"
+                   [matAutocomplete]="tarefa.autocomplete" required
+                   (blur)="checkTarefa()">
+        <cdk-tarefa-autocomplete
+            #tarefa="tarefaAutocomplete"
+            [control]="form.get('tarefa')"
+            [pagination]="tarefaPagination">
+        </cdk-tarefa-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showTarefaGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('tarefa').hasError('formError')">
+            {{form.get('tarefa').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="!editDescricao">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Tarefa"
-                           formControlName="tarefa"
-                           [matAutocomplete]="tarefa.autocomplete" required
-                           (blur)="checkTarefa()">
-                </div>
-                <cdk-tarefa-autocomplete
-                    #tarefa="tarefaAutocomplete"
-                    [control]="form.get('tarefa')"
-                    [pagination]="tarefaPagination">
-                </cdk-tarefa-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showTarefaGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('tarefa').hasError('formError')">
-                    {{form.get('tarefa').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-        </div>
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
-
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+</form>
 
 <cdk-documento-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'documento-gridsearch'"
     [pagination]="documentoPagination"
     (selected)="selectDocumento($event)"
@@ -189,7 +161,6 @@
 </cdk-documento-gridsearch>
 
 <cdk-origem-dados-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'origem-dados-gridsearch'"
     [pagination]="origemDadosPagination"
     (selected)="selectOrigemDados($event)"
@@ -197,7 +168,6 @@
 </cdk-origem-dados-gridsearch>
 
 <cdk-volume-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'volume-gridsearch'"
     [pagination]="volumePagination"
     (selected)="selectVolume($event)"
@@ -205,7 +175,6 @@
 </cdk-volume-gridsearch>
 
 <cdk-documento-avulso-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'documento-avulso-gridsearch'"
     [pagination]="documentoAvulsoPagination"
     (selected)="selectDocumentoAvulso($event)"
@@ -213,7 +182,6 @@
 </cdk-documento-avulso-gridsearch>
 
 <cdk-atividade-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'atividade-gridsearch'"
     [pagination]="atividadePagination"
     (selected)="selectAtividade($event)"
@@ -221,7 +189,6 @@
 </cdk-atividade-gridsearch>
 
 <cdk-tarefa-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'tarefa-gridsearch'"
     [pagination]="tarefaPagination"
     (selected)="selectTarefa($event)"
@@ -229,7 +196,6 @@
 </cdk-tarefa-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">

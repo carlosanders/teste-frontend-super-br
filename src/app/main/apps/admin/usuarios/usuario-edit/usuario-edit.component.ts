@@ -2,7 +2,7 @@ import {
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit,
+    OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -19,6 +19,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Back} from 'app/store/actions';
+import {MatStepper} from '@angular/material/stepper';
 
 @Component({
     selector: 'usuario-edit',
@@ -133,7 +134,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         );
 
         this._store.dispatch(new fromStore.SaveUsuario(usuario));
-    }
+     }
 
     doAbortUsuario(): void {
         this._store.dispatch(new Back());
@@ -151,7 +152,13 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
     }
 
     doAbortColaborador(): void {
-        //this.stepper.previous();
         this._store.dispatch(new Back());
+    }
+
+    usuarioCarregado(usuario: Usuario) {
+        this.usuario = usuario;
+        if (usuario && usuario.colaborador) {
+            this.colaborador = usuario.colaborador;
+        }
     }
 }

@@ -1,61 +1,44 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form class="p-24 mr-24" fxLayoutGap="16px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-        <div fxFlex="1 0 auto" fxLayout="column">
+    <mat-form-field>
+        <input matInput placeholder="Usuario"
+               formControlName="usuario"
+               [matAutocomplete]="usuario.autocomplete"
+               (blur)="checkUsuario()" required>
+        <cdk-usuario-autocomplete
+            #usuario="usuarioAutocomplete"
+            [control]="form.get('usuario')"
+            [pagination]="usuarioPagination">
+        </cdk-usuario-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showUsuarioGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('usuario').hasError('formError')">
+            {{form.get('usuario').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Usuario"
-                           formControlName="usuario"
-                           [matAutocomplete]="usuario.autocomplete"
-                           (blur)="checkUsuario()" required>
-                </div>
-                <cdk-usuario-autocomplete
-                    #usuario="usuarioAutocomplete"
-                    [control]="form.get('usuario')"
-                    [pagination]="usuarioPagination">
-                </cdk-usuario-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showUsuarioGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('usuario').hasError('formError')">
-                    {{form.get('usuario').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-checkbox formControlName="dono">
+        Dono
+    </mat-checkbox>
 
-            <mat-checkbox formControlName="dono"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-                Dono
-            </mat-checkbox>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-        </div>
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid"
+                *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
-
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+</form>
 
 <cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'usuario-gridsearch'"
     (selected)="selectUsuario($event)"
     (cancel)="cancel()">

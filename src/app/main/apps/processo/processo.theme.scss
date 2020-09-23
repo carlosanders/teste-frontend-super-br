@@ -44,7 +44,7 @@
 
         .sidebar {
 
-            .juntadas {
+            .content {
 
                 .juntada {
                     color: map-get($foreground, secondary-text);
@@ -134,5 +134,18 @@
 
     cdk-visibilidade-list-item {
         border-color: map-get($foreground, divider);
+    }
+
+    processo-edit {
+
+        .center {
+
+            .header {
+
+                .search-wrapper {
+                    background: map-get($background, card);
+                }
+            }
+        }
     }
 }

@@ -1,24 +1,72 @@
 tarefas-main-sidebar {
     display: flex;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     flex-direction: column;
-    height: 100%;
-}
 
-.input-add-pasta {
-    width: 199px;
-    height: 24px;
-    border-radius: 10px;
-    align-items: center;
-    margin-top: 12px;
-}
+    > .header {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
 
-.btn_menu_folder {
-    margin-left: auto;
-}
+        > .logo {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
+    }
 
-.btn_menu_item {
-    margin-left: 171px;
-    position: absolute;
+    > .content {
+
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        height: 0;
+        overflow-y: auto;
+
+        > .progress-bar {
+            flex: 0 1 auto;
+            display: flex;
+            justify-content: center;
+        }
+
+        > .create-button {
+            margin: 16px;
+        }
+
+        .input-add-pasta {
+            width: 199px;
+            height: 24px;
+            border-radius: 10px;
+            align-items: center;
+            margin-top: 12px;
+        }
+
+        .btn_menu_folder {
+            margin-left: auto;
+        }
+
+        .btn_menu_item {
+            margin-left: 171px;
+            position: absolute;
+        }
+    }
+
+    > .footer {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: column;
+
+        > .actions {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
+    }
 }
 

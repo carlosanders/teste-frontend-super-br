@@ -1,32 +1,7 @@
-@import "../../../scss/cdk";
+@import "../../../scss/partials/cdk-form";
+
 cdk-lotacao-form {
-    width: 100%;
-    height: 100%;
-    .inner-scroll{
-        height: 100%;
-    }
-
-    form {
-        width: 100%;
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
-    }
-
-    cdk-setor-gridsearch {
-        width: 100%;
-    }
-
-    cdk-colaborador-gridsearch {
-        width: 100%;
-    }
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }

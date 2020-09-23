@@ -1,4 +1,4 @@
-<div class="cdk-repositorio-grid page-layout left-sidebar">
+<div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-repositorio-filter" position="left">
@@ -6,8 +6,7 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <!-- CONTENT -->
-    <div class="responsive-grid">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
 
         <div class="actions">
 
@@ -133,8 +132,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Órgão Central
                     </th>
-                    <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile'
-                        data-label='Órgão Central: '
+                    <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Órgão Central: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1}"> {{repositorio.vinculacoesRepositorios[0]?.orgaoCentral?.valor}} </td>
                 </ng-container>
 
@@ -282,7 +280,7 @@
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('editConteudo') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(repositorio.id) > -1"
-                                (click)="editConteudoRepositorio(repositorio.documento)"
+                                (click)="editConteudoRepositorio(repositorio.documento.id)"
                                 aria-label="editar conteúdo"
                                 matTooltip="Editar Conteúdo">
                             <mat-icon>desktop_windows</mat-icon>
