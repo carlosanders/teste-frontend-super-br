@@ -159,7 +159,6 @@
 </form>
 
 <cdk-modalidade-orgao-central-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'modalidade-orgao-central-gridsearch'"
     [pagination]="modalidadeOrgaoCentralPagination"
     (selected)="selectModalidadeOrgaoCentral($event)"
@@ -167,7 +166,6 @@
 </cdk-modalidade-orgao-central-gridsearch>
 
 <cdk-genero-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'genero-setor-gridsearch'"
     [pagination]="generoSetorPagination"
     (selected)="selectGeneroSetor($event)"
@@ -175,14 +173,12 @@
 </cdk-genero-setor-gridsearch>
 
 <cdk-municipio-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'municipio-gridsearch'"
     (selected)="selectMunicipio($event)"
     (cancel)="cancel()">
 </cdk-municipio-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorPagination"
     (selected)="selectSetor($event)"

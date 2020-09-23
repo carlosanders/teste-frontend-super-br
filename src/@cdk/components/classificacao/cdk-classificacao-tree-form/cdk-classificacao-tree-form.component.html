@@ -217,21 +217,18 @@
                         </div>
 
                         <cdk-modalidade-destinacao-gridsearch
-                            fxFlex="1 0 auto"
                             *ngIf="activeCard === 'modalidade-destinacao-gridsearch'"
                             (selected)="selectModalidadeDestinacao($event)"
                             (cancel)="cancel()">
                         </cdk-modalidade-destinacao-gridsearch>
 
                         <cdk-classificacao-gridsearch
-                            fxFlex="1 0 auto"
                             *ngIf="activeCard === 'classificacao-gridsearch'"
                             (selected)="selectClassificacao($event)"
                             (cancel)="cancel()">
                         </cdk-classificacao-gridsearch>
 
                         <cdk-logentry-gridsearch
-                            fxFlex="1 0 auto"
                             *ngIf="activeCard === 'logentry-gridsearch'"
                             [pagination]="logEntryPagination"
                             (cancel)="cancel()">

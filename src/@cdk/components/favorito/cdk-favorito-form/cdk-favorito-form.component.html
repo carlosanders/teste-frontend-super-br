@@ -178,7 +178,6 @@
 </form>
 
 <cdk-especie-atividade-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-atividade-gridsearch'"
     [displayedColumns]="displayedColumns"
     (selected)="selectEspecieAtividade($event)"
@@ -186,7 +185,6 @@
 </cdk-especie-atividade-gridsearch>
 
 <cdk-especie-tarefa-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-tarefa-gridsearch'"
     [displayedColumns]="displayedColumns"
     (selected)="selectEspecieTarefa($event)"
@@ -194,7 +192,6 @@
 </cdk-especie-tarefa-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="templatePagination"
     (selected)="selectSetorResponsavel($event)"
@@ -202,7 +199,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'unidade-gridsearch'"
     [pagination]="unidadeResponsavelPagination"
     (selected)="selectUnidadeResponsavel($event)"

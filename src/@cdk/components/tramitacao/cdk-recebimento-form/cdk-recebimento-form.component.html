@@ -49,7 +49,6 @@
 </form>
 
 <cdk-setor-tree
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-destino-tree'"
     [pagination]="setorAtualPaginationTree"
     (selected)="selectSetorAtual($event)"
@@ -57,7 +56,6 @@
 </cdk-setor-tree>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-destino-gridsearch'"
     [pagination]="setorAtualPagination"
     (selected)="selectSetorAtual($event)"

@@ -48,7 +48,6 @@
 </form>
 
 <cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'usuario-vinculado-gridsearch'"
     [pagination]="usuarioVinculadoPagination"
     (selected)="selectUsuarioVinculado($event)"
@@ -56,7 +55,6 @@
 </cdk-usuario-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">

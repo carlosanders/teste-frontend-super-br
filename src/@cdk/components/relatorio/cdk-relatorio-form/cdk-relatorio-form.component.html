@@ -219,7 +219,6 @@
 </form>
 
 <cdk-tipo-relatorio-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'tipo-relatorio-gridsearch'"
     [pagination]="tipoRelatorioPagination"
     (selected)="selectTipoRelatorio($event)"
@@ -227,14 +226,12 @@
 </cdk-tipo-relatorio-gridsearch>
 
 <cdk-genero-relatorio-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'genero-tipo-relatorio-gridsearch'"
     (selected)="selectGeneroRelatorio($event)"
     (cancel)="cancel()">
 </cdk-genero-relatorio-gridsearch>
 
 <cdk-especie-relatorio-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-relatorio-gridsearch'"
     (selected)="selectEspecieRelatorio($event)"
     [pagination]="especieRelatorioPagination"
@@ -242,7 +239,6 @@
 </cdk-especie-relatorio-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorPagination"
     (selected)="selectSetor($event)"
@@ -250,7 +246,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'unidade-gridsearch'"
     [pagination]="unidadePagination"
     (selected)="selectUnidade($event)"
@@ -258,7 +253,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'usuario-gridsearch'"
     [pagination]="usuarioPagination"
     (selected)="selectUsuario($event)"

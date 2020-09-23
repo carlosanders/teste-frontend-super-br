@@ -84,7 +84,6 @@
 </form>
 
 <cdk-workflow-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'workflow-gridsearch'"
     [pagination]="workflowPagination"
     (selected)="selectWorkflow($event)"
@@ -92,7 +91,6 @@
 </cdk-workflow-gridsearch>
 
 <cdk-especie-atividade-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-atividade-gridsearch'"
     [pagination]="workflowPagination"
     (selected)="selectEspecieAtividade($event)"
@@ -100,7 +98,6 @@
 </cdk-especie-atividade-gridsearch>
 
 <cdk-especie-tarefa-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-tarefa-gridsearch'"
     [pagination]="workflowPagination"
     (selected)="selectEspecieTarefa($event)"

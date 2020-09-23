@@ -84,7 +84,6 @@
 </form>
 
 <cdk-documento-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'documento-gridsearch'"
     [pagination]="documentoPagination"
     (selected)="selectDocumento($event)"
@@ -92,7 +91,6 @@
 </cdk-documento-gridsearch>
 
 <cdk-documento-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'documento-vinculado-gridsearch'"
     [pagination]="documentoVinculadoPagination"
     (selected)="selectDocumentoVinculado($event)"
@@ -100,7 +98,6 @@
 </cdk-documento-gridsearch>
 
 <cdk-modalidade-vinculacao-documento-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'modalidade-vinculacao-documento-gridsearch'"
     [pagination]="modalidadeVinculacaoDocumentoPagination"
     (selected)="selectModalidadeVinculacaoDocumento($event)"

@@ -135,7 +135,6 @@
 </form>
 
 <cdk-colaborador-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'colaborador-gridsearch'"
     [pagination]="colaboradorPagination"
     (selected)="selectColaborador($event)"
@@ -143,7 +142,6 @@
 </cdk-colaborador-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorPagination"
     (selected)="selectSetor($event)"
@@ -152,14 +150,12 @@
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'unidade-gridsearch'"
     [pagination]="unidadePagination"
     (selected)="selectUnidade($event)"

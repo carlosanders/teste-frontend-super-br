@@ -192,35 +192,30 @@
 </form>
 
 <cdk-especie-atividade-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-atividade-gridsearch'"
     (selected)="selectEspecieAtividade($event)"
     (cancel)="cancel()">
 </cdk-especie-atividade-gridsearch>
 
 <cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'usuario-gridsearch'"
     (selected)="selectUsuario($event)"
     (cancel)="cancel()">
 </cdk-usuario-gridsearch>
 
 <cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'usuario-aprovacao-gridsearch'"
     (selected)="selectUsuarioAprovacao($event)"
     (cancel)="cancel()">
 </cdk-usuario-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-aprovacao-gridsearch'"
     (selected)="selectSetorAprovacao($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'unidade-aprovacao-gridsearch'"
     [pagination]="unidadeAprovacaoPagination"
     (selected)="selectUnidadeAprovacao($event)"

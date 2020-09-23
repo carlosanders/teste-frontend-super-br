@@ -336,7 +336,6 @@
 </form>
 
 <cdk-processo-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'processo-gridsearch'"
     [pagination]="processoPagination"
     (selected)="selectProcesso($event)"
@@ -344,7 +343,6 @@
 </cdk-processo-gridsearch>
 
 <cdk-especie-tarefa-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-tarefa-gridsearch'"
     [pagination]="especieTarefaPagination"
     (selected)="selectEspecieTarefa($event)"
@@ -352,7 +350,6 @@
 </cdk-especie-tarefa-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'unidade-gridsearch'"
     [pagination]="unidadeResponsavelPagination"
     (selected)="selectUnidadeResponsavel($event)"
@@ -360,7 +357,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorResponsavelPagination"
     (selected)="selectSetorResponsavel($event)"
@@ -368,7 +364,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'usuario-gridsearch'"
     [pagination]="usuarioResponsavelPagination"
     (selected)="selectUsuario($event)"
@@ -376,7 +371,6 @@
 </cdk-usuario-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-origem-gridsearch'"
     [pagination]="setorOrigemPagination"
     (selected)="selectSetorOrigem($event)"
@@ -384,21 +378,18 @@
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
 
 <cdk-setor-tree
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-tree'"
     (selected)="selectSetorResponsavel($event)"
     (cancel)="cancel()">
 </cdk-setor-tree>
 
 <cdk-setor-tree
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-origem-tree'"
     [pagination]="setorOrigemPaginationTree"
     (selected)="selectSetorOrigem($event)"

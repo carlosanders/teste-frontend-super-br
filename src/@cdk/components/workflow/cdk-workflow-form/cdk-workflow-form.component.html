@@ -52,7 +52,6 @@
 </form>
 
 <cdk-especie-processo-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-processo-gridsearch'"
     [pagination]="especieProcessoPagination"
     (selected)="selectEspecieProcesso($event)"
@@ -60,7 +59,6 @@
 </cdk-especie-processo-gridsearch>
 
 <cdk-especie-tarefa-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-tarefa-gridsearch'"
     [pagination]="especieProcessoPagination"
     (selected)="selectEspecieTarefa($event)"

@@ -82,14 +82,12 @@
 </form>
 
 <cdk-modalidade-template-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'modalidadeTemplate-gridsearch'"
     (selected)="selectModalidadeTemplate($event)"
     (cancel)="cancel()">
 </cdk-modalidade-template-gridsearch>
 
 <cdk-tipo-documento-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'tipo-documento-gridsearch'"
     (selected)="selectTipoDocumento($event)"
     (cancel)="cancel()">
