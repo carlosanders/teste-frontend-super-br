@@ -193,8 +193,7 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
+    <div class="actions" *ngIf="!saving">
         <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                 [disabled]="form.invalid">
             SALVAR
