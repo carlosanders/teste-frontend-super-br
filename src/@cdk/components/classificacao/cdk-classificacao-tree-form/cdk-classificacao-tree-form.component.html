@@ -1,27 +1,24 @@
 <div cdkPerfectScrollbar>
     <mat-form-field id="pesquisa">
         <mat-label>Pesquisa</mat-label>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Pesquisar"
-                   maxlength="100" required upperCase
-                   (keyup)="filterChanged($event.target.value)"
-            >
-        </div>
-        <div *ngIf="pesquisando" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
+
+        <input matInput placeholder="Pesquisar"
+               maxlength="100" required upperCase
+               (keyup)="filterChanged($event.target.value)">
+
+        <div *ngIf="pesquisando">
             <mat-spinner color="accent" diameter="24"></mat-spinner>
         </div>
     </mat-form-field>
 
-    <form class="form-tree" fxLayoutGap="1px"
-          fxLayout="column"
-          fxLayoutAlign="start"
+    <form class="form-tree"
+
+
           name="form" [formGroup]="formClassificacao">
 
         <mat-label class="title-arvore">Árvore</mat-label>
         <div cdkPerfectScrollbar class="tree">
-            <div *ngIf="!this.dataSource._data.getValue().length" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-                 fxLayoutAlign="center center">
+            <div *ngIf="!this.dataSource._data.getValue().length">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
             <mat-tree *ngIf="dataSource._data | async" [dataSource]="dataSource" [treeControl]="treeControl">
@@ -41,39 +38,32 @@
 
                 </mat-tree-node>
 
-
                 <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding>
-                    <div fxLayout="column" class="formClassificacao">
-                        <div fxLayout="row" *ngIf="activeCard == 'form'">
-                            <mat-form-field fxFlex="100" class="input-tree">
-                                <div fxLayout="row" fxLayoutAlign="start center">
-                                    <input matInput placeholder="Código" formControlName="codigo" minlength="3"
-                                           maxlength="25" required>
-                                    <button matSuffix mat-button mat-icon-button *ngIf="formClassificacao.value.id"
-                                            (click)="showLogEntryGrid('codigo')">
-                                        <mat-icon matTooltip="Histórico">history</mat-icon>
-                                    </button>
-                                </div>
+                    <div class="formClassificacao">
+                        <div *ngIf="activeCard == 'form'">
+                            <mat-form-field class="input-tree">
+                                <input matInput placeholder="Código" formControlName="codigo" minlength="3"
+                                       maxlength="25" required>
+                                <button matSuffix mat-button mat-icon-button *ngIf="formClassificacao.value.id"
+                                        (click)="showLogEntryGrid('codigo')">
+                                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                                </button>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="100" class="input-tree">
-                                <div fxLayout="row" fxLayoutAlign="start center">
-                                    <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required>
-                                    <button matSuffix mat-button mat-icon-button *ngIf="formClassificacao.value.id"
-                                            (click)="showLogEntryGrid('nome')">
-                                        <mat-icon matTooltip="Histórico">history</mat-icon>
-                                    </button>
-                                </div>
+                            <mat-form-field class="input-tree">
+                                <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required>
+                                <button matSuffix mat-button mat-icon-button *ngIf="formClassificacao.value.id"
+                                        (click)="showLogEntryGrid('nome')">
+                                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                                </button>
                             </mat-form-field>
 
-                            <mat-form-field fxFlex="100" class="input-tree">
-                                <div fxLayout="row" fxLayoutAlign="start center">
-                                    <input matInput placeholder="Destinação"
-                                           formControlName="modalidadeDestinacao"
-                                           [matAutocomplete]="modalidadeDestinacao.autocomplete"
-                                           (blur)="checkModalidadeDestinacao()"
-                                           required>
-                                </div>
+                            <mat-form-field class="input-tree">
+                                <input matInput placeholder="Destinação"
+                                       formControlName="modalidadeDestinacao"
+                                       [matAutocomplete]="modalidadeDestinacao.autocomplete"
+                                       (blur)="checkModalidadeDestinacao()"
+                                       required>
                                 <cdk-modalidade-destinacao-autocomplete
                                     #modalidadeDestinacao="modalidadeDestinacaoAutocomplete"
                                     [control]="formClassificacao.get('modalidadeDestinacao')"
@@ -89,7 +79,7 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="dates checks" fxFlexFill fxLayout="column" fxLayout.gt-xs="row"
+                        <div class="dates checks" Fill
                              *ngIf="activeCard == 'form'">
                             <div class="space-rigth">
                                 <mat-checkbox formControlName="ativo">
@@ -100,19 +90,19 @@
                                     <mat-icon matTooltip="Histórico">history</mat-icon>
                                 </button>
                             </div>
-                            <div>
-                                <mat-checkbox formControlName="permissaoUso">
-                                    Permissão Uso
-                                </mat-checkbox>
-                                <button matSuffix mat-button mat-icon-button *ngIf="formClassificacao.value.id"
-                                        (click)="showLogEntryGrid('permissaoUso')">
-                                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                                </button>
-                            </div>
+
+                            <mat-checkbox formControlName="permissaoUso">
+                                Permissão Uso
+                            </mat-checkbox>
+                            <button matSuffix mat-button mat-icon-button *ngIf="formClassificacao.value.id"
+                                    (click)="showLogEntryGrid('permissaoUso')">
+                                <mat-icon matTooltip="Histórico">history</mat-icon>
+                            </button>
+
                         </div>
 
-                        <div fxLayout="row" *ngIf="activeCard == 'form'">
-                            <mat-expansion-panel [expanded]="true" hideToggle class="mat-expansion-panel-form">
+                        <div *ngIf="activeCard == 'form'">
+                            <mat-expansion-panel [expanded]="true" hideToggle>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         Prazo de Guarda Fase Corrente
@@ -141,24 +131,22 @@
                                     </mat-form-field>
                                 </section>
                                 <p>
-                                    <mat-form-field fxFlex="100" class="input-tree">
-                                        <div fxLayout="row" fxLayoutAlign="start center">
-                                            <input matInput placeholder="Evento"
-                                                   formControlName="prazoGuardaFaseCorrenteEvento">
-                                            <button matSuffix mat-button mat-icon-button
-                                                    *ngIf="formClassificacao.value.id"
-                                                    (click)="showLogEntryGrid('prazoGuardaFaseCorrenteEvento')">
-                                                <mat-icon matTooltip="Histórico">history</mat-icon>
-                                            </button>
-                                        </div>
+                                    <mat-form-field class="input-tree">
+                                        <input matInput placeholder="Evento"
+                                               formControlName="prazoGuardaFaseCorrenteEvento">
+                                        <button matSuffix mat-button mat-icon-button
+                                                *ngIf="formClassificacao.value.id"
+                                                (click)="showLogEntryGrid('prazoGuardaFaseCorrenteEvento')">
+                                            <mat-icon matTooltip="Histórico">history</mat-icon>
+                                        </button>
                                     </mat-form-field>
                                 </p>
 
                             </mat-expansion-panel>
                         </div>
 
-                        <div fxLayout="row" *ngIf="activeCard == 'form'">
-                            <mat-expansion-panel [expanded]="true" hideToggle class="mat-expansion-panel-form mt26">
+                        <div *ngIf="activeCard == 'form'">
+                            <mat-expansion-panel [expanded]="true" hideToggle>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
                                         Prazo de Guarda Fase Intermediária
@@ -192,24 +180,22 @@
                                     </mat-form-field>
                                 </section>
                                 <p>
-                                    <mat-form-field fxFlex="100">
-                                        <div fxLayout="row" fxLayoutAlign="start center">
-                                            <input matInput placeholder="Evento"
-                                                   formControlName="prazoGuardaFaseIntermediariaEvento">
-                                            <button matSuffix mat-button mat-icon-button
-                                                    *ngIf="formClassificacao.value.id"
-                                                    (click)="showLogEntryGrid('prazoGuardaFaseIntermediariaEvento')">
-                                                <mat-icon matTooltip="Histórico">history</mat-icon>
-                                            </button>
-                                        </div>
+                                    <mat-form-field>
+                                        <input matInput placeholder="Evento"
+                                               formControlName="prazoGuardaFaseIntermediariaEvento">
+                                        <button matSuffix mat-button mat-icon-button
+                                                *ngIf="formClassificacao.value.id"
+                                                (click)="showLogEntryGrid('prazoGuardaFaseIntermediariaEvento')">
+                                            <mat-icon matTooltip="Histórico">history</mat-icon>
+                                        </button>
                                     </mat-form-field>
                                 </p>
 
                             </mat-expansion-panel>
                         </div>
 
-                        <div fxLayout="row" *ngIf="activeCard == 'form'">
-                            <mat-form-field class="mr-16 mb-16 text-area" fxFlex="0 1 auto">
+                        <div *ngIf="activeCard == 'form'">
+                            <mat-form-field>
                                 <textarea formControlName="observacao"
                                           matInput placeholder="Observação" maxlength="255">
                                 </textarea>
@@ -217,50 +203,41 @@
                         </div>
 
                         <cdk-modalidade-destinacao-gridsearch
-                            fxFlex="1 0 auto"
                             *ngIf="activeCard === 'modalidade-destinacao-gridsearch'"
                             (selected)="selectModalidadeDestinacao($event)"
                             (cancel)="cancel()">
                         </cdk-modalidade-destinacao-gridsearch>
 
                         <cdk-classificacao-gridsearch
-                            fxFlex="1 0 auto"
                             *ngIf="activeCard === 'classificacao-gridsearch'"
                             (selected)="selectClassificacao($event)"
                             (cancel)="cancel()">
                         </cdk-classificacao-gridsearch>
 
                         <cdk-logentry-gridsearch
-                            fxFlex="1 0 auto"
                             *ngIf="activeCard === 'logentry-gridsearch'"
                             [pagination]="logEntryPagination"
                             (cancel)="cancel()">
                         </cdk-logentry-gridsearch>
 
-                        <div fxLayout="row" *ngIf="activeCard == 'form'">
+                        <div *ngIf="activeCard == 'form'">
                             <mat-error
-                                *ngIf="formClassificacao.hasError('rulesError')"
-                            >{{formClassificacao.errors.rulesError}}
+                                *ngIf="formClassificacao.hasError('rulesError')">{{formClassificacao.errors.rulesError}}
                             </mat-error>
 
-                            <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-                                 fxLayoutAlign="center center">
-                                <button mat-raised-button color="accent" class="mr-sm-12"
+                            <div class="actions">
+                                <button mat-raised-button color="accent"
                                         [disabled]="formClassificacao.invalid"
-                                        (click)="submit(node)">
+                                        (click)="submit(node)" *ngIf="!saving">
                                     SALVAR
                                 </button>
-
-                                <button mat-raised-button color="warn" type="button" class="mr-sm-12"
-                                        (click)="doAbort(node)">
+                                <button mat-raised-button color="warn" type="button"
+                                        (click)="doAbort(node)" *ngIf="!saving">
                                     CANCELAR
                                 </button>
+                                <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
                             </div>
 
-                            <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-                                 fxLayoutAlign="center center">
-                                <mat-spinner color="accent" diameter="24"></mat-spinner>
-                            </div>
                         </div>
                     </div>
 

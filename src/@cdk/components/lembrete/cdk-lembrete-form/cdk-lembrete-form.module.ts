@@ -10,21 +10,24 @@ import {MatIconModule} from '@angular/material/icon';
 import {CdkLembreteGridModule} from '../cdk-lembrete-grid/cdk-lembrete-grid.module';
 import {CdkLembreteHistoricoModule} from '../cdk-lembrete-historico/cdk-lembrete-historico.module';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 @NgModule({
     declarations: [CdkLembreteFormComponent],
     imports: [
-        CommonModule,
-        ReactiveFormsModule,
         MatFormFieldModule,
-        CdkSharedModule,
         MatInputModule,
         MatButtonModule,
         MatIconModule,
+        MatProgressSpinnerModule,
+        MatTooltipModule,
+
+        CdkSharedModule,
+        ReactiveFormsModule,
+        CommonModule,
         CdkLembreteGridModule,
         CdkLembreteHistoricoModule,
-        MatProgressSpinnerModule,
     ],
     exports: [
         CdkLembreteFormComponent
