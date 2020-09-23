@@ -23,10 +23,10 @@
 
     <div class="actions" *ngIf="!saving">
         <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                [disabled]="form.invalid">
+                [disabled]="form.invalid" *ngIf="!saving">
             CRIAR LEMBRETE
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>

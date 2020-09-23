@@ -503,10 +503,10 @@
     <div class="actions" *ngIf="!saving">
         <button class="mr-sm-12"
                 mat-raised-button color="accent"
-                [disabled]="form.invalid" (click)="submit()">
+                [disabled]="form.invalid" (click)="submit()" *ngIf="!saving">
             {{this.textBotao}}
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
