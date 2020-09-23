@@ -1,12 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Modalidade de Transição"
-                   formControlName="modalidadeTransicao"
-                   [matAutocomplete]="modalidadeTransicao.autocomplete" required
-                   (blur)="checkModalidadeTransicao()">
-        </div>
+        <input matInput placeholder="Modalidade de Transição"
+               formControlName="modalidadeTransicao"
+               [matAutocomplete]="modalidadeTransicao.autocomplete" required
+               (blur)="checkModalidadeTransicao()">
         <cdk-modalidade-transicao-autocomplete
             #modalidadeTransicao="modalidadeTransicaoAutocomplete"
             [control]="form.get('modalidadeTransicao')"
@@ -39,7 +37,7 @@
         <mat-hint align="end">{{edital.value.length}} / 255</mat-hint>
     </mat-form-field>
 
-    <mat-form-field class="mr-16">
+    <mat-form-field>
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
         <mat-error *ngIf="form.get('observacao').hasError('formError')">
@@ -50,7 +48,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

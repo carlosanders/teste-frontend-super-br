@@ -1,12 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" (submit)="submit()">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Tipo de Documento"
-                   formControlName="tipoDocumento"
-                   [matAutocomplete]="tipoDocumento.autocomplete"
-                   (blur)="checkTipoDocumento()" required>
-        </div>
+        <input matInput placeholder="Tipo de Documento"
+               formControlName="tipoDocumento"
+               [matAutocomplete]="tipoDocumento.autocomplete"
+               (blur)="checkTipoDocumento()" required>
         <cdk-tipo-documento-autocomplete
             #tipoDocumento="tipoDocumentoAutocomplete"
             [control]="form.get('tipoDocumento')"
@@ -29,8 +27,7 @@
                maxlength="255">
     </mat-form-field>
 
-    <mat-slide-toggle formControlName="copia"
-                      class="mt-16 mr-16 mb-16">
+    <mat-slide-toggle formControlName="copia">
         Cópia/Digitalização
     </mat-slide-toggle>
 
@@ -72,12 +69,10 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Procedência"
-                   formControlName="procedencia"
-                   [matAutocomplete]="procedencia.autocomplete"
-                   (blur)="checkProcedencia()">
-        </div>
+        <input matInput placeholder="Procedência"
+               formControlName="procedencia"
+               [matAutocomplete]="procedencia.autocomplete"
+               (blur)="checkProcedencia()">
         <cdk-pessoa-autocomplete
             #procedencia="pessoaAutocomplete"
             [control]="form.get('procedencia')"
@@ -101,13 +96,11 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Setor de Origem"
-                   formControlName="setorOrigem"
-                   [matAutocomplete]="setorOrigem.autocomplete"
-                   [readonly]="form.get('id').value"
-                   (blur)="checkSetorOrigem()">
-        </div>
+        <input matInput placeholder="Setor de Origem"
+               formControlName="setorOrigem"
+               [matAutocomplete]="setorOrigem.autocomplete"
+               [readonly]="form.get('id').value"
+               (blur)="checkSetorOrigem()">
         <cdk-setor-autocomplete
             #setorOrigem="setorAutocomplete"
             [control]="form.get('setorOrigem')"
@@ -134,7 +127,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

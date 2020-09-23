@@ -1,49 +1,35 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
-        </div>
+        <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
-        </div>
+        <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Prefixo NUP" formControlName="prefixoNUP" required maxlength="255">
-        </div>
+        <input matInput placeholder="Prefixo NUP" formControlName="prefixoNUP" required maxlength="255">
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="NUP Inicial" formControlName="sequenciaInicialNUP" maxlength="11">
-        </div>
+        <input matInput placeholder="NUP Inicial" formControlName="sequenciaInicialNUP" maxlength="11">
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
-        </div>
+        <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput #email placeholder="Email" formControlName="email" maxlength="255" upperCase>
-            <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
-        </div>
+        <input matInput #email placeholder="Email" formControlName="email" maxlength="255" upperCase>
+        <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Órgão Central"
-                   formControlName="modalidadeOrgaoCentral"
-                   [matAutocomplete]="modalidadeOrgaoCentral.autocomplete"
-                   (blur)="checkModalidadeOrgaoCentral()" required>
-        </div>
+        <input matInput placeholder="Órgão Central"
+               formControlName="modalidadeOrgaoCentral"
+               [matAutocomplete]="modalidadeOrgaoCentral.autocomplete"
+               (blur)="checkModalidadeOrgaoCentral()" required>
         <cdk-modalidade-orgao-central-autocomplete
             #modalidadeOrgaoCentral="modalidadeOrgaoCentralAutocomplete"
             [control]="form.get('modalidadeOrgaoCentral')"
@@ -59,12 +45,10 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Unidade Pai"
-                   formControlName="unidadePai"
-                   [matAutocomplete]="setor.autocomplete"
-                   (blur)="checkSetor()">
-        </div>
+        <input matInput placeholder="Unidade Pai"
+               formControlName="unidadePai"
+               [matAutocomplete]="setor.autocomplete"
+               (blur)="checkSetor()">
         <cdk-setor-autocomplete
             #setor="setorAutocomplete"
             [control]="form.get('unidadePai')"
@@ -80,12 +64,10 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Gênero"
-                   formControlName="generoSetor"
-                   [matAutocomplete]="generoSetor.autocomplete"
-                   (blur)="checkGeneroSetor()">
-        </div>
+        <input matInput placeholder="Gênero"
+               formControlName="generoSetor"
+               [matAutocomplete]="generoSetor.autocomplete"
+               (blur)="checkGeneroSetor()">
         <cdk-genero-setor-autocomplete
             #generoSetor="generoSetorAutocomplete"
             [control]="form.get('generoSetor')"
@@ -100,18 +82,15 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="ativo">
         Ativo
     </mat-checkbox>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Município"
-                   formControlName="municipio"
-                   [matAutocomplete]="municipio.autocomplete"
-                   (blur)="checkMunicipio()" required>
-        </div>
+        <input matInput placeholder="Município"
+               formControlName="municipio"
+               [matAutocomplete]="municipio.autocomplete"
+               (blur)="checkMunicipio()" required>
         <cdk-municipio-autocomplete
             #municipio="municipioAutocomplete"
             [control]="form.get('municipio')"
@@ -129,14 +108,12 @@
     <div class="legendaGrupo">Configuração:</div>
 
     <mat-checkbox formControlName="apenasProtocolo"
-                  matTooltip="Esta unidade recebe tramitações apenas pelo seu Protocolo."
-                  class="mr-16 mb-16">
+                  matTooltip="Esta unidade recebe tramitações apenas pelo seu Protocolo.">
         Protocolo
     </mat-checkbox>
 
     <mat-checkbox formControlName="numeracaoDocumentoUnidade"
-                  matTooltip="Numeração de documentos por unidade."
-                  class="mr-16 mb-16">
+                  matTooltip="Numeração de documentos por unidade.">
         Num Unidade
     </mat-checkbox>
 

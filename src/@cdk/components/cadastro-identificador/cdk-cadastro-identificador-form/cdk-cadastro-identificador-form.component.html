@@ -1,9 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-
         <input matInput placeholder="Número" formControlName="numero" required maxlength="14">
-
     </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

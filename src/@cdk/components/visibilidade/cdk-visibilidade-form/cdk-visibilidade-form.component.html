@@ -12,13 +12,11 @@
     </mat-radio-group>
 
     <mat-form-field *ngIf="this.form.get('tipo').value === 'usuario'">
-        <div>
-            <input matInput placeholder="Usuario"
-                   formControlName="usuario"
-                   required
-                   [matAutocomplete]="usuario.autocomplete"
-                   (blur)="checkUsuario()">
-        </div>
+        <input matInput placeholder="Usuario"
+               formControlName="usuario"
+               required
+               [matAutocomplete]="usuario.autocomplete"
+               (blur)="checkUsuario()">
         <cdk-usuario-autocomplete
             #usuario="usuarioAutocomplete"
             [control]="form.get('usuario')"
@@ -34,12 +32,10 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="this.form.get('tipo').value === 'setor'">
-        <div>
-            <input matInput placeholder="Unidade Responsável"
-                   formControlName="unidade"
-                   [matAutocomplete]="unidade.autocomplete" required
-                   (blur)="checkUnidade()">
-        </div>
+        <input matInput placeholder="Unidade Responsável"
+               formControlName="unidade"
+               [matAutocomplete]="unidade.autocomplete" required
+               (blur)="checkUnidade()">
         <cdk-setor-autocomplete
             #unidade="setorAutocomplete"
             [control]="form.get('unidade')"
@@ -55,13 +51,11 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="this.form.get('tipo').value === 'setor'">
-        <div>
-            <input matInput placeholder="Setor"
-                   formControlName="setor"
-                   required
-                   [matAutocomplete]="setor.autocomplete"
-                   (blur)="checkSetor()">
-        </div>
+        <input matInput placeholder="Setor"
+               formControlName="setor"
+               required
+               [matAutocomplete]="setor.autocomplete"
+               (blur)="checkSetor()">
         <cdk-setor-autocomplete
             #setor="setorAutocomplete"
             [control]="form.get('setor')"
@@ -99,7 +93,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div *ngIf="!saving" class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

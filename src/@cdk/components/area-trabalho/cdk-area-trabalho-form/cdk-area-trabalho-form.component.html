@@ -1,12 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Usuario"
-                   formControlName="usuario"
-                   [matAutocomplete]="usuario.autocomplete"
-                   (blur)="checkUsuario()" required>
-        </div>
+        <input matInput placeholder="Usuario"
+               formControlName="usuario"
+               [matAutocomplete]="usuario.autocomplete"
+               (blur)="checkUsuario()" required>
         <cdk-usuario-autocomplete
             #usuario="usuarioAutocomplete"
             [control]="form.get('usuario')"
@@ -21,8 +19,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-checkbox formControlName="dono"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="dono">
         Dono
     </mat-checkbox>
 

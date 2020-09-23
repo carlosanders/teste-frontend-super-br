@@ -1,11 +1,9 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'" (submit)="submit()">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="WorkFlow"
-                   formControlName="workflow"
-                   [matAutocomplete]="workflow.autocomplete">
-        </div>
+        <input matInput placeholder="WorkFlow"
+               formControlName="workflow"
+               [matAutocomplete]="workflow.autocomplete">
         <cdk-workflow-autocomplete
             #workflow="workflowAutocomplete"
             [control]="form.get('workflow')">
@@ -17,11 +15,9 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Espécie Ativididade"
-                   formControlName="especieAtividade"
-                   [matAutocomplete]="especieAtividade.autocomplete">
-        </div>
+        <input matInput placeholder="Espécie Ativididade"
+               formControlName="especieAtividade"
+               [matAutocomplete]="especieAtividade.autocomplete">
         <cdk-especie-atividade-autocomplete
             #especieAtividade="especieAtividadeAutocomplete"
             [control]="form.get('especieAtividade')">
@@ -33,11 +29,9 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Espécie Tarefa From"
-                   formControlName="especieTarefaFrom"
-                   [matAutocomplete]="especieTarefaFrom.autocomplete">
-        </div>
+        <input matInput placeholder="Espécie Tarefa From"
+               formControlName="especieTarefaFrom"
+               [matAutocomplete]="especieTarefaFrom.autocomplete">
         <cdk-especie-tarefa-autocomplete
             #especieTarefaFrom="especieTarefaAutocomplete"
             [control]="form.get('especieTarefaFrom')">
@@ -49,11 +43,9 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
             <input matInput placeholder="Espécie Tarefa To"
                    formControlName="especieTarefaTo"
                    [matAutocomplete]="especieTarefaTo.autocomplete">
-        </div>
         <cdk-especie-tarefa-autocomplete
             #especieTarefaTo="especieTarefaAutocomplete"
             [control]="form.get('especieTarefaTo')">
@@ -67,7 +59,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

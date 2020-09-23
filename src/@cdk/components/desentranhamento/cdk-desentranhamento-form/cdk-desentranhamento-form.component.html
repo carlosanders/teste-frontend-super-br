@@ -2,19 +2,17 @@
 
     <label id="tipo-rg">Selecione a destinação</label>
 
-    <div>
-        <mat-radio-group class="tipo-rg" formControlName="tipo" aria-labelledby="tipo-rg">
-            <mat-radio-button [value]="'processo_existente'">
-                Processo existente
-            </mat-radio-button>
-            <mat-radio-button [value]="'novo_processo'">
-                Novo processo
-            </mat-radio-button>
-            <mat-radio-button [value]="'arquivo'">
-                Arquivo
-            </mat-radio-button>
-        </mat-radio-group>
-    </div>
+    <mat-radio-group class="tipo-rg" formControlName="tipo" aria-labelledby="tipo-rg">
+        <mat-radio-button [value]="'processo_existente'">
+            Processo existente
+        </mat-radio-button>
+        <mat-radio-button [value]="'novo_processo'">
+            Novo processo
+        </mat-radio-button>
+        <mat-radio-button [value]="'arquivo'">
+            Arquivo
+        </mat-radio-button>
+    </mat-radio-group>
 
     <mat-form-field *ngIf="this.form.get('tipo').value === 'processo_existente'">
         <input matInput placeholder="Processo"
@@ -35,7 +33,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="mr-16">
+    <mat-form-field>
             <textarea formControlName="observacao"
                       matInput placeholder="Fundamentação" maxlength="255" upperCase required></textarea>
         <mat-error *ngIf="form.get('observacao').hasError('formError')">

@@ -1,13 +1,11 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Modalidade"
-                   formControlName="modalidadeColaborador"
-                   [matAutocomplete]="modalidadeColaborador.autocomplete"
-                   (blur)="checkModalidadeColaborador()"
-                   required>
-        </div>
+        <input matInput placeholder="Modalidade"
+               formControlName="modalidadeColaborador"
+               [matAutocomplete]="modalidadeColaborador.autocomplete"
+               (blur)="checkModalidadeColaborador()"
+               required>
         <cdk-modalidade-colaborador-autocomplete
             #modalidadeColaborador="modalidadeColaboradorAutocomplete"
             [control]="form.get('modalidadeColaborador')"
@@ -27,13 +25,11 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Cargo"
-                   formControlName="cargo"
-                   [matAutocomplete]="cargo.autocomplete"
-                   (blur)="checkCargo()"
-                   required>
-        </div>
+        <input matInput placeholder="Cargo"
+               formControlName="cargo"
+               [matAutocomplete]="cargo.autocomplete"
+               (blur)="checkCargo()"
+               required>
         <cdk-cargo-autocomplete
             #cargo="cargoAutocomplete"
             [control]="form.get('cargo')"
@@ -52,8 +48,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="ativo">
         Ativo
     </mat-checkbox>
     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -64,7 +59,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

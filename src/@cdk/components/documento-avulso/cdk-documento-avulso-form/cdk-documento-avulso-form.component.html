@@ -1,7 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <mat-slide-toggle *ngIf="!documentoAvulso.id && mode === 'regular'" formControlName="blocoProcessos"
-                      class="mr-16 mb-16">
+    <mat-slide-toggle *ngIf="!documentoAvulso.id && mode === 'regular'" formControlName="blocoProcessos">
         Bloco de Processos
     </mat-slide-toggle>
 
@@ -85,24 +84,20 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="blocoDestinatarios"
-                      class="mr-16 mb-16">
+    <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="blocoDestinatarios">
         Bloco de Destinatários
     </mat-slide-toggle>
 
-    <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="externa"
-                      class="mr-16 mb-16">
+    <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="externa">
         Destinário Externo
     </mat-slide-toggle>
 
     <mat-form-field *ngIf="!form.get('externa').value">
-        <div>
-            <input matInput placeholder="Unidade"
-                   formControlName="setorDestino"
-                   [readonly]="inputModelo"
-                   [matAutocomplete]="setorDestino.autocomplete" required
-                   (blur)="checkSetorDestino()">
-        </div>
+        <input matInput placeholder="Unidade"
+               formControlName="setorDestino"
+               [readonly]="inputModelo"
+               [matAutocomplete]="setorDestino.autocomplete" required
+               (blur)="checkSetorDestino()">
         <cdk-setor-autocomplete
             #setorDestino="setorAutocomplete"
             [control]="form.get('setorDestino')"
@@ -124,13 +119,11 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('externa').value">
-        <div>
-            <input matInput placeholder="Pessoa"
-                   formControlName="pessoaDestino"
-                   [readonly]="inputModelo"
-                   [matAutocomplete]="pessoaDestino.autocomplete" required
-                   (blur)="checkPessoaDestino()">
-        </div>
+        <input matInput placeholder="Pessoa"
+               formControlName="pessoaDestino"
+               [readonly]="inputModelo"
+               [matAutocomplete]="pessoaDestino.autocomplete" required
+               (blur)="checkPessoaDestino()">
         <cdk-pessoa-autocomplete
             #pessoaDestino="pessoaAutocomplete"
             [control]="form.get('pessoaDestino')"
@@ -164,8 +157,7 @@
         </cdk-bloco-destinatario-grid>
     </div>
 
-    <mat-slide-toggle formControlName="urgente"
-                      class="mr-16 mb-16">
+    <mat-slide-toggle formControlName="urgente">
         Urgente
     </mat-slide-toggle>
 
@@ -195,7 +187,7 @@
                             timeInterval="5"></mat-datetimepicker>
     </mat-form-field>
 
-    <mat-form-field class="mr-16">
+    <mat-form-field>
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" upperCase maxlength="255"></textarea>
         <mat-error *ngIf="form.get('observacao').hasError('formError')">

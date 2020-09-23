@@ -44,7 +44,7 @@
         <mat-hint align="end">{{numeroDocumentoPrincipal.value.length}} / 255</mat-hint>
     </mat-form-field>
 
-    <mat-form-field ng-hide="modalidadeGeneroPessoa" [fxHide]="hidden">
+    <mat-form-field ng-hide="modalidadeGeneroPessoa">
         <input matInput placeholder="Gênero"
                formControlName="modalidadeGeneroPessoa"
                [matAutocomplete]="modalidadeGeneroPessoa.autocomplete"

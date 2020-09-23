@@ -1,7 +1,5 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <div fxLayout="column">
-
         <h2>Encaminhamento do Processo</h2>
 
         <mat-radio-group formControlName="options">
@@ -16,8 +14,6 @@
             </mat-radio-button>
             <ng-template #dynamicComponent></ng-template>
         </mat-radio-group>
-
-    </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

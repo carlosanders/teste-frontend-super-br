@@ -1,12 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Espécie Setor"
-                   formControlName="especieSetor"
-                   [matAutocomplete]="especieSetor.autocomplete" required
-                   (blur)="checkEspecieSetor()">
-        </div>
+        <input matInput placeholder="Espécie Setor"
+               formControlName="especieSetor"
+               [matAutocomplete]="especieSetor.autocomplete" required
+               (blur)="checkEspecieSetor()">
         <cdk-especie-setor-autocomplete
             #especieSetor="especieSetorAutocomplete"
             [control]="form.get('especieSetor')"
@@ -24,7 +22,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

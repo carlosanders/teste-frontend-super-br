@@ -1,12 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Unidade"
-                   formControlName="unidade"
-                   [matAutocomplete]="unidade.autocomplete" required
-                   (blur)="checkUnidade()">
-        </div>
+        <input matInput placeholder="Unidade"
+               formControlName="unidade"
+               [matAutocomplete]="unidade.autocomplete" required
+               (blur)="checkUnidade()">
         <cdk-setor-autocomplete
             #unidade="setorAutocomplete"
             [control]="form.get('unidade')"
@@ -26,13 +24,11 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('unidade').value">
-        <div>
-            <input matInput placeholder="Setor"
-                   formControlName="setor"
-                   [matAutocomplete]="setor.autocomplete"
-                   [readonly]="inputSetor"
-                   (blur)="checkSetor()" required>
-        </div>
+        <input matInput placeholder="Setor"
+               formControlName="setor"
+               [matAutocomplete]="setor.autocomplete"
+               [readonly]="inputSetor"
+               (blur)="checkSetor()" required>
         <cdk-setor-autocomplete
             #setor="setorAutocomplete"
             [control]="form.get('setor')"
@@ -49,12 +45,10 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!this.usuario">
-        <div>
-            <input matInput placeholder="Usuario"
-                   formControlName="colaborador"
-                   [matAutocomplete]="colaborador.autocomplete"
-                   (blur)="checkColaborador()" required>
-        </div>
+        <input matInput placeholder="Usuario"
+               formControlName="colaborador"
+               [matAutocomplete]="colaborador.autocomplete"
+               (blur)="checkColaborador()" required>
         <cdk-colaborador-autocomplete
             #colaborador="colaboradorAutocomplete"
             [control]="form.get('colaborador')"
@@ -69,25 +63,21 @@
         </mat-error>
     </mat-form-field>
 
-    <div>
-        <mat-checkbox formControlName="principal">
-            Principal
-        </mat-checkbox>
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('principal')">
-            <mat-icon matTooltip="Histórico">history</mat-icon>
-        </button>
-    </div>
+    <mat-checkbox formControlName="principal">
+        Principal
+    </mat-checkbox>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('principal')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
 
-    <div>
-        <mat-checkbox formControlName="distribuidor">
-            Distribuidor
-        </mat-checkbox>
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('distribuidor')">
-            <mat-icon matTooltip="Histórico">history</mat-icon>
-        </button>
-    </div>
+    <mat-checkbox formControlName="distribuidor">
+        Distribuidor
+    </mat-checkbox>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('distribuidor')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
 
     <div *ngIf="inputArquivista">
         <mat-checkbox formControlName="arquivista">
@@ -117,7 +107,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

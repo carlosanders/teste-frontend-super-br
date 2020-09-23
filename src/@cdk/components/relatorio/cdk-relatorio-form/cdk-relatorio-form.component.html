@@ -1,13 +1,11 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" (submit)="submit()">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Gênero"
-                   formControlName="generoRelatorio"
-                   required
-                   [matAutocomplete]="generoRelatorio.autocomplete"
-                   (blur)="checkGeneroRelatorio()">
-        </div>
+        <input matInput placeholder="Gênero"
+               formControlName="generoRelatorio"
+               required
+               [matAutocomplete]="generoRelatorio.autocomplete"
+               (blur)="checkGeneroRelatorio()">
         <cdk-genero-relatorio-autocomplete
             #generoRelatorio="generoRelatorioAutocomplete"
             [control]="form.get('generoRelatorio')">
@@ -22,13 +20,11 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Espécie"
-                   formControlName="especieRelatorio"
-                   required
-                   [matAutocomplete]="especieRelatorio.autocomplete"
-                   (blur)="checkEspecieRelatorio()">
-        </div>
+        <input matInput placeholder="Espécie"
+               formControlName="especieRelatorio"
+               required
+               [matAutocomplete]="especieRelatorio.autocomplete"
+               (blur)="checkEspecieRelatorio()">
         <cdk-especie-relatorio-autocomplete
             #especieRelatorio="especieRelatorioAutocomplete"
             [control]="form.get('especieRelatorio')"
@@ -44,20 +40,16 @@
     </mat-form-field>
 
     <mat-form-field
-                    *ngIf="mode === 'regular' || mode === 'bloco-create'">
-        <div>
-            <input matInput placeholder="Tipo Relatório"
-                   formControlName="tipoRelatorio"
-                   [matAutocomplete]="tipoRelatorio.autocomplete" required
-                   (blur)="checkTipoRelatorio()">
-        </div>
-
+        *ngIf="mode === 'regular' || mode === 'bloco-create'">
+        <input matInput placeholder="Tipo Relatório"
+               formControlName="tipoRelatorio"
+               [matAutocomplete]="tipoRelatorio.autocomplete" required
+               (blur)="checkTipoRelatorio()">
         <cdk-tipo-relatorio-autocomplete
             #tipoRelatorio="tipoRelatorioAutocomplete"
             [control]="form.get('tipoRelatorio')"
             [pagination]="tipoRelatorioPagination">
         </cdk-tipo-relatorio-autocomplete>
-
         <button matSuffix mat-button mat-icon-button
                 [disabled]="!form.get('especieRelatorio').value"
                 (click)="showTipoRelatorioGrid()">
@@ -72,12 +64,10 @@
     <div *ngIf="form.get('tipoRelatorio').value">
 
         <mat-form-field>
-            <div>
-                <input matInput placeholder="Unidade"
-                       formControlName="unidade"
-                       [matAutocomplete]="unidade.autocomplete" required
-                       (blur)="checkUnidade()">
-            </div>
+            <input matInput placeholder="Unidade"
+                   formControlName="unidade"
+                   [matAutocomplete]="unidade.autocomplete" required
+                   (blur)="checkUnidade()">
             <cdk-setor-autocomplete
                 #unidade="setorAutocomplete"
                 [control]="form.get('unidade')"
@@ -93,12 +83,10 @@
         </mat-form-field>
 
         <mat-form-field>
-            <div>
-                <input matInput placeholder="Setor"
-                       formControlName="setor"
-                       [matAutocomplete]="setor.autocomplete" required
-                       (blur)="checkSetor()">
-            </div>
+            <input matInput placeholder="Setor"
+                   formControlName="setor"
+                   [matAutocomplete]="setor.autocomplete" required
+                   (blur)="checkSetor()">
             <cdk-setor-autocomplete
                 #setor="setorAutocomplete"
                 [control]="form.get('setor')"
@@ -114,14 +102,12 @@
         </mat-form-field>
 
         <mat-form-field
-                        *ngIf="form.get('usuario').enabled && (mode === 'regular')">
-            <div>
-                <input matInput placeholder="Usuário"
-                       formControlName="usuario"
-                       [readonly]="!form.get('setor').enabled"
-                       [matAutocomplete]="usuario.autocomplete" required
-                       (blur)="checkUsuario()">
-            </div>
+            *ngIf="form.get('usuario').enabled && (mode === 'regular')">
+            <input matInput placeholder="Usuário"
+                   formControlName="usuario"
+                   [readonly]="!form.get('setor').enabled"
+                   [matAutocomplete]="usuario.autocomplete" required
+                   (blur)="checkUsuario()">
             <cdk-usuario-autocomplete
                 #usuario="usuarioAutocomplete"
                 [control]="form.get('usuario')"
@@ -136,38 +122,34 @@
             </mat-error>
         </mat-form-field>
 
-        <div fxLayout="row">
-
-            <mat-form-field
-                            *ngIf="form.get('dataHoraInicio').enabled &&
+        <mat-form-field
+            *ngIf="form.get('dataHoraInicio').enabled &&
                                     mode === 'regular'">
-                <mat-label>Início</mat-label>
-                <input matInput formControlName="dataHoraInicio" [matDatetimepicker]="dataHoraInicio"
-                       required>
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicio"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraInicio type="datetime" openOnFocus="true" timeInterval="5"
-                                    required></mat-datetimepicker>
-            </mat-form-field>
+            <mat-label>Início</mat-label>
+            <input matInput formControlName="dataHoraInicio" [matDatetimepicker]="dataHoraInicio"
+                   required>
+            <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicio"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataHoraInicio type="datetime" openOnFocus="true" timeInterval="5"
+                                required></mat-datetimepicker>
+        </mat-form-field>
 
-            <mat-form-field
-                            *ngIf="form.get('dataHoraFim').enabled &&
+        <mat-form-field
+            *ngIf="form.get('dataHoraFim').enabled &&
                                     mode === 'regular'">
-                <mat-label>Fim</mat-label>
-                <input matInput formControlName="dataHoraFim" [matDatetimepicker]="dataHoraFim"
-                       required>
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraFim"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraFim type="datetime" openOnFocus="true" timeInterval="5"
-                                    required></mat-datetimepicker>
-            </mat-form-field>
-
-        </div>
+            <mat-label>Fim</mat-label>
+            <input matInput formControlName="dataHoraFim" [matDatetimepicker]="dataHoraFim"
+                   required>
+            <mat-datetimepicker-toggle matSuffix [for]="dataHoraFim"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataHoraFim type="datetime" openOnFocus="true" timeInterval="5"
+                                required></mat-datetimepicker>
+        </mat-form-field>
 
     </div>
 
     <div *ngIf="form.get('tipoRelatorio').value">
 
-        <mat-form-field class="mr-16"
-                        *ngIf="mode === 'regular' || mode === 'bloco-create'">
+        <mat-form-field
+            *ngIf="mode === 'regular' || mode === 'bloco-create'">
             <textarea formControlName="observacao" matInput placeholder="Observação" maxlength="255"></textarea>
 
             <mat-error *ngIf="form.get('observacao').hasError('formError')">
@@ -175,27 +157,22 @@
             </mat-error>
         </mat-form-field>
 
-        <div class="mb-16" fxLayout="column">
 
-            <div>Formato</div>
+        <div>Formato</div>
 
-            <div fxLayout="row" class="start"
-                >
-                <label id="campo-rg3"></label>
-                <mat-radio-group class="poderes-rg"
-                                 formControlName="formato"
-                                 aria-labelledby="formato-rg3"
-                                >
-                    <mat-radio-button value="html">
-                        HTML
-                    </mat-radio-button>
-                    <!--                            <mat-radio-button value="pdf">-->
-                    <!--                                PDF-->
-                    <!--                            </mat-radio-button>-->
-                </mat-radio-group>
-            </div>
+        <div class="start">
+            <label id="campo-rg3"></label>
+            <mat-radio-group class="poderes-rg"
+                             formControlName="formato"
+                             aria-labelledby="formato-rg3">
+                <mat-radio-button value="html">
+                    HTML
+                </mat-radio-button>
+                <!--                            <mat-radio-button value="pdf">-->
+                <!--                                PDF-->
+                <!--                            </mat-radio-button>-->
+            </mat-radio-group>
         </div>
-
     </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

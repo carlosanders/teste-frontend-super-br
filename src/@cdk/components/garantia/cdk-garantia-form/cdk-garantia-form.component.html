@@ -20,17 +20,13 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input #descricao matInput placeholder="Descrição" formControlName="descricao" maxlength="255"
-                   required upperCase>
-        </div>
+        <input #descricao matInput placeholder="Descrição" formControlName="descricao" maxlength="255"
+               required upperCase>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Valor (R$)" formControlName="valor" required>
-        </div>
+        <input matInput placeholder="Valor (R$)" formControlName="valor" required>
         <mat-error *ngIf="form.get('valor').hasError('formError')">
             {{form.get('valor').errors.formError}}
         </mat-error>
@@ -47,10 +43,8 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input formControlName="observacao" #observacao
-                   matInput placeholder="Observação" maxlength="255" upperCase>
-        </div>
+        <input formControlName="observacao" #observacao
+               matInput placeholder="Observação" maxlength="255" upperCase>
         <mat-hint align="end">{{observacao.value.length}} / 255</mat-hint>
     </mat-form-field>
 

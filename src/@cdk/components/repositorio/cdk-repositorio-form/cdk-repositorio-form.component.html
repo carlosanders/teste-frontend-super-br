@@ -1,30 +1,23 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="ativo">
         Ativo
     </mat-checkbox>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
-        </div>
+        <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
-        </div>
+        <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
     </mat-form-field>
 
     <mat-form-field *ngIf="coordenador">
-        <div>
-            <input matInput placeholder="Setor"
-                   formControlName="setor"
-                   [matAutocomplete]="setor.autocomplete"
-                   (blur)="checkSetor()"
-                   required>
-        </div>
+        <input matInput placeholder="Setor"
+               formControlName="setor"
+               [matAutocomplete]="setor.autocomplete"
+               (blur)="checkSetor()"
+               required>
         <cdk-setor-autocomplete
             #setor="setorAutocomplete"
             [control]="form.get('setor')"
@@ -40,13 +33,11 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
             <input matInput placeholder="Modalidade"
                    formControlName="modalidadeRepositorio"
                    [matAutocomplete]="modalidadeRepositorio.autocomplete"
                    (blur)="checkModalidadeRepositorio()"
                    required>
-        </div>
         <cdk-modalidade-repositorio-autocomplete
             #modalidadeRepositorio="modalidadeRepositorioAutocomplete"
             [control]="form.get('modalidadeRepositorio')"

@@ -8,13 +8,11 @@
         <h3 *ngIf="form.value.id && form.value.campo === 2">ESPÉCIE TAREFA</h3>
         <h3 *ngIf="form.value.id && form.value.campo === 3">SETOR</h3>
 
-        <div class="start" *ngIf="!form.value.id"
-            >
+        <div class="start" *ngIf="!form.value.id">
             <label id="campo-rg3"></label>
             <mat-radio-group class="poderes-rg"
                              formControlName="campo"
-                             aria-labelledby="campo-rg3"
-                            >
+                             aria-labelledby="campo-rg3">
                 <mat-radio-button [value]=1>
                     Espécie Atividade
                 </mat-radio-button>
@@ -137,7 +135,7 @@
     </div>
 
     <div *ngIf="form.value.campo">
-        <mat-checkbox formControlName="prioritario" class="mr-16 mb-16">
+        <mat-checkbox formControlName="prioritario">
             Prioritário
         </mat-checkbox>
     </div>

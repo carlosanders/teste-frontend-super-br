@@ -15,8 +15,8 @@
             </mat-radio-button>
         </mat-radio-group>
 
-        <div class="p-8 mt-8 mb-8 mat-elevation-z1"
-             *ngIf="form.get('destinacaoMinutas').value === 'submeter_aprovacao'">
+        <div
+            *ngIf="form.get('destinacaoMinutas').value === 'submeter_aprovacao'">
 
             <mat-form-field>
                 <input matInput placeholder="Unidade Responsável pela Aprovação"
@@ -44,12 +44,10 @@
             </mat-form-field>
 
             <mat-form-field *ngIf="!form.get('setorAprovacao').disabled">
-                <div>
-                    <input matInput placeholder="Setor Responsável pela Aprovação"
-                           formControlName="setorAprovacao"
-                           [matAutocomplete]="setorAprovacao.autocomplete" required
-                           (blur)="checkSetorAprovacao()">
-                </div>
+                <input matInput placeholder="Setor Responsável pela Aprovação"
+                       formControlName="setorAprovacao"
+                       [matAutocomplete]="setorAprovacao.autocomplete" required
+                       (blur)="checkSetorAprovacao()">
                 <cdk-setor-autocomplete
                     #setorAprovacao="setorAutocomplete"
                     [control]="form.get('setorAprovacao')"
@@ -71,12 +69,10 @@
             </mat-form-field>
 
             <mat-form-field *ngIf="!form.get('usuarioAprovacao').disabled">
-                <div>
-                    <input matInput placeholder="Usuário Responsável pela Aprovação"
-                           formControlName="usuarioAprovacao"
-                           [matAutocomplete]="usuarioAprovacao.autocomplete" required
-                           (blur)="checkUsuarioAprovacao()">
-                </div>
+                <input matInput placeholder="Usuário Responsável pela Aprovação"
+                       formControlName="usuarioAprovacao"
+                       [matAutocomplete]="usuarioAprovacao.autocomplete" required
+                       (blur)="checkUsuarioAprovacao()">
                 <cdk-usuario-autocomplete
                     #usuarioAprovacao="usuarioAutocomplete"
                     [control]="form.get('usuarioAprovacao')"
@@ -99,18 +95,15 @@
 
         </div>
 
-        <mat-slide-toggle formControlName="encerraTarefa"
-                          class="mt-16 mr-16 mb-16">
+        <mat-slide-toggle formControlName="encerraTarefa">
             Encerrar a tarefa
         </mat-slide-toggle>
 
         <mat-form-field>
-            <div>
-                <input matInput placeholder="Espécie de Atividade"
-                       formControlName="especieAtividade"
-                       [matAutocomplete]="especieAtividade.autocomplete" required
-                       (blur)="checkEspecieAtividade()">
-            </div>
+            <input matInput placeholder="Espécie de Atividade"
+                   formControlName="especieAtividade"
+                   [matAutocomplete]="especieAtividade.autocomplete" required
+                   (blur)="checkEspecieAtividade()">
             <cdk-especie-atividade-autocomplete
                 #especieAtividade="especieAtividadeAutocomplete"
                 [control]="form.get('especieAtividade')"
@@ -141,12 +134,10 @@
         </mat-form-field>
 
         <mat-form-field>
-            <div>
-                <input matInput placeholder="Usuário Responsável pela Atividade"
-                       formControlName="usuario"
-                       [matAutocomplete]="usuario.autocomplete" required
-                       (blur)="checkUsuario()">
-            </div>
+            <input matInput placeholder="Usuário Responsável pela Atividade"
+                   formControlName="usuario"
+                   [matAutocomplete]="usuario.autocomplete" required
+                   (blur)="checkUsuario()">
             <cdk-usuario-autocomplete
                 #usuario="usuarioAutocomplete"
                 [control]="form.get('usuario')"
@@ -161,7 +152,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="mr-16">
+        <mat-form-field>
                 <textarea formControlName="observacao"
                           matInput placeholder="Observação" maxlength="255" upperCase></textarea>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">

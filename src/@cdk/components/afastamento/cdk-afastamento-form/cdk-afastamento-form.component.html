@@ -1,12 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Modalidade"
-                   formControlName="modalidadeAfastamento"
-                   [matAutocomplete]="modalidadeafastamento.autocomplete"
-                   (blur)="checkModalidadeAfastamento()" required>
-        </div>
+        <input matInput placeholder="Modalidade"
+               formControlName="modalidadeAfastamento"
+               [matAutocomplete]="modalidadeafastamento.autocomplete"
+               (blur)="checkModalidadeAfastamento()" required>
         <cdk-modalidade-afastamento-autocomplete
             #modalidadeafastamento="modalidadeAfastamentoAutocomplete"
             [control]="form.get('modalidadeAfastamento')"
@@ -21,47 +19,39 @@
         </mat-error>
     </mat-form-field>
 
-    <div class="dates"Fill fxLayout.gt-xs="row">
+    <mat-form-field>
+        <mat-label>Início do Afastamento</mat-label>
+        <input matInput formControlName="dataInicio" [matDatepicker]="dataInicio" required>
+        <mat-datepicker-toggle matSuffix [for]="dataInicio"></mat-datepicker-toggle>
+        <mat-datepicker #dataInicio></mat-datepicker>
+    </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Início do Afastamento</mat-label>
-            <input matInput formControlName="dataInicio" [matDatepicker]="dataInicio" required>
-            <mat-datepicker-toggle matSuffix [for]="dataInicio"></mat-datepicker-toggle>
-            <mat-datepicker #dataInicio></mat-datepicker>
-        </mat-form-field>
+    <mat-form-field>
+        <mat-label>Final do Afastamento</mat-label>
+        <input matInput formControlName="dataFim" [matDatepicker]="dataFim" required>
+        <mat-datepicker-toggle matSuffix [for]="dataFim"></mat-datepicker-toggle>
+        <mat-datepicker #dataFim></mat-datepicker>
 
-        <mat-form-field>
-            <mat-label>Final do Afastamento</mat-label>
-            <input matInput formControlName="dataFim" [matDatepicker]="dataFim" required>
-            <mat-datepicker-toggle matSuffix [for]="dataFim"></mat-datepicker-toggle>
-            <mat-datepicker #dataFim></mat-datepicker>
+        <mat-error *ngIf="form.get('dataFim').hasError('formError')">
+            {{form.get('dataFim').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-error *ngIf="form.get('dataFim').hasError('formError')">
-                {{form.get('dataFim').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field>
+        <mat-label>Início do Bloqueio</mat-label>
+        <input matInput [matDatepicker]="dataInicioBloqueio"
+               formControlName="dataInicioBloqueio" required>
+        <mat-datepicker-toggle matSuffix [for]="dataInicioBloqueio"></mat-datepicker-toggle>
+        <mat-datepicker #dataInicioBloqueio></mat-datepicker>
+    </mat-form-field>
 
-    </div>
-
-    <div class="dates"Fill fxLayout.gt-xs="row">
-
-        <mat-form-field>
-            <mat-label>Início do Bloqueio</mat-label>
-            <input matInput [matDatepicker]="dataInicioBloqueio"
-                   formControlName="dataInicioBloqueio" required>
-            <mat-datepicker-toggle matSuffix [for]="dataInicioBloqueio"></mat-datepicker-toggle>
-            <mat-datepicker #dataInicioBloqueio></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Final do Bloqueio</mat-label>
-            <input matInput [matDatepicker]="dataFimBloqueio"
-                   formControlName="dataFimBloqueio" required>
-            <mat-datepicker-toggle matSuffix [for]="dataFimBloqueio"></mat-datepicker-toggle>
-            <mat-datepicker #dataFimBloqueio></mat-datepicker>
-        </mat-form-field>
-
-    </div>
+    <mat-form-field>
+        <mat-label>Final do Bloqueio</mat-label>
+        <input matInput [matDatepicker]="dataFimBloqueio"
+               formControlName="dataFimBloqueio" required>
+        <mat-datepicker-toggle matSuffix [for]="dataFimBloqueio"></mat-datepicker-toggle>
+        <mat-datepicker #dataFimBloqueio></mat-datepicker>
+    </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

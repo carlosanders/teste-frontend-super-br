@@ -1,16 +1,14 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-slide-toggle formControlName="urgente" class="mr-16 mb-16">
+    <mat-slide-toggle formControlName="urgente">
         Urgente
     </mat-slide-toggle>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Processo"
-                   formControlName="processo"
-                   [matAutocomplete]="processo.autocomplete" required
-                   (blur)="checkProcesso()">
-        </div>
+        <input matInput placeholder="Processo"
+               formControlName="processo"
+               [matAutocomplete]="processo.autocomplete" required
+               (blur)="checkProcesso()">
         <cdk-processo-autocomplete
             #processo="processoAutocomplete"
             [control]="form.get('processo')"
@@ -26,15 +24,13 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Setor de Origem"
-                   formControlName="setorOrigem"
-                   [matAutocomplete]="setorOrigem.autocomplete" required
-                   (blur)="checkSetorOrigem()">
-            <mat-option *ngIf="setorOrigemListIsLoading">
-                <mat-spinner diameter="16"></mat-spinner>
-            </mat-option>
-        </div>
+        <input matInput placeholder="Setor de Origem"
+               formControlName="setorOrigem"
+               [matAutocomplete]="setorOrigem.autocomplete" required
+               (blur)="checkSetorOrigem()">
+        <mat-option *ngIf="setorOrigemListIsLoading">
+            <mat-spinner diameter="16"></mat-spinner>
+        </mat-option>
         <cdk-setor-autocomplete
             #setorOrigem="setorAutocomplete"
             [control]="form.get('setorOrigem')"
@@ -54,12 +50,10 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Unidade"
-                   formControlName="unidade"
-                   [matAutocomplete]="unidade.autocomplete" required
-                   (blur)="checkUnidade()">
-        </div>
+        <input matInput placeholder="Unidade"
+               formControlName="unidade"
+               [matAutocomplete]="unidade.autocomplete" required
+               (blur)="checkUnidade()">
         <cdk-setor-autocomplete
             #unidade="setorAutocomplete"
             [control]="form.get('unidade')"
@@ -75,15 +69,13 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('unidade').value">
-        <div>
-            <input matInput placeholder="Setor de Destino"
-                   formControlName="setorDestino"
-                   [matAutocomplete]="setorDestino.autocomplete" required
-                   (blur)="checkSetorDestino()">
-            <mat-option *ngIf="setorDestinoListIsLoading">
-                <mat-spinner diameter="16"></mat-spinner>
-            </mat-option>
-        </div>
+        <input matInput placeholder="Setor de Destino"
+               formControlName="setorDestino"
+               [matAutocomplete]="setorDestino.autocomplete" required
+               (blur)="checkSetorDestino()">
+        <mat-option *ngIf="setorDestinoListIsLoading">
+            <mat-spinner diameter="16"></mat-spinner>
+        </mat-option>
         <cdk-setor-autocomplete
             #setorDestino="setorAutocomplete"
             [control]="form.get('setorDestino')"
@@ -102,7 +94,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="mr-16">
+    <mat-form-field>
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
         <mat-error *ngIf="form.get('observacao').hasError('formError')">
@@ -113,7 +105,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

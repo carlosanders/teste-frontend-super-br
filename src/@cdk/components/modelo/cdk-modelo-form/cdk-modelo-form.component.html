@@ -1,29 +1,22 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="ativo">
         Ativo
     </mat-checkbox>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
-        </div>
+        <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
-        </div>
+        <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Template"
-                   formControlName="template"
-                   [matAutocomplete]="template.autocomplete"
-                   (blur)="checkTemplate()" required>
-        </div>
+        <input matInput placeholder="Template"
+               formControlName="template"
+               [matAutocomplete]="template.autocomplete"
+               (blur)="checkTemplate()" required>
         <cdk-template-autocomplete
             #template="templateAutocomplete"
             [control]="form.get('template')"

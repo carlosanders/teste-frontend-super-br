@@ -1,19 +1,15 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field *ngIf="form.get('id').value">
-        <div>
-            <input #numeracaoSequencial matInput placeholder="Númeração Sequencial"
-                   formControlName="numeracaoSequencial" readonly>
-        </div>
+        <input #numeracaoSequencial matInput placeholder="Númeração Sequencial"
+               formControlName="numeracaoSequencial" readonly>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Meio"
-                   formControlName="modalidadeMeio"
-                   [matAutocomplete]="modalidadeMeio.autocomplete"
-                   (blur)="checkModalidadeMeio()" required>
-        </div>
+        <input matInput placeholder="Meio"
+               formControlName="modalidadeMeio"
+               [matAutocomplete]="modalidadeMeio.autocomplete"
+               (blur)="checkModalidadeMeio()" required>
         <cdk-modalidade-meio-autocomplete
             #modalidadeMeio="modalidadeMeioAutocomplete"
             [control]="form.get('modalidadeMeio')"
@@ -32,20 +28,18 @@
         </mat-error>
     </mat-form-field>
 
-    <div>
-        <mat-checkbox formControlName="encerrado" *ngIf="form.get('id').value" disabled="true">
-            Encerrado
-        </mat-checkbox>
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('encerrado')">
-            <mat-icon matTooltip="Histórico">history</mat-icon>
-        </button>
-    </div>
+    <mat-checkbox formControlName="encerrado" *ngIf="form.get('id').value" disabled="true">
+        Encerrado
+    </mat-checkbox>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('encerrado')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

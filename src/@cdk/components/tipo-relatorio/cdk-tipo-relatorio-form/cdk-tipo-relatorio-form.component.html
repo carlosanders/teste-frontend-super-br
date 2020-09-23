@@ -1,6 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" (submit)="submit()">
 
-    <mat-card class="mb-16" fxLayout="column">
+    <mat-card>
 
         <mat-form-field>
             <mat-label>Nome</mat-label>
@@ -13,13 +13,8 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="mode === 'regular' || mode === 'bloco-create'">
-
-            <div>
                 <input matInput placeholder="Espécie" formControlName="especieRelatorio"
                        [matAutocomplete]="especieRelatorio.autocomplete" required (blur)="checkEspecieRelatorio()">
-            </div>
-
-
             <cdk-especie-relatorio-autocomplete
                 #especieRelatorio="especieRelatorioAutocomplete"
                 [especieRelatorioList]="especieRelatorioList"
@@ -27,11 +22,9 @@
                 [control]="form.get('especieRelatorio')"
                 [pagination]="especieRelatorioPagination">
             </cdk-especie-relatorio-autocomplete>
-
             <button matSuffix mat-button mat-icon-button (click)="showEspecieRelatorioGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
-
             <mat-error *ngIf="form.get('especieRelatorio').hasError('formError')">
                 {{form.get('especieRelatorio').errors.formError}}
             </mat-error>
@@ -52,8 +45,7 @@
             <textarea matInput formControlName="DQL" required></textarea>
         </mat-form-field>
 
-        <mat-slide-toggle formControlName="ativo"
-                          class="mr-16 mb-16">
+        <mat-slide-toggle formControlName="ativo">
             Ativo
         </mat-slide-toggle>
     </mat-card>

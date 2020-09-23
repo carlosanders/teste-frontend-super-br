@@ -1,27 +1,23 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div>
-            <mat-select placeholder="Tipo de coordenação"
-                        formControlName="tipo" required
-                        (blur)="selectTipo(form.get('tipo').value)">
-                <div *ngFor="let tipo of tipos">
-                    <mat-option [value]="tipo.id">{{ tipo.label }}</mat-option>
-                </div>
-            </mat-select>
-        </div>
+        <mat-select placeholder="Tipo de coordenação"
+                    formControlName="tipo" required
+                    (blur)="selectTipo(form.get('tipo').value)">
+            <div *ngFor="let tipo of tipos">
+                <mat-option [value]="tipo.id">{{ tipo.label }}</mat-option>
+            </div>
+        </mat-select>
         <mat-error *ngIf="form.get('tipo').hasError('required')">
             O tipo de coordenação é de preenchimento obrigatório
         </mat-error>
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('tipo').value === 'M'">
-        <div>
-            <input matInput placeholder="Modalidade de órgão central"
-                   formControlName="orgaoCentral"
-                   [matAutocomplete]="orgaoCentral.autocomplete"
-                   (blur)="checkOrgaoCentral()">
-        </div>
+        <input matInput placeholder="Modalidade de órgão central"
+               formControlName="orgaoCentral"
+               [matAutocomplete]="orgaoCentral.autocomplete"
+               (blur)="checkOrgaoCentral()">
         <cdk-modalidade-orgao-central-autocomplete
             #orgaoCentral="modalidadeOrgaoCentralAutocomplete"
             [control]="form.get('orgaoCentral')"
@@ -37,12 +33,10 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('tipo').value === 'U'">
-        <div>
-            <input matInput placeholder="Unidade"
-                   formControlName="unidade"
-                   [matAutocomplete]="unidade.autocomplete"
-                   (blur)="checkUnidade()">
-        </div>
+        <input matInput placeholder="Unidade"
+               formControlName="unidade"
+               [matAutocomplete]="unidade.autocomplete"
+               (blur)="checkUnidade()">
         <cdk-setor-autocomplete
             #unidade="setorAutocomplete"
             [control]="form.get('unidade')"
@@ -58,12 +52,10 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('tipo').value === 'S'">
-        <div>
-            <input matInput placeholder="Setor"
-                   formControlName="setor"
-                   [matAutocomplete]="setor.autocomplete"
-                   (blur)="checkSetor()">
-        </div>
+        <input matInput placeholder="Setor"
+               formControlName="setor"
+               [matAutocomplete]="setor.autocomplete"
+               (blur)="checkSetor()">
         <cdk-setor-autocomplete
             #setor="setorAutocomplete"
             [control]="form.get('setor')"
@@ -81,7 +73,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

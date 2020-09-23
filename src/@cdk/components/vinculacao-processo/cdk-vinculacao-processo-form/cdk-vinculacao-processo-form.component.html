@@ -1,12 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Processo Vinculado"
-                   formControlName="processoVinculado"
-                   [matAutocomplete]="processoVinculado.autocomplete" required
-                   (blur)="checkProcessoVinculado()">
-        </div>
+        <input matInput placeholder="Processo Vinculado"
+               formControlName="processoVinculado"
+               [matAutocomplete]="processoVinculado.autocomplete" required
+               (blur)="checkProcessoVinculado()">
         <cdk-processo-autocomplete
             #processoVinculado="processoAutocomplete"
             [control]="form.get('processoVinculado')"
@@ -22,12 +20,10 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Modalidade"
-                   formControlName="modalidadeVinculacaoProcesso"
-                   [matAutocomplete]="modalidadeVinculacaoProcesso.autocomplete" required
-                   (blur)="checkModalidadeVinculacaoProcesso()">
-        </div>
+        <input matInput placeholder="Modalidade"
+               formControlName="modalidadeVinculacaoProcesso"
+               [matAutocomplete]="modalidadeVinculacaoProcesso.autocomplete" required
+               (blur)="checkModalidadeVinculacaoProcesso()">
         <cdk-modalidade-vinculacao-processo-autocomplete
             #modalidadeVinculacaoProcesso="modalidadeVinculacaoProcessoAutocomplete"
             [control]="form.get('modalidadeVinculacaoProcesso')"
@@ -42,7 +38,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="mr-16">
+    <mat-form-field>
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
         <mat-error *ngIf="form.get('observacao').hasError('formError')">
@@ -53,7 +49,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

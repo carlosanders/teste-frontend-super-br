@@ -1,13 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Processo"
-                   formControlName="processoOrigem"
-                   [matAutocomplete]="processoOrigem.autocomplete" required
-                   (blur)="checkProcessoOrigem()">
-        </div>
-
+        <input matInput placeholder="Processo"
+               formControlName="processoOrigem"
+               [matAutocomplete]="processoOrigem.autocomplete" required
+               (blur)="checkProcessoOrigem()">
         <cdk-processo-autocomplete
             #processoOrigem="processoAutocomplete"
             [control]="form.get('processoOrigem')"

@@ -1,42 +1,34 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('nome')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-        </div>
+        <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('nome')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('sigla')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-        </div>
+        <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('sigla')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('endereco')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-        </div>
+        <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('endereco')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Espécie Setor"
-                   formControlName="especieSetor"
-                   [matAutocomplete]="especieSetor.autocomplete"
-                   (blur)="checkEspecieSetor()" required>
-        </div>
+        <input matInput placeholder="Espécie Setor"
+               formControlName="especieSetor"
+               [matAutocomplete]="especieSetor.autocomplete"
+               (blur)="checkEspecieSetor()" required>
         <cdk-especie-setor-autocomplete
             #especieSetor="especieSetorAutocomplete"
             [control]="form.get('especieSetor')"
@@ -57,12 +49,10 @@
 
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Município"
-                   formControlName="municipio"
-                   [matAutocomplete]="municipio.autocomplete"
-                   (blur)="checkMunicipio()" required>
-        </div>
+        <input matInput placeholder="Município"
+               formControlName="municipio"
+               [matAutocomplete]="municipio.autocomplete"
+               (blur)="checkMunicipio()" required>
         <cdk-municipio-autocomplete
             #municipio="municipioAutocomplete"
             [control]="form.get('municipio')"
@@ -82,12 +72,10 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Setor Pai"
-                   formControlName="parent"
-                   [matAutocomplete]="setor.autocomplete"
-                   (blur)="checkSetor()">
-        </div>
+        <input matInput placeholder="Setor Pai"
+               formControlName="parent"
+               [matAutocomplete]="setor.autocomplete"
+               (blur)="checkSetor()">
         <cdk-setor-autocomplete
             #setor="setorAutocomplete"
             [control]="form.get('parent')"
@@ -110,10 +98,8 @@
 
     <mat-radio-group class="distribuicaoCentena"
                      formControlName="distribuicaoCentena"
-                     aria-labelledby="Tipo Prevenção Absoluta"
-                    >
-        <div fxLayout="row" class="start center mat-form-field-wrapper"
-            >
+                     aria-labelledby="Tipo Prevenção Absoluta">
+        <div class="start center mat-form-field-wrapper">
             <label id="distribuicaoCentena" class="flex legenda">Tipo Prevenção Absoluta</label>
 
             <mat-radio-button [value]="false">
@@ -132,10 +118,8 @@
 
     <mat-radio-group class="prazoEqualizacao"
                      formControlName="prazoEqualizacao"
-                     aria-labelledby="Prazo Máximo Equalização"
-                    >
-        <div fxLayout="row" class="start center mat-form-field-wrapper"
-            >
+                     aria-labelledby="Prazo Máximo Equalização">
+        <div class="start center mat-form-field-wrapper">
             <label id="prazoEqualizacao" class="flex legenda">Prazo Máximo Equalização </label>
             <mat-radio-button [value]="7">
                 7 DIAS
@@ -153,10 +137,8 @@
 
     <mat-radio-group class="divergenciaMaxima"
                      formControlName="divergenciaMaxima"
-                     aria-labelledby="Divergência Máxima Diária"
-                    >
-        <div fxLayout="row" class="start center mat-form-field-wrapper"
-            >
+                     aria-labelledby="Divergência Máxima Diária">
+        <div class="start center mat-form-field-wrapper">
             <label id="divergenciaMaxima" class="flex legenda">Divergência Máxima Diária </label>
             <mat-radio-button [value]="25">
                 PEQUENA
@@ -171,8 +153,7 @@
         <mat-icon matTooltip="Histórico">history</mat-icon>
     </button>
 
-    <mat-checkbox formControlName="apenasDistribuicaoAutomatica"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="apenasDistribuicaoAutomatica">
         Desconsiderar Distribuição Manual
     </mat-checkbox>
     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -180,8 +161,7 @@
         <mat-icon matTooltip="Histórico">history</mat-icon>
     </button>
 
-    <mat-checkbox formControlName="comPrevencaoRelativa"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="comPrevencaoRelativa">
         Aplicar Prevenção Relativa
     </mat-checkbox>
     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -191,8 +171,7 @@
 
     <div class="legendaGrupo mat-form-field-wrapper">Funcionamento:</div>
 
-    <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="ativo">
         Ativo
     </mat-checkbox>
     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -200,8 +179,7 @@
         <mat-icon matTooltip="Histórico">history</mat-icon>
     </button>
 
-    <mat-checkbox formControlName="apenasDistribuidor"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="apenasDistribuidor">
         Distribuidor
     </mat-checkbox>
     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -213,7 +191,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

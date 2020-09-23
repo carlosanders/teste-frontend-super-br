@@ -1,17 +1,14 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-checkbox formControlName="principal"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="principal">
         Principal
     </mat-checkbox>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Assunto"
-                   formControlName="assuntoAdministrativo"
-                   [matAutocomplete]="assuntoAdministrativo.autocomplete"
-                   (blur)="checkAssuntoAdministrativo()" required>
-        </div>
+        <input matInput placeholder="Assunto"
+               formControlName="assuntoAdministrativo"
+               [matAutocomplete]="assuntoAdministrativo.autocomplete"
+               (blur)="checkAssuntoAdministrativo()" required>
         <cdk-assunto-administrativo-autocomplete
             #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
             [control]="form.get('assuntoAdministrativo')"
@@ -39,7 +36,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

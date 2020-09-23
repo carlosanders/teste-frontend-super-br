@@ -1,102 +1,96 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-        <div>
-            <mat-slide-toggle *ngIf="sigilo?.id" formControlName="desclassificado">
-                Desclassificado
-            </mat-slide-toggle>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('desclassificado')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-        </div>
+    <mat-slide-toggle *ngIf="sigilo?.id" formControlName="desclassificado">
+        Desclassificado
+    </mat-slide-toggle>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('desclassificado')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
 
+    <mat-form-field>
+        <input matInput placeholder="Tipo do Sigilo"
+               formControlName="tipoSigilo"
+               [matAutocomplete]="tipoSigilo.autocomplete" required
+               (blur)="checkTipoSigilo()">
+        <cdk-tipo-sigilo-autocomplete
+            #tipoSigilo="tipoSigiloAutocomplete"
+            [control]="form.get('tipoSigilo')"
+            [pagination]="tipoSigiloPagination">
+        </cdk-tipo-sigilo-autocomplete>
+        <button *ngIf="form.get('tipoSigilo').enabled" matSuffix mat-button mat-icon-button
+                (click)="showTipoSigiloGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('tipoSigilo').hasError('formError')">
+            {{form.get('tipoSigilo').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field
+        *ngIf="form.get('tipoSigilo').value && form.get('tipoSigilo').value.leiAcessoInformacao === true">
+        <input matInput placeholder="Categoria"
+               formControlName="modalidadeCategoriaSigilo"
+               [matAutocomplete]="modalidadeCategoriaSigilo.autocomplete" required
+               (blur)="checkModalidadeCategoriaSigilo()">
+        <cdk-modalidade-categoria-sigilo-autocomplete
+            #modalidadeCategoriaSigilo="modalidadeCategoriaSigiloAutocomplete"
+            [control]="form.get('modalidadeCategoriaSigilo')"
+            [pagination]="modalidadeCategoriaSigiloPagination">
+        </cdk-modalidade-categoria-sigilo-autocomplete>
+        <button *ngIf="form.get('modalidadeCategoriaSigilo').enabled" matSuffix mat-button mat-icon-button
+                (click)="showModalidadeCategoriaSigiloGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('modalidadeCategoriaSigilo').hasError('formError')">
+            {{form.get('modalidadeCategoriaSigilo').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <div class="dates">
         <mat-form-field>
-            <div>
-                <input matInput placeholder="Tipo do Sigilo"
-                       formControlName="tipoSigilo"
-                       [matAutocomplete]="tipoSigilo.autocomplete" required
-                       (blur)="checkTipoSigilo()">
-            </div>
-            <cdk-tipo-sigilo-autocomplete
-                #tipoSigilo="tipoSigiloAutocomplete"
-                [control]="form.get('tipoSigilo')"
-                [pagination]="tipoSigiloPagination">
-            </cdk-tipo-sigilo-autocomplete>
-            <button *ngIf="form.get('tipoSigilo').enabled" matSuffix mat-button mat-icon-button
-                    (click)="showTipoSigiloGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('tipoSigilo').hasError('formError')">
-                {{form.get('tipoSigilo').errors.formError}}
-            </mat-error>
+            <mat-label>Data da Início</mat-label>
+            <input matInput [matDatepicker]="dataHoraInicioSigilo" placeholder="Data do Início do Sigilo"
+                   formControlName="dataHoraInicioSigilo" required>
+            <mat-datepicker-toggle matSuffix [for]="dataHoraInicioSigilo"></mat-datepicker-toggle>
+            <mat-datepicker #dataHoraInicioSigilo></mat-datepicker>
         </mat-form-field>
+    </div>
 
-        <mat-form-field
-                        *ngIf="form.get('tipoSigilo').value && form.get('tipoSigilo').value.leiAcessoInformacao === true">
-            <div>
-                <input matInput placeholder="Categoria"
-                       formControlName="modalidadeCategoriaSigilo"
-                       [matAutocomplete]="modalidadeCategoriaSigilo.autocomplete" required
-                       (blur)="checkModalidadeCategoriaSigilo()">
-            </div>
-            <cdk-modalidade-categoria-sigilo-autocomplete
-                #modalidadeCategoriaSigilo="modalidadeCategoriaSigiloAutocomplete"
-                [control]="form.get('modalidadeCategoriaSigilo')"
-                [pagination]="modalidadeCategoriaSigiloPagination">
-            </cdk-modalidade-categoria-sigilo-autocomplete>
-            <button *ngIf="form.get('modalidadeCategoriaSigilo').enabled" matSuffix mat-button mat-icon-button
-                    (click)="showModalidadeCategoriaSigiloGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('modalidadeCategoriaSigilo').hasError('formError')">
-                {{form.get('modalidadeCategoriaSigilo').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field>
+        <mat-label>Fundamento Legal</mat-label>
+        <input matInput #fundamentoLegal
+               name="fundamentoLegal"
+               formControlName="fundamentoLegal"
+               maxlength="255" upperCase required>
+        <mat-hint align="end">{{fundamentoLegal.value.length}} / 255</mat-hint>
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('fundamentoLegal')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+    </mat-form-field>
 
-        <div class="dates">
-            <mat-form-field>
-                <mat-label>Data da Início</mat-label>
-                <input matInput [matDatepicker]="dataHoraInicioSigilo" placeholder="Data do Início do Sigilo"
-                       formControlName="dataHoraInicioSigilo" required>
-                <mat-datepicker-toggle matSuffix [for]="dataHoraInicioSigilo"></mat-datepicker-toggle>
-                <mat-datepicker #dataHoraInicioSigilo></mat-datepicker>
-            </mat-form-field>
-        </div>
+    <mat-form-field>
+        <mat-label>Razões da Classificação</mat-label>
+        <input matInput #razoesClassificacaoSigilo
+               name="razoesClassificacaoSigilo"
+               formControlName="razoesClassificacaoSigilo"
+               maxlength="255" upperCase required>
+        <mat-hint align="end">{{razoesClassificacaoSigilo.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Fundamento Legal</mat-label>
-            <input matInput #fundamentoLegal
-                   name="fundamentoLegal"
-                   formControlName="fundamentoLegal"
-                   maxlength="255" upperCase required>
-            <mat-hint align="end">{{fundamentoLegal.value.length}} / 255</mat-hint>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('fundamentoLegal')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Razões da Classificação</mat-label>
-            <input matInput #razoesClassificacaoSigilo
-                   name="razoesClassificacaoSigilo"
-                   formControlName="razoesClassificacaoSigilo"
-                   maxlength="255" upperCase required>
-            <mat-hint align="end">{{razoesClassificacaoSigilo.value.length}} / 255</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field class="mr-16">
+    <mat-form-field>
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
-            <mat-error *ngIf="form.get('observacao').hasError('formError')">
-                {{form.get('observacao').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        <mat-error *ngIf="form.get('observacao').hasError('formError')">
+            {{form.get('observacao').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div *ngIf="!saving && !loading" class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

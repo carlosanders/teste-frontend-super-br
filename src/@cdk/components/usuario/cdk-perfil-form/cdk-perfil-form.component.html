@@ -50,7 +50,7 @@
         <mat-hint align="end">{{cargo.value.length}} / 255</mat-hint>
     </mat-form-field>
 
-    <mat-form-field class="mr-16">
+    <mat-form-field>
             <textarea formControlName="assinaturaHTML"
                       matInput placeholder="Assinatura" upperCase required></textarea>
         <mat-error *ngIf="form.get('assinaturaHTML').hasError('formError')">

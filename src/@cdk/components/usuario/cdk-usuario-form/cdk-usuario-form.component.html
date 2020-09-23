@@ -38,13 +38,11 @@
                maxlength="2">
     </mat-form-field>
 
-    <mat-checkbox formControlName="enabled"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="enabled">
         Ativo
     </mat-checkbox>
 
-    <mat-checkbox formControlName="validado" *ngIf="usuarioExterno"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="validado" *ngIf="usuarioExterno">
         Validado
     </mat-checkbox>
 

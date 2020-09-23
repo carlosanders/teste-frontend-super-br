@@ -1,7 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-slide-toggle formControlName="ativo" *ngIf="!editDescricao"
-                      class="mr-16 mb-16">
+    <mat-slide-toggle formControlName="ativo" *ngIf="!editDescricao">
         Ativo
     </mat-slide-toggle>
 
@@ -14,12 +13,10 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div>
-            <input matInput placeholder="Documento"
-                   formControlName="documento"
-                   [matAutocomplete]="documento.autocomplete" required
-                   (blur)="checkDocumento()">
-        </div>
+        <input matInput placeholder="Documento"
+               formControlName="documento"
+               [matAutocomplete]="documento.autocomplete" required
+               (blur)="checkDocumento()">
         <cdk-documento-autocomplete
             #documento="documentoAutocomplete"
             [control]="form.get('documento')"
@@ -48,12 +45,10 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div>
-            <input matInput placeholder="Origem de Dados"
-                   formControlName="origemDados"
-                   [matAutocomplete]="origemDados.autocomplete" required
-                   (blur)="checkOrigemDados()">
-        </div>
+        <input matInput placeholder="Origem de Dados"
+               formControlName="origemDados"
+               [matAutocomplete]="origemDados.autocomplete" required
+               (blur)="checkOrigemDados()">
         <cdk-origem-dados-autocomplete
             #origemDados="origemDadosAutocomplete"
             [control]="form.get('origemDados')"
@@ -69,12 +64,10 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div>
-            <input matInput placeholder="Volume"
-                   formControlName="volume"
-                   [matAutocomplete]="volume.autocomplete" required
-                   (blur)="checkVolume()">
-        </div>
+        <input matInput placeholder="Volume"
+               formControlName="volume"
+               [matAutocomplete]="volume.autocomplete" required
+               (blur)="checkVolume()">
         <cdk-volume-autocomplete
             #volume="volumeAutocomplete"
             [control]="form.get('volume')"
@@ -90,12 +83,10 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div>
-            <input matInput placeholder="Documento Avulso"
-                   formControlName="documentoAvulso"
-                   [matAutocomplete]="documentoAvulso.autocomplete" required
-                   (blur)="checkDocumentoAvulso()">
-        </div>
+        <input matInput placeholder="Documento Avulso"
+               formControlName="documentoAvulso"
+               [matAutocomplete]="documentoAvulso.autocomplete" required
+               (blur)="checkDocumentoAvulso()">
         <cdk-documento-avulso-autocomplete
             #documentoAvulso="documentoAvulsoAutocomplete"
             [control]="form.get('documentoAvulso')"
@@ -111,12 +102,10 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div>
-            <input matInput placeholder="Atividade"
-                   formControlName="atividade"
-                   [matAutocomplete]="atividade.autocomplete" required
-                   (blur)="checkAtividade()">
-        </div>
+        <input matInput placeholder="Atividade"
+               formControlName="atividade"
+               [matAutocomplete]="atividade.autocomplete" required
+               (blur)="checkAtividade()">
         <cdk-atividade-autocomplete
             #atividade="atividadeAutocomplete"
             [control]="form.get('atividade')"
@@ -132,12 +121,10 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div>
             <input matInput placeholder="Tarefa"
                    formControlName="tarefa"
                    [matAutocomplete]="tarefa.autocomplete" required
                    (blur)="checkTarefa()">
-        </div>
         <cdk-tarefa-autocomplete
             #tarefa="tarefaAutocomplete"
             [control]="form.get('tarefa')"
@@ -155,7 +142,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

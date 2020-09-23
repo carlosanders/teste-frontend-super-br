@@ -3,15 +3,13 @@
     <h2>Receber Tramitação do Processo</h2>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Setor Atual"
-                   formControlName="setorAtual"
-                   [matAutocomplete]="setorAtual.autocomplete" required
-                   (blur)="checkSetorAtual()">
-            <mat-option *ngIf="setorAtualListIsLoading">
-                <mat-spinner diameter="16"></mat-spinner>
-            </mat-option>
-        </div>
+        <input matInput placeholder="Setor Atual"
+               formControlName="setorAtual"
+               [matAutocomplete]="setorAtual.autocomplete" required
+               (blur)="checkSetorAtual()">
+        <mat-option *ngIf="setorAtualListIsLoading">
+            <mat-spinner diameter="16"></mat-spinner>
+        </mat-option>
         <cdk-setor-autocomplete
             #setorAtual="setorAutocomplete"
             [control]="form.get('setorAtual')"

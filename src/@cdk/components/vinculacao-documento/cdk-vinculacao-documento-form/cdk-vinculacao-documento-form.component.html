@@ -1,12 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Documento"
-                   formControlName="documento"
-                   [matAutocomplete]="documento.autocomplete" required
-                   (blur)="checkDocumento()">
-        </div>
+        <input matInput placeholder="Documento"
+               formControlName="documento"
+               [matAutocomplete]="documento.autocomplete" required
+               (blur)="checkDocumento()">
         <cdk-documento-autocomplete
             #documento="documentoAutocomplete"
             [control]="form.get('documento')"
@@ -22,12 +20,10 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Documento Vinculado"
-                   formControlName="documentoVinculado"
-                   [matAutocomplete]="documento.autocomplete" required
-                   (blur)="checkDocumentoVinculado()">
-        </div>
+        <input matInput placeholder="Documento Vinculado"
+               formControlName="documentoVinculado"
+               [matAutocomplete]="documento.autocomplete" required
+               (blur)="checkDocumentoVinculado()">
         <cdk-documento-autocomplete
             #documento="documentoAutocomplete"
             [control]="form.get('documentoVinculado')"
@@ -43,12 +39,10 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Modalidade da Vinculação do Documento"
-                   formControlName="modalidadeVinculacaoDocumento"
-                   [matAutocomplete]="modalidadeVinculacaoDocumento.autocomplete" required
-                   (blur)="checkModalidadeVinculacaoDocumento()">
-        </div>
+        <input matInput placeholder="Modalidade da Vinculação do Documento"
+               formControlName="modalidadeVinculacaoDocumento"
+               [matAutocomplete]="modalidadeVinculacaoDocumento.autocomplete" required
+               (blur)="checkModalidadeVinculacaoDocumento()">
         <cdk-modalidade-vinculacao-documento-autocomplete
             #modalidadeVinculacaoDocumento="modalidadeVinculacaoDocumentoAutocomplete"
             [control]="form.get('modalidadeVinculacaoDocumento')"
@@ -66,7 +60,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

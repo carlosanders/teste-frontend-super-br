@@ -123,8 +123,7 @@
                 <label id="processo-rg3"></label>
                 <mat-radio-group class="poderes-rg"
                                  formControlName="unidadeArquivistica"
-                                 aria-labelledby="processo-rg3"
-                                >
+                                 aria-labelledby="processo-rg3">
                     <mat-radio-button [value]=1>
                         Processo
                     </mat-radio-button>
@@ -140,13 +139,11 @@
 
         <mat-card *showIfRole="'ROLE_COLABORADOR'">
             <mat-card-subtitle>Dados do Protocolo</mat-card-subtitle>
-            <div fxLayout="row" class="start" *ngIf="!form.value.id"
-                >
+            <div class="start" *ngIf="!form.value.id">
                 <label id="processo-rg2"></label>
                 <mat-radio-group class="poderes-rg"
                                  formControlName="tipoProtocolo"
-                                 aria-labelledby="processo-rg2"
-                                >
+                                 aria-labelledby="processo-rg2">
                     <mat-radio-button [value]=1 *ngIf="form.value.unidadeArquivistica !== 3">
                         Atribuir Novo Protocolo
                     </mat-radio-button>
@@ -181,14 +178,12 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div>
-                    <input matInput placeholder="Procedência"
-                           id="inputProcedencia"
-                           formControlName="procedencia"
-                           required
-                           [matAutocomplete]="procedencia.autocomplete"
-                           (blur)="checkProcedencia()">
-                </div>
+                <input matInput placeholder="Procedência"
+                       id="inputProcedencia"
+                       formControlName="procedencia"
+                       required
+                       [matAutocomplete]="procedencia.autocomplete"
+                       (blur)="checkProcedencia()">
                 <cdk-pessoa-autocomplete
                     #procedencia="pessoaAutocomplete"
                     [control]="form.get('procedencia')"
@@ -255,19 +250,15 @@
         </mat-card>
 
         <mat-card *showIfRole="'ROLE_COLABORADOR'">
-            <mat-slide-toggle *ngIf="!form.value.id" formControlName="temProcessoOrigem"
-                              class="mt-16 mr-16 mb-16">
+            <mat-slide-toggle *ngIf="!form.value.id" formControlName="temProcessoOrigem">
                 Importar Dados de Processo Existente no Sistema
             </mat-slide-toggle>
 
             <mat-form-field *ngIf="!form.value.id && form.value.temProcessoOrigem === true">
-                <div>
-                    <input matInput placeholder="Processo Origem"
-                           formControlName="processoOrigem"
-                           [matAutocomplete]="processoOrigem.autocomplete" required
-                           (blur)="checkProcesso()">
-                </div>
-
+                <input matInput placeholder="Processo Origem"
+                       formControlName="processoOrigem"
+                       [matAutocomplete]="processoOrigem.autocomplete" required
+                       (blur)="checkProcesso()">
                 <cdk-processo-autocomplete
                     #processoOrigem="processoAutocomplete"
                     [control]="form.get('processoOrigem')"
@@ -315,13 +306,11 @@
 
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-            <div>
-                <input matInput placeholder="Processo de Trabalho"
-                       formControlName="especieProcesso"
-                       required
-                       [matAutocomplete]="especieProcesso.autocomplete"
-                       (blur)="checkEspecieProcesso()">
-            </div>
+            <input matInput placeholder="Processo de Trabalho"
+                   formControlName="especieProcesso"
+                   required
+                   [matAutocomplete]="especieProcesso.autocomplete"
+                   (blur)="checkEspecieProcesso()">
             <cdk-especie-processo-autocomplete
                 #especieProcesso="especieProcessoAutocomplete"
                 [control]="form.get('especieProcesso')"
@@ -347,13 +336,11 @@
         </mat-form-field>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-            <div>
-                <input matInput placeholder="Meio"
-                       formControlName="modalidadeMeio"
-                       required
-                       [matAutocomplete]="modalidadeMeio.autocomplete"
-                       (blur)="checkModalidadeMeio()">
-            </div>
+            <input matInput placeholder="Meio"
+                   formControlName="modalidadeMeio"
+                   required
+                   [matAutocomplete]="modalidadeMeio.autocomplete"
+                   (blur)="checkModalidadeMeio()">
             <cdk-modalidade-meio-autocomplete
                 #modalidadeMeio="modalidadeMeioAutocomplete"
                 [control]="form.get('modalidadeMeio')"
@@ -379,13 +366,11 @@
         </mat-form-field>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-            <div>
-                <input matInput placeholder="Classificação"
-                       formControlName="classificacao"
-                       required
-                       [matAutocomplete]="classificacao.autocomplete"
-                       (blur)="checkClassificacao()">
-            </div>
+            <input matInput placeholder="Classificação"
+                   formControlName="classificacao"
+                   required
+                   [matAutocomplete]="classificacao.autocomplete"
+                   (blur)="checkClassificacao()">
             <cdk-classificacao-autocomplete
                 #classificacao="classificacaoAutocomplete"
                 [control]="form.get('classificacao')"
@@ -455,13 +440,11 @@
         </mat-form-field>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-            <div>
-                <input matInput placeholder="Setor Responsável"
-                       formControlName="setorAtual"
-                       required
-                       [matAutocomplete]="setor.autocomplete"
-                       (blur)="checkSetorAtual()">
-            </div>
+            <input matInput placeholder="Setor Responsável"
+                   formControlName="setorAtual"
+                   required
+                   [matAutocomplete]="setor.autocomplete"
+                   (blur)="checkSetorAtual()">
             <cdk-setor-autocomplete
                 #setor="setorAutocomplete"
                 [control]="form.get('setorAtual')"

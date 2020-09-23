@@ -1,26 +1,21 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16">
+    <mat-checkbox formControlName="ativo">
         Ativo
     </mat-checkbox>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required>
-        </div>
+        <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required>
     </mat-form-field>
 
     <mat-form-field>
-        <div>
-            <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required>
-        </div>
+        <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required>
     </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
