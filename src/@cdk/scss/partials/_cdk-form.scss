@@ -3,6 +3,14 @@ form {
     display: flex;
     flex-direction: column;
 
+    mat-card {
+        flex: 1 1 auto;
+        display: flex !important;
+        flex-direction: column;
+        padding: 8px !important;
+        margin-bottom: 16px !important;
+    }
+
     mat-form-field {
         flex: 1 1 auto;
     }
@@ -11,8 +19,12 @@ form {
         flex: 1 1 auto;
         display: flex;
         flex-direction: row;
-        mat-form-field:first-child {
-            margin: 0 8px 0 0;
+
+        mat-radio-group {
+            margin-bottom: 8px;
+            mat-radio-button {
+                margin-right: 24px;
+            }
         }
     }
 
@@ -20,8 +32,8 @@ form {
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
-        mat-form-field:first-child {
-            margin: 0;
+        mat-radio-button {
+            margin-right: 0;
         }
     }
 
@@ -36,4 +48,5 @@ form {
         }
     }
 }
+
 
