@@ -1,80 +1,71 @@
-<form class="altura" fxLayoutGap="16px" name="form" [formGroup]="form">
+<div class="header">
+    <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+        search
+    </mat-icon>
+    <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Filtro</span>
+</div>
 
-    <div class="altura" fxLayout="column">
-        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
-            <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                search
-            </mat-icon>
-            <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
-                  *ngIf="this.mode === 'list'">Filtro</span>
-        </div>
+<div class="content" cdkPerfectScrollbar>
+    <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-        <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <mat-label>Conteúdo</mat-label>
+            <input matInput #conteudo
+                   name="conteudo"
+                   required
+                   formControlName="conteudo">
+        </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <mat-label>Conteúdo</mat-label>
-                <input matInput #conteudo
-                       name="conteudo"
-                       required
-                       formControlName="conteudo">
-            </mat-form-field>
+        <mat-form-field *showIfRole="'ROLE_USUÁRIO_EXTERNO'">
+            <mat-label>Código da Assinatura Digital</mat-label>
+            <input matInput #codigo
+                   required
+                   name="codigo"
+                   formControlName="codigo">
+        </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_USUÁRIO_EXTERNO'">
-                <mat-label>Código da Assinatura Digital</mat-label>
-                <input matInput #codigo
-                       required
-                       name="codigo"
-                       formControlName="codigo">
-            </mat-form-field>
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <mat-label>Extensão</mat-label>
+            <input matInput #extensao
+                   name="extensao"
+                   formControlName="extensao">
+        </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <mat-label>Extensão</mat-label>
-                <input matInput #extensao
-                       name="extensao"
-                       formControlName="extensao">
-            </mat-form-field>
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+                <input matInput placeholder="Processo de Origem"
+                       formControlName="processoOrigem"
+                       [matAutocomplete]="processo.autocomplete">
+            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processoOrigem')">
+            </cdk-processo-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Processo de Origem"
-                           formControlName="processoOrigem"
-                           [matAutocomplete]="processo.autocomplete">
-                </div>
-                <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processoOrigem')">
-                </cdk-processo-autocomplete>
-            </mat-form-field>
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'" class="mr-sm-12">
+            <mat-label>Criado Em</mat-label>
+            <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+        </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'" class="mr-sm-12">
-                <mat-label>Criado Em</mat-label>
-                <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
-                <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-            </mat-form-field>
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+                <input matInput placeholder="Criado Por"
+                       formControlName="criadoPor"
+                       [matAutocomplete]="usuario.autocomplete">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Criado Por"
-                           formControlName="criadoPor"
-                           [matAutocomplete]="usuario.autocomplete">
-                </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
-                </cdk-usuario-autocomplete>
-            </mat-form-field>
+        <mat-checkbox *showIfRole="'ROLE_COLABORADOR'">
+            Editor de Textos
+        </mat-checkbox>
+    </form>
 
-            <mat-checkbox *showIfRole="'ROLE_COLABORADOR'" formControlName="editavel" class="mr-16 mb-16"
-                          fxFlex="0 1 auto">
-                Editor de Textos
-            </mat-checkbox>
-        </div>
+</div>
 
-        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
-                Buscar
-            </button>
-
-            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()">
-                Limpar
-            </button>
-        </div>
-    </div>
-</form>
+<div class="footer">
+    <button mat-raised-button color="accent" (click)="buscar()">
+        Buscar
+    </button>
+    <button mat-raised-button color="warn" (click)="limpar()">
+        Limpar
+    </button>
+</div>

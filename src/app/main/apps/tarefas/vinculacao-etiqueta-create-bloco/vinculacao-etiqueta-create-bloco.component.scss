@@ -4,6 +4,7 @@ vinculacao-etiqueta-create {
     height: 0;
     > .content {
         display: flex;
+        flex-direction: column;
         flex: 1 1 auto;
         padding: 8px;
     }
