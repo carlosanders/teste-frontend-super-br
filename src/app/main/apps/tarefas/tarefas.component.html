@@ -54,9 +54,8 @@
                         'current-tarefa': currentTarefaId,
                         'no-current-tarefa': !currentTarefaId
                      }">
-                    <div class="loading">
-                        <mat-progress-bar [mode]="'indeterminate'"
-                                          *ngIf="(changingFolderIds$ | async)?.length"></mat-progress-bar>
+                    <div class="loading" *ngIf="(changingFolderIds$ | async)?.length">
+                        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
                     </div>
                     <cdk-tarefa-list (scrolled)="onScroll()"
                                      [loading]="(loading$ | async)"
@@ -99,6 +98,7 @@
                 </div>
 
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
+                     [fxFlex]="100 - tarefaListSize"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      [ngClass]="{
                         'mobile-mode': mobileMode,

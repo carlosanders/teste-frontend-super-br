@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
             <input matInput placeholder="Município"
