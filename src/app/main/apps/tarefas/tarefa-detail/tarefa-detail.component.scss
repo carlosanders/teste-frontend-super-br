@@ -25,5 +25,7 @@ tarefa-detail {
     > .content {
         flex: 1 1 auto;
         display: flex;
+        height: 0;
+        overflow-y: auto;
     }
 }

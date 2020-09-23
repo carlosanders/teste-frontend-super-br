@@ -39,6 +39,8 @@ cdk-tarefa-list {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+            height: 0;
+            overflow-y: auto;
 
             > .loading-wrapper {
                 flex: 1 1 auto;

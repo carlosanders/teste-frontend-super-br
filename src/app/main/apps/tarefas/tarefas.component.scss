@@ -96,11 +96,8 @@ tarefas {
                     flex-direction: row;
 
                     > .tarefa-list {
-                        flex: 1 1 auto;
                         display: flex;
                         flex-direction: column;
-
-                        border-right: 1px solid;
 
                         > .loading {
                             flex: 1 1 auto;
@@ -115,21 +112,11 @@ tarefas {
                             &.current-tarefa {
                                 display: none !important;
                             }
-
-                            &.no-current-tarefa {
-                                max-width: 100% !important;
-                            }
-
                         }
-                        cdk-tarefa-list {
-                            min-height: 100%;
-                        }
-
                     }
 
-                    .tarefa-detail {
+                    > .tarefa-detail {
 
-                        flex: 1 1 auto;
                         display: flex;
                         flex-direction: column;
 
@@ -138,11 +125,6 @@ tarefas {
                             &.no-current-tarefa {
                                 display: none !important;
                             }
-
-                            &.current-tarefa {
-                                max-width: 100% !important;
-                            }
-
                         }
                     }
 
