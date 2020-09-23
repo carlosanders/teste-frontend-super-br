@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'" (submit)="submit()">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
         <input matInput placeholder="WorkFlow"
@@ -59,7 +59,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-        <button mat-raised-button color="accent" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
