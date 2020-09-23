@@ -13,7 +13,7 @@ documento {
         align-items: center;
         background: rgba(0, 0, 0, 0.5) !important;
 
-        .modal {
+        > .modal {
             height: 95%;
             width: 98%;
             flex: 0 1 95%;
@@ -35,6 +35,7 @@ documento {
 
                 > .white-space {
                     flex: 0.25 0 25%;
+                    padding-left: 40px;
                 }
 
                 > .acoes {
@@ -86,22 +87,23 @@ documento {
                     flex-direction: row;
                     flex: 1 0 auto;
 
-                    .left {
+                    > cdk-sidebar {
                         display: flex;
-                        flex-direction: column;
-                        flex: 0.25 0 25%;
+                        flex: 1 0 auto;
+                        min-width: 400px;
+                        max-width: 25%;
 
-                        ng-component {
+                        > ng-component {
                             display: flex;
                             flex-direction: column;
-                            flex: 1 1 auto;
+                            flex: 1 0 auto;
                         }
                     }
 
-                    .documento-navegacao-content {
+                    > .documento-navegacao-content {
                         display: flex;
                         flex-direction: column;
-                        flex: 1 0 auto;
+                        flex: 1 1 auto;
                     }
                 }
             }

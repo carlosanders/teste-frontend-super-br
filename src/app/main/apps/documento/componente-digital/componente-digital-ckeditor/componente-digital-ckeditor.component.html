@@ -1,8 +1,6 @@
 <div class="loading">
     <mat-progress-bar [mode]="'indeterminate'" *ngIf="saving"></mat-progress-bar>
 </div>
-<div class="space" *ngIf="!saving">
-</div>
 <cdk-componente-digital-ckeditor [mode]="mode"
                                  [componenteDigital]="(componenteDigital$ | async)"
                                  [repositorio]="(repositorio$ | async)"
