@@ -106,18 +106,14 @@
         <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
             CANCELAR
         </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
 
     <div>{{form.errors}}</div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
 </form>
 
 <cdk-usuario-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'usuario-gridsearch'"
     (selected)="selectUsuario($event)"
     [pagination]="usuarioPagination"
@@ -125,7 +121,6 @@
 </cdk-usuario-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'unidade-gridsearch'"
     [pagination]="unidadePagination"
     (selected)="selectUnidade($event)"
@@ -133,7 +128,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorPagination"
     (selected)="selectSetor($event)"
@@ -141,7 +135,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-setor-tree
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-tree'"
     (selected)="selectSetor($event)"
     (cancel)="cancel()">

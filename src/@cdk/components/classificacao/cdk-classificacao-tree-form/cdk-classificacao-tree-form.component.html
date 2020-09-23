@@ -251,12 +251,9 @@
                                         (click)="doAbort(node)">
                                     CANCELAR
                                 </button>
+                                <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
                             </div>
 
-                            <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-                                 fxLayoutAlign="center center">
-                                <mat-spinner color="accent" diameter="24"></mat-spinner>
-                            </div>
                         </div>
                     </div>
 

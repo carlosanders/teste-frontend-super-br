@@ -220,16 +220,12 @@
         <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
             CANCELAR
         </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16"
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
 </form>
 
 <cdk-especie-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-setor-gridsearch'"
     [pagination]="especieSetorPagination"
     (selected)="selectEspecieSetor($event)"
@@ -237,14 +233,12 @@
 </cdk-especie-setor-gridsearch>
 
 <cdk-municipio-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'municipio-gridsearch'"
     (selected)="selectMunicipio($event)"
     (cancel)="cancel()">
 </cdk-municipio-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorPagination"
     (selected)="selectSetor($event)"
@@ -252,7 +246,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">

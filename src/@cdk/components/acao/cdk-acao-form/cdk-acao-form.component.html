@@ -43,26 +43,22 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div class="actions" *ngIf="!saving">
+    <div class="actions">
         <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                [disabled]="form.invalid">
+                [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
 
     <div>{{form.errors}}</div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
 </form>
 
 <cdk-modelo-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'modelo-gridsearch'"
     [pagination]="modeloPagination"
     (selected)="selectModelo($event)"

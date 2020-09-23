@@ -1,23 +1,21 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-<div fxFlex="1 0 auto" fxLayout="column">
+    <div fxFlex="1 0 auto" fxLayout="column">
 
-            <h2>Encaminhamento do Processo</h2>
+        <h2>Encaminhamento do Processo</h2>
 
-            <mat-radio-group formControlName="options">
-                <mat-radio-button [value]="'criar_tarefa'">
-                    Criar nova tarefa
-                </mat-radio-button>
-                <mat-radio-button [value]="'arquivar'">
-                    Arquivar o processo
-                </mat-radio-button>
-                <mat-radio-button [value]="'remeter'">
-                    Remeter para outro órgão
-                </mat-radio-button>
-                <ng-template #dynamicComponent></ng-template>
-            </mat-radio-group>
-
-        </div>
+        <mat-radio-group formControlName="options">
+            <mat-radio-button [value]="'criar_tarefa'">
+                Criar nova tarefa
+            </mat-radio-button>
+            <mat-radio-button [value]="'arquivar'">
+                Arquivar o processo
+            </mat-radio-button>
+            <mat-radio-button [value]="'remeter'">
+                Remeter para outro órgão
+            </mat-radio-button>
+            <ng-template #dynamicComponent></ng-template>
+        </mat-radio-group>
 
     </div>
 
@@ -32,10 +30,7 @@
                 [disabled]="form.invalid">
             CANCELAR
         </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
 </form>

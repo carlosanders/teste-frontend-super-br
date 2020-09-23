@@ -75,12 +75,9 @@
         <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
             CANCELAR
         </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
 </form>
 
 <cdk-workflow-gridsearch

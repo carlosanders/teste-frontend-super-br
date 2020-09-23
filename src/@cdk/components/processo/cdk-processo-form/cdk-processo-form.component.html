@@ -509,17 +509,12 @@
         <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
             CANCELAR
         </button>
-    </div>
-
-    <div *ngIf="saving" fxLayout="column" fxFlex
-         fxLayoutAlign="start center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
 
 </form>
 
 <cdk-processo-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'processo-gridsearch'"
     [pagination]="processoPagination"
     (selected)="selectProcesso($event)"
@@ -606,7 +601,6 @@
 </cdk-pessoa-gridsearch>
 
 <cdk-classificacao-grid-tree
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'classificacao-grid-tree'"
     (selected)="selectClassificacao($event)"
     (cancel)="cancel()">

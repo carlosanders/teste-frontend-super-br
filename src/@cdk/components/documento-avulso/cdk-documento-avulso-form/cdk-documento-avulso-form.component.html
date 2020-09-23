@@ -219,16 +219,12 @@
         <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
             CANCELAR
         </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
 </form>
 
 <cdk-processo-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'processo-gridsearch'"
     [pagination]="processoPagination"
     (selected)="selectProcesso($event)"
@@ -236,7 +232,6 @@
 </cdk-processo-gridsearch>
 
 <cdk-modelo-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'modelo-gridsearch'"
     [pagination]="modeloPagination"
     (selected)="selectModelo($event)"
@@ -244,7 +239,6 @@
 </cdk-modelo-gridsearch>
 
 <cdk-especie-documento-avulso-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-documento-avulso-gridsearch'"
     [pagination]="especieDocumentoAvulsoPagination"
     (selected)="selectEspecieDocumentoAvulso($event)"
@@ -252,7 +246,6 @@
 </cdk-especie-documento-avulso-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-destino-gridsearch'"
     [pagination]="setorDestinoPagination"
     (selected)="selectSetorDestino($event)"
@@ -260,7 +253,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
