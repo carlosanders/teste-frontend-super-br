@@ -4,4 +4,13 @@ cdk-tarefa-form {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+
+    mat-slide-toggle {
+        margin-right: 16px;
+        margin-bottom: 16px;
+    }
+
+    .canto {
+        margin-left: auto;
+    }
 }

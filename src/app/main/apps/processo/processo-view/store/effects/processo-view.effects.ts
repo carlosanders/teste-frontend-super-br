@@ -164,11 +164,10 @@ export class ProcessoViewEffect {
             .pipe(
                 ofType<ProcessoViewActions.GetCapaProcesso>(ProcessoViewActions.GET_CAPA_PROCESSO),
                 map(() => {
-                    if (this.routerState.params.chaveAcessoHandle) {
-                        // this._router.navigate([this.routerState.url.replace(`visualizar/${this.routerState.params.chaveAcessoHandle}`, 'processo-capa')]).then();
-                    }
-
-                    this._router.navigate([this.routerState.url + '/capa']).then();
+                    this._router.navigate([this.routerState.url.replace('/processo/' +
+                        this.routerState.params.processoHandle +
+                        '/visualizar', '/processo/' +
+                        this.routerState.params.processoHandle + '/visualizar/capa')]).then();
                 })
             );
 }
