@@ -1,44 +1,40 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
+    <mat-checkbox formControlName="principal"
+                  class="mr-16 mb-16" fxFlex="0 1 auto">
+        Principal
+    </mat-checkbox>
 
-        <mat-checkbox formControlName="principal"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Principal
-        </mat-checkbox>
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Assunto"
-                       formControlName="assuntoAdministrativo"
-                       [matAutocomplete]="assuntoAdministrativo.autocomplete"
-                       (blur)="checkAssuntoAdministrativo()" required>
-            </div>
-            <cdk-assunto-administrativo-autocomplete
-                #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
-                [control]="form.get('assuntoAdministrativo')"
-                [assuntoAdministrativoList]="assuntoAdministrativoList"
-                [assuntoAdministrativoListIsLoading]="assuntoAdministrativoListIsLoading"
-                [pagination]="assuntoAdministrativoPagination">
-            </cdk-assunto-administrativo-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="getFavoritosAssuntoAdministrativo()">
-                <mat-icon matTooltip="Favoritos">star</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showAssuntoAdministrativoGridTree()">
-                <mat-icon matTooltip="Árvore de Assuntos">subdirectory_arrow_right</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showAssuntoAdministrativoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('assuntoAdministrativo').hasError('formError')">
-                {{form.get('assuntoAdministrativo').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-    </div>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Assunto"
+                   formControlName="assuntoAdministrativo"
+                   [matAutocomplete]="assuntoAdministrativo.autocomplete"
+                   (blur)="checkAssuntoAdministrativo()" required>
+        </div>
+        <cdk-assunto-administrativo-autocomplete
+            #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
+            [control]="form.get('assuntoAdministrativo')"
+            [assuntoAdministrativoList]="assuntoAdministrativoList"
+            [assuntoAdministrativoListIsLoading]="assuntoAdministrativoListIsLoading"
+            [pagination]="assuntoAdministrativoPagination">
+        </cdk-assunto-administrativo-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="getFavoritosAssuntoAdministrativo()">
+            <mat-icon matTooltip="Favoritos">star</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showAssuntoAdministrativoGridTree()">
+            <mat-icon matTooltip="Árvore de Assuntos">subdirectory_arrow_right</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showAssuntoAdministrativoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('assuntoAdministrativo').hasError('formError')">
+            {{form.get('assuntoAdministrativo').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

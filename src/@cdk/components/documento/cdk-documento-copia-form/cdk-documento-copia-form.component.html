@@ -1,30 +1,27 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Processo"
+                   formControlName="processoOrigem"
+                   [matAutocomplete]="processoOrigem.autocomplete" required
+                   (blur)="checkProcessoOrigem()">
+        </div>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Processo"
-                       formControlName="processoOrigem"
-                       [matAutocomplete]="processoOrigem.autocomplete" required
-                       (blur)="checkProcessoOrigem()">
-            </div>
+        <cdk-processo-autocomplete
+            #processoOrigem="processoAutocomplete"
+            [control]="form.get('processoOrigem')"
+            [pagination]="processoOrigemPagination">
+        </cdk-processo-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showProcessoOrigemGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('processoOrigem').hasError('formError')">
+            {{form.get('processoOrigem').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <cdk-processo-autocomplete
-                #processoOrigem="processoAutocomplete"
-                [control]="form.get('processoOrigem')"
-                [pagination]="processoOrigemPagination">
-            </cdk-processo-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showProcessoOrigemGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('processoOrigem').hasError('formError')">
-                {{form.get('processoOrigem').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-    </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

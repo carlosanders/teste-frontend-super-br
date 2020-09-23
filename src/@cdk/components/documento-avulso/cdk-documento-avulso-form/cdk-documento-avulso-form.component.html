@@ -1,217 +1,213 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
+    <mat-slide-toggle *ngIf="!documentoAvulso.id && mode === 'regular'" formControlName="blocoProcessos"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+        Bloco de Processos
+    </mat-slide-toggle>
 
-        <mat-slide-toggle *ngIf="!documentoAvulso.id && mode === 'regular'" formControlName="blocoProcessos"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-            Bloco de Processos
-        </mat-slide-toggle>
-
-        <mat-form-field fxFlex="100" *ngIf="mode === 'regular'">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Processo"
-                       formControlName="processo"
-                       [matAutocomplete]="processo.autocomplete" required
-                       [readonly]="inputProcesso"
-                       (blur)="checkProcesso()">
-            </div>
-            <cdk-processo-autocomplete
-                #processo="processoAutocomplete"
-                [control]="form.get('processo')"
-                [pagination]="processoPagination">
-            </cdk-processo-autocomplete>
-            <button *ngIf="form.get('processo').enabled && !inputProcesso" matSuffix mat-button mat-icon-button
-                    (click)="showProcessoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('processo').hasError('formError')">
-                {{form.get('processo').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <div *ngIf="form.get('blocoProcessos').value" class="bloco-processos">
-            <cdk-processo-grid
-                [processos]="processos"
-                [total]="processos.length"
-                [actions]="['delete']"
-                (delete)="deleteProcessos($event)">
-            </cdk-processo-grid>
+    <mat-form-field fxFlex="100" *ngIf="mode === 'regular'">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Processo"
+                   formControlName="processo"
+                   [matAutocomplete]="processo.autocomplete" required
+                   [readonly]="inputProcesso"
+                   (blur)="checkProcesso()">
         </div>
+        <cdk-processo-autocomplete
+            #processo="processoAutocomplete"
+            [control]="form.get('processo')"
+            [pagination]="processoPagination">
+        </cdk-processo-autocomplete>
+        <button *ngIf="form.get('processo').enabled && !inputProcesso" matSuffix mat-button mat-icon-button
+                (click)="showProcessoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('processo').hasError('formError')">
+            {{form.get('processo').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Espécie de Ofício"
-                       formControlName="especieDocumentoAvulso"
-                       [matAutocomplete]="especieDocumentoAvulso.autocomplete" required
-                       (blur)="checkEspecieDocumentoAvulso()">
-            </div>
-            <cdk-especie-documento-avulso-autocomplete
-                #especieDocumentoAvulso="especieDocumentoAvulsoAutocomplete"
-                [control]="form.get('especieDocumentoAvulso')"
-                [especieDocumentoAvulsoList]="especieDocumentoAvulsoList"
-                [especieDocumentoAvulsoListIsLoading]="especieDocumentoAvulsoListIsLoading"
-                [pagination]="especieDocumentoAvulsoPagination">
-            </cdk-especie-documento-avulso-autocomplete>
-            <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
-                    (click)="getFavoritosEspecieDocumentoAvulso()">
-                <mat-icon matTooltip="Favoritos">star</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showEspecieDocumentoAvulsoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('especieDocumentoAvulso').hasError('formError')">
-                {{form.get('especieDocumentoAvulso').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+    <div *ngIf="form.get('blocoProcessos').value" class="bloco-processos">
+        <cdk-processo-grid
+            [processos]="processos"
+            [total]="processos.length"
+            [actions]="['delete']"
+            (delete)="deleteProcessos($event)">
+        </cdk-processo-grid>
+    </div>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Modelo"
-                       formControlName="modelo"
-                       [matAutocomplete]="modelo.autocomplete" required
-                       [readonly]="inputModelo"
-                       (blur)="checkModelo()">
-            </div>
-            <cdk-modelo-autocomplete
-                #modelo="modeloAutocomplete"
-                [control]="form.get('modelo')"
-                [modeloList]="modeloList"
-                [modeloListIsLoading]="modeloListIsLoading"
-                [pagination]="modeloPagination">
-            </cdk-modelo-autocomplete>
-            <button *ngIf="!inputModelo" [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
-                    (click)="getFavoritosModelo()">
-                <mat-icon matTooltip="Favoritos">star</mat-icon>
-            </button>
-            <button *ngIf="form.get('modelo').enabled && !inputModelo" matSuffix mat-button mat-icon-button
-                    (click)="showModeloGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('modelo').hasError('formError')">
-                {{form.get('modelo').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="blocoDestinatarios"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-            Bloco de Destinatários
-        </mat-slide-toggle>
-
-        <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="externa"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-            Destinário Externo
-        </mat-slide-toggle>
-
-        <mat-form-field fxFlex="100" *ngIf="!form.get('externa').value">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Unidade"
-                       formControlName="setorDestino"
-                       [readonly]="inputModelo"
-                       [matAutocomplete]="setorDestino.autocomplete" required
-                       (blur)="checkSetorDestino()">
-            </div>
-            <cdk-setor-autocomplete
-                #setorDestino="setorAutocomplete"
-                [control]="form.get('setorDestino')"
-                [setorList]="setorDestinoList"
-                [setorListIsLoading]="setorDestinoListIsLoading"
-                [pagination]="setorDestinoPagination">
-            </cdk-setor-autocomplete>
-            <button *ngIf="!inputModelo" [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
-                    (click)="getFavoritosSetorDestino()">
-                <mat-icon matTooltip="Favoritos">star</mat-icon>
-            </button>
-            <button *ngIf="form.get('setorDestino').enabled && !inputModelo" matSuffix mat-button mat-icon-button
-                    (click)="showSetorDestinoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('setorDestino').hasError('formError')">
-                {{form.get('setorDestino').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100" *ngIf="form.get('externa').value">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Pessoa"
-                       formControlName="pessoaDestino"
-                       [readonly]="inputModelo"
-                       [matAutocomplete]="pessoaDestino.autocomplete" required
-                       (blur)="checkPessoaDestino()">
-            </div>
-            <cdk-pessoa-autocomplete
-                #pessoaDestino="pessoaAutocomplete"
-                [control]="form.get('pessoaDestino')"
-                [pessoaList]="pessoaDestinoList"
-                [pessoaListIsLoading]="pessoaDestinoListIsLoading"
-                [pagination]="pessoaDestinoPagination">
-            </cdk-pessoa-autocomplete>
-            <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
-                    (click)="getFavoritosPessoaDestino()">
-                <mat-icon matTooltip="Favoritos">star</mat-icon>
-            </button>
-            <button *ngIf="form.get('pessoaDestino').value && form.get('pessoaDestino').value.id" matSuffix mat-button
-                    mat-icon-button
-                    (click)="doEditPessoaDestino()">
-                <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button *ngIf="!inputModelo"
-                    (click)="doGerirPessoaDestino()">
-                <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('pessoaDestino').hasError('formError')">
-                {{form.get('pessoaDestino').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <div *ngIf="form.get('blocoDestinatarios').value" class="bloco-processos">
-            <cdk-bloco-destinatario-grid
-                [destinatarios]="destinatarios"
-                [total]="destinatarios.length"
-                (delete)="deleteDestinatarios($event)">
-            </cdk-bloco-destinatario-grid>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Espécie de Ofício"
+                   formControlName="especieDocumentoAvulso"
+                   [matAutocomplete]="especieDocumentoAvulso.autocomplete" required
+                   (blur)="checkEspecieDocumentoAvulso()">
         </div>
+        <cdk-especie-documento-avulso-autocomplete
+            #especieDocumentoAvulso="especieDocumentoAvulsoAutocomplete"
+            [control]="form.get('especieDocumentoAvulso')"
+            [especieDocumentoAvulsoList]="especieDocumentoAvulsoList"
+            [especieDocumentoAvulsoListIsLoading]="especieDocumentoAvulsoListIsLoading"
+            [pagination]="especieDocumentoAvulsoPagination">
+        </cdk-especie-documento-avulso-autocomplete>
+        <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                (click)="getFavoritosEspecieDocumentoAvulso()">
+            <mat-icon matTooltip="Favoritos">star</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showEspecieDocumentoAvulsoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('especieDocumentoAvulso').hasError('formError')">
+            {{form.get('especieDocumentoAvulso').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <mat-slide-toggle formControlName="urgente"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-            Urgente
-        </mat-slide-toggle>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Modelo"
+                   formControlName="modelo"
+                   [matAutocomplete]="modelo.autocomplete" required
+                   [readonly]="inputModelo"
+                   (blur)="checkModelo()">
+        </div>
+        <cdk-modelo-autocomplete
+            #modelo="modeloAutocomplete"
+            [control]="form.get('modelo')"
+            [modeloList]="modeloList"
+            [modeloListIsLoading]="modeloListIsLoading"
+            [pagination]="modeloPagination">
+        </cdk-modelo-autocomplete>
+        <button *ngIf="!inputModelo" [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                (click)="getFavoritosModelo()">
+            <mat-icon matTooltip="Favoritos">star</mat-icon>
+        </button>
+        <button *ngIf="form.get('modelo').enabled && !inputModelo" matSuffix mat-button mat-icon-button
+                (click)="showModeloGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('modelo').hasError('formError')">
+            {{form.get('modelo').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>Início do Prazo</mat-label>
-            <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
-                   required>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('dataHoraInicioPrazo')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-            <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true"
-                                timeInterval="5"></mat-datetimepicker>
-        </mat-form-field>
+    <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="blocoDestinatarios"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+        Bloco de Destinatários
+    </mat-slide-toggle>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>Final do Prazo</mat-label>
-            <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
-                   required>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('dataHoraFinalPrazo')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-            <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true"
-                                timeInterval="5"></mat-datetimepicker>
-        </mat-form-field>
+    <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="externa"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+        Destinário Externo
+    </mat-slide-toggle>
 
-        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+    <mat-form-field fxFlex="100" *ngIf="!form.get('externa').value">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Unidade"
+                   formControlName="setorDestino"
+                   [readonly]="inputModelo"
+                   [matAutocomplete]="setorDestino.autocomplete" required
+                   (blur)="checkSetorDestino()">
+        </div>
+        <cdk-setor-autocomplete
+            #setorDestino="setorAutocomplete"
+            [control]="form.get('setorDestino')"
+            [setorList]="setorDestinoList"
+            [setorListIsLoading]="setorDestinoListIsLoading"
+            [pagination]="setorDestinoPagination">
+        </cdk-setor-autocomplete>
+        <button *ngIf="!inputModelo" [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                (click)="getFavoritosSetorDestino()">
+            <mat-icon matTooltip="Favoritos">star</mat-icon>
+        </button>
+        <button *ngIf="form.get('setorDestino').enabled && !inputModelo" matSuffix mat-button mat-icon-button
+                (click)="showSetorDestinoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('setorDestino').hasError('formError')">
+            {{form.get('setorDestino').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="100" *ngIf="form.get('externa').value">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Pessoa"
+                   formControlName="pessoaDestino"
+                   [readonly]="inputModelo"
+                   [matAutocomplete]="pessoaDestino.autocomplete" required
+                   (blur)="checkPessoaDestino()">
+        </div>
+        <cdk-pessoa-autocomplete
+            #pessoaDestino="pessoaAutocomplete"
+            [control]="form.get('pessoaDestino')"
+            [pessoaList]="pessoaDestinoList"
+            [pessoaListIsLoading]="pessoaDestinoListIsLoading"
+            [pagination]="pessoaDestinoPagination">
+        </cdk-pessoa-autocomplete>
+        <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                (click)="getFavoritosPessoaDestino()">
+            <mat-icon matTooltip="Favoritos">star</mat-icon>
+        </button>
+        <button *ngIf="form.get('pessoaDestino').value && form.get('pessoaDestino').value.id" matSuffix mat-button
+                mat-icon-button
+                (click)="doEditPessoaDestino()">
+            <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button *ngIf="!inputModelo"
+                (click)="doGerirPessoaDestino()">
+            <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('pessoaDestino').hasError('formError')">
+            {{form.get('pessoaDestino').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <div *ngIf="form.get('blocoDestinatarios').value" class="bloco-processos">
+        <cdk-bloco-destinatario-grid
+            [destinatarios]="destinatarios"
+            [total]="destinatarios.length"
+            (delete)="deleteDestinatarios($event)">
+        </cdk-bloco-destinatario-grid>
+    </div>
+
+    <mat-slide-toggle formControlName="urgente"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+        Urgente
+    </mat-slide-toggle>
+
+    <mat-form-field fxFlex="100">
+        <mat-label>Início do Prazo</mat-label>
+        <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
+               required>
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('dataHoraInicioPrazo')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+        <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
+        <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true"
+                            timeInterval="5"></mat-datetimepicker>
+    </mat-form-field>
+
+    <mat-form-field fxFlex="100">
+        <mat-label>Final do Prazo</mat-label>
+        <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
+               required>
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('dataHoraFinalPrazo')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+        <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
+        <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true"
+                            timeInterval="5"></mat-datetimepicker>
+    </mat-form-field>
+
+    <mat-form-field class="mr-16" fxFlex="1 0 auto">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" upperCase maxlength="255"></textarea>
-            <mat-error *ngIf="form.get('observacao').hasError('formError')">
-                {{form.get('observacao').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-    </div>
+        <mat-error *ngIf="form.get('observacao').hasError('formError')">
+            {{form.get('observacao').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

@@ -2,37 +2,35 @@
 
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
+    <label id="tipo-rg">Tipo de arquivo</label>
 
-        <label id="tipo-rg">Tipo de arquivo</label>
+    <div class="target" fxLayout="column">
+        <mat-radio-group class="tipo-rg" formControlName="tipo_download" aria-labelledby="tipo-rg">
+            <mat-radio-button [value]="'processo_pdf'">
+                PDF
+            </mat-radio-button>
+            <mat-radio-button [value]="'processo_zip'">
+                ZIP
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
 
-        <div class="target" fxLayout="column">
-            <mat-radio-group class="tipo-rg" formControlName="tipo_download" aria-labelledby="tipo-rg">
-                <mat-radio-button [value]="'processo_pdf'">
-                    PDF
-                </mat-radio-button>
-                <mat-radio-button [value]="'processo_zip'">
-                    ZIP
-                </mat-radio-button>
-            </mat-radio-group>
+    <div fxLayout="row">
+
+        <mat-slide-toggle formControlName="parcial"
+                          class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
+            Parcial
+        </mat-slide-toggle>
+    </div>
+
+    <mat-form-field fxFlex="100" *ngIf="this.form.get('parcial').value">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <label>
+                <input matInput placeholder="Juntadas Seq."
+                       formControlName="sequencial">
+            </label>
         </div>
-
-        <div fxLayout="row">
-
-            <mat-slide-toggle formControlName="parcial"
-                              class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
-                Parcial
-            </mat-slide-toggle>
-        </div>
-
-        <mat-form-field fxFlex="100" *ngIf="this.form.get('parcial').value">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <label>
-                    <input matInput placeholder="Juntadas Seq."
-                           formControlName="sequencial">
-                </label>
-            </div>
-        </mat-form-field>
+    </mat-form-field>
 
     </div>
 

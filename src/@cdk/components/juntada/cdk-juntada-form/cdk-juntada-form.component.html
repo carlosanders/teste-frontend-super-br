@@ -1,8 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
-
-        <mat-slide-toggle formControlName="ativo" *ngIf="!editDescricao"
+<mat-slide-toggle formControlName="ativo" *ngIf="!editDescricao"
                           class="mr-16 mb-16" fxFlex="0 1 auto">
             Ativo
         </mat-slide-toggle>

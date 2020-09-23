@@ -1,14 +1,13 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
-        <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Número" formControlName="numero" required maxlength="14">
-                </div>
-            </mat-form-field>
-        </div>
+    <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
+        <mat-form-field fxFlex="100">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Número" formControlName="numero" required maxlength="14">
+            </div>
+        </mat-form-field>
     </div>
+
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
