@@ -1,55 +1,7 @@
 @import "../../../scss/partials/cdk-form";
 
 cdk-atividade-form {
-    height: 100%;
-
-    form {
-        width: 100%;
-
-        .submerter-aprovacao {
-            margin-left: auto;
-        }
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
-    }
-
-    cdk-especie-atividade-gridsearch {
-        width: 100%;
-    }
-
-    cdk-usuario-gridsearch {
-        width: 100%;
-    }
-
-    mat-radio-group {
-        padding: 16px;
-        display: flex;
-
-        &.horizontal {
-            flex-direction: row;
-        }
-
-        &.vertical {
-            flex-direction: column;
-        }
-
-        margin: 15px 0;
-        @include mat-elevation(1);
-    }
-
-    mat-radio-button {
-        margin-right: 10px;
-        margin-bottom: 10px;
-    }
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }

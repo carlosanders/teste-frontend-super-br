@@ -1,51 +1,7 @@
 @import "../../../scss/partials/cdk-form";
 
 cdk-colaborador-form {
-    height: 100%;
-
-    form {
-        width: 100%;
-    }
-
-    .div-form {
-
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
-    }
-
-    .prazoGuarda {
-        display: flex;
-        align-content: center;
-        align-items: center;
-        height: auto;
-        padding: 5px;
-    }
-
-    .prazoGuardaCampo {
-
-
-    }
-
-    cdk-usuario-gridsearch {
-        width: 100%;
-    }
-
-    cdk-modalidade-colaborador-gridsearch {
-        width: 100%;
-    }
-
-    cdk-cargo-gridsearch {
-        width: 100%;
-    }
-
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }

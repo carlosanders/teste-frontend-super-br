@@ -1,54 +1,7 @@
 @import "../../../scss/partials/cdk-form";
 
 cdk-classificacao-form {
-    height: 100%;
-
-    form {
-        width: 100%;
-    }
-
-    .div-form {
-        width: auto;
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
-    }
-
-    .prazoGuarda {
-        display: flex;
-        align-content: center;
-        align-items: center;
-        height: auto;
-        padding: 5px;
-    }
-
-    .prazoGuardaCampo {
-
-
-    }
-
-    cdk-modalidade-destinacao-gridsearch {
-        width: 100%;
-    }
-
-    cdk-classificacao-gridsearch {
-        width: 100%;
-    }
-
-    .checks{
-        padding-bottom: 16px;
-
-        .space-rigth{
-            margin-right: 26px;
-        }
-    }
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }
