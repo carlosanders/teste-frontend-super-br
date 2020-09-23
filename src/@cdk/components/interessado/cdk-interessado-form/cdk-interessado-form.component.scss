@@ -1,24 +1,3 @@
+@import "../../../scss/partials/cdk-form";
+
 cdk-interessado-form {
-    height: 100%;
-
-    form {
-        width: 100%;
-    }
-
-    .form-card {
-        border-radius: 8px;
-    }
-
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
-    }
-
-    cdk-modalidade-interessado-gridsearch {
-        width: 100%;
-    }
-
-}
