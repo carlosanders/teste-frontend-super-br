@@ -1,6 +1,7 @@
 <cdk-especie-relevancia-grid
         [loading]="loading"
         [especieRelevancias]="especieRelevancias"
+        [displayedColumns]="['id', 'nome', 'descricao', 'generoRelevancia.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

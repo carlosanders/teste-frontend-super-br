@@ -1,6 +1,7 @@
 d<cdk-historico-grid
         [loading]="loading"
         [historicos]="historicos"
+        [displayedColumns]="['id', 'descricao', 'processo', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

@@ -1,6 +1,7 @@
 <cdk-modalidade-notificacao-grid
         [loading]="loading"
         [modalidadenotificacoes]="modalidadenotificacoes"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

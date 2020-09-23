@@ -1,6 +1,7 @@
 d<cdk-compartilhamento-grid
         [loading]="loading"
         [compartilhamentos]="compartilhamentos"
+        [displayedColumns]="['id', 'usuario.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

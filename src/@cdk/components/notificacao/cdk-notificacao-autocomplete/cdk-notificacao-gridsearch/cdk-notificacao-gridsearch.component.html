@@ -1,6 +1,7 @@
 d<cdk-notificacao-grid
         [loading]="loading"
         [notificacoes]="notificacoes"
+        [displayedColumns]="['id', 'remetente.nome', 'destinatario.nome', 'modalidadeNotificacao.valor', 'dataHoraExpiracao', 'dataHoraLeitura', 'conteudo', 'urgente', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

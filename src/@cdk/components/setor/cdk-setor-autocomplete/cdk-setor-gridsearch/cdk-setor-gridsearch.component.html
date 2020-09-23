@@ -1,9 +1,9 @@
 <cdk-setor-grid
         [loading]="loading"
         [setores]="setores"
+        [displayedColumns]="['id', 'nome', 'sigla', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
-        [displayedColumns]="displayedColumns"
         (selected)="select($event)"
         (cancel)="doCancel()"
         (reload)="reload($event)">

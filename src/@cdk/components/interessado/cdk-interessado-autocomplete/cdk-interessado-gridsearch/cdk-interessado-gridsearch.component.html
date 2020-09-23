@@ -1,6 +1,7 @@
 d<cdk-interessado-grid
         [loading]="loading"
         [interessados]="interessados"
+        [displayedColumns]="['id', 'pessoa.nome', 'modalidadeInteressado.valor', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

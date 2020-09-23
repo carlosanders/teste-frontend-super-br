@@ -1,6 +1,7 @@
 <cdk-genero-setor-grid
         [loading]="loading"
         [generoSetors]="generoSetors"
+        [displayedColumns]="['id', 'nome', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

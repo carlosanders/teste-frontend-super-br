@@ -1,6 +1,7 @@
 <cdk-especie-documento-grid
         [loading]="loading"
         [especieDocumentos]="especieDocumentos"
+        [displayedColumns]="['id', 'nome', 'descricao', 'generoDocumento.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

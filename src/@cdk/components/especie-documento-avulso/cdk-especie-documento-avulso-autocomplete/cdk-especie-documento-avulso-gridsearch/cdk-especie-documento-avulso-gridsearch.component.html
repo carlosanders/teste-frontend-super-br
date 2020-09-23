@@ -1,6 +1,7 @@
 <cdk-especie-documento-avulso-grid
         [loading]="loading"
         [especieDocumentoAvulsos]="especieDocumentoAvulsos"
+        [displayedColumns]="['id', 'nome', 'descricao', 'generoDocumentoAvulso.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

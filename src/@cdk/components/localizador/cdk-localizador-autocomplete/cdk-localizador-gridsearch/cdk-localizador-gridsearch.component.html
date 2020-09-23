@@ -1,6 +1,7 @@
 d<cdk-localizador-grid
         [loading]="loading"
         [localizadors]="localizadors"
+        [displayedColumns]="['id', 'nome', 'descricao', 'ativo', 'setor.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

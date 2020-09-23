@@ -1,7 +1,7 @@
 <cdk-especie-relatorio-grid
         [loading]="loading"
         [especieRelatorios]="especieRelatorios"
-        [displayedColumns]="displayedColumns"
+        [displayedColumns]="['id', 'nome', 'descricao', 'generoTarefa.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

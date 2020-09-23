@@ -1,6 +1,7 @@
 <cdk-modalidade-modelo-grid
         [loading]="loading"
         [modalidademodelos]="modalidademodelos"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

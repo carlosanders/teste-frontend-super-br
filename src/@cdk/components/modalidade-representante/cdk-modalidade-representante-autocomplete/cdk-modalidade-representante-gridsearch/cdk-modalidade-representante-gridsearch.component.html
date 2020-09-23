@@ -1,6 +1,7 @@
 <cdk-modalidade-representante-grid
         [loading]="loading"
         [modalidaderepresentantes]="modalidaderepresentantes"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

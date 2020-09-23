@@ -1,6 +1,7 @@
 <cdk-modalidade-garantia-grid
         [loading]="loading"
         [modalidadegarantias]="modalidadegarantias"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

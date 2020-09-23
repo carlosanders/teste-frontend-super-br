@@ -1,6 +1,7 @@
 <cdk-classificacao-grid
         [loading]="loading"
         [_classificacoes]="classificacoes"
+        [displayedColumns]="['id', 'codigo', 'nome', 'modalidadeDestinacao.valor', 'permissaoUso', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

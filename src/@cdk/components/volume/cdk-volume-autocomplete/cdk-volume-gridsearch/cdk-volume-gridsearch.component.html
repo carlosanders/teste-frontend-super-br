@@ -1,6 +1,7 @@
 d<cdk-volume-grid
         [loading]="loading"
         [volumes]="volumes"
+        [displayedColumns]="['id', 'numeracaoSequencial', 'modalidadeMeio', 'encerrado', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"
