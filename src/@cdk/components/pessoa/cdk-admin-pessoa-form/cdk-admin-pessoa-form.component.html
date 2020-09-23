@@ -1,31 +1,31 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-<mat-form-field fxFlex="100">
-            <mat-label>Nome</mat-label>
-            <input matInput #nome
-                   name="nome"
-                   formControlName="nome"
-                   required
-                   maxlength="255">
+    <mat-form-field fxFlex="100">
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               required
+               maxlength="255">
 
-            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
-            <mat-error>Campo obrigatório!</mat-error>
-        </mat-form-field>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error>Campo obrigatório!</mat-error>
+    </mat-form-field>
 
-        <mat-checkbox formControlName="pessoaRepresentada"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Pessoa Representada
-        </mat-checkbox>
+    <mat-checkbox formControlName="pessoaRepresentada"
+                  class="mr-16 mb-16" fxFlex="0 1 auto">
+        Pessoa Representada
+    </mat-checkbox>
 
-        <mat-checkbox formControlName="pessoaConveniada"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Pessoa Conveniada
-        </mat-checkbox>
+    <mat-checkbox formControlName="pessoaConveniada"
+                  class="mr-16 mb-16" fxFlex="0 1 auto">
+        Pessoa Conveniada
+    </mat-checkbox>
 
-        <mat-checkbox formControlName="pessoaValidada"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Pessoa Validada
-        </mat-checkbox>
+    <mat-checkbox formControlName="pessoaValidada"
+                  class="mr-16 mb-16" fxFlex="0 1 auto">
+        Pessoa Validada
+    </mat-checkbox>
 
     </div>
 

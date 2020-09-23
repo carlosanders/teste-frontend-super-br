@@ -1,22 +1,20 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <div fxFlex="0 1 auto" fxLayout="column">
-
-        <div *ngIf="this.processo?.id && this.processo?.origemDados">
-            <mat-card class="mb-16" fxFlex="1 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
-                <mat-card-subtitle>Integração</mat-card-subtitle>
-                <div fxLayout="column" class="start center" fxFlex>
-                    <div>ORIGEM DE DADOS: {{this.processo?.origemDados.fonteDados}}</div>
-                    <div>ÚLTIMA SINCRONIZAÇÃO: {{this.processo?.origemDados.dataHoraUltimaConsulta | date: 'dd/MM/yyyy HH:mm'}}</div>
-                    <div *ngIf="this.processo?.origemDados.status === 1">STATUS: SUCESSO</div>
-                    <div *ngIf="this.processo?.origemDados.status >= 2">STATUS: ERRO!</div>
-                    <div *ngIf="this.processo?.origemDados.status === 0" class="spinner-wrapper">
-                        <span>STATUS: </span>
-                        <mat-spinner diameter="14"></mat-spinner>
-                    </div>
+    <div *ngIf="this.processo?.id && this.processo?.origemDados">
+        <mat-card class="mb-16" fxFlex="1 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
+            <mat-card-subtitle>Integração</mat-card-subtitle>
+            <div fxLayout="column" class="start center" fxFlex>
+                <div>ORIGEM DE DADOS: {{this.processo?.origemDados.fonteDados}}</div>
+                <div>ÚLTIMA
+                    SINCRONIZAÇÃO: {{this.processo?.origemDados.dataHoraUltimaConsulta | date: 'dd/MM/yyyy HH:mm'}}</div>
+                <div *ngIf="this.processo?.origemDados.status === 1">STATUS: SUCESSO</div>
+                <div *ngIf="this.processo?.origemDados.status >= 2">STATUS: ERRO!</div>
+                <div *ngIf="this.processo?.origemDados.status === 0" class="spinner-wrapper">
+                    <span>STATUS: </span>
+                    <mat-spinner diameter="14"></mat-spinner>
                 </div>
-            </mat-card>
-        </div>
+            </div>
+        </mat-card>
 
         <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_PESSOA_VINCULADA'">
             <mat-form-field fxFlex>

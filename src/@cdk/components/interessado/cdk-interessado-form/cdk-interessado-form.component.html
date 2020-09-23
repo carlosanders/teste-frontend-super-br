@@ -1,7 +1,5 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
-
         <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
             <div fxLayout="row" fxLayoutAlign="start center">
                 <input matInput placeholder="Pessoa"
@@ -49,8 +47,6 @@
                 {{form.get('modalidadeInteressado').errors.formError}}
             </mat-error>
         </mat-form-field>
-
-    </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

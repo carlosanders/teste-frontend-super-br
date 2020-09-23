@@ -1,321 +1,321 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-<mat-slide-toggle *ngIf="!tarefa.id && mode === 'regular'" formControlName="blocoProcessos"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-            Bloco de Processos
-        </mat-slide-toggle>
+    <mat-slide-toggle *ngIf="!tarefa.id && mode === 'regular'" formControlName="blocoProcessos"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+        Bloco de Processos
+    </mat-slide-toggle>
 
-        <mat-form-field fxFlex="100" *ngIf="mode === 'regular'">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Processo"
-                       formControlName="processo"
-                       [readonly]="inputProcesso"
-                       [matAutocomplete]="processo.autocomplete" required
-                       (blur)="checkProcesso()">
-            </div>
-
-            <cdk-processo-autocomplete
-                #processo="processoAutocomplete"
-                [control]="form.get('processo')"
-                [pagination]="processoPagination">
-            </cdk-processo-autocomplete>
-            <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
-                    (click)="showProcessoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('processo').hasError('formError')">
-                {{form.get('processo').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <div fxFlex="1 0 auto" *ngIf="form.get('blocoProcessos').value" class="bloco-processos">
-            <cdk-processo-grid
-                [processos]="processos"
-                [total]="processos.length"
-                [actions]="['delete']"
-                (delete)="deleteProcessos($event)">
-            </cdk-processo-grid>
+    <mat-form-field fxFlex="100" *ngIf="mode === 'regular'">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Processo"
+                   formControlName="processo"
+                   [readonly]="inputProcesso"
+                   [matAutocomplete]="processo.autocomplete" required
+                   (blur)="checkProcesso()">
         </div>
 
-        <mat-form-field fxFlex="100"
-                        *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditEspecie">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Espécie de Tarefa"
-                       formControlName="especieTarefa"
-                       [matAutocomplete]="especieTarefa.autocomplete" required
-                       (blur)="checkEspecieTarefa()">
-            </div>
-            <cdk-especie-tarefa-autocomplete
-                #especieTarefa="especieTarefaAutocomplete"
-                [especieTarefaList]="especieTarefaList"
-                [especieTarefaListIsLoading]="especieTarefaListIsLoading"
-                [control]="form.get('especieTarefa')"
-                [pagination]="especieTarefaPagination">
-            </cdk-especie-tarefa-autocomplete>
-            <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
-                    (click)="getFavoritosEspecieTarefa()">
-                <mat-icon matTooltip="Favoritos">star</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showEspecieTarefaGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('especieTarefa').hasError('formError')">
-                {{form.get('especieTarefa').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        <cdk-processo-autocomplete
+            #processo="processoAutocomplete"
+            [control]="form.get('processo')"
+            [pagination]="processoPagination">
+        </cdk-processo-autocomplete>
+        <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
+                (click)="showProcessoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('processo').hasError('formError')">
+            {{form.get('processo').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column"
-                  *ngIf="mode === 'regular' ||
+    <div fxFlex="1 0 auto" *ngIf="form.get('blocoProcessos').value" class="bloco-processos">
+        <cdk-processo-grid
+            [processos]="processos"
+            [total]="processos.length"
+            [actions]="['delete']"
+            (delete)="deleteProcessos($event)">
+        </cdk-processo-grid>
+    </div>
+
+    <mat-form-field fxFlex="100"
+                    *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditEspecie">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Espécie de Tarefa"
+                   formControlName="especieTarefa"
+                   [matAutocomplete]="especieTarefa.autocomplete" required
+                   (blur)="checkEspecieTarefa()">
+        </div>
+        <cdk-especie-tarefa-autocomplete
+            #especieTarefa="especieTarefaAutocomplete"
+            [especieTarefaList]="especieTarefaList"
+            [especieTarefaListIsLoading]="especieTarefaListIsLoading"
+            [control]="form.get('especieTarefa')"
+            [pagination]="especieTarefaPagination">
+        </cdk-especie-tarefa-autocomplete>
+        <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                (click)="getFavoritosEspecieTarefa()">
+            <mat-icon matTooltip="Favoritos">star</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showEspecieTarefaGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('especieTarefa').hasError('formError')">
+            {{form.get('especieTarefa').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column"
+              *ngIf="mode === 'regular' ||
                       mode === 'bloco-create' ||
                       blocoEdit.blocoEditDistribuicao">
 
-            <mat-card-subtitle *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao">Responsável
-            </mat-card-subtitle>
+        <mat-card-subtitle *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao">Responsável
+        </mat-card-subtitle>
 
-            <mat-slide-toggle formControlName="distribuicaoAutomatica"
-                              *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao"
-                              class="mr-16 mb-16" fxFlex="0 1 auto">
-                Distribuição Automática
-            </mat-slide-toggle>
+        <mat-slide-toggle formControlName="distribuicaoAutomatica"
+                          *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Distribuição Automática
+        </mat-slide-toggle>
 
-            <div class="align-icon" fxLayout="row" fxFlex="100">
-                <div class="align-icon toggle-icon">
-                    <mat-slide-toggle class="align-icon toggle-icon mr-16 mb-16"
-                                      *ngIf="!tarefa.id && mode === 'regular'"
-                                      formControlName="blocoResponsaveis" fxFlex="0 1 auto">
-                        Bloco de Responsáveis
-                    </mat-slide-toggle>
-                </div>
+        <div class="align-icon" fxLayout="row" fxFlex="100">
+            <div class="align-icon toggle-icon">
+                <mat-slide-toggle class="align-icon toggle-icon mr-16 mb-16"
+                                  *ngIf="!tarefa.id && mode === 'regular'"
+                                  formControlName="blocoResponsaveis" fxFlex="0 1 auto">
+                    Bloco de Responsáveis
+                </mat-slide-toggle>
             </div>
+        </div>
 
-            <mat-form-field fxFlex="100"
-                            *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Unidade Responsável"
-                           formControlName="unidadeResponsavel"
-                           [matAutocomplete]="unidadeResponsavel.autocomplete" required
-                           (blur)="checkUnidadeResponsavel()">
-                </div>
-                <cdk-setor-autocomplete
-                    #unidadeResponsavel="setorAutocomplete"
-                    [control]="form.get('unidadeResponsavel')"
-                    [setorList]="unidadeResponsavelList"
-                    [setorListIsLoading]="unidadeResponsavelListIsLoading"
-                    [pagination]="unidadeResponsavelPagination">
-                </cdk-setor-autocomplete>
-                <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
-                        (click)="getFavoritosUnidadeResponsavel()">
-                    <mat-icon matTooltip="Favoritos">star</mat-icon>
-                </button>
-                <button matSuffix mat-button mat-icon-button
-                        *ngIf="form.value.id && !blocoEdit.blocoEditDistribuicao"
-                        (click)="showLogEntryGrid('unidadeResponsavel')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showUnidadeResponsavelGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('unidadeResponsavel').hasError('formError')">
-                    {{form.get('unidadeResponsavel').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+        <mat-form-field fxFlex="100"
+                        *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Unidade Responsável"
+                       formControlName="unidadeResponsavel"
+                       [matAutocomplete]="unidadeResponsavel.autocomplete" required
+                       (blur)="checkUnidadeResponsavel()">
+            </div>
+            <cdk-setor-autocomplete
+                #unidadeResponsavel="setorAutocomplete"
+                [control]="form.get('unidadeResponsavel')"
+                [setorList]="unidadeResponsavelList"
+                [setorListIsLoading]="unidadeResponsavelListIsLoading"
+                [pagination]="unidadeResponsavelPagination">
+            </cdk-setor-autocomplete>
+            <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                    (click)="getFavoritosUnidadeResponsavel()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button
+                    *ngIf="form.value.id && !blocoEdit.blocoEditDistribuicao"
+                    (click)="showLogEntryGrid('unidadeResponsavel')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showUnidadeResponsavelGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('unidadeResponsavel').hasError('formError')">
+                {{form.get('unidadeResponsavel').errors.formError}}
+            </mat-error>
+        </mat-form-field>
 
-            <mat-form-field fxFlex="100"
-                            *ngIf="!form.get('setorResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Setor Responsável"
-                           formControlName="setorResponsavel"
-                           [matAutocomplete]="setor.autocomplete" required
-                           [readonly]="!editable"
-                           (blur)="checkSetorResponsavel()">
-                </div>
-                <cdk-setor-autocomplete
-                    #setor="setorAutocomplete"
-                    [setorList]="setorResponsavelList"
-                    [setorListIsLoading]="setorResponsavelListIsLoading"
-                    [control]="form.get('setorResponsavel')"
-                    [pagination]="setorResponsavelPagination">
-                </cdk-setor-autocomplete>
-                <button [disabled]="!form.get('processo').value || !form.get('unidadeResponsavel').value || !editable"
-                        matSuffix mat-button mat-icon-button
-                        (click)="getFavoritosSetorResponsavel()">
-                    <mat-icon matTooltip="Favoritos">star</mat-icon>
-                </button>
-                <button matSuffix mat-button mat-icon-button [disabled]="!editable"
-                        *ngIf="form.value.id && !blocoEdit.blocoEditDistribuicao"
-                        (click)="showLogEntryGrid('setorResponsavel')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
-                <button matSuffix mat-button mat-icon-button [disabled]="!editable"
-                        (click)="showSetorTree()">
-                    <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
-                </button>
-                <button *ngIf="form.get('setorResponsavel').enabled" [disabled]="!editable"
-                        matSuffix mat-button mat-icon-button
-                        (click)="showSetorResponsavelGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('setorResponsavel').hasError('formError')">
-                    {{form.get('setorResponsavel').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+        <mat-form-field fxFlex="100"
+                        *ngIf="!form.get('setorResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Setor Responsável"
+                       formControlName="setorResponsavel"
+                       [matAutocomplete]="setor.autocomplete" required
+                       [readonly]="!editable"
+                       (blur)="checkSetorResponsavel()">
+            </div>
+            <cdk-setor-autocomplete
+                #setor="setorAutocomplete"
+                [setorList]="setorResponsavelList"
+                [setorListIsLoading]="setorResponsavelListIsLoading"
+                [control]="form.get('setorResponsavel')"
+                [pagination]="setorResponsavelPagination">
+            </cdk-setor-autocomplete>
+            <button [disabled]="!form.get('processo').value || !form.get('unidadeResponsavel').value || !editable"
+                    matSuffix mat-button mat-icon-button
+                    (click)="getFavoritosSetorResponsavel()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button [disabled]="!editable"
+                    *ngIf="form.value.id && !blocoEdit.blocoEditDistribuicao"
+                    (click)="showLogEntryGrid('setorResponsavel')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button [disabled]="!editable"
+                    (click)="showSetorTree()">
+                <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+            </button>
+            <button *ngIf="form.get('setorResponsavel').enabled" [disabled]="!editable"
+                    matSuffix mat-button mat-icon-button
+                    (click)="showSetorResponsavelGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('setorResponsavel').hasError('formError')">
+                {{form.get('setorResponsavel').errors.formError}}
+            </mat-error>
+        </mat-form-field>
 
-            <mat-form-field fxFlex="100"
-                            *ngIf="
+        <mat-form-field fxFlex="100"
+                        *ngIf="
                                 !form.get('usuarioResponsavel').disabled &&
                                 (mode === 'regular' || mode === 'bloco-create' ||
                                 (form.value.unidadeResponsavel && blocoEdit.blocoEditDistribuicao))">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Usuário Responsável"
-                           formControlName="usuarioResponsavel"
-                           [matAutocomplete]="usuario.autocomplete" required
-                           (blur)="checkUsuarioResponsavel()">
-                </div>
-                <cdk-usuario-autocomplete
-                    #usuario="usuarioAutocomplete"
-                    [control]="form.get('usuarioResponsavel')"
-                    [usuarioList]="usuarioResponsavelList"
-                    [usuarioListIsLoading]="usuarioResponsavelListIsLoading"
-                    [pagination]="usuarioResponsavelPagination">
-                </cdk-usuario-autocomplete>
-                <button [disabled]="!form.get('processo').value || !form.get('setorResponsavel').value" matSuffix
-                        mat-button mat-icon-button
-                        (click)="getFavoritosUsuarioResponsavel()">
-                    <mat-icon matTooltip="Favoritos">star</mat-icon>
-                </button>
-                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id && !blocoEdit.blocoEditDistribuicao"
-                        (click)="showLogEntryGrid('usuarioResponsavel')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
-                <button *ngIf="form.get('usuarioResponsavel').enabled" matSuffix mat-button mat-icon-button
-                        (click)="showUsuarioGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('usuarioResponsavel').hasError('formError')">
-                    {{form.get('usuarioResponsavel').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-            <div fxFlex="1 0 auto" *ngIf="form.get('blocoResponsaveis').value" class="bloco-responsaveis">
-                <cdk-bloco-responsaveis-grid
-                    [(responsaveis)]="blocoResponsaveis"
-                    [actions]="['delete']">
-                </cdk-bloco-responsaveis-grid>
-            </div>
-
-        </mat-card>
-
-        <mat-card class="dates mb-16" fxFlex="0 1 auto" fxLayout="column"
-                  *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo || blocoEdit.blocoEditFinalPrazo">
-
-            <mat-card-subtitle>Prazo</mat-card-subtitle>
-
-            <div fxLayout="row" [hidden]="evento">
-                <mat-form-field class="dias-input">
-                    <input matInput type="number" class="prazoDias" min="1" max="180"
-                           formControlName="prazoDias" placeholder="Em dia(s)">
-                </mat-form-field>
-
-                <mat-slide-toggle formControlName="diasUteis"
-                                  class="canto" fxFlex="0 1 auto">
-                    Dias Úteis
-                </mat-slide-toggle>
-            </div>
-
-            <div fxLayout="row">
-
-                <mat-form-field class="mr-sm-12" fxFlex
-                                *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo">
-                    <mat-label *ngIf="!evento">Início do Prazo</mat-label>
-                    <mat-label *ngIf="evento">Início do Evento</mat-label>
-                    <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
-                           required>
-                    <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
-                            (click)="showLogEntryGrid('dataHoraInicioPrazo')">
-                        <mat-icon matTooltip="Histórico">history</mat-icon>
-                    </button>
-                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
-                    <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"
-                                        required></mat-datetimepicker>
-                </mat-form-field>
-
-                <mat-form-field class="mr-sm-12" fxFlex
-                                *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditFinalPrazo">
-                    <mat-label *ngIf="!evento">Final do Prazo</mat-label>
-                    <mat-label *ngIf="evento">Final do Evento</mat-label>
-                    <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
-                           required>
-                    <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
-                            (click)="showLogEntryGrid('dataHoraFinalPrazo')">
-                        <mat-icon matTooltip="Histórico">history</mat-icon>
-                    </button>
-                    <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
-                    <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"
-                                        required></mat-datetimepicker>
-                </mat-form-field>
-
-            </div>
-
-            <mat-form-field class="mr-16" fxFlex="1 0 auto" [hidden]="!evento"
-                            *ngIf="mode === 'regular' || mode === 'bloco-create'">
-                <input type="text" formControlName="localEvento"
-                       matInput placeholder="Local do Evento" maxlength="255" upperCase/>
-                <mat-error *ngIf="form.get('observacao').hasError('formError')">
-                    {{form.get('localEvento').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-            <mat-error *ngIf="form.get('dataHoraInicioPrazo').hasError('formError')">
-                {{form.get('dataHoraInicioPrazo').errors.formError}}
-            </mat-error>
-
-            <mat-error *ngIf="form.get('dataHoraFinalPrazo').hasError('formError')">
-                {{form.get('dataHoraFinalPrazo').errors.formError}}
-            </mat-error>
-
-        </mat-card>
-
-        <mat-form-field fxFlex="100" *ngIf="mode === 'regular' || mode === 'bloco-create' || mode === 'bloco'">
             <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Setor Origem"
-                       formControlName="setorOrigem"
-                       [matAutocomplete]="setorOrigem.autocomplete" required
-                       (blur)="checkSetorOrigem()">
+                <input matInput placeholder="Usuário Responsável"
+                       formControlName="usuarioResponsavel"
+                       [matAutocomplete]="usuario.autocomplete" required
+                       (blur)="checkUsuarioResponsavel()">
             </div>
-            <cdk-setor-autocomplete
-                #setorOrigem="setorAutocomplete"
-                [control]="form.get('setorOrigem')"
-                [pagination]="setorOrigemPagination">
-            </cdk-setor-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showSetorOrigemTree()">
-                <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+            <cdk-usuario-autocomplete
+                #usuario="usuarioAutocomplete"
+                [control]="form.get('usuarioResponsavel')"
+                [usuarioList]="usuarioResponsavelList"
+                [usuarioListIsLoading]="usuarioResponsavelListIsLoading"
+                [pagination]="usuarioResponsavelPagination">
+            </cdk-usuario-autocomplete>
+            <button [disabled]="!form.get('processo').value || !form.get('setorResponsavel').value" matSuffix
+                    mat-button mat-icon-button
+                    (click)="getFavoritosUsuarioResponsavel()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showSetorOrigemGrid()">
+            <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id && !blocoEdit.blocoEditDistribuicao"
+                    (click)="showLogEntryGrid('usuarioResponsavel')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+            <button *ngIf="form.get('usuarioResponsavel').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showUsuarioGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
-            <mat-error *ngIf="form.get('setorOrigem').hasError('formError')">
-                {{form.get('setorOrigem').errors.formError}}
+            <mat-error *ngIf="form.get('usuarioResponsavel').hasError('formError')">
+                {{form.get('usuarioResponsavel').errors.formError}}
             </mat-error>
         </mat-form-field>
 
-        <mat-slide-toggle formControlName="urgente"
-                          *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditUrgente"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-            Urgente
-        </mat-slide-toggle>
+        <div fxFlex="1 0 auto" *ngIf="form.get('blocoResponsaveis').value" class="bloco-responsaveis">
+            <cdk-bloco-responsaveis-grid
+                [(responsaveis)]="blocoResponsaveis"
+                [actions]="['delete']">
+            </cdk-bloco-responsaveis-grid>
+        </div>
 
-        <mat-form-field class="mr-16" fxFlex="1 0 auto"
-                        *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditObservacao">
+    </mat-card>
+
+    <mat-card class="dates mb-16" fxFlex="0 1 auto" fxLayout="column"
+              *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo || blocoEdit.blocoEditFinalPrazo">
+
+        <mat-card-subtitle>Prazo</mat-card-subtitle>
+
+        <div fxLayout="row" [hidden]="evento">
+            <mat-form-field class="dias-input">
+                <input matInput type="number" class="prazoDias" min="1" max="180"
+                       formControlName="prazoDias" placeholder="Em dia(s)">
+            </mat-form-field>
+
+            <mat-slide-toggle formControlName="diasUteis"
+                              class="canto" fxFlex="0 1 auto">
+                Dias Úteis
+            </mat-slide-toggle>
+        </div>
+
+        <div fxLayout="row">
+
+            <mat-form-field class="mr-sm-12" fxFlex
+                            *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo">
+                <mat-label *ngIf="!evento">Início do Prazo</mat-label>
+                <mat-label *ngIf="evento">Início do Evento</mat-label>
+                <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
+                       required>
+                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                        (click)="showLogEntryGrid('dataHoraInicioPrazo')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+                <mat-datetimepicker-toggle matSuffix [for]="dataHoraInicioPrazo"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #dataHoraInicioPrazo type="datetime" openOnFocus="true" timeInterval="5"
+                                    required></mat-datetimepicker>
+            </mat-form-field>
+
+            <mat-form-field class="mr-sm-12" fxFlex
+                            *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditFinalPrazo">
+                <mat-label *ngIf="!evento">Final do Prazo</mat-label>
+                <mat-label *ngIf="evento">Final do Evento</mat-label>
+                <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
+                       required>
+                <button matSuffix mat-button mat-icon-button *ngIf="tarefa.id"
+                        (click)="showLogEntryGrid('dataHoraFinalPrazo')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+                <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true" timeInterval="5"
+                                    required></mat-datetimepicker>
+            </mat-form-field>
+
+        </div>
+
+        <mat-form-field class="mr-16" fxFlex="1 0 auto" [hidden]="!evento"
+                        *ngIf="mode === 'regular' || mode === 'bloco-create'">
+            <input type="text" formControlName="localEvento"
+                   matInput placeholder="Local do Evento" maxlength="255" upperCase/>
+            <mat-error *ngIf="form.get('observacao').hasError('formError')">
+                {{form.get('localEvento').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-error *ngIf="form.get('dataHoraInicioPrazo').hasError('formError')">
+            {{form.get('dataHoraInicioPrazo').errors.formError}}
+        </mat-error>
+
+        <mat-error *ngIf="form.get('dataHoraFinalPrazo').hasError('formError')">
+            {{form.get('dataHoraFinalPrazo').errors.formError}}
+        </mat-error>
+
+    </mat-card>
+
+    <mat-form-field fxFlex="100" *ngIf="mode === 'regular' || mode === 'bloco-create' || mode === 'bloco'">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Setor Origem"
+                   formControlName="setorOrigem"
+                   [matAutocomplete]="setorOrigem.autocomplete" required
+                   (blur)="checkSetorOrigem()">
+        </div>
+        <cdk-setor-autocomplete
+            #setorOrigem="setorAutocomplete"
+            [control]="form.get('setorOrigem')"
+            [pagination]="setorOrigemPagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorOrigemTree()">
+            <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorOrigemGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('setorOrigem').hasError('formError')">
+            {{form.get('setorOrigem').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="urgente"
+                      *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditUrgente"
+                      class="mr-16 mb-16" fxFlex="0 1 auto">
+        Urgente
+    </mat-slide-toggle>
+
+    <mat-form-field class="mr-16" fxFlex="1 0 auto"
+                    *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditObservacao">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
-            <mat-error *ngIf="form.get('observacao').hasError('formError')">
-                {{form.get('observacao').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        <mat-error *ngIf="form.get('observacao').hasError('formError')">
+            {{form.get('observacao').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
     </div>
 

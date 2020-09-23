@@ -1,72 +1,68 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'" (submit)="submit()">
 
-    <div fxLayout="column">
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="WorkFlow"
+                   formControlName="workflow"
+                   [matAutocomplete]="workflow.autocomplete">
+        </div>
+        <cdk-workflow-autocomplete
+            #workflow="workflowAutocomplete"
+            [control]="form.get('workflow')">
+        </cdk-workflow-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showWorkflowGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="WorkFlow"
-                       formControlName="workflow"
-                       [matAutocomplete]="workflow.autocomplete">
-            </div>
-            <cdk-workflow-autocomplete
-                #workflow="workflowAutocomplete"
-                [control]="form.get('workflow')">
-            </cdk-workflow-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showWorkflowGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Espécie Ativididade"
+                   formControlName="especieAtividade"
+                   [matAutocomplete]="especieAtividade.autocomplete">
+        </div>
+        <cdk-especie-atividade-autocomplete
+            #especieAtividade="especieAtividadeAutocomplete"
+            [control]="form.get('especieAtividade')">
+        </cdk-especie-atividade-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showEspecieAtividadeGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Espécie Ativididade"
-                       formControlName="especieAtividade"
-                       [matAutocomplete]="especieAtividade.autocomplete">
-            </div>
-            <cdk-especie-atividade-autocomplete
-                #especieAtividade="especieAtividadeAutocomplete"
-                [control]="form.get('especieAtividade')">
-            </cdk-especie-atividade-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showEspecieAtividadeGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Espécie Tarefa From"
+                   formControlName="especieTarefaFrom"
+                   [matAutocomplete]="especieTarefaFrom.autocomplete">
+        </div>
+        <cdk-especie-tarefa-autocomplete
+            #especieTarefaFrom="especieTarefaAutocomplete"
+            [control]="form.get('especieTarefaFrom')">
+        </cdk-especie-tarefa-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showEspecieTarefaGrid('from')">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Espécie Tarefa From"
-                       formControlName="especieTarefaFrom"
-                       [matAutocomplete]="especieTarefaFrom.autocomplete">
-            </div>
-            <cdk-especie-tarefa-autocomplete
-                #especieTarefaFrom="especieTarefaAutocomplete"
-                [control]="form.get('especieTarefaFrom')">
-            </cdk-especie-tarefa-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showEspecieTarefaGrid('from')">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Espécie Tarefa To"
-                       formControlName="especieTarefaTo"
-                       [matAutocomplete]="especieTarefaTo.autocomplete">
-            </div>
-            <cdk-especie-tarefa-autocomplete
-                #especieTarefaTo="especieTarefaAutocomplete"
-                [control]="form.get('especieTarefaTo')">
-            </cdk-especie-tarefa-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showEspecieTarefaGrid('to')">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-        </mat-form-field>
-
-    </div>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Espécie Tarefa To"
+                   formControlName="especieTarefaTo"
+                   [matAutocomplete]="especieTarefaTo.autocomplete">
+        </div>
+        <cdk-especie-tarefa-autocomplete
+            #especieTarefaTo="especieTarefaAutocomplete"
+            [control]="form.get('especieTarefaTo')">
+        </cdk-especie-tarefa-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showEspecieTarefaGrid('to')">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

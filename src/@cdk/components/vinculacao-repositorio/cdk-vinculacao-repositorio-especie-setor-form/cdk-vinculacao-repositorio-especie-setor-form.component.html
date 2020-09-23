@@ -1,25 +1,25 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-<mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Espécie Setor"
-                       formControlName="especieSetor"
-                       [matAutocomplete]="especieSetor.autocomplete" required
-                       (blur)="checkEspecieSetor()">
-            </div>
-            <cdk-especie-setor-autocomplete
-                #especieSetor="especieSetorAutocomplete"
-                [control]="form.get('especieSetor')"
-                [pagination]="especieSetorPagination">
-            </cdk-especie-setor-autocomplete>
-            <button *ngIf="form.get('especieSetor').enabled" matSuffix mat-button mat-icon-button
-                    (click)="showEspecieSetorGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
-                {{form.get('especieSetor').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Espécie Setor"
+                   formControlName="especieSetor"
+                   [matAutocomplete]="especieSetor.autocomplete" required
+                   (blur)="checkEspecieSetor()">
+        </div>
+        <cdk-especie-setor-autocomplete
+            #especieSetor="especieSetorAutocomplete"
+            [control]="form.get('especieSetor')"
+            [pagination]="especieSetorPagination">
+        </cdk-especie-setor-autocomplete>
+        <button *ngIf="form.get('especieSetor').enabled" matSuffix mat-button mat-icon-button
+                (click)="showEspecieSetorGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
+            {{form.get('especieSetor').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
     </div>
 

@@ -1,7 +1,5 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <div fxFlex="1 0 auto" fxLayout="column" *ngIf="!loading">
-
         <div fxLayout="row" fxLayoutAlign="start center">
             <mat-slide-toggle *ngIf="sigilo?.id" formControlName="desclassificado">
                 Desclassificado
@@ -94,8 +92,6 @@
                 {{form.get('observacao').errors.formError}}
             </mat-error>
         </mat-form-field>
-
-    </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

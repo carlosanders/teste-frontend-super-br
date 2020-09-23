@@ -1,25 +1,25 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-<mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Município"
-                       formControlName="municipio"
-                       [matAutocomplete]="municipio.autocomplete" required
-                       (blur)="checkMunicipio()">
-            </div>
-            <cdk-municipio-autocomplete
-                #municipio="municipioAutocomplete"
-                [control]="form.get('municipio')"
-                [pagination]="municipioPagination">
-            </cdk-municipio-autocomplete>
-            <button *ngIf="form.get('municipio').enabled" matSuffix mat-button mat-icon-button
-                    (click)="showMunicipioGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('municipio').hasError('formError')">
-                {{form.get('municipio').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Município"
+                   formControlName="municipio"
+                   [matAutocomplete]="municipio.autocomplete" required
+                   (blur)="checkMunicipio()">
+        </div>
+        <cdk-municipio-autocomplete
+            #municipio="municipioAutocomplete"
+            [control]="form.get('municipio')"
+            [pagination]="municipioPagination">
+        </cdk-municipio-autocomplete>
+        <button *ngIf="form.get('municipio').enabled" matSuffix mat-button mat-icon-button
+                (click)="showMunicipioGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('municipio').hasError('formError')">
+            {{form.get('municipio').errors.formError}}
+        </mat-error>
+    </mat-form-field>
     </div>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

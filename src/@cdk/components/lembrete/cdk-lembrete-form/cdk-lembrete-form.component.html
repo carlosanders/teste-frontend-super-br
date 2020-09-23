@@ -4,24 +4,22 @@
         <h2>CADASTRAR LEMBRETE</h2>
     </div>
 
-    <div fxFlex="1 0 auto" fxLayout="column">
-        <mat-form-field fxFlex="100">
-            <mat-label>Conteúdo</mat-label>
-            <textarea matInput
-                      cdkTextareaAutosize
-                      formControlName="conteudo"
-                      #conteudo
-                      #autosize="cdkTextareaAutosize"
-                      maxlength="255"
-                      cdkAutosizeMinRows="5"
-                      cdkAutosizeMaxRows="5"></textarea>
-            <button matSuffix mat-button mat-icon-button *ngIf="!isBloco"
-                    (click)="showLogLembreteGrid()">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-            <mat-hint align="end">{{conteudo.value.length}} / 255</mat-hint>
-        </mat-form-field>
-    </div>
+    <mat-form-field fxFlex="100">
+        <mat-label>Conteúdo</mat-label>
+        <textarea matInput
+                  cdkTextareaAutosize
+                  formControlName="conteudo"
+                  #conteudo
+                  #autosize="cdkTextareaAutosize"
+                  maxlength="255"
+                  cdkAutosizeMinRows="5"
+                  cdkAutosizeMaxRows="5"></textarea>
+        <button matSuffix mat-button mat-icon-button *ngIf="!isBloco"
+                (click)="showLogLembreteGrid()">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+        <mat-hint align="end">{{conteudo.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
     <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
          fxLayoutAlign="center center">

@@ -1,35 +1,31 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-<div fxLayout="row" fxLayoutAlign="start center">
-            <mat-slide-toggle formControlName="encerraTarefa">
-                Encerra Tarefa
-            </mat-slide-toggle>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('encerraTarefa')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-        </div>
+    <mat-slide-toggle formControlName="encerraTarefa">
+        Encerra Tarefa
+    </mat-slide-toggle>
+    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+            (click)="showLogEntryGrid('encerraTarefa')">
+        <mat-icon matTooltip="Histórico">history</mat-icon>
+    </button>
 
-        <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Assessor"
-                       formControlName="usuarioVinculado"
-                       [matAutocomplete]="usuarioVinculado.autocomplete" required
-                       (blur)="checkUsuarioVinculado()">
-            </div>
-            <cdk-usuario-autocomplete
-                #usuarioVinculado="usuarioAutocomplete"
-                [control]="form.get('usuarioVinculado')"
-                [pagination]="usuarioVinculadoPagination">
-            </cdk-usuario-autocomplete>
-            <button *ngIf="form.get('usuarioVinculado').enabled" matSuffix mat-button mat-icon-button
-                    (click)="showUsuarioVinculadoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('usuarioVinculado').hasError('formError')">
-                {{form.get('usuarioVinculado').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Assessor"
+               formControlName="usuarioVinculado"
+               [matAutocomplete]="usuarioVinculado.autocomplete" required
+               (blur)="checkUsuarioVinculado()">
+        <cdk-usuario-autocomplete
+            #usuarioVinculado="usuarioAutocomplete"
+            [control]="form.get('usuarioVinculado')"
+            [pagination]="usuarioVinculadoPagination">
+        </cdk-usuario-autocomplete>
+        <button *ngIf="form.get('usuarioVinculado').enabled" matSuffix mat-button mat-icon-button
+                (click)="showUsuarioVinculadoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('usuarioVinculado').hasError('formError')">
+            {{form.get('usuarioVinculado').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
     </div>
 

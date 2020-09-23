@@ -1,65 +1,65 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-<mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
-            </div>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
+        </div>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
-            </div>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
+        </div>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Modalidade Template"
-                       formControlName="modalidadeTemplate"
-                       [matAutocomplete]="modalidadeTemplate.autocomplete"
-                       (blur)="checkModalidadeTemplate()" required>
-            </div>
-            <cdk-modalidade-template-autocomplete
-                #modalidadeTemplate="modalidadeTemplateAutocomplete"
-                [control]="form.get('modalidadeTemplate')"
-                [pagination]="modalidadeTemplatePagination">
-            </cdk-modalidade-template-autocomplete>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Modalidade Template"
+                   formControlName="modalidadeTemplate"
+                   [matAutocomplete]="modalidadeTemplate.autocomplete"
+                   (blur)="checkModalidadeTemplate()" required>
+        </div>
+        <cdk-modalidade-template-autocomplete
+            #modalidadeTemplate="modalidadeTemplateAutocomplete"
+            [control]="form.get('modalidadeTemplate')"
+            [pagination]="modalidadeTemplatePagination">
+        </cdk-modalidade-template-autocomplete>
 
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showModalidadeTemplateGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('modalidadeTemplate').hasError('formError')">
-                {{form.get('modalidadeTemplate').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showModalidadeTemplateGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('modalidadeTemplate').hasError('formError')">
+            {{form.get('modalidadeTemplate').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Tipo Documento"
-                       formControlName="tipoDocumento"
-                       [matAutocomplete]="tipoDocumento.autocomplete"
-                       (blur)="checkTipoDocumento()" required>
-            </div>
-            <cdk-tipo-documento-autocomplete
-                #tipoDocumento="tipoDocumentoAutocomplete"
-                [control]="form.get('tipoDocumento')"
-                [pagination]="tipoDocumentoPagination">
-            </cdk-tipo-documento-autocomplete>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Tipo Documento"
+                   formControlName="tipoDocumento"
+                   [matAutocomplete]="tipoDocumento.autocomplete"
+                   (blur)="checkTipoDocumento()" required>
+        </div>
+        <cdk-tipo-documento-autocomplete
+            #tipoDocumento="tipoDocumentoAutocomplete"
+            [control]="form.get('tipoDocumento')"
+            [pagination]="tipoDocumentoPagination">
+        </cdk-tipo-documento-autocomplete>
 
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showTipoDocumentoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('tipoDocumento').hasError('formError')">
-                {{form.get('tipoDocumento').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showTipoDocumentoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('tipoDocumento').hasError('formError')">
+            {{form.get('tipoDocumento').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <mat-checkbox formControlName="ativo"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Ativo
-        </mat-checkbox>
+    <mat-checkbox formControlName="ativo"
+                  class="mr-16 mb-16" fxFlex="0 1 auto">
+        Ativo
+    </mat-checkbox>
 
     </div>
 

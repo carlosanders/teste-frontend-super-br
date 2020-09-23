@@ -1,36 +1,34 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-<h2>Receber Tramitação do Processo</h2>
+    <h2>Receber Tramitação do Processo</h2>
 
-        <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Setor Atual"
-                       formControlName="setorAtual"
-                       [matAutocomplete]="setorAtual.autocomplete" required
-                       (blur)="checkSetorAtual()">
-                <mat-option *ngIf="setorAtualListIsLoading">
-                    <mat-spinner diameter="16"></mat-spinner>
-                </mat-option>
-            </div>
-            <cdk-setor-autocomplete
-                #setorAtual="setorAutocomplete"
-                [control]="form.get('setorAtual')"
-                [pagination]="setorAtualPagination">
-            </cdk-setor-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showSetorAtualTree()">
-                <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
-            </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showSetorAtualGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('setorAtual').hasError('formError')">
-                {{form.get('setorAtual').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-    </div>
+    <mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Setor Atual"
+                   formControlName="setorAtual"
+                   [matAutocomplete]="setorAtual.autocomplete" required
+                   (blur)="checkSetorAtual()">
+            <mat-option *ngIf="setorAtualListIsLoading">
+                <mat-spinner diameter="16"></mat-spinner>
+            </mat-option>
+        </div>
+        <cdk-setor-autocomplete
+            #setorAtual="setorAutocomplete"
+            [control]="form.get('setorAtual')"
+            [pagination]="setorAtualPagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorAtualTree()">
+            <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorAtualGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('setorAtual').hasError('formError')">
+            {{form.get('setorAtual').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

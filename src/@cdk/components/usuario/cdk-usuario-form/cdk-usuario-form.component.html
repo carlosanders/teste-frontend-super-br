@@ -1,55 +1,52 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <div fxLayout="column">
+    <mat-form-field fxFlex="100">
+        <mat-label>CPF</mat-label>
+        <input matInput #username
+               name="username"
+               formControlName="username"
+               [readonly]="form.value.id"
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{username.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>CPF</mat-label>
-            <input matInput #username
-                   name="username"
-                   formControlName="username"
-                   [readonly]="form.value.id"
-                   maxlength="255" upperCase>
-            <mat-hint align="end">{{username.value.length}} / 255</mat-hint>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>Nome</mat-label>
-            <input matInput #nome
-                   name="nome"
-                   formControlName="nome"
-                   maxlength="255" upperCase>
-            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <mat-label>Email</mat-label>
+        <input matInput #email
+               name="email"
+               formControlName="email"
+               maxlength="255">
+        <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>Email</mat-label>
-            <input matInput #email
-                   name="email"
-                   formControlName="email"
-                   maxlength="255">
-            <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <mat-label>Nível de Acesso</mat-label>
+        <input matInput #nivelAcesso
+               name="nivelAcesso"
+               formControlName="nivelAcesso"
+               type="number"
+               max="4"
+               maxlength="2">
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>Nível de Acesso</mat-label>
-            <input matInput #nivelAcesso
-                   name="nivelAcesso"
-                   formControlName="nivelAcesso"
-                   type="number"
-                   max="4"
-                   maxlength="2">
-        </mat-form-field>
+    <mat-checkbox formControlName="enabled"
+                  class="mr-16 mb-16" fxFlex="0 1 auto">
+        Ativo
+    </mat-checkbox>
 
-        <mat-checkbox formControlName="enabled"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Ativo
-        </mat-checkbox>
-
-        <mat-checkbox formControlName="validado" *ngIf="usuarioExterno"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
-            Validado
-        </mat-checkbox>
-    </div>
+    <mat-checkbox formControlName="validado" *ngIf="usuarioExterno"
+                  class="mr-16 mb-16" fxFlex="0 1 auto">
+        Validado
+    </mat-checkbox>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

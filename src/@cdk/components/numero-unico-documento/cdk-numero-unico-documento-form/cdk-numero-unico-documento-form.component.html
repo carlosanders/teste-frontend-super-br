@@ -1,35 +1,35 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-<mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Tipo de Documento"
-                       formControlName="tipoDocumento"
-                       [matAutocomplete]="tipoDocumento.autocomplete"
-                       (blur)="checkTipoDocumento()" required>
-            </div>
-            <cdk-tipo-documento-autocomplete
-                #tipoDocumento="tipoDocumentoAutocomplete"
-                [control]="form.get('tipoDocumento')"
-                [pagination]="tipoDocumentoPagination">
-            </cdk-tipo-documento-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showTipoDocumentoGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('tipoDocumento').hasError('formError')">
-                {{form.get('tipoDocumento').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Tipo de Documento"
+                   formControlName="tipoDocumento"
+                   [matAutocomplete]="tipoDocumento.autocomplete"
+                   (blur)="checkTipoDocumento()" required>
+        </div>
+        <cdk-tipo-documento-autocomplete
+            #tipoDocumento="tipoDocumentoAutocomplete"
+            [control]="form.get('tipoDocumento')"
+            [pagination]="tipoDocumentoPagination">
+        </cdk-tipo-documento-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showTipoDocumentoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('tipoDocumento').hasError('formError')">
+            {{form.get('tipoDocumento').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Sequência"
-                       formControlName="sequencia" required>
-            </div>
-            <mat-error *ngIf="form.get('sequencia').hasError('formError')">
-                {{form.get('sequencia').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+    <mat-form-field fxFlex="100">
+        <div fxLayout="row" fxLayoutAlign="start center">
+            <input matInput placeholder="Sequência"
+                   formControlName="sequencia" required>
+        </div>
+        <mat-error *ngIf="form.get('sequencia').hasError('formError')">
+            {{form.get('sequencia').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
     </div>
 
