@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" (submit)="submit()">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Tipo de Documento"
                    formControlName="tipoDocumento"
                    [matAutocomplete]="tipoDocumento.autocomplete"
@@ -30,7 +30,7 @@
     </mat-form-field>
 
     <mat-slide-toggle formControlName="copia"
-                      class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mt-16 mr-16 mb-16">
         Cópia/Digitalização
     </mat-slide-toggle>
 
@@ -72,7 +72,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Procedência"
                    formControlName="procedencia"
                    [matAutocomplete]="procedencia.autocomplete"
@@ -92,7 +92,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex>
+    <mat-form-field>
         <mat-label>Data da Produção</mat-label>
         <input matInput formControlName="dataHoraProducao" [matDatetimepicker]="dataHoraProducao">
         <mat-datetimepicker-toggle matSuffix [for]="dataHoraProducao"></mat-datetimepicker-toggle>
@@ -101,7 +101,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Setor de Origem"
                    formControlName="setorOrigem"
                    [matAutocomplete]="setorOrigem.autocomplete"
@@ -125,7 +125,7 @@
 
     <!-- Observacao Column -->
     <ng-container matColumnDef="observacao">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header fxFlex="30" fxLayoutAlign="start center"
+        <th mat-header-cell *matHeaderCellDef mat-sort-header
             maxlength="255">
             Observação
         </th>

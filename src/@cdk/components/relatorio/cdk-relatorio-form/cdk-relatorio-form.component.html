@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" (submit)="submit()">
 
-    <mat-form-field fxFlex>
-        <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-form-field>
+        <div>
             <input matInput placeholder="Gênero"
                    formControlName="generoRelatorio"
                    required
@@ -21,8 +21,8 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field fxFlex>
-        <div fxLayout="row" fxLayoutAlign="start center">
+    <mat-form-field>
+        <div>
             <input matInput placeholder="Espécie"
                    formControlName="especieRelatorio"
                    required
@@ -45,7 +45,7 @@
 
     <mat-form-field
                     *ngIf="mode === 'regular' || mode === 'bloco-create'">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Tipo Relatório"
                    formControlName="tipoRelatorio"
                    [matAutocomplete]="tipoRelatorio.autocomplete" required
@@ -69,10 +69,10 @@
         </mat-error>
     </mat-form-field>
 
-    <div class="mb-16" fxFlex="0 1 auto" fxLayout="column" *ngIf="form.get('tipoRelatorio').value">
+    <div *ngIf="form.get('tipoRelatorio').value">
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Unidade"
                        formControlName="unidade"
                        [matAutocomplete]="unidade.autocomplete" required
@@ -93,7 +93,7 @@
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Setor"
                        formControlName="setor"
                        [matAutocomplete]="setor.autocomplete" required
@@ -115,7 +115,7 @@
 
         <mat-form-field
                         *ngIf="form.get('usuario').enabled && (mode === 'regular')">
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Usuário"
                        formControlName="usuario"
                        [readonly]="!form.get('setor').enabled"
@@ -138,7 +138,7 @@
 
         <div fxLayout="row">
 
-            <mat-form-field fxFlex
+            <mat-form-field
                             *ngIf="form.get('dataHoraInicio').enabled &&
                                     mode === 'regular'">
                 <mat-label>Início</mat-label>
@@ -149,7 +149,7 @@
                                     required></mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field fxFlex
+            <mat-form-field
                             *ngIf="form.get('dataHoraFim').enabled &&
                                     mode === 'regular'">
                 <mat-label>Fim</mat-label>
@@ -164,9 +164,9 @@
 
     </div>
 
-    <div class="mb-16" fxFlex="0 1 auto" fxLayout="column" *ngIf="form.get('tipoRelatorio').value">
+    <div *ngIf="form.get('tipoRelatorio').value">
 
-        <mat-form-field class="mr-16" fxFlex="1 0 auto"
+        <mat-form-field class="mr-16"
                         *ngIf="mode === 'regular' || mode === 'bloco-create'">
             <textarea formControlName="observacao" matInput placeholder="Observação" maxlength="255"></textarea>
 
@@ -175,17 +175,17 @@
             </mat-error>
         </mat-form-field>
 
-        <div class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+        <div class="mb-16" fxLayout="column">
 
             <div>Formato</div>
 
-            <div fxLayout="row" class="start" fxFlex
-                 fxLayoutAlign="start center">
+            <div fxLayout="row" class="start"
+                >
                 <label id="campo-rg3"></label>
                 <mat-radio-group class="poderes-rg"
                                  formControlName="formato"
                                  aria-labelledby="formato-rg3"
-                                 fxLayoutAlign="row">
+                                >
                     <mat-radio-button value="html">
                         HTML
                     </mat-radio-button>

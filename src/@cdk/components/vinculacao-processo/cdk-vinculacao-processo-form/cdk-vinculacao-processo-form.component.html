@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Processo Vinculado"
                    formControlName="processoVinculado"
                    [matAutocomplete]="processoVinculado.autocomplete" required
@@ -22,7 +22,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Modalidade"
                    formControlName="modalidadeVinculacaoProcesso"
                    [matAutocomplete]="modalidadeVinculacaoProcesso.autocomplete" required
@@ -42,7 +42,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="mr-16" fxFlex="1 0 auto">
+    <mat-form-field class="mr-16">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
         <mat-error *ngIf="form.get('observacao').hasError('formError')">

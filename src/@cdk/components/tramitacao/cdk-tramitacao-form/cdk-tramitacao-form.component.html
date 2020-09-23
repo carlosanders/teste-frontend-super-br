@@ -1,11 +1,11 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-slide-toggle formControlName="urgente" class="mr-16 mb-16" fxFlex="0 1 auto">
+    <mat-slide-toggle formControlName="urgente" class="mr-16 mb-16">
         Urgente
     </mat-slide-toggle>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Processo"
                    formControlName="processo"
                    [matAutocomplete]="processo.autocomplete" required
@@ -26,7 +26,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Setor de Origem"
                    formControlName="setorOrigem"
                    [matAutocomplete]="setorOrigem.autocomplete" required
@@ -54,7 +54,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Unidade"
                    formControlName="unidade"
                    [matAutocomplete]="unidade.autocomplete" required
@@ -75,7 +75,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('unidade').value">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Setor de Destino"
                    formControlName="setorDestino"
                    [matAutocomplete]="setorDestino.autocomplete" required
@@ -102,7 +102,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="mr-16" fxFlex="1 0 auto">
+    <mat-form-field class="mr-16">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
         <mat-error *ngIf="form.get('observacao').hasError('formError')">

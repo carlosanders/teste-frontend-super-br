@@ -1,6 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <mat-slide-toggle *ngIf="sigilo?.id" formControlName="desclassificado">
                 Desclassificado
             </mat-slide-toggle>
@@ -11,7 +11,7 @@
         </div>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Tipo do Sigilo"
                        formControlName="tipoSigilo"
                        [matAutocomplete]="tipoSigilo.autocomplete" required
@@ -33,7 +33,7 @@
 
         <mat-form-field
                         *ngIf="form.get('tipoSigilo').value && form.get('tipoSigilo').value.leiAcessoInformacao === true">
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Categoria"
                        formControlName="modalidadeCategoriaSigilo"
                        [matAutocomplete]="modalidadeCategoriaSigilo.autocomplete" required
@@ -54,7 +54,7 @@
         </mat-form-field>
 
         <div class="dates">
-            <mat-form-field fxFlex>
+            <mat-form-field>
                 <mat-label>Data da Início</mat-label>
                 <input matInput [matDatepicker]="dataHoraInicioSigilo" placeholder="Data do Início do Sigilo"
                        formControlName="dataHoraInicioSigilo" required>
@@ -85,7 +85,7 @@
             <mat-hint align="end">{{razoesClassificacaoSigilo.value.length}} / 255</mat-hint>
         </mat-form-field>
 
-        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+        <mat-form-field class="mr-16">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">
@@ -122,7 +122,7 @@
 </cdk-tipo-sigilo-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex
+
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">

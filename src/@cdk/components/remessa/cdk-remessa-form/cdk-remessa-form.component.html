@@ -1,6 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-slide-toggle formControlName="urgente" class="mr-16 mb-16" fxFlex="0 1 auto">
+    <mat-slide-toggle formControlName="urgente" class="mr-16 mb-16">
         Urgente
     </mat-slide-toggle>
 
@@ -74,7 +74,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="mr-16" fxFlex="1 0 auto">
+    <mat-form-field class="mr-16">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" upperCase></textarea>
         <mat-error *ngIf="form.get('observacao').hasError('formError')">

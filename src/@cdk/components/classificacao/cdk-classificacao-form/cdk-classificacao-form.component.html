@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Código" formControlName="codigo" minlength="3" maxlength="25" required>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showLogEntryGrid('codigo')">
@@ -11,7 +11,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showLogEntryGrid('nome')">
@@ -21,7 +21,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Destinação"
                    formControlName="modalidadeDestinacao"
                    [matAutocomplete]="modalidadeDestinacao.autocomplete"
@@ -47,7 +47,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Classificação Pai"
                    formControlName="parent"
                    [matAutocomplete]="classificacao.autocomplete"
@@ -72,7 +72,7 @@
         </mat-error>
     </mat-form-field>
 
-    <div class="dates checks" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
+    <div class="dates checks"Fill fxLayout.gt-xs="row">
         <div class="space-rigth">
             <mat-checkbox formControlName="ativo">
                 Ativo
@@ -125,7 +125,7 @@
         </section>
         <p>
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+                <div>
                     <input matInput placeholder="Evento" formControlName="prazoGuardaFaseCorrenteEvento">
                     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                             (click)="showLogEntryGrid('prazoGuardaFaseCorrenteEvento')">
@@ -174,7 +174,7 @@
         </section>
         <p>
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+                <div>
                     <input matInput placeholder="Evento" formControlName="prazoGuardaFaseIntermediariaEvento">
                     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                             (click)="showLogEntryGrid('prazoGuardaFaseIntermediariaEvento')">
@@ -186,7 +186,7 @@
 
     </mat-expansion-panel>
 
-    <mat-form-field class="mr-16 mb-16" fxFlex="0 1 auto">
+    <mat-form-field class="mr-16 mb-16">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255"></textarea>
     </mat-form-field>

@@ -1,12 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Garantia"
-                   formControlName="modalidadeGarantia"
-                   [matAutocomplete]="modalidadeGarantia.autocomplete"
-                   (blur)="checkModalidadeGarantia()" required>
-        </div>
+        <input matInput placeholder="Garantia"
+               formControlName="modalidadeGarantia"
+               [matAutocomplete]="modalidadeGarantia.autocomplete"
+               (blur)="checkModalidadeGarantia()" required>
         <cdk-modalidade-garantia-autocomplete
             #modalidadeGarantia="modalidadeGarantiaAutocomplete"
             [control]="form.get('modalidadeGarantia')"
@@ -21,9 +19,8 @@
         </mat-error>
     </mat-form-field>
 
-
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input #descricao matInput placeholder="Descrição" formControlName="descricao" maxlength="255"
                    required upperCase>
         </div>
@@ -31,7 +28,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Valor (R$)" formControlName="valor" required>
         </div>
         <mat-error *ngIf="form.get('valor').hasError('formError')">
@@ -50,7 +47,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input formControlName="observacao" #observacao
                    matInput placeholder="Observação" maxlength="255" upperCase>
         </div>
@@ -60,7 +57,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

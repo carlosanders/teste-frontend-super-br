@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Usuario"
                    formControlName="usuario"
                    [matAutocomplete]="usuario.autocomplete"
@@ -22,7 +22,7 @@
     </mat-form-field>
 
     <mat-checkbox formControlName="dono"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Dono
     </mat-checkbox>
 

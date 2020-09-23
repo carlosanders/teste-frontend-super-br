@@ -12,7 +12,7 @@
     </mat-radio-group>
 
     <mat-form-field *ngIf="this.form.get('tipo').value === 'usuario'">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Usuario"
                    formControlName="usuario"
                    required
@@ -34,7 +34,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="this.form.get('tipo').value === 'setor'">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Unidade Responsável"
                    formControlName="unidade"
                    [matAutocomplete]="unidade.autocomplete" required
@@ -55,7 +55,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="this.form.get('tipo').value === 'setor'">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Setor"
                    formControlName="setor"
                    required

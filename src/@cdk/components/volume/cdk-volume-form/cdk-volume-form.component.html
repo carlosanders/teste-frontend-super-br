@@ -1,14 +1,14 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field *ngIf="form.get('id').value">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input #numeracaoSequencial matInput placeholder="Númeração Sequencial"
                    formControlName="numeracaoSequencial" readonly>
         </div>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Meio"
                    formControlName="modalidadeMeio"
                    [matAutocomplete]="modalidadeMeio.autocomplete"
@@ -32,7 +32,7 @@
         </mat-error>
     </mat-form-field>
 
-    <div fxLayout="row" fxLayoutAlign="start center">
+    <div>
         <mat-checkbox formControlName="encerrado" *ngIf="form.get('id').value" disabled="true">
             Encerrado
         </mat-checkbox>

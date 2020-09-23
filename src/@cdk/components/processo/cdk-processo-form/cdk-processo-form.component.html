@@ -15,7 +15,7 @@
         </mat-card>
 
         <mat-card *showIfRole="'ROLE_PESSOA_VINCULADA'">
-            <mat-form-field fxFlex>
+            <mat-form-field>
                 <mat-label>Estado</mat-label>
                 <mat-select
                     matInput #estado
@@ -29,7 +29,7 @@
                 <mat-error>Campo obrigatório!</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex>
+            <mat-form-field>
                 <input matInput placeholder="Ramo"
                        formControlName="generoSetor"
                        required
@@ -49,7 +49,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex>
+            <mat-form-field>
                 <input matInput placeholder="Atividade"
                        formControlName="especieSetor"
                        required
@@ -69,7 +69,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex>
+            <mat-form-field>
                 <input matInput placeholder="Unidade"
                        formControlName="setorInicial"
                        required
@@ -89,7 +89,7 @@
                 </mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex *ngIf="this._profile.vinculacoesPessoasUsuarios.length > 1
+            <mat-form-field *ngIf="this._profile.vinculacoesPessoasUsuarios.length > 1
             && paramHandle === 'meus-processos'">
                 <input matInput placeholder="Procedência"
                        formControlName="procedencia"
@@ -124,7 +124,7 @@
                 <mat-radio-group class="poderes-rg"
                                  formControlName="unidadeArquivistica"
                                  aria-labelledby="processo-rg3"
-                                 fxLayoutAlign="row">
+                                >
                     <mat-radio-button [value]=1>
                         Processo
                     </mat-radio-button>
@@ -138,15 +138,15 @@
             </div>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
+        <mat-card *showIfRole="'ROLE_COLABORADOR'">
             <mat-card-subtitle>Dados do Protocolo</mat-card-subtitle>
-            <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
-                 fxLayoutAlign="start center">
+            <div fxLayout="row" class="start" *ngIf="!form.value.id"
+                >
                 <label id="processo-rg2"></label>
                 <mat-radio-group class="poderes-rg"
                                  formControlName="tipoProtocolo"
                                  aria-labelledby="processo-rg2"
-                                 fxLayoutAlign="row">
+                                >
                     <mat-radio-button [value]=1 *ngIf="form.value.unidadeArquivistica !== 3">
                         Atribuir Novo Protocolo
                     </mat-radio-button>
@@ -159,7 +159,7 @@
                 </mat-radio-group>
             </div>
 
-            <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2" fxFlex>
+            <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2">
                 <mat-label>{{form.value.unidadeArquivistica !== 3 ? 'NUP' : 'Dossiê'}}</mat-label>
                 <input matInput #NUP
                        name="NUP"
@@ -171,7 +171,7 @@
                 <mat-error>Campo obrigatório!</mat-error>
             </mat-form-field>
 
-            <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2" fxFlex>
+            <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2">
                 <mat-label>Data Hora de Abertura</mat-label>
                 <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura"
                        required>
@@ -180,8 +180,8 @@
                                     timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field fxFlex>
-                <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field>
+                <div>
                     <input matInput placeholder="Procedência"
                            id="inputProcedencia"
                            formControlName="procedencia"
@@ -220,8 +220,8 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_PESSOA_VINCULADA'">
-            <mat-form-field fxFlex>
+        <mat-card *showIfRole="'ROLE_PESSOA_VINCULADA'">
+            <mat-form-field>
                 <mat-label>Resumo</mat-label>
                 <input matInput #descricao
                        name="descricao"
@@ -237,7 +237,7 @@
                 <mat-error>Campo obrigatório!</mat-error>
             </mat-form-field>
 
-            <mat-form-field fxFlex>
+            <mat-form-field>
                 <mat-label>Requerimento</mat-label>
                 <input matInput #requerimento
                        name="requerimento"
@@ -254,14 +254,14 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
+        <mat-card *showIfRole="'ROLE_COLABORADOR'">
             <mat-slide-toggle *ngIf="!form.value.id" formControlName="temProcessoOrigem"
-                              class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
+                              class="mt-16 mr-16 mb-16">
                 Importar Dados de Processo Existente no Sistema
             </mat-slide-toggle>
 
             <mat-form-field *ngIf="!form.value.id && form.value.temProcessoOrigem === true">
-                <div fxLayout="row" fxLayoutAlign="start center">
+                <div>
                     <input matInput placeholder="Processo Origem"
                            formControlName="processoOrigem"
                            [matAutocomplete]="processoOrigem.autocomplete" required
@@ -286,8 +286,8 @@
         </mat-card>
 
         <ng-template *showIfRole="'ROLE_COLABORADOR'">
-            <mat-form-field fxFlex>
-                <div fxLayout="row" fxLayoutAlign="start center" *ngIf="form.value.id">
+            <mat-form-field>
+                <div *ngIf="form.value.id">
                     <input matInput placeholder="Fase"
                            formControlName="modalidadeFase"
                            required
@@ -314,8 +314,8 @@
         </ng-template>
 
 
-        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
-            <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <div>
                 <input matInput placeholder="Processo de Trabalho"
                        formControlName="especieProcesso"
                        required
@@ -346,8 +346,8 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
-            <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <div>
                 <input matInput placeholder="Meio"
                        formControlName="modalidadeMeio"
                        required
@@ -378,8 +378,8 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
-            <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <div>
                 <input matInput placeholder="Classificação"
                        formControlName="classificacao"
                        required
@@ -414,7 +414,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Título</mat-label>
             <input matInput #titulo
                    name="titulo"
@@ -429,7 +429,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Descrição</mat-label>
             <input matInput #descricao
                    name="descricao"
@@ -442,7 +442,7 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Outro Número</mat-label>
             <input matInput #outroNumero
                    name="outroNumero"
@@ -454,8 +454,8 @@
             </button>
         </mat-form-field>
 
-        <mat-form-field fxFlex *showIfRole="'ROLE_COLABORADOR'">
-            <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <div>
                 <input matInput placeholder="Setor Responsável"
                        formControlName="setorAtual"
                        required
@@ -518,7 +518,7 @@
 </cdk-especie-processo-gridsearch>
 
 <cdk-modalidade-fase-gridsearch
-    fxFlex
+
     *ngIf="activeCard === 'modalidade-fase-gridsearch'"
     [pagination]="modalidadeFasePagination"
     (selected)="selectModalidadeFase($event)"
@@ -526,7 +526,7 @@
 </cdk-modalidade-fase-gridsearch>
 
 <cdk-modalidade-meio-gridsearch
-    fxFlex
+
     *ngIf="activeCard === 'modalidade-meio-gridsearch'"
     [pagination]="modalidadeMeioPagination"
     (selected)="selectModalidadeMeio($event)"
@@ -534,7 +534,7 @@
 </cdk-modalidade-meio-gridsearch>
 
 <cdk-classificacao-gridsearch
-    fxFlex
+
     *ngIf="activeCard === 'classificacao-gridsearch'"
     [pagination]="_classificacaoPagination"
     (selected)="selectClassificacao($event)"
@@ -542,7 +542,7 @@
 </cdk-classificacao-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex
+
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorAtualPagination"
     (selected)="selectSetor($event)"
@@ -550,7 +550,7 @@
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex
+
     *ngIf="activeCard === 'setor-inicial-gridsearch'"
     [pagination]="setorInicialPagination"
     [displayedColumns]="['select', 'id', 'unidade.nome', 'actions']"
@@ -559,14 +559,14 @@
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex
+
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
 
 <cdk-genero-setor-gridsearch
-    fxFlex
+
     *ngIf="activeCard === 'genero-setor-gridsearch'"
     [pagination]="generoSetorPagination"
     (selected)="selectGeneroSetor($event)"
@@ -574,7 +574,7 @@
 </cdk-genero-setor-gridsearch>
 
 <cdk-especie-setor-gridsearch
-    fxFlex
+
     *ngIf="activeCard === 'especie-setor-gridsearch'"
     [pagination]="especieSetorPagination"
     (selected)="selectEspecieSetor($event)"
@@ -582,7 +582,7 @@
 </cdk-especie-setor-gridsearch>
 
 <cdk-pessoa-gridsearch
-    fxFlex
+
     *ngIf="activeCard === 'procedencia-gridsearch'"
     [pagination]="procedenciaPagination"
     (selected)="selectProcedencia($event)"

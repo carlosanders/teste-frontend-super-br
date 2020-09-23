@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-slide-toggle *ngIf="!documentoAvulso.id && mode === 'regular'" formControlName="blocoProcessos"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mr-16 mb-16">
         Bloco de Processos
     </mat-slide-toggle>
 
@@ -86,17 +86,17 @@
     </mat-form-field>
 
     <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="blocoDestinatarios"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mr-16 mb-16">
         Bloco de Destinatários
     </mat-slide-toggle>
 
     <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="externa"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mr-16 mb-16">
         Destinário Externo
     </mat-slide-toggle>
 
     <mat-form-field *ngIf="!form.get('externa').value">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Unidade"
                    formControlName="setorDestino"
                    [readonly]="inputModelo"
@@ -124,7 +124,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('externa').value">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Pessoa"
                    formControlName="pessoaDestino"
                    [readonly]="inputModelo"
@@ -165,7 +165,7 @@
     </div>
 
     <mat-slide-toggle formControlName="urgente"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mr-16 mb-16">
         Urgente
     </mat-slide-toggle>
 
@@ -195,7 +195,7 @@
                             timeInterval="5"></mat-datetimepicker>
     </mat-form-field>
 
-    <mat-form-field class="mr-16" fxFlex="1 0 auto">
+    <mat-form-field class="mr-16">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" upperCase maxlength="255"></textarea>
         <mat-error *ngIf="form.get('observacao').hasError('formError')">

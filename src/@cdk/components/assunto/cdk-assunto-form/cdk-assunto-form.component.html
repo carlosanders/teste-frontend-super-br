@@ -1,12 +1,12 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-checkbox formControlName="principal"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Principal
     </mat-checkbox>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Assunto"
                    formControlName="assuntoAdministrativo"
                    [matAutocomplete]="assuntoAdministrativo.autocomplete"

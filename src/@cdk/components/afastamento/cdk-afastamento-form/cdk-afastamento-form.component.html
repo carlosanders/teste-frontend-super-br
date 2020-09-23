@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Modalidade"
                    formControlName="modalidadeAfastamento"
                    [matAutocomplete]="modalidadeafastamento.autocomplete"
@@ -21,16 +21,16 @@
         </mat-error>
     </mat-form-field>
 
-    <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
+    <div class="dates"Fill fxLayout.gt-xs="row">
 
-        <mat-form-field fxFlex>
+        <mat-form-field>
             <mat-label>Início do Afastamento</mat-label>
             <input matInput formControlName="dataInicio" [matDatepicker]="dataInicio" required>
             <mat-datepicker-toggle matSuffix [for]="dataInicio"></mat-datepicker-toggle>
             <mat-datepicker #dataInicio></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field>
             <mat-label>Final do Afastamento</mat-label>
             <input matInput formControlName="dataFim" [matDatepicker]="dataFim" required>
             <mat-datepicker-toggle matSuffix [for]="dataFim"></mat-datepicker-toggle>
@@ -43,9 +43,9 @@
 
     </div>
 
-    <div class="dates" fxFlexFill fxLayout="column" fxLayout.gt-xs="row">
+    <div class="dates"Fill fxLayout.gt-xs="row">
 
-        <mat-form-field fxFlex>
+        <mat-form-field>
             <mat-label>Início do Bloqueio</mat-label>
             <input matInput [matDatepicker]="dataInicioBloqueio"
                    formControlName="dataInicioBloqueio" required>
@@ -53,7 +53,7 @@
             <mat-datepicker #dataInicioBloqueio></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field>
             <mat-label>Final do Bloqueio</mat-label>
             <input matInput [matDatepicker]="dataFimBloqueio"
                    formControlName="dataFimBloqueio" required>

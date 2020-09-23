@@ -1,24 +1,18 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
-        </div>
+        <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
-        </div>
+        <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Modalidade Template"
-                   formControlName="modalidadeTemplate"
-                   [matAutocomplete]="modalidadeTemplate.autocomplete"
-                   (blur)="checkModalidadeTemplate()" required>
-        </div>
+        <input matInput placeholder="Modalidade Template"
+               formControlName="modalidadeTemplate"
+               [matAutocomplete]="modalidadeTemplate.autocomplete"
+               (blur)="checkModalidadeTemplate()" required>
         <cdk-modalidade-template-autocomplete
             #modalidadeTemplate="modalidadeTemplateAutocomplete"
             [control]="form.get('modalidadeTemplate')"
@@ -35,12 +29,10 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Tipo Documento"
-                   formControlName="tipoDocumento"
-                   [matAutocomplete]="tipoDocumento.autocomplete"
-                   (blur)="checkTipoDocumento()" required>
-        </div>
+        <input matInput placeholder="Tipo Documento"
+               formControlName="tipoDocumento"
+               [matAutocomplete]="tipoDocumento.autocomplete"
+               (blur)="checkTipoDocumento()" required>
         <cdk-tipo-documento-autocomplete
             #tipoDocumento="tipoDocumentoAutocomplete"
             [control]="form.get('tipoDocumento')"
@@ -57,7 +49,7 @@
     </mat-form-field>
 
     <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Ativo
     </mat-checkbox>
 

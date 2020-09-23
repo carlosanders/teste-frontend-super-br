@@ -1,12 +1,12 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-slide-toggle *ngIf="!tarefa.id && mode === 'regular'" formControlName="blocoProcessos"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mr-16 mb-16">
         Bloco de Processos
     </mat-slide-toggle>
 
     <mat-form-field *ngIf="mode === 'regular'">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Processo"
                    formControlName="processo"
                    [readonly]="inputProcesso"
@@ -28,7 +28,7 @@
         </mat-error>
     </mat-form-field>
 
-    <div fxFlex="1 0 auto" *ngIf="form.get('blocoProcessos').value" class="bloco-processos">
+    <div *ngIf="form.get('blocoProcessos').value" class="bloco-processos">
         <cdk-processo-grid
             [processos]="processos"
             [total]="processos.length"
@@ -39,7 +39,7 @@
 
     <mat-form-field
                     *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditEspecie">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Espécie de Tarefa"
                    formControlName="especieTarefa"
                    [matAutocomplete]="especieTarefa.autocomplete" required
@@ -65,7 +65,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column"
+    <mat-card class="mb-16" fxLayout="column"
               *ngIf="mode === 'regular' ||
                       mode === 'bloco-create' ||
                       blocoEdit.blocoEditDistribuicao">
@@ -75,7 +75,7 @@
 
         <mat-slide-toggle formControlName="distribuicaoAutomatica"
                           *ngIf="mode === 'regular' || blocoEdit.blocoEditDistribuicao"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-16 mb-16">
             Distribuição Automática
         </mat-slide-toggle>
 
@@ -83,7 +83,7 @@
             <div class="align-icon toggle-icon">
                 <mat-slide-toggle class="align-icon toggle-icon mr-16 mb-16"
                                   *ngIf="!tarefa.id && mode === 'regular'"
-                                  formControlName="blocoResponsaveis" fxFlex="0 1 auto">
+                                  formControlName="blocoResponsaveis">
                     Bloco de Responsáveis
                 </mat-slide-toggle>
             </div>
@@ -91,7 +91,7 @@
 
         <mat-form-field
                         *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao">
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Unidade Responsável"
                        formControlName="unidadeResponsavel"
                        [matAutocomplete]="unidadeResponsavel.autocomplete" required
@@ -124,7 +124,7 @@
 
         <mat-form-field
                         *ngIf="!form.get('setorResponsavel').disabled && (mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditDistribuicao)">
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Setor Responsável"
                        formControlName="setorResponsavel"
                        [matAutocomplete]="setor.autocomplete" required
@@ -167,7 +167,7 @@
                                 !form.get('usuarioResponsavel').disabled &&
                                 (mode === 'regular' || mode === 'bloco-create' ||
                                 (form.value.unidadeResponsavel && blocoEdit.blocoEditDistribuicao))">
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Usuário Responsável"
                        formControlName="usuarioResponsavel"
                        [matAutocomplete]="usuario.autocomplete" required
@@ -198,7 +198,7 @@
             </mat-error>
         </mat-form-field>
 
-        <div fxFlex="1 0 auto" *ngIf="form.get('blocoResponsaveis').value" class="bloco-responsaveis">
+        <div *ngIf="form.get('blocoResponsaveis').value" class="bloco-responsaveis">
             <cdk-bloco-responsaveis-grid
                 [(responsaveis)]="blocoResponsaveis"
                 [actions]="['delete']">
@@ -207,7 +207,7 @@
 
     </mat-card>
 
-    <mat-card class="dates mb-16" fxFlex="0 1 auto" fxLayout="column"
+    <mat-card class="dates mb-16" fxLayout="column"
               *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo || blocoEdit.blocoEditFinalPrazo">
 
         <mat-card-subtitle>Prazo</mat-card-subtitle>
@@ -219,14 +219,14 @@
             </mat-form-field>
 
             <mat-slide-toggle formControlName="diasUteis"
-                              class="canto" fxFlex="0 1 auto">
+                              class="canto">
                 Dias Úteis
             </mat-slide-toggle>
         </div>
 
         <div fxLayout="row">
 
-            <mat-form-field fxFlex
+            <mat-form-field
                             *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditInicioPrazo">
                 <mat-label *ngIf="!evento">Início do Prazo</mat-label>
                 <mat-label *ngIf="evento">Início do Evento</mat-label>
@@ -241,7 +241,7 @@
                                     required></mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field fxFlex
+            <mat-form-field
                             *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditFinalPrazo">
                 <mat-label *ngIf="!evento">Final do Prazo</mat-label>
                 <mat-label *ngIf="evento">Final do Evento</mat-label>
@@ -258,7 +258,7 @@
 
         </div>
 
-        <mat-form-field class="mr-16" fxFlex="1 0 auto" [hidden]="!evento"
+        <mat-form-field class="mr-16" [hidden]="!evento"
                         *ngIf="mode === 'regular' || mode === 'bloco-create'">
             <input type="text" formControlName="localEvento"
                    matInput placeholder="Local do Evento" maxlength="255" upperCase/>
@@ -278,7 +278,7 @@
     </mat-card>
 
     <mat-form-field *ngIf="mode === 'regular' || mode === 'bloco-create' || mode === 'bloco'">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Setor Origem"
                    formControlName="setorOrigem"
                    [matAutocomplete]="setorOrigem.autocomplete" required
@@ -304,11 +304,11 @@
 
     <mat-slide-toggle formControlName="urgente"
                       *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditUrgente"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mr-16 mb-16">
         Urgente
     </mat-slide-toggle>
 
-    <mat-form-field class="mr-16" fxFlex="1 0 auto"
+    <mat-form-field class="mr-16"
                     *ngIf="mode === 'regular' || mode === 'bloco-create' || blocoEdit.blocoEditObservacao">
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>

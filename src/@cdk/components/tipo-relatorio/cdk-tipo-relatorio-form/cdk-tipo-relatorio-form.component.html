@@ -1,6 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" (submit)="submit()">
 
-    <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+    <mat-card class="mb-16" fxLayout="column">
 
         <mat-form-field>
             <mat-label>Nome</mat-label>
@@ -14,7 +14,7 @@
 
         <mat-form-field *ngIf="mode === 'regular' || mode === 'bloco-create'">
 
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Espécie" formControlName="especieRelatorio"
                        [matAutocomplete]="especieRelatorio.autocomplete" required (blur)="checkEspecieRelatorio()">
             </div>
@@ -53,7 +53,7 @@
         </mat-form-field>
 
         <mat-slide-toggle formControlName="ativo"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mr-16 mb-16">
             Ativo
         </mat-slide-toggle>
     </mat-card>

@@ -15,16 +15,14 @@
             </mat-radio-button>
         </mat-radio-group>
 
-        <div fxLayout="column" class="p-8 mt-8 mb-8 mat-elevation-z1"
+        <div class="p-8 mt-8 mb-8 mat-elevation-z1"
              *ngIf="form.get('destinacaoMinutas').value === 'submeter_aprovacao'">
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Unidade Responsável pela Aprovação"
-                           formControlName="unidadeAprovacao"
-                           [matAutocomplete]="unidadeAprovacao.autocomplete" required
-                           (blur)="checkUnidadeAprovacao()">
-                </div>
+                <input matInput placeholder="Unidade Responsável pela Aprovação"
+                       formControlName="unidadeAprovacao"
+                       [matAutocomplete]="unidadeAprovacao.autocomplete" required
+                       (blur)="checkUnidadeAprovacao()">
                 <cdk-setor-autocomplete
                     #unidadeAprovacao="setorAutocomplete"
                     [control]="form.get('unidadeAprovacao')"
@@ -46,7 +44,7 @@
             </mat-form-field>
 
             <mat-form-field *ngIf="!form.get('setorAprovacao').disabled">
-                <div fxLayout="row" fxLayoutAlign="start center">
+                <div>
                     <input matInput placeholder="Setor Responsável pela Aprovação"
                            formControlName="setorAprovacao"
                            [matAutocomplete]="setorAprovacao.autocomplete" required
@@ -73,7 +71,7 @@
             </mat-form-field>
 
             <mat-form-field *ngIf="!form.get('usuarioAprovacao').disabled">
-                <div fxLayout="row" fxLayoutAlign="start center">
+                <div>
                     <input matInput placeholder="Usuário Responsável pela Aprovação"
                            formControlName="usuarioAprovacao"
                            [matAutocomplete]="usuarioAprovacao.autocomplete" required
@@ -102,12 +100,12 @@
         </div>
 
         <mat-slide-toggle formControlName="encerraTarefa"
-                          class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
+                          class="mt-16 mr-16 mb-16">
             Encerrar a tarefa
         </mat-slide-toggle>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Espécie de Atividade"
                        formControlName="especieAtividade"
                        [matAutocomplete]="especieAtividade.autocomplete" required
@@ -133,7 +131,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex>
+        <mat-form-field>
             <mat-label>Data/Hora</mat-label>
             <input matInput formControlName="dataHoraConclusao" [matDatetimepicker]="dataHoraConclusao"
                    required>
@@ -143,7 +141,7 @@
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+            <div>
                 <input matInput placeholder="Usuário Responsável pela Atividade"
                        formControlName="usuario"
                        [matAutocomplete]="usuario.autocomplete" required
@@ -163,7 +161,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+        <mat-form-field class="mr-16">
                 <textarea formControlName="observacao"
                           matInput placeholder="Observação" maxlength="255" upperCase></textarea>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">

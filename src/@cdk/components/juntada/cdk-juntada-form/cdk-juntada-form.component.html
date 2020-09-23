@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-slide-toggle formControlName="ativo" *ngIf="!editDescricao"
-                      class="mr-16 mb-16" fxFlex="0 1 auto">
+                      class="mr-16 mb-16">
         Ativo
     </mat-slide-toggle>
 
@@ -14,7 +14,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Documento"
                    formControlName="documento"
                    [matAutocomplete]="documento.autocomplete" required
@@ -48,7 +48,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Origem de Dados"
                    formControlName="origemDados"
                    [matAutocomplete]="origemDados.autocomplete" required
@@ -69,7 +69,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Volume"
                    formControlName="volume"
                    [matAutocomplete]="volume.autocomplete" required
@@ -90,7 +90,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Documento Avulso"
                    formControlName="documentoAvulso"
                    [matAutocomplete]="documentoAvulso.autocomplete" required
@@ -111,7 +111,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Atividade"
                    formControlName="atividade"
                    [matAutocomplete]="atividade.autocomplete" required
@@ -132,7 +132,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="!editDescricao">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Tarefa"
                    formControlName="tarefa"
                    [matAutocomplete]="tarefa.autocomplete" required

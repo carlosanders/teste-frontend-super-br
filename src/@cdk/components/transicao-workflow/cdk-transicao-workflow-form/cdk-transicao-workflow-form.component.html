@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'" (submit)="submit()">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="WorkFlow"
                    formControlName="workflow"
                    [matAutocomplete]="workflow.autocomplete">
@@ -17,7 +17,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Espécie Ativididade"
                    formControlName="especieAtividade"
                    [matAutocomplete]="especieAtividade.autocomplete">
@@ -33,7 +33,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Espécie Tarefa From"
                    formControlName="especieTarefaFrom"
                    [matAutocomplete]="especieTarefaFrom.autocomplete">
@@ -49,7 +49,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Espécie Tarefa To"
                    formControlName="especieTarefaTo"
                    [matAutocomplete]="especieTarefaTo.autocomplete">

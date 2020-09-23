@@ -21,11 +21,9 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
             <input matInput placeholder="Gênero Relevância"
                    formControlName="generoRelevancia"
                    [matAutocomplete]="generoRelevancia.autocomplete">
-        </div>
         <cdk-genero-relevancia-autocomplete
             #generoRelevancia="generoRelevanciaAutocomplete"
             [control]="form.get('generoRelevancia')">
@@ -37,7 +35,7 @@
     </mat-form-field>
 
     <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Ativo
     </mat-checkbox>
 

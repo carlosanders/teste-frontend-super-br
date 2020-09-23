@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Modalidade"
                    formControlName="modalidadeColaborador"
                    [matAutocomplete]="modalidadeColaborador.autocomplete"
@@ -27,7 +27,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Cargo"
                    formControlName="cargo"
                    [matAutocomplete]="cargo.autocomplete"
@@ -53,7 +53,7 @@
     </mat-form-field>
 
     <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Ativo
     </mat-checkbox>
     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"

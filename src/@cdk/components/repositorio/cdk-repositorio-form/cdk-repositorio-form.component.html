@@ -1,24 +1,24 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Ativo
     </mat-checkbox>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
         </div>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
         </div>
     </mat-form-field>
 
     <mat-form-field *ngIf="coordenador">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Setor"
                    formControlName="setor"
                    [matAutocomplete]="setor.autocomplete"
@@ -40,7 +40,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Modalidade"
                    formControlName="modalidadeRepositorio"
                    [matAutocomplete]="modalidadeRepositorio.autocomplete"

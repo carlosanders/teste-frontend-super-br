@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showLogEntryGrid('nome')">
@@ -11,7 +11,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showLogEntryGrid('sigla')">
@@ -21,7 +21,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                     (click)="showLogEntryGrid('endereco')">
@@ -31,7 +31,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Espécie Setor"
                    formControlName="especieSetor"
                    [matAutocomplete]="especieSetor.autocomplete"
@@ -57,7 +57,7 @@
 
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Município"
                    formControlName="municipio"
                    [matAutocomplete]="municipio.autocomplete"
@@ -82,7 +82,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Setor Pai"
                    formControlName="parent"
                    [matAutocomplete]="setor.autocomplete"
@@ -111,9 +111,9 @@
     <mat-radio-group class="distribuicaoCentena"
                      formControlName="distribuicaoCentena"
                      aria-labelledby="Tipo Prevenção Absoluta"
-                     fxLayoutAlign="row">
-        <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
-             fxLayoutAlign="start center">
+                    >
+        <div fxLayout="row" class="start center mat-form-field-wrapper"
+            >
             <label id="distribuicaoCentena" class="flex legenda">Tipo Prevenção Absoluta</label>
 
             <mat-radio-button [value]="false">
@@ -133,9 +133,9 @@
     <mat-radio-group class="prazoEqualizacao"
                      formControlName="prazoEqualizacao"
                      aria-labelledby="Prazo Máximo Equalização"
-                     fxLayoutAlign="row">
-        <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
-             fxLayoutAlign="start center">
+                    >
+        <div fxLayout="row" class="start center mat-form-field-wrapper"
+            >
             <label id="prazoEqualizacao" class="flex legenda">Prazo Máximo Equalização </label>
             <mat-radio-button [value]="7">
                 7 DIAS
@@ -154,9 +154,9 @@
     <mat-radio-group class="divergenciaMaxima"
                      formControlName="divergenciaMaxima"
                      aria-labelledby="Divergência Máxima Diária"
-                     fxLayoutAlign="row">
-        <div fxLayout="row" class="start center mat-form-field-wrapper" fxFlex
-             fxLayoutAlign="start center">
+                    >
+        <div fxLayout="row" class="start center mat-form-field-wrapper"
+            >
             <label id="divergenciaMaxima" class="flex legenda">Divergência Máxima Diária </label>
             <mat-radio-button [value]="25">
                 PEQUENA
@@ -172,7 +172,7 @@
     </button>
 
     <mat-checkbox formControlName="apenasDistribuicaoAutomatica"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Desconsiderar Distribuição Manual
     </mat-checkbox>
     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -181,7 +181,7 @@
     </button>
 
     <mat-checkbox formControlName="comPrevencaoRelativa"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Aplicar Prevenção Relativa
     </mat-checkbox>
     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -192,7 +192,7 @@
     <div class="legendaGrupo mat-form-field-wrapper">Funcionamento:</div>
 
     <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Ativo
     </mat-checkbox>
     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -201,7 +201,7 @@
     </button>
 
     <mat-checkbox formControlName="apenasDistribuidor"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Distribuidor
     </mat-checkbox>
     <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"

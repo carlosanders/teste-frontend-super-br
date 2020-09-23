@@ -1,44 +1,44 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
         </div>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Sigla" formControlName="sigla" required maxlength="20" upperCase>
         </div>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Prefixo NUP" formControlName="prefixoNUP" required maxlength="255">
         </div>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="NUP Inicial" formControlName="sequenciaInicialNUP" maxlength="11">
         </div>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
         </div>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput #email placeholder="Email" formControlName="email" maxlength="255" upperCase>
             <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
         </div>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Órgão Central"
                    formControlName="modalidadeOrgaoCentral"
                    [matAutocomplete]="modalidadeOrgaoCentral.autocomplete"
@@ -59,7 +59,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Unidade Pai"
                    formControlName="unidadePai"
                    [matAutocomplete]="setor.autocomplete"
@@ -80,7 +80,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Gênero"
                    formControlName="generoSetor"
                    [matAutocomplete]="generoSetor.autocomplete"
@@ -101,12 +101,12 @@
     </mat-form-field>
 
     <mat-checkbox formControlName="ativo"
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Ativo
     </mat-checkbox>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Município"
                    formControlName="municipio"
                    [matAutocomplete]="municipio.autocomplete"
@@ -130,13 +130,13 @@
 
     <mat-checkbox formControlName="apenasProtocolo"
                   matTooltip="Esta unidade recebe tramitações apenas pelo seu Protocolo."
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Protocolo
     </mat-checkbox>
 
     <mat-checkbox formControlName="numeracaoDocumentoUnidade"
                   matTooltip="Numeração de documentos por unidade."
-                  class="mr-16 mb-16" fxFlex="0 1 auto">
+                  class="mr-16 mb-16">
         Num Unidade
     </mat-checkbox>
 

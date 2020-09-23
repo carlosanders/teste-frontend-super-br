@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <mat-select placeholder="Tipo de coordenação"
                         formControlName="tipo" required
                         (blur)="selectTipo(form.get('tipo').value)">
@@ -16,7 +16,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('tipo').value === 'M'">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Modalidade de órgão central"
                    formControlName="orgaoCentral"
                    [matAutocomplete]="orgaoCentral.autocomplete"
@@ -37,7 +37,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('tipo').value === 'U'">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Unidade"
                    formControlName="unidade"
                    [matAutocomplete]="unidade.autocomplete"
@@ -58,7 +58,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('tipo').value === 'S'">
-        <div fxLayout="row" fxLayoutAlign="start center">
+        <div>
             <input matInput placeholder="Setor"
                    formControlName="setor"
                    [matAutocomplete]="setor.autocomplete"
