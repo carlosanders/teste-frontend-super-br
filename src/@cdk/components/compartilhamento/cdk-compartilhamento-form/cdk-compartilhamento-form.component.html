@@ -1,12 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Nome do Usuário"
-                   formControlName="usuario"
-                   [matAutocomplete]="usuario.autocomplete"
-                   (blur)="checkUsuario()" required>
-        </div>
+        <input matInput placeholder="Nome do Usuário"
+               formControlName="usuario"
+               [matAutocomplete]="usuario.autocomplete"
+               (blur)="checkUsuario()" required>
         <cdk-usuario-autocomplete
             #usuario="usuarioAutocomplete"
             [control]="form.get('usuario')"

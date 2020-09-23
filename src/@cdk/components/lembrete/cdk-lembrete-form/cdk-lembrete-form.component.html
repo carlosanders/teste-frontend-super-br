@@ -21,7 +21,7 @@
         <mat-hint align="end">{{conteudo.value.length}} / 255</mat-hint>
     </mat-form-field>
 
-    <div class="actions" *ngIf="!saving">
+    <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()"
                 [disabled]="form.invalid" *ngIf="!saving">
             CRIAR LEMBRETE

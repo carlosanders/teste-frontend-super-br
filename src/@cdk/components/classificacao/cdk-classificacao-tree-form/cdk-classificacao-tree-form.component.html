@@ -1,14 +1,12 @@
 <div cdkPerfectScrollbar>
     <mat-form-field id="pesquisa">
         <mat-label>Pesquisa</mat-label>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Pesquisar"
-                   maxlength="100" required upperCase
-                   (keyup)="filterChanged($event.target.value)"
-            >
-        </div>
-        <div *ngIf="pesquisando" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
+
+        <input matInput placeholder="Pesquisar"
+               maxlength="100" required upperCase
+               (keyup)="filterChanged($event.target.value)">
+
+        <div *ngIf="pesquisando">
             <mat-spinner color="accent" diameter="24"></mat-spinner>
         </div>
     </mat-form-field>

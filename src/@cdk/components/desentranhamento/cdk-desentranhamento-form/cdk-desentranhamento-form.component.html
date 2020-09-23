@@ -2,7 +2,7 @@
 
     <label id="tipo-rg">Selecione a destinação</label>
 
-    <div class="target" fxLayout="column">
+    <div>
         <mat-radio-group class="tipo-rg" formControlName="tipo" aria-labelledby="tipo-rg">
             <mat-radio-button [value]="'processo_existente'">
                 Processo existente
@@ -17,13 +17,10 @@
     </div>
 
     <mat-form-field *ngIf="this.form.get('tipo').value === 'processo_existente'">
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Processo"
-                   formControlName="processoDestino"
-                   [matAutocomplete]="processoDestino.autocomplete" required
-                   (blur)="checkProcessoDestino()">
-        </div>
-
+        <input matInput placeholder="Processo"
+               formControlName="processoDestino"
+               [matAutocomplete]="processoDestino.autocomplete" required
+               (blur)="checkProcessoDestino()">
         <cdk-processo-autocomplete
             #processoDestino="processoAutocomplete"
             [control]="form.get('processoDestino')"

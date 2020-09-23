@@ -1,6 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-    <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column">
+    <mat-card>
 
         <mat-card-subtitle>Campo</mat-card-subtitle>
 
@@ -8,7 +8,7 @@
         <h3 *ngIf="form.value.id && form.value.campo === 2">ESPÉCIE TAREFA</h3>
         <h3 *ngIf="form.value.id && form.value.campo === 3">SETOR</h3>
 
-        <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
+        <div class="start" fxFlex *ngIf="!form.value.id"
              fxLayoutAlign="start center">
             <label id="campo-rg3"></label>
             <mat-radio-group class="poderes-rg"
@@ -28,16 +28,13 @@
         </div>
     </mat-card>
 
-    <div fxLayout="row" fxFlex
-         fxLayoutAlign="center center" *ngIf="form.value.campo === 1">
+    <div *ngIf="form.value.campo === 1">
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Espécie de Atividade"
-                       formControlName="especieAtividade"
-                       [matAutocomplete]="especieAtividade.autocomplete" required
-                       (blur)="checkEspecieAtividade()">
-            </div>
+            <input matInput placeholder="Espécie de Atividade"
+                   formControlName="especieAtividade"
+                   [matAutocomplete]="especieAtividade.autocomplete" required
+                   (blur)="checkEspecieAtividade()">
             <cdk-especie-atividade-autocomplete
                 #especieAtividade="especieAtividadeAutocomplete"
                 [control]="form.get('especieAtividade')"
@@ -54,16 +51,13 @@
 
     </div>
 
-    <div fxLayout="row" fxFlex
-         fxLayoutAlign="center center" *ngIf="form.value.campo === 2">
+    <div *ngIf="form.value.campo === 2">
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Espécie Tarefa"
-                       formControlName="especieTarefa"
-                       [matAutocomplete]="especieTarefa.autocomplete" required
-                       (blur)="checkEspecieTarefa()">
-            </div>
+            <input matInput placeholder="Espécie Tarefa"
+                   formControlName="especieTarefa"
+                   [matAutocomplete]="especieTarefa.autocomplete" required
+                   (blur)="checkEspecieTarefa()">
             <cdk-especie-tarefa-autocomplete
                 #especieTarefa="especieTarefaAutocomplete"
                 [control]="form.get('especieTarefa')"
@@ -80,16 +74,13 @@
 
     </div>
 
-    <div fxLayout="row" fxFlex
-         fxLayoutAlign="center center" *ngIf="form.value.campo === 3 && !favorito.id">
+    <div *ngIf="form.value.campo === 3 && !favorito.id">
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Unidade Responsável"
-                       formControlName="unidadeResponsavel"
-                       [matAutocomplete]="unidadeResponsavel.autocomplete" required
-                       (blur)="checkUnidadeResponsavel()">
-            </div>
+            <input matInput placeholder="Unidade Responsável"
+                   formControlName="unidadeResponsavel"
+                   [matAutocomplete]="unidadeResponsavel.autocomplete" required
+                   (blur)="checkUnidadeResponsavel()">
             <cdk-setor-autocomplete
                 #unidadeResponsavel="setorAutocomplete"
                 [control]="form.get('unidadeResponsavel')"
@@ -106,16 +97,13 @@
 
     </div>
 
-    <div fxLayout="row" fxFlex
-         fxLayoutAlign="center center" *ngIf="form.value.campo === 3">
+    <div *ngIf="form.value.campo === 3">
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Setor Responsável"
-                       formControlName="setorResponsavel"
-                       [matAutocomplete]="setor.autocomplete" required
-                       (blur)="checkSetorResponsavel()">
-            </div>
+            <input matInput placeholder="Setor Responsável"
+                   formControlName="setorResponsavel"
+                   [matAutocomplete]="setor.autocomplete" required
+                   (blur)="checkSetorResponsavel()">
             <cdk-setor-autocomplete
                 #setor="setorAutocomplete"
                 [control]="form.get('setorResponsavel')"
@@ -133,10 +121,9 @@
 
     </div>
 
-    <div fxLayout="row" fxFlex
-         fxLayoutAlign="center center" *ngIf="form.value.campo">
+    <div *ngIf="form.value.campo">
 
-        <mat-form-field fxFlex>
+        <mat-form-field>
             <mat-label>Nome do campo</mat-label>
             <input matInput #label
                    name="label"
@@ -149,16 +136,14 @@
 
     </div>
 
-    <div fxLayout="row" fxFlex *ngIf="form.value.campo">
-
+    <div *ngIf="form.value.campo">
         <mat-checkbox formControlName="prioritario" class="mr-16 mb-16" fxFlex="0 1 auto">
             Prioritário
         </mat-checkbox>
-
     </div>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

@@ -11,13 +11,11 @@
     </mat-radio-group>
 
     <mat-form-field
-                    *ngIf="this.form.get('trigger').value === 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001'">
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Modelo"
-                   formControlName="modelo"
-                   [matAutocomplete]="modelo.autocomplete" required
-                   (blur)="checkModelo()">
-        </div>
+        *ngIf="this.form.get('trigger').value === 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001'">
+        <input matInput placeholder="Modelo"
+               formControlName="modelo"
+               [matAutocomplete]="modelo.autocomplete" required
+               (blur)="checkModelo()">
         <cdk-modelo-autocomplete
             #modelo="modeloAutocomplete"
             [control]="form.get('modelo')"

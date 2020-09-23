@@ -1,22 +1,20 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <div *ngIf="this.processo?.id && this.processo?.origemDados">
-        <mat-card class="mb-16" fxFlex="1 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
+        <mat-card *showIfRole="'ROLE_COLABORADOR'">
             <mat-card-subtitle>Integração</mat-card-subtitle>
-            <div fxLayout="column" class="start center" fxFlex>
-                <div>ORIGEM DE DADOS: {{this.processo?.origemDados.fonteDados}}</div>
-                <div>ÚLTIMA
-                    SINCRONIZAÇÃO: {{this.processo?.origemDados.dataHoraUltimaConsulta | date: 'dd/MM/yyyy HH:mm'}}</div>
-                <div *ngIf="this.processo?.origemDados.status === 1">STATUS: SUCESSO</div>
-                <div *ngIf="this.processo?.origemDados.status >= 2">STATUS: ERRO!</div>
-                <div *ngIf="this.processo?.origemDados.status === 0" class="spinner-wrapper">
-                    <span>STATUS: </span>
-                    <mat-spinner diameter="14"></mat-spinner>
-                </div>
+            <div>ORIGEM DE DADOS: {{this.processo?.origemDados.fonteDados}}</div>
+            <div>ÚLTIMA
+                SINCRONIZAÇÃO: {{this.processo?.origemDados.dataHoraUltimaConsulta | date: 'dd/MM/yyyy HH:mm'}}</div>
+            <div *ngIf="this.processo?.origemDados.status === 1">STATUS: SUCESSO</div>
+            <div *ngIf="this.processo?.origemDados.status >= 2">STATUS: ERRO!</div>
+            <div *ngIf="this.processo?.origemDados.status === 0" class="spinner-wrapper">
+                <span>STATUS: </span>
+                <mat-spinner diameter="14"></mat-spinner>
             </div>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_PESSOA_VINCULADA'">
+        <mat-card *showIfRole="'ROLE_PESSOA_VINCULADA'">
             <mat-form-field fxFlex>
                 <mat-label>Estado</mat-label>
                 <mat-select
@@ -32,13 +30,11 @@
             </mat-form-field>
 
             <mat-form-field fxFlex>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Ramo"
-                           formControlName="generoSetor"
-                           required
-                           [matAutocomplete]="generoSetor.autocomplete"
-                           (blur)="checkGeneroSetor()">
-                </div>
+                <input matInput placeholder="Ramo"
+                       formControlName="generoSetor"
+                       required
+                       [matAutocomplete]="generoSetor.autocomplete"
+                       (blur)="checkGeneroSetor()">
                 <cdk-genero-setor-autocomplete
                     #generoSetor="generoSetorAutocomplete"
                     [control]="form.get('generoSetor')"
@@ -54,13 +50,11 @@
             </mat-form-field>
 
             <mat-form-field fxFlex>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Atividade"
-                           formControlName="especieSetor"
-                           required
-                           [matAutocomplete]="especieSetor.autocomplete"
-                           (blur)="checkEspecieSetor()">
-                </div>
+                <input matInput placeholder="Atividade"
+                       formControlName="especieSetor"
+                       required
+                       [matAutocomplete]="especieSetor.autocomplete"
+                       (blur)="checkEspecieSetor()">
                 <cdk-especie-setor-autocomplete
                     #especieSetor="especieSetorAutocomplete"
                     [control]="form.get('especieSetor')"
@@ -76,13 +70,11 @@
             </mat-form-field>
 
             <mat-form-field fxFlex>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Unidade"
-                           formControlName="setorInicial"
-                           required
-                           [matAutocomplete]="setorInicial.autocomplete"
-                           (blur)="checkSetorInicial()">
-                </div>
+                <input matInput placeholder="Unidade"
+                       formControlName="setorInicial"
+                       required
+                       [matAutocomplete]="setorInicial.autocomplete"
+                       (blur)="checkSetorInicial()">
                 <cdk-setor-autocomplete
                     #setorInicial="setorAutocomplete"
                     [control]="form.get('setorInicial')"
@@ -99,13 +91,11 @@
 
             <mat-form-field fxFlex *ngIf="this._profile.vinculacoesPessoasUsuarios.length > 1
             && paramHandle === 'meus-processos'">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Procedência"
-                           formControlName="procedencia"
-                           required
-                           [matAutocomplete]="procedencia.autocomplete"
-                           (blur)="checkProcedencia()">
-                </div>
+                <input matInput placeholder="Procedência"
+                       formControlName="procedencia"
+                       required
+                       [matAutocomplete]="procedencia.autocomplete"
+                       (blur)="checkProcedencia()">
                 <cdk-pessoa-autocomplete
                     #procedencia="pessoaAutocomplete"
                     [control]="form.get('procedencia')"
@@ -121,7 +111,7 @@
             </mat-form-field>
         </mat-card>
 
-        <mat-card class="mb-16" fxFlex="0 1 auto" fxLayout="column" *showIfRole="'ROLE_COLABORADOR'">
+        <mat-card *showIfRole="'ROLE_COLABORADOR'">
 
             <mat-card-subtitle>Unidade Arquivística</mat-card-subtitle>
 
@@ -129,8 +119,7 @@
             <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 2">DOCUMENTO AVULSO</h3>
             <h3 *ngIf="form.value.id && form.value.unidadeArquivistica === 3">PASTA/DOSSIÊ</h3>
 
-            <div fxLayout="row" class="start" fxFlex *ngIf="!form.value.id"
-                 fxLayoutAlign="start center">
+            <div *ngIf="!form.value.id">
                 <label id="processo-rg3"></label>
                 <mat-radio-group class="poderes-rg"
                                  formControlName="unidadeArquivistica"
@@ -500,10 +489,10 @@
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div class="actions" *ngIf="!saving">
+    <div class="actions">
         <button
-                mat-raised-button color="accent"
-                [disabled]="form.invalid" (click)="submit()" *ngIf="!saving">
+            mat-raised-button color="accent"
+            [disabled]="form.invalid" (click)="submit()" *ngIf="!saving">
             {{this.textBotao}}
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

@@ -25,15 +25,13 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Setor de Origem"
-                   formControlName="setorOrigem"
-                   [matAutocomplete]="setorOrigem.autocomplete" required
-                   (blur)="checkSetorOrigem()">
-            <mat-option *ngIf="setorOrigemListIsLoading">
-                <mat-spinner diameter="16"></mat-spinner>
-            </mat-option>
-        </div>
+        <input matInput placeholder="Setor de Origem"
+               formControlName="setorOrigem"
+               [matAutocomplete]="setorOrigem.autocomplete" required
+               (blur)="checkSetorOrigem()">
+        <mat-option *ngIf="setorOrigemListIsLoading">
+            <mat-spinner diameter="16"></mat-spinner>
+        </mat-option>
         <cdk-setor-autocomplete
             #setorOrigem="setorAutocomplete"
             [control]="form.get('setorOrigem')"
@@ -53,12 +51,10 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Pessoa"
-                   formControlName="pessoaDestino"
-                   [matAutocomplete]="pessoaDestino.autocomplete" required
-                   (blur)="checkPessoaDestino()">
-        </div>
+        <input matInput placeholder="Pessoa"
+               formControlName="pessoaDestino"
+               [matAutocomplete]="pessoaDestino.autocomplete" required
+               (blur)="checkPessoaDestino()">
         <cdk-pessoa-autocomplete
             #pessoaDestino="pessoaAutocomplete"
             [control]="form.get('pessoaDestino')"
@@ -89,7 +85,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

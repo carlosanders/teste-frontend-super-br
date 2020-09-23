@@ -4,7 +4,7 @@
 
     <label id="tipo-rg">Tipo de arquivo</label>
 
-    <div class="target" fxLayout="column">
+    <div class="target">
         <mat-radio-group class="tipo-rg" formControlName="tipo_download" aria-labelledby="tipo-rg">
             <mat-radio-button [value]="'processo_pdf'">
                 PDF
@@ -15,21 +15,17 @@
         </mat-radio-group>
     </div>
 
-    <div fxLayout="row">
-
-        <mat-slide-toggle formControlName="parcial"
-                          class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
-            Parcial
-        </mat-slide-toggle>
-    </div>
+    <mat-slide-toggle formControlName="parcial"
+                      class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
+        Parcial
+    </mat-slide-toggle>
 
     <mat-form-field *ngIf="this.form.get('parcial').value">
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <label>
-                <input matInput placeholder="Juntadas Seq."
-                       formControlName="sequencial">
-            </label>
-        </div>
+        <label>
+            <input matInput placeholder="Juntadas Seq."
+                   formControlName="sequencial">
+        </label>
+
     </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

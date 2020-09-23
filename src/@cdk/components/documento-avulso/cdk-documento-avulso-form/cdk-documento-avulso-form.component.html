@@ -6,13 +6,11 @@
     </mat-slide-toggle>
 
     <mat-form-field *ngIf="mode === 'regular'">
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Processo"
-                   formControlName="processo"
-                   [matAutocomplete]="processo.autocomplete" required
-                   [readonly]="inputProcesso"
-                   (blur)="checkProcesso()">
-        </div>
+        <input matInput placeholder="Processo"
+               formControlName="processo"
+               [matAutocomplete]="processo.autocomplete" required
+               [readonly]="inputProcesso"
+               (blur)="checkProcesso()">
         <cdk-processo-autocomplete
             #processo="processoAutocomplete"
             [control]="form.get('processo')"
@@ -37,12 +35,10 @@
     </div>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Espécie de Ofício"
-                   formControlName="especieDocumentoAvulso"
-                   [matAutocomplete]="especieDocumentoAvulso.autocomplete" required
-                   (blur)="checkEspecieDocumentoAvulso()">
-        </div>
+        <input matInput placeholder="Espécie de Ofício"
+               formControlName="especieDocumentoAvulso"
+               [matAutocomplete]="especieDocumentoAvulso.autocomplete" required
+               (blur)="checkEspecieDocumentoAvulso()">
         <cdk-especie-documento-avulso-autocomplete
             #especieDocumentoAvulso="especieDocumentoAvulsoAutocomplete"
             [control]="form.get('especieDocumentoAvulso')"
@@ -64,13 +60,11 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Modelo"
-                   formControlName="modelo"
-                   [matAutocomplete]="modelo.autocomplete" required
-                   [readonly]="inputModelo"
-                   (blur)="checkModelo()">
-        </div>
+        <input matInput placeholder="Modelo"
+               formControlName="modelo"
+               [matAutocomplete]="modelo.autocomplete" required
+               [readonly]="inputModelo"
+               (blur)="checkModelo()">
         <cdk-modelo-autocomplete
             #modelo="modeloAutocomplete"
             [control]="form.get('modelo')"

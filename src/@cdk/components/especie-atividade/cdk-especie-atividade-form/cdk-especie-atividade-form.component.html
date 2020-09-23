@@ -21,11 +21,9 @@
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Gênero Atividade"
-                   formControlName="generoAtividade"
-                   [matAutocomplete]="generoAtividade.autocomplete">
-        </div>
+        <input matInput placeholder="Gênero Atividade"
+               formControlName="generoAtividade"
+               [matAutocomplete]="generoAtividade.autocomplete">
         <cdk-genero-atividade-autocomplete
             #generoAtividade="generoAtividadeAutocomplete"
             [control]="form.get('generoAtividade')">
@@ -44,7 +42,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-       <button mat-raised-button color="accent" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

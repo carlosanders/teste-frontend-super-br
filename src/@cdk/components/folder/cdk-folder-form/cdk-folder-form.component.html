@@ -1,24 +1,20 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
-        </div>
+
+        <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
+
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
-        </div>
+        <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
     </mat-form-field>
 
     <mat-form-field>
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <input matInput placeholder="Modalidade"
-                   formControlName="modalidadeFolder"
-                   [matAutocomplete]="modalidadefolder.autocomplete"
-                   (blur)="checkModalidadeFolder()" required>
-        </div>
+        <input matInput placeholder="Modalidade"
+               formControlName="modalidadeFolder"
+               [matAutocomplete]="modalidadefolder.autocomplete"
+               (blur)="checkModalidadeFolder()" required>
         <cdk-modalidade-folder-autocomplete
             #modalidadefolder="modalidadeFolderAutocomplete"
             [control]="form.get('modalidadeFolder')"
