@@ -11,6 +11,6 @@ export class ColaboradorService extends ParentGenericService<Colaborador> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'colaborador', Colaborador);
+        super(modelService, 'administrativo/colaborador', Colaborador);
     }
 }

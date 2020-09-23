@@ -20,6 +20,7 @@ export interface DocumentosAvulsoState {
     currentDocumentoAvulsoId: number;
     selectedDocumentoAvulsoIds: number[];
     maximizado: boolean;
+    togglingLidaDocumentoAvulsoIds: number[];
 }
 
 export const DocumentosAvulsoInitialState: DocumentosAvulsoState = {
@@ -40,7 +41,8 @@ export const DocumentosAvulsoInitialState: DocumentosAvulsoState = {
     togglingLidaProcessoIds: [],
     selectedDocumentoAvulsoIds: [],
     currentDocumentoAvulsoId: null,
-    maximizado: false
+    maximizado: false,
+    togglingLidaDocumentoAvulsoIds: [],
 };
 
 export function OficiosReducer(state = DocumentosAvulsoInitialState, action: DocumentosAvulsoActions.DocumentosAvulsoActionsAll): DocumentosAvulsoState {
@@ -122,6 +124,27 @@ export function OficiosReducer(state = DocumentosAvulsoInitialState, action: Doc
             return {
                 ...state,
                 selectedDocumentoAvulsoIds: action.payload
+            };
+        }
+
+        case DocumentosAvulsoActions.TOGGLE_LIDA_DOCUMENTOS_AVULSO: {
+            return {
+                ...state,
+                togglingLidaDocumentoAvulsoIds: [...state.togglingLidaDocumentoAvulsoIds, action.payload]
+            };
+        }
+
+        case DocumentosAvulsoActions.TOGGLE_LIDA_DOCUMENTOS_AVULSO_SUCCESS: {
+            return {
+                ...state,
+                togglingLidaDocumentoAvulsoIds: state.togglingLidaDocumentoAvulsoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosAvulsoActions.TOGGLE_LIDA_DOCUMENTOS_AVULSO_FAILED: {
+            return {
+                ...state,
+                togglingLidaDocumentoAvulsoIds: state.togglingLidaDocumentoAvulsoIds.filter(id => id !== action.payload)
             };
         }
 

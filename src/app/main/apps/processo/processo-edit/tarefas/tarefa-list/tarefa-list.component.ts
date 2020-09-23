@@ -13,7 +13,6 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {logger} from "codelyzer/util/logger";
 
 @Component({
     selector: 'tarefa-list',
@@ -95,7 +94,7 @@ export class TarefaListComponent implements OnInit {
         }));
     }
 
-    create () : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

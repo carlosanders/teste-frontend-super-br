@@ -11,6 +11,6 @@ export class JuntadaService extends ParentGenericService<Juntada> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'juntada', Juntada);
+        super(modelService, 'administrativo/juntada', Juntada);
     }
 }

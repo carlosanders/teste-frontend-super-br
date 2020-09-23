@@ -22,12 +22,12 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'componente_digital', ComponenteDigital);
+        super(modelService, 'administrativo/componente_digital', ComponenteDigital);
     }
 
     download(id: number | string, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams().set('context', context);
-        return this.http.get(`${environment.api_url}componente_digital/${id}/download` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}administrativo/componente_digital/${id}/download` + environment.xdebug, {params});
     }
 
     search(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
@@ -39,7 +39,7 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         params['populate'] = populate;
         params['context'] = context;
 
-        return this.modelService.search('componente_digital', new HttpParams({fromObject: params}))
+        return this.modelService.search('administrativo/componente_digital', new HttpParams({fromObject: params}))
             .pipe(
                 map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
             );
@@ -49,7 +49,7 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}componente_digital/${componenteDigital.id}` + environment.xdebug,
+            `${environment.api_url}administrativo/componente_digital/${componenteDigital.id}` + environment.xdebug,
             JSON.stringify(changes),
             {params}
         ).pipe(
@@ -65,7 +65,7 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}componente_digital/${componenteDigital.id}/reverter` + environment.xdebug,
+            `${environment.api_url}administrativo/componente_digital/${componenteDigital.id}/reverter` + environment.xdebug,
             JSON.stringify(changes),
             {params}
         ).pipe(
@@ -81,7 +81,7 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         const params = {};
         params['context'] = context;
         return this.modelService.post(
-            'componente_digital/aprova', classToPlain(componenteDigital), new HttpParams({fromObject: params})
+            'administrativo/componente_digital/aprova', classToPlain(componenteDigital), new HttpParams({fromObject: params})
         ).pipe(
             map(response => {
                 response = plainToClass(ComponenteDigital, response);

@@ -15,12 +15,12 @@ export class FavoritoService extends ParentGenericService<Favorito> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'favorito', Favorito);
+        super(modelService, 'administrativo/favorito', Favorito);
     }
 
     patch(favorito: Favorito, changes: any): Observable<Favorito> {
         return this.http.patch(
-            `${environment.api_url}${'favorito'}/${favorito.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/favorito'}/${favorito.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {

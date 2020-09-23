@@ -3,15 +3,18 @@ import {
     MatAutocompleteModule,
     MatButtonModule,
     MatCheckboxModule,
+    MatDatepickerModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
+    MatListModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     MatRippleModule,
     MatSelectModule,
+    MatStepperModule,
     MatToolbarModule,
-    MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule, MatListModule
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -24,12 +27,15 @@ import {CdkDesentranhamentoFormModule} from '@cdk/components/desentranhamento/cd
 import {DesentranhamentoCreateBlocoStoreModule} from './store/store.module';
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {modulesConfig} from 'modules/modules-config';
+import {CdkJuntadaGridSelectModule} from '../../../../../../../@cdk/components/juntada/cdk-juntada-grid-select/cdk-juntada-grid-select.module';
+import * as fromGuards from '../desentranhamento-create-bloco/store/guards';
 
 const routes: Routes = [
     {
         path: '',
-        component: DesentranhamentoCreateBlocoComponent
-    }
+        component: DesentranhamentoCreateBlocoComponent,
+        canActivate: [fromGuards.ResolveGuard]
+    },
 ];
 
 const path = 'app/main/apps/processo/processo-edit/juntadas/desentranhamento-create-bloco';
@@ -62,8 +68,10 @@ modulesConfig.forEach((module) => {
         MatDatepickerModule,
         MatTooltipModule,
         MatListModule,
+        MatStepperModule,
 
         CdkDesentranhamentoFormModule,
+        CdkJuntadaGridSelectModule,
 
         DesentranhamentoCreateBlocoStoreModule,
 
@@ -73,7 +81,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
     ],
     providers: [
-        DesentranhamentoService
+        DesentranhamentoService,
+        fromGuards.ResolveGuard
     ]
 })
 export class DesentranhamentoCreateBlocoModule {

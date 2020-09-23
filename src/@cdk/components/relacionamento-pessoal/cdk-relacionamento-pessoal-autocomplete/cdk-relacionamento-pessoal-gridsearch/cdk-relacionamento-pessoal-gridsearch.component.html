@@ -1,6 +1,7 @@
 <cdk-relacionamento-pessoal-grid
         [loading]="loading"
         [relacionamentoPessoals]="relacionamentoPessoals"
+        [displayedColumns]="['id', 'pessoaRelacionada.nome', 'modalidadeRelacionamentoPessoal.valor', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

@@ -1,4 +1,4 @@
-<div class="page-layout left-sidebar" fxFlex>
+<div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-tramitacao-filter" position="left">
@@ -6,24 +6,25 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <!-- CONTENT -->
-    <div class="content responsive-grid" fxFlex fxLayout="column">
+    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+        <div class="actions">
 
-            <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
-                    (click)="doCreate()"
-                    aria-label="novo"
-                    matTooltip="Novo">
-                <mat-icon>add</mat-icon>
-            </button>
+            <div class="back">
+                <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
+                        (click)="doCancel()"
+                        aria-label="cancelar"
+                        matTooltip="Cancelar">
+                    <mat-icon>arrow_back</mat-icon>
+                </button>
 
-            <button class="back" mat-icon-button *ngIf="actions.indexOf('cancel') > -1"
-                    (click)="doCancel()"
-                    aria-label="cancelar"
-                    matTooltip="Cancelar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
+                <button class="accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+                        (click)="doCreate()"
+                        aria-label="novo"
+                        matTooltip="Novo">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
                     (click)="deleteTramitacoes(selectedIds)"
@@ -32,7 +33,7 @@
                 <mat-icon>delete</mat-icon>
             </button>
 
-            <mat-form-field class="colunas mr-8">
+            <mat-form-field class="colunas mr-8" aria-label="colunas" matTooltip="Colunas">
                 <mat-select [formControl]="columns" multiple>
                     <div *ngFor="let column of allColumns">
                         <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
@@ -62,7 +63,7 @@
             </button>
         </div>
 
-        <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="center center" *ngIf="loading">
+        <div class="loading" *ngIf="loading">
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
@@ -100,23 +101,8 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         NUP
                     </th>
-                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='NUP: '>
-                        <mat-checkbox
-                            [disabled]="true"
-                            [checked]="tramitacao.processo?.NUP"></mat-checkbox>
-                    </td>
-                </ng-container>
-
-                <!-- Urgente Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('urgente') > -1" matColumnDef="urgente">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Urgente
-                    </th>
-                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Urgente: '>
-                        <mat-checkbox
-                            [disabled]="true"
-                            [checked]="tramitacao.urgente"></mat-checkbox>
-                    </td>
+                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Setor de Origem: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao.apagadoEm}"> {{tramitacao.processo?.NUP}} </td>
                 </ng-container>
 
                 <!-- SetorOrigem Column -->
@@ -147,7 +133,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile'
                         data-label='Data de Recebimento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao.apagadoEm}"> {{tramitacao.dataHoraRecebimento | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao.apagadoEm}"> {{tramitacao.dataHoraRecebimento | date: 'dd/MM/yyyy H:mm'}} </td>
                 </ng-container>
 
                 <!-- UsuarioRecebimento Column -->
@@ -159,6 +145,18 @@
                     <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile'
                         data-label='Usuário Recebimento: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(tramitacao.id) > -1 || tramitacao.apagadoEm}"> {{tramitacao.usuarioRecebimento?.nome}} </td>
+                </ng-container>
+
+                <!-- Urgente Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('urgente') > -1" matColumnDef="urgente">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Urgente
+                    </th>
+                    <td mat-cell *matCellDef="let tramitacao" class='has_label_on_mobile' data-label='Urgente: '>
+                        <mat-checkbox
+                            [disabled]="true"
+                            [checked]="tramitacao.urgente"></mat-checkbox>
+                    </td>
                 </ng-container>
 
                 <!-- Observacao Column -->
@@ -249,12 +247,34 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('edit') > -1 && !hasExcluded && !tramitacao.dataHoraRecebimento"
                                 [disabled]="deletedIds?.indexOf(tramitacao.id) > -1"
                                 (click)="editTramitacao(tramitacao.id)"
                                 aria-label="editar"
                                 matTooltip="Editar">
                             <mat-icon>edit</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('edit') > -1 &&
+                                !hasExcluded &&
+                                idsSetoresLotacao.indexOf(tramitacao.setorDestino.id) > -1 &&
+                                !tramitacao.dataHoraRecebimento"
+                                [disabled]="deletedIds?.indexOf(tramitacao.id) > -1"
+                                (click)="editRecebimento(tramitacao.id)"
+                                aria-label="receber"
+                                matTooltip="Receber Tramitação">
+                            <mat-icon>save_alt</mat-icon>
+                        </button>
+
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(tramitacao.id) > -1"
+                                (click)="viewTramitacao(tramitacao.id)"
+                                aria-label="visualizar"
+                                matTooltip="Guia de tramitação">
+                            <mat-icon>calendar_view_day</mat-icon>
                         </button>
 
 
@@ -263,7 +283,9 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(tramitacao.id) === -1 && !hasExcluded"
+                                *ngIf="actions.indexOf('delete') > -1 &&
+                                    deletingIds?.indexOf(tramitacao.id) === -1 && !hasExcluded &&
+                                    !tramitacao.dataHoraRecebimento"
                                 [disabled]="deletedIds?.indexOf(tramitacao.id) > -1"
                                 (click)="deleteTramitacao(tramitacao.id)"
                                 aria-label="remover"
@@ -279,7 +301,7 @@
             </table>
         </div>
 
-        <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
+        <div class="footer">
             <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
         </div>
 

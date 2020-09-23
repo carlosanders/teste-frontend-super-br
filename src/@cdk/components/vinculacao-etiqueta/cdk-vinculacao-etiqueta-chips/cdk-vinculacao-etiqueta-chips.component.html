@@ -1,4 +1,5 @@
-<mat-form-field *ngIf="valid" fxFlex>
+<mat-form-field *ngIf="valid">
+    <mat-placeholder class="placeholder">{{placeholder}}</mat-placeholder>
     <mat-chip-list #chipList>
         <mat-chip
             [ngStyle]="{'background-color': vinculacaoEtiqueta.etiqueta.corHexadecimal}"
@@ -17,7 +18,6 @@
             </mat-icon>
         </mat-chip>
         <input #etiquetaInput
-               [placeholder]="placeholder"
                [formControl]="etiquetaCtrl"
                [matAutocomplete]="etiqueta.autocomplete"
                [matChipInputFor]="chipList"

@@ -11,6 +11,6 @@ export class ModalidadeOrgaoCentralService extends ParentGenericService<Modalida
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modalidade_orgao_central', ModalidadeOrgaoCentral);
+        super(modelService, 'administrativo/modalidade_orgao_central', ModalidadeOrgaoCentral);
     }
 }

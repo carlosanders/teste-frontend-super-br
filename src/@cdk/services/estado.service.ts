@@ -11,6 +11,6 @@ export class EstadoService extends ParentGenericService<Estado> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'estado', Estado);
+        super(modelService, 'administrativo/estado', Estado);
     }
 }

@@ -1,13 +1,9 @@
-.afastamentos {
-    height: 100%;
-    width: 100%;
-
-    .afastamentos-content {
-        height: 100%;
-        width: 100%;
-    }
-
-    .altura {
-        height: 100%;
+afastamentos {
+    flex: 1 1 auto;
+    display: flex;
+    > .content {
+        padding: 8px;
+        flex: 1 1 auto;
+        display: flex;
     }
 }

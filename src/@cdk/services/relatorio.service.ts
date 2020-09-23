@@ -15,22 +15,22 @@ export class RelatorioService extends ParentGenericService<Relatorio> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'relatorio', Relatorio);
+        super(modelService, 'administrativo/relatorio', Relatorio);
     }
 
     downloadAsPdf(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
-        return this.http.get(`${environment.api_url}relatorio/${id}/download_as_pdf/${sequencial}` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}administrativo/relatorio/${id}/download_as_pdf/${sequencial}` + environment.xdebug, {params});
     }
 
     downloadAsZip(id: number | string, sequencial: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
-        return this.http.get(`${environment.api_url}relatorio/${id}/download_as_zip/${sequencial}` + environment.xdebug, {params});
+        return this.http.get(`${environment.api_url}administrativo/relatorio/${id}/download_as_zip/${sequencial}` + environment.xdebug, {params});
     }
 
     patch(relatorio: Relatorio, changes: any): Observable<Relatorio> {
         return this.http.patch(
-            `${environment.api_url}${'relatorio'}/${relatorio.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/relatorio'}/${relatorio.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {

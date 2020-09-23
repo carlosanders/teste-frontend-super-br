@@ -11,6 +11,6 @@ export class FolderService extends ParentGenericService<Folder> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'folder', Folder);
+        super(modelService, 'administrativo/folder', Folder);
     }
 }

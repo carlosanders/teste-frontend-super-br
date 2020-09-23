@@ -2,59 +2,90 @@
 
 cdk-processo-grid {
 
-    height: 100%;
+    display: flex;
+    flex: 1 1 auto;
 
-    .colunas {
-        width: 20px !important;
+    > .page-layout {
+        display: flex;
+        flex: 1 1 auto;
 
-        .mat-select-value {
-            display: none !important;
-        }
-    }
+        > .responsive-grid {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
 
-    .content {
-        width: 100%;
+            > .actions {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: center;
 
-        &.search {
-            padding: 16px;
-        }
+                .back {
+                    margin-right: auto;
+                }
 
-        .actions {
-            width: 100%;
-
-            .back {
-                margin-right: auto;
-            }
-        }
-
-        .mat-column-select {
-            overflow: initial;
-        }
-
-        table {
-            width: 100%;
-
-            tr {
-                height: auto;
-            }
-
-            td {
-                &.deleted {
-                    text-decoration: line-through;
+                .colunas {
+                    width: 20px !important;
+                    .mat-select-value {
+                        display: none !important;
+                    }
                 }
             }
-        }
-    }
 
-    .mat-form-field {
-        font-size: 14px;
-        width: 100%;
-    }
+            > .loading {
+                flex: 1 1 auto;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
 
-    .responsive-grid[max-width~="600px"] {
-        .mat-elevation-z8 {
-            box-shadow: none;
+            > .content {
+
+                flex: 1 1 auto;
+                display: flex;
+                height: 0;
+                overflow-y: auto;
+                padding: 8px;
+
+                .mat-column-select {
+                    overflow: initial;
+                }
+
+                table {
+                    width: 100%;
+
+                    tr {
+                        height: auto;
+                    }
+
+                    td {
+                        &.deleted {
+                            text-decoration: line-through;
+                        }
+                    }
+                }
+            }
+
+            > .footer {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+            }
         }
+
+        > .responsive-grid[max-width~="600px"] {
+
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            .mat-elevation-z8 {
+                box-shadow: none;
+            }
 
         .mat-header-row {
             display: none;
@@ -110,17 +141,75 @@ cdk-processo-grid {
                 }
             }
 
-            .has_label_on_mobile {
-                &:before {
-                    content: attr(data-label);
-                    display: inline;
-                    font-weight: bold;
+                .has_label_on_mobile {
+                    &:before {
+                        content: attr(data-label);
+                        display: inline;
+                        font-weight: bold;
+                    }
+                }
+
+                > .actions {
+                    flex: 0 1 auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
+                    align-items: center;
+
+                    .back {
+                        margin-right: auto;
+                    }
+
+                    .colunas {
+                        width: 20px !important;
+                        .mat-select-value {
+                            display: none !important;
+                        }
+                    }
+                }
+
+                > .loading {
+                    flex: 1 1 auto;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                > .content {
+
+                    flex: 1 1 auto;
+                    display: flex;
+                    height: 0;
+                    overflow-y: auto;
+                    padding: 8px;
+
+                    .mat-column-select {
+                        overflow: initial;
+                    }
+
+                    table {
+                        width: 100%;
+
+                        tr {
+                            height: auto;
+                        }
+
+                        td {
+                            &.deleted {
+                                text-decoration: line-through;
+                            }
+                        }
+                    }
+                }
+
+                > .footer {
+                    flex: 0 1 auto;
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: center;
+                    align-items: center;
                 }
             }
-        }
-
-        .mat-paginator {
-            margin-top: 24px;
         }
     }
 }

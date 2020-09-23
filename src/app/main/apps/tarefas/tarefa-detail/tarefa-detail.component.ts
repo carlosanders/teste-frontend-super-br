@@ -55,7 +55,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     showEtiqueta = false;
     habilitarOpcaoBtnAddEtiqueta = true;
 
-    placeholderEtiq = "Adicionar uma nova etiqueta"
+    placeholderEtiq = 'Coloque etiquetas para a tarefa';
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;

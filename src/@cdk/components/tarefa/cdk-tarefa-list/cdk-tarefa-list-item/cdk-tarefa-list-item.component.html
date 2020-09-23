@@ -1,180 +1,179 @@
-<div fxLayout="row" [dndDraggable]="tarefa"
-     [dndEffectAllowed]="'copy'" fxLayoutAlign="start center">
+<div class="content" [dndDraggable]="tarefa"
+     [dndEffectAllowed]="'copy'">
 
-    <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
-                  (click)="$event.stopPropagation();">
-    </mat-checkbox>
+    <div class="check">
+        <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
+                      (click)="$event.stopPropagation();">
+        </mat-checkbox>
+    </div>
 
-    <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
+    <div class="info" [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
 
-        <div class="info" fxFlex [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
+        <ng-template #dynamicText></ng-template>
 
-            <ng-template #dynamicText></ng-template>
+        <div class="mb-4">
+            <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
 
-            <div class="mb-4">
-                <mat-icon *ngIf="tarefa.especieTarefa?.evento">calendar_today</mat-icon>
+            <div class="title">
+                <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
+                </mat-icon>
+                <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
+                </mat-icon>
+                <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
+                <span dndDragImageRef>NUP {{tarefa.processo?.NUP | formatNup}}</span>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                          *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
+                </mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                          *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
+                </mat-icon>
+            </div>
 
-                <div class="title" fxLayout="row">
-                    <mat-icon *ngIf="tarefa.processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
-                    </mat-icon>
-                    <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
-                    </mat-icon>
-                    <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
-                    <span dndDragImageRef>NUP {{tarefa.processo?.NUP | formatNup}}</span>
-                    <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
-                              *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
-                    </mat-icon>
-                    <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
-                              *ngIf="!tarefa.processo?.acessoNegado && isOpen">keyboard_arrow_up
-                    </mat-icon>
-                </div>
+            <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
+                <span>{{tarefa.processo?.modalidadeMeio?.valor }} {{tarefa.processo?.especieProcesso?.nome }}</span>
+            </div>
 
-                <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-                    <span>{{tarefa.processo?.modalidadeMeio?.valor }} {{tarefa.processo?.especieProcesso?.nome }}</span>
-                </div>
+            <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
+                <span>Usuário com acesso negado ao processo</span>
+            </div>
 
-                <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
-                    <span>Usuário com acesso negado ao processo</span>
-                </div>
-
-                <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
+            <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
                     <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
                     >Ofício vinculado pendente de resposta</span>
-                    <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                    >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
-                </div>
-
-                <div class="subtitle" fxLayout="row" *ngIf="isOpen">
-                    <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
-                        <mat-spinner diameter=16></mat-spinner>
-                    </div>
-                    <div *ngIf="tarefa.processo?.assuntos?.length > 0">
-                        <span>ASSUNTO: {{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
-                    </div>
-                </div>
+                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
+                >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
             </div>
 
-            <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
-                <div>
-                    {{tarefa.especieTarefa?.nome}}
+            <div class="subtitle" *ngIf="isOpen">
+                <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
+                    <mat-spinner diameter=16></mat-spinner>
                 </div>
-
-                <div>
-                    {{tarefa.setorResponsavel?.nome}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
-                </div>
-
-                <div *ngIf="tarefa.dataHoraFinalPrazo">
-                    {{tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}}
-                    ATÉ {{tarefa.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
-                </div>
-
-                <div *ngIf="!tarefa.dataHoraFinalPrazo">
-                    {{(tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy')}}
-                    ATÉ
-                    <mat-icon class="secondary-text" matTooltip="Prazo fechado">
-                        lock
-                    </mat-icon>
-                </div>
-            </div>
-
-            <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
-                <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
-                     fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.etiqueta?.nome">
-                    <div class="etiqueta-color"
-                         [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                    <div
-                        class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                <div *ngIf="tarefa.processo?.assuntos?.length > 0">
+                    <span>ASSUNTO: {{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
                 </div>
             </div>
         </div>
 
-        <div class="actions" fxLayout="row" fxLayoutAlign="start center">
-
-            <button mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
-                    aria-label="Toggle important" fxHide.xs>
-                <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
-                <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
-            </button>
-
-            <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading">
-                <mat-spinner diameter="24"></mat-spinner>
+        <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
+            <div>
+                {{tarefa.especieTarefa?.nome}}
             </div>
 
-            <button *ngIf="!deleting && !ciencia && !pluginLoading" mat-icon-button [matMenuTriggerFor]="moreMenu"
-                    aria-label="Ferramentas"
-                    (click)="$event.stopPropagation()">
-                <mat-icon class="secondary-text">more_vert</mat-icon>
+            <div>
+                {{tarefa.setorResponsavel?.nome}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
+            </div>
+
+            <div *ngIf="tarefa.dataHoraFinalPrazo">
+                {{tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}}
+                ATÉ {{tarefa.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+            </div>
+
+            <div *ngIf="!tarefa.dataHoraFinalPrazo">
+                {{(tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy')}}
+                ATÉ
+                <mat-icon class="secondary-text" matTooltip="Prazo fechado">
+                    lock
+                </mat-icon>
+            </div>
+        </div>
+
+        <div class="etiquetas" fxHide fxShow.gt-sm>
+            <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
+                 fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.etiqueta?.nome">
+                <div class="etiqueta-color"
+                     [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                <div
+                    class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+
+        <button mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
+                aria-label="Toggle important" fxHide.xs>
+            <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
+            <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
+        </button>
+
+        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading">
+            <mat-spinner diameter="24"></mat-spinner>
+        </div>
+
+        <button *ngIf="!deleting && !ciencia && !pluginLoading" mat-icon-button [matMenuTriggerFor]="moreMenu"
+                aria-label="Ferramentas"
+                (click)="$event.stopPropagation()">
+            <mat-icon class="secondary-text">more_vert</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+
+            <button mat-menu-item aria-label="apagar"
+                    (click)="doDelete()">
+                <ng-container>
+                    <mat-icon>delete</mat-icon>
+                    <span>Apagar</span>
+                </ng-container>
             </button>
 
-            <mat-menu #moreMenu="matMenu">
+            <button mat-menu-item aria-label="movimentar"
+                    (click)="doMovimentar()">
+                <ng-container>
+                    <mat-icon>send</mat-icon>
+                    <span>Movimentar</span>
+                </ng-container>
+            </button>
 
-                <button mat-menu-item aria-label="apagar"
-                        (click)="doDelete()">
-                    <ng-container>
-                        <mat-icon>delete</mat-icon>
-                        <span>Apagar</span>
-                    </ng-container>
-                </button>
+            <button mat-menu-item aria-label="editar tarefa"
+                    (click)="doEditTarefa()">
+                <ng-container>
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar Tarefa</span>
+                </ng-container>
+            </button>
 
-                <button mat-menu-item aria-label="movimentar"
-                        (click)="doMovimentar()">
-                    <ng-container>
-                        <mat-icon>send</mat-icon>
-                        <span>Movimentar</span>
-                    </ng-container>
-                </button>
+            <button mat-menu-item aria-label="redistribuir tarefa"
+                    (click)="doRedistribuirTarefa()">
+                <ng-container>
+                    <mat-icon>forward</mat-icon>
+                    <span>Redistribuir Tarefa</span>
+                </ng-container>
+            </button>
 
-                <button mat-menu-item aria-label="editar tarefa"
-                        (click)="doEditTarefa()">
-                    <ng-container>
-                        <mat-icon>edit</mat-icon>
-                        <span>Editar Tarefa</span>
-                    </ng-container>
-                </button>
+            <button mat-menu-item aria-label="dar ciencia"
+                    (click)="doCienciaTarefa()">
+                <ng-container>
+                    <mat-icon>check</mat-icon>
+                    <span>Dar Ciência</span>
+                </ng-container>
+            </button>
 
-                <button mat-menu-item aria-label="redistribuir tarefa"
-                        (click)="doRedistribuirTarefa()">
-                    <ng-container>
-                        <mat-icon>forward</mat-icon>
-                        <span>Redistribuir Tarefa</span>
-                    </ng-container>
-                </button>
+            <button mat-menu-item aria-label="criar tarefa"
+                    (click)="doCreateTarefa()">
+                <ng-container>
+                    <mat-icon>check_box</mat-icon>
+                    <span>Criar Tarefa</span>
+                </ng-container>
+            </button>
 
-                <button mat-menu-item aria-label="dar ciencia"
-                        (click)="doCienciaTarefa()">
-                    <ng-container>
-                        <mat-icon>check</mat-icon>
-                        <span>Dar Ciência</span>
-                    </ng-container>
-                </button>
+            <button mat-menu-item aria-label="enviar ofício"
+                    (click)="doCreateDocumentoAvulso()">
+                <ng-container>
+                    <mat-icon>mail</mat-icon>
+                    <span>Criar Ofício</span>
+                </ng-container>
+            </button>
 
-                <button mat-menu-item aria-label="criar tarefa"
-                        (click)="doCreateTarefa()">
-                    <ng-container>
-                        <mat-icon>check_box</mat-icon>
-                        <span>Criar Tarefa</span>
-                    </ng-container>
-                </button>
+            <button mat-menu-item aria-label="compartilhar"
+                    (click)="doCompartilhar()">
+                <ng-container>
+                    <mat-icon>share</mat-icon>
+                    <span>Compartilhar</span>
+                </ng-container>
+            </button>
 
-                <button mat-menu-item aria-label="enviar ofício"
-                        (click)="doCreateDocumentoAvulso()">
-                    <ng-container>
-                        <mat-icon>mail</mat-icon>
-                        <span>Criar Ofício</span>
-                    </ng-container>
-                </button>
+            <ng-template #dynamicComponent></ng-template>
 
-                <button mat-menu-item aria-label="compartilhar"
-                        (click)="doCompartilhar()">
-                    <ng-container>
-                        <mat-icon>share</mat-icon>
-                        <span>Compartilhar</span>
-                    </ng-container>
-                </button>
-
-                <ng-template #dynamicComponent></ng-template>
-
-            </mat-menu>
-        </div>
+        </mat-menu>
     </div>
 </div>

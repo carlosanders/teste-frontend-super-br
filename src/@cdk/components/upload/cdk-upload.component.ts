@@ -49,7 +49,7 @@ export class CdkUploadComponent implements OnInit {
 
     /** Target URL for file uploading. */
     @Input()
-    target = `${environment.api_url}componente_digital` + environment.xdebug;
+    target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;
 
     @Input()
     showButton = true;

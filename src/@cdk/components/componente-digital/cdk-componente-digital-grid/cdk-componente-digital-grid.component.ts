@@ -221,7 +221,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     @Input()
     pageSize = 5;
 
-    @Input() target = `${environment.api_url}componente_digital` + environment.xdebug;
+    @Input() target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;
 
     @Input()
     actions: string[] = ['select', 'edit', 'delete', 'cancel', 'retry'];

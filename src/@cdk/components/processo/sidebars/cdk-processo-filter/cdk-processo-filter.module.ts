@@ -26,6 +26,7 @@ import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autoco
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatDividerModule} from "@angular/material/divider";
 
 @NgModule({
     declarations: [
@@ -57,6 +58,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
         CdkUsuarioAutocompleteModule,
         CdkProcessoAutocompleteModule,
         MatExpansionModule,
+        MatDividerModule,
     ],
     providers: [
         ProcessoService,

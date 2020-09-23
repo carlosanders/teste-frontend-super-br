@@ -1,226 +1,195 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form class="p-24 mr-24" fxLayoutGap="16px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+<form fxLayoutGap="16px"
+      name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-        <div fxFlex="1 0 auto" fxLayout="column">
+    <mat-form-field>
+        <input matInput placeholder="Tipo"
+               formControlName="modalidadeQualificacaoPessoa"
+               [matAutocomplete]="modalidadeQualificacaoPessoa.autocomplete"
+               (blur)="checkModalidadeQualificacaoPessoa()" required>
+        <cdk-modalidade-qualificacao-pessoa-autocomplete
+            #modalidadeQualificacaoPessoa="modalidadeQualificacaoPessoaAutocomplete"
+            [control]="form.get('modalidadeQualificacaoPessoa')"
+            [pagination]="modalidadeQualificacaoPessoaPagination">
+        </cdk-modalidade-qualificacao-pessoa-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showModalidadeQualificacaoPessoaGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('modalidadeQualificacaoPessoa').hasError('formError')">
+            {{form.get('modalidadeQualificacaoPessoa').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Tipo"
-                           formControlName="modalidadeQualificacaoPessoa"
-                           [matAutocomplete]="modalidadeQualificacaoPessoa.autocomplete"
-                           (blur)="checkModalidadeQualificacaoPessoa()" required>
-                </div>
-                <cdk-modalidade-qualificacao-pessoa-autocomplete
-                    #modalidadeQualificacaoPessoa="modalidadeQualificacaoPessoaAutocomplete"
-                    [control]="form.get('modalidadeQualificacaoPessoa')"
-                    [pagination]="modalidadeQualificacaoPessoaPagination">
-                </cdk-modalidade-qualificacao-pessoa-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showModalidadeQualificacaoPessoaGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('modalidadeQualificacaoPessoa').hasError('formError')">
-                    {{form.get('modalidadeQualificacaoPessoa').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               required
+               maxlength="255">
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('nome')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error>Campo obrigatório!</mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>Nome</mat-label>
-                <input matInput #nome
-                       name="nome"
-                       formControlName="nome"
-                       required
-                       maxlength="255">
-                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                        (click)="showLogEntryGrid('nome')">
-                    <mat-icon matTooltip="Histórico">history</mat-icon>
-                </button>
-                <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
-                <mat-error>Campo obrigatório!</mat-error>
-            </mat-form-field>
+    <mat-form-field>
+        <mat-label>CPF/CNPJ</mat-label>
+        <input matInput #numeroDocumentoPrincipal
+               name="numeroDocumentoPrincipal"
+               formControlName="numeroDocumentoPrincipal"
+               maxlength="255">
+        <mat-hint align="end">{{numeroDocumentoPrincipal.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <mat-label>CPF/CNPJ</mat-label>
-                <input matInput #numeroDocumentoPrincipal
-                       name="numeroDocumentoPrincipal"
-                       formControlName="numeroDocumentoPrincipal"
-                       maxlength="255">
-                <mat-hint align="end">{{numeroDocumentoPrincipal.value.length}} / 255</mat-hint>
-            </mat-form-field>
+    <mat-form-field ng-hide="modalidadeGeneroPessoa" [fxHide]="hidden">
+        <input matInput placeholder="Gênero"
+               formControlName="modalidadeGeneroPessoa"
+               [matAutocomplete]="modalidadeGeneroPessoa.autocomplete"
+               (blur)="checkModalidadeGeneroPessoa()">
+        <cdk-modalidade-genero-pessoa-autocomplete
+            #modalidadeGeneroPessoa="modalidadeGeneroPessoaAutocomplete"
+            [control]="form.get('modalidadeGeneroPessoa')"
+            [pagination]="modalidadeQualificacaoPessoaPagination">
+        </cdk-modalidade-genero-pessoa-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showModalidadeGeneroPessoaGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('modalidadeGeneroPessoa').hasError('formError')">
+            {{form.get('modalidadeGeneroPessoa').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" ng-hide="modalidadeGeneroPessoa" [fxHide]="hidden">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Gênero"
-                           formControlName="modalidadeGeneroPessoa"
-                           [matAutocomplete]="modalidadeGeneroPessoa.autocomplete"
-                           (blur)="checkModalidadeGeneroPessoa()">
-                </div>
-                <cdk-modalidade-genero-pessoa-autocomplete
-                    #modalidadeGeneroPessoa="modalidadeGeneroPessoaAutocomplete"
-                    [control]="form.get('modalidadeGeneroPessoa')"
-                    [pagination]="modalidadeQualificacaoPessoaPagination">
-                </cdk-modalidade-genero-pessoa-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showModalidadeGeneroPessoaGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('modalidadeGeneroPessoa').hasError('formError')">
-                    {{form.get('modalidadeGeneroPessoa').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <div class="responsive-group">
+        <mat-form-field>
+            <mat-label>{{textoDataNascimento}}</mat-label>
+            <input matInput formControlName="dataNascimento" [matDatepicker]="dataNascimento">
+            <mat-datepicker-toggle matSuffix [for]="dataNascimento"></mat-datepicker-toggle>
+            <mat-datepicker #dataNascimento></mat-datepicker>
+        </mat-form-field>
 
-            <div class="dates" fxLayout="row">
+        <mat-form-field>
+            <mat-label>{{textoDataObito}}</mat-label>
+            <input matInput formControlName="dataObito" [matDatepicker]="dataObito">
+            <mat-datepicker-toggle matSuffix [for]="dataObito"></mat-datepicker-toggle>
+            <mat-datepicker #dataObito></mat-datepicker>
+        </mat-form-field>
 
-                <mat-form-field class="mr-sm-12" fxFlex>
-                    <mat-label>{{textoDataNascimento}}</mat-label>
-                    <input matInput formControlName="dataNascimento" [matDatepicker]="dataNascimento">
-                    <mat-datepicker-toggle matSuffix [for]="dataNascimento"></mat-datepicker-toggle>
-                    <mat-datepicker #dataNascimento></mat-datepicker>
-                </mat-form-field>
+    </div>
 
-                <mat-form-field class="mr-sm-12" fxFlex>
-                    <mat-label>{{textoDataObito}}</mat-label>
-                    <input matInput formControlName="dataObito" [matDatepicker]="dataObito">
-                    <mat-datepicker-toggle matSuffix [for]="dataObito"></mat-datepicker-toggle>
-                    <mat-datepicker #dataObito></mat-datepicker>
-                </mat-form-field>
+    <div class="responsive-group">
+        <mat-form-field>
+            <input matInput placeholder="Nacionalidade"
+                   formControlName="nacionalidade"
+                   [matAutocomplete]="pais.autocomplete"
+                   (blur)="checkPais()">
 
-            </div>
+            <cdk-pais-autocomplete
+                #pais="paisAutocomplete"
+                [control]="form.get('nacionalidade')"
+                [pagination]="paisPagination">
+            </cdk-pais-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showPaisGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('nacionalidade').hasError('formError')">
+                {{form.get('nacionalidade').errors.formError}}
+            </mat-error>
+        </mat-form-field>
 
-            <div class="dates" fxLayout="row" [fxHide]="hidden">
+        <mat-form-field>
+            <input matInput placeholder="Naturalidade"
+                   formControlName="naturalidade"
+                   [matAutocomplete]="municipio.autocomplete"
+                   (blur)="checkMunicipio()">
 
-                <mat-form-field class="mr-sm-12" fxFlex>
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Nacionalidade"
-                               formControlName="nacionalidade"
-                               [matAutocomplete]="pais.autocomplete"
-                               (blur)="checkPais()">
-                    </div>
-                    <cdk-pais-autocomplete
-                        #pais="paisAutocomplete"
-                        [control]="form.get('nacionalidade')"
-                        [pagination]="paisPagination">
-                    </cdk-pais-autocomplete>
-                    <button matSuffix mat-button mat-icon-button
-                            (click)="showPaisGrid()">
-                        <mat-icon matTooltip="Procurar">search</mat-icon>
-                    </button>
-                    <mat-error *ngIf="form.get('nacionalidade').hasError('formError')">
-                        {{form.get('nacionalidade').errors.formError}}
-                    </mat-error>
-                </mat-form-field>
+            <cdk-municipio-autocomplete
+                #municipio="municipioAutocomplete"
+                [control]="form.get('naturalidade')"
+                [pagination]="municipioPagination">
+            </cdk-municipio-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showMunicipioGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('naturalidade').hasError('formError')">
+                {{form.get('naturalidade').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+    </div>
 
-                <mat-form-field class="mr-sm-12" fxFlex>
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Naturalidade"
-                               formControlName="naturalidade"
-                               [matAutocomplete]="municipio.autocomplete"
-                               (blur)="checkMunicipio()">
-                    </div>
-                    <cdk-municipio-autocomplete
-                        #municipio="municipioAutocomplete"
-                        [control]="form.get('naturalidade')"
-                        [pagination]="municipioPagination">
-                    </cdk-municipio-autocomplete>
-                    <button matSuffix mat-button mat-icon-button
-                            (click)="showMunicipioGrid()">
-                        <mat-icon matTooltip="Procurar">search</mat-icon>
-                    </button>
-                    <mat-error *ngIf="form.get('naturalidade').hasError('formError')">
-                        {{form.get('naturalidade').errors.formError}}
-                    </mat-error>
-                </mat-form-field>
+    <mat-form-field>
+        <mat-label>Profissão</mat-label>
+        <input matInput #profissao
+               name="profissao"
+               formControlName="profissao"
+               maxlength="255">
+    </mat-form-field>
 
-            </div>
+    <mat-form-field>
+        <mat-label>Nome Genitor</mat-label>
+        <input matInput #nomeGenitor
+               name="nomeGenitor"
+               formControlName="nomeGenitor"
+               maxlength="255">
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" [fxHide]="hidden">
-                <mat-label>Profissão</mat-label>
-                <input matInput #profissao
-                       name="profissao"
-                       formControlName="profissao"
-                       maxlength="255">
-            </mat-form-field>
+    <mat-form-field>
+        <mat-label>Nome Genitora</mat-label>
+        <input matInput #nomeGenitora
+               name="nomeGenitora"
+               formControlName="nomeGenitora"
+               maxlength="255">
+    </mat-form-field>
 
-            <div class="dates" fxLayout="row" [fxHide]="hidden">
-
-                <mat-form-field class="mr-sm-12" fxFlex>
-                    <mat-label>Nome Genitor</mat-label>
-                    <input matInput #nomeGenitor
-                           name="nomeGenitor"
-                           formControlName="nomeGenitor"
-                           maxlength="255">
-                </mat-form-field>
-
-                <mat-form-field class="mr-sm-12" fxFlex>
-                    <mat-label>Nome Genitora</mat-label>
-                    <input matInput #nomeGenitora
-                           name="nomeGenitora"
-                           formControlName="nomeGenitora"
-                           maxlength="255">
-                </mat-form-field>
-
-            </div>
-
-            <mat-form-field fxFlex="100">
+    <mat-form-field>
             <textarea formControlName="contato"
                       matInput placeholder="Contato" upperCase maxlength="255"></textarea>
-            </mat-form-field>
+    </mat-form-field>
 
-        </div>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
-
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+</form>
 
 <cdk-modalidade-qualificacao-pessoa-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'modalidade-qualificacao-pessoa-gridsearch'"
     (selected)="selectModalidadeQualificacaoPessoa($event)"
     (cancel)="cancel()">
 </cdk-modalidade-qualificacao-pessoa-gridsearch>
 
 <cdk-modalidade-genero-pessoa-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'modalidade-genero-pessoa-gridsearch'"
     (selected)="selectModalidadeGeneroPessoa($event)"
     (cancel)="cancel()">
 </cdk-modalidade-genero-pessoa-gridsearch>
 
 <cdk-pais-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'pais-gridsearch'"
     (selected)="selectPais($event)"
     (cancel)="cancel()">
 </cdk-pais-gridsearch>
 
 <cdk-municipio-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'municipio-gridsearch'"
     (selected)="selectMunicipio($event)"
     (cancel)="cancel()">
 </cdk-municipio-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">

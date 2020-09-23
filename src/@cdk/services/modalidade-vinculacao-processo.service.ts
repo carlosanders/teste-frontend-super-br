@@ -11,6 +11,6 @@ export class ModalidadeVinculacaoProcessoService extends ParentGenericService<Mo
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modalidade_vinculacao_processo', ModalidadeVinculacaoProcesso);
+        super(modelService, 'administrativo/modalidade_vinculacao_processo', ModalidadeVinculacaoProcesso);
     }
 }

@@ -17,7 +17,6 @@ export const getNormalizedNotificacaoEntities = createSelector(
     schemaSelectors.entitiesProjector
 );
 
-
 export const getNotificacaoList = createSelector(
     schemaSelectors.getNormalizedEntities,
     getNotificacaoListIds,

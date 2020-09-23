@@ -194,7 +194,9 @@ export class CdkVinculacaoEtiquetaChipsComponent {
 
     }
 
-    newEtiqueta() {
+    newEtiqueta(): void {
+        this.showBtnAddEtiqueta = false;
+
         if (this.etiquetaInput.nativeElement.value.length > 2) {
             this.etiqueta = new Etiqueta();
             this.etiqueta.nome = this.etiquetaInput.nativeElement.value;
@@ -204,11 +206,9 @@ export class CdkVinculacaoEtiquetaChipsComponent {
             this.etiqueta.corHexadecimal = '#a9aab3';
             this.showBtnAddEtiqueta = true;
         }
-        else
-            this.showBtnAddEtiqueta = false;
     }
 
-    sendEtiqueta() {
+    sendEtiqueta(): void {
         this.etiquetaInput.nativeElement.value = '';
         this.addEtiqueta.emit(this.etiqueta);
         this.showBtnAddEtiqueta = false;

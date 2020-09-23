@@ -11,6 +11,6 @@ export class CampoService extends ParentGenericService<Campo> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'campo', Campo);
+        super(modelService, 'administrativo/campo', Campo);
     }
 }

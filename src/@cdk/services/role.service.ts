@@ -11,6 +11,6 @@ export class RoleService extends ParentGenericService<Role> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'role', Role);
+        super(modelService, 'administrativo/role', Role);
     }
 }

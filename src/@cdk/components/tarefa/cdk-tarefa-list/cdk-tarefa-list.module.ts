@@ -27,6 +27,7 @@ import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-fi
 import {SnackBarDeleteComponent} from '../../snack-bar-delete/snack-bar-delete.component';
 import {SnackBarDeleteModule} from '../../snack-bar-delete/snack-bar-delete.module';
 import {MatBottomSheet} from '@angular/material/bottom-sheet';
+import {CdkTarefaListService} from './cdk-tarefa-list.service';
 
 @NgModule({
     declarations: [
@@ -67,6 +68,7 @@ import {MatBottomSheet} from '@angular/material/bottom-sheet';
         EspecieTarefaService,
         ProcessoService,
         AssuntoService,
+        CdkTarefaListService
     ],
     exports: [
         CdkTarefaListComponent

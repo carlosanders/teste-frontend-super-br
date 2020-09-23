@@ -4,12 +4,10 @@
     </div>
     <div class="space" *ngIf="!saving" fxLayoutAlign="center">
     </div>
-    <cdk-componente-digital-ckeditor [showModeloButtons]="routerState.url.indexOf('/modelo/') > -1"
-                                     [showRepositorioButtons]="routerState.url.indexOf('/repositorio/') > -1"
+    <cdk-componente-digital-ckeditor [mode]="mode"
                                      [componenteDigital]="(componenteDigital$ | async)"
                                      [repositorio]="(repositorio$ | async)"
                                      [pluginAssinar]="false"
-                                     [btVersoes]="btVersoes"
                                      [logEntryPagination]="logEntryPagination"
                                      [errors]="(errors$ | async)"
                                      (clearRepositorio)="doClearRepositorio()"

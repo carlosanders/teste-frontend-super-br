@@ -23,6 +23,10 @@ export const DELETE_VINCULACAO_ETIQUETA = '[PROCESSO] DELETE VINCULACAO_ETIQUETA
 export const DELETE_VINCULACAO_ETIQUETA_SUCCESS = '[PROCESSO] DELETE VINCULACAO_ETIQUETA SUCCESS';
 export const DELETE_VINCULACAO_ETIQUETA_FAILED = '[PROCESSO] DELETE VINCULACAO_ETIQUETA FAILED';
 
+export const ARQUIVAR_PROCESSO = '[PROCESSO] ARQUIVAR PROCESSO';
+export const ARQUIVAR_PROCESSO_SUCCESS = '[PROCESSO] ARQUIVAR PROCESSO SUCCESS';
+export const ARQUIVAR_PROCESSO_FAILED = '[PROCESSO] ARQUIVAR PROCESSO FAILED';
+
 export const SET_STEPS = '[PROCESSO] SET STEPS';
 
 /**
@@ -238,6 +242,43 @@ export class SetSteps implements Action{
     }
 }
 
+
+/**
+ * Arquivar Processo
+ */
+export class ArquivarProcesso implements Action
+{
+    readonly type = ARQUIVAR_PROCESSO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Arquivar Processo Success
+ */
+export class ArquivarProcessoSuccess implements Action
+{
+    readonly type = ARQUIVAR_PROCESSO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Arquivar Processo Failed
+ */
+export class ArquivarProcessoFailed implements Action
+{
+    readonly type = ARQUIVAR_PROCESSO_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
 export type ProcessoActionsAll
     = CreateProcesso
     | UnloadProcesso
@@ -256,4 +297,7 @@ export type ProcessoActionsAll
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
-    | SetSteps;
+    | SetSteps
+    | ArquivarProcesso
+    | ArquivarProcessoSuccess
+    | ArquivarProcessoFailed;

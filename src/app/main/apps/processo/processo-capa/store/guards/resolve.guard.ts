@@ -158,10 +158,14 @@ export class ResolveGuard implements CanActivate {
             tap(loaded => {
                 const params = {
                     filter: [
-                        {
-                            'processo.id': `eq:${this.routerState.params['processoHandle']}`,
-                            'processoVinculado.id': `eq:${this.routerState.params['processoHandle']}`
-                        }
+                        [
+                            {
+                                'processo.id': `eq:${this.routerState.params['processoHandle']}`
+                            },
+                            {
+                                'processoVinculado.id': `eq:${this.routerState.params['processoHandle']}`
+                            }
+                        ]
                     ],
                     sort: {},
                     limit: 10,

@@ -1,6 +1,7 @@
 <cdk-documento-identificador-grid
         [loading]="loading"
         [documentoIdentificadors]="documentoIdentificadors"
+        [displayedColumns]="['id', 'modalidadeDocumentoIdentificador.valor', 'codigoDocumento', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

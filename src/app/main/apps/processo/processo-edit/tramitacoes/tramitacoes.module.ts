@@ -35,6 +35,14 @@ const routes: Routes = [
                 loadChildren: () => import('./tramitacao-edit/tramitacao-edit.module').then(m => m.TramitacaoEditModule),
             },
             {
+                path       : 'visualizar',
+                loadChildren: () => import('./tramitacao-view/tramitacao-view.module').then(m => m.TramitacaoViewModule),
+            },
+            {
+                path       : 'recebimento',
+                loadChildren: () => import('./recebimento/recebimento.module').then(m => m.RecebimentoModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

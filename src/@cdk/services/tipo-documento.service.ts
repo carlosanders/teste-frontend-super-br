@@ -15,12 +15,12 @@ export class TipoDocumentoService extends ParentGenericService<TipoDocumento> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'tipo_documento', TipoDocumento);
+        super(modelService, 'administrativo/tipo_documento', TipoDocumento);
     }
 
     patch(tipoDocumento: TipoDocumento, changes: any): Observable<TipoDocumento> {
         return this.http.patch(
-            `${environment.api_url}${'tipoDocumento'}/${tipoDocumento.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/tipoDocumento'}/${tipoDocumento.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {

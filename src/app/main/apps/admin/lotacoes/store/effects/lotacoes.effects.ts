@@ -25,6 +25,7 @@ export class LotacoesEffects {
      *
      * @param _actions
      * @param _setorService
+     * @param _usuarioService
      * @param _store
      * @param _router
      */

@@ -25,6 +25,7 @@ export class ResolveGuard implements CanActivate {
      *
      * @param _store
      * @param _loginService
+     * @param _router
      */
     constructor(
         private _store: Store<DocumentoAvulsoAppState>,
@@ -65,7 +66,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkRole(observable: Observable<any>): any {
-        if (!this._loginService.isGranted('ROLE_CONVENIADO')) {
+        if (!this._loginService.isGranted('ROLE_PESSOA_VINCULADA')) {
             this._router.navigate(['/apps/painel']).then(() => {
                 return throwError(new Error('Usuário sem permissão'));
             });
@@ -118,7 +119,8 @@ export class ResolveGuard implements CanActivate {
                             documentoAvulsoFilter = {
                                 'documentoResposta.id': 'isNull',
                                 'documentoRemessa.id': 'isNotNull',
-                                'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
+                                'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`,
+                                'dataHoraRemessa': 'isNotNull'
                             };
                         }
 
@@ -126,7 +128,8 @@ export class ResolveGuard implements CanActivate {
                             documentoAvulsoFilter = {
                                 'documentoResposta.id': 'isNotNull',
                                 'documentoRemessa.id': 'isNotNull',
-                                'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`
+                                'pessoaDestino.id': `eq:${this.routerState.params['pessoaHandle']}`,
+                                'dataHoraRemessa': 'isNotNull'
                             };
                         }
 

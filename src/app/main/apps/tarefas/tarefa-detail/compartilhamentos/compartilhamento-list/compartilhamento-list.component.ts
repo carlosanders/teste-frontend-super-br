@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
@@ -12,7 +12,7 @@ import {Compartilhamento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store';
-import {getRouterState} from "../../../../../../store/reducers";
+import {getRouterState} from '../../../../../../store/reducers';
 
 @Component({
     selector: 'compartilhamento-list',
@@ -22,7 +22,7 @@ import {getRouterState} from "../../../../../../store/reducers";
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CompartilhamentoListComponent implements OnInit {
+export class CompartilhamentoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     compartilhamentos$: Observable<Compartilhamento[]>;
@@ -61,6 +61,10 @@ export class CompartilhamentoListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadCompartilhamentos());
     }
 
     reload(params): void {

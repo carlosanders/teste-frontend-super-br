@@ -11,6 +11,6 @@ export class EtiquetaService extends ParentGenericService<Etiqueta> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'etiqueta', Etiqueta);
+        super(modelService, 'administrativo/etiqueta', Etiqueta);
     }
 }

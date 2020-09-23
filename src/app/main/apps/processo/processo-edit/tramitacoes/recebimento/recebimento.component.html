@@ -1,0 +1,9 @@
+<cdk-recebimento-form
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="cancel()"
+        [tramitacao]="(tramitacao$ | async)"
+        [setorAtualPagination]="setorAtualPagination"
+        [setorAtualPaginationTree]="setorAtualPaginationTree">
+</cdk-recebimento-form>

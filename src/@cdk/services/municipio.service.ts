@@ -15,12 +15,12 @@ export class MunicipioService extends ParentGenericService<Municipio> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'municipio', Municipio);
+        super(modelService, 'administrativo/municipio', Municipio);
     }
 
     patch(municipio: Municipio, changes: any): Observable<Municipio> {
         return this.http.patch(
-            `${environment.api_url}${'municipio'}/${municipio.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/municipio'}/${municipio.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {

@@ -109,6 +109,8 @@ export const visibilidade = new schema.Entity('visibilidade');
 export const volume = new schema.Entity('volume');
 export const vinculacaoPessoaUsuario = new schema.Entity('vinculacao-pessoa-usuario');
 export const vinculacaoSetorMunicipio = new schema.Entity('vinculacao-setor-municipio');
+export const workflow = new schema.Entity('workflow');
+export const transicaoWorkflow = new schema.Entity('transicaoWorkflow');
 
 acao.define({
     criadoPor: usuario,
@@ -932,6 +934,24 @@ volume.define({
     modalidadeMeio: modalidadeMeio,
     processo: processo,
     origemDados: origemDados,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+workflow.define({
+    especieProcesso: especieProcesso,
+    especieTarefa: especieTarefa,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+transicaoWorkflow.define({
+    workflow: workflow,
+    especieAtividade: especieAtividade,
+    especieTarefaFrom: especieTarefa,
+    especieTarefaTo: especieTarefa,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

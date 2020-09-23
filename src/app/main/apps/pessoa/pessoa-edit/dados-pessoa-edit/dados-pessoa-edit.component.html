@@ -1,7 +1,8 @@
-<cdk-pessoa-form
+<cdk-pessoa-form cdkPerfectScrollbar
         [pessoa]="pessoa"
         [hidden]="hidden"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        (abort)="cancel()"
         (save)="submit($event)">
 </cdk-pessoa-form>

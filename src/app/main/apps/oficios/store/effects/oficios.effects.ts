@@ -1,11 +1,11 @@
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
@@ -110,6 +110,33 @@ export class OficiosEffects {
                     }
 
                     return new DocumentosAvulsoActions.SetCurrentDocumantoAvulsoSuccess();
+                })
+            );
+
+    /**
+     * Toggle Lida Tarefa
+     * @type {Observable<any>}
+     */
+    @Effect()
+    toggleLidaTarefa: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosAvulsoActions.ToggleLidaDocumentosAvulso>(DocumentosAvulsoActions.TOGGLE_LIDA_DOCUMENTOS_AVULSO),
+                mergeMap((action) => {
+                    return this._documentoAvulsoService.toggleLida(action.payload).pipe(
+                        mergeMap((response) => [
+                            new DocumentosAvulsoActions.ToggleLidaDocumentosAvulsoSuccess(response.id),
+                            new UpdateData<DocumentoAvulso>({
+                                id: response.id,
+                                schema: documentoAvulsoSchema,
+                                changes: {dataHoraLeitura: response.dataHoraLeitura}
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentosAvulsoActions.ToggleLidaDocumentosAvulsoFailed(action.payload));
+                        })
+                    );
                 })
             );
 }

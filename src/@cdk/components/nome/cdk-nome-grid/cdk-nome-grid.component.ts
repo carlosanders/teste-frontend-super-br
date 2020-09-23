@@ -42,7 +42,7 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'valor', 'origemDados', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'valor', 'actions'];
 
     allColumns: any[] = [
         {
@@ -245,7 +245,7 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
                 limit: this.paginator.pageSize,
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
-                context: {'mostrarApagadas': true}
+                context: {mostrarApagadas: true}
             });
         }
         else {

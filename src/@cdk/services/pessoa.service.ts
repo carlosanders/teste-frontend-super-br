@@ -16,12 +16,12 @@ export class PessoaService extends ParentGenericService<Pessoa> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'pessoa', Pessoa);
+        super(modelService, 'administrativo/pessoa', Pessoa);
     }
 
     patch(pessoa: Pessoa, changes: any): Observable<Pessoa> {
         return this.http.patch(
-            `${environment.api_url}${'pessoa'}/${pessoa.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/pessoa'}/${pessoa.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {
@@ -41,7 +41,7 @@ export class PessoaService extends ParentGenericService<Pessoa> {
         params['populate'] = populate;
         params['context'] = context;
 
-        return this.modelService.search('pessoa', new HttpParams({fromObject: params}))
+        return this.modelService.search('administrativo/pessoa', new HttpParams({fromObject: params}))
             .pipe(
                 map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
             );

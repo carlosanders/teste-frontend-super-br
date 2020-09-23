@@ -2,81 +2,75 @@
 
 processo-view {
 
-    height: 100%;
+    flex: 1 1 auto;
+    display: flex;
 
-    .sidebar {
-        width: 230px !important;
-        min-width: 230px !important;
-        max-width: 230px !important;
-    }
+    > .page-layout {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: row;
 
-    .center {
-
-        position: relative;
-
-        .header {
-            height: 56px !important;
-            min-height: 56px !important;
-            max-height: 56px !important;
-
-
-            .juntada-navigation {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                width: 100%;
-
-                .previous {
-                    margin-right: auto;
-                }
-
-                .next,
-                .done {
-                    margin-right: 32px;
-                    margin-left: auto;
-                }
-            }
+        > .sidebar {
+            width: 280px !important;
+            min-width: 280px !important;
+            max-width: 280px !important;
         }
 
-        .content {
-            position: relative;
+        > .center {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
 
-            height: 100%;
+            > .header {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+                padding: 8px;
 
-            .processo-view-juntada {
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                padding: 16px;
-                overflow: auto;
-                -webkit-overflow-scrolling: touch;
+                height: 56px !important;
+                min-height: 56px !important;
+                max-height: 56px !important;
 
-                &.ng-animating {
-                    overflow: hidden;
+                .juntada-navigation {
+                    flex: 1 1 auto;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
                 }
+            }
 
-                @media (max-width: 720px) {
-                    padding: 0 0 120px 0;
-                }
+            > .content {
+                flex: 1 1 auto;
+                display: flex;
 
-                .processo-view-juntada-content {
-                    padding: 16px;
-                    margin: 0 auto;
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 8px;
-                    @include mat-elevation(1);
+                > .processo-view-juntada {
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: column;
 
-                    iframe {
-                        width: 100%;
-                        height: 100%;
-                        border: none;
+                    > .loading, .sem-juntadas {
+                        flex: 1 1 auto;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                    }
+
+                    > .processo-view-juntada-content {
+                        flex: 1 1 auto;
+                        display: flex;
+                        @include mat-elevation(1);
+
+                        > iframe {
+                            flex: 1 1 auto;
+                            display: flex;
+                            border: none;
+                        }
                     }
                 }
             }
         }
     }
 }
-

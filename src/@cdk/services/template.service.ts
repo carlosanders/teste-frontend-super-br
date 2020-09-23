@@ -11,6 +11,6 @@ export class TemplateService extends ParentGenericService<Template> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'template', Template);
+        super(modelService, 'administrativo/template', Template);
     }
 }

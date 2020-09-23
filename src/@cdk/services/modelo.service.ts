@@ -16,7 +16,7 @@ export class ModeloService extends ParentGenericService<Modelo> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modelo', Modelo);
+        super(modelService, 'administrativo/modelo', Modelo);
     }
 
     search(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
@@ -28,7 +28,7 @@ export class ModeloService extends ParentGenericService<Modelo> {
         params['populate'] = populate;
         params['context'] = context;
 
-        return this.modelService.search('modelo', new HttpParams({fromObject: params}))
+        return this.modelService.search('administrativo/modelo', new HttpParams({fromObject: params}))
             .pipe(
                 map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
             );

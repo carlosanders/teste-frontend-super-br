@@ -15,12 +15,12 @@ export class LotacaoService extends ParentGenericService<Lotacao> {
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'lotacao', Lotacao);
+        super(modelService, 'administrativo/lotacao', Lotacao);
     }
 
     patch(lotacao: Lotacao, changes: any): Observable<Lotacao> {
         return this.http.patch(
-            `${environment.api_url}${'lotacao'}/${lotacao.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/lotacao'}/${lotacao.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {

@@ -16,7 +16,6 @@ import {Classificacao} from '@cdk/models';
 import {Setor} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {catchError, finalize} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FavoritoService} from '../../../services/favorito.service';
@@ -124,6 +123,12 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     especieSetorPagination: Pagination;
 
     @Input()
+    pessoaVinculada = false;
+
+    @Input()
+    colaborador = false;
+
+    @Input()
     estados: Estado[];
 
     @Input()
@@ -163,7 +168,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _loginService: LoginService,
         private _favoritoService: FavoritoService
     ) {
         this.form = this._formBuilder.group({
@@ -203,7 +207,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.readonlyNUP = false;
         this.textBotao = '';
-        this._profile = this._loginService.getUserProfile();
 
     }
 
@@ -221,7 +224,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('NUP').setValue(null);
             this.form.get('NUP').disable();
 
-            if (this._loginService.isGranted('ROLE_CONVENIADO')) {
+            if (this.pessoaVinculada) {
                 this.form.get('generoSetor').setValue(null);
                 this.form.get('generoSetor').disable();
 
@@ -288,7 +291,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
-        if (this._loginService.isGranted('ROLE_CONVENIADO')) {
+        if (this.pessoaVinculada) {
             this.form.get('estado').valueChanges.subscribe(value => {
                 if (value) {
                     this.form.get('generoSetor').enable();

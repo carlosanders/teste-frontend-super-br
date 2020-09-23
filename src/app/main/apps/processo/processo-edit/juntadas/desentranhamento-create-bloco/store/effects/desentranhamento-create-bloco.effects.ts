@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, tap} from 'rxjs/operators';
+import {catchError, concatMap, mergeMap} from 'rxjs/operators';
 
 import * as DesentranhamentoCreateBlocoActions from '../actions/desentranhamento-create-bloco.actions';
 
@@ -30,10 +30,10 @@ export class DesentranhamentoCreateBlocoEffect {
             .pipe(
                 select(getRouterState),
             ).subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     /**
@@ -45,7 +45,7 @@ export class DesentranhamentoCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<DesentranhamentoCreateBlocoActions.SaveDesentranhamento>(DesentranhamentoCreateBlocoActions.SAVE_DESENTRANHAMENTO),
-                mergeMap((action) => {
+                concatMap((action) => {
                     return this._desentranhamentoService.save(action.payload).pipe(
                         mergeMap((response: Desentranhamento) => [
                             new DesentranhamentoCreateBlocoActions.SaveDesentranhamentoSuccess(action.payload),
@@ -58,7 +58,7 @@ export class DesentranhamentoCreateBlocoEffect {
                             })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
                             this._store.dispatch(new OperacoesActions.Resultado({
                                 type: 'desentranhamento',
                                 content: `Houve erro no desentranhamento na juntada id ${action.payload.juntada.id}! ${err.error.message}`,

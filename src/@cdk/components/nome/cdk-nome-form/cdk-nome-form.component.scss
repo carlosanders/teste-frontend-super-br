@@ -1,24 +1,29 @@
 cdk-nome-form {
-    height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
     form {
-        width: 100%;
-    }
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
 
-    .div-form {
-        width: 350px;
-    }
+        mat-form-field {
+            flex: 1 1 auto;
+        }
 
-    .form-card {
-        border-radius: 8px;
-    }
+        .dates {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+        }
 
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
         }
     }
-
 }

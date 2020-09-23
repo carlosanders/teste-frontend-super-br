@@ -52,10 +52,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     query = new EventEmitter<any>();
 
     @Input()
-    showModeloButtons = false;
-
-    @Input()
-    showRepositorioButtons = false;
+    mode = 'documento';
 
     editor: any;
 
@@ -66,9 +63,6 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     horizontalPosition: MatSnackBarHorizontalPosition = 'center';
     verticalPosition: MatSnackBarVerticalPosition = 'top';
-
-    @Input()
-    btVersoes = false;
 
     @Input()
     logEntryPagination: Pagination;
@@ -318,21 +312,19 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         this.editor = e.editor;
         const me = this;
 
-        if (!this.showModeloButtons) {
-            const campoButton = document.getElementsByClassName('cke_button__campobutton')[0].parentNode as HTMLElement;
-            const repositorioButton = document.getElementsByClassName('cke_button__repositoriobutton')[0].parentNode as HTMLElement;
-            campoButton.style.visibility = 'hidden';
-            repositorioButton.style.visibility = 'hidden';
+        this.editor.getCommand('campoCmd').enable();
+        this.editor.getCommand('repositorioCmd').enable();
+        this.editor.getCommand('assinarCmd').enable();
+        this.editor.getCommand('versaoCmd').enable();
+
+        if (this.mode === 'documento') {
+            this.editor.getCommand('campoCmd').disable();
+            this.editor.getCommand('repositorioCmd').disable();
         }
 
-        if (this.showModeloButtons || this.showRepositorioButtons) {
-            const assinaturaButton = document.getElementsByClassName('cke_button__assinarbutton')[0].parentNode as HTMLElement;
-            assinaturaButton.style.visibility = 'hidden';
-        }
-
-        if (!this.btVersoes) {
-            const campoVersoes = document.getElementsByClassName('cke_button__versaoButton')[0].parentNode as HTMLElement;
-            campoVersoes.style.visibility = 'hidden';
+        if (this.mode === 'modelo' || this.mode === 'template' || this.mode === 'repositorio') {
+            this.editor.getCommand('assinarCmd').disable();
+            this.editor.getCommand('versaoCmd').disable();
         }
 
         this.resizeFunction();

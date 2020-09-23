@@ -17,6 +17,7 @@ import {Pagination} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../store/selectors';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'dados-basicos',
@@ -96,6 +97,10 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.SaveEtiqueta(etiqueta));
 
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
 }

@@ -1,0 +1,10 @@
+<cdk-workflow-grid
+        [loading]="loading"
+        [workflows]="workflows"
+        [displayedColumns]="displayedColumns"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-workflow-grid>

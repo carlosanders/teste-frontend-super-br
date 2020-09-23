@@ -66,6 +66,12 @@ export function CompartilhamentoListReducer(state = CompartilhamentoListInitialS
             };
         }
 
+        case CompartilhamentoListActions.UNLOAD_COMPARTILHAMENTOS: {
+            return {
+                ...CompartilhamentoListInitialState
+            };
+        }
+
         case CompartilhamentoListActions.GET_COMPARTILHAMENTOS_FAILED: {
             return {
                 ...state,

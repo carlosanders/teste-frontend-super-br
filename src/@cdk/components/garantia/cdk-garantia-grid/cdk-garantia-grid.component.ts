@@ -256,7 +256,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
                 limit: this.paginator.pageSize,
                 offset: (this.paginator.pageSize * this.paginator.pageIndex),
                 sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {},
-                context: {'mostrarApagadas': true}
+                context: {mostrarApagadas: true}
             });
         }
         else {

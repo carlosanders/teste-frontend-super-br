@@ -11,6 +11,6 @@ export class ModalidadeInteressadoService extends ParentGenericService<Modalidad
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'modalidade_interessado', ModalidadeInteressado);
+        super(modelService, 'administrativo/modalidade_interessado', ModalidadeInteressado);
     }
 }

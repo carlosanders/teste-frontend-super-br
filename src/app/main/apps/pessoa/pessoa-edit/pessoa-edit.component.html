@@ -1,48 +1,27 @@
-<div fxLayout="row" class="page-layout full-width left-sidebar inner-scroll">
+<div class="page-layout full-width left-sidebar inner-scroll">
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="pessoa-edit-main-sidebar" position="left" lockedOpen="gt-xs">
-
-        <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <pessoa-edit-main-sidebar [@animate]="{value:'*'}"></pessoa-edit-main-sidebar>
-        </div>
-        <!-- / SIDEBAR CONTENT -->
-
+        <pessoa-edit-main-sidebar [@animate]="{value:'*'}"></pessoa-edit-main-sidebar>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CENTER -->
     <div class="center">
-
         <!-- CONTENT HEADER -->
-        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+        <div class="header" fxHide.gt-xs>
             <button mat-icon-button
-                    (click)="goBack()"
-                    *ngIf="action !== 'listar'"
-                    aria-label="voltar"
-                    matTooltip="Voltar">
-                <mat-icon>arrow_back</mat-icon>
+                    (click)="toggleSidebar('pessoa-edit-main-sidebar')" fxHide.gt-xs>
+                <mat-icon>menu</mat-icon>
             </button>
-            <div class="sidebar-toggle">
-                <button mat-icon-button
-                        (click)="toggleSidebar('pessoa-edit-main-sidebar')" fxHide.gt-xs>
-                    <mat-icon>menu</mat-icon>
-                </button>
-            </div>
-
         </div>
         <!-- / CONTENT HEADER -->
 
-        <!-- CONTENT CARD -->
-        <div class="content-card" cdkPerfectScrollbar>
-
+        <!-- CONTENT -->
+        <div class="content" cdkPerfectScrollbar>
             <router-outlet></router-outlet>
-
         </div>
-        <!-- / CONTENT CARD -->
-
+        <!-- / CONTENT -->
     </div>
     <!-- / CENTER -->
-
 </div>

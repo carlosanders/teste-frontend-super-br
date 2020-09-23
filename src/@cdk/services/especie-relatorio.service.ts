@@ -11,6 +11,6 @@ export class EspecieRelatorioService extends ParentGenericService<EspecieRelator
         protected modelService: ModelService,
         protected http: HttpClient,
     ) {
-        super(modelService, 'especie_relatorio', EspecieRelatorio);
+        super(modelService, 'administrativo/especie_relatorio', EspecieRelatorio);
     }
 }
