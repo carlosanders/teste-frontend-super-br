@@ -1,22 +1,15 @@
-<div class="setor-content" fxFlex fxLayout="column">
-    <!-- CONTENT HEADER -->
-    <div fxFlex="0 1 auto" fxLayout="column" *ngIf="action !== 'lotacoes' && action !== 'localizadores'">
-        <div class="actions m-8" fxLayout="row" fxLayoutAlign="start center">
-            <button mat-icon-button
-                    *ngIf="action === 'listar'"
-                    (click)="goBack()"
-                    aria-label="voltar"
-                    matTooltip="Voltar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-            <div class="m-8" fxLayoutAlign="center">{{this.getTitulo()}}{{(this.unidade$ | async).nome}}</div>
-        </div>
+<div class="header" *ngIf="action !== 'lotacoes' && action !== 'localizadores'">
+    <div class="actions">
+        <button mat-icon-button
+                *ngIf="action === 'listar'"
+                (click)="goBack()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
     </div>
-    <!-- / CONTENT HEADER -->
+</div>
 
-    <!-- CONTENT -->
-    <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
-        <router-outlet></router-outlet>
-    </div>
-    <!-- / CONTENT -->
+<div class="content">
+    <router-outlet></router-outlet>
 </div>

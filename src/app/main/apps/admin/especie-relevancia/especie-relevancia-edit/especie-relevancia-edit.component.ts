@@ -11,7 +11,7 @@ import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
 
 @Component({
-    selector: 'app-especie-relevancia-edit',
+    selector: 'especie-relevancia-edit',
     templateUrl: './especie-relevancia-edit.component.html',
     styleUrls: ['./especie-relevancia-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

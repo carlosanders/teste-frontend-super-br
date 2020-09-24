@@ -11,7 +11,7 @@ import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
 
 @Component({
-    selector: 'app-admin-pessoa-edit',
+    selector: 'admin-pessoa-edit',
     templateUrl: './admin-pessoa-edit.component.html',
     styleUrls: ['./admin-pessoa-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

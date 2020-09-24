@@ -1,18 +1,15 @@
-<div class="competencias-content" fxFlex fxLayout="column">
-    <!-- CONTENT HEADER -->
-    <div fxFlex="0 1 auto" fxLayout="column">
-        <div class="actions m-8" fxLayout="row" fxLayoutAlign="start center">
-            <button mat-icon-button
-                    (click)="goBack()"
-                    aria-label="voltar"
-                    matTooltip="Voltar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-            <div class="m-8" fxLayoutAlign="center">{{this.getTitulo()}} - {{(this.unidade$ | async).nome}}</div>
-        </div>
+<div class="header">
+    <div class="actions">
+        <button mat-icon-button
+                *ngIf="action === 'listar'"
+                (click)="goBack()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
     </div>
-    <!-- CONTENT -->
-    <div class="p-8" fxFlex="1 1 auto" cdkPerfectScrollbar>
-        <router-outlet></router-outlet>
-    </div>
+</div>
+
+<div class="content">
+    <router-outlet></router-outlet>
 </div>

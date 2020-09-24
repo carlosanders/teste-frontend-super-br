@@ -1,9 +1,11 @@
-<cdk-especie-relevancia-form
-    [especieRelevancia]="(especieRelevancia$ | async)"
-    [form]="formEspecieRelevancia"
-    [generoRelevanciaPagination]="generoRelevanciaPagination"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    (save)="submitEspecieRelevancia($event)"
-    (abort)="doAbort()">
-</cdk-especie-relevancia-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-especie-relevancia-form
+        [especieRelevancia]="(especieRelevancia$ | async)"
+        [form]="formEspecieRelevancia"
+        [generoRelevanciaPagination]="generoRelevanciaPagination"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitEspecieRelevancia($event)"
+        (abort)="doAbort()">
+    </cdk-especie-relevancia-form>
+</div>

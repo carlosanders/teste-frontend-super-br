@@ -21,6 +21,7 @@ import {UsuarioService} from '@cdk/services/usuario.service';
 import {AdminAfastamentosComponent} from './admin-afastamentos.component';
 import {AdminAfastamentosStoreModule} from './store/store.module';
 import {AfastamentoService} from '@cdk/services/afastamento.service';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 const routes: Routes = [
     {
@@ -69,6 +70,7 @@ const routes: Routes = [
         AdminAfastamentosStoreModule,
 
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         AfastamentoService,

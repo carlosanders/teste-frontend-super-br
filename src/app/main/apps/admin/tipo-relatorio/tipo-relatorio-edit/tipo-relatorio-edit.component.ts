@@ -12,7 +12,7 @@ import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
 
 @Component({
-    selector: 'app-tipo-relatorio-edit',
+    selector: 'tipo-relatorio-edit',
     templateUrl: './tipo-relatorio-edit.component.html',
     styleUrls: ['./tipo-relatorio-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

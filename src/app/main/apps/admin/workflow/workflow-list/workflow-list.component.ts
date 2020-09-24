@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Workflow} from '../../../../../../@cdk/models/workflow.model';
+import {Workflow} from '../../../../../../@cdk/models';
 import {getRouterState} from '../../../../../store/reducers';
 
 @Component({

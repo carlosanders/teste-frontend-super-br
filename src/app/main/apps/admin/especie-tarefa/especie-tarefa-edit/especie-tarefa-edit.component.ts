@@ -11,7 +11,7 @@ import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
 
 @Component({
-    selector: 'app-especie-tarefa-edit',
+    selector: 'especie-tarefa-edit',
     templateUrl: './especie-tarefa-edit.component.html',
     styleUrls: ['./especie-tarefa-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

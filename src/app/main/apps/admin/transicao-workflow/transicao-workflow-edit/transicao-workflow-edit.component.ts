@@ -11,7 +11,7 @@ import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
 
 @Component({
-    selector: 'app-transicao-workflow-edit',
+    selector: 'transicao-workflow-edit',
     templateUrl: './transicao-workflow-edit.component.html',
     styleUrls: ['./transicao-workflow-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

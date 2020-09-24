@@ -9,7 +9,7 @@ import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
 
 @Component({
-    selector: 'app-vinculacao-pessoa-usuario-edit',
+    selector: 'vinculacao-pessoa-usuario-edit',
     templateUrl: './vinculacao-pessoa-usuario-edit.component.html',
     styleUrls: ['./vinculacao-pessoa-usuario-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

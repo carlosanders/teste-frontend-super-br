@@ -1,4 +1,5 @@
-<cdk-lotacao-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-lotacao-form
         [lotacao]="lotacao"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -9,4 +10,5 @@
         [displayedColumnsGridSetor]="['id', 'unidade.nome', 'nome', 'sigla', 'actions']"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-lotacao-form>
+    </cdk-lotacao-form>
+</div>

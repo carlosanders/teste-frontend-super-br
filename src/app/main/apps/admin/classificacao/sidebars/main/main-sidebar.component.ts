@@ -1,14 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../classificacao-list/store';
 import {getRouterState} from 'app/store/reducers';
 
 import {modulesConfig} from 'modules/modules-config';
+import {cdkAnimations} from '../../../../../../../@cdk/animations';
 
 @Component({
     selector: 'classificacao-main-sidebar',
     templateUrl: './main-sidebar.component.html',
-    styleUrls: ['./main-sidebar.component.scss']
+    styleUrls: ['./main-sidebar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class ClassificacaoMainSidebarComponent implements OnInit, OnDestroy {
 
