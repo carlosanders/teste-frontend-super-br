@@ -33,7 +33,7 @@
             </mat-checkbox>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Gênero"
                            formControlName="generoTarefa"
                            [matAutocomplete]="generoTarefa.autocomplete">
@@ -45,7 +45,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Criado Por"
                            formControlName="criadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -62,7 +62,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Atualizado Por"
                            formControlName="atualizadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -80,7 +80,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Apagado Por"
                            formControlName="apagadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -96,16 +96,14 @@
                 <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
                 </mat-datetimepicker>
             </mat-form-field>
-        </div>
-
-        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" (click)="buscar()">
-                Buscar
-            </button>
-
-            <button mat-raised-button color="warn" (click)="limpar()">
-                Limpar
-            </button>
-        </div>
+    </form>
     </div>
-</form>
+
+    <div class="footer">
+        <button mat-raised-button color="accent" (click)="buscar()">
+            Buscar
+        </button>
+        <button mat-raised-button color="warn" (click)="limpar()">
+            Limpar
+        </button>
+    </div>

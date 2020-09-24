@@ -70,32 +70,32 @@
                        formControlName="prazoEqualizacao">
             </mat-form-field>
 
-            <mat-checkbox formControlName="apenasProtocolo" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="apenasProtocolo">
                 Apenas Protocolo
             </mat-checkbox>
 
-            <mat-checkbox formControlName="apenasDistribuidor" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="apenasDistribuidor">
                 Apenas Distribuidor
             </mat-checkbox>
 
-            <mat-checkbox formControlName="ativo" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="ativo">
                 Ativo
             </mat-checkbox>
 
-            <mat-checkbox formControlName="gerenciamento" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="gerenciamento">
                 Gerenciamento
             </mat-checkbox>
 
-            <mat-checkbox formControlName="numeracaoDocumentoUnidade" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="numeracaoDocumentoUnidade">
                 Numeração do Documento da Unidade
             </mat-checkbox>
 
-            <mat-checkbox formControlName="distribuicaoCentena" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="distribuicaoCentena">
                 Distribuição da Centena
             </mat-checkbox>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Unidade"
                            formControlName="unidade"
                            [matAutocomplete]="setor.autocomplete">
@@ -105,7 +105,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Setor Pai"
                            formControlName="parent"
                            [matAutocomplete]="setor.autocomplete">
@@ -115,7 +115,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Unidade Pai"
                            formControlName="unidadePai"
                            [matAutocomplete]="setor.autocomplete">
@@ -125,7 +125,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Município"
                            formControlName="municipio"
                            [matAutocomplete]="municipio.autocomplete">
@@ -135,7 +135,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Genero do Setor"
                            formControlName="generoSetor"
                            [matAutocomplete]="generoSetor.autocomplete">
@@ -146,7 +146,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Espécie Setor"
                            formControlName="especieSetor"
                            [matAutocomplete]="especieSetor.autocomplete">
@@ -157,7 +157,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Modalidade do Órgão Central"
                            formControlName="modalidadeOrgaoCentral"
                            [matAutocomplete]="modalidadeOrgaoCentral.autocomplete">
@@ -175,7 +175,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Atualizado Por"
                            formControlName="atualizadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -193,7 +193,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Apagado Por"
                            formControlName="apagadoPor"
                            [matAutocomplete]="usuario.autocomplete">

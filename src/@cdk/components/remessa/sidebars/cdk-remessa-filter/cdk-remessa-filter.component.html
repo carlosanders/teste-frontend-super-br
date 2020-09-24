@@ -18,12 +18,12 @@
                        formControlName="observacao">
             </mat-form-field>
 
-            <mat-checkbox formControlName="urgente" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="urgente">
                 Urgente
             </mat-checkbox>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Processo"
                            formControlName="processo"
                            [matAutocomplete]="processo.autocomplete">
@@ -33,7 +33,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Setor de Origem"
                            formControlName="setorOrigem"
                            [matAutocomplete]="setor.autocomplete">
@@ -43,7 +43,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Pessoa de Destino"
                            formControlName="pessoaDestino"
                            [matAutocomplete]="setor.autocomplete">
@@ -53,7 +53,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Usuário de Recebimento"
                            formControlName="usuarioRecebimento"
                            [matAutocomplete]="usuario.autocomplete">
@@ -70,7 +70,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Atualizado Por"
                            formControlName="atualizadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -88,7 +88,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Apagado Por"
                            formControlName="apagadoPor"
                            [matAutocomplete]="usuario.autocomplete">

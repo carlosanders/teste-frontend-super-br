@@ -18,12 +18,12 @@
                        formControlName="numeracaoSequencial">
             </mat-form-field>
 
-            <mat-checkbox formControlName="encerrado" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="encerrado">
                 encerrado
             </mat-checkbox>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Modalidade Meio"
                            formControlName="modalidadeMeio"
                            [matAutocomplete]="modalidadeMeio.autocomplete">
@@ -34,7 +34,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Processo"
                            formControlName="processo"
                            [matAutocomplete]="processo.autocomplete">
@@ -44,7 +44,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Origem de Dados"
                            formControlName="origemDados"
                            [matAutocomplete]="origemDados.autocomplete">
@@ -62,7 +62,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Atualizado Por"
                            formControlName="atualizadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -80,7 +80,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Apagado Por"
                            formControlName="apagadoPor"
                            [matAutocomplete]="usuario.autocomplete">

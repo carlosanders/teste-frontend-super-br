@@ -25,12 +25,12 @@
                        formControlName="descricao">
             </mat-form-field>
 
-            <mat-checkbox formControlName="ativo" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="ativo">
                 Ativo
             </mat-checkbox>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Modalidade do Template"
                            formControlName="modalidadeTemplate"
                            [matAutocomplete]="modalidadeTemplate.autocomplete">
@@ -41,7 +41,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Tipo Documento"
                            formControlName="tipoDocumento"
                            [matAutocomplete]="tipoDocumento.autocomplete">
@@ -58,7 +58,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Atualizado Por"
                            formControlName="atualizadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -76,7 +76,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Apagado Por"
                            formControlName="apagadoPor"
                            [matAutocomplete]="usuario.autocomplete">

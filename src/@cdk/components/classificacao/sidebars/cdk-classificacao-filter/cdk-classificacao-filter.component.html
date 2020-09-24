@@ -21,7 +21,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Modalidade de Destinação"
                            formControlName="modalidadeDestinacao"
                            [matAutocomplete]="modalidadeDestinacao.autocomplete">
@@ -101,12 +101,12 @@
                        formControlName="observacao">
             </mat-form-field>
 
-            <mat-checkbox formControlName="permissaoUso" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="permissaoUso">
                 Permissão de Uso
             </mat-checkbox>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Classificação"
                            formControlName="parent"
                            [matAutocomplete]="classificacao.autocomplete">
@@ -124,7 +124,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Atualizado Por"
                            formControlName="atualizadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -142,7 +142,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Apagado Por"
                            formControlName="apagadoPor"
                            [matAutocomplete]="usuario.autocomplete">

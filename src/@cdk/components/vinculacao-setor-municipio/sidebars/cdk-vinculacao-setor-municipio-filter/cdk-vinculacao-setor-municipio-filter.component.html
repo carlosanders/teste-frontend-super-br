@@ -11,8 +11,8 @@
         <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field>
+
                     <input matInput placeholder="Unidade"
                            formControlName="setor"
                            [matAutocomplete]="setor.autocomplete">
@@ -21,8 +21,8 @@
                 </cdk-setor-autocomplete>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field>
+
                     <input matInput placeholder="Município"
                            formControlName="municipio"
                            [matAutocomplete]="municipio.autocomplete">
@@ -31,8 +31,8 @@
                 </cdk-municipio-autocomplete>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field>
+
                     <input matInput placeholder="Criado Por"
                            formControlName="criadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -48,8 +48,8 @@
                 <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field>
+
                     <input matInput placeholder="Atualizado Por"
                            formControlName="atualizadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -66,8 +66,8 @@
                 </mat-datetimepicker>
             </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field>
+
                     <input matInput placeholder="Apagado Por"
                            formControlName="apagadoPor"
                            [matAutocomplete]="usuario.autocomplete">

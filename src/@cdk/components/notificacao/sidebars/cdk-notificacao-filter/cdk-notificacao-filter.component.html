@@ -18,12 +18,12 @@
                        formControlName="conteudo">
             </mat-form-field>
 
-            <mat-checkbox formControlName="urgente" class="mr-16 mb-16" fxFlex="0 1 auto">
+            <mat-checkbox formControlName="urgente">
                 Urgente
             </mat-checkbox>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Remetente"
                            formControlName="remetente"
                            [matAutocomplete]="usuario.autocomplete">
@@ -33,7 +33,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Destinatário"
                            formControlName="destinatario"
                            [matAutocomplete]="usuario.autocomplete">
@@ -43,7 +43,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="modalidadeNotificacao"
                            formControlName="modalidadeNotificacao"
                            [matAutocomplete]="modalidadeNotificacao.autocomplete">
@@ -77,7 +77,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Atualizado Por"
                            formControlName="atualizadoPor"
                            [matAutocomplete]="usuario.autocomplete">
@@ -95,7 +95,7 @@
             </mat-form-field>
 
             <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
+
                     <input matInput placeholder="Apagado Por"
                            formControlName="apagadoPor"
                            [matAutocomplete]="usuario.autocomplete">

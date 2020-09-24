@@ -1,73 +1,67 @@
+<div class="header">
+    <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+        search
+    </mat-icon>
+    <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+          *ngIf="this.mode === 'list'">Filtro</span>
+</div>
 
-
-    <div class="header">
-            <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                search
-            </mat-icon>
-            <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
-                  *ngIf="this.mode === 'list'">Filtro</span>
-        </div>
-
-        <div class="content" cdkPerfectScrollbar>
+<div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-            <mat-form-field>
-                <mat-label>Algoritmo Hash</mat-label>
-                <input matInput #algoritmoHash
-                       name="algoritmoHash"
-                       formControlName="algoritmoHash">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Algoritmo Hash</mat-label>
+            <input matInput #algoritmoHash
+                   name="algoritmoHash"
+                   formControlName="algoritmoHash">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Assinatura</mat-label>
-                <input matInput #assinatura
-                       name="assinatura"
-                       formControlName="assinatura">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Assinatura</mat-label>
+            <input matInput #assinatura
+                   name="assinatura"
+                   formControlName="assinatura">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Cadeia de Certificado PEM</mat-label>
-                <input matInput #cadeiaCertificadoPEM
-                       name="cadeiaCertificadoPEM"
-                       formControlName="cadeiaCertificadoPEM">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Cadeia de Certificado PEM</mat-label>
+            <input matInput #cadeiaCertificadoPEM
+                   name="cadeiaCertificadoPEM"
+                   formControlName="cadeiaCertificadoPEM">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Caminho da Cadeia de Certificado Pki</mat-label>
-                <input matInput #cadeiaCertificadoPkiPath
-                       name="cadeiaCertificadoPkiPath"
-                       formControlName="cadeiaCertificadoPkiPath">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Caminho da Cadeia de Certificado Pki</mat-label>
+            <input matInput #cadeiaCertificadoPkiPath
+                   name="cadeiaCertificadoPkiPath"
+                   formControlName="cadeiaCertificadoPkiPath">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Data da Assinatura</mat-label>
-                <input matInput formControlName="dataHoraAssinatura" [matDatetimepicker]="dataHoraAssinatura">
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraAssinatura"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraAssinatura type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Data da Assinatura</mat-label>
+            <input matInput formControlName="dataHoraAssinatura" [matDatetimepicker]="dataHoraAssinatura">
+            <mat-datetimepicker-toggle matSuffix [for]="dataHoraAssinatura"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #dataHoraAssinatura type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
 
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Componente Digital"
-                           formControlName="componenteDigital"
-                           [matAutocomplete]="componenteDigital.autocomplete">
-                </div>
-                <cdk-componente-digital-autocomplete #componenteDigital="componenteDigitalAutocomplete"
-                                                     [control]="form.get('componenteDigital')">
-                </cdk-componente-digital-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Componente Digital"
+                   formControlName="componenteDigital"
+                   [matAutocomplete]="componenteDigital.autocomplete">
+            <cdk-componente-digital-autocomplete #componenteDigital="componenteDigitalAutocomplete"
+                                                 [control]="form.get('componenteDigital')">
+            </cdk-componente-digital-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Origem de Dados"
-                           formControlName="origemDados"
-                           [matAutocomplete]="origemDados.autocomplete">
-                </div>
-                <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
-                                               [control]="form.get('origemDados')">
-                </cdk-origem-dados-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Origem de Dados"
+                   formControlName="origemDados"
+                   [matAutocomplete]="origemDados.autocomplete">
+            <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
+                                           [control]="form.get('origemDados')">
+            </cdk-origem-dados-autocomplete>
+        </mat-form-field>
 
     </form>
 </div>
