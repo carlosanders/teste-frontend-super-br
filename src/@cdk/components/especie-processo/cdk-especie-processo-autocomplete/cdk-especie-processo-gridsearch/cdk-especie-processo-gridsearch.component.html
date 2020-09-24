@@ -1,6 +1,7 @@
 <cdk-especie-processo-grid
         [loading]="loading"
         [especieProcessos]="especieProcessos"
+        [displayedColumns]="['id', 'nome', 'descricao', 'generoProcesso.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

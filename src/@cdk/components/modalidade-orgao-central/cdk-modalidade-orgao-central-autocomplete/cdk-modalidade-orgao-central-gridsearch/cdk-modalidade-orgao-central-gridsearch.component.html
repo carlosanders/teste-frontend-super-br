@@ -1,6 +1,7 @@
 <cdk-modalidade-orgao-central-grid
         [loading]="loading"
         [modalidadeorgaoCentrals]="modalidadeorgaoCentrals"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

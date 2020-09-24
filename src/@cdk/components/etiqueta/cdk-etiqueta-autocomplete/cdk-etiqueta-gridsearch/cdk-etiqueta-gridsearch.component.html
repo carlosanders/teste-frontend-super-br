@@ -1,6 +1,7 @@
 <cdk-etiqueta-grid
         [loading]="loading"
         [etiquetas]="etiquetas"
+        [displayedColumns]="['id', 'nome', 'descricao', 'modalidadeEtiqueta.valor', 'ativo', 'corHexadecimal', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

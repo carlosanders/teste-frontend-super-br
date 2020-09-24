@@ -1,6 +1,7 @@
 <cdk-tarefa-grid
         [loading]="loading"
         [tarefas]="tarefas"
+        [displayedColumns]="['id', 'processo.nup', 'especieTarefa.nome', 'dataHoraInicioPrazo', 'dataHoraFinalPrazo', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

@@ -1,6 +1,7 @@
 <cdk-modalidade-categoria-sigilo-grid
         [loading]="loading"
         [modalidadecategoriaSigilos]="modalidadecategoriaSigilos"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

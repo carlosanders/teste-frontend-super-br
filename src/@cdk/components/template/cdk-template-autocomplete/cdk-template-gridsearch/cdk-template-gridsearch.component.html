@@ -1,6 +1,7 @@
 <cdk-template-grid
         [loading]="loading"
         [templates]="templates"
+        [displayedColumns]="['id', 'nome', 'descricao',  'modalidadeTemplate.valor', 'documento.tipoDocumento.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

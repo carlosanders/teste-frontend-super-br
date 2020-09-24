@@ -1,6 +1,7 @@
 d<cdk-juntada-grid
         [loading]="loading"
         [juntadas]="juntadas"
+        [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

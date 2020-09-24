@@ -1,6 +1,9 @@
 d<cdk-distribuicao-grid
         [loading]="loading"
         [distribuicoes]="distribuicoes"
+        [displayedColumns]="['id', 'tarefa.especieTarefa.nome', 'documentoAvulso.descricaoOutros', 'dataHoraFinalPrazo',
+        'usuarioAnterior.nome', 'usuarioPosterior.nome', 'setorAnterior.nome', 'setorPosterior.nome', 'distribuicaoAutomatica',
+        'livreBalanceamento', 'auditoriaDistribuicao', 'tipoDistribuicao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

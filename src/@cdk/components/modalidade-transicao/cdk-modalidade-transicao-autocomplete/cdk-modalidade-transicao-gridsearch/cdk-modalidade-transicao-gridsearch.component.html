@@ -1,6 +1,7 @@
 <cdk-modalidade-transicao-grid
         [loading]="loading"
         [modalidadetransicoes]="modalidadetransicoes"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

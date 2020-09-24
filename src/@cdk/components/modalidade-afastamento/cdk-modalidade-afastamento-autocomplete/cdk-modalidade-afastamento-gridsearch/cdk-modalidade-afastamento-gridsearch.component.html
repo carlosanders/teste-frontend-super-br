@@ -1,6 +1,7 @@
 <cdk-modalidade-afastamento-grid
         [loading]="loading"
         [modalidadeafastamentos]="modalidadeafastamentos"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

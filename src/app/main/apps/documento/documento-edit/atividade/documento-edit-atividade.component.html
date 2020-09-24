@@ -1,5 +1,5 @@
 <div class="atividade" *ngIf="this.atividade && this.tarefa">
-    <cdk-atividade-form
+    <cdk-atividade-form cdkPerfectScrollbar
         [atividade]="atividade"
         [documentoAvulsoVinculado]="tarefa.processo?.documentoAvulsoOrigem"
         [especieAtividadePagination]="especieAtividadePagination"
