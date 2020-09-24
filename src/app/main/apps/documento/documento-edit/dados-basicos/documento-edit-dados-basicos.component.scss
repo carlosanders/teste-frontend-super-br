@@ -1,0 +1,13 @@
+documento-edit-dados-basicos {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+    > .dados-basicos {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        height: 0;
+    }
+}

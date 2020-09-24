@@ -1,9 +1,17 @@
 modelos-especie-setor {
-    height: 100%;
-    width: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
 
-    .modelos-especie-setor-content {
-        height: 100%;
-        width: 100%;
+    > .modelos-especie-setor-content {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+
+        > .content {
+            display: flex;
+            flex: 1 1 auto;
+            overflow-y: auto;
+        }
     }
 }
