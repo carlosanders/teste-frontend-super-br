@@ -1,55 +1,48 @@
-<div fxFlex fxLayout="column">
+<div class="header">
+    <div class="actions">
+        <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentOficio()">
+            <mat-icon class="secondary-text">arrow_back</mat-icon>
+        </button>
 
-    <div class="oficio-header" fxFlex="0 0 auto" fxLayout="row">
+        <button *ngIf="!mobileMode && !(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+            <mat-icon class="secondary-text">zoom_out_map</mat-icon>
+        </button>
 
-        <div class="pre-actions" fxLayout="row" fxLayoutAlign="start center">
-                <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentOficio()">
-                    <mat-icon class="secondary-text">arrow_back</mat-icon>
-                </button>
+        <button *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+            <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
+        </button>
 
-                <button *ngIf="!mobileMode && !(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
-                    <mat-icon class="secondary-text">zoom_out_map</mat-icon>
-                </button>
-
-                <button *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
-                    <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
-                </button>
-
-            <cdk-vinculacao-etiqueta-chips class="mr-24 ml-24"
-                                           [vinculacoesEtiquetas]="(documentoAvulso$ | async).vinculacoesEtiquetas"
-                                           (create)="onEtiquetaCreate($event)"
-                                           (edit)="onEtiquetaEdit($event)"
-                                           [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
-                                           [errors]="(errors$ | async)"
-                                           [pagination]="vinculacaoEtiquetaPagination"
-                                           (delete)="onEtiquetaDelete($event)">
-            </cdk-vinculacao-etiqueta-chips>
-        </div>
-
-        <div class="actions" fxLayout="row" fxLayoutAlign="start center">
-
-            <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-                    [routerLink]="['processo/' + (documentoAvulso$ | async)?.processo?.id + '/visualizar/' + chaveAcesso]"
-                    [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="black-fg">book</mat-icon>
-            </button>
-
-            <button mat-icon-button aria-label="Responder" matTooltip="Responder" *ngIf="mode==='entrada'"
-                    [routerLink]="['responder/' + chaveAcesso]"
-                    [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="black-fg">send</mat-icon>
-            </button>
-
-            <button mat-icon-button aria-label="Complementar" matTooltip="Complementar" *ngIf="mode==='saida'"
-                    [routerLink]="['complementar/' + chaveAcesso]"
-                    [routerLinkActive]="['active', 'accent']">
-                <mat-icon class="black-fg">send</mat-icon>
-            </button>
-
-        </div>
+        <cdk-vinculacao-etiqueta-chips
+               [vinculacoesEtiquetas]="(documentoAvulso$ | async).vinculacoesEtiquetas"
+               (create)="onEtiquetaCreate($event)"
+               (edit)="onEtiquetaEdit($event)"
+               [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
+               [errors]="(errors$ | async)"
+               [pagination]="vinculacaoEtiquetaPagination"
+               (delete)="onEtiquetaDelete($event)">
+        </cdk-vinculacao-etiqueta-chips>
     </div>
 
-    <div fxFlex="1 1 auto" class="oficio-content">
-        <router-outlet></router-outlet>
-    </div>
+    <button mat-icon-button aria-label="Processo" matTooltip="Processo"
+            [routerLink]="['processo/' + (documentoAvulso$ | async)?.processo?.id + '/visualizar/' + chaveAcesso]"
+            [routerLinkActive]="['active', 'accent']">
+        <mat-icon class="black-fg">book</mat-icon>
+    </button>
+
+    <button mat-icon-button aria-label="Responder" matTooltip="Responder" *ngIf="mode==='entrada'"
+            [routerLink]="['responder/' + chaveAcesso]"
+            [routerLinkActive]="['active', 'accent']">
+        <mat-icon class="black-fg">send</mat-icon>
+    </button>
+
+    <button mat-icon-button aria-label="Complementar" matTooltip="Complementar" *ngIf="mode==='saida'"
+            [routerLink]="['complementar/' + chaveAcesso]"
+            [routerLinkActive]="['active', 'accent']">
+        <mat-icon class="black-fg">send</mat-icon>
+    </button>
 </div>
+
+<div class="content">
+    <router-outlet></router-outlet>
+</div>
+

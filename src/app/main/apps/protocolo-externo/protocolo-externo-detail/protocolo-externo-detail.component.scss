@@ -1,27 +1,31 @@
-@import '~@cdk/scss/cdk';
-
 protocolo-externo-detail {
 
-    height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
-    .processo-header {
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
         border-bottom: 1px solid;
-        height: 56px;
 
-        cdk-vinculacao-etiqueta-chips {
-            width: 92%;
-        }
+        > .actions {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
 
-        .pre-actions {
-            width: 100%;
-        }
-
-        .actions {
-            margin-left: auto;
+            cdk-vinculacao-etiqueta-chips {
+                margin-right: 8px;
+            }
         }
     }
 
-    .processo-content {
-        height: 76%;
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        height: 0;
+        overflow-y: auto;
     }
 }

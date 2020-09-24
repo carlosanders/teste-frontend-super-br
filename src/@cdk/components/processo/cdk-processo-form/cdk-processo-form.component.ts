@@ -19,6 +19,7 @@ import {Pessoa} from '@cdk/models';
 import {catchError, finalize} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {FavoritoService} from '../../../services/favorito.service';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-processo-form',
@@ -168,7 +169,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _favoritoService: FavoritoService
+        private _favoritoService: FavoritoService,
+        public _loginService: LoginService,
     ) {
         this.form = this._formBuilder.group({
             id: [null],
@@ -204,6 +206,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
         this.generoSetorPagination = new Pagination();
         this.especieSetorPagination = new Pagination();
+        this._profile = this._loginService.getUserProfile();
 
         this.readonlyNUP = false;
         this.textBotao = '';

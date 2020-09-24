@@ -1,6 +1,6 @@
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { Observable } from 'rxjs';
-import { GeneroSetor } from '../models/genero-setor.model';
+import { GeneroSetor } from '../models';
 
 export class GeneroSetorDataSource extends DataSource<GeneroSetor> {
 
