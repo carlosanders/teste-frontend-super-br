@@ -16,7 +16,7 @@ import {Location} from '@angular/common';
 import {getMercureState, getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'documento-edit-anexos',
@@ -56,12 +56,14 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
      * @param _location
      * @param _router
      * @param _dynamicService
+     * @param _activatedRoute
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditAnexosAppState>,
         private _location: Location,
         private _router: Router,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -182,7 +184,10 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
                 assinatura.cadeiaCertificadoPkiPath = 'A1';
                 assinatura.assinatura = 'A1';
 
-                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({assinatura: assinatura, password: result.password}));
+                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
+                    assinatura: assinatura,
+                    password: result.password
+                }));
             });
         }
     }
@@ -196,11 +201,13 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     }
 
     anexarCopia(): void {
-        this._router.navigate([
-                this.routerState.url.split(this.routerState.params.documentoHandle + '/editar')[0] +
-                this.routerState.params.documentoHandle + '/editar/anexar-copia/' + this.documento.processoOrigem.id + '/visualizar'
-            ]
-        ).then();
+        const rota = 'anexar-copia/' + this.documento.processoOrigem.id + '/visualizar';
+        this._router.navigate(
+            [
+                this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
+                {outlets: {primary: rota}}
+            ],
+            {relativeTo: this._activatedRoute.parent}).then();
     }
 
 }

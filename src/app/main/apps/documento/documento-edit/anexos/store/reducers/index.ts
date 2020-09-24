@@ -1,6 +1,6 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import { DocumentosVinculadosReducer, DocumentosVinculadosState } from './documentos-vinculados.reducer';
-import {ComponenteDigitalState, ComponenteDigitalReducer} from '../../../store/reducers';
+import {ComponenteDigitalState, ComponenteDigitalReducer} from './componentes-digitais.reducer';
 
 export interface DocumentoEditAnexosAppState
 {

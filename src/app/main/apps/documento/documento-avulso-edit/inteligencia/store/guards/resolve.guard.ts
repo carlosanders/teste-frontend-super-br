@@ -56,7 +56,6 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getRepositoriosLoaded),
             tap((loaded: any) => {
-                console.log(loaded);
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     let repositoriosPagination: any = null;
 

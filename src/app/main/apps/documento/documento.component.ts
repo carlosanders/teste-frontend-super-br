@@ -19,7 +19,6 @@ import {ComponenteDigital} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
-import {Back} from '../../../store/actions';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
@@ -181,8 +180,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     }
 
     visualizarProcessoNovaAba(): void {
-
-        window.open(this.routerState.url.split('/')[1] + '/processo/' + this.documento.processoOrigem.id
+        window.open(this.routerState.url.split('/apps/')[0] + '/apps/processo/' + this.documento.processoOrigem.id
             + '/visualizar', '_blank');
     }
 
@@ -197,7 +195,12 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                 }).then();
         } else {
             this.modoProcesso = 1;
-            this._store.dispatch(new Back());
+            let primary: string;
+            primary = 'componente-digital/' + this.currentComponenteDigital.id + '/editor/ckeditor';
+            this._router.navigate([{outlets: {primary: primary}}],
+                {
+                    relativeTo: this._activatedRoute // <--- PARENT activated route.
+                }).then();
         }
     }
 }

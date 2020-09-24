@@ -1,10 +1,8 @@
-<div class="actions p-8" fxLayout="row" fxLayoutAlign="start center">
+<div class="actions">
 
-    <div *ngIf="(isSaving$ | async)" class="visualizar-processo mr-sm-12"
-         fxLayoutAlign="start center">
+    <div *ngIf="(isSaving$ | async)" class="visualizar-processo">
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
-
 </div>
 
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

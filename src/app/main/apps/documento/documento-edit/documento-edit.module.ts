@@ -11,7 +11,6 @@ import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {ResizableModule} from 'angular-resizable-element';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
-import {DocumentoEditStoreModule} from './store/store.module';
 
 const routes: Routes = [
     {
@@ -78,8 +77,6 @@ modulesConfig.forEach((module) => {
         MatIconModule,
         MatButtonModule,
         MatMenuModule,
-
-        DocumentoEditStoreModule,
 
         CdkUploadModule,
 

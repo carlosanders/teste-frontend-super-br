@@ -9,7 +9,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import * as fromStore from './store';
+import * as fromStore from '../store';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {Documento} from '@cdk/models';
@@ -55,7 +55,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
      * @param _activatedRoute
      */
     constructor(
-        private _store: Store<fromStore.DocumentoAvulsoEditAppState>,
+        private _store: Store<fromStore.DocumentoAppState>,
         private _location: Location,
         private _dynamicService: DynamicService,
         private _router: Router,
