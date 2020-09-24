@@ -25,6 +25,7 @@ import {Usuario} from '@cdk/models';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {DocumentoEditService} from './shared/documento-edit.service';
+import {ClickedDocumentoVinculado} from './anexos/store/actions';
 
 @Component({
     selector: 'documento-edit',
@@ -184,7 +185,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     // -----------------------------------------------------------------------------------------------------
 
     onClickedDocumentoVinculado(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumentoVinculado(documento));
+        this._store.dispatch(new ClickedDocumentoVinculado(documento));
     }
 
     back(): void {

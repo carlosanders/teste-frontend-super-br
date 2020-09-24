@@ -123,7 +123,10 @@ export class ProcessoViewEffect {
                                 {
                                     outlets: {
                                         primary: [
-                                            'visualizar-processo', this.routerState.params.processoHandle, 'visualizar'
+                                            this.routerState.url.indexOf('anexar-copia') === -1 ?
+                                                'visualizar-processo' : 'anexar-copia',
+                                            this.routerState.params.processoHandle,
+                                            'visualizar'
                                         ]
                                     }
                                 }
@@ -187,6 +190,7 @@ export class ProcessoViewEffect {
                 map(() => {
                     if (this.routerState.url.indexOf('/documento/') !== -1) {
                         // Navegação do processo deve ocorrer por outlet
+                        console.log(this._activatedRoute.snapshot);
                         this._router.navigate(
                             [
                                 this.routerState.url.split('/documento/')[0] + '/documento/' +
@@ -194,7 +198,11 @@ export class ProcessoViewEffect {
                                 {
                                     outlets: {
                                         primary: [
-                                            'visualizar-processo', this.routerState.params.processoHandle, 'visualizar', 'capa'
+                                            this.routerState.url.indexOf('anexar-copia') === -1 ?
+                                                'visualizar-processo' : 'anexar-copia',
+                                            this.routerState.params.processoHandle,
+                                            'visualizar',
+                                            'capa'
                                         ]
                                     }
                                 }

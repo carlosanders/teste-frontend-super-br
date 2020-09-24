@@ -5,7 +5,7 @@ documento-avulso-edit-anexos {
     > .documentos-vinculados {
         display: flex;
         flex-direction: column;
-        flex: 1 0 auto;
+        flex: 1 0;
         overflow-y: auto;
 
         ng-template {
