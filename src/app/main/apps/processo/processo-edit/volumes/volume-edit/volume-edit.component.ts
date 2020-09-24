@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
-import {Back} from "../../../../../../store/actions";
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'volume-edit',
@@ -52,7 +52,7 @@ export class VolumeEditComponent implements OnInit, OnDestroy {
 
         this.modalidadeMeioPagination = new Pagination();
         this.logEntryPagination = new Pagination();
-        //this.modalidadeMeioPagination.populate = ['parent'];
+        // this.modalidadeMeioPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------

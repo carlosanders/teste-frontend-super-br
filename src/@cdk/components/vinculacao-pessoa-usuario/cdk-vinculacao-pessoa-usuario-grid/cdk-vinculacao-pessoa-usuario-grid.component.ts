@@ -226,7 +226,7 @@ export class CdkVinculacaoPessoaUsuarioGridComponent implements AfterViewInit, O
 
     deleteVinculacaoPessoaUsuario(vinculacaoPessoaUsuarioId): void {
         this.delete.emit(vinculacaoPessoaUsuarioId);
-        debugger
+        debugger;
     }
 
     deleteVinculacaoPessoaUsuarios(vinculacoesPessoasUsuariosId): void {

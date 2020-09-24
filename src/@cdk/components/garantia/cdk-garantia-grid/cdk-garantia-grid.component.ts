@@ -41,7 +41,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'modalidadeGarantia.valor', 'valor','dataValor','descricao', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'modalidadeGarantia.valor', 'valor', 'dataValor', 'descricao', 'actions'];
 
     allColumns: any[] = [
         {
@@ -241,15 +241,15 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
             gridFilter: this.gridFilter,
             limit: this.paginator.pageSize,
             offset: (this.paginator.pageSize * this.paginator.pageIndex),
-            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {['criadoEm']:'DESC'}
+            sort: this.sort.active ? {[this.sort.active]: this.sort.direction} : {['criadoEm']: 'DESC'}
         });
         this.hasExcluded = false;
     }
 
     loadExcluded(): void {
-        console.log("Grid");
+        console.log('Grid');
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,
@@ -302,7 +302,7 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
      */
     selectAll(): void {
         const arr = Object.keys(this.garantias).map(k => this.garantias[k]);
-        //this.selectedIds = arr.filter(garantia => !garantia.principal).map(garantia => garantia.id);
+        // this.selectedIds = arr.filter(garantia => !garantia.principal).map(garantia => garantia.id);
         this.selectedIds = arr.map(garantia => garantia.id);
         this.recompute();
     }

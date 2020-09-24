@@ -1,4 +1,4 @@
-import { AdminEffect } from './admin.effects';
+import {AdminEffect} from './admin.effects';
 
 export const effects = [
     AdminEffect

@@ -1,8 +1,10 @@
-<cdk-favorito-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-favorito-form
         [favorito]="favorito"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [templatePagination]="templatePagination"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-favorito-form>
+    </cdk-favorito-form>
+</div>

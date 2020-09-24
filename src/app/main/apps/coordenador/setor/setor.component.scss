@@ -1,8 +1,28 @@
 coordenador-setor {
-  height: 100%;
-  width: 100%;
-  .setor-content {
-    height: 100%;
-    width: 100%;
-  }
+    flex: 1 1 auto;
+    display: flex;
+
+    > .page-layout {
+        flex: 1 1 auto;
+        display: flex;
+
+        > .center {
+            flex: 1 1 auto;
+            display: flex;
+
+            > .header {
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            > .content {
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: row;
+            }
+        }
+    }
 }

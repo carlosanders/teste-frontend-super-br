@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     OnDestroy,
@@ -24,6 +25,7 @@ import {Router} from '@angular/router';
     selector: 'processo-capa',
     templateUrl: './processo-capa.component.html',
     styleUrls: ['./processo-capa.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })

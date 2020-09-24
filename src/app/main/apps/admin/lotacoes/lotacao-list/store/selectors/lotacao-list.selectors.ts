@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getRootLotacaoListAppState,
-    RootLotacaoListAppState,
-    RootLotacaoListState
-} from '../reducers';
+import {getRootLotacaoListAppState, RootLotacaoListAppState, RootLotacaoListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {lotacao as lotacaoSchema} from '@cdk/normalizr';

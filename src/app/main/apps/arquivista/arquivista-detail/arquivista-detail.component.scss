@@ -1,4 +1,31 @@
-.arquivista-header {
-    border: inherit;
+arquivista-detail {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
+        border-bottom: 1px solid;
+
+        > .actions {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+
+            cdk-vinculacao-etiqueta-chips {
+                margin-right: 8px;
+            }
+        }
+    }
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        height: 0;
+        overflow-y: auto;
+    }
 }
 

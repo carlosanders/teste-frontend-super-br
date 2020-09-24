@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as RootLotacaoEditActions from '../actions/admin-lotacao-edit.actions';
 import * as RootLotacaoListActions from '../../../lotacao-list/store/actions';

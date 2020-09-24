@@ -3,8 +3,8 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '
 
 import {select, Store} from '@ngrx/store';
 
-import { forkJoin, Observable, of } from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {forkJoin, Observable, of} from 'rxjs';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {RootLotacoesAppState} from '../reducers';
 import * as fromStore from '../index';

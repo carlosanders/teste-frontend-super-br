@@ -29,7 +29,7 @@ export class FlatNode {
     level: number;
     children?: ClassificacaoNode[];
     selected?: boolean;
-    visible?: boolean = true;
+    visible = true;
     hasChild: boolean;
     item: string;
 
@@ -156,7 +156,7 @@ export class CdkClassificacaoTreeFormComponent{
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
         return flatNode;
-    };
+    }
 
     /**
      *
@@ -352,7 +352,7 @@ export class CdkClassificacaoTreeFormComponent{
             return 'selectedItem';
         }
         if (node.visible == false) {
-            return 'display-none'
+            return 'display-none';
         }
         return '';
     }

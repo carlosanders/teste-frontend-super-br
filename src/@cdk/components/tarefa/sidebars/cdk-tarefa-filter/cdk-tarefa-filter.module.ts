@@ -19,7 +19,7 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
 import {CdkEspecieTarefaAutocompleteModule} from '../../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {MatDividerModule} from "@angular/material/divider";
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
     declarations: [

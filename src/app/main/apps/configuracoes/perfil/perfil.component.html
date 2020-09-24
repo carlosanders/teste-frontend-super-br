@@ -1,12 +1,8 @@
-<div class="perfil-content" fxFlex fxLayout="column">
-    <!-- CONTENT -->
-    <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
-        <cdk-perfil-form
-                [usuario]="usuario"
-                [saving]="(isSaving$ | async)"
-                [errors]="(errors$ | async)"
-                (save)="submit($event)">
-        </cdk-perfil-form>
-    </div>
-    <!-- / CONTENT -->
+<div class="content">
+    <cdk-perfil-form
+        [usuario]="usuario"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)">
+    </cdk-perfil-form>
 </div>

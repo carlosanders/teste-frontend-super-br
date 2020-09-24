@@ -14,7 +14,7 @@ import {cdkAnimations} from '@cdk/animations';
 import * as fromStore from 'app/main/apps/oficios/store';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
     selector: 'documento-avulso-main-sidebar',

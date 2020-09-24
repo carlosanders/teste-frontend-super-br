@@ -16,7 +16,7 @@ import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepic
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
-import {CdkProcessoAutocompleteModule} from "../../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module";
+import {CdkProcessoAutocompleteModule} from '../../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 
 @NgModule({
     declarations: [

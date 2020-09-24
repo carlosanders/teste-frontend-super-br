@@ -2,12 +2,10 @@ import {createSelector} from '@ngrx/store';
 import {getRootLotacaoEditAppState, RootLotacaoEditAppState, RootLotacaoEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Lotacao} from '@cdk/models/lotacao.model';
-import {lotacao as lotacaoSchema} from '@cdk/normalizr';
+import {lotacao as lotacaoSchema, setor as schemaSetor, usuario as schemaUsuario} from '@cdk/normalizr';
 import {getRootLotacoesState} from '../../../store/selectors';
 import {RootLotacoesState} from '../../../store/reducers';
-import { Setor, Usuario } from '@cdk/models';
-import {setor as schemaSetor} from '@cdk/normalizr';
-import { usuario as schemaUsuario } from '@cdk/normalizr';
+import {Setor, Usuario} from '@cdk/models';
 
 const schemaLotacaoSelectors = createSchemaSelectors<Lotacao>(lotacaoSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(schemaSetor);

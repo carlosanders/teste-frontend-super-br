@@ -17,7 +17,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {Setor} from '@cdk/models';
 import {FormControl} from '@angular/forms';
-import {DataSource} from "../../../data-sources/data-source";
+import {DataSource} from '../../../data-sources/data-source';
 
 @Component({
     selector: 'cdk-bloco-destinatario-grid',

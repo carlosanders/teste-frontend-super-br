@@ -1,18 +1,16 @@
-<div fxLayout="row" class="unidades-content page-layout full-width left-sidebar inner-scroll">
+<div class="page-layout full-width left-sidebar inner-scroll">
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar full" name="unidades-orgao-central-main-sidebar" position="left" [lockedOpen]="'gt-md'"
-        *ngIf="showSidebar()">
+    <cdk-sidebar class="sidebar" name="unidades-orgao-central-main-sidebar" position="left" [lockedOpen]="'gt-md'"
+                 *ngIf="showSidebar()">
         <!-- SIDEBAR CONTENT -->
-        <div class="content" cdkPerfectScrollbar>
-            <unidades-orgao-central-main-sidebar [@animate]="{value:'*'}"></unidades-orgao-central-main-sidebar>
-        </div>
+        <unidades-orgao-central-main-sidebar [@animate]="{value:'*'}"></unidades-orgao-central-main-sidebar>
     </cdk-sidebar>
 
     <!-- CENTER -->
-    <div class="center" fxFlex>
+    <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+        <div class="header">
             <div class="sidebar-toggle">
                 <button mat-icon-button
                         *ngIf="showSidebar()"
@@ -24,7 +22,7 @@
         <!-- / CONTENT HEADER -->
 
         <!-- CONTENT CARD -->
-        <div class="content-card p-16 pb-4" cdkPerfectScrollbar fxFlex>
+        <div class="content" cdkPerfectScrollbar>
             <router-outlet></router-outlet>
         </div>
         <!-- / CONTENT CARD -->

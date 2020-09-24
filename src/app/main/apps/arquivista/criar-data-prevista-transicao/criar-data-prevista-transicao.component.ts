@@ -1,14 +1,18 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {Observable} from 'rxjs';
 import {Processo} from '../../../../../@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
-    selector: 'app-criar-data-prevista-transicao',
+    selector: 'criar-data-prevista-transicao',
     templateUrl: './criar-data-prevista-transicao.component.html',
-    styleUrls: ['./criar-data-prevista-transicao.component.scss']
+    styleUrls: ['./criar-data-prevista-transicao.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CriarDataPrevistaTransicaoComponent implements OnInit {
 

@@ -4,7 +4,7 @@ import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {VinculacaoRepositorio} from '@cdk/models/vinculacao-repositorio.model';
 import {vinculacaoRepositorio as vinculacaoRepositorioSchema} from '@cdk/normalizr';
 import {getRepositoriosEspecieSetorState} from '../../../store/selectors';
-import {getCoordenadorState} from "../../../../../store/selectors";
+import {getCoordenadorState} from '../../../../../store/selectors';
 import {RepositoriosEspecieSetorState} from '../../../store/reducers';
 import {ModalidadeOrgaoCentral, Repositorio} from '@cdk/models';
 import {repositorio as schemaRepositorio} from '@cdk/normalizr';

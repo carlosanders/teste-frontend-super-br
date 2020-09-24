@@ -25,6 +25,7 @@ import * as fromGuards from './store/guards';
 import {SetorMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {CoordenadorSetorStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
+import {MatRippleModule} from '@angular/material/core';
 
 const routes: Routes = [
     {
@@ -110,6 +111,7 @@ modulesConfig.forEach((module) => {
 
         CdkSidebarModule,
         CoordenadorSetorStoreModule,
+        MatRippleModule,
     ],
     providers: [
         SetorService,

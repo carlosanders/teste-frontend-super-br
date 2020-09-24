@@ -14,7 +14,7 @@ import {Setor} from '@cdk/models/setor.model';
 import {Pagination} from '@cdk/models/pagination';
 import {GeneroSetor} from '@cdk/models/genero-setor.model';
 import {Municipio} from '@cdk/models/municipio.model';
-import {ModalidadeOrgaoCentral} from "../../../models";
+import {ModalidadeOrgaoCentral} from '../../../models';
 
 @Component({
     selector: 'cdk-unidade-form',

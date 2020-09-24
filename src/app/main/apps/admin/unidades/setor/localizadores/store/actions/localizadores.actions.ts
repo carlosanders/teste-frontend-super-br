@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_SETOR = '[ADMIN LOCALIZADORES] GET SETOR';
 export const GET_SETOR_SUCCESS = '[ADMIN LOCALIZADORES] GET SETOR SUCCESS';

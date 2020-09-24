@@ -19,7 +19,7 @@ import { Topico } from 'ajuda/topico';
 export class AjudaAtividadeCreateComponent{
 
     topicos: Topico[] = [];
-    titulo = "atividades";
+    titulo = 'atividades';
 
     carregar(topico: string): void {
         this.titulo = topico;

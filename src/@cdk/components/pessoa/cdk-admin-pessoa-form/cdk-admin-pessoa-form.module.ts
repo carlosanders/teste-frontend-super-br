@@ -20,7 +20,7 @@ import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-muni
 import {CdkMunicipioGridsearchModule} from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-gridsearch/cdk-municipio-gridsearch.module';
 import {CdkModalidadeGeneroPessoaGridsearchModule} from '@cdk/components/modalidade-genero-pessoa/cdk-modalidade-genero-pessoa-autocomplete/cdk-modalidade-genero-pessoa-gridsearch/cdk-modalidade-genero-pessoa-gridsearch.module';
 import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modalidade-genero-pessoa/cdk-modalidade-genero-pessoa-autocomplete/cdk-modalidade-genero-pessoa-autocomplete.module';
-import {CdkLogentryGridsearchModule} from "../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module";
+import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 
 @NgModule({
     declarations: [

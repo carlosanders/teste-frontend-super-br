@@ -12,6 +12,7 @@ import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {CdkClassificacaoTreeService} from '@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
 import {LoginService} from '../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {DirectivesModule} from '../../../../../@cdk/directives/directives';
 
 const routes: Routes = [
     {
@@ -36,6 +37,7 @@ modulesConfig.forEach((module) => {
         RouterModule.forChild(routes),
         CdkClassificacaoTreeModule,
         MatListModule,
+        DirectivesModule,
     ],
     providers: [
         ClassificacaoService,

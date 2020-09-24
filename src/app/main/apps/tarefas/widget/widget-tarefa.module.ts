@@ -9,7 +9,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {MatButtonModule} from '@angular/material/button';
-import {MatCardModule} from "@angular/material/card";
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
     declarations: [

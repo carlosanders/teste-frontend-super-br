@@ -1,13 +1,9 @@
 repositorios {
-    height: 100%;
-    width: 100%;
-
-    .repositorios-content {
-        height: 100%;
-        width: 100%;
-    }
-
-    .altura {
-        height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        padding: 8px;
     }
 }

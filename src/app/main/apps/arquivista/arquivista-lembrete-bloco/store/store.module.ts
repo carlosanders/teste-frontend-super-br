@@ -11,7 +11,7 @@ import {EffectsModule} from '@ngrx/effects';
   declarations: [],
   imports: [
       CommonModule,
-      StoreModule.forFeature('app-lembretes-bloco-form', reducers),
+      StoreModule.forFeature('<span class="mr-4 ml-4">/</span>lembretes-bloco-form', reducers),
       EffectsModule.forFeature(effects)
   ]
 })

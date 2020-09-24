@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
-import {Back} from "../../../../../../store/actions";
+import {Back} from '../../../../../../store/actions';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../../auth/login/login.service';
 

@@ -19,7 +19,7 @@ import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
 import {modulesConfig} from 'modules/modules-config';
 import {LoginService} from '../../../../auth/login/login.service';
 import {TransicaoWorkflowComponent} from './transicao-workflow.component';
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {

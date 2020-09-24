@@ -13,7 +13,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {Lotacao} from '@cdk/models';
 import {LotacaoDataSource} from '@cdk/data-sources/lotacao-data-source';
 import {FormControl} from '@angular/forms';
-import {Pagination} from "../../../models";
+import {Pagination} from '../../../models';
 
 @Component({
     selector: 'cdk-lotacao-grid',
@@ -274,7 +274,7 @@ export class CdkLotacaoGridComponent implements AfterViewInit, OnInit, OnChanges
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,

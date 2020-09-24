@@ -41,11 +41,11 @@ export class CdkAssuntoAdministrativoTreeService {
 
     insertItem(parent: AssuntoAdministrativoNode, childrens: AssuntoAdministrativoNode[], add = false): void {
         if (parent.children) {
-            parent.children = []
+            parent.children = [];
             childrens.forEach((value) => {
                 parent.children.push(value);
             });
-            if(add == true) {
+            if (add == true) {
                 parent.children.push({nome: ''});
             }
             this.dataChange.next(this.data);

@@ -238,7 +238,7 @@ export class CdkNomeGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,

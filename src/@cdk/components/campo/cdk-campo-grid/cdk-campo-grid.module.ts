@@ -18,7 +18,7 @@ import {CampoService} from '@cdk/services/campo.service';
 import {CdkCampoGridComponent} from './cdk-campo-grid.component';
 import {CdkCampoAutocompleteModule} from '@cdk/components/campo/cdk-campo-autocomplete/cdk-campo-autocomplete.module';
 import {CdkCampoFilterModule} from '../sidebars/cdk-campo-filter/cdk-campo-filter.module';
-import {CommonModule} from "@angular/common";
+import {CommonModule} from '@angular/common';
 
 @NgModule({
     declarations: [

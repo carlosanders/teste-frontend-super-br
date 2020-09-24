@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
@@ -6,11 +6,15 @@ import {Pagination, Processo, Transicao} from '../../../../../@cdk/models';
 import * as fromStore from './store';
 import {getOperacoesState, RouterStateUrl, getRouterState} from '../../../../store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
-  selector: 'app-transicao-arquivista-bloco',
+  selector: 'transicao-arquivista-bloco',
   templateUrl: './transicao-arquivista-bloco.component.html',
-  styleUrls: ['./transicao-arquivista-bloco.component.scss']
+  styleUrls: ['./transicao-arquivista-bloco.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class TransicaoArquivistaBlocoComponent implements OnInit {
 
@@ -76,7 +80,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit {
     }
 
     submit(values): void {
-        debugger
+        debugger;
         this.operacoes = [];
         this.processos.forEach(processo => {
             const transicao = new Transicao();

@@ -262,7 +262,7 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,

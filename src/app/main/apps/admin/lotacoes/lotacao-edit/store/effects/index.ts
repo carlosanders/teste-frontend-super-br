@@ -1,4 +1,4 @@
-import { AdminLotacaoEditEffects } from './admin-lotacao-edit.effects';
+import {AdminLotacaoEditEffects} from './admin-lotacao-edit.effects';
 
 export const effects = [
     AdminLotacaoEditEffects

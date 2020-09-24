@@ -19,7 +19,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {CoordenadorLotacoesComponent} from './coordenador-lotacoes.component';
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {RouterModule, Routes} from '@angular/router';
-import {LotacoesStoreModule} from "./store/store.module";
+import {LotacoesStoreModule} from './store/store.module';
 import {SetorService} from '@cdk/services/setor.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {modulesConfig} from 'modules/modules-config';

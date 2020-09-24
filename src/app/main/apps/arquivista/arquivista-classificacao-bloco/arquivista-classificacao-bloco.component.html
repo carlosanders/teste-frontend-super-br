@@ -1,15 +1,21 @@
-<cdk-classificacao-tree
-    (save)="submit($event)"
-    [saving]="(isSaving$ | async)">
-</cdk-classificacao-tree>
+<!-- CONTENT -->
+<div class="content" cdkPerfectScrollbar>
 
-<mat-list *ngIf="operacoes.length > 0 && (isSaving$ | async) === false" fxFlex>
-    <h3 matSubheader>
-        <span>Resultado do Bloco</span>
-    </h3>
+    <h2>Classificação em bloco de processos</h2>
 
-    <mat-list-item *ngFor="let operacao of operacoes">
-        <p matLine class="mb-4 p-8 secondary-text"
-           [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
-    </mat-list-item>
-</mat-list>
+    <cdk-classificacao-tree
+        (save)="submit($event)"
+        [saving]="(isSaving$ | async)">
+    </cdk-classificacao-tree>
+
+    <mat-list *ngIf="operacoes.length > 0 && (isSaving$ | async) === false">
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+</div>

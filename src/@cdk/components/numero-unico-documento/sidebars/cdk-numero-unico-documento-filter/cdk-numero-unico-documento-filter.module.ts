@@ -14,9 +14,9 @@ import {CdkNumeroUnicoDocumentoFilterComponent} from './cdk-numero-unico-documen
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkSetorAutocompleteModule} from '@cdk/components/setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
-import {CdkUsuarioAutocompleteModule} from "@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module";
-import {CdkTipoDocumentoAutocompleteModule} from "@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module";
-import {NumeroUnicoDocumentoService} from "@cdk/services/numero-unico-documento.service";
+import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
+import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
+import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
 
 @NgModule({
     declarations: [

@@ -76,7 +76,7 @@ export class ResolveGuard implements CanActivate {
                         (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] !==
                             loaded.value))) {
 
-                    let params: any = {
+                    const params: any = {
                         filter: {},
                         gridFilter: {},
                         limit: 5,
@@ -93,7 +93,7 @@ export class ResolveGuard implements CanActivate {
                             'vinculacoesRepositorios.unidade',
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 
@@ -102,7 +102,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'vinculacoesRepositorios.orgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
-                        }
+                        };
                     }
                     if ((this.routerState.params.generoHandle === 'unidade' && !this.routerState.params.setorHandle)
                         || (this.routerState.params.unidadeHandle && !this.routerState.params.setorHandle)) {
@@ -111,7 +111,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'vinculacoesRepositorios.unidade.id': 'eq:' + valor
-                        }
+                        };
                     }
                     if (this.routerState.params.generoHandle === 'local' || this.routerState.params.setorHandle) {
                         const valor = this.routerState.params.setorHandle ?
@@ -119,7 +119,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'vinculacoesRepositorios.setor.id': 'eq:' + valor
-                        }
+                        };
                     }
 
                     this._store.dispatch(new fromStore.GetRepositorios(params));

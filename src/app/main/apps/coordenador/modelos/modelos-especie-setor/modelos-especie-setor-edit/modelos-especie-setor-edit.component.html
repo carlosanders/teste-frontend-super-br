@@ -1,8 +1,10 @@
-<cdk-vinculacao-modelo-especie-setor-form
-    [vinculacaoModelo]="vinculacaoModelo"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    [especieSetorPagination]="especieSetorPagination"
-    (save)="submit($event)"
-    (abort)="doAbort()">
-</cdk-vinculacao-modelo-especie-setor-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-vinculacao-modelo-especie-setor-form
+        [vinculacaoModelo]="vinculacaoModelo"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [especieSetorPagination]="especieSetorPagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-vinculacao-modelo-especie-setor-form>
+</div>

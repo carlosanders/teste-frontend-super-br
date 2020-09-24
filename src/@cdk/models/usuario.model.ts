@@ -3,7 +3,7 @@ import {Type, Transform, Exclude} from 'class-transformer';
 import {VinculacaoUsuario} from '@cdk/models';
 import {Colaborador} from '@cdk/models';
 import {VinculacaoPessoaUsuario} from './vinculacao-pessoa-usuario.model';
-import {Coordenador} from "./coordenador.model";
+import {Coordenador} from './coordenador.model';
 
 export class Usuario {
 

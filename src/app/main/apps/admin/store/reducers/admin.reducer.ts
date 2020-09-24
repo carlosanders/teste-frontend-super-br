@@ -1,5 +1,4 @@
 import * as AdminActions from '../actions/admin.actions';
-import * as CoordenadorActions from '../../../coordenador/store/actions/coordenador.actions';
 
 export interface AdminState {
     errors: any;
@@ -13,7 +12,7 @@ export const AdminInitialState: AdminState = {
     loaded: false,
 };
 
-export function AdminReducer (
+export function AdminReducer(
     state = AdminInitialState,
     action: AdminActions.AdminActionsAll
 ): AdminState {

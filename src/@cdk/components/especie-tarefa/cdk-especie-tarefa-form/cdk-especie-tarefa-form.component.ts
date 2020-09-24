@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -6,15 +7,19 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    SimpleChange
+    SimpleChange, ViewEncapsulation
 } from '@angular/core';
 import {EspecieTarefa, GeneroTarefa, Pagination} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {cdkAnimations} from '../../../animations';
 
 @Component({
     selector: 'cdk-especie-tarefa-form',
     templateUrl: './cdk-especie-tarefa-form.component.html',
-    styleUrls: ['./cdk-especie-tarefa-form.component.scss']
+    styleUrls: ['./cdk-especie-tarefa-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkEspecieTarefaFormComponent implements OnChanges, OnDestroy {
 

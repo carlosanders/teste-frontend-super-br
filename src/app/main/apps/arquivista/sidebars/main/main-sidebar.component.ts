@@ -10,7 +10,7 @@ import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Lotacao, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
     selector: 'arquivista-main-sidebar',

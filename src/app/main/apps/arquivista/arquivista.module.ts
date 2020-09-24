@@ -13,6 +13,7 @@ import {CdkEtiquetaChipsModule} from '@cdk/components/etiqueta/cdk-etiqueta-chip
 import * as fromGuards from './arquivista-list/store/guards';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {modulesConfig} from 'modules/modules-config';
+import {MatRippleModule} from '@angular/material/core';
 
 const routes: Routes = [
     {
@@ -40,7 +41,7 @@ modulesConfig.forEach((module) => {
         ArquivistaComponent,
         ArquivistaMainSidebarComponent,
     ],
-    imports        : [
+    imports: [
         CommonModule,
         RouterModule.forChild(routes),
         CdkEtiquetaChipsModule,
@@ -50,6 +51,7 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
         CdkSidebarModule,
+        MatRippleModule,
     ],
     providers      : [
         fromGuards.ResolveGuard,

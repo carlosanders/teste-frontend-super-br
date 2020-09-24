@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getRouterState} from "../../../../../store/reducers";
+import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
 
 @Component({
@@ -64,8 +64,8 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll'];
         this.setorPagination.filter = {
-            'parent': 'isNull'
-        }
+            parent: 'isNull'
+        };
         this.generoSetorPagination = new Pagination();
         this.generoSetorPagination.populate = ['populateAll'];
     }

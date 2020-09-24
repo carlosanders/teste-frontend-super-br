@@ -77,7 +77,7 @@ export class ResolveGuard implements CanActivate {
                         (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] !==
                             loaded.value))) {
 
-                    let params: any = {
+                    const params: any = {
                         filter: {},
                         gridFilter: {},
                         limit: 5,
@@ -94,7 +94,7 @@ export class ResolveGuard implements CanActivate {
                             'vinculacoesModelos.unidade',
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 
@@ -102,7 +102,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'vinculacoesModelos.orgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
-                        }
+                        };
                     }
 
                     if ((this.routerState.params.generoHandle === 'unidade' && !this.routerState.params.setorHandle)
@@ -112,7 +112,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'vinculacoesModelos.unidade.id': 'eq:' + valor
-                        }
+                        };
                     }
                     if (this.routerState.params.generoHandle === 'local' || this.routerState.params.setorHandle) {
                         const valor = this.routerState.params.setorHandle ?
@@ -120,7 +120,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'vinculacoesModelos.setor.id': 'eq:' + valor
-                        }
+                        };
                     }
 
                     this._store.dispatch(new fromStore.GetModelos(params));

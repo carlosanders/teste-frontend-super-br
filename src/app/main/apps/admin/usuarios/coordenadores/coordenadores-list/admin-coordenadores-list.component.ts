@@ -71,7 +71,7 @@ export class AdminCoordenadoresListComponent implements OnInit {
         if (this.routerState.params['usuarioHandle']) {
             this.usuarioPagination.filter = {
                 ...this.usuarioPagination.filter,
-                'id': 'eq:' + this.routerState.params['usuarioHandle']
+                id: 'eq:' + this.routerState.params['usuarioHandle']
             };
         }
     }
@@ -99,7 +99,7 @@ export class AdminCoordenadoresListComponent implements OnInit {
         }));
     }
 
-    create() : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

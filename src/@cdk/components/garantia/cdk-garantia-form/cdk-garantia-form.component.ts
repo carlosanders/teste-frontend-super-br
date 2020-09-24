@@ -78,7 +78,7 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
         if (changes['garantia'] && this.garantia && ((!this.garantia.id && !this.form.dirty) || (this.garantia.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.garantia});
             if (this.garantia.valor) {
-                this.form.patchValue({'valor': this.garantia.valor.toString().replace('.', ',')});
+                this.form.patchValue({valor: this.garantia.valor.toString().replace('.', ',')});
             }
         }
 

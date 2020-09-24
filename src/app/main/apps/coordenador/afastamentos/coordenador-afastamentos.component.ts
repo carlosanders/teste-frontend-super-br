@@ -35,7 +35,6 @@ export class CoordenadorAfastamentosComponent implements OnInit, OnDestroy {
      *
      * @param _store
      * @param _changeDetectorRef
-     * @param _cdkSidebarService
      * @param _router
      */
     constructor(
@@ -66,9 +65,5 @@ export class CoordenadorAfastamentosComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-    }
-
-    goBack(): void {
-        this._store.dispatch(new Back());
     }
 }

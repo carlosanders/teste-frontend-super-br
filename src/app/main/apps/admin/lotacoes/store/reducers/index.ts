@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RootLotacoesReducer, RootLotacoesState } from './lotacoes.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RootLotacoesReducer, RootLotacoesState} from './lotacoes.reducer';
 
 export interface RootLotacoesAppState
 {

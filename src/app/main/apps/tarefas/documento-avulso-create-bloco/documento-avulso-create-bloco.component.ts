@@ -19,7 +19,7 @@ import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Tarefa} from '@cdk/models';
-import {Back} from "../../../../store/actions";
+import {Back} from '../../../../store/actions';
 
 @Component({
     selector: 'documento-avulso-create',

@@ -21,7 +21,7 @@ import {NumeroUnicoDocumentoComponent} from './numero-unico-documento.component'
 import {RouterModule, Routes} from '@angular/router';
 import {SetorService} from '@cdk/services/setor.service';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
-import {NumeroUnicoDocumentoStoreModule} from "./store/store.module";
+import {NumeroUnicoDocumentoStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [

@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { CompetenciaEditReducer, CompetenciaEditState } from './competencia-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {CompetenciaEditReducer, CompetenciaEditState} from './competencia-edit.reducer';
 
 export interface CompetenciaEditAppState
 {

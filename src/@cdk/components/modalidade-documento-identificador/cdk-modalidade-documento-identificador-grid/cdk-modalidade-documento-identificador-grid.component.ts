@@ -239,7 +239,7 @@ export class CdkModalidadeDocumentoIdentificadorGridComponent implements AfterVi
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,

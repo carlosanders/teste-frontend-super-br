@@ -35,7 +35,7 @@ import {modulesConfig} from '../../../../../modules/modules-config';
 import {DocumentoEditService} from './shared/documento-edit.service';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Back} from "../../../../store/actions";
+import {Back} from '../../../../store/actions';
 
 @Component({
     selector: 'documento-edit',

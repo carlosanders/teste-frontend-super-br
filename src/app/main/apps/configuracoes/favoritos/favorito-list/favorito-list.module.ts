@@ -19,7 +19,6 @@ import {FavoritoListComponent} from './favorito-list.component';
 import {FavoritoService} from '@cdk/services/favorito.service';
 import {RouterModule, Routes} from '@angular/router';
 import {FavoritoListStoreModule} from './store/store.module';
-import {TemplateService} from '@cdk/services/template.service';
 import * as fromGuards from './store/guards';
 import {CdkFavoritoGridModule} from '@cdk/components/favorito/cdk-favorito-grid/cdk-favorito-grid.module';
 
@@ -27,12 +26,6 @@ const routes: Routes = [
     {
         path: '',
         component: FavoritoListComponent,
-        children: [
-            {
-                path       : 'documento',
-                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
-            }
-        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
@@ -66,7 +59,6 @@ const routes: Routes = [
     ],
     providers: [
         FavoritoService,
-        TemplateService,
         fromGuards.ResolveGuard
     ],
     exports: [

@@ -75,7 +75,7 @@ export class ResolveGuard implements CanActivate {
                             'populateAll'
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 

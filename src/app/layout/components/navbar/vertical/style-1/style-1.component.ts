@@ -8,7 +8,7 @@ import { CdkNavigationService } from '@cdk/components/navigation/navigation.serv
 import { CdkPerfectScrollbarDirective } from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Usuario} from "@cdk/models/usuario.model";
+import {Usuario} from '@cdk/models/usuario.model';
 
 @Component({
     selector     : 'navbar-vertical-style-1',

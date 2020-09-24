@@ -2,7 +2,7 @@
     var a = {
         exec: function(editor) {
               //campoWindow = Ext.create('ExtMVC.view.EdicaoCampoWindow');
-        }
+        },
     },
     b = "campos";
     CKEDITOR.plugins.add(b, {
@@ -11,8 +11,8 @@
             editor.ui.addButton("campos", {
                 label: "Campos",
                 icon: "templates",
-                command: b
+                command: b,
             });
-        }
+        },
     });
 })();

@@ -20,12 +20,12 @@ admin-main-sidebar {
     }
 
     > .content {
-
         display: flex;
         flex: 1 1 auto;
         flex-direction: column;
         height: 0;
         overflow-y: auto;
+        padding-top: 8px;
 
     }
 }

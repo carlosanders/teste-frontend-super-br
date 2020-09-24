@@ -1,38 +1,42 @@
 @import "src/@cdk/scss/cdk";
 
 arquivista-list {
-    height: 100%;
-    width: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: row;
 
-    .content{
-        height: 100%;
-    }
+    > .arquivista-list {
+        display: flex;
+        flex-direction: column;
 
-    arquivista-detail {
-
-        height: 100%;
-
-        .arquivista-header {
-            border-bottom: 1px solid;
-            height: 56px;
-
-            cdk-vinculacao-etiqueta-chips {
-                width: 92%;
-            }
-
-            .pre-actions {
-                width: 100%;
-            }
-
-            .actions {
-                margin-left: auto;
-            }
+        > .loading {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
         }
 
-        .arquivista-content {
-            height: 76%;
+        &.mobile-mode {
+
+            &.current-arquivista {
+                display: none !important;
+            }
         }
     }
+
+    > .arquivista-detail {
+
+        display: flex;
+
+        &.mobile-mode {
+
+            &.no-current-arquivista {
+                display: none !important;
+            }
+        }
+    }
+
 }
 
 

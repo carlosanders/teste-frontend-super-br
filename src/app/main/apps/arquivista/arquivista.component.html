@@ -15,19 +15,19 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" fxLayout="row" fxLayoutAlign="start center" fxHide.lt-md
-             *ngIf="!(maximizado$ | async)">
+        <div class="header" fxHide.lt-md *ngIf="!(maximizado$ | async)">
 
-            <div class="search-wrapper" fxFlex fxLayout="row" fxLayoutAlign="start center">
+            <div class="search-wrapper">
 
                 <button mat-icon-button class="sidebar-toggle" fxHide.gt-md
                         (click)="toggleSidebar('arquivista-main-sidebar')">
                     <mat-icon>menu</mat-icon>
                 </button>
 
-                <div class="search" fxLayout="row" fxLayoutAlign="start center">
+                <div class="search">
                     <mat-icon class="secondary-text">search</mat-icon>
                     <cdk-etiqueta-chips [etiquetas]="etiquetas"
+                                        [placeholder]="'Filtre os processos pelas etiquetas'"
                                         (create)="addEtiqueta($event)"
                                         [pagination]="vinculacaoEtiquetaPagination"
                                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
@@ -46,6 +46,5 @@
             </div>
         </div>
         <!-- / CONTENT CARD -->
-
     </div>
 </div>

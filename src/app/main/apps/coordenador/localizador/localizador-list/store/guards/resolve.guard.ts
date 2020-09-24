@@ -63,7 +63,7 @@ export class ResolveGuard implements CanActivate {
                     const params = {
 
                         filter: {
-                            'setor.id':'eq:' + this.routerState.params.setorHandle
+                            'setor.id': 'eq:' + this.routerState.params.setorHandle
                         },
 
                         gridFilter: {},
@@ -78,7 +78,7 @@ export class ResolveGuard implements CanActivate {
                             'setor.parent',
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 

@@ -1,33 +1,28 @@
-<div fxFlex fxLayout="column">
+<div class="header">
+    <div class="actions">
+        <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentRelatorio()">
+            <mat-icon class="secondary-text">arrow_back</mat-icon>
+        </button>
 
-    <div class="relatorio-header" fxFlex="0 0 auto" fxLayout="row">
+        <button *ngIf="!mobileMode && !(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+            <mat-icon class="secondary-text">zoom_out_map</mat-icon>
+        </button>
 
-        <div class="pre-actions" fxLayout="row" fxLayoutAlign="start center">
-            <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentRelatorio()">
-                <mat-icon class="secondary-text">arrow_back</mat-icon>
-            </button>
+        <button *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
+            <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
+        </button>
 
-            <button *ngIf="!mobileMode && !(maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
-                <mat-icon class="secondary-text">zoom_out_map</mat-icon>
-            </button>
-
-            <button *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado()">
-                <mat-icon class="secondary-text">subdirectory_arrow_right</mat-icon>
-            </button>
-
-            <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="(relatorio$ | async).vinculacoesEtiquetas"
-                                           (create)="onEtiquetaCreate($event)"
-                                           (edit)="onEtiquetaEdit($event)"
-                                           [savingVinculacaoEtiquetaId]="(savingVincEtiquetaId$ | async)"
-                                           [errors]="(errors$ | async)"
-                                           [pagination]="vinculacaoEtiquetaPagination"
-                                           (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
-
-        </div>
+        <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="(relatorio$ | async).vinculacoesEtiquetas"
+                                       (create)="onEtiquetaCreate($event)"
+                                       (edit)="onEtiquetaEdit($event)"
+                                       [savingVinculacaoEtiquetaId]="(savingVincEtiquetaId$ | async)"
+                                       [errors]="(errors$ | async)"
+                                       [pagination]="vinculacaoEtiquetaPagination"
+                                       (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
 
     </div>
 
-    <div fxFlex="1 1 auto" class="relatorio-content">
+    <div class="content" cdkPerfectScrollbar>
         <router-outlet></router-outlet>
     </div>
 </div>

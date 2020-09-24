@@ -20,7 +20,7 @@ import * as moment from 'moment';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
 import {Back} from '../../../../../../store/actions';
-import {filter} from "rxjs/operators";
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'tarefa-edit',

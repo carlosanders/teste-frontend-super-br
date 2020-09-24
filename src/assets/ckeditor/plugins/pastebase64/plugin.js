@@ -1,22 +1,21 @@
-﻿(function () {
-    'use strict';
+﻿(function() {
+    "use strict";
 
-    CKEDITOR.plugins.add('pastebase64', {
-        init: init
+    CKEDITOR.plugins.add("pastebase64", {
+        init: init,
     });
 
     function init(editor) {
         if (editor.addFeature) {
             editor.addFeature({
-                allowedContent: 'img[alt,id,!src]{width,height};'
+                allowedContent: "img[alt,id,!src]{width,height};",
             });
         }
 
-        editor.on("contentDom", function () {
+        editor.on("contentDom", function() {
             var editableElement = editor.editable ? editor.editable() : editor.document;
             editableElement.on("paste", onPaste, null, {editor: editor});
         });
-
 
     }
 
@@ -31,7 +30,7 @@
             return;
         }
 
-        return Array.prototype.forEach.call(clipboardData.types, function (type, i) {
+        return Array.prototype.forEach.call(clipboardData.types, function(type, i) {
             if (found) {
                 return;
             }
@@ -44,23 +43,23 @@
     }
 
     function readImageAsBase64(item, editor) {
-        if (!item || typeof item.getAsFile !== 'function') {
+        if (!item || typeof item.getAsFile !== "function") {
             return;
         }
 
         var file = item.getAsFile();
         var reader = new FileReader();
 
-        reader.onload = function (evt) {
-            var element = editor.document.createElement('img', {
+        reader.onload = function(evt) {
+            var element = editor.document.createElement("img", {
                 attributes: {
-                    src: evt.target.result
-                }
+                    src: evt.target.result,
+                },
             });
 
             // We use a timeout callback to prevent a bug where insertElement inserts at first caret
             // position
-            setTimeout(function () {
+            setTimeout(function() {
                 editor.insertElement(element);
             }, 10);
         };

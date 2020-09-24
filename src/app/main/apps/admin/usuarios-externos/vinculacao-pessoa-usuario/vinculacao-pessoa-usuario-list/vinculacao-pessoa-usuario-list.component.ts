@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 import {Store, select} from '@ngrx/store';
 import {getRouterState} from '../../../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from "../../../../../../../@cdk/animations";
+import {cdkAnimations} from '../../../../../../../@cdk/animations';
 
 @Component({
     selector: 'vinculacao-pessoa-usuario-list',
@@ -98,7 +98,7 @@ export class VinculacaoPessoaUsuarioListComponent implements OnInit {
         this.select.emit(pessoa);
     }
 
-    create() : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'criar')]);
     }
 

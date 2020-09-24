@@ -1,8 +1,10 @@
-<cdk-afastamento-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-afastamento-form
         [afastamento]="afastamento"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeAfastamentoPagination]="templatePagination"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-afastamento-form>
+    </cdk-afastamento-form>
+</div>

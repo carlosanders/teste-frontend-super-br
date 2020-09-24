@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {Pessoa} from '@cdk/models';
 import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
 import {Pagination} from '@cdk/models';
-import {Back} from "../../../../../../store/actions";
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'documento-identificador-edit',

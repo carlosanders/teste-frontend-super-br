@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
@@ -63,7 +57,7 @@ export class RootLocalizadorEditComponent implements OnInit, OnDestroy {
         this.setorPagination = new Pagination();
         this.setorPagination.populate = ['populateAll', 'unidade'];
         this.setorPagination.filter = {
-            'id': 'eq:' + this.routerState.params.setorHandle
+            id: 'eq:' + this.routerState.params.setorHandle
         };
 
     }
@@ -104,7 +98,7 @@ export class RootLocalizadorEditComponent implements OnInit, OnDestroy {
     submit(values): void {
 
         const localizador = new Localizador();
-        //localizador.id = null;
+        // localizador.id = null;
         Object.entries(values).forEach(
             ([key, value]) => {
                 localizador[key] = value;

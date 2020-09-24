@@ -1,52 +1,26 @@
-<div class="left-sidebar" fxFlex fxLayout="row">
-
-    <!-- CENTER -->
-    <div class="center" fxFlex fxLayout="column">
-
-        <!-- HEADER -->
-        <div class="header accent p-16" fxLayout="row" fxLayoutAlign="start center">
-
-            <div class="relatorio-navigation">
-
-                <div>
-                    <h3 *ngIf="!loading">{{fileName}}</h3>
-                </div>
-
-            </div>
-
-
+<!-- HEADER -->
+<div class="header accent">
+    <div class="relatorio-navigation">
+        <div>
+            <h3 *ngIf="!loading">{{fileName}}</h3>
         </div>
-        <!-- / HEADER -->
-
-        <!-- CONTENT -->
-        <div fxFlex class="content">
-
-            <div class="relatorio-view-relatorio" cdkPerfectScrollbar>
-
-                <div fxLayout="column" fxFlex
-                     fxLayoutAlign="center center">
-                    <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
-                </div>
-
-                <div *ngIf="!loading && (relatorios)?.length === 0" fxLayout="column"
-                     fxLayoutAlign="center center" fxFlexFill>
-                    <span class="no-relatorios-text hint-text">Nenhum relatório</span>
-                </div>
-
-                <div *ngIf="!loading && (relatorios)?.length > 0" class="relatorio-view-relatorio-content">
-                    <iframe id="iframe-relatorios"
-                            [src]="src">
-                    </iframe>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <!-- / CONTENT -->
-
     </div>
-    <!-- / CENTER -->
+</div>
+<!-- / HEADER -->
 
+<!-- CONTENT -->
+<div class="content" cdkPerfectScrollbar>
+    <div class="loading" *ngIf="loading">
+        <mat-spinner diameter="24"></mat-spinner>
+    </div>
+
+    <div class="sem-relatorios" *ngIf="!loading && (relatorios)?.length === 0" >
+        <span class="no-relatorios-text hint-text">Nenhum relatório</span>
+    </div>
+
+    <div *ngIf="!loading && (relatorios)?.length > 0" class="relatorio-view-relatorio-content">
+        <iframe id="iframe-relatorios"
+                [src]="src">
+        </iframe>
+    </div>
 </div>

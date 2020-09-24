@@ -22,7 +22,7 @@ export const ArquivistaDetailInitialState: ArquivistaDetailState = {
     savingVinculacaoEtiquetaId: null,
     maximizado: false,
     // processo: null
-}
+};
 
 export function ArquivistaDetailReducer(
     state = ArquivistaDetailInitialState,

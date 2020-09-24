@@ -6,7 +6,7 @@ import * as fromStore from './store';
 import {TransicaoWorkflow} from '../../../../../../../@cdk/models/transicao-workflow.model';
 import {getRouterState} from '../../../../../../store/reducers';
 import {cdkAnimations} from '../../../../../../../@cdk/animations';
-import {Back} from "../../../../../../store/actions";
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'transicao-workflow-list',

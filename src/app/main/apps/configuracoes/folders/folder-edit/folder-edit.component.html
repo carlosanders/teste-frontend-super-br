@@ -1,8 +1,10 @@
-<cdk-folder-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-folder-form
         [folder]="folder"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeFolderPagination]="modalidadeFolderPagination"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-folder-form>
+    </cdk-folder-form>
+</div>

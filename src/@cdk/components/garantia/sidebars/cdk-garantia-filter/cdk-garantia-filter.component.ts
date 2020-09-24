@@ -167,7 +167,7 @@ export class CdkGarantiaFilterComponent implements OnInit {
                 filters: this.filters
             };
             this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-garantia-filter').close();
+            this._cdkSidebarService.getSidebar('cdk-garantia-filter').close();
     }
 
     buscar(): void {

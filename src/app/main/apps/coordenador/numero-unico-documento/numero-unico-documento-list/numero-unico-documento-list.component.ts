@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {NumeroUnicoDocumento, Pagination} from "@cdk/models";
+import {NumeroUnicoDocumento, Pagination} from '@cdk/models';
 
 @Component({
     selector: 'numero-unico-documento-list',
@@ -67,8 +67,8 @@ export class NumeroUnicoDocumentoListComponent implements OnInit {
                         this.routerState.params['setorHandle'] : this.routerState.params['unidadeHandle']));
         this.setorPagination.filter = {
             ...this.setorPagination.filter,
-            'id':'eq:' + setorId,
-        }
+            id: 'eq:' + setorId,
+        };
     }
 
     ngOnInit(): void {
@@ -96,7 +96,7 @@ export class NumeroUnicoDocumentoListComponent implements OnInit {
         }));
     }
 
-    create() : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

@@ -1,4 +1,5 @@
-<cdk-lotacao-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-lotacao-form
         [lotacao]="lotacao"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -8,4 +9,5 @@
         [colaboradorPagination]="colaboradorPagination"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-lotacao-form>
+    </cdk-lotacao-form>
+</div>

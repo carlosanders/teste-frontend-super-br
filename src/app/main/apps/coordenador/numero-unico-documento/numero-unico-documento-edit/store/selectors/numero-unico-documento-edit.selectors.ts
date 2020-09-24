@@ -4,8 +4,8 @@ import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {NumeroUnicoDocumento, Setor} from '@cdk/models';
 import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr';
 import {setor as schemaSetor} from '@cdk/normalizr';
-import {getNumeroUnicoDocumentoState} from "../../../store/selectors";
-import {NumeroUnicoDocumentoState} from "../../../store/reducers";
+import {getNumeroUnicoDocumentoState} from '../../../store/selectors';
+import {NumeroUnicoDocumentoState} from '../../../store/reducers';
 
 const schemaNumeroUnicoDocumentoSelectors = createSchemaSelectors<NumeroUnicoDocumento>(numeroUnicoDocumentoSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(schemaSetor);

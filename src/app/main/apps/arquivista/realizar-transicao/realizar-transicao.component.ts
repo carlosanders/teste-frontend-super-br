@@ -8,7 +8,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 
 
 @Component({
-    selector: 'app-realizar-transicao',
+    selector: 'realizar-transicao',
     templateUrl: './realizar-transicao.component.html',
     styleUrls: ['./realizar-transicao.component.scss']
 })

@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 
 import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from '../../../../auth/login/login.service';
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
     selector: 'configuracoes-main-sidebar',
