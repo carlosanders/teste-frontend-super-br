@@ -8,11 +8,6 @@ cdk-componente-digital-grid {
         display: flex;
         flex: 1 1 auto;
 
-        .locked-open {
-            box-shadow: none !important;
-            border-right: 1px solid rgba(0, 0, 0, 0.12);
-        }
-
         .actions {
             flex: 0 1 auto;
             display: flex;

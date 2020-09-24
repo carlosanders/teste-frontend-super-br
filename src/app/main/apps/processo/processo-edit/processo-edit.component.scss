@@ -7,9 +7,12 @@ processo-edit {
         display: flex;
         flex-direction: row;
 
-        .locked-open {
+        > .sidebar {
+            background: transparent !important;
             box-shadow: none !important;
-            border-right: 1px solid rgba(0, 0, 0, 0.12);
+            &:not(.locked-open) {
+                background: white;
+            }
         }
 
         > .center {

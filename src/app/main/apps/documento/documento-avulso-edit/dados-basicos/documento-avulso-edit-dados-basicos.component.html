@@ -1,0 +1,49 @@
+<div class="dados-basicos mb-16" *ngIf="(documento$ | async)">
+    <div class="actions mb-8">
+        <button mat-raised-button color="accent" class="mr-sm-12"
+                mat-icon-button [matMenuTriggerFor]="remeter"
+                [disabled]="(documento$ | async)?.documentoAvulsoRemessa.dataHoraRemessa != null || (isRemetendo$ | async)"
+                aria-label="remeter ofício"
+                matTooltip="Remeter Ofício">
+            <mat-icon class="black-fg">send</mat-icon>
+        </button>
+
+        <mat-menu #remeter="matMenu">
+            <button mat-menu-item
+                    (click)="remeterDocumentoAvulso()">
+                <mat-icon>send</mat-icon>
+                <span>Manual</span>
+            </button>
+
+            <ng-template #dynamicButtons></ng-template>
+        </mat-menu>
+    </div>
+
+    <div class="status-remessa" [hidden]="!(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa">
+        <span *ngIf="(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa != null">
+            Objeto remetido em: {{(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa | date: 'dd/MM/yyyy HH:mm:ss':'-0300'}}
+        </span>
+        <span *ngIf="(documento$ | async).documentoAvulsoRemessa.usuarioRemessa != null">
+            Remetido por: {{(documento$ | async).documentoAvulsoRemessa.usuarioRemessa.nome}}
+        </span>
+        <ng-template #dynamicStatus></ng-template>
+    </div>
+    <div *ngIf="(isRemetendo$ | async)" class="remetendo">
+        <mat-spinner color="accent" diameter="24"></mat-spinner>
+    </div>
+    <div *ngIf="!(isRemetendo$ | async)" class="formulario">
+        <div>
+            <mat-slide-toggle [checked]="!!!(documento$ | async).documentoAvulsoRemessa.dataHoraEncerramento"
+                              (change)="toggleEncerramento()"
+                              class="mt-16 mr-16 mb-16">
+                Acompanhar a resposta
+            </mat-slide-toggle>
+        </div>
+        <cdk-documento-avulso-form cdkPerfectScrollbar
+                                   [documentoAvulso]="(documento$ | async)?.documentoAvulsoRemessa"
+                                   [saving]="(isSaving$ | async)"
+                                   [errors]="(errors$ | async)"
+                                   (save)="submit($event)">
+        </cdk-documento-avulso-form>
+    </div>
+</div>

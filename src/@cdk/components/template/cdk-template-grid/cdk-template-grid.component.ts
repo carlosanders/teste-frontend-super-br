@@ -12,7 +12,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Template} from '@cdk/models';
+import {Documento, Template} from '@cdk/models';
 import {TemplateDataSource} from '@cdk/data-sources/template-data-source';
 import {FormControl} from '@angular/forms';
 
@@ -145,7 +145,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
     edit = new EventEmitter<number>();
 
     @Output()
-    editConteudo = new EventEmitter<number>();
+    editConteudo = new EventEmitter<Documento>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -340,7 +340,7 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
         this.create.emit();
     }
 
-    editConteudoModelo(documentoId): void {
-        this.editConteudo.emit(documentoId);
+    editConteudoModelo(documento: Documento): void {
+        this.editConteudo.emit(documento);
     }
 }

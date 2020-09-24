@@ -1,9 +1,16 @@
 repositorios {
-    flex: 1 1 auto;
     display: flex;
-    > .content {
-        flex: 1 1 auto;
+    flex: 1 1 auto;
+
+    .repositorios-content {
         display: flex;
-        padding: 8px;
+        flex: 1 1 auto;
+        flex-direction: column;
+
+        > .content {
+            display: flex;
+            flex: 1 1 auto;
+            overflow-y: auto;
+        }
     }
 }

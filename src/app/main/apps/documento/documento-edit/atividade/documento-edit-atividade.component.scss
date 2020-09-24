@@ -1,0 +1,13 @@
+documento-edit-atividade {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+
+    .atividade {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        height: 0;
+    }
+}

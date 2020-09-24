@@ -1,0 +1,21 @@
+documento-edit-sigilos {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    > .dados-basicos {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        height: 0;
+    }
+
+    > .sigilo-actions {
+        flex: 0 0 auto;
+        justify-content: flex-start;
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+    }
+}

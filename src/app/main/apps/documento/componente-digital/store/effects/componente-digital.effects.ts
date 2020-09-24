@@ -64,6 +64,7 @@ export class ComponenteDigitalEffect {
                     return this._componenteDigitalService.download(handle.value, context);
                 }),
                 mergeMap((response: ComponenteDigital) => [
+                    new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo}}),
                     new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
                             componenteDigitalId: response.id,
                             loaded: {
@@ -72,7 +73,6 @@ export class ComponenteDigitalEffect {
                             }
                         }
                     ),
-                    new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo}})
                 ]),
                 catchError((err, caught) => {
                     console.log(err);

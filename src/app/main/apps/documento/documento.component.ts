@@ -16,10 +16,10 @@ import * as fromStore from 'app/main/apps/documento/store';
 
 import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
-import {Back} from '../../../store/actions';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'documento',
@@ -47,15 +47,19 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     /**
      *
      * @param _changeDetectorRef
+     * @param _cdkSidebarService
      * @param _cdkTranslationLoaderService
      * @param _store
      * @param _router
+     * @param _activatedRoute
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
+        private _cdkSidebarService: CdkSidebarService,
         private _cdkTranslationLoaderService: CdkTranslationLoaderService,
         private _store: Store<fromStore.DocumentoAppState>,
-        private _router: Router
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute
     ) {
         // Set the defaults
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
@@ -110,6 +114,15 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Toggle the sidebar
+     *
+     * @param name
+     */
+    toggleSidebar(name): void {
+        this._cdkSidebarService.getSidebar(name).toggleOpen();
+    }
 
     /**
      * Refresh
@@ -167,23 +180,27 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     }
 
     visualizarProcessoNovaAba(): void {
-
-        window.open(this.routerState.url.split('/')[1] + '/processo/' + this.documento.processoOrigem.id
+        window.open(this.routerState.url.split('/apps/')[0] + '/apps/processo/' + this.documento.processoOrigem.id
             + '/visualizar', '_blank');
     }
 
     visualizarProcesso(indice): void {
-
         if (indice === 1) {
             this.modoProcesso = 2;
-            this._router.navigate([
-                    this.routerState.url.split(this.routerState.params.documentoHandle + '/editar')[0] +
-                    this.routerState.params.documentoHandle + '/editar/visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar'
-                ]
-            ).then();
+            let primary: string;
+            primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar';
+            this._router.navigate([{outlets: {primary: primary}}],
+                {
+                    relativeTo: this._activatedRoute // <--- PARENT activated route.
+                }).then();
         } else {
             this.modoProcesso = 1;
-            this._store.dispatch(new Back());
+            let primary: string;
+            primary = 'componente-digital/' + this.currentComponenteDigital.id + '/editor/ckeditor';
+            this._router.navigate([{outlets: {primary: primary}}],
+                {
+                    relativeTo: this._activatedRoute // <--- PARENT activated route.
+                }).then();
         }
     }
 }

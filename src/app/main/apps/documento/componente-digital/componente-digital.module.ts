@@ -15,6 +15,7 @@ const routes: Routes = [
     {
         path: ':componenteDigitalHandle',
         component: ComponenteDigitalComponent,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path: 'assinaturas',
@@ -36,8 +37,7 @@ const routes: Routes = [
                 path: 'empty',
                 loadChildren: () => import('./componente-digital-empty/componente-digital-empty.module').then(m => m.ComponenteDigitalEmptyModule),
             }
-        ],
-        canActivate: [fromGuards.ResolveGuard]
+        ]
     }
 ];
 
@@ -65,7 +65,8 @@ modulesConfig.forEach((module) => {
 
     ],
     providers: [
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        ComponenteDigitalService
     ],
     exports: [
         ComponenteDigitalComponent

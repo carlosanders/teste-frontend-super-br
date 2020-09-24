@@ -15,9 +15,12 @@ import {CdkSidebarModule} from '@cdk/components';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {MatTabsModule} from '@angular/material/tabs';
 import {modulesConfig} from 'modules/modules-config';
+import {DocumentoModeloEditModule} from './modelo-edit/documento-modelo-edit.module';
+import {ComponenteDigitalModule} from './componente-digital/componente-digital.module';
+import {SigiloService} from '@cdk/services/sigilo.service';
+import {JuntadaService} from '@cdk/services/juntada.service';
 
 const routes: Routes = [
     {
@@ -27,26 +30,39 @@ const routes: Routes = [
             {
                 path       : 'editar',
                 loadChildren: () => import('./documento-edit/documento-edit.module').then(m => m.DocumentoEditModule),
+                outlet     : 'sidebar'
             },
             {
                 path       : 'oficio',
                 loadChildren: () => import('./documento-avulso-edit/documento-avulso-edit.module').then(m => m.DocumentoAvulsoEditModule),
+                outlet     : 'sidebar'
             },
             {
                 path       : 'modelo',
                 loadChildren: () => import('./modelo-edit/documento-modelo-edit.module').then(m => m.DocumentoModeloEditModule),
+                outlet     : 'sidebar'
             },
             {
                 path       : 'template',
                 loadChildren: () => import('./template-edit/documento-template-edit.module').then(m => m.DocumentoTemplateEditModule),
+                outlet     : 'sidebar'
             },
             {
                 path       : 'repositorio',
                 loadChildren: () => import('./repositorio-edit/documento-repositorio-edit.module').then(m => m.DocumentoRepositorioEditModule),
+                outlet     : 'sidebar'
             },
             {
-                path : '**',
-                redirectTo: 'editar'
+                path       : 'componente-digital',
+                loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
+            },
+            {
+                path       : 'anexar-copia',
+                loadChildren: () => import('./anexar-copia/anexar-copia.module').then(m => m.AnexarCopiaModule)
+            },
+            {
+                path       : 'visualizar-processo',
+                loadChildren: () => import('./visualizar-processo/visualizar-processo.module').then(m => m.VisualizarProcessoModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
@@ -74,18 +90,23 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         DocumentoEditModule,
         DocumentoStoreModule,
+        ComponenteDigitalModule,
 
         CdkDocumentoCardListModule,
 
         CdkSidebarModule,
         MatTooltipModule,
         MatSlideToggleModule,
-        MatTabsModule
+        MatTabsModule,
+
+        DocumentoModeloEditModule
     ],
     providers: [
         DocumentoService,
         DocumentoAvulsoService,
         ModeloService,
+        SigiloService,
+        JuntadaService,
         RepositorioService,
         fromGuards.ResolveGuard
     ],

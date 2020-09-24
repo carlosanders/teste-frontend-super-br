@@ -1,0 +1,12 @@
+<div class="atividade" *ngIf="this.atividade && this.tarefa">
+    <cdk-atividade-form cdkPerfectScrollbar
+        [atividade]="atividade"
+        [documentoAvulsoVinculado]="tarefa.processo?.documentoAvulsoOrigem"
+        [especieAtividadePagination]="especieAtividadePagination"
+        [temMinutas]="true"
+        [mode]="'vertical'"
+        [saving]="(atividadeIsSaving$ | async)"
+        [errors]="(atividadeErrors$ | async)"
+        (save)="submitAtividade($event)">
+    </cdk-atividade-form>
+</div>
