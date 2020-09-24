@@ -8,7 +8,8 @@
                   *ngIf="this.mode === 'list'">Filtro</span>
         </div>
 
-        <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
+    <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
             <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">

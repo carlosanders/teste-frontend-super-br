@@ -8,7 +8,8 @@
                   *ngIf="this.mode === 'list'">Filtro</span>
         </div>
 
-        <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
+    <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
             <mat-form-field>
                 <mat-label>Valor</mat-label>
@@ -73,18 +74,5 @@
                 <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
                 <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
                 </mat-datetimepicker>
-            </mat-form-field>
-
-        </div>
-
-        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
-                Buscar
-            </button>
-
-            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode === 'list'">
-                Limpar
-            </button>
-        </div>
-    </div>
-</form>
+            </mat-form-field><div class="content" cdkPerfectScrollbar>
+    <form fxLayoutGap="16px" name="form" [formGroup]="form">
