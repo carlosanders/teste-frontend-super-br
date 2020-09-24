@@ -1,21 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <input matInput placeholder="WorkFlow"
-               formControlName="workflow"
-               [matAutocomplete]="workflow.autocomplete">
-        <cdk-workflow-autocomplete
-            #workflow="workflowAutocomplete"
-            [control]="form.get('workflow')">
-        </cdk-workflow-autocomplete>
-        <button matSuffix mat-button mat-icon-button
-                (click)="showWorkflowGrid()">
-            <mat-icon matTooltip="Procurar">search</mat-icon>
-        </button>
-    </mat-form-field>
-
-    <mat-form-field>
-        <input matInput placeholder="Espécie Ativididade"
+        <input matInput placeholder="Espécie Ativididade Lançada"
                formControlName="especieAtividade"
                [matAutocomplete]="especieAtividade.autocomplete">
         <cdk-especie-atividade-autocomplete
@@ -29,7 +15,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Espécie Tarefa From"
+        <input matInput placeholder="Espécie Tarefa De"
                formControlName="especieTarefaFrom"
                [matAutocomplete]="especieTarefaFrom.autocomplete">
         <cdk-especie-tarefa-autocomplete
@@ -43,7 +29,7 @@
     </mat-form-field>
 
     <mat-form-field>
-            <input matInput placeholder="Espécie Tarefa To"
+            <input matInput placeholder="Espécie Tarefa Para"
                    formControlName="especieTarefaTo"
                    [matAutocomplete]="especieTarefaTo.autocomplete">
         <cdk-especie-tarefa-autocomplete
@@ -69,13 +55,6 @@
     </div>
 
 </form>
-
-<cdk-workflow-gridsearch
-    *ngIf="activeCard === 'workflow-gridsearch'"
-    [pagination]="workflowPagination"
-    (selected)="selectWorkflow($event)"
-    (cancel)="cancel()">
-</cdk-workflow-gridsearch>
 
 <cdk-especie-atividade-gridsearch
     *ngIf="activeCard === 'especie-atividade-gridsearch'"

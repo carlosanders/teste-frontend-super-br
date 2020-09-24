@@ -181,6 +181,14 @@
                     <td mat-cell *matCellDef="let workflow">
 
                         <button mat-icon-button
+                                *ngIf="actions.indexOf('transicoes') > -1 && !hasExcluded"
+                                (click)="transicoesWorflow(workflow.id)"
+                                aria-label="transições"
+                                matTooltip="Transições">
+                            <mat-icon>transform</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
                                 *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectWorkflow(workflow)"
                                 aria-label="selecionar"

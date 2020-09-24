@@ -9,13 +9,13 @@ import * as TransicaoWorkflowListActions
     from '../../../transicao-workflow-list/store/actions/transicao-workflow-list.actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
-import {transicaoWorkflow as transicaoWorkflowSchema} from '@cdk/normalizr/index';
+import {transicaoWorkflow as transicaoWorkflowSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {TransicaoWorkflowService} from '../../../../../../../../@cdk/services/transicao-workflow.service';
-import {Workflow} from '../../../../../../../../@cdk/models';
+import {TransicaoWorkflowService} from '../../../../../../../../../@cdk/services/transicao-workflow.service';
+import {Workflow} from '../../../../../../../../../@cdk/models';
 
 @Injectable()
 export class TransicaoWorkflowEditEffects {

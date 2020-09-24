@@ -62,7 +62,7 @@ export class CdkTransicaoWorkflowAutocompleteComponent implements OnInit {
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilter = {
                             ...termFilter,
-                            'workflow.especieProcesso.nome': `like:%${bit}%`
+                            'especieAtividade.nome': `like:%${bit}%`
                         };
                     });
                     if (typeof value === 'string') {
@@ -94,7 +94,6 @@ export class CdkTransicaoWorkflowAutocompleteComponent implements OnInit {
     }
 
     displayTransicaoWorkflowFn(transicaoWorkflow): string {
-        const displayed = transicaoWorkflow ? transicaoWorkflow.workflow.especieProcesso.nome : '';
-        return displayed;
+        return transicaoWorkflow ? transicaoWorkflow.especieAtividade.nome : '';
     }
 }

@@ -5,8 +5,8 @@ import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
-import * as fromStore from '../';
-import {getWorkflowListLoaded} from '../';
+import * as fromStore from '../index';
+import {getWorkflowListLoaded} from '../index';
 import {getRouterState} from 'app/store/reducers';
 import {TransicaoWorkflowListAppState} from '../reducers';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -60,15 +60,16 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!loaded) {
                     const params = {
-                        filter: {},
+
+                        filter: {
+                            'workflow.id': 'eq:' + this.routerState.params.workflowHandle
+                        },
                         gridFilter: {},
                         limit: 5,
                         offset: 0,
                         sort: {criadoEm: 'ASC'},
                         populate: [
-                            'populateAll',
-                            'workflow',
-                            'workflow.especieProcesso'
+                            'populateAll'
                         ],
                         context: {isAdmin: true}
                     };

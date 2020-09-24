@@ -3,9 +3,10 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {TransicaoWorkflow} from '../../../../../../@cdk/models/transicao-workflow.model';
-import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {TransicaoWorkflow} from '../../../../../../../@cdk/models/transicao-workflow.model';
+import {getRouterState} from '../../../../../../store/reducers';
+import {cdkAnimations} from '../../../../../../../@cdk/animations';
+import {Back} from "../../../../../../store/actions";
 
 @Component({
     selector: 'transicao-workflow-list',
@@ -67,12 +68,15 @@ export class TransicaoWorkflowListComponent implements OnInit {
         }));
     }
 
+    cancel(): void {
+        this._store.dispatch(new Back());
+    }
+
     edit(transicaoWorkflowId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId]);
     }
 
     create(): void {
-
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

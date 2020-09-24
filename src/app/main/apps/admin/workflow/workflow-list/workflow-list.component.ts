@@ -1,15 +1,19 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Workflow} from '../../../../../../@cdk/models';
 import {getRouterState} from '../../../../../store/reducers';
+import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
     selector: 'workflow-list',
     templateUrl: './workflow-list.component.html',
-    styleUrls: ['./workflow-list.component.scss']
+    styleUrls: ['./workflow-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class WorkflowListComponent implements OnInit {
 
@@ -63,12 +67,15 @@ export class WorkflowListComponent implements OnInit {
         }));
     }
 
+    editTransicoesWorkflow(workflowId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${workflowId}/transicoes`)]);
+    }
+
     edit(workflowId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + workflowId]);
     }
 
     create(): void {
-
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

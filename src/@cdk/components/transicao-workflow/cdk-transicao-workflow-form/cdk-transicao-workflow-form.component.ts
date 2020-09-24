@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -6,15 +7,19 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    SimpleChange
+    SimpleChange, ViewEncapsulation
 } from '@angular/core';
 import {EspecieAtividade, EspecieTarefa, Pagination, TransicaoWorkflow, Workflow} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {cdkAnimations} from '../../../animations';
 
 @Component({
     selector: 'cdk-transicao-workflow-form',
     templateUrl: './cdk-transicao-workflow-form.component.html',
-    styleUrls: ['./cdk-transicao-workflow-form.component.scss']
+    styleUrls: ['./cdk-transicao-workflow-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkTransicaoWorkflowFormComponent implements OnChanges, OnDestroy {
 
@@ -123,16 +128,6 @@ export class CdkTransicaoWorkflowFormComponent implements OnChanges, OnDestroy {
         this.abort.emit();
     }
 
-    showWorkflowGrid(): void {
-        this.activeCard = 'workflow-gridsearch';
-    }
-
-    selectWorkflow(workflow: Workflow): void {
-        if (workflow) {
-            this.form.get('workflow').setValue(workflow);
-        }
-        this.activeCard = 'form';
-    }
 
     showEspecieTarefaGrid(input: string): void {
         this.controlInputTarefa = input;
@@ -140,7 +135,6 @@ export class CdkTransicaoWorkflowFormComponent implements OnChanges, OnDestroy {
     }
 
     selectEspecieTarefa(especieTarefa: EspecieTarefa): void {
-        debugger
         if (especieTarefa) {
             if (this.controlInputTarefa === 'from') {
                 this.form.get('especieTarefaFrom').setValue(especieTarefa);

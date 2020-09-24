@@ -8,11 +8,11 @@ import {
 } from '@angular/core';
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import * as fromStore from '../../../../../app/store';
+import * as fromStore from '../../../../../store';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
-import {getRouterState} from '../../../../../app/store';
+import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {Back, getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'transicao-workflow',
@@ -62,14 +62,4 @@ export class TransicaoWorkflowComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-
-    goBack(): void {
-        if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/'), 'listar')]).then();
-        }
-        if (this.action === 'criar') {
-            this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
-        }
-    }
-
 }
