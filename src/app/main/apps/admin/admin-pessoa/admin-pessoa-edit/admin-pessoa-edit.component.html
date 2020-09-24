@@ -1,7 +1,9 @@
-<cdk-admin-pessoa-form
-    [pessoa]="(pessoa$ | async)"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    (save)="submitPessoa($event)"
-    (abort)="doAbort()">
-</cdk-admin-pessoa-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-admin-pessoa-form
+        [pessoa]="(pessoa$ | async)"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitPessoa($event)"
+        (abort)="doAbort()">
+    </cdk-admin-pessoa-form>
+</div>

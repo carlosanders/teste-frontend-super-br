@@ -1,10 +1,12 @@
-<cdk-coordenador-form
-    [coordenador]="coordenador"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    [orgaoCentralPagination]="orgaoCentralPagination"
-    [unidadePagination]="unidadePagination"
-    [setorPagination]="setorPagination"
-    (save)="submit($event)"
-    (abort)="doAbort()">
-</cdk-coordenador-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-coordenador-form
+        [coordenador]="coordenador"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [orgaoCentralPagination]="orgaoCentralPagination"
+        [unidadePagination]="unidadePagination"
+        [setorPagination]="setorPagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-coordenador-form>
+</div>

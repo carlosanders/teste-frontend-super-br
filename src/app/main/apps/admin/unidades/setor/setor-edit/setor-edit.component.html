@@ -1,4 +1,5 @@
-<cdk-setor-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-setor-form
         [setor]="setor"
         [unidade]="(unidade$ | async)"
         [saving]="(isSaving$ | async)"
@@ -8,4 +9,5 @@
         [requiredParent]="false"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-setor-form>
+    </cdk-setor-form>
+</div>

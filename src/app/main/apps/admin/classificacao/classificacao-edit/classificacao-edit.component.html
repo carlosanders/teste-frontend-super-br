@@ -1,9 +1,11 @@
-<cdk-classificacao-form
-    [classificacao]="(classificacao$ | async)"
-    [form]="formClassificacao"
-    [classificacaoPagination]="classificacaoPagination"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    (save)="submitClassificacao($event)"
-    (abort)="doAbort()">
-</cdk-classificacao-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-classificacao-form
+        [classificacao]="(classificacao$ | async)"
+        [form]="formClassificacao"
+        [classificacaoPagination]="classificacaoPagination"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitClassificacao($event)"
+        (abort)="doAbort()">
+    </cdk-classificacao-form>
+</div>

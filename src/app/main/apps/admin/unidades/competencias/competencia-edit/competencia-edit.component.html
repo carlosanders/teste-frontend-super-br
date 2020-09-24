@@ -1,8 +1,10 @@
-<cdk-vinculacao-setor-municipio-form
-    [vinculacaoSetorMunicipio]="vinculacaoSetorMunicipio"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    [municipioPagination]="municipioPagination"
-    (save)="submit($event)"
-    (abort)="doAbort()">
-</cdk-vinculacao-setor-municipio-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-vinculacao-setor-municipio-form
+        [vinculacaoSetorMunicipio]="vinculacaoSetorMunicipio"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [municipioPagination]="municipioPagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-vinculacao-setor-municipio-form>
+</div>

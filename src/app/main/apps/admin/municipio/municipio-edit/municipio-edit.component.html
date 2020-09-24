@@ -1,9 +1,11 @@
-<cdk-municipio-form
-    [municipio]="(municipio$ | async)"
-    [form]="formMunicipio"
-    [estadoPagination]="estadoPagination"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    (save)="submitMunicipio($event)"
-    (abort)="doAbort()">
-</cdk-municipio-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-municipio-form
+        [municipio]="(municipio$ | async)"
+        [form]="formMunicipio"
+        [estadoPagination]="estadoPagination"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitMunicipio($event)"
+        (abort)="doAbort()">
+    </cdk-municipio-form>
+</div>

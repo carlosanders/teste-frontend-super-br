@@ -1,4 +1,12 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    OnInit,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Pessoa} from '../../../../../../../@cdk/models';
 import * as fromStore from './store';
@@ -6,11 +14,15 @@ import {Router} from '@angular/router';
 import {Store, select} from '@ngrx/store';
 import {getRouterState} from '../../../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
+import {cdkAnimations} from "../../../../../../../@cdk/animations";
 
 @Component({
     selector: 'vinculacao-pessoa-usuario-list',
     templateUrl: './vinculacao-pessoa-usuario-list.component.html',
-    styleUrls: ['./vinculacao-pessoa-usuario-list.component.scss']
+    styleUrls: ['./vinculacao-pessoa-usuario-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class VinculacaoPessoaUsuarioListComponent implements OnInit {
 

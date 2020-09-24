@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Classificacao, Pagination} from '../../../../../../@cdk/models';
 import {select, Store} from '@ngrx/store';
@@ -7,11 +7,15 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {getRouterState} from '../../../../../store/reducers';
+import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
-    selector: 'app-classificacao-tree-list',
+    selector: 'classificacao-tree-list',
     templateUrl: './classificacao-tree-list.component.html',
-    styleUrls: ['./classificacao-tree-list.component.scss']
+    styleUrls: ['./classificacao-tree-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class ClassificacaoTreeListComponent implements OnInit {
 

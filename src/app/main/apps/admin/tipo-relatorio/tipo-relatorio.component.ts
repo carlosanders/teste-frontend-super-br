@@ -1,15 +1,26 @@
-import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {Router} from '@angular/router';
 import * as fromStore from 'app/store';
 import {select, Store} from '@ngrx/store';
 import {Subject} from 'rxjs';
 import {getRouterState} from 'app/store';
 import {takeUntil} from 'rxjs/operators';
+import {cdkAnimations} from "../../../../../@cdk/animations";
 
 @Component({
   selector: 'tipo-relatorio',
   templateUrl: './tipo-relatorio.component.html',
-  styleUrls: ['./tipo-relatorio.component.scss']
+  styleUrls: ['./tipo-relatorio.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class TipoRelatorioComponent implements OnInit, OnDestroy {
 

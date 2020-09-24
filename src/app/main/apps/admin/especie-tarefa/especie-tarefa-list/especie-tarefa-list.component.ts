@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -6,11 +6,15 @@ import {select, Store} from '@ngrx/store';
 import {EspecieTarefa, Usuario} from '../../../../../../@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
+import {cdkAnimations} from "../../../../../../@cdk/animations";
 
 @Component({
     selector: 'especie-tarefa-list',
     templateUrl: './especie-tarefa-list.component.html',
-    styleUrls: ['./especie-tarefa-list.component.scss']
+    styleUrls: ['./especie-tarefa-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class EspecieTarefaListComponent implements OnInit {
 

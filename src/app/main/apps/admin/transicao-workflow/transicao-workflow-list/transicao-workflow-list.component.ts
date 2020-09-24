@@ -1,15 +1,19 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {TransicaoWorkflow} from '../../../../../../@cdk/models/transicao-workflow.model';
 import {getRouterState} from '../../../../../store/reducers';
+import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
     selector: 'transicao-workflow-list',
     templateUrl: './transicao-workflow-list.component.html',
-    styleUrls: ['./transicao-workflow-list.component.scss']
+    styleUrls: ['./transicao-workflow-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class TransicaoWorkflowListComponent implements OnInit {
 

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -6,11 +6,15 @@ import {select, Store} from '@ngrx/store';
 import {TipoDocumento} from '../../../../../../@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
+import {cdkAnimations} from "../../../../../../@cdk/animations";
 
 @Component({
     selector: 'tipo-documento-list',
     templateUrl: './tipo-documento-list.component.html',
-    styleUrls: ['./tipo-documento-list.component.scss']
+    styleUrls: ['./tipo-documento-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class TipoDocumentoListComponent implements OnInit {
 

@@ -1,3 +1,10 @@
-.form-user{
-    padding: 24px;
+usuarios-externos-edit {
+    flex: 1 1 auto;
+    display: flex;
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        overflow-y: auto;
+    }
 }

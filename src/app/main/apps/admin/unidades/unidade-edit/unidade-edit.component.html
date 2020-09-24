@@ -1,9 +1,11 @@
-<cdk-unidade-form
-    [unidade]="unidade"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    [setorPagination]="setorPagination"
-    [generoSetorPagination]="generoSetorPagination"
-    (save)="submit($event)"
-    (abort)="doAbort()">
-</cdk-unidade-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-unidade-form
+        [unidade]="unidade"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [setorPagination]="setorPagination"
+        [generoSetorPagination]="generoSetorPagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-unidade-form>
+</div>
