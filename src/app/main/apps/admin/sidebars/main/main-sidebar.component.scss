@@ -1,25 +1,32 @@
 admin-main-sidebar {
     display: flex;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     flex-direction: column;
-    height: 100%;
 
-    .altura {
-        height: 100%;
-    }
+    > .header {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
 
-    .header {
-
-        .logo {
-
-            .logo-icon {
-                margin: 0 16px 0 0;
-            }
-
-            .logo-text {
-                font-size: 24px;
-                line-height: 24px;
-            }
+        > .logo {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
         }
     }
+
+    > .content {
+
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        height: 0;
+        overflow-y: auto;
+
+    }
 }
+

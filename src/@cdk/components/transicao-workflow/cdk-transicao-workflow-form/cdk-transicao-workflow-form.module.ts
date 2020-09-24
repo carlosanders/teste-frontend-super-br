@@ -19,12 +19,8 @@ import {CdkEspecieProcessoAutocompleteModule} from '../../especie-processo/cdk-e
 import {CdkEspecieTarefaAutocompleteModule} from '../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
 import {CdkEspecieProcessoGridsearchModule} from '../../especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-gridsearch/cdk-especie-processo-gridsearch.module';
 import {CdkEspecieTarefaGridsearchModule} from '../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-gridsearch/cdk-especie-tarefa-gridsearch.module';
-import {CdkWorkflowAutocompleteModule} from '../../workflow/cdk-workflow-autocomplete/cdk-workflow-autocomplete.module';
 import {CdkEspecieAtividadeAutocompleteModule} from '../../especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-autocomplete.module';
-import {CdkWorkflowGridsearchModule} from '../../workflow/cdk-workflow-autocomplete/cdk-workflow-gridsearch/cdk-workflow-gridsearch.module';
 import {CdkEspecieAtividadeGridsearchModule} from '../../especie-atividade/cdk-especie-atividade-autocomplete/cdk-especie-atividade-gridsearch/cdk-especie-atividade-gridsearch.module';
-
-
 
 @NgModule({
     declarations: [CdkTransicaoWorkflowFormComponent],
@@ -51,9 +47,7 @@ import {CdkEspecieAtividadeGridsearchModule} from '../../especie-atividade/cdk-e
         CdkEspecieTarefaAutocompleteModule,
         CdkEspecieProcessoGridsearchModule,
         CdkEspecieTarefaGridsearchModule,
-        CdkWorkflowAutocompleteModule,
         CdkEspecieAtividadeAutocompleteModule,
-        CdkWorkflowGridsearchModule,
         CdkEspecieAtividadeGridsearchModule
     ]
 })

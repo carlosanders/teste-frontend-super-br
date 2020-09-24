@@ -43,7 +43,7 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'workflow.especieProcesso.nome', 'especieAtividade.nome', 'especieTarefaFrom.nome', 'especieTarefaTo.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'especieAtividade.nome', 'especieTarefaFrom.nome', 'especieTarefaTo.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -54,11 +54,6 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
         {
             id: 'id',
             label: 'Id',
-            fixed: true
-        },
-        {
-            id: 'workflow.especieProcesso.nome',
-            label: 'Workflow',
             fixed: true
         },
         {

@@ -1,15 +1,13 @@
-<form class="altura" fxLayoutGap="16px" name="form" [formGroup]="form">
+<div class="header">
+    <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+        search
+    </mat-icon>
+    <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+          *ngIf="this.mode === 'list'">Filtro</span>
+</div>
 
-    <div class="altura" fxLayout="column">
-        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
-            <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                search
-            </mat-icon>
-            <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
-                  *ngIf="this.mode === 'list'">Filtro</span>
-        </div>
-
-        <div class="padd" fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+<div class="content" cdkPerfectScrollbar>
+    <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
         <mat-form-field>
             <mat-label>Valor</mat-label>
@@ -29,11 +27,11 @@
             <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
         </mat-form-field>
 
-        <mat-checkbox formControlName="ativo" class="mr-16 mb-16" fxFlex="0 1 auto">
+        <mat-checkbox formControlName="ativo">
             Ativo
         </mat-checkbox>
 
-        <mat-form-field class="mr-sm-12">
+        <mat-form-field>
             <mat-label>Criado Em</mat-label>
             <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
             <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
@@ -41,16 +39,15 @@
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Atualizado Por"
-                       formControlName="atualizadoPor"
-                       [matAutocomplete]="usuario.autocomplete">
-            </div>
+
+            <input matInput placeholder="Atualizado Por"
+                   formControlName="atualizadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="mr-sm-12">
+        <mat-form-field>
             <mat-label>Atualizado Em</mat-label>
             <input matInput formControlName="atualizadoEm" [matDatetimepicker]="atualizadoEm">
             <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
@@ -59,16 +56,15 @@
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input matInput placeholder="Apagado Por"
-                       formControlName="apagadoPor"
-                       [matAutocomplete]="usuario.autocomplete">
-            </div>
+
+            <input matInput placeholder="Apagado Por"
+                   formControlName="apagadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
-        <mat-form-field class="mr-sm-12">
+        <mat-form-field>
             <mat-label>Apagado Em</mat-label>
             <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
             <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
@@ -76,16 +72,14 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        </div>
+    </form>
+</div>
 
-        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
-                Buscar
-            </button>
-
-            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode === 'list'">
-                Limpar
-            </button>
-        </div>
-    </div>
-</form>
+<div class="footer">
+    <button mat-raised-button color="accent" (click)="buscar()">
+        Buscar
+    </button>
+    <button mat-raised-button color="warn" (click)="limpar()">
+        Limpar
+    </button>
+</div>

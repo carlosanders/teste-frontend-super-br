@@ -79,18 +79,6 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
 
-    // ngAfterViewInit(): void {
-    //     const path = 'app/main/apps/arquivista/arquivista-detail';
-    //     modulesConfig.forEach((module) => {
-    //         if (module.components.hasOwnProperty(path)) {
-    //             module.components[path].forEach((c => {
-    //                 this._dynamicService.loadComponent(c)
-    //                     .then(componentFactory => this.container.createComponent(componentFactory));
-    //             }));
-    //         }
-    //     });
-    // }
-
     ngOnInit(): void {
         this._store.pipe(
             select(getRouterState),

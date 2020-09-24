@@ -1,3 +1,9 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">low_priority</mat-icon>
+    <a [routerLink]="['/apps/admin/workflows/listar']">workflows</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>workflow {{routerState.params.workflowHandle}}</span>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-workflow-form
         [workflow]="(workflow$ | async)"

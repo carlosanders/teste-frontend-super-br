@@ -1,0 +1,25 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">low_priority</mat-icon>
+    <a [routerLink]="['/apps/admin/workflows/listar']">workflows</a>
+    <span class="mr-4 ml-4">/</span>
+    <a [routerLink]="['/apps/admin/workflows/editar', routerState.params.workflowHandle]">
+        workflow {{routerState.params.workflowHandle}}</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>transições</span>
+</div>
+<div class="content">
+    <cdk-transicao-workflow-grid
+        [loading]="(loading$ | async)"
+        [transicoesWorkflows]="(transicoesWorkflows$ | async)"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [displayedColumns]="['id', 'especieAtividade.nome', 'especieTarefaFrom.nome', 'especieTarefaTo.nome', 'actions']"
+        [actions]="['cancel', 'edit', 'create', 'delete']"
+        (cancel)="cancel()"
+        (reload)="reload($event)"
+        (edit)="edit($event)"
+        (create)="create()"
+        (delete)="delete($event)">
+    </cdk-transicao-workflow-grid>
+</div>
