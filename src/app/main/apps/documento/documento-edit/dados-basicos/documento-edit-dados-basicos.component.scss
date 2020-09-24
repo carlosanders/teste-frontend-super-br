@@ -3,7 +3,7 @@ documento-edit-dados-basicos {
     flex: 1 1 auto;
     flex-direction: column;
 
-    .dados-basicos {
+    > .dados-basicos {
         display: flex;
         flex-direction: column;
         flex: 1 1 auto;

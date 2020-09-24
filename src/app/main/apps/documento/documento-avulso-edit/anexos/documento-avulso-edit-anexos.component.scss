@@ -1,9 +1,16 @@
 documento-avulso-edit-anexos {
-    flex: 1 0 auto;
+    flex: 1 1 auto;
+    display: flex;
 
-    .documentos-vinculados {
+    > .documentos-vinculados {
+        display: flex;
         flex-direction: column;
         flex: 1 0 auto;
         overflow-y: auto;
+
+        ng-template {
+            display: flex;
+            flex: 1 1 auto;
+        }
     }
 }

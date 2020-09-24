@@ -1,12 +1,23 @@
 <h3 style="font-weight: bold">Sigilos</h3>
+<div class="dados-basicos" *ngIf="formSigilos">
+    <div class="sigilos-actions m-16">
+        <button mat-icon-button
+                (click)="showFormSigilos()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
 
-<cdk-sigilo-form class="mr-8" *ngIf="formSigilos"
-                 [sigilo]="sigilo"
-                 [loading]="(sigiloLoading$ | async)"
-                 [saving]="(sigiloIsSaving$ | async)"
-                 [errors]="(sigiloErrors$ | async)"
-                 (save)="submitSigilo($event)"
-></cdk-sigilo-form>
+    <cdk-sigilo-form cdkPerfectScrollbar class="mr-8"
+                     [sigilo]="sigilo"
+                     [loading]="(sigiloLoading$ | async)"
+                     [saving]="(sigiloIsSaving$ | async)"
+                     [errors]="(sigiloErrors$ | async)"
+                     (save)="submitSigilo($event)">
+
+    </cdk-sigilo-form>
+</div>
 
 <cdk-sigilo-grid
     *ngIf="!formSigilos"

@@ -2,8 +2,9 @@ documento-edit-visibilidade {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 
-    .visibilidade-actions {
+    > .visibilidade-actions {
         flex: 0 0 auto;
         justify-content: flex-start;
         align-items: center;

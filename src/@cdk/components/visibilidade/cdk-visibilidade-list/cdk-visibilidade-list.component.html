@@ -1,11 +1,10 @@
-<div [@animateStagger]="{value:'50'}" fxLayout="column">
+<div [@animateStagger]="{value:'50'}">
 
-    <div fxLayout="column" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner class="visibilidade-list-loading" *ngIf="loading" diameter="24"></mat-spinner>
+    <div class="loading" *ngIf="loading">
+        <mat-spinner class="visibilidade-list-loading" diameter="32"></mat-spinner>
     </div>
 
-    <div fxLayout="column" fxFlex *ngIf="!loading">
+    <div class="items" cdkPerfectScrollbar *ngIf="!loading">
         <cdk-visibilidade-list-item matRipple *ngFor="let visibilidade of visibilidades" [visibilidade]="visibilidade"
                                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(visibilidade.id) > -1"
                                     [total]="visibilidades.length"
@@ -13,10 +12,9 @@
                                     [@animate]="{value:'*',params:{y:'100%'}}">
         </cdk-visibilidade-list-item>
     </div>
-
 </div>
 
-<div *ngIf="visibilidades && visibilidades.length === 0 && !loading" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
+<div *ngIf="visibilidades && visibilidades.length === 0 && !loading" class="no-items">
     <span class="no-visibilidades-text hint-text">{{ 'ACESSO LIBERADO' }}</span>
 </div>
 

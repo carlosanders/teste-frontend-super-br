@@ -4,4 +4,19 @@ cdk-sigilo-form {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+
+    .dates {
+        display: flex;
+        flex-direction: row;
+        flex: 1 1 auto;
+    }
+
+    mat-slide-toggle {
+        margin-right: 16px;
+        margin-bottom: 16px;
+    }
+
+    mat-radio-button {
+        margin-right: 10px;
+    }
 }

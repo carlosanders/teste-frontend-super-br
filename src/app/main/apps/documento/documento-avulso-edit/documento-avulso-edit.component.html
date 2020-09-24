@@ -1,20 +1,27 @@
-<div class="actions p-16">
-    <button mat-icon-button aria-label="editar o documento"
-            matTooltip="Editar o Documento" routerLink="dados-basicos"
-            [routerLinkActive]="['active', 'accent']">
-        <mat-icon class="black-fg">edit</mat-icon>
-    </button>
+<div class="documento-avulso-edit page-layout full-width inner-scroll">
+    <!-- CENTER -->
+    <div class="center">
+        <div class="actions p-16">
+            <button mat-icon-button aria-label="editar o documento"
+                    matTooltip="Editar o Documento" routerLink="dados-basicos"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">edit</mat-icon>
+            </button>
 
-    <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Gerir Anexos"
-            matTooltip="Gerir Anexos" routerLink="anexos"
-            [routerLinkActive]="['active', 'accent']">
-        <mat-icon class="black-fg">attachment</mat-icon>
-    </button>
+            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Gerir Anexos"
+                    matTooltip="Gerir Anexos" routerLink="anexos"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">attachment</mat-icon>
+            </button>
 
-    <button mat-icon-button aria-label="inteligência jurídica"
-            matTooltip="Inteligência Jurídica" routerLink="inteligencia"
-            [routerLinkActive]="['active', 'accent']">
-        <mat-icon class="black-fg">gavel</mat-icon>
-    </button>
+            <button mat-icon-button aria-label="inteligência jurídica"
+                    matTooltip="Inteligência Jurídica" routerLink="inteligencia"
+                    [routerLinkActive]="['active', 'accent']">
+                <mat-icon class="black-fg">gavel</mat-icon>
+            </button>
+        </div>
+        <div class="content" cdkPerfectScrollbar>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </div>
-<router-outlet></router-outlet>
