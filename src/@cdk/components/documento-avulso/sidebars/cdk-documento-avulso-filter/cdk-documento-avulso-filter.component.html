@@ -1,241 +1,209 @@
+<div class="header">
+    <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+        search
+    </mat-icon>
+    <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+          *ngIf="this.mode === 'list'">Filtro</span>
+</div>
 
-
-    <div class="header">
-            <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                search
-            </mat-icon>
-            <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
-                  *ngIf="this.mode === 'list'">Filtro</span>
-        </div>
-
-        <div class="content" cdkPerfectScrollbar>
+<div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-            <mat-form-field>
-                <mat-label>Observação</mat-label>
-                <input matInput #observacao
-                       name="observacao"
-                       formControlName="observacao">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Observação</mat-label>
+            <input matInput #observacao
+                   name="observacao"
+                   formControlName="observacao">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Post It</mat-label>
-                <input matInput #postIt
-                       name="postIt"
-                       formControlName="postIt">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Post It</mat-label>
+            <input matInput #postIt
+                   name="postIt"
+                   formControlName="postIt">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Auditoria de Distribuição</mat-label>
-                <input matInput #auditoriaDistribuicao
-                       name="auditoriaDistribuicao"
-                       formControlName="auditoriaDistribuicao">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Auditoria de Distribuição</mat-label>
+            <input matInput #auditoriaDistribuicao
+                   name="auditoriaDistribuicao"
+                   formControlName="auditoriaDistribuicao">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Tipo de Distribuição</mat-label>
-                <input matInput #tipoDistribuicao
-                       name="tipoDistribuicao"
-                       formControlName="tipoDistribuicao">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Tipo de Distribuição</mat-label>
+            <input matInput #tipoDistribuicao
+                   name="tipoDistribuicao"
+                   formControlName="tipoDistribuicao">
+        </mat-form-field>
 
-            <mat-checkbox formControlName="distribuicaoAutomatica">
-                Distribuição Automática
-            </mat-checkbox>
+        <mat-checkbox formControlName="distribuicaoAutomatica">
+            Distribuição Automática
+        </mat-checkbox>
 
-            <mat-checkbox formControlName="livreBalanceamento">
-                Livre de Balanceamento
-            </mat-checkbox>
+        <mat-checkbox formControlName="livreBalanceamento">
+            Livre de Balanceamento
+        </mat-checkbox>
 
-            <mat-checkbox formControlName="urgente">
-                Urgente
-            </mat-checkbox>
+        <mat-checkbox formControlName="urgente">
+            Urgente
+        </mat-checkbox>
 
-            <mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Setor de Origem"
+                   formControlName="setorOrigem"
+                   [matAutocomplete]="setor.autocomplete">
+            <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorOrigem')">
+            </cdk-setor-autocomplete>
+        </mat-form-field>
 
-                    <input matInput placeholder="Setor de Origem"
-                           formControlName="setorOrigem"
-                           [matAutocomplete]="setor.autocomplete">
-                </div>
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorOrigem')">
-                </cdk-setor-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Espécie de Documento Avulso"
+                   formControlName="especieDocumentoAvulso"
+                   [matAutocomplete]="especieDocumentoAvulso.autocomplete">
+            <cdk-especie-documento-avulso-autocomplete #especieDocumentoAvulso="especieDocumentoAvulsoAutocomplete"
+                                                       [control]="form.get('especieDocumentoAvulso')">
+            </cdk-especie-documento-avulso-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Modelo"
+                   formControlName="modelo"
+                   [matAutocomplete]="modelo.autocomplete">
+            <cdk-modelo-autocomplete #modelo="modeloAutocomplete" [control]="form.get('modelo')">
+            </cdk-modelo-autocomplete>
+        </mat-form-field>
 
-                    <input matInput placeholder="Espécie de Documento Avulso"
-                           formControlName="especieDocumentoAvulso"
-                           [matAutocomplete]="especieDocumentoAvulso.autocomplete">
-                </div>
-                <cdk-especie-documento-avulso-autocomplete #especieDocumentoAvulso="especieDocumentoAvulsoAutocomplete"
-                                                           [control]="form.get('especieDocumentoAvulso')">
-                </cdk-especie-documento-avulso-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Pessoa de Destino"
+                   formControlName="pessoaDestino"
+                   [matAutocomplete]="pessoa.autocomplete">
+            <cdk-pessoa-autocomplete #pessoa="pessoaAutocomplete" [control]="form.get('pessoaDestino')">
+            </cdk-pessoa-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Setor de Destino"
+                   formControlName="setorDestino"
+                   [matAutocomplete]="setor.autocomplete">
+            <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorDestino')">
+            </cdk-setor-autocomplete>
+        </mat-form-field>
 
-                    <input matInput placeholder="Modelo"
-                           formControlName="modelo"
-                           [matAutocomplete]="modelo.autocomplete">
-                </div>
-                <cdk-modelo-autocomplete #modelo="modeloAutocomplete" [control]="form.get('modelo')">
-                </cdk-modelo-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Documento de Resposta"
+                   formControlName="documentoResposta"
+                   [matAutocomplete]="documento.autocomplete">
+            <cdk-documento-autocomplete #documento="documentoAutocomplete"
+                                        [control]="form.get('documentoResposta')">
+            </cdk-documento-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Documento de Remessa"
+                   formControlName="documentoRemessa"
+                   [matAutocomplete]="documento.autocomplete">
+            <cdk-documento-autocomplete #documento="documentoAutocomplete" [control]="form.get('documentoRemessa')">
+            </cdk-documento-autocomplete>
+        </mat-form-field>
 
-                    <input matInput placeholder="Pessoa de Destino"
-                           formControlName="pessoaDestino"
-                           [matAutocomplete]="pessoa.autocomplete">
-                </div>
-                <cdk-pessoa-autocomplete #pessoa="pessoaAutocomplete" [control]="form.get('pessoaDestino')">
-                </cdk-pessoa-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Usuário Responsável"
+                   formControlName="usuarioResponsavel"
+                   [matAutocomplete]="usuario.autocomplete">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioResponsavel')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="UsuárioResposta"
+                   formControlName="usuarioResposta"
+                   [matAutocomplete]="usuario.autocomplete">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioResposta')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
-                    <input matInput placeholder="Setor de Destino"
-                           formControlName="setorDestino"
-                           [matAutocomplete]="setor.autocomplete">
-                </div>
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorDestino')">
-                </cdk-setor-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Usuário Remessa"
+                   formControlName="usuarioRemessa"
+                   [matAutocomplete]="usuario.autocomplete">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioRemessa')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Setor Responsável"
+                   formControlName="setorResponsavel"
+                   [matAutocomplete]="setor.autocomplete">
+            <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorResponsavel')">
+            </cdk-setor-autocomplete>
+        </mat-form-field>
 
-                    <input matInput placeholder="Documento de Resposta"
-                           formControlName="documentoResposta"
-                           [matAutocomplete]="documento.autocomplete">
-                </div>
-                <cdk-documento-autocomplete #documento="documentoAutocomplete"
-                                            [control]="form.get('documentoResposta')">
-                </cdk-documento-autocomplete>
-            </mat-form-field>
+        <!--        <mat-form-field>-->
+        <!---->
+        <!--                <input matInput placeholder="Processo"-->
+        <!--                       formControlName="processo"-->
+        <!--                       [matAutocomplete]="processo.autocomplete">-->
+        <!--            </div>-->
+        <!--            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">-->
+        <!--            </cdk-processo-autocomplete>-->
+        <!--        </mat-form-field>-->
 
-            <mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Origem do Documento Avulso"
+                   formControlName="documentoAvulsoOrigem"
+                   [matAutocomplete]="documentoAvulso.autocomplete">
+            <cdk-documento-avulso-autocomplete #documentoAvulso="documentoAvulsoAutocomplete"
+                                               [control]="form.get('documentoAvulsoOrigem')">
+            </cdk-documento-avulso-autocomplete>
+        </mat-form-field>
 
-                    <input matInput placeholder="Documento de Remessa"
-                           formControlName="documentoRemessa"
-                           [matAutocomplete]="documento.autocomplete">
-                </div>
-                <cdk-documento-autocomplete #documento="documentoAutocomplete" [control]="form.get('documentoRemessa')">
-                </cdk-documento-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Tarefa"
+                   formControlName="tarefaOrigem"
+                   [matAutocomplete]="tarefa.autocomplete">
+            <cdk-tarefa-autocomplete #tarefa="tarefaAutocomplete" [control]="form.get('tarefaOrigem')">
+            </cdk-tarefa-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
+        <mat-form-field>
+            <mat-label>Criado Em</mat-label>
+            <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+        </mat-form-field>
 
-                    <input matInput placeholder="Usuário Responsável"
-                           formControlName="usuarioResponsavel"
-                           [matAutocomplete]="usuario.autocomplete">
-                </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioResponsavel')">
-                </cdk-usuario-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Atualizado Por"
+                   formControlName="atualizadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
+        <mat-form-field>
+            <mat-label>Atualizado Em</mat-label>
+            <input matInput formControlName="criadoEm" [matDatetimepicker]="atualizadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
 
-                    <input matInput placeholder="UsuárioResposta"
-                           formControlName="usuarioResposta"
-                           [matAutocomplete]="usuario.autocomplete">
-                </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioResposta')">
-                </cdk-usuario-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Apagado Por"
+                   formControlName="apagadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
-
-                    <input matInput placeholder="Usuário Remessa"
-                           formControlName="usuarioRemessa"
-                           [matAutocomplete]="usuario.autocomplete">
-                </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioRemessa')">
-                </cdk-usuario-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-
-                    <input matInput placeholder="Setor Responsável"
-                           formControlName="setorResponsavel"
-                           [matAutocomplete]="setor.autocomplete">
-                </div>
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorResponsavel')">
-                </cdk-setor-autocomplete>
-            </mat-form-field>
-
-            <!--        <mat-form-field>-->
-            <!---->
-            <!--                <input matInput placeholder="Processo"-->
-            <!--                       formControlName="processo"-->
-            <!--                       [matAutocomplete]="processo.autocomplete">-->
-            <!--            </div>-->
-            <!--            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">-->
-            <!--            </cdk-processo-autocomplete>-->
-            <!--        </mat-form-field>-->
-
-            <mat-form-field>
-
-                    <input matInput placeholder="Origem do Documento Avulso"
-                           formControlName="documentoAvulsoOrigem"
-                           [matAutocomplete]="documentoAvulso.autocomplete">
-                </div>
-                <cdk-documento-avulso-autocomplete #documentoAvulso="documentoAvulsoAutocomplete"
-                                                   [control]="form.get('documentoAvulsoOrigem')">
-                </cdk-documento-avulso-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-
-                    <input matInput placeholder="Tarefa"
-                           formControlName="tarefaOrigem"
-                           [matAutocomplete]="tarefa.autocomplete">
-                </div>
-                <cdk-tarefa-autocomplete #tarefa="tarefaAutocomplete" [control]="form.get('tarefaOrigem')">
-                </cdk-tarefa-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Criado Em</mat-label>
-                <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
-                <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-            </mat-form-field>
-
-            <mat-form-field>
-
-                    <input matInput placeholder="Atualizado Por"
-                           formControlName="atualizadoPor"
-                           [matAutocomplete]="usuario.autocomplete">
-                </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
-                </cdk-usuario-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Atualizado Em</mat-label>
-                <input matInput formControlName="criadoEm" [matDatetimepicker]="atualizadoEm">
-                <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </mat-form-field>
-
-            <mat-form-field>
-
-                    <input matInput placeholder="Apagado Por"
-                           formControlName="apagadoPor"
-                           [matAutocomplete]="usuario.autocomplete">
-                </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
-                </cdk-usuario-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Apagado Em</mat-label>
-                <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
-                <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Apagado Em</mat-label>
+            <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
 
     </form>
 </div>

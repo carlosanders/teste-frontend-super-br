@@ -37,9 +37,9 @@
         </mat-form-field>
 
         <mat-form-field>
-                <input matInput placeholder="Atualizado Por"
-                       formControlName="atualizadoPor"
-                       [matAutocomplete]="usuario.autocomplete">
+            <input matInput placeholder="Atualizado Por"
+                   formControlName="atualizadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
@@ -53,9 +53,9 @@
         </mat-form-field>
 
         <mat-form-field>
-                <input matInput placeholder="Apagado Por"
-                       formControlName="apagadoPor"
-                       [matAutocomplete]="usuario.autocomplete">
+            <input matInput placeholder="Apagado Por"
+                   formControlName="apagadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

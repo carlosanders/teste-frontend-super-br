@@ -22,9 +22,9 @@
         </mat-form-field>
 
         <mat-form-field>
-                <input matInput placeholder="Modalidade do Documento Identificador"
-                       formControlName="modalidadeDocumentoIdentificador"
-                       [matAutocomplete]="modalidadeDocumentoIdentificador.autocomplete">
+            <input matInput placeholder="Modalidade do Documento Identificador"
+                   formControlName="modalidadeDocumentoIdentificador"
+                   [matAutocomplete]="modalidadeDocumentoIdentificador.autocomplete">
             <cdk-modalidade-documento-identificador-autocomplete
                 #modalidadeDocumentoIdentificador="modalidadeDocumentoIdentificadorAutocomplete"
                 [control]="form.get('modalidadeDocumentoIdentificador')">
@@ -32,9 +32,9 @@
         </mat-form-field>
 
         <mat-form-field>
-                <input matInput placeholder="Origem de Dados"
-                       formControlName="origemDados"
-                       [matAutocomplete]="origemDados.autocomplete">
+            <input matInput placeholder="Origem de Dados"
+                   formControlName="origemDados"
+                   [matAutocomplete]="origemDados.autocomplete">
             <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
                                            [control]="form.get('origemDados')">
             </cdk-origem-dados-autocomplete>
@@ -56,9 +56,9 @@
         </mat-form-field>
 
         <mat-form-field>
-                <input matInput placeholder="Atualizado Por"
-                       formControlName="atualizadoPor"
-                       [matAutocomplete]="usuario.autocomplete">
+            <input matInput placeholder="Atualizado Por"
+                   formControlName="atualizadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
@@ -72,9 +72,9 @@
         </mat-form-field>
 
         <mat-form-field>
-                <input matInput placeholder="Apagado Por"
-                       formControlName="apagadoPor"
-                       [matAutocomplete]="usuario.autocomplete">
+            <input matInput placeholder="Apagado Por"
+                   formControlName="apagadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

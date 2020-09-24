@@ -1,43 +1,37 @@
+<div class="header">
+    <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+        search
+    </mat-icon>
+    <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+          *ngIf="this.mode === 'list'">Filtro</span>
+</div>
 
-
-    <div class="header">
-            <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                search
-            </mat-icon>
-            <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
-                  *ngIf="this.mode === 'list'">Filtro</span>
-        </div>
-
-        <div class="content" cdkPerfectScrollbar>
+<div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-            <mat-form-field>
-                <mat-label>Número</mat-label>
-                <input matInput #numero
-                       name="numero"
-                       formControlName="numero">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Número</mat-label>
+            <input matInput #numero
+                   name="numero"
+                   formControlName="numero">
+        </mat-form-field>
 
-            <mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Origem de Dados"
+                   formControlName="origemDados"
+                   [matAutocomplete]="origemDados.autocomplete">
+            <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
+                                           [control]="form.get('origemDados')">
+            </cdk-origem-dados-autocomplete>
+        </mat-form-field>
 
-                    <input matInput placeholder="Origem de Dados"
-                           formControlName="origemDados"
-                           [matAutocomplete]="origemDados.autocomplete">
-                </div>
-                <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
-                                               [control]="form.get('origemDados')">
-                </cdk-origem-dados-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-
-                    <input matInput placeholder="Pessoa"
-                           formControlName="pessoa"
-                           [matAutocomplete]="pessoa.autocomplete">
-                </div>
-                <cdk-pessoa-autocomplete #pessoa="pessoaAutocomplete" [control]="form.get('pessoa')">
-                </cdk-pessoa-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Pessoa"
+                   formControlName="pessoa"
+                   [matAutocomplete]="pessoa.autocomplete">
+            <cdk-pessoa-autocomplete #pessoa="pessoaAutocomplete" [control]="form.get('pessoa')">
+            </cdk-pessoa-autocomplete>
+        </mat-form-field>
 
     </form>
 </div>

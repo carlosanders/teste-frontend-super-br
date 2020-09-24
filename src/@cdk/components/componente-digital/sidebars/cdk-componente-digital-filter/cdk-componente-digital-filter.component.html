@@ -32,9 +32,9 @@
         </mat-form-field>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <input matInput placeholder="Processo de Origem"
-                       formControlName="processoOrigem"
-                       [matAutocomplete]="processo.autocomplete">
+            <input matInput placeholder="Processo de Origem"
+                   formControlName="processoOrigem"
+                   [matAutocomplete]="processo.autocomplete">
             <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processoOrigem')">
             </cdk-processo-autocomplete>
         </mat-form-field>
@@ -47,9 +47,9 @@
         </mat-form-field>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <input matInput placeholder="Criado Por"
-                       formControlName="criadoPor"
-                       [matAutocomplete]="usuario.autocomplete">
+            <input matInput placeholder="Criado Por"
+                   formControlName="criadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

@@ -1,104 +1,94 @@
+<div class="header">
+    <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+        search
+    </mat-icon>
+    <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+          *ngIf="this.mode === 'list'">Filtro</span>
+</div>
 
-
-    <div class="header">
-            <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                search
-            </mat-icon>
-            <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
-                  *ngIf="this.mode === 'list'">Filtro</span>
-        </div>
-
-        <div class="content" cdkPerfectScrollbar>
+<div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-            <mat-form-field>
-                <mat-label>Nome</mat-label>
-                <input matInput #nome
-                       name="nome"
-                       formControlName="nome">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Nome</mat-label>
+            <input matInput #nome
+                   name="nome"
+                   formControlName="nome">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Highlights</mat-label>
-                <input matInput #highlights
-                       name="highlights"
-                       formControlName="highlights">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Highlights</mat-label>
+            <input matInput #highlights
+                   name="highlights"
+                   formControlName="highlights">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Descrição</mat-label>
-                <input matInput #descricao
-                       name="descricao"
-                       formControlName="descricao">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Descrição</mat-label>
+            <input matInput #descricao
+                   name="descricao"
+                   formControlName="descricao">
+        </mat-form-field>
 
-            <mat-checkbox formControlName="ativo">
-                Ativo
-            </mat-checkbox>
+        <mat-checkbox formControlName="ativo">
+            Ativo
+        </mat-checkbox>
 
-            <mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Modalidade do Repositório"
+                   formControlName="modalidadeRepositorio"
+                   [matAutocomplete]="modalidadeRepositorio.autocomplete">
+            <cdk-modalidade-repositorio-autocomplete #modalidadeRepositorio="modalidadeRepositorioAutocomplete"
+                                                     [control]="form.get('modalidadeRepositorio')">
+            </cdk-modalidade-repositorio-autocomplete>
+        </mat-form-field>
 
-                    <input matInput placeholder="Modalidade do Repositório"
-                           formControlName="modalidadeRepositorio"
-                           [matAutocomplete]="modalidadeRepositorio.autocomplete">
-                </div>
-                <cdk-modalidade-repositorio-autocomplete #modalidadeRepositorio="modalidadeRepositorioAutocomplete"
-                                                         [control]="form.get('modalidadeRepositorio')">
-                </cdk-modalidade-repositorio-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Documento"
+                   formControlName="documento"
+                   [matAutocomplete]="documento.autocomplete">
+            <cdk-documento-autocomplete #documento="documentoAutocomplete" [control]="form.get('documento')">
+            </cdk-documento-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
+        <mat-form-field>
+            <mat-label>Criado Em</mat-label>
+            <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+        </mat-form-field>
 
-                    <input matInput placeholder="Documento"
-                           formControlName="documento"
-                           [matAutocomplete]="documento.autocomplete">
-                </div>
-                <cdk-documento-autocomplete #documento="documentoAutocomplete" [control]="form.get('documento')">
-                </cdk-documento-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Atualizado Por"
+                   formControlName="atualizadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Criado Em</mat-label>
-                <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
-                <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Atualizado Em</mat-label>
+            <input matInput formControlName="criadoEm" [matDatetimepicker]="atualizadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
 
-            <mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Apagado Por"
+                   formControlName="apagadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
-                    <input matInput placeholder="Atualizado Por"
-                           formControlName="atualizadoPor"
-                           [matAutocomplete]="usuario.autocomplete">
-                </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
-                </cdk-usuario-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Atualizado Em</mat-label>
-                <input matInput formControlName="criadoEm" [matDatetimepicker]="atualizadoEm">
-                <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </mat-form-field>
-
-            <mat-form-field>
-
-                    <input matInput placeholder="Apagado Por"
-                           formControlName="apagadoPor"
-                           [matAutocomplete]="usuario.autocomplete">
-                </div>
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
-                </cdk-usuario-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Apagado Em</mat-label>
-                <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
-                <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Apagado Em</mat-label>
+            <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
 
     </form>
 </div>

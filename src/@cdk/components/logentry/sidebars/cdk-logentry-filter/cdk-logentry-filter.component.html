@@ -1,58 +1,56 @@
+<div class="header">
+    <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
+        search
+    </mat-icon>
+    <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
+          *ngIf="this.mode === 'list'">Filtro</span>
+</div>
 
-
-    <div class="header">
-            <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-                search
-            </mat-icon>
-            <span [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}"
-                  *ngIf="this.mode === 'list'">Filtro</span>
-        </div>
-
-        <div class="content" cdkPerfectScrollbar>
+<div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-            <mat-form-field>
-                <mat-label>Ação</mat-label>
-                <input matInput #action
-                       name="action"
-                       formControlName="action">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Ação</mat-label>
+            <input matInput #action
+                   name="action"
+                   formControlName="action">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Object Id</mat-label>
-                <input matInput #objectId
-                       name="objectId"
-                       formControlName="objectId">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Object Id</mat-label>
+            <input matInput #objectId
+                   name="objectId"
+                   formControlName="objectId">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Object Class</mat-label>
-                <input matInput #objectClass
-                       name="objectClass"
-                       formControlName="objectClass">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Object Class</mat-label>
+            <input matInput #objectClass
+                   name="objectClass"
+                   formControlName="objectClass">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Valor</mat-label>
-                <input matInput #valor
-                       name="valor"
-                       formControlName="valor">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Valor</mat-label>
+            <input matInput #valor
+                   name="valor"
+                   formControlName="valor">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Username</mat-label>
-                <input matInput #username
-                       name="username"
-                       formControlName="username">
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input matInput #username
+                   name="username"
+                   formControlName="username">
+        </mat-form-field>
 
-            <mat-form-field>
-                <mat-label>Logged At</mat-label>
-                <input matInput formControlName="loggedAt" [matDatetimepicker]="loggedAt">
-                <mat-datetimepicker-toggle matSuffix [for]="loggedAt"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #loggedAt type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </mat-form-field>
+        <mat-form-field>
+            <mat-label>Logged At</mat-label>
+            <input matInput formControlName="loggedAt" [matDatetimepicker]="loggedAt">
+            <mat-datetimepicker-toggle matSuffix [for]="loggedAt"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #loggedAt type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
 
     </form>
 </div>
