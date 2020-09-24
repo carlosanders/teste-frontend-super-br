@@ -6,12 +6,12 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as WorkflowListActions from '../actions';
-import {TransicaoWorkflowService} from '../../../../../../../../@cdk/services/transicao-workflow.service';
-import {transicaoWorkflow as transicaoWorkflowSchema} from '../../../../../../../../@cdk/normalizr/index';
-import {getRouterState, State} from '../../../../../../../store/reducers';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {LoginService} from '../../../../../../auth/login/login.service';
-import {Workflow} from '../../../../../../../../@cdk/models';
+import {TransicaoWorkflowService} from '../../../../../../../../../@cdk/services/transicao-workflow.service';
+import {transicaoWorkflow as transicaoWorkflowSchema} from '../../../../../../../../../@cdk/normalizr';
+import {getRouterState, State} from '../../../../../../../../store/reducers';
+import {AddData} from '../../../../../../../../../@cdk/ngrx-normalizr';
+import {LoginService} from '../../../../../../../auth/login/login.service';
+import {Workflow} from '../../../../../../../../../@cdk/models';
 
 
 @Injectable()

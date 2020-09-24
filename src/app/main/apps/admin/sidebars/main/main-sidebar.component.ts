@@ -97,11 +97,6 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'WorkFlows',
                 icon: 'low_priority',
                 link: 'workflows'
-            },
-            {
-                nome: 'Transições de Workflow',
-                icon: 'low_priority',
-                link: 'transicoes-workflows'
             }
         ];
 

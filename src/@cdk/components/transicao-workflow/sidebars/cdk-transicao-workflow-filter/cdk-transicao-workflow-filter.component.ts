@@ -39,7 +39,6 @@ export class CdkTransicaoWorkflowFilterComponent implements OnInit {
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
-            workflow: [null],
             especieAtividade: [null],
             especieTarefaFrom: [null],
             especieTarefaTo: [null],
@@ -60,21 +59,6 @@ export class CdkTransicaoWorkflowFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-
-        this.form.get('workflow').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'workflow.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('workflow.id')) {
-                        delete this.filters['workflow.id'];
-                    }
-                }
-            }
-        });
 
         this.form.get('especieAtividade').valueChanges.subscribe(value => {
             if (value !== null) {

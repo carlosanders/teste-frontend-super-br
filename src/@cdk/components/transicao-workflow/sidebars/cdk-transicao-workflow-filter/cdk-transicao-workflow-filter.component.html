@@ -13,18 +13,7 @@
 
             <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Workflow"
-                           formControlName="workflow"
-                           [matAutocomplete]="workflow.autocomplete">
-                </div>
-                <cdk-workflow-autocomplete #workflow="workflowAutocomplete"
-                                                   [control]="form.get('workflow')">
-                </cdk-workflow-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Especie Atividade"
+                    <input matInput placeholder="Especie Atividade Lançada"
                            formControlName="especieAtividade"
                            [matAutocomplete]="especieAtividade.autocomplete">
                 </div>
@@ -35,7 +24,7 @@
 
             <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Especie Tarefa From"
+                    <input matInput placeholder="Especie Tarefa De"
                            formControlName="especieTarefaFrom"
                            [matAutocomplete]="especieTarefa.autocomplete">
                 </div>
@@ -46,7 +35,7 @@
 
             <mat-form-field>
                 <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Especie Tarefa From"
+                    <input matInput placeholder="Especie Tarefa Para"
                            formControlName="especieTarefaTo"
                            [matAutocomplete]="especieTarefa.autocomplete">
                 </div>

@@ -1,0 +1,24 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">low_priority</mat-icon>
+    <a [routerLink]="['/apps/admin/workflows/listar']">workflows</a>
+    <span class="mr-4 ml-4">/</span>
+    <a [routerLink]="['/apps/admin/workflows/editar', routerState.params.workflowHandle]">
+        workflow {{routerState.params.workflowHandle}}</a>
+    <span class="mr-4 ml-4">/</span>
+    <a [routerLink]="['/apps/admin/workflows', routerState.params.workflowHandle, 'transicoes', 'listar']">transições</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>transição {{ routerState.params.transicaoWorkflowHandle }}</span>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-transicao-workflow-form
+        [transicaoWorkflow]="(transicaoWorkflow$ | async)"
+        [especieAtividadePagination]="especieAtividadePagination"
+        [especieTarefaPagination]="especieTarefaPagination"
+        [workflowPagination]="workflowPagination"
+        [form]="formWorkflow"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitWorkflow($event)"
+        (abort)="doAbort()">
+    </cdk-transicao-workflow-form>
+</div>

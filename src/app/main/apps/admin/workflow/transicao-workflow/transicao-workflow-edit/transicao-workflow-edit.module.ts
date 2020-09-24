@@ -16,16 +16,16 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatTooltipModule
-} from '../../../../../../@cdk/angular/material';
+} from '../../../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
-import {CdkSidebarModule} from '../../../../../../@cdk/components';
+import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
+import {CdkSidebarModule} from '../../../../../../../@cdk/components';
 import {MatStepperModule} from '@angular/material/stepper';
 import * as fromGuards from './store/guards';
 import {ResolveGuard} from './store/guards';
 import {TransicaoWorkflowEditStoreModule} from './store/store.module';
-import {TransicaoWorkflowService} from '../../../../../../@cdk/services/transicao-workflow.service';
-import {CdkTransicaoWorkflowFormModule} from '../../../../../../@cdk/components/transicao-workflow/cdk-transicao-workflow-form/cdk-transicao-workflow-form.module';
+import {TransicaoWorkflowService} from '../../../../../../../@cdk/services/transicao-workflow.service';
+import {CdkTransicaoWorkflowFormModule} from '../../../../../../../@cdk/components/transicao-workflow/cdk-transicao-workflow-form/cdk-transicao-workflow-form.module';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [
