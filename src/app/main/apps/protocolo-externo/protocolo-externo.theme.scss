@@ -43,9 +43,11 @@
                     }
                 }
 
-                // Processo list
-                .processo-list {
-                    border-right-color: map-get($foreground, divider);
+                .content {
+                    // Processo list
+                    .processo-list {
+                        border-right-color: map-get($foreground, divider);
+                    }
                 }
 
             }
@@ -166,7 +168,7 @@
 
     // Todo edit
     protocolo-externo-detail {
-        .processo-header {
+        .header {
             background: map-get($background, background);
             border-bottom-color: map-get($foreground, divider);
 

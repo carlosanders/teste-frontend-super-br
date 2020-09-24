@@ -16,7 +16,7 @@
         </mat-card>
     </div>
 
-    <mat-card *showIfRole="'ROLE_PESSOA_VINCULADA'">
+    <mat-card *showIfNotRole="'ROLE_COLABORADOR'">
         <mat-form-field>
             <mat-label>Estado</mat-label>
             <mat-select
@@ -91,7 +91,9 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field *ngIf="this._profile.vinculacoesPessoasUsuarios.length > 1
+        <mat-form-field
+            *ngIf="this._profile.vinculacoesPessoasUsuarios &&
+            this._profile.vinculacoesPessoasUsuarios.length > 1
             && paramHandle === 'meus-processos'">
             <input matInput placeholder="Procedência"
                    formControlName="procedencia"
@@ -217,7 +219,7 @@
         </mat-form-field>
     </mat-card>
 
-    <mat-card *showIfRole="'ROLE_PESSOA_VINCULADA'">
+    <mat-card *showIfNotRole="'ROLE_COLABORADOR'">
         <mat-form-field>
             <mat-label>Resumo</mat-label>
             <input matInput #descricao
