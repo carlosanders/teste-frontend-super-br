@@ -14,6 +14,8 @@ import {Back} from 'app/store';
 import {ComponenteDigital} from '@cdk/models';
 import {Observable} from 'rxjs';
 import {Documento} from '@cdk/models';
+import {getCurrentComponenteDigitalId} from '../store';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'anexar-copia',
@@ -31,13 +33,21 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
+    currentComponenteDigitalId$: Observable<number>;
+    currentComponenteDigitalId: number;
+
     /**
+     *
      * @param _store
      * @param _changeDetectorRef
+     * @param _router
+     * @param _activatedRoute
      */
     constructor(
         private _store: Store<fromStore.DocumentoAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute
     ) {
     }
 
@@ -50,11 +60,16 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
+        this.currentComponenteDigitalId$ = this._store.pipe(select(getCurrentComponenteDigitalId));
         this.isSaving$ = this._store.pipe(select(fromStore.getComponenteDigitalIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getComponenteDigitalErrors));
 
         this.documento$.subscribe(documento => {
             this.documento = documento;
+        });
+
+        this.currentComponenteDigitalId$.subscribe(currentComponenteDigitalId => {
+            this.currentComponenteDigitalId = currentComponenteDigitalId;
         });
     }
 
@@ -65,7 +80,12 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
     }
 
     back(): void {
-        this._store.dispatch(new Back());
+        const rota = 'componente-digital/' + this.currentComponenteDigitalId + '/editor/ckeditor';
+        this._router.navigate(
+            [
+                {outlets: {primary: rota}}
+            ],
+            {relativeTo: this._activatedRoute.parent.parent}).then();
     }
 
     anexarCopia(): void {

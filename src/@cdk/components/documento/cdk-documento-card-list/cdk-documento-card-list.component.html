@@ -2,7 +2,7 @@
      *ngIf="documentos.length > 0">
 
     <mat-checkbox (click)="toggleSelectAll($event)"
-                  [checked]="selectedIds.length"
+                  [checked]="selectedIds.length > 0"
                   [indeterminate]="isIndeterminate"
                   *ngIf="documentos.length > 1">
     </mat-checkbox>
