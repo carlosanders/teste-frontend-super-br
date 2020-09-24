@@ -1,14 +1,39 @@
 cdk-componente-digital-ckeditor {
-  width: 100%;
-  height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    height: 0;
 
-  .cke_1 {
-    width: 100%;
-    height: 97%;
+    ckeditor {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
 
-    .cke_inner {
-      width: 100%;
-      height: 97%;
+        > div:first-of-type {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+
+            > .cke_inner {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                height: 0 !important;
+
+                > .cke_contents {
+                    display: flex;
+                    flex: 1 1 auto;
+                    flex-direction: column;
+                    height: 0 !important;
+
+                    > .cke_wysiwyg_frame {
+                        display: flex;
+                        flex: 1 1 auto;
+                        height: 0 !important;
+                        overflow-y: auto;
+                    }
+                }
+            }
+        }
     }
-  }
 }

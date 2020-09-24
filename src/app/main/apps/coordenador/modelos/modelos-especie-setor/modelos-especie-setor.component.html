@@ -1,8 +1,8 @@
-<div class="modelos-especie-setor-content" fxFlex fxLayout="column">
+<div class="modelos-especie-setor-content">
     <!-- CONTENT HEADER -->
-    <div fxFlex="0 1 auto" fxLayout="column">
-        <div class="m-8" fxLayoutAlign="center">{{this.getTitulo()}} - Modelo: {{(this.modelo$ | async).nome}}</div>
-        <div class="actions m-8" fxLayout="row" fxLayoutAlign="start center">
+    <div class="header">
+        <div class="title">{{this.getTitulo()}} - Modelo: {{(this.modelo$ | async).nome}}</div>
+        <div class="actions m-8">
             <button mat-icon-button
                     (click)="goBack()"
                     *ngIf="action !== 'listar'"
@@ -15,7 +15,7 @@
     <!-- / CONTENT HEADER -->
 
     <!-- CONTENT -->
-    <div class="p-8" fxFlex="1 1 auto" cdkPerfectScrollbar>
+    <div class="content p-8" cdkPerfectScrollbar>
         <router-outlet></router-outlet>
     </div>
 </div>

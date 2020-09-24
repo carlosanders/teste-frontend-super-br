@@ -1,14 +1,44 @@
 documento-edit {
-    height: 100%;
-    width: 100%;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
 
     cdk-vinculacao-etiqueta-chips {
         width: 92% !important;
+        display: flex;
+        flex-direction: column;
+        flex: 0 1 auto;
     }
 
-    .documento-edit-content {
-        height: 100%;
-        width: 100%;
+    .documento-edit {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
 
+        > .center {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            > .actions {
+                display: flex;
+                flex: 0 0 auto;
+                flex-direction: row;
+                justify-content: flex-end;
+                align-items: flex-start;
+            }
+
+            > .dynamic-form {
+                display: flex;
+                flex: 0 1 auto;
+                flex-direction: column;
+            }
+
+            > .content {
+                flex: 1 1 auto;
+                display: flex;
+                padding: 16px;
+            }
+        }
     }
 }

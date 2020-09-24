@@ -10,17 +10,9 @@ export const SAVE_DOCUMENTO = '[DOCUMENTO] SAVE DOCUMENTO';
 export const SAVE_DOCUMENTO_SUCCESS = '[DOCUMENTO] SAVE DOCUMENTO SUCCESS';
 export const SAVE_DOCUMENTO_FAILED = '[DOCUMENTO] SAVE DOCUMENTO FAILED';
 
-export const SAVE_MODELO = '[DOCUMENTO] SAVE MODELO';
-export const SAVE_MODELO_SUCCESS = '[DOCUMENTO] SAVE MODELO SUCCESS';
-export const SAVE_MODELO_FAILED = '[DOCUMENTO] SAVE MODELO FAILED';
-
 export const SAVE_TEMPLATE = '[DOCUMENTO] SAVE TEMPLATE';
 export const SAVE_TEMPLATE_SUCCESS = '[DOCUMENTO] SAVE TEMPLATE SUCCESS';
 export const SAVE_TEMPLATE_FAILED = '[DOCUMENTO] SAVE TEMPLATE FAILED';
-
-export const SAVE_REPOSITORIO = '[DOCUMENTO] SAVE REPOSITORIO';
-export const SAVE_REPOSITORIO_SUCCESS = '[DOCUMENTO] SAVE REPOSITORIO SUCCESS';
-export const SAVE_REPOSITORIO_FAILED = '[DOCUMENTO] SAVE REPOSITORIO FAILED';
 
 export const SET_CURRENT_STEP = '[DOCUMENTO] SET CURRENT STEP';
 export const SET_CURRENT_STEP_SUCCESS = '[DOCUMENTO] SET CURRENT STEP SUCCESS';
@@ -131,42 +123,6 @@ export class SaveDocumentoFailed implements Action
 }
 
 /**
- * Save Modelo
- */
-export class SaveModelo implements Action
-{
-    readonly type = SAVE_MODELO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Save Modelo Success
- */
-export class SaveModeloSuccess implements Action
-{
-    readonly type = SAVE_MODELO_SUCCESS;
-
-    constructor()
-    {
-    }
-}
-
-/**
- * Save Modelo Failed
- */
-export class SaveModeloFailed implements Action
-{
-    readonly type = SAVE_MODELO_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
  * Save Template
  */
 export class SaveTemplate implements Action
@@ -196,42 +152,6 @@ export class SaveTemplateSuccess implements Action
 export class SaveTemplateFailed implements Action
 {
     readonly type = SAVE_TEMPLATE_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Save Repositorio
- */
-export class SaveRepositorio implements Action
-{
-    readonly type = SAVE_REPOSITORIO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Save Repositorio Success
- */
-export class SaveRepositorioSuccess implements Action
-{
-    readonly type = SAVE_REPOSITORIO_SUCCESS;
-
-    constructor()
-    {
-    }
-}
-
-/**
- * Save Repositorio Failed
- */
-export class SaveRepositorioFailed implements Action
-{
-    readonly type = SAVE_REPOSITORIO_FAILED;
 
     constructor(public payload: any)
     {
@@ -463,15 +383,9 @@ export type DocumentoActionsAll
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
     | AssinaDocumentoEletronicamenteFailed
-    | SaveModelo
-    | SaveModeloSuccess
-    | SaveModeloFailed
     | SaveTemplate
     | SaveTemplateSuccess
     | SaveTemplateFailed
-    | SaveRepositorio
-    | SaveRepositorioSuccess
-    | SaveRepositorioFailed
     | SetCurrentStep
     | SetCurrentStepSuccess
     | SetCurrentStepFailed

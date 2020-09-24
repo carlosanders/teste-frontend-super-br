@@ -1,21 +1,14 @@
-<div class="p-8" fxFlex fxLayout="row">
-    <div fxLayout="column" fxFlex="25" *showIfRole="'ROLE_COLABORADOR'">
-        <!-- HEADER -->
-        <div>
+<div class="repositorio-edit page-layout full-width inner-scroll">
+    <!-- CENTER -->
+    <div class="center">
+        <!-- CONTENT HEADER -->
+        <!-- / CONTENT HEADER -->
+
+        <!-- CONTENT -->
+        <div class="content" cdkPerfectScrollbar>
+            <router-outlet></router-outlet>
         </div>
-        <!-- / HEADER -->
-
-        <div class="mb-16" fxFlex fxLayout="column">
-
-            <h3 style="font-weight: bold">Repositório</h3>
-
-            <cdk-repositorio-form fxFlex [repositorio]="(documento$ | async)?.repositorio"
-                                [saving]="(isSaving$ | async)"
-                                [errors]="(errors$ | async)"
-                                (save)="submit($event)">
-            </cdk-repositorio-form>
-
-        </div>
+        <!-- / CONTENT -->
     </div>
-    <router-outlet></router-outlet>
+    <!-- / CENTER -->
 </div>

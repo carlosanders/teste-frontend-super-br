@@ -13,10 +13,10 @@ const routes: Routes = [
                 path: 'listar',
                 loadChildren: () => import('./templates-list/templates-list.module').then(m => m.TemplatesListModule),
             },
-                {
-                    path       : 'editar',
-                    loadChildren: () => import('./templates-edit/templates-edit.module').then(m => m.TemplatesEditModule),
-                },
+            {
+                path: 'editar',
+                loadChildren: () => import('./templates-edit/templates-edit.module').then(m => m.TemplatesEditModule),
+            },
             {
                 path: '**',
                 redirectTo: 'listar'

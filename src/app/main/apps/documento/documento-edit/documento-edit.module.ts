@@ -6,23 +6,11 @@ import {TranslateModule} from '@ngx-translate/core';
 import {DocumentoEditComponent} from './documento-edit.component';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {CdkDocumentoFormModule} from '@cdk/components/documento/cdk-documento-form/cdk-documento-form.module';
-import {DocumentoStoreModule} from '../store/store.module';
 import {MatButtonModule, MatIconModule, MatMenuModule, MatTooltipModule} from '@cdk/angular/material';
-import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
-import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
-import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';
-import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
-import {CdkVisibilidadeListModule} from '@cdk/components/visibilidade/cdk-visibilidade-list/cdk-visibilidade-list.module';
-import {CdkVisibilidadeFormModule} from '@cdk/components/visibilidade/cdk-visibilidade-form/cdk-visibilidade-form.module';
-import {CdkSigiloFormModule} from '@cdk/components/sigilo/cdk-sigilo-form/cdk-sigilo-form.module';
-import {CdkSigiloGridModule} from '@cdk/components/sigilo/cdk-sigilo-grid/cdk-sigilo-grid.module';
-import {CdkAssinaturaGridModule} from '@cdk/components/assinatura/cdk-assinatura-grid/cdk-assinatura-grid.module';
 import {ResizableModule} from 'angular-resizable-element';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
 import {CdkVinculacaoEtiquetaChipsModule} from '@cdk/components/vinculacao-etiqueta/cdk-vinculacao-etiqueta-chips/cdk-vinculacao-etiqueta-chips.module';
-import {CdkJuntadaFormModule} from '@cdk/components/juntada/cdk-juntada-form/cdk-juntada-form.module';
 
 const routes: Routes = [
     {
@@ -30,17 +18,41 @@ const routes: Routes = [
         component: DocumentoEditComponent,
         children: [
             {
-                path       : 'componente-digital',
-                loadChildren: () => import('../componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
+                path: 'acesso-restrito',
+                loadChildren: () => import('./visibilidade/documento-edit-visibilidade.module').then(m => m.DocumentoEditVisibilidadeModule)
             },
             {
-                path       : 'anexar-copia',
-                loadChildren: () => import('../anexar-copia/anexar-copia.module').then(m => m.AnexarCopiaModule)
+                path: 'anexos',
+                loadChildren: () => import('./anexos/documento-edit-anexos.module').then(m => m.DocumentoEditAnexosModule)
             },
             {
-                path       : 'visualizar-processo',
-                loadChildren: () => import('../visualizar-processo/visualizar-processo.module').then(m => m.VisualizarProcessoModule)
-            }
+                path: 'assinaturas',
+                loadChildren: () => import('./assinaturas/documento-edit-assinaturas.module').then(m => m.DocumentoEditAssinaturasModule)
+            },
+            {
+                path: 'atividade',
+                loadChildren: () => import('./atividade/documento-edit-atividade.module').then(m => m.DocumentoEditAtividadeModule)
+            },
+            {
+                path: 'componentes-digitais',
+                loadChildren: () => import('./componentes-digitais/documento-edit-componentes-digitais.module').then(m => m.DocumentoEditComponentesDigitaisModule)
+            },
+            {
+                path: 'dados-basicos',
+                loadChildren: () => import('./dados-basicos/documento-edit-dados-basicos.module').then(m => m.DocumentoEditDadosBasicosModule)
+            },
+            {
+                path: 'inteligencia',
+                loadChildren: () => import('./inteligencia/documento-edit-inteligencia.module').then(m => m.DocumentoEditInteligenciaModule)
+            },
+            {
+                path: 'juntada',
+                loadChildren: () => import('./juntada/documento-edit-juntada.module').then(m => m.DocumentoEditJuntadaModule)
+            },
+            {
+                path: 'sigilos',
+                loadChildren: () => import('./sigilos/documento-edit-sigilos.module').then(m => m.DocumentoEditSigilosModule)
+            },
         ]
     }
 ];
@@ -66,26 +78,13 @@ modulesConfig.forEach((module) => {
         MatButtonModule,
         MatMenuModule,
 
-        DocumentoStoreModule,
-
-        CdkComponenteDigitalCardListModule,
-        CdkDocumentoCardListModule,
         CdkUploadModule,
 
         TranslateModule,
         CdkSharedModule,
         MatTooltipModule,
-        CdkRepositorioGridModule,
-        CdkAtividadeFormModule,
-        CdkVisibilidadeListModule,
-        CdkVisibilidadeFormModule,
-        CdkSigiloFormModule,
-        CdkSigiloGridModule,
-        CdkAssinaturaGridModule,
         ResizableModule,
-        CdkComponenteDigitalGridModule,
         CdkVinculacaoEtiquetaChipsModule,
-        CdkJuntadaFormModule,
     ],
     providers: [
         DocumentoService

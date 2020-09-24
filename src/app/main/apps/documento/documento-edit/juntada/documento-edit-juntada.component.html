@@ -1,0 +1,14 @@
+<div class="documento-edit-juntada">
+    <h3 style="font-weight: bold">Juntada</h3>
+
+    <cdk-juntada-form cdkPerfectScrollbar
+        [juntada]="juntada"
+        [form]="formJuntada"
+        [editDescricao]="true"
+        [logEntryPagination]="logEntryPagination"
+        [blocoEdit]="{blocoEditDescricao: true}"
+        [saving]="(juntadaIsSaving$ | async)"
+        [errors]="(juntadaErrors$ | async)"
+        (save)="submitJuntada($event)">
+    </cdk-juntada-form>
+</div>

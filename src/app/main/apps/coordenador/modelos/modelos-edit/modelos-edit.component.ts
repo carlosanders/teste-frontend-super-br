@@ -18,7 +18,7 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from 'app/store/reducers';
 import {ModalidadeOrgaoCentral, Setor} from '@cdk/models';
-import {takeUntil} from "rxjs/operators";
+import {takeUntil} from 'rxjs/operators';
 import {Back} from 'app/store/actions';
 
 @Component({

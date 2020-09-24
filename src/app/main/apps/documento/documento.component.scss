@@ -1,6 +1,5 @@
 documento {
-
-    height: 100%;
+    display: flex;
 
     .full-screen {
         position: fixed;
@@ -8,41 +7,117 @@ documento {
         left: 0;
         height: 100%;
         width: 100%;
-        z-index: 1001;
+        z-index: 100000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.5) !important;
 
-        .sidebar {
+        > .modal {
+            height: 95%;
+            width: 98%;
+            flex: 0 1 95%;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(0, 0, 0, 0.12);
+            background: white;
 
-            &:not(.locked-open) {
+            > .modal-header {
+                flex: 0 1 auto;
+                justify-content: flex-end;
+                align-items: center;
+                display: flex;
+                flex-direction: row;
                 background: white;
-            }
-        }
+                height: 60px;
+                min-height: 60px;
+                max-height: 60px;
 
-        .content {
+                .mat-tab-label-content {
+                    color: white;
+                    opacity: 1 !important;
+                }
 
-            height: 100%;
+                .mat-tab-label {
+                    color: white;
+                    opacity: 1 !important;
+                }
 
-            .header {
-                height: 64px !important;
-                min-height: 64px !important;
-                max-height: 64px !important;
+                > .white-space {
+                    flex: 0.25 0 25%;
+                    padding-left: 40px;
+                }
 
-                .componentes-digitais-navigation {
+                > .acoes {
+                    flex: 0.75 0 75%;
                     display: flex;
+                    flex-direction: row;
+                    justify-content: flex-end;
                     align-items: center;
-                    justify-content: space-between;
-                    width: 100%;
+                }
+            }
 
-                    .previous {
-                        margin-right: auto;
+            > .content {
+                flex: 1 0 auto;
+                display: flex;
+                flex-direction: column;
+
+                > .actions {
+                    flex: 0 0 auto;
+                    justify-content: flex-start;
+                    align-items: center;
+                    display: flex;
+                }
+
+                > .header {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: flex-start;
+                    align-items: center;
+
+                    > .componentes-digitais-navigation {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                        width: 100%;
+
+                        .previous {
+                            margin-right: auto;
+                        }
+
+                        .next,
+                        .done {
+                            margin-left: auto;
+                        }
+                    }
+                }
+
+                .documento-navegacao {
+                    display: flex;
+                    flex-direction: row;
+                    flex: 1 0 auto;
+
+                    > cdk-sidebar {
+                        display: flex;
+                        flex: 1 0 auto;
+                        min-width: 400px;
+                        max-width: 25%;
+
+                        > ng-component {
+                            display: flex;
+                            flex-direction: column;
+                            flex: 1 0 auto;
+                        }
                     }
 
-                    .next,
-                    .done {
-                        margin-left: auto;
+                    > .documento-navegacao-content {
+                        display: flex;
+                        flex-direction: column;
+                        flex: 1 1 auto;
                     }
                 }
             }
+
         }
     }
-
 }

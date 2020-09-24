@@ -1,0 +1,12 @@
+template-edit-dados-basicos {
+    flex: 1 1 auto;
+    display: flex;
+
+    .dados-basicos {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+        overflow-y: auto;
+        padding: 16px;
+    }
+}

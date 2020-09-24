@@ -12,7 +12,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
-import {Repositorio} from '@cdk/models';
+import {Documento, Repositorio} from '@cdk/models';
 import {RepositorioDataSource} from '@cdk/data-sources/repositorio-data-source';
 import {FormControl} from '@angular/forms';
 
@@ -182,7 +182,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     especie = new EventEmitter<number>();
 
     @Output()
-    editConteudo = new EventEmitter<number>();
+    editConteudo = new EventEmitter<Documento>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -309,8 +309,8 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
         this.especie.emit(repositorioId);
     }
 
-    editConteudoRepositorio(documentoId): void {
-        this.editConteudo.emit(documentoId);
+    editConteudoRepositorio(documento: Documento): void {
+        this.editConteudo.emit(documento);
     }
 
     selectRepositorio(repositorio: Repositorio): void {

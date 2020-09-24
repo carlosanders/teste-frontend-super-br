@@ -1,25 +1,23 @@
-<div class="p-8" fxFlex fxLayout="row">
-    <div fxLayout="column" fxFlex="25" *showIfRole="'ROLE_COLABORADOR'">
-        <!-- HEADER -->
-        <div>
-        </div>
-        <!-- / HEADER -->
+<div class="modelo-edit page-layout full-width inner-scroll">
+    <!-- CENTER -->
+    <div class="center">
+        <!-- CONTENT HEADER -->
+        <div class="actions p-16">
 
-        <div class="actions p-16" fxLayout="row" fxLayoutAlign="end center">
-
-            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Visualizar Processo"
-                    matTooltip="Gerir Anexos" (click)="showAnexos()"
-                    [ngClass]="{'active accent': activeCard === 'anexos'}">
+            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button aria-label="Gerir Anexos"
+                    matTooltip="Gerir Anexos" routerLink="anexos"
+                    [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">attachment</mat-icon>
             </button>
 
-            <button mat-icon-button aria-label="Movimentar"
-                    matTooltip="Editar o Documento" (click)="showForm()"
-                    [ngClass]="{'active accent': activeCard === 'form'}">
+            <button mat-icon-button aria-label="Editar o Modelo"
+                    matTooltip="Editar o Modelo" routerLink="dados-basicos"
+                    [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">edit</mat-icon>
             </button>
 
         </div>
+        <!-- / HEADER -->
 
         <div *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal">
             <button class="back" mat-icon-button
@@ -29,59 +27,9 @@
                 <mat-icon>arrow_back</mat-icon>
             </button>
         </div>
-
-        <div class="documentos-vinculados mb-48" fxFlex fxLayout="column"
-             *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal && activeCard === 'anexos'">
-
-            <h3 style="font-weight: bold">Anexos</h3>
-
-            <button mat-mini-fab
-                    class="ml-8 mb-16 active accent add-file-button"
-                    [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
-                    (click)="$event.stopPropagation()">
-                <mat-icon class="secondary-text">attach_file</mat-icon>
-            </button>
-
-            <mat-menu #moreMenu="matMenu">
-                <button mat-menu-item aria-label="upload de anexo"
-                        (click)="upload()">
-                    <ng-container>
-                        <mat-icon>picture_as_pdf</mat-icon>
-                        <span>Upload</span>
-                    </ng-container>
-                </button>
-                <ng-template #dynamicComponent></ng-template>
-            </mat-menu>
-
-            <cdk-documento-card-list [documentos]="(documentosVinculados$ | async)"
-                                     [deletingId]="(deletingDocumentosVinculadosId$ | async)"
-                                     [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
-                                     (delete)="doDeleteDocumentoVinculado($event)"
-                                     (assinatura)="doAssinaturaDocumentoVinculado($event)"
-                                     (clicked)="onClickedDocumentoVinculado($event)"
-                                     (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">
-            </cdk-documento-card-list>
-
-            <cdk-componente-digital-card-list #ckdUpload
-                                              [documentoOrigem]="documento$ | async"
-                                              (completed)="onCompleteDocumentoVinculado()">
-            </cdk-componente-digital-card-list>
-
-
-        </div>
-
-        <div class="documentos-vinculados mb-16" fxFlex fxLayout="column" *ngIf="activeCard === 'form'">
-
-            <h3 *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Modelo</h3>
-            <h3 *ngIf="(documento$ | async)?.vinculacaoDocumentoPrincipal" style="font-weight: bold">Anexo</h3>
-
-            <cdk-modelo-form fxFlex [modelo]="(documento$ | async)?.modelo"
-                                [saving]="(isSaving$ | async)"
-                                [errors]="(errors$ | async)"
-                                (save)="submit($event)">
-            </cdk-modelo-form>
-
+        <!-- CONTENT -->
+        <div class="content" cdkPerfectScrollbar>
+            <router-outlet></router-outlet>
         </div>
     </div>
-    <router-outlet></router-outlet>
 </div>

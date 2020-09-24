@@ -9,10 +9,11 @@ import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Modelo} from '@cdk/models/modelo.model';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {Documento} from '../../../../../../@cdk/models';
 
 @Component({
     selector: 'modelos-list',
@@ -36,14 +37,17 @@ export class ModelosListComponent implements OnInit {
     colunas: string[];
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _activatedRoute
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.ModelosListAppState>,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.modelos$ = this._store.pipe(select(fromStore.getModelosList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -105,8 +109,28 @@ export class ModelosListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + modeloId]);
     }
 
-    editConteudo(documentoId: number): void {
-        this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/modelo']).then();
+    editConteudo(documento: Documento): void {
+        let primary: string;
+        primary = 'componente-digital/';
+        if (documento.componentesDigitais[0]) {
+            primary += documento.componentesDigitais[0].id;
+        } else {
+            primary += '0';
+        }
+        this._router.navigate([
+                'documento/' + documento.id,
+                {
+                    outlets:
+                        {
+                            primary: primary,
+                            sidebar: 'modelo/anexos'
+                        }
+                }
+            ],
+            {
+                relativeTo: this._activatedRoute.parent
+            }
+        ).then();
     }
 
     especieSetores(modeloId: number): void {
