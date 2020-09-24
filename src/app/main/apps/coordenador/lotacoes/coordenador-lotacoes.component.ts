@@ -70,8 +70,4 @@ export class CoordenadorLotacoesComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
-
-    goBack(): void {
-        this._store.dispatch(new Back());
-    }
 }

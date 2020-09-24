@@ -17,7 +17,6 @@ import {
 } from '../../../../../@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '../../../../../@cdk/shared.module';
-import {ClassificacaoMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {MatRippleModule} from '@angular/material/core';
 import {CdkSidebarModule} from '../../../../../@cdk/components';
 import {MatTabsModule} from '@angular/material/tabs';
@@ -50,8 +49,7 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        ClassificacaoComponent,
-        ClassificacaoMainSidebarComponent
+        ClassificacaoComponent
     ],
     imports: [
         CommonModule,

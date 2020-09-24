@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_UNIDADE = '[ADMIN COMPETENCIAS] GET UNIDADE';
 export const GET_UNIDADE_SUCCESS = '[ADMIN COMPETENCIAS] GET UNIDADE SUCCESS';

@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Back} from "../../../../../store/actions";
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'favorito-edit',
@@ -87,7 +87,7 @@ export class FavoritoEditComponent implements OnInit, OnDestroy {
 
         const favorito = new Favorito();
 
-        if(!this.favorito.id) {
+        if (!this.favorito.id) {
             switch (values.campo) {
 
                 case 1:

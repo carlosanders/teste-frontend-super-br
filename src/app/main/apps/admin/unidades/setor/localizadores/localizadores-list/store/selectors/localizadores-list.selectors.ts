@@ -1,9 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {
-    getRootLocalizadoresListAppState,
-    RootLocalizadoresListAppState,
-    RootLocalizadoresListState
-} from '../reducers';
+import {getRootLocalizadoresListAppState, RootLocalizadoresListAppState, RootLocalizadoresListState} from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {localizador as localizadorSchema} from '@cdk/normalizr';

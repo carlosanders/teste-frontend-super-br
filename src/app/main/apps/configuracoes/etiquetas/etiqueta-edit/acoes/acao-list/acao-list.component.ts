@@ -84,7 +84,7 @@ export class AcaoListComponent implements OnInit {
         this._store.dispatch(new fromStore.DeleteAcao(acaoId));
     }
 
-    create () : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 }

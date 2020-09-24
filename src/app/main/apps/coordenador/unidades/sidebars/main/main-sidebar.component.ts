@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {ModalidadeOrgaoCentral, Setor} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
@@ -6,12 +6,16 @@ import {Observable} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {modulesConfig} from "../../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../../modules/modules-config';
+import {cdkAnimations} from '../../../../../../../@cdk/animations';
 
 @Component({
     selector: 'unidades-orgao-central-main-sidebar',
     templateUrl: './main-sidebar.component.html',
-    styleUrls: ['./main-sidebar.component.scss']
+    styleUrls: ['./main-sidebar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class UnidadesOrgaoCentralMainSidebarComponent implements OnInit {
 

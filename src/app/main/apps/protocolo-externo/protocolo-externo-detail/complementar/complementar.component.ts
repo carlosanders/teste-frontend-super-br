@@ -20,8 +20,8 @@ import { getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
 import { Processo, Usuario } from '@cdk/models';
 import { getProcesso } from '../store/selectors';
-import {modulesConfig} from "../../../../../../modules/modules-config";
-import {DynamicService} from "../../../../../../modules/dynamic.service";
+import {modulesConfig} from '../../../../../../modules/modules-config';
+import {DynamicService} from '../../../../../../modules/dynamic.service';
 
 @Component({
     selector: 'complementar',

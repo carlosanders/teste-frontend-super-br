@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {EspecieTarefa, Usuario} from '../../../../../../@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from "../../../../../../@cdk/animations";
+import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
     selector: 'especie-tarefa-list',

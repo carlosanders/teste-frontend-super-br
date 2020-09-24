@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {RootLocalizadoresListAppState} from '../reducers';
 import * as fromStore from '../';
@@ -64,7 +64,7 @@ export class ResolveGuard implements CanActivate {
 
                         filter: {
                             'setor.unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
-                            'setor.id':'eq:' + this.routerState.params.setorHandle
+                            'setor.id': 'eq:' + this.routerState.params.setorHandle
                         },
 
                         gridFilter: {},
@@ -79,7 +79,7 @@ export class ResolveGuard implements CanActivate {
                             'setor.parent',
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 

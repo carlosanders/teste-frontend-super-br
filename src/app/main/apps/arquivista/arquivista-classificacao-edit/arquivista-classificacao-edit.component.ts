@@ -1,15 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import * as fromStore from './store';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {Observable, Subject} from 'rxjs';
 import {Processo} from '../../../../../@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
-    selector: 'app-arquivista-classificacao-edit',
+    selector: '<span class="mr-4 ml-4">/</span>arquivista-classificacao-edit',
     templateUrl: './arquivista-classificacao-edit.component.html',
-    styleUrls: ['./arquivista-classificacao-edit.component.scss']
+    styleUrls: ['./arquivista-classificacao-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class ArquivistaClassificacaoEditComponent implements OnInit {
 

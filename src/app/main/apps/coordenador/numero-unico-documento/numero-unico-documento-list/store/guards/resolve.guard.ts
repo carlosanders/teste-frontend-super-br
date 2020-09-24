@@ -72,7 +72,7 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            'setor.id':'eq:' + setorId
+                            'setor.id': 'eq:' + setorId
                         },
                         gridFilter: {},
                         limit: 5,
@@ -87,7 +87,7 @@ export class ResolveGuard implements CanActivate {
                             'tipoDocumento.especieDocumento'
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 

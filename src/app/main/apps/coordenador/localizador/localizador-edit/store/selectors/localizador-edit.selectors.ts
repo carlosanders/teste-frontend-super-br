@@ -9,7 +9,7 @@ import {
     CoordenadorSetorAppState,
     CoordenadorSetorState,
     getCoordenadorSetorAppState
-} from "../../../../setor/store/reducers";
+} from '../../../../setor/store/reducers';
 
 const schemaLocalizadorSelectors = createSchemaSelectors<Localizador>(localizadorSchema);
 const schemaSetorSelectors = createSchemaSelectors<Setor>(setorSchema);

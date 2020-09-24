@@ -1,4 +1,5 @@
-<cdk-repositorio-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-repositorio-form
         [repositorio]="repositorio"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -6,4 +7,5 @@
         [logEntryPagination]="logEntryPagination"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-repositorio-form>
+    </cdk-repositorio-form>
+</div>

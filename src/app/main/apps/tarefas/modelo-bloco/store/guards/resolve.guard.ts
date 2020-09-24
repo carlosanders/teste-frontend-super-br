@@ -9,7 +9,7 @@ import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 import {ModelosAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {LoginService} from "../../../../../auth/login/login.service";
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {

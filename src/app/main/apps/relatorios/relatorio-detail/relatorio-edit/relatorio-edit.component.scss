@@ -1,11 +1,9 @@
 relatorio-edit {
-
-    width: 100%;
-
-    .content {
-
-        height: 100%;
-
+    display: flex;
+    flex: 1 1 auto;
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
     }
-
 }

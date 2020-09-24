@@ -9,8 +9,8 @@ import {
 
 import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {DynamicService} from "../../../../modules/dynamic.service";
-import {modulesConfig} from "../../../../modules/modules-config";
+import {DynamicService} from '../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../modules/modules-config';
 
 @Component({
     selector: 'cdk-encaminhamento-form',

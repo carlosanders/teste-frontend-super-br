@@ -11,7 +11,7 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {CdkProcessoFilterService} from '../../../processo/sidebars/cdk-processo-filter/cdk-processo-filter.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
-import {LoginService} from "../../../../../app/main/auth/login/login.service";
+import {LoginService} from '../../../../../app/main/auth/login/login.service';
 
 @Component({
     selector: 'cdk-processo-filter',

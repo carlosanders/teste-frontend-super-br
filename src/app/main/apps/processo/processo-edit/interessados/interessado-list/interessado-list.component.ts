@@ -94,7 +94,7 @@ export class InteressadoListComponent implements OnInit {
         }));
     }
 
-    create () : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

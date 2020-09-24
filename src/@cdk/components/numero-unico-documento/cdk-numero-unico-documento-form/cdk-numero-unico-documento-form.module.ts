@@ -14,8 +14,8 @@ import {
 import { CdkSharedModule } from '@cdk/shared.module';
 import { UsuarioService } from '@cdk/services/usuario.service';
 import { CdkNumeroUnicoDocumentoFormComponent } from './cdk-numero-unico-documento-form.component';
-import {CdkTipoDocumentoGridsearchModule} from "@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-gridsearch/cdk-tipo-documento-gridsearch.module";
-import {CdkTipoDocumentoAutocompleteModule} from "@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module";
+import {CdkTipoDocumentoGridsearchModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-gridsearch/cdk-tipo-documento-gridsearch.module';
+import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
 
 @NgModule({
     declarations: [

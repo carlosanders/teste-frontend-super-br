@@ -30,7 +30,7 @@ export function EsqueciSenhaReducers(state = EsqueciSenhaInitialState, action: E
                 ...state,
                 success: false,
                 errorMessage: null
-            }
+            };
         }
         default: {
             return state;

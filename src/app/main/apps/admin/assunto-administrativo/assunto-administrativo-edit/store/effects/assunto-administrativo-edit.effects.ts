@@ -109,7 +109,7 @@ export class AssuntoAdministrativoEditEffects {
             .pipe(
                 ofType<AssuntoAdministrativoEditActions.UpdateAssuntoAdministrativo>(AssuntoAdministrativoEditActions.UPDATE_ASSUNTO_ADMINISTRATIVO),
                 switchMap((action) => {
-                    debugger
+                    debugger;
                     return this._AssuntoAdministrativoService.patch(action.payload.AssuntoAdministrativo, action.payload.changes).pipe(
                         mergeMap((response: AssuntoAdministrativo) => [
                             new AssuntoAdministrativoListActions.ReloadAssuntoAdministrativo(),

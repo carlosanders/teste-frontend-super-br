@@ -1,13 +1,10 @@
 perfil {
-    height: 100%;
-    width: 100%;
+    flex: 1 1 auto;
+    display: flex;
 
-    .perfil-content {
-        height: 100%;
-        width: 100%;
-    }
-
-    .altura {
-        height: 100%;
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        padding: 8px;
     }
 }

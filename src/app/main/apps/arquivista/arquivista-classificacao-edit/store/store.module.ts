@@ -10,7 +10,7 @@ import {EffectsModule} from '@ngrx/effects';
     declarations: [],
     imports: [
         CommonModule,
-        StoreModule.forFeature('app-arquivista-classificacao-edit', reducers),
+        StoreModule.forFeature('<span class="mr-4 ml-4">/</span>arquivista-classificacao-edit', reducers),
         EffectsModule.forFeature(effects)
     ]
 })

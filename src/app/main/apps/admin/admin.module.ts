@@ -10,7 +10,7 @@ import {AdminComponent} from './admin.component';
 import {MainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {modulesConfig} from 'modules/modules-config';
 import * as fromGuards from './store/guards';
-import {MatRippleModule} from "@angular/material/core";
+import {MatRippleModule} from '@angular/material/core';
 
 const routes: Routes = [
     {

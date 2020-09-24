@@ -1,31 +1,43 @@
 coordenador {
-    display: flex;
     flex: 1 1 auto;
-    flex-direction: column;
+    display: flex;
 
-    .sidebar {
-        background: transparent !important;
-        box-shadow: none !important;
+    > .page-layout {
 
-        &:not(.locked-open) {
-            background: white !important;
-        }
-    }
-
-    .center {
-        display: flex;
-        flex-direction: column;
         flex: 1 1 auto;
+        display: flex;
 
-        .header {
+        > .center {
+
+            flex: 1 1 auto;
             display: flex;
-            flex-direction: row;
-            justify-content: flex-start;
-            align-items: center;
-        }
 
-        .content-card {
-            flex: 1 0 100%;
+            > .header {
+
+                flex: 0 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+
+                height: 72px !important;
+                min-height: 72px !important;
+                max-height: 72px !important;
+
+            }
+
+            > .content-card {
+
+                flex: 1 1 auto;
+                display: flex;
+
+                > .content {
+
+                    flex: 1 1 auto;
+                    display: flex;
+                    flex-direction: row;
+                }
+            }
         }
     }
 }

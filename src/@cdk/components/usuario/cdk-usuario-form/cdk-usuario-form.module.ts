@@ -19,6 +19,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkUsuarioAutocompleteModule} from '../cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -42,6 +43,7 @@ import {CdkUsuarioGridsearchModule} from '../cdk-usuario-autocomplete/cdk-usuari
         NgxUpperCaseDirectiveModule,
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
+        MatTooltipModule,
     ],
     providers: [
         UsuarioService

@@ -45,7 +45,7 @@ export const ArquivistaClassificacaoInitialState: ArquivistaClassificacaoState =
     deletedProcessoIds: [],
     selectedProcessoIds: [],
     currentProcessoId: null,
-}
+};
 
 export function ArquivistaClassificacaoReducer(
     state = ArquivistaClassificacaoInitialState,

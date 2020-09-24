@@ -103,8 +103,8 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         this.modalidadeRepositorioPagination = new Pagination();
         this.modalidadeRepositorioPagination.populate = ['populateAll'];
         this.modalidadeRepositorioPagination.filter = {
-            'ativo': 'eq:' + true
-        }
+            ativo: 'eq:' + true
+        };
 
     }
 

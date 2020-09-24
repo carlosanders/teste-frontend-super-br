@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
@@ -67,7 +61,7 @@ export class SetorEditComponent implements OnInit, OnDestroy {
         this.setorPagination.populate = ['populateAll'];
         this.setorPagination.filter = {
             'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
-        }
+        };
         this.especieSetorPagination = new Pagination();
         this.especieSetorPagination.populate = ['populateAll'];
 

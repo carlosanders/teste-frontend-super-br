@@ -1,17 +1,16 @@
 <!-- SIDEBAR HEADER -->
-<div fxLayout="column" fxLayoutAlign="space-between start"
-     class="header accent p-24 pb-4">
-    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
+<div class="header accent">
+    <div class="logo">
         <mat-icon class="logo-icon s-32" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
             settings
         </mat-icon>
-        <span class="logo-text" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Coordenador</span>
+        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Coordenador</span>
     </div>
 </div>
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content mt-16" cdkPerfectScrollbar>
+<div class="content" cdkPerfectScrollbar>
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_ORGAO_CENTRAL'">
         <div *ngIf="this.orgaos?.length">
             <div class="nav-subheader pl-8 mt-0">

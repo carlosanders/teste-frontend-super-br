@@ -1,15 +1,9 @@
-.folders {
-    height: 100%;
-
-    .altura {
-        height: 100%;
-    }
-
-    .header {
-        .actions {
-            .is-active {
-                display: none;
-            }
-        }
+folders {
+    flex: 1 1 auto;
+    display: flex;
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        padding: 8px;
     }
 }

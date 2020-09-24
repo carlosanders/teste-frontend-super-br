@@ -14,7 +14,7 @@ export const DataPrevistaTransicaoInitialState: DataPrevistaTransicaoState = {
     loaded: false,
     loading: false,
     saving: false
-}
+};
 
 export function DataPrevistaTransicaoReducer(
     state = DataPrevistaTransicaoInitialState,

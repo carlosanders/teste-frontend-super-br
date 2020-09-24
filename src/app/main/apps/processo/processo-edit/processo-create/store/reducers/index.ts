@@ -13,7 +13,7 @@ export interface DadosBasicosAppState
     interessados: InteressadoState;
     vinculacoesProcessos: VinculacaoProcessoState;
     juntadas: JuntadaState;
-    tarefa: TarefaState
+    tarefa: TarefaState;
 }
 
 export const getDadosBasicosAppState = createFeatureSelector<DadosBasicosAppState>(

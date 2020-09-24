@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {Usuario} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Back} from "../../../../../store/actions";
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'vinculacao-usuario-edit',

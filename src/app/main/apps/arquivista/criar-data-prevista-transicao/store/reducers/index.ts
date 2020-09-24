@@ -5,7 +5,7 @@ export interface DataPrevistaTransicaoAppState {
     dataPrevistaTransicao: DataPrevistaTransicaoState;
 }
 
-export const getDataPrevistaTransicaoAppState = createFeatureSelector<DataPrevistaTransicaoAppState>('app-criar-data-prevista-transicao');
+export const getDataPrevistaTransicaoAppState = createFeatureSelector<DataPrevistaTransicaoAppState>('<span class="mr-4 ml-4">/</span>criar-data-prevista-transicao');
 
 export const getAppState = createSelector(
     getDataPrevistaTransicaoAppState,

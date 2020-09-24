@@ -1,17 +1,23 @@
-<cdk-lembrete-form
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    [isBloco]="true"
-    (save)="submit($event)">
-</cdk-lembrete-form>
+<!-- CONTENT -->
+<div class="content" cdkPerfectScrollbar>
 
-<mat-list *ngIf="operacoes.length > 0" fxFlex>
-    <h3 matSubheader>
-        <span>Resultado do Bloco</span>
-    </h3>
+    <h2>Lembrete em bloco de processos</h2>
 
-    <mat-list-item *ngFor="let operacao of operacoes">
-        <p matLine class="mb-4 p-8 secondary-text"
-           [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
-    </mat-list-item>
-</mat-list>
+    <cdk-lembrete-form
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [isBloco]="true"
+        (save)="submit($event)">
+    </cdk-lembrete-form>
+
+    <mat-list *ngIf="operacoes.length > 0">
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+</div>

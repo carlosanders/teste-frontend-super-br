@@ -5,7 +5,7 @@ export interface TransicaoArquivistaBlocoAppState {
     transicaoArquivistaBloco: TransicaoArquivistaBlocoState;
 }
 
-export const getTransicaoArquivistaBlocoAppState = createFeatureSelector<TransicaoArquivistaBlocoAppState>('app-arquivista-classificacao-bloco');
+export const getTransicaoArquivistaBlocoAppState = createFeatureSelector<TransicaoArquivistaBlocoAppState>('<span class="mr-4 ml-4">/</span>arquivista-classificacao-bloco');
 
 export const getAppState = createSelector(
     getTransicaoArquivistaBlocoAppState,

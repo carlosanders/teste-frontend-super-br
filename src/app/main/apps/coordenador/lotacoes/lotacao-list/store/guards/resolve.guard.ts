@@ -69,7 +69,7 @@ export class ResolveGuard implements CanActivate {
                         filter = {
                             ...filter,
                             'setor.unidade.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
-                        }
+                        };
                     }
 
                     if ((this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'])
@@ -79,7 +79,7 @@ export class ResolveGuard implements CanActivate {
                         filter = {
                             ...filter,
                             'setor.unidade.id': 'eq:' + valor
-                        }
+                        };
                     }
                     if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
                         const valor = this.routerState.params['setorHandle'] ?
@@ -87,12 +87,12 @@ export class ResolveGuard implements CanActivate {
                         filter = {
                             ...filter,
                             'setor.id': 'eq:' + valor
-                        }
+                        };
                     }
                     if (this.routerState.params['usuarioHandle']) {
                         filter = {
                             ...filter,
-                            'colaborador.usuario.id':'eq:' + this.routerState.params['usuarioHandle']
+                            'colaborador.usuario.id': 'eq:' + this.routerState.params['usuarioHandle']
                         };
                     }
                     const params = {
@@ -110,7 +110,7 @@ export class ResolveGuard implements CanActivate {
                             'colaborador.usuario'
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 

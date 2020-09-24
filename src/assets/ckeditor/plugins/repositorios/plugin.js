@@ -2,7 +2,7 @@
     var a = {
         exec: function(editor) {
               //repositorioWindow = Ext.create('ExtMVC.view.EdicaoRepositorioWindow');
-        }
+        },
     },
     b = "repositorios";
     CKEDITOR.plugins.add(b, {
@@ -11,8 +11,8 @@
             editor.ui.addButton("repositorios", {
                 label: "Repositórios",
                 icon: "source",
-                command: b
+                command: b,
             });
-        }
+        },
     });
 })();

@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../../store/actions';
-import {cdkAnimations} from "../../../../../../@cdk/animations";
+import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
     selector: 'vincular-pessoa',

@@ -1,16 +1,16 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
+    MatExpansionModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatSortModule,
-    MatAutocompleteModule,
-    MatExpansionModule
+    MatTableModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -23,7 +23,7 @@ import {RootLotacoesStoreModule} from './store/store.module';
 import {SetorService} from '@cdk/services/setor.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {modulesConfig} from 'modules/modules-config';
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {

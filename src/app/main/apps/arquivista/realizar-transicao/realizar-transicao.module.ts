@@ -7,6 +7,7 @@ import {TransicaoService} from '@cdk/services/transicao.service';
 import {RealizarTransacaoStoreModule} from './store/store.module';
 import {MatListModule} from '@angular/material/list';
 import {ProcessoService} from '../../../../../@cdk/services/processo.service';
+import {DirectivesModule} from '../../../../../@cdk/directives/directives';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import {ProcessoService} from '../../../../../@cdk/services/processo.service';
         CdkTransicaoFormModule,
         CdkRealizarTransicaoFormModule,
         RealizarTransacaoStoreModule,
-        MatListModule
+        MatListModule,
+        DirectivesModule
     ],
     providers: [
         TransicaoService,

@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 
@@ -7,11 +7,15 @@ import {Processo} from '@cdk/models';
 import * as fromStore from '../arquivista-classificacao-bloco/store';
 import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {getSelectedProcessos} from '../arquivista-list/store/selectors';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
-    selector: 'app-arquivista-classificacao-bloco',
+    selector: '<span class="mr-4 ml-4">/</span>arquivista-classificacao-bloco',
     templateUrl: './arquivista-classificacao-bloco.component.html',
-    styleUrls: ['./arquivista-classificacao-bloco.component.scss']
+    styleUrls: ['./arquivista-classificacao-bloco.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class ArquivistaClassificacaoBlocoComponent implements OnInit {
 

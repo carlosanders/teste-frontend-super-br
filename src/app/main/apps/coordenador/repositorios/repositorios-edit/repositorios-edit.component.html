@@ -1,10 +1,11 @@
-<cdk-repositorio-form
-    [repositorio]="repositorio"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    [setorPagination]="setorPagination"
-    [modalidadeRepositorioPagination]="modalidadeRepositorioPagination"
-    (save)="submit($event)"
-    (abort)="doAbort()">
-</cdk-repositorio-form>
-
+<div class="content" cdkPerfectScrollbar>
+    <cdk-repositorio-form
+        [repositorio]="repositorio"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [setorPagination]="setorPagination"
+        [modalidadeRepositorioPagination]="modalidadeRepositorioPagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-repositorio-form>
+</div>

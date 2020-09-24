@@ -14,8 +14,8 @@ import {Etiqueta} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../../store/selectors';
-import {Usuario} from "../../../../../../../../@cdk/models/usuario.model";
-import {Back} from "../../../../../../../store/actions";
+import {Usuario} from '../../../../../../../../@cdk/models';
+import {Back} from '../../../../../../../store/actions';
 
 @Component({
     selector: 'acao-edit',

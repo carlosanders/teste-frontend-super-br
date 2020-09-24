@@ -1,4 +1,4 @@
-import { CompetenciasListEffects } from './competencias-list.effects';
+import {CompetenciasListEffects} from './competencias-list.effects';
 
 export const effects = [
     CompetenciasListEffects

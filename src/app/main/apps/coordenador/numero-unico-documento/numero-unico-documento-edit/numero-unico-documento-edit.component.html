@@ -1,4 +1,5 @@
-<cdk-numero-unico-documento-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-numero-unico-documento-form
         [numeroUnicoDocumento]="numeroUnicoDocumento"
         [setor]="(setor$ | async)"
         [saving]="(isSaving$ | async)"
@@ -6,4 +7,5 @@
         [tipoDocumentoPagination]="tipoDocumentoPagination"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-numero-unico-documento-form>
+    </cdk-numero-unico-documento-form>
+</div>

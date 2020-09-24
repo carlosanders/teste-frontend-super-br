@@ -85,7 +85,7 @@ export class ResolveGuard implements CanActivate {
                             'colaborador.modalidadeColaborador'
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 
@@ -93,7 +93,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'colaborador.lotacoes.setor.unidade.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
-                        }
+                        };
                     }
                     if (!this.routerState.params.setorHandle &&
                         ((this.routerState.params.generoHandle === 'unidade') || (this.routerState.params.unidadeHandle))) {
@@ -102,7 +102,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'colaborador.lotacoes.setor.unidade.id': 'eq:' + valor
-                        }
+                        };
                     }
                     if (this.routerState.params.generoHandle === 'local' || this.routerState.params.setorHandle) {
                         const valor = this.routerState.params.setorHandle ?
@@ -110,7 +110,7 @@ export class ResolveGuard implements CanActivate {
                         params.filter = {
                             ...params.filter,
                             'colaborador.lotacoes.setor.id': 'eq:' + valor
-                        }
+                        };
                     }
 
                     this._store.dispatch(new fromStore.GetUsuarios(params));

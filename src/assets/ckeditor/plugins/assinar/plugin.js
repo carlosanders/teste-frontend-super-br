@@ -1,4 +1,4 @@
-(function () {
+(function() {
     var a = {/*
             exec: function (editor) {
 
@@ -234,7 +234,6 @@
                                         });
                                     }
 
-
                                 } else {
                                     Ext.getCmp('editor').getEl().mask('Preparando...');
                                     Ext.Ajax.request({
@@ -381,7 +380,6 @@
                                     });
                                 }
 
-
                             } else {
                                 Ext.getCmp('editor').salvando = false;
                                 Ext.Msg.show({
@@ -413,13 +411,13 @@
         */},
         b = "assinar";
     CKEDITOR.plugins.add(b, {
-        init: function (editor) {
+        init: function(editor) {
             editor.addCommand(b, a);
             editor.ui.addButton("assinar", {
                 label: "Assinar",
                 icon: this.path + "assinar.png",
-                command: b
+                command: b,
             });
-        }
+        },
     });
 })();

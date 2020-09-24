@@ -23,8 +23,8 @@ import { getDocumentoAvulso } from '../store/selectors';
 import { UpdateData } from '@cdk/ngrx-normalizr';
 import { documento as documentoSchema } from '@cdk/normalizr';
 import { getDocumentosComplementares } from '../complementar/store/selectors';
-import {DynamicService} from "../../../../../../modules/dynamic.service";
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {DynamicService} from '../../../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
     selector: 'responder',

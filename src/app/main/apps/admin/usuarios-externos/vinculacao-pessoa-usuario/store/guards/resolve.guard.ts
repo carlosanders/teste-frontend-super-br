@@ -62,7 +62,7 @@ export class ResolveGuard implements CanActivate {
                 if (!loaded || this.routerState.params['usuariosExternosHandler'] !== loaded.value) {
                     const params = {
                         filter: {
-                            'usuarioVinculado.id': 'eq:'+ this.routerState.params.usuariosExternosHandler
+                            'usuarioVinculado.id': 'eq:' + this.routerState.params.usuariosExternosHandler
                         },
                         gridFilter: {},
                         limit: 5,

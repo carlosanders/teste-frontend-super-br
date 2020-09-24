@@ -5,7 +5,7 @@ export interface LembreteAppState {
     lembrete: LembreteState;
 }
 
-export const getLembreteAppState = createFeatureSelector<LembreteAppState>('app-lembretes-form');
+export const getLembreteAppState = createFeatureSelector<LembreteAppState>('<span class="mr-4 ml-4">/</span>lembretes-form');
 
 export const getAppState = createSelector(
     getLembreteAppState,

@@ -4,7 +4,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {LoginService} from '../../../../auth/login/login.service';
 import {ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
 import {Coordenador} from '@cdk/models/coordenador.model';
-import {modulesConfig} from "../../../../../../modules/modules-config";
+import {modulesConfig} from '../../../../../../modules/modules-config';
 
 @Component({
     selector: 'coordenador-main-sidebar',

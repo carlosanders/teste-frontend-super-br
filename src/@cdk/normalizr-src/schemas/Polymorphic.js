@@ -1,9 +1,9 @@
-import { isImmutable } from './ImmutableUtils';
+import { isImmutable } from "./ImmutableUtils";
 
 export default class PolymorphicSchema {
   constructor(definition, schemaAttribute) {
     if (schemaAttribute) {
-      this._schemaAttribute = typeof schemaAttribute === 'string' ? (input) => input[schemaAttribute] : schemaAttribute;
+      this._schemaAttribute = typeof schemaAttribute === "string" ? (input) => input[schemaAttribute] : schemaAttribute;
     }
     this.define(definition);
   }
@@ -41,11 +41,11 @@ export default class PolymorphicSchema {
   }
 
   denormalizeValue(value, unvisit) {
-    const schemaKey = isImmutable(value) ? value.get('schema') : value.schema;
+    const schemaKey = isImmutable(value) ? value.get("schema") : value.schema;
     if (!this.isSingleSchema && !schemaKey) {
       return value;
     }
-    const id = this.isSingleSchema ? undefined : isImmutable(value) ? value.get('id') : value.id;
+    const id = this.isSingleSchema ? undefined : isImmutable(value) ? value.get("id") : value.id;
     const schema = this.isSingleSchema ? this.schema : this.schema[schemaKey];
     return unvisit(id || value, schema);
   }

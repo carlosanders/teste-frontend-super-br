@@ -1,4 +1,4 @@
-import { LocalizadoresEffects } from './localizadores.effects';
+import {LocalizadoresEffects} from './localizadores.effects';
 
 export const effects = [
     LocalizadoresEffects

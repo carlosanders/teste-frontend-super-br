@@ -9,7 +9,7 @@ import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../sto
 import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
 
 @Component({
-    selector: 'app-arquivista-lembrete-bloco',
+    selector: '<span class="mr-4 ml-4">/</span>arquivista-lembrete-bloco',
     templateUrl: './arquivista-lembrete-bloco.component.html',
     styleUrls: ['./arquivista-lembrete-bloco.component.scss']
 })

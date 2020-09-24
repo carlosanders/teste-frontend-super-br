@@ -17,7 +17,7 @@ import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
-import {Back} from "../../../../../../store/actions";
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'documento-avulso-edit',

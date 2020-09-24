@@ -82,12 +82,12 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
             this.setorPagination.filter = {
                 ...this.setorPagination.filter,
                 'unidade.id': 'eq:' + unidade
-            }
+            };
         } else {
             this.setorPagination.filter = {
                 ...this.setorPagination.filter,
                 'unidade.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params.entidadeHandle
-            }
+            };
         }
     }
 

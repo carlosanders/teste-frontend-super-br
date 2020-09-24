@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -6,15 +7,19 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    SimpleChange
+    SimpleChange, ViewEncapsulation
 } from '@angular/core';
 import {EspecieAtividade, GeneroAtividade, Pagination, Pessoa} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {cdkAnimations} from '../../../animations';
 
 @Component({
     selector: 'cdk-especie-atividade-form',
     templateUrl: './cdk-especie-atividade-form.component.html',
-    styleUrls: ['./cdk-especie-atividade-form.component.scss']
+    styleUrls: ['./cdk-especie-atividade-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkEspecieAtividadeFormComponent implements OnChanges, OnDestroy {
 

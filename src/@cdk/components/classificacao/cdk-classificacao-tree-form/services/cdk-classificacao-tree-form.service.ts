@@ -41,7 +41,7 @@ export class CdkClassificacaoTreeFormService {
 
     insertItem(parent: ClassificacaoNode, childrens: ClassificacaoNode[], add = false): void {
         if (parent.children) {
-            parent.children = []
+            parent.children = [];
             childrens.forEach((value) => {
                 parent.children.push(value);
             });

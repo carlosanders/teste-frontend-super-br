@@ -1,6 +1,6 @@
-(function () {
+(function() {
     var a = {
-        exec: function (editor) {
+        exec: function(editor) {
 
             /*
             if (Ext.getCmp('editor').salvando) {
@@ -12,9 +12,9 @@
                 });
                 return false;
             } else {
-                
+
                 Ext.getCmp('editor').salvando = true;
-                
+
                 if (Ext.getCmp('editor').documento) {
                     var params = {
                         autoSave: false,
@@ -109,18 +109,18 @@
 
             }
  */
-        }
+        },
 
     },
     b = "salvar";
     CKEDITOR.plugins.add(b, {
-        init: function (editor) {
+        init: function(editor) {
             editor.addCommand(b, a);
             editor.ui.addButton("salvar", {
                 label: "Salvar",
                 icon: "save",
-                command: b
+                command: b,
             });
-        }
+        },
     });
 })();

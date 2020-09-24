@@ -1,4 +1,15 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    OnDestroy,
+    OnInit,
+    Output,
+    QueryList,
+    ViewChildren,
+    ViewEncapsulation
+} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
@@ -19,6 +30,7 @@ import {getRouterState} from '../../../../store/reducers';
     selector: 'processo-view',
     templateUrl: './processo-view.component.html',
     styleUrls: ['./processo-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })

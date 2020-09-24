@@ -63,7 +63,7 @@ export class ResolveGuard implements CanActivate {
                     const params = {
 
                         filter: {
-                            'parent': 'isNull'
+                            parent: 'isNull'
                         },
 
                         gridFilter: {},
@@ -74,7 +74,7 @@ export class ResolveGuard implements CanActivate {
                             'populateAll'
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 

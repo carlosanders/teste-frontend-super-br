@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -6,15 +7,19 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    SimpleChange
+    SimpleChange, ViewEncapsulation
 } from '@angular/core';
 import {TipoDocumento, EspecieDocumento, Pagination, Pessoa} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {cdkAnimations} from '../../../animations';
 
 @Component({
     selector: 'cdk-tipo-documento-form',
     templateUrl: './cdk-tipo-documento-form.component.html',
-    styleUrls: ['./cdk-tipo-documento-form.component.scss']
+    styleUrls: ['./cdk-tipo-documento-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkTipoDocumentoFormComponent implements OnChanges, OnDestroy {
 

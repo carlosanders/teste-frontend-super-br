@@ -82,7 +82,7 @@ export function RootLotacoesReducer(
                 usuarioId: null,
                 loading: false,
                 loaded: false
-            }
+            };
         }
 
         case RootLotacoesActions.UNLOAD_SETOR: {
@@ -91,7 +91,7 @@ export function RootLotacoesReducer(
                 setorId: null,
                 loading: false,
                 loadedSetor: false
-            }
+            };
         }
 
         default:

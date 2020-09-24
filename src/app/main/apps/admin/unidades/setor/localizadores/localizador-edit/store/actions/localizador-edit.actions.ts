@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const CREATE_LOCALIZADOR = '[ADMIN LOCALIZADOR EDIT] CREATE LOCALIZADOR';
 export const CREATE_LOCALIZADOR_SUCCESS = '[ADMIN LOCALIZADOR EDIT] CREATE LOCALIZADOR SUCCESS';

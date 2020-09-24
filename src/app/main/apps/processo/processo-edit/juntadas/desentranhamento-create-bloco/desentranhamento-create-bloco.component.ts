@@ -78,7 +78,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(juntadas => {
             if (juntadas !== undefined) {
-                if (this.juntadas.length===0) {
+                if (this.juntadas.length === 0) {
                     this.juntadas = juntadas.filter(j => j.ativo);
                 }
             }
@@ -112,7 +112,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
             this.juntadasSelecionadas = this.juntadasSelecionadas;
-            let diferencaArray = this.juntadas.filter(x => !this.juntadasSelecionadas.includes(x));
+            const diferencaArray = this.juntadas.filter(x => !this.juntadasSelecionadas.includes(x));
             this.juntadas = diferencaArray;
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;

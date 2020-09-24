@@ -36,7 +36,7 @@ import {CdkBlocoResponsaveisGridModule} from '../cdk-bloco-responsaveis-grid/cdk
 import {MatSliderModule} from '@angular/material/slider';
 import {CdkSetorTreeModule} from '../../setor/cdk-setor-tree/cdk-setor-tree.module';
 import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor-tree.service';
-import {MatCardModule} from "@angular/material/card";
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
     declarations: [

@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
@@ -60,8 +54,8 @@ export class LocalizadoresListComponent implements OnInit {
 
         this.setorPagination.populate = ['populateAll'];
         this.setorPagination.filter = {
-            'unidade.id':'eq:' + this.routerState.params.unidadeHandle,
-            'id':'eq:' + this.routerState.params.setorHandle
+            'unidade.id': 'eq:' + this.routerState.params.unidadeHandle,
+            'id': 'eq:' + this.routerState.params.setorHandle
         };
     }
 
@@ -88,7 +82,7 @@ export class LocalizadoresListComponent implements OnInit {
         }));
     }
 
-    create() : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

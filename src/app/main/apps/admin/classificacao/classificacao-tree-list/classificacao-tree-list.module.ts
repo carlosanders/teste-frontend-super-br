@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {ClassificacaoTreeListComponent} from './classificacao-tree-list.component';
 import {RouterModule, Routes} from '@angular/router';
-import * as fromGuards from './store/guards'
+import * as fromGuards from './store/guards';
 import {
     MatAutocompleteModule,
     MatButtonModule,
