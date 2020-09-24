@@ -1,4 +1,4 @@
-<form class="altura" fxLayoutGap="16px" name="form" [formGroup]="form">
+
 
     <div class="header">
             <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
@@ -39,7 +39,7 @@
                 </cdk-documento-autocomplete>
             </mat-form-field>
 
-            <mat-form-field class="mr-sm-12">
+            <mat-form-field>
                 <mat-label>Criado Em</mat-label>
                 <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
                 <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
@@ -56,7 +56,7 @@
                 </cdk-usuario-autocomplete>
             </mat-form-field>
 
-            <mat-form-field class="mr-sm-12">
+            <mat-form-field>
                 <mat-label>Atualizado Em</mat-label>
                 <input matInput formControlName="criadoEm" [matDatetimepicker]="atualizadoEm">
                 <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
@@ -74,7 +74,7 @@
                 </cdk-usuario-autocomplete>
             </mat-form-field>
 
-            <mat-form-field class="mr-sm-12">
+            <mat-form-field>
                 <mat-label>Apagado Em</mat-label>
                 <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
                 <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
@@ -82,16 +82,14 @@
                 </mat-datetimepicker>
             </mat-form-field>
 
-        </div>
+    </form>
+</div>
 
-        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
-                Buscar
-            </button>
-
-            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode === 'list'">
-                Limpar
-            </button>
-        </div>
-    </div>
-</form>
+<div class="footer">
+    <button mat-raised-button color="accent" (click)="buscar()">
+        Buscar
+    </button>
+    <button mat-raised-button color="warn" (click)="limpar()">
+        Limpar
+    </button>
+</div>

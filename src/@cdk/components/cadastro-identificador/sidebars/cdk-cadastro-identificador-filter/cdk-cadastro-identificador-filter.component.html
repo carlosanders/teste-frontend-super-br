@@ -1,4 +1,4 @@
-<form class="altura" fxLayoutGap="16px" name="form" [formGroup]="form">
+
 
     <div class="header">
             <mat-icon [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
@@ -39,16 +39,14 @@
                 </cdk-pessoa-autocomplete>
             </mat-form-field>
 
-        </div>
+    </form>
+</div>
 
-        <div class="padd" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="buscar()">
-                Buscar
-            </button>
-
-            <button mat-raised-button color="warn" class="mr-sm-12" (click)="limpar()" *ngIf="this.mode === 'list'">
-                Limpar
-            </button>
-        </div>
-    </div>
-</form>
+<div class="footer">
+    <button mat-raised-button color="accent" (click)="buscar()">
+        Buscar
+    </button>
+    <button mat-raised-button color="warn" (click)="limpar()">
+        Limpar
+    </button>
+</div>
