@@ -3,29 +3,38 @@ form {
     display: flex;
     flex-direction: column;
 
-    mat-card {
+    > mat-card {
         flex: 1 1 auto;
         display: flex !important;
         flex-direction: column;
         padding: 8px !important;
         margin-bottom: 16px !important;
+
+        > mat-form-field {
+            flex: 1 1 auto;
+        }
+
+        > mat-slide-toggle {
+            margin-right: 16px;
+            margin-bottom: 16px;
+        }
     }
 
-    mat-form-field {
+    > mat-form-field {
         flex: 1 1 auto;
     }
 
-    mat-slide-toggle {
+    > mat-slide-toggle {
         margin-right: 16px;
         margin-bottom: 16px;
     }
 
-    .responsive-group {
+    > .responsive-group {
         flex: 1 1 auto;
         display: flex;
         flex-direction: row;
 
-        mat-radio-group {
+        > mat-radio-group {
             margin-bottom: 8px;
             mat-radio-button {
                 margin-right: 24px;
@@ -33,7 +42,7 @@ form {
         }
     }
 
-    .responsive-group[max-width~="600px"] {
+    > .responsive-group[max-width~="600px"] {
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
@@ -42,7 +51,7 @@ form {
         }
     }
 
-    .actions {
+    > .actions {
         flex: 0 1 auto;
         display: flex;
         flex-direction: row;
