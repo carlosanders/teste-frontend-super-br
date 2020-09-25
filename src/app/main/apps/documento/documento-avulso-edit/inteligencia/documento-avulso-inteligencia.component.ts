@@ -130,6 +130,7 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
      * On destroy
      */
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadRepositorios());
     }
 
     reload(params): void {
