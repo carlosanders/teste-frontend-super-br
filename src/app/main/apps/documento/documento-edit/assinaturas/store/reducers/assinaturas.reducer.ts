@@ -159,6 +159,12 @@ export function AssinaturasReducer(
             };
         }
 
+        case AssinaturasActions.UNLOAD_ASSINATURAS: {
+            return {
+                ...AssinaturasInitialState
+            };
+        }
+
         default:
             return state;
     }
