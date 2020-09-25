@@ -9,6 +9,7 @@ relatorios-main-sidebar {
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
+        padding: 24px;
 
         > .logo {
             display: flex;
@@ -17,13 +18,15 @@ relatorios-main-sidebar {
             justify-content: flex-start;
             align-items: center;
         }
+    }
+
+    > .content {
 
         > .create-button {
             margin: 16px;
         }
-    }
 
-    > .content {
+        padding-top: 8px;
         display: flex;
         flex: 1 1 auto;
         flex-direction: column;

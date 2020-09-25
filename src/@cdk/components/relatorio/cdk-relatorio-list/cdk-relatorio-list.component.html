@@ -7,6 +7,7 @@
     <!-- / SIDEBAR -->
 
     <div class="header">
+
         <mat-checkbox (click)="toggleSelectAll($event)"
                       [checked]="!!selectedIds.length"
                       [indeterminate]="isIndeterminate">
@@ -23,6 +24,7 @@
         <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length">
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
+
         <mat-menu #folderMenu="matMenu">
             <button mat-menu-item
                     (click)="setFolder(null)">ENTRADA
@@ -58,7 +60,7 @@
 
         </mat-menu>
 
-        <div class="relatorio-list-control">
+        <div class="relatorio-list-control"  fxLayout="row" fxLayoutAlign="start center">
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
@@ -102,7 +104,7 @@
             <mat-spinner class="loading" diameter="24"></mat-spinner>
         </div>
 
-        <div class="no-relatorios-text" *ngIf="relatorios.length === 0 && !loading">
+        <div class="no-relatorios-text" *ngIf="relatorios?.length === 0 && !loading">
             <span class="hint-text">{{ 'RELATORIO.NO_MESSAGES' | translate }}</span>
         </div>
 

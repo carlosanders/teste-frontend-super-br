@@ -111,12 +111,12 @@
             <mat-spinner class="loading" diameter="24"></mat-spinner>
         </div>
 
-        <div *ngIf="processos.length === 0 && !loading">
+        <div *ngIf="processos?.length === 0 && !loading">
             <span class="no-processos-text hint-text">{{ 'PROCESSO.NO_MESSAGES' | translate }}</span>
         </div>
 
         <cdk-processo-list-item matRipple *ngFor="let processo of processos" [processo]="processo"
-                                [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"
+                                [ngClass]="{'selected': (processo.id === currentProcessoId), 'deleted': (deletedIds?.indexOf(processo.id) > -1)}"
                                 (click)="selectProcesso(processo)"
                                 [selected]="selectedIds.length > 0 && selectedIds.indexOf(processo.id) > -1"
                                 [deleting]="deletingIds.length > 0 && deletingIds.indexOf(processo.id) > -1"
@@ -125,7 +125,6 @@
                                 [prontoTransicao]="prontoTransicao"
                                 (realizarTransicao)="doRealizarTransicao($event)"
                                 (toggleInSelectedProcessos)="toggleInSelected($event)"
-                                [ngClass]="{'selected':processo.id === currentProcessoId}"
                                 (loadInteressados)="doLoadInteressados($event)"
                                 [loadingInteressadosProcessosId]="loadingInteressadosProcessosId"
                                 (loadAssuntos)="doLoadAssuntos($event)"

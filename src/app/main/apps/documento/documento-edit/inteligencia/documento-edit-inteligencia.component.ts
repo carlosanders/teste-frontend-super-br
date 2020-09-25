@@ -133,6 +133,7 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
     }
 
     reload(params): void {
+        console.log ('oie');
         this._store.dispatch(new fromStore.GetRepositorios({
             ...this.pagination,
             filter: {

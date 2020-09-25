@@ -21,8 +21,6 @@ RUN npm install -g @angular/cli@11.0.0-next.3
 
 RUN npm install
 
-RUN npm rebuild node-sass
-
 EXPOSE 4200
 
 ENTRYPOINT ["sh", "/app/docker/dev/docker-entrypoint.sh"]

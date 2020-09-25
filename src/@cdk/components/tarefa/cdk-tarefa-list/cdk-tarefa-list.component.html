@@ -180,11 +180,11 @@
             <mat-spinner class="loading" diameter="24"></mat-spinner>
         </div>
 
-        <div class="no-tarefas-text" *ngIf="tarefas.length === 0 && !loading || deleteTotal === true">
+        <div class="no-tarefas-text" *ngIf="tarefas?.length === 0 && !loading || deleteTotal === true">
             <span class="hint-text">{{ 'TAREFA.NO_MESSAGES' | translate }}</span>
         </div>
 
-        <div *ngIf="tarefas.length > 0 && deleteTotal === false">
+        <div *ngIf="tarefas?.length > 0 && deleteTotal === false">
 
             <div *ngFor="let tarefa of tarefas">
                 <cdk-tarefa-list-item
