@@ -18,6 +18,8 @@ export const SAVE_ASSINATURA_DOCUMENTO = '[DOCUMENTO EDIT ASSINATURA] SAVE DOCUM
 export const SAVE_ASSINATURA_DOCUMENTO_SUCCESS = '[DOCUMENTO EDIT ASSINATURA] SAVE ASSINATURA DOCUMENTO SUCCESS';
 export const SAVE_ASSINATURA_DOCUMENTO_FAILED = '[DOCUMENTO EDIT ASSINATURA] SAVE ASSINATURA DOCUMENTO FAILED';
 
+export const UNLOAD_ASSINATURAS = '[DOCUMENTO EDIT ASSINATURA] UNLOAD ASSINATURAS';
+
 /**
  * Get Assinaturas
  */
@@ -176,6 +178,17 @@ export class SaveAssinaturaDocumentoFailed implements Action
     }
 }
 
+/**
+ * Unload Assinaturas
+ */
+export class UnloadAssinaturas implements Action
+{
+    readonly type = UNLOAD_ASSINATURAS;
+
+    constructor() {
+    }
+}
+
 export type AssinaturaActionsAll
     = GetAssinaturas
     | GetAssinaturasSuccess
@@ -189,5 +202,6 @@ export type AssinaturaActionsAll
     | DeleteAssinaturaFailed
     | SaveAssinaturaDocumento
     | SaveAssinaturaDocumentoSuccess
-    | SaveAssinaturaDocumentoFailed;
+    | SaveAssinaturaDocumentoFailed
+    | UnloadAssinaturas;
 
