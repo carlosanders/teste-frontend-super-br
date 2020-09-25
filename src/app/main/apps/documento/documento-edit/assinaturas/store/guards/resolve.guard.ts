@@ -9,7 +9,7 @@ import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 import {DocumentoEditAssinaturasAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {getAssinaturasLoaded, getAssinaturasPagination} from '../';
+import {getAssinaturasLoaded} from '../';
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
@@ -57,12 +57,12 @@ export class ResolveGuard implements CanActivate {
             select(getAssinaturasLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    let assinaturasPagination: any = null;
-
-                    this._store.pipe(select(getAssinaturasPagination)).subscribe(pagination => {
-                        assinaturasPagination = pagination;
-                    });
-                    this._store.dispatch(new fromStore.GetAssinaturas(assinaturasPagination));
+                    const params = {
+                        filter: {
+                            'componenteDigital.id': 'eq:' + this.routerState.params.componenteDigitalHandle
+                        }
+                    };
+                    this._store.dispatch(new fromStore.GetAssinaturas(params));
                 }
             }),
             filter((loaded: any) => {

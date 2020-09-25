@@ -6,6 +6,8 @@ export const GET_REPOSITORIOS_FAILED = '[DOCUMENTO AVULSO] GET REPOSITORIOS FAIL
 
 export const SET_QUERY_REPOSITORIOS = '[DOCUMENTO AVULSO] SET QUERY REPOSITORIOS';
 
+export const UNLOAD_REPOSITORIOS = '[DOCUMENTO AVULSO] UNLOAD REPOSITORIOS';
+
 /**
  * Get Repositorios
  */
@@ -54,8 +56,21 @@ export class SetQueryRepositorios implements Action
     }
 }
 
+/**
+ * Unload Repositorios
+ */
+export class UnloadRepositorios implements Action
+{
+    readonly type = UNLOAD_REPOSITORIOS;
+
+    constructor()
+    {
+    }
+}
+
 export type RepositoriosActionsAll
     = GetRepositorios
     | GetRepositoriosSuccess
     | GetRepositoriosFailed
-    | SetQueryRepositorios;
+    | SetQueryRepositorios
+    | UnloadRepositorios;

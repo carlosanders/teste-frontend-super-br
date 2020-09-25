@@ -85,6 +85,12 @@ export function RepositoriosReducer(state = RepositoriosInitialState, action: Re
             };
         }
 
+        case RepositoriosActions.UNLOAD_REPOSITORIOS: {
+            return {
+                ...RepositoriosInitialState
+            };
+        }
+
         default:
             return state;
     }
