@@ -12,7 +12,7 @@ import {effects} from './effects';
   declarations: [],
   imports: [
       CommonModule,
-      StoreModule.forFeature('app-arquivista-classificacao-bloco', reducers),
+      StoreModule.forFeature('<span class="mr-4 ml-4">/</span>arquivista-classificacao-bloco', reducers),
       EffectsModule.forFeature(effects)
   ]
 })

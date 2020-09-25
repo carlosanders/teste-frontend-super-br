@@ -1,9 +1,9 @@
-<h3>Configuração da ações da etiqueta</h3>
-
-<cdk-acao-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-acao-form
         [acao]="acao"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-acao-form>
+    </cdk-acao-form>
+</div>

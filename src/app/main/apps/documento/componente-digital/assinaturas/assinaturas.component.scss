@@ -1,16 +1,15 @@
-#assinaturas {
+assinaturas {
+    display: flex;
+    flex: 1 1 auto;
 
-  .header {
+    > div:first-of-type {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
 
-    .actions {
-      .is-active {
-        display: none;
-      }
+        > .content {
+            display: flex;
+            flex: 1 1 auto;
+        }
     }
-
-  }
-
-  .content {
-
-  }
 }

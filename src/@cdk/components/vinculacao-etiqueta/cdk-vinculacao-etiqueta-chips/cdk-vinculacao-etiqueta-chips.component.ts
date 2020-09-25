@@ -135,7 +135,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
         // o trecho de código abaixo é apenas para situações em que um dialog de
         // alteração de conteúdo de vinculação de etiqueta foi aberto
         if (this.dialogRef) {
-            if (this.errors && this.errors.status && this.errors.status === 422) {//422) {
+            if (this.errors && this.errors.status && this.errors.status === 422) {// 422) {
                 try {
                     const data = JSON.parse(this.errors.error.message);
                     const fields = Object.keys(data || {});

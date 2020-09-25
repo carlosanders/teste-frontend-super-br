@@ -17,7 +17,7 @@ import {CdkMunicipioGridsearchModule} from '@cdk/components/municipio/cdk-munici
 import {CdkPaisAutocompleteModule} from '../../pais/cdk-pais-autocomplete/cdk-pais-autocomplete.module';
 import {CdkPaisGridsearchModule} from '../../pais/cdk-pais-autocomplete/cdk-pais-gridsearch/cdk-pais-gridsearch.module';
 import {PaisService} from '@cdk/services/pais.service';
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [

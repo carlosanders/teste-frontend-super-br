@@ -1,85 +1,73 @@
-<form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="36px"
-      fxLayout="column"
-      fxLayoutAlign="start"
-      name="form" [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <div fxFlex="1 0 auto" fxLayout="column" class="div-form">
+    <mat-form-field>
+        <mat-label>CPF</mat-label>
+        <input matInput #username
+               name="username"
+               formControlName="username"
+               readonly
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{username.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>CPF</mat-label>
-            <input matInput #username
-                   name="username"
-                   formControlName="username"
-                   readonly
-                   maxlength="255" upperCase>
-            <mat-hint align="end">{{username.value.length}} / 255</mat-hint>
-        </mat-form-field>
+    <mat-form-field>
+        <mat-label>Nome</mat-label>
+        <input matInput #nome
+               name="nome"
+               formControlName="nome"
+               readonly
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>Nome</mat-label>
-            <input matInput #nome
-                   name="nome"
-                   formControlName="nome"
-                   readonly
-                   maxlength="255" upperCase>
-            <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
-        </mat-form-field>
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput #email
+               name="email"
+               formControlName="email"
+               readonly
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100">
-            <mat-label>Email</mat-label>
-            <input matInput #email
-                   name="email"
-                   formControlName="email"
-                   readonly
-                   maxlength="255" upperCase>
-            <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
-        </mat-form-field>
+    <mat-form-field *ngIf="usuario.colaborador">
+        <mat-label>Modalidade</mat-label>
+        <input matInput #modalidadeColaborador
+               name="modalidadeColaborador"
+               formControlName="modalidadeColaborador"
+               readonly
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{modalidadeColaborador.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100" *ngIf="usuario.colaborador">
-            <mat-label>Modalidade</mat-label>
-            <input matInput #modalidadeColaborador
-                   name="modalidadeColaborador"
-                   formControlName="modalidadeColaborador"
-                   readonly
-                   maxlength="255" upperCase>
-            <mat-hint align="end">{{modalidadeColaborador.value.length}} / 255</mat-hint>
-        </mat-form-field>
+    <mat-form-field *ngIf="usuario.colaborador">
+        <mat-label>Cargo</mat-label>
+        <input matInput #cargo
+               name="cargo"
+               formControlName="cargo"
+               readonly
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{cargo.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
-        <mat-form-field fxFlex="100" *ngIf="usuario.colaborador">
-            <mat-label>Cargo</mat-label>
-            <input matInput #cargo
-                   name="cargo"
-                   formControlName="cargo"
-                   readonly
-                   maxlength="255" upperCase>
-            <mat-hint align="end">{{cargo.value.length}} / 255</mat-hint>
-        </mat-form-field>
-
-        <mat-form-field class="mr-16" fxFlex="1 0 auto">
+    <mat-form-field>
             <textarea formControlName="assinaturaHTML"
                       matInput placeholder="Assinatura" upperCase required></textarea>
-            <mat-error *ngIf="form.get('assinaturaHTML').hasError('formError')">
-                {{form.get('assinaturaHTML').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-    </div>
+        <mat-error *ngIf="form.get('assinaturaHTML').hasError('formError')">
+            {{form.get('assinaturaHTML').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                [disabled]="form.invalid">
+    <div class="actions">
+       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
 
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
 </form>

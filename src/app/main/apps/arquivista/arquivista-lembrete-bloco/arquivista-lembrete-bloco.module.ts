@@ -10,6 +10,7 @@ import {LoginService} from '../../../auth/login/login.service';
 import {LembreteService} from '@cdk/services/lembrete.service';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {modulesConfig} from 'modules/modules-config';
+import {DirectivesModule} from '../../../../../@cdk/directives/directives';
 
 const routes: Routes = [
     {
@@ -34,6 +35,7 @@ modulesConfig.forEach((module) => {
         RouterModule.forChild(routes),
         CdkLembreteFormModule,
         MatListModule,
+        DirectivesModule,
     ],
     providers: [
         LoginService,

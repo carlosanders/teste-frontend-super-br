@@ -18,7 +18,7 @@ import { cdkAnimations } from '@cdk/animations';
 export class AjudaArquivistaComponent {
     
     topicos: Topico[] = [];
-    titulo = "arquivista";
+    titulo = 'arquivista';
     
     carregar(topico: string): void {
         this.titulo = topico;

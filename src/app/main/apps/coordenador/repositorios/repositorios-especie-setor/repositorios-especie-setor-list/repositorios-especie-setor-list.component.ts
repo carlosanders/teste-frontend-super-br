@@ -57,11 +57,11 @@ export class RepositoriosEspecieSetorListComponent implements OnInit {
             });
 
         this.orgaoCentralPagination.filter = {
-            'id': 'eq:' + this.routerState.params['entidadeHandle']
+            id: 'eq:' + this.routerState.params['entidadeHandle']
         };
         this.orgaoCentralPagination.populate = ['populateAll'];
         this.repositorioPagination.filter = {
-            'id': 'eq:' + this.routerState.params['repositorioHandle']
+            id: 'eq:' + this.routerState.params['repositorioHandle']
         };
         this.repositorioPagination.populate = ['populateAll'];
     }
@@ -89,7 +89,7 @@ export class RepositoriosEspecieSetorListComponent implements OnInit {
         }));
     }
 
-    create() : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

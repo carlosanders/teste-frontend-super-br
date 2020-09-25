@@ -1,5 +1,4 @@
-import { Action } from '@ngrx/store';
-import {GET_SETOR} from '../../../coordenador/store/actions';
+import {Action} from '@ngrx/store';
 
 export const GET_ROLE = '[ADMIN] GET ROLE';
 

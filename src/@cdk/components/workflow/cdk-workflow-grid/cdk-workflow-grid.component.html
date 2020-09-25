@@ -67,7 +67,7 @@
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
@@ -179,6 +179,14 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let workflow">
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('transicoes') > -1 && !hasExcluded"
+                                (click)="transicoesWorflow(workflow.id)"
+                                aria-label="transições"
+                                matTooltip="Transições">
+                            <mat-icon>transform</mat-icon>
+                        </button>
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('select') > -1 && !hasExcluded"

@@ -79,7 +79,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkRole(observable: Observable<any>): any {
-        if (!this._loginService.isGranted('ROLE_PESSOA_VINCULADA')) {
+        if (!this._loginService.isGranted('ROLE_USUARIO_EXTERNO')) {
             this._router.navigate(['/apps/painel']).then(() => {
                 return throwError(new Error('Usuário sem permissão'));
             });

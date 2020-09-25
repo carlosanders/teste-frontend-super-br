@@ -35,7 +35,7 @@ export const LembreteInitialState: LembreteState = {
     loaded: false,
     loading: false,
     saving: false
-}
+};
 
 export function LembreteReducer(
     state = LembreteInitialState,

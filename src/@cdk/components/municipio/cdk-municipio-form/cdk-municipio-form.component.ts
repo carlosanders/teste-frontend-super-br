@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -6,15 +7,19 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    SimpleChange
+    SimpleChange, ViewEncapsulation
 } from '@angular/core';
-import {Municipio, Pagination, Pessoa} from '../../../models';
+import {Municipio, Pagination} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {cdkAnimations} from '../../../animations';
 
 @Component({
     selector: 'cdk-municipio-form',
     templateUrl: './cdk-municipio-form.component.html',
-    styleUrls: ['./cdk-municipio-form.component.scss']
+    styleUrls: ['./cdk-municipio-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkMunicipioFormComponent implements OnChanges, OnDestroy {
 

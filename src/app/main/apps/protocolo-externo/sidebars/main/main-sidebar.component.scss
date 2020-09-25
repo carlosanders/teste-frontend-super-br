@@ -1,10 +1,41 @@
-processos-main-sidebar {
+processos-main-sidebar  {
     display: flex;
     flex: 1 0 auto;
     flex-direction: column;
-    height: 100%;
 
-    .nav .nav-subheader {
-        white-space: unset !important;
+    > .header {
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+
+        .logo {
+
+            .logo-icon {
+                margin: 0 8px 0 0;
+            }
+
+            .logo-text {
+                font-size: 22px;
+                line-height: 22px;
+            }
+        }
+
+        .logo-nup {
+            margin-top: 16px;
+            font-size: 16px;
+            line-height: 16px;
+        }
+    }
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        height: 0;
+        overflow-y: auto;
+        margin-top: 8px;
     }
 }

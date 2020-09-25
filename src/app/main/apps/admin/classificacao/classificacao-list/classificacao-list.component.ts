@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -6,11 +6,15 @@ import {select, Store} from '@ngrx/store';
 import {Classificacao, Usuario} from '../../../../../../@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
+import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
     selector: 'classificacao-list',
     templateUrl: './classificacao-list.component.html',
-    styleUrls: ['./classificacao-list.component.scss']
+    styleUrls: ['./classificacao-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class ClassificacaoListComponent implements OnInit {
 

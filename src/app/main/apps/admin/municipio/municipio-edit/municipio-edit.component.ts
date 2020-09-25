@@ -11,7 +11,7 @@ import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
 
 @Component({
-    selector: 'app-municipio-edit',
+    selector: 'municipio-edit',
     templateUrl: './municipio-edit.component.html',
     styleUrls: ['./municipio-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,6 +1,8 @@
-<cdk-lembrete-form
-    [processo]="processoId"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    (save)="submit($event)">
-</cdk-lembrete-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-lembrete-form
+        [processo]="processoId"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)">
+    </cdk-lembrete-form>
+</div>

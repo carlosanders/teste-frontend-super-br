@@ -1,6 +1,7 @@
 <cdk-componente-digital-grid
         [loading]="loading"
         [componentesDigitais]="componentesDigitais"
+        [displayedColumns]="['id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'highlights', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

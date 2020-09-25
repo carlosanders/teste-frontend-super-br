@@ -86,7 +86,7 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
         ).subscribe(
             vinculacaoRepositorio => {
                 if (vinculacaoRepositorio) {
-                    this.vinculacaoRepositorio = vinculacaoRepositorio
+                    this.vinculacaoRepositorio = vinculacaoRepositorio;
                 }
             }
         );

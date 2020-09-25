@@ -1,6 +1,7 @@
 <cdk-origem-dados-grid
         [loading]="loading"
         [origemDadoss]="origemDadoss"
+        [displayedColumns]="['id', 'servico', 'fonteDados', 'status', 'dataHoraUltimaConsulta', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

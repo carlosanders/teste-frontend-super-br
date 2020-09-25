@@ -53,7 +53,7 @@ export class ResolveGuard implements CanActivate {
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (this.getRouterDefault()) {
-            return this.checkRole(this.getDocumentosAvulso()).pipe(
+            return this.getDocumentosAvulso().pipe(
                 switchMap(() => of(true)),
                 catchError(() => of(false))
             );
@@ -116,6 +116,7 @@ export class ResolveGuard implements CanActivate {
                         let documentoAvulsoFilter = {};
 
                         if (this.routerState.params[typeParam] === 'entrada') {
+
                             documentoAvulsoFilter = {
                                 'documentoResposta.id': 'isNull',
                                 'documentoRemessa.id': 'isNotNull',
@@ -149,7 +150,7 @@ export class ResolveGuard implements CanActivate {
     }
 
     getRouterDefault(): boolean {
-        if (!this.routerState.params['pessoaHandle']) {
+        if (!this.routerState.params['pessoaHandle'] && this.pessoasConveniadas) {
             this._router.navigate(['apps/oficios/entrada/' + this.pessoasConveniadas[0].pessoa.id]);
             return false;
         }

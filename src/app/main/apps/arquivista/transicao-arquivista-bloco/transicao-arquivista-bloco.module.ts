@@ -10,6 +10,7 @@ import {TransicaoArquivistaStoreModule} from './store/store.module';
 import {CdkRealizarTransicaoFormModule} from '../../../../../@cdk/components/transicao/cdk-realizar-transicao/cdk-realizar-transicao-form/cdk-realizar-transicao-form.module';
 import {MatListModule} from '@angular/material/list';
 import {modulesConfig} from 'modules/modules-config';
+import {DirectivesModule} from '../../../../../@cdk/directives/directives';
 
 const routes: Routes = [
     {
@@ -33,7 +34,8 @@ modulesConfig.forEach((module) => {
         RouterModule.forChild(routes),
         TransicaoArquivistaStoreModule,
         CdkRealizarTransicaoFormModule,
-        MatListModule
+        MatListModule,
+        DirectivesModule
     ],
     providers: [
         ProcessoService,

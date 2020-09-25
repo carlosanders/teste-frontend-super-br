@@ -12,8 +12,8 @@ import {
 } from '@cdk/angular/material';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
-import {CdkModalidadeModeloAutocompleteModule} from "../../modalidade-modelo/cdk-modalidade-modelo-autocomplete/cdk-modalidade-modelo-autocomplete.module";
-import {CdkModalidadeModeloGridsearchModule} from "../../modalidade-modelo/cdk-modalidade-modelo-autocomplete/cdk-modalidade-modelo-gridsearch/cdk-modalidade-modelo-gridsearch.module";
+import {CdkModalidadeModeloAutocompleteModule} from '../../modalidade-modelo/cdk-modalidade-modelo-autocomplete/cdk-modalidade-modelo-autocomplete.module';
+import {CdkModalidadeModeloGridsearchModule} from '../../modalidade-modelo/cdk-modalidade-modelo-autocomplete/cdk-modalidade-modelo-gridsearch/cdk-modalidade-modelo-gridsearch.module';
 import {CdkTemplateFormComponent} from './cdk-template-form.component';
 import {CdkModalidadeTemplateAutocompleteModule} from '../../modalidade-template/cdk-modalidade-template-autocomplete/cdk-modalidade-template-autocomplete.module';
 import {CdkDocumentoAutocompleteModule} from '../../documento/cdk-documento-autocomplete/cdk-documento-autocomplete.module';

@@ -8,7 +8,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatIconModule} from '@angular/material/icon';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
-import {MatCardModule} from "@angular/material/card";
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
     declarations: [

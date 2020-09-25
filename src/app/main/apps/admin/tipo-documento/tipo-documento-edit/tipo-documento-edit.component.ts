@@ -11,7 +11,7 @@ import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
 
 @Component({
-    selector: 'app-tipo-documento-edit',
+    selector: 'tipo-documento-edit',
     templateUrl: './tipo-documento-edit.component.html',
     styleUrls: ['./tipo-documento-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

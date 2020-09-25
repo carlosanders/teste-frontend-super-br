@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
@@ -18,8 +12,8 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
-import {Setor} from "../../../../../../../@cdk/models";
-import {takeUntil} from "rxjs/operators";
+import {Setor} from '../../../../../../../@cdk/models';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'competencia-edit',

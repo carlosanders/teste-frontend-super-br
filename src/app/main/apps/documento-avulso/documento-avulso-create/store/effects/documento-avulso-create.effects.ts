@@ -58,7 +58,7 @@ export class DocumentoAvulsoCreateEffect {
                                 '/atividades/criar']).then();
                             }
                             else {
-                                this._store.dispatch(new DocumentoAvulsoCreateActions.GetDocumento(response.id))
+                                this._store.dispatch(new DocumentoAvulsoCreateActions.GetDocumento(response.id));
                             }
                         }),
                         mergeMap((response: DocumentoAvulso) => [

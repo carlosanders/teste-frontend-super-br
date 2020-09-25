@@ -15,7 +15,7 @@ import {Assinatura, ComponenteDigital} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from '../../../../../store/reducers';
 import {getRepositorioComponenteDigital} from '../../store/selectors';
-import {SetQueryRepositorios, SetRepositorioComponenteDigital} from '../../store/actions';
+import {SetQueryRepositorios, SetRepositorioComponenteDigital} from 'app/main/apps/documento/documento-edit/inteligencia/store/actions';
 import {Pagination} from '@cdk/models/pagination';
 
 @Component({

@@ -1,4 +1,4 @@
-import { CompetenciaEditEffects } from './competencia-edit.effects';
+import {CompetenciaEditEffects} from './competencia-edit.effects';
 
 export const effects = [
     CompetenciaEditEffects

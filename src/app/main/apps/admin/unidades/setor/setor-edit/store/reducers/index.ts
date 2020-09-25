@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { SetorEditReducer, SetorEditState } from './setor-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {SetorEditReducer, SetorEditState} from './setor-edit.reducer';
 
 export interface SetorEditAppState
 {

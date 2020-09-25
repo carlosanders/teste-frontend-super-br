@@ -18,7 +18,7 @@ import {
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '../../../../../@cdk/shared.module';
 import {modulesConfig} from 'modules/modules-config';
-import {LoginService} from '../../../../../app/main/auth/login/login.service';
+import {LoginService} from '../../../auth/login/login.service';
 
 const routes: Routes = [
     {
@@ -32,6 +32,10 @@ const routes: Routes = [
             {
                 path: 'editar',
                 loadChildren: () => import('./workflow-edit/workflow-edit.module').then(m => m.WorkflowEditModule),
+            },
+            {
+                path: ':workflowHandle/transicoes',
+                loadChildren: () => import('./transicao-workflow/transicao-workflow.module').then(m => m.TransicaoWorkflowModule)
             },
             {
                 path: '**',

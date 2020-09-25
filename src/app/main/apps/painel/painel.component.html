@@ -1,16 +1,15 @@
-<div class="page-layout simple left-sidebar inner-scroll" fxLayout="row">
+<div class="page-layout simple inner-scroll">
 
     <!-- CENTER -->
     <div class="center">
 
         <!-- HEADER -->
-        <div class="header accent p-24 pb-0" fxLayout="column" fxLayoutAlign="space-between">
-            <div fxLayout="row" fxLayoutAlign="space-between start">
+        <div class="header accent p-24">
+            <div class="welcome">
                 <span class="mat-display-1 my-0 my-sm-16 welcome-message"
                       [@animate]="{value:'*',params:{x:'50px'}}">Bem-vindo, {{(_profile.nome.split(' ')[0]).charAt(0) + (_profile.nome.split(' ')[0]).slice(1).toLowerCase()}}
                 </span>
             </div>
-
         </div>
         <!-- / HEADER -->
 

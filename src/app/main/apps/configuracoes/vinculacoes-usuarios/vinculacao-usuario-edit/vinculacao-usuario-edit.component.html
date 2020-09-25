@@ -1,4 +1,5 @@
-<cdk-vinculacao-usuario-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-vinculacao-usuario-form
         [vinculacaoUsuario]="vinculacaoUsuario"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -6,4 +7,5 @@
         (save)="submit($event)"
         [logEntryPagination]="logEntryPagination"
         (abort)="doAbort()">
-</cdk-vinculacao-usuario-form>
+    </cdk-vinculacao-usuario-form>
+</div>

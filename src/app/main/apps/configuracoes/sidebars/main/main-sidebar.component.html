@@ -1,7 +1,6 @@
 <!-- SIDEBAR HEADER -->
-<div fxLayout="column" fxLayoutAlign="space-between start"
-     class="header accent p-24 pb-4">
-    <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
+<div class="header accent">
+    <div class="logo">
         <mat-icon class="logo-icon s-32" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
             settings
         </mat-icon>
@@ -11,19 +10,15 @@
 <!-- / SIDEBAR HEADER -->
 
 <!-- SIDEBAR CONTENT -->
-<div class="content mt-16" cdkPerfectScrollbar>
-
+<div class="content" cdkPerfectScrollbar>
     <div class="nav material2">
-
         <div class="nav-item" *ngFor="let link of links">
-            <a class="nav-link" matRipple [routerLink]="link.link"
+            <a class="nav-link" matRipple [routerLink]="'/apps/configuracoes/' + link.link"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
-                <span>{{link.nome | titlecase}}</span>
+                <span>{{link.nome}}</span>
             </a>
         </div>
-
     </div>
-
 </div>
 <!-- / SIDEBAR CONTENT -->

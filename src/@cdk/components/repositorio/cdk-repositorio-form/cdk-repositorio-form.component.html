@@ -1,96 +1,73 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form class="p-24 mr-24" fxLayoutGap="16px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-        <div fxFlex="1 0 auto" fxLayout="column">
+    <mat-checkbox formControlName="ativo">
+        Ativo
+    </mat-checkbox>
 
-            <mat-checkbox formControlName="ativo"
-                          class="mr-16 mb-16" fxFlex="0 1 auto">
-                Ativo
-            </mat-checkbox>
+    <mat-form-field>
+        <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Nome" formControlName="nome" maxlength="255" required upperCase>
-                </div>
-            </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
-                </div>
-            </mat-form-field>
+    <mat-form-field *ngIf="coordenador">
+        <input matInput placeholder="Setor"
+               formControlName="setor"
+               [matAutocomplete]="setor.autocomplete"
+               (blur)="checkSetor()"
+               required>
+        <cdk-setor-autocomplete
+            #setor="setorAutocomplete"
+            [control]="form.get('setor')"
+            [pagination]="setorPagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('setor').hasError('formError')">
+            {{form.get('setor').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field *ngIf="coordenador" fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Setor"
-                           formControlName="setor"
-                           [matAutocomplete]="setor.autocomplete"
-                           (blur)="checkSetor()"
-                           required>
-                </div>
-                <cdk-setor-autocomplete
-                    #setor="setorAutocomplete"
-                    [control]="form.get('setor')"
-                    [pagination]="setorPagination">
-                </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showSetorGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('setor').hasError('formError')">
-                    {{form.get('setor').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field>
+            <input matInput placeholder="Modalidade"
+                   formControlName="modalidadeRepositorio"
+                   [matAutocomplete]="modalidadeRepositorio.autocomplete"
+                   (blur)="checkModalidadeRepositorio()"
+                   required>
+        <cdk-modalidade-repositorio-autocomplete
+            #modalidadeRepositorio="modalidadeRepositorioAutocomplete"
+            [control]="form.get('modalidadeRepositorio')"
+            [pagination]="modalidadeRepositorioPagination">
+        </cdk-modalidade-repositorio-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showModalidadeRepositorioGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('modalidadeRepositorio').hasError('formError')">
+            {{form.get('modalidadeRepositorio').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Modalidade"
-                           formControlName="modalidadeRepositorio"
-                           [matAutocomplete]="modalidadeRepositorio.autocomplete"
-                           (blur)="checkModalidadeRepositorio()"
-                           required>
-                </div>
-                <cdk-modalidade-repositorio-autocomplete
-                    #modalidadeRepositorio="modalidadeRepositorioAutocomplete"
-                    [control]="form.get('modalidadeRepositorio')"
-                    [pagination]="modalidadeRepositorioPagination">
-                </cdk-modalidade-repositorio-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showModalidadeRepositorioGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('modalidadeRepositorio').hasError('formError')">
-                    {{form.get('modalidadeRepositorio').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-        </div>
+    <div class="actions">
+        <button mat-raised-button color="accent" type="submit" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" type="submit" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
-
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+</form>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-gridsearch'"
     [pagination]="setorPagination"
     (selected)="selectSetor($event)"
@@ -98,7 +75,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-modalidade-repositorio-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'modalidade-repositorio-gridsearch'"
     [pagination]="modalidadeRepositorioPagination"
     (selected)="selectModalidadeRepositorio($event)"
@@ -106,7 +82,6 @@
 </cdk-modalidade-repositorio-gridsearch>
 
 <cdk-logentry-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">

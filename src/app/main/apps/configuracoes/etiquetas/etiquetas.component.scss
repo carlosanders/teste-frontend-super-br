@@ -1,8 +1,8 @@
-.etiquetas {
-    height: 100%;
-    width: 100%;
-
-    .altura {
-        height: 100%;
+etiquetas {
+    flex: 1 1 auto;
+    display: flex;
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
     }
 }

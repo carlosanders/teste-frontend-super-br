@@ -19,7 +19,7 @@ import { Topico } from 'ajuda/topico';
 export class AjudaCompartilhamentoCreateComponent {
 
     topicos: Topico[] = [];
-    titulo = "compartilhamento";
+    titulo = 'compartilhamento';
 
     carregar(topico: string): void {
         this.titulo = topico;

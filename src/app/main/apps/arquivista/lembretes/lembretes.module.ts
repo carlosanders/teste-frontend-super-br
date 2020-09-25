@@ -11,6 +11,7 @@ import {LembretesComponent} from './lembretes.component';
 import {LoginService} from '../../../auth/login/login.service';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {modulesConfig} from 'modules/modules-config';
+import {DirectivesModule} from '../../../../../@cdk/directives/directives';
 
 const routes: Routes = [
     {
@@ -37,7 +38,8 @@ modulesConfig.forEach((module) => {
         RouterModule.forChild(routes),
         CdkLembreteGridModule,
         CdkLembreteFormModule,
-        LembreteStoreModule
+        LembreteStoreModule,
+        DirectivesModule
     ],
     providers: [
         LembreteService,

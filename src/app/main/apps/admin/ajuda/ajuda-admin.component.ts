@@ -1,11 +1,7 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
 
-import { Topico } from 'ajuda/topico';
-import { cdkAnimations } from '@cdk/animations';
+import {Topico} from 'ajuda/topico';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'ajuda-admin',
@@ -18,7 +14,7 @@ import { cdkAnimations } from '@cdk/animations';
 export class AjudaAdminComponent {
     
     topicos: Topico[] = [];
-    titulo = "admin";
+    titulo = 'admin';
     
     carregar(topico: string): void {
         this.titulo = topico;

@@ -165,7 +165,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
                     if (!action.payload.documentoAvulsoRemessa) {
                         this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/editar']).then();
                     } else {
-                        this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio']).then();
+                        this._router.navigate([this.routerState.url + '/documento/' + action.payload.id + '/oficio/dados-basicos']).then();
                     }
 
                 })

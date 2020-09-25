@@ -9,7 +9,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {NumeroUnicoDocumento, TipoDocumento, Setor, Pagination} from "@cdk/models";
+import {NumeroUnicoDocumento, TipoDocumento, Setor, Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-numero-unico-documento-form',

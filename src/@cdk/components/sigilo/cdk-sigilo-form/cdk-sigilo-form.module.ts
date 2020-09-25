@@ -23,7 +23,7 @@ import {TipoSigiloService} from '@cdk/services/tipo-sigilo.service';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {OrigemDadosService} from '@cdk/services/origem-dados.service';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
-import {CdkLogentryGridsearchModule} from "../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module";
+import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 
 @NgModule({
     declarations: [

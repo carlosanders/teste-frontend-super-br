@@ -1,63 +1,44 @@
-<div class="content p-16" fxLayout="column" fxFlex="100">
+<h2>Download do processo</h2>
 
-    <h2>Download do processo</h2>
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <form *ngIf="activeCard === 'form'" class="p-24 mr-24" fxLayoutGap="16px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+    <label id="tipo-rg">Tipo de arquivo</label>
 
-        <div fxFlex="1 0 auto" fxLayout="column">
+    <div class="target">
+        <mat-radio-group class="tipo-rg" formControlName="tipo_download" aria-labelledby="tipo-rg">
+            <mat-radio-button [value]="'processo_pdf'">
+                PDF
+            </mat-radio-button>
+            <mat-radio-button [value]="'processo_zip'">
+                ZIP
+            </mat-radio-button>
+        </mat-radio-group>
+    </div>
 
-            <label id="tipo-rg">Tipo de arquivo</label>
+    <mat-slide-toggle formControlName="parcial">
+        Parcial
+    </mat-slide-toggle>
 
-            <div class="target" fxLayout="column">
-                <mat-radio-group class="tipo-rg" formControlName="tipo_download" aria-labelledby="tipo-rg">
-                    <mat-radio-button [value]="'processo_pdf'">
-                        PDF
-                    </mat-radio-button>
-                    <mat-radio-button [value]="'processo_zip'">
-                        ZIP
-                    </mat-radio-button>
-                </mat-radio-group>
-            </div>
+    <mat-form-field *ngIf="this.form.get('parcial').value">
+        <label>
+            <input matInput placeholder="Juntadas Seq."
+                   formControlName="sequencial">
+        </label>
 
-            <div fxLayout="row">
+    </mat-form-field>
 
-                <mat-slide-toggle formControlName="parcial"
-                                  class="mt-16 mr-16 mb-16" fxFlex="0 1 auto">
-                    Parcial
-                </mat-slide-toggle>
-            </div>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-            <mat-form-field fxFlex="100" *ngIf="this.form.get('parcial').value">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <label>
-                        <input matInput placeholder="Juntadas Seq."
-                               formControlName="sequencial">
-                    </label>
-                </div>
-            </mat-form-field>
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid || !valid" *ngIf="!saving">
+            GERAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
 
-        </div>
+</form>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid || !valid">
-                GERAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
-
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-
-</div>

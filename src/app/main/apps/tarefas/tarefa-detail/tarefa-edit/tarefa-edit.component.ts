@@ -18,7 +18,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {Back} from "../../../../../store/actions";
+import {Back} from '../../../../../store/actions';
 
 @Component({
     selector: 'tarefa-edit',

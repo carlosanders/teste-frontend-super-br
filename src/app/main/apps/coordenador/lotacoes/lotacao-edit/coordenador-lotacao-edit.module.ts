@@ -25,7 +25,7 @@ import {LotacaoService} from '@cdk/services/lotacao.service';
 
 import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
-import {CdkLotacaoFormModule} from "@cdk/components/lotacao/cdk-lotacao-form/cdk-lotacao-form.module";
+import {CdkLotacaoFormModule} from '@cdk/components/lotacao/cdk-lotacao-form/cdk-lotacao-form.module';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [

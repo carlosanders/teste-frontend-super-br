@@ -42,7 +42,7 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'dispositivoLegal', 'codigoCNJ', 'glossario', 'ativo', 'actions']
+    displayedColumns: string[] = ['select', 'id', 'nome', 'dispositivoLegal', 'codigoCNJ', 'glossario', 'ativo', 'actions'];
 
     allColumns: any[] = [
         {
@@ -253,7 +253,7 @@ export class CdkAssuntoAdministrativoGridComponent implements AfterViewInit, OnI
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,

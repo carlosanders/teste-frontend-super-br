@@ -128,7 +128,7 @@ export class CdkAssuntoAdministrativoTreeComponent {
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
         return flatNode;
-    };
+    }
 
     /**
      *
@@ -328,7 +328,7 @@ export class CdkAssuntoAdministrativoTreeComponent {
             return 'selectedItem';
         }
         if (node.visible == false) {
-            return 'display-none'
+            return 'display-none';
         }
         return '';
     }

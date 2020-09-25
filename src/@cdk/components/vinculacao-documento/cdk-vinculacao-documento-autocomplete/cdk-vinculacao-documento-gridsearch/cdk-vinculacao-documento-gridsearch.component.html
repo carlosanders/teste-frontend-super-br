@@ -1,6 +1,8 @@
 <cdk-vinculacao-documento-grid
         [loading]="loading"
         [vinculacaoDocumentos]="vinculacaoDocumentos"
+        [displayedColumns]="['id', 'documento.tipoDocumento.nome', 'documentoVinculado.tipoDocumento.nome',
+        'modalidadeVinculacaoDocumento.valor', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

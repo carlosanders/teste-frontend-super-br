@@ -68,7 +68,7 @@
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
@@ -273,7 +273,7 @@
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('editConteudo') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(modelo.id) > -1"
-                                (click)="editConteudoModelo(modelo.documento.id)"
+                                (click)="editConteudoModelo(modelo.documento)"
                                 aria-label="editar conteúdo"
                                 matTooltip="Editar Conteúdo">
                             <mat-icon>desktop_windows</mat-icon>

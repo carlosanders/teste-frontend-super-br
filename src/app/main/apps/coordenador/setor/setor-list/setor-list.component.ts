@@ -63,7 +63,7 @@ export class SetorListComponent implements OnInit {
         });
     }
 
-    create() : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace(this.routerState.params['setorHandle'] + '/listar', 'criar/editar')]);
     }
 

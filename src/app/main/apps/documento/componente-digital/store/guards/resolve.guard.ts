@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {switchMap, catchError, tap, filter, take} from 'rxjs/operators';
 
 import {ComponenteDigitalAppState} from '../reducers';
 import * as fromStore from '../';
@@ -17,12 +17,13 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
 
     /**
-     * Constructor
      *
-     * @param {Store<ComponenteDigitalAppState>} _store
+     * @param _store
+     * @param _router
      */
     constructor(
-        private _store: Store<ComponenteDigitalAppState>
+        private _store: Store<ComponenteDigitalAppState>,
+        private _router: Router
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -53,17 +54,21 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getComponenteDigital(): any {
-        return this._store.pipe(
-            select(getComponenteDigitalLoaded),
-            tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    this._store.dispatch(new fromStore.DownloadComponenteDigital());
-                }
-            }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
-            take(1)
-        );
+        if (this.routerState.params['componenteDigitalHandle'] === 0) {
+            return of(true);
+        } else {
+            return this._store.pipe(
+                select(getComponenteDigitalLoaded),
+                tap((loaded: any) => {
+                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                        this._store.dispatch(new fromStore.DownloadComponenteDigital());
+                    }
+                }),
+                filter((loaded: any) => {
+                    return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+                }),
+                take(1)
+            );
+        }
     }
 }

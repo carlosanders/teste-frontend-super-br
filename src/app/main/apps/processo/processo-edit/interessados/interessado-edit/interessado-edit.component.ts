@@ -18,7 +18,7 @@ import {getProcesso} from '../../../store/selectors';
 import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {Back} from "../../../../../../store/actions";
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'interessado-edit',

@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -6,15 +7,19 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    SimpleChange
+    SimpleChange, ViewEncapsulation
 } from '@angular/core';
 import {EspecieProcesso, EspecieTarefa, Pagination, Workflow} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {cdkAnimations} from '../../../animations';
 
 @Component({
     selector: 'cdk-workflow-form',
     templateUrl: './cdk-workflow-form.component.html',
-    styleUrls: ['./cdk-workflow-form.component.scss']
+    styleUrls: ['./cdk-workflow-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkWorkflowFormComponent implements OnChanges, OnDestroy {
 

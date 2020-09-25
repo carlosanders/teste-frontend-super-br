@@ -1,6 +1,7 @@
 <cdk-colaborador-grid
         [loading]="loading"
         [colaboradors]="colaboradors"
+        [displayedColumns]="['id', 'usuario.nome', 'cargo.nome', 'modalidadeColaborador.valor', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

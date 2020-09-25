@@ -1,6 +1,7 @@
 <cdk-assunto-administrativo-grid
         [loading]="loading"
         [assuntosAdministrativos]="assuntosAdministrativos"
+        [displayedColumns]="['id', 'nome', 'dispositivoLegal', 'codigoCNJ', 'glossario', 'ativo', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

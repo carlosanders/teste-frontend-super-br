@@ -1,4 +1,5 @@
-<cdk-localizador-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-localizador-form
         [localizador]="localizador"
         [setor]="(setor$ | async)"
         [saving]="(isSaving$ | async)"
@@ -6,4 +7,5 @@
         [setorPagination]="setorPagination"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-localizador-form>
+    </cdk-localizador-form>
+</div>

@@ -61,7 +61,7 @@ export class LocalizadorListComponent implements OnInit {
 
         this.setorPagination.populate = ['populateAll'];
         this.setorPagination.filter = {
-            'id':'eq:' + this.routerState.params.setorHandle
+            id: 'eq:' + this.routerState.params.setorHandle
         };
     }
 
@@ -88,7 +88,7 @@ export class LocalizadorListComponent implements OnInit {
         }));
     }
 
-    create() : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

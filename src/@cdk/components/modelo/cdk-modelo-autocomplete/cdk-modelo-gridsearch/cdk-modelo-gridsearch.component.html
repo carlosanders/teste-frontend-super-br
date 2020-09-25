@@ -1,6 +1,7 @@
 <cdk-modelo-grid
         [loading]="loading"
         [modelos]="modelos"
+        [displayedColumns]="['id', 'nome', 'modalidadeModelo.valor', 'highlights', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

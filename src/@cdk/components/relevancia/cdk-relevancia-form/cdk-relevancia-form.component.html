@@ -1,79 +1,60 @@
-<form
-    *ngIf="activeCard === 'form'"
-    fxLayoutGap="16px"
-    fxLayout="column"
-    fxLayoutAlign="start"
-    name="form"
-    [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <div fxFlex="1 0 auto" fxLayout="column">
+    <mat-form-field>
+        <input
+            matInput
+            placeholder="Relevância"
+            formControlName="especieRelevancia"
+            [matAutocomplete]="especieRelevancia.autocomplete"
+            (blur)="checkEspecieRelevancia()"
+            required>
+        <cdk-especie-relevancia-autocomplete
+            #especieRelevancia="especieRelevanciaAutocomplete"
+            [control]="form.get('especieRelevancia')"
+            [pagination]="especieRelevanciaPagination">
+        </cdk-especie-relevancia-autocomplete>
 
-        <mat-form-field fxFlex="100">
-            <div fxLayout="row" fxLayoutAlign="start center">
-                <input
-                    matInput
-                    placeholder="Relevância"
-                    formControlName="especieRelevancia"
-                    [matAutocomplete]="especieRelevancia.autocomplete"
-                    (blur)="checkEspecieRelevancia()"
-                    required>
-            </div>
+        <button
+            type="button"
+            *ngIf="form.get('especieRelevancia').enabled"
+            matSuffix
+            mat-button
+            mat-icon-button
+            (click)="showEspecieRelevanciaGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
 
-            <cdk-especie-relevancia-autocomplete
-                #especieRelevancia="especieRelevanciaAutocomplete"
-                [control]="form.get('especieRelevancia')"
-                [pagination]="especieRelevanciaPagination">
-            </cdk-especie-relevancia-autocomplete>
+        <mat-error
+            *ngIf="form.get('especieRelevancia').hasError('formError')">
+            {{form.get('especieRelevancia').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <button
-                type="button"
-                *ngIf="form.get('especieRelevancia').enabled"
-                matSuffix
-                mat-button
-                mat-icon-button
-                (click)="showEspecieRelevanciaGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-
-            <mat-error
-                *ngIf="form.get('especieRelevancia').hasError('formError')">
-                {{form.get('especieRelevancia').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field fxFlex="100">
-            <input
-                formControlName="observacao"
-                matInput #observacao
-                placeholder="Observação"
-                name="observacao"
-                maxlength="255" upperCase>
-            <mat-hint align="end">{{observacao.value.length}} / 255</mat-hint>
-        </mat-form-field>
-    </div>
+    <mat-form-field>
+        <input
+            formControlName="observacao"
+            matInput #observacao
+            placeholder="Observação"
+            name="observacao"
+            maxlength="255" upperCase>
+        <mat-hint align="end">{{observacao.value.length}} / 255</mat-hint>
+    </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-    <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
-         fxLayoutAlign="center center">
-        <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                [disabled]="form.invalid">
+    <div class="actions">
+       <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>
-    </div>
-
-    <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
 
 </form>
 
 <cdk-especie-relevancia-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'especie-relevancia-gridsearch'"
     (selected)="selectEspecieRelevancia($event)"
     (cancel)="cancel()">

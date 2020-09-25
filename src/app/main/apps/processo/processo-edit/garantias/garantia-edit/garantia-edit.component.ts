@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Pagination} from '@cdk/models';
-import {Back} from "../../../../../../store/actions";
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'garantia-edit',
@@ -50,7 +50,7 @@ export class GarantiaEditComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(getProcesso));
 
         this.modalidadeGarantiaPagination = new Pagination();
-        //this.modalidadeGarantiaPagination.populate = ['parent']; 
+        // this.modalidadeGarantiaPagination.populate = ['parent']; 
     }
 
     // -----------------------------------------------------------------------------------------------------

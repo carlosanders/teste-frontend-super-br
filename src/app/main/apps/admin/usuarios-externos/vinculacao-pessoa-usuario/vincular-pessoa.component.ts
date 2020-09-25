@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -6,11 +6,15 @@ import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../../store/actions';
+import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
     selector: 'vincular-pessoa',
     templateUrl: './vincular-pessoa.component.html',
-    styleUrls: ['./vincular-pessoa.component.scss']
+    styleUrls: ['./vincular-pessoa.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class VincularPessoaComponent implements OnInit {
 

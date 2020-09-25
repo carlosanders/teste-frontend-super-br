@@ -1,6 +1,7 @@
 <cdk-modalidade-destinacao-grid
         [loading]="loading"
         [modalidadedestinacoes]="modalidadedestinacoes"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

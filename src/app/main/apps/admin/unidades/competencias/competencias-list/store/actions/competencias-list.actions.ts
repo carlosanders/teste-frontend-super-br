@@ -1,4 +1,4 @@
-import { Action } from '@ngrx/store';
+import {Action} from '@ngrx/store';
 
 export const GET_COMPETENCIAS = '[ADMIN COMPETENCIAS LIST] GET COMPETENCIAS';
 export const GET_COMPETENCIAS_SUCCESS = '[ADMIN COMPETENCIAS LIST] GET COMPETENCIAS SUCCESS';

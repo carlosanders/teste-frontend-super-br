@@ -4,7 +4,7 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 import {select, Store} from '@ngrx/store';
 
 import {Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 
 import {RootLotacaoListAppState} from '../reducers';
 import * as fromStore from '../index';
@@ -69,12 +69,12 @@ export class ResolveGuard implements CanActivate {
                         filter = {
                             ...filter,
                             'setor.id': 'eq:' + this.routerState.params['setorHandle']
-                        }
+                        };
                     }
                     if (this.routerState.params['usuarioHandle']) {
                         filter = {
                             ...filter,
-                            'colaborador.usuario.id':'eq:' + this.routerState.params['usuarioHandle']
+                            'colaborador.usuario.id': 'eq:' + this.routerState.params['usuarioHandle']
                         };
                     }
                     const params = {
@@ -92,7 +92,7 @@ export class ResolveGuard implements CanActivate {
                             'colaborador.usuario'
                         ],
                         context: {
-                            'isAdmin': true
+                            isAdmin: true
                         }
                     };
 

@@ -1,6 +1,7 @@
 <cdk-tipo-sigilo-grid
         [loading]="loading"
         [tipoSigilos]="tipoSigilos"
+        [displayedColumns]="['id', 'nome', 'descricao', 'nivelAcesso', 'prazoAnos', 'leiAcessoInformacao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

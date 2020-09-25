@@ -8,7 +8,7 @@
 <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="16px" name="form" [formGroup]="form">
 
-        <mat-checkbox formControlName="pessoaValidada" class="mr-16 mb-16" fxFlex="0 1 auto">
+        <mat-checkbox formControlName="pessoaValidada">
             Pessoa Validada
         </mat-checkbox>
 
@@ -55,42 +55,38 @@
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+
                 <input matInput placeholder="Nacionalidade"
                        formControlName="nacionalidade"
                        [matAutocomplete]="pais.autocomplete">
-            </div>
             <cdk-pais-autocomplete #pais="paisAutocomplete" [control]="form.get('nacionalidade')">
             </cdk-pais-autocomplete>
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+
                 <input matInput placeholder="Modalidade do Genero da Pessoa"
                        formControlName="modalidadeGeneroPessoa"
                        [matAutocomplete]="modalidadeGeneroPessoa.autocomplete">
-            </div>
             <cdk-modalidade-genero-pessoa-autocomplete #modalidadeGeneroPessoa="modalidadeGeneroPessoaAutocomplete"
                                                        [control]="form.get('modalidadeGeneroPessoa')">
             </cdk-modalidade-genero-pessoa-autocomplete>
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+
                 <input matInput placeholder="Naturalidade"
                        formControlName="naturalidade"
                        [matAutocomplete]="municipio.autocomplete">
-            </div>
             <cdk-municipio-autocomplete #municipio="municipioAutocomplete" [control]="form.get('naturalidade')">
             </cdk-municipio-autocomplete>
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+
                 <input matInput placeholder="Modalidade da Qualificação da Pessoa"
                        formControlName="modalidadeQualificacaoPessoa"
                        [matAutocomplete]="modalidadeQualificacaoPessoa.autocomplete">
-            </div>
             <cdk-modalidade-qualificacao-pessoa-autocomplete
                 #modalidadeQualificacaoPessoa="modalidadeQualificacaoPessoaAutocomplete"
                 [control]="form.get('modalidadeQualificacaoPessoa')">
@@ -98,17 +94,16 @@
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+
                 <input matInput placeholder="Origem de Dados"
                        formControlName="origemDados"
                        [matAutocomplete]="origemDados.autocomplete">
-            </div>
             <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
                                            [control]="form.get('origemDados')">
             </cdk-origem-dados-autocomplete>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field>
             <mat-label>Data de Nascimento</mat-label>
             <input matInput formControlName="dataNascimento" [matDatepicker]="dataNascimento" required>
             <mat-datepicker-toggle matSuffix [for]="dataNascimento"></mat-datepicker-toggle>
@@ -118,7 +113,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field fxFlex="100">
+        <mat-form-field>
             <mat-label>Data de Óbito</mat-label>
             <input matInput formControlName="dataObito" [matDatepicker]="dataObito" required>
             <mat-datepicker-toggle matSuffix [for]="dataObito"></mat-datepicker-toggle>
@@ -136,11 +131,10 @@
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+
                 <input matInput placeholder="Atualizado Por"
                        formControlName="atualizadoPor"
                        [matAutocomplete]="usuario.autocomplete">
-            </div>
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
@@ -154,11 +148,10 @@
         </mat-form-field>
 
         <mat-form-field>
-            <div fxLayout="row" fxLayoutAlign="start center">
+
                 <input matInput placeholder="Apagado Por"
                        formControlName="apagadoPor"
                        [matAutocomplete]="usuario.autocomplete">
-            </div>
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

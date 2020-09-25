@@ -17,7 +17,7 @@ import {Pessoa} from '@cdk/models';
 import {getPessoa} from '../../dados-pessoa-edit/store/selectors';
 import {Pagination} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
-import {Back} from "../../../../../../store/actions";
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'endereco-edit',

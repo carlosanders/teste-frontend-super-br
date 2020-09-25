@@ -13,9 +13,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Usuario} from '@cdk/models';
-import {take, tap} from "rxjs/operators";
+import {take, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
-import {CdkConfirmDialogComponent} from "../../../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
+import {CdkConfirmDialogComponent} from '../../../../../../@cdk/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'usuarios-list',
@@ -94,7 +94,7 @@ export class UsuariosListComponent implements OnInit {
         }));
     }
 
-    create() : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

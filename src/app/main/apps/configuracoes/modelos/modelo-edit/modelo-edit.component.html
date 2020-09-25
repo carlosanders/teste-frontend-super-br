@@ -1,8 +1,10 @@
-<cdk-modelo-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-modelo-form
         [modelo]="modelo"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [templatePagination]="templatePagination"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-modelo-form>
+    </cdk-modelo-form>
+</div>

@@ -64,6 +64,7 @@ export class CdkModeloFormComponent implements OnChanges, OnDestroy {
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
             template: [null, [Validators.required]],
+            modalidadeModelo: [null]
         });
 
         this.setorPagination = new Pagination();

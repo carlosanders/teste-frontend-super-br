@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { AdminLotacaoEditReducer, RootLotacaoEditState } from './admin-lotacao-edit.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {AdminLotacaoEditReducer, RootLotacaoEditState} from './admin-lotacao-edit.reducer';
 
 export interface RootLotacaoEditAppState
 {

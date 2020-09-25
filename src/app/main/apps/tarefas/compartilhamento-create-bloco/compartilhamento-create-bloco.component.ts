@@ -19,7 +19,7 @@ import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Usuario} from "../../../../../@cdk/models/usuario.model";
+import {Usuario} from '../../../../../@cdk/models/usuario.model';
 
 @Component({
     selector: 'compartilhamento-create',

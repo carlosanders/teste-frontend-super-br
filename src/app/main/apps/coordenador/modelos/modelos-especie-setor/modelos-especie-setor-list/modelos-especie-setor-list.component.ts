@@ -57,11 +57,11 @@ export class ModelosEspecieSetorListComponent implements OnInit {
             });
 
         this.orgaoCentralPagination.filter = {
-            'id': 'eq:' + this.routerState.params['entidadeHandle']
+            id: 'eq:' + this.routerState.params['entidadeHandle']
         };
         this.orgaoCentralPagination.populate = ['populateAll'];
         this.modeloPagination.filter = {
-            'id': 'eq:' + this.routerState.params['modeloHandle']
+            id: 'eq:' + this.routerState.params['modeloHandle']
         };
         this.modeloPagination.populate = ['populateAll'];
     }
@@ -89,7 +89,7 @@ export class ModelosEspecieSetorListComponent implements OnInit {
         }));
     }
 
-    create() : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

@@ -1,8 +1,11 @@
-<mat-grid-list [cdkGridCols]="{xs: 1, sm: 2, md: 3, lg: 4, xl: 4}" rowHeight="300px" (colsChanged)="colsChanged($event)">
-    <mat-grid-tile
-        *ngFor="let widget of widgets"
-        [colspan]="(widget.colspan > maxColspan) ? maxColspan : widget.colspan"
-        [rowspan]="(widget.rowspan > maxRowspan) ? maxRowspan : widget.rowspan">
-        <ng-container #dynamicComponent></ng-container>
-    </mat-grid-tile>
-</mat-grid-list>
+<div class="content">
+    <mat-grid-list [cdkGridCols]="{xs: 1, sm: 2, md: 3, lg: 4, xl: 4}" rowHeight="300px"
+                   (colsChanged)="colsChanged($event)">
+        <mat-grid-tile
+            *ngFor="let widget of widgets"
+            [colspan]="(widget.colspan > maxColspan) ? maxColspan : widget.colspan"
+            [rowspan]="(widget.rowspan > maxRowspan) ? maxRowspan : widget.rowspan">
+            <ng-container #dynamicComponent></ng-container>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>

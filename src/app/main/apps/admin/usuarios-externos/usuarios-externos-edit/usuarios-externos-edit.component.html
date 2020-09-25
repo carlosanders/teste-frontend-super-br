@@ -1,10 +1,12 @@
-<cdk-usuario-form
-    [usuario]="(usuario$ | async)"
-    [form]="formUsuario"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    (save)="submitUsuario($event)"
-    [usuarioExterno]="true"
-    (abort)="doAbort()"
-    class="form-user">
-</cdk-usuario-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-usuario-form
+        [usuario]="(usuario$ | async)"
+        [form]="formUsuario"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitUsuario($event)"
+        [usuarioExterno]="true"
+        (abort)="doAbort()"
+        class="form-user">
+    </cdk-usuario-form>
+</div>

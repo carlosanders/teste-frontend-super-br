@@ -1,11 +1,24 @@
-import { AfterContentInit, Component, ContentChildren, ElementRef, HostBinding, QueryList, Renderer2, ViewEncapsulation } from '@angular/core';
+import {
+    AfterContentInit,
+    ChangeDetectionStrategy,
+    Component,
+    ContentChildren,
+    ElementRef,
+    HostBinding,
+    QueryList,
+    Renderer2,
+    ViewEncapsulation
+} from '@angular/core';
 import { CdkWidgetToggleDirective } from './widget-toggle.directive';
+import {cdkAnimations} from '../../animations';
 
 @Component({
     selector     : 'cdk-widget',
     templateUrl  : './widget.component.html',
     styleUrls    : ['./widget.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 
 export class CdkWidgetComponent implements AfterContentInit

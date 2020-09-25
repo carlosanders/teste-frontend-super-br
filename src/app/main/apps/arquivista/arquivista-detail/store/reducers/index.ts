@@ -16,6 +16,6 @@ export const getAppState = createSelector(
 
 export const reducers: ActionReducerMap<ArquivistaDetailAppState> = {
     arquivistaDetail: ArquivistaDetailReducer
-}
+};
 
 export * from './arquivista-detail.reducer';

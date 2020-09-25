@@ -11,7 +11,7 @@ import {StoreModule} from '@ngrx/store';
   declarations: [],
   imports: [
       CommonModule,
-      StoreModule.forFeature('app-criar-data-prevista-transicao', reducers),
+      StoreModule.forFeature('<span class="mr-4 ml-4">/</span>criar-data-prevista-transicao', reducers),
       EffectsModule.forFeature(effects)
   ]
 })

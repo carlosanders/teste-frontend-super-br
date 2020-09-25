@@ -236,7 +236,7 @@ export class CdkDesentranhamentoGridComponent implements AfterViewInit, OnInit, 
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,

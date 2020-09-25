@@ -86,7 +86,7 @@ export class EtiquetaEffect {
             .pipe(
                 ofType<EtiquetaActions.SaveEtiqueta>(EtiquetaActions.SAVE_ETIQUETA),
                 switchMap((action) => {
-                    let tarefa = action.payload.tarefa;
+                    const tarefa = action.payload.tarefa;
                     return this._etiquetaService.save(action.payload.etiqueta).pipe(
                         mergeMap((response: Etiqueta) => [
                             new AddData<Etiqueta>({data: [response], schema: etiquetaSchema}),

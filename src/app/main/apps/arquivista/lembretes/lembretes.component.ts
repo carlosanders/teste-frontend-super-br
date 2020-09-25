@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
 import {Observable, Subject} from 'rxjs';
 import {Lembrete, Processo} from '../../../../../@cdk/models';
@@ -6,11 +6,15 @@ import {getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
-    selector: 'app-lembretes-form',
+    selector: 'lembretes',
     templateUrl: './lembretes.component.html',
-    styleUrls: ['./lembretes.component.scss']
+    styleUrls: ['./lembretes.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class LembretesComponent implements OnInit {
 

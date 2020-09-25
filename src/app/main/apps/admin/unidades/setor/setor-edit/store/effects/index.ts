@@ -1,4 +1,4 @@
-import { SetorEditEffect } from './setor-edit.effects';
+import {SetorEditEffect} from './setor-edit.effects';
 
 export const effects = [
     SetorEditEffect

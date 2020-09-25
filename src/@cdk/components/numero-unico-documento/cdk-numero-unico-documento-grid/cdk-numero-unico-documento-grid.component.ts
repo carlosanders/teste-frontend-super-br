@@ -15,7 +15,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {NumeroUnicoDocumento} from '@cdk/models';
 import {NumeroUnicoDocumentoDataSource} from '@cdk/data-sources/numero-unico-documento-data-source';
 import {FormControl} from '@angular/forms';
-import {Pagination} from "@cdk/models";
+import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-numero-unico-documento-grid',
@@ -253,7 +253,7 @@ export class CdkNumeroUnicoDocumentoGridComponent implements AfterViewInit, OnIn
 
     loadExcluded(): void {
         this.hasExcluded = !this.hasExcluded;
-        if(this.hasExcluded) {
+        if (this.hasExcluded) {
             const filter = this.gridFilter.filters;
             this.excluded.emit({
                 gridFilter: filter,

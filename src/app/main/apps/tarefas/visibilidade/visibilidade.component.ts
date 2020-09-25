@@ -17,7 +17,7 @@ import {Pagination} from '@cdk/models';
 import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Usuario} from "../../../../../@cdk/models/usuario.model";
+import {Usuario} from '../../../../../@cdk/models/usuario.model';
 
 @Component({
     selector: 'visibilidade',

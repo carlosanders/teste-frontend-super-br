@@ -39,7 +39,7 @@ export const TransicaoArquivistaBlocoInitialState: TransicaoArquivistaBlocoState
     saving: false,
     deletedIds: [],
     deletingIds: []
-}
+};
 
 export function TransicaoArquivistaBlocoReducer(
     state = TransicaoArquivistaBlocoInitialState,

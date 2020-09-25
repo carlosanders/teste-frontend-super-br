@@ -20,8 +20,8 @@ const routes: Routes = [
         component: RepositorioEditComponent,
         children: [
             {
-                path       : 'componente-digital',
-                loadChildren: () => import('../componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
+                path: 'dados-basicos',
+                loadChildren: () => import('./dados-basicos/repositorio-edit-dados-basicos.module').then(m => m.RepositorioEditDadosBasicosModule)
             }
         ]
     }

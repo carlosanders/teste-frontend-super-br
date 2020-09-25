@@ -1,5 +1,5 @@
 import {createSelector} from '@ngrx/store';
-import {getCompetenciasAppState, CompetenciasAppState, CompetenciasState} from '../reducers';
+import {CompetenciasAppState, CompetenciasState, getCompetenciasAppState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {Setor} from '@cdk/models';
 import {setor as setorSchema} from '@cdk/normalizr';

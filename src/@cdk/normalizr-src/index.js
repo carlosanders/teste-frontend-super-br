@@ -1,16 +1,16 @@
-import * as ImmutableUtils from './schemas/ImmutableUtils';
-import EntitySchema from './schemas/Entity';
-import UnionSchema from './schemas/Union';
-import ValuesSchema from './schemas/Values';
-import ArraySchema, * as ArrayUtils from './schemas/Array';
-import ObjectSchema, * as ObjectUtils from './schemas/Object';
+import * as ImmutableUtils from "./schemas/ImmutableUtils";
+import EntitySchema from "./schemas/Entity";
+import UnionSchema from "./schemas/Union";
+import ValuesSchema from "./schemas/Values";
+import ArraySchema, * as ArrayUtils from "./schemas/Array";
+import ObjectSchema, * as ObjectUtils from "./schemas/Object";
 
 const visit = (value, parent, key, schema, addEntity, visitedEntities) => {
-  if (typeof value !== 'object' || !value || !schema) {
+  if (typeof value !== "object" || !value || !schema) {
     return value;
   }
 
-  if (typeof schema === 'object' && (!schema.normalize || typeof schema.normalize !== 'function')) {
+  if (typeof schema === "object" && (!schema.normalize || typeof schema.normalize !== "function")) {
     const method = Array.isArray(schema) ? ArrayUtils.normalize : ObjectUtils.normalize;
     return method(schema, value, parent, key, visit, addEntity, visitedEntities);
   }
@@ -38,11 +38,11 @@ export const schema = {
   Entity: EntitySchema,
   Object: ObjectSchema,
   Union: UnionSchema,
-  Values: ValuesSchema
+  Values: ValuesSchema,
 };
 
 export const normalize = (input, schema) => {
-  if (!input || typeof input !== 'object') {
+  if (!input || typeof input !== "object") {
     throw new Error(`Unexpected input given to normalize. Expected type to be "object", found "${typeof input}".`);
   }
 
@@ -56,7 +56,7 @@ export const normalize = (input, schema) => {
 
 const unvisitEntity = (id, schema, unvisit, getEntity, cache) => {
   const entity = getEntity(id, schema);
-  if (typeof entity !== 'object' || entity === null) {
+  if (typeof entity !== "object" || entity === null) {
     return entity;
   }
 
@@ -82,7 +82,7 @@ const getUnvisit = (entities) => {
   const getEntity = getEntities(entities);
 
   return function unvisit(input, schema) {
-    if (typeof schema === 'object' && (!schema.denormalize || typeof schema.denormalize !== 'function')) {
+    if (typeof schema === "object" && (!schema.denormalize || typeof schema.denormalize !== "function")) {
       const method = Array.isArray(schema) ? ArrayUtils.denormalize : ObjectUtils.denormalize;
       return method(schema, input, unvisit);
     }
@@ -105,7 +105,7 @@ const getEntities = (entities) => {
   return (entityOrId, schema) => {
     const schemaKey = schema.key;
 
-    if (typeof entityOrId === 'object') {
+    if (typeof entityOrId === "object") {
       return entityOrId;
     }
 
@@ -114,7 +114,7 @@ const getEntities = (entities) => {
 };
 
 export const denormalize = (input, schema, entities) => {
-  if (typeof input !== 'undefined') {
+  if (typeof input !== "undefined") {
     return getUnvisit(entities)(input, schema);
   }
 };

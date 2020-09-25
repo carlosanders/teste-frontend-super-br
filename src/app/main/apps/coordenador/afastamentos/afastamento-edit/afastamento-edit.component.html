@@ -1,9 +1,11 @@
-<cdk-afastamento-form
-    [afastamento]="afastamento"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    [usuario]="(usuario$ | async)"
-    [modalidadeAfastamentoPagination]="modalidadeAfastamentoPagination"
-    (save)="submit($event)"
-    (abort)="doAbort()">
-</cdk-afastamento-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-afastamento-form
+        [afastamento]="afastamento"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [usuario]="(usuario$ | async)"
+        [modalidadeAfastamentoPagination]="modalidadeAfastamentoPagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-afastamento-form>
+</div>

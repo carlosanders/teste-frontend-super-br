@@ -1,9 +1,11 @@
-<cdk-template-form
-    [template]="template"
-    [saving]="(isSaving$ | async)"
-    [errors]="(errors$ | async)"
-    [tipoDocumentoPagination]="tipoDocumentoPagination"
-    [modalidadeTemplatePagination]="modalidadeTemplatePagination"
-    (save)="submit($event)"
-    (abort)="doAbort()">
-</cdk-template-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-template-form
+        [template]="template"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [tipoDocumentoPagination]="tipoDocumentoPagination"
+        [modalidadeTemplatePagination]="modalidadeTemplatePagination"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-template-form>
+</div>

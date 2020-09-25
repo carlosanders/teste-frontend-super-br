@@ -7,7 +7,7 @@ import {
 import { CdkSharedModule } from '@cdk/shared.module';
 import {CdkEspecieRelatorioAutocompleteComponent} from './cdk-especie-relatorio-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
-import {EspecieRelatorioService} from "../../../services/especie-relatorio.service";
+import {EspecieRelatorioService} from '../../../services/especie-relatorio.service';
 
 @NgModule({
     declarations: [

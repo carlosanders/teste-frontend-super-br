@@ -1,6 +1,7 @@
 d<cdk-folder-grid
         [loading]="loading"
         [folders]="folders"
+        [displayedColumns]="['id', 'nome', 'descricao', 'modalidadeFolder.valor', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

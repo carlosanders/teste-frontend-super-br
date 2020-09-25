@@ -1,6 +1,7 @@
 <cdk-modalidade-repositorio-grid
         [loading]="loading"
         [modalidaderepositorios]="modalidaderepositorios"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

@@ -44,8 +44,7 @@
                             "date-fns",
                             "@mattlewis92/dom-autoscroller",
                             "dom-plane",
-                            "dom-set",
-                            "@angularclass/hmr"
+                            "dom-set"
                         ]
                     },
                     "configurations": {
@@ -59,7 +58,6 @@
                             "optimization": true,
                             "outputHashing": "all",
                             "sourceMap": false,
-                            "extractCss": true,
                             "namedChunks": false,
                             "aot": true,
                             "extractLicenses": true,
@@ -74,16 +72,7 @@
                             ]
                         },
                         "ec": {
-                            "sourceMap": true,
-                            "extractCss": true
-                        },
-                        "hmr": {
-                            "fileReplacements": [
-                                {
-                                    "replace": "src/environments/environment.ts",
-                                    "with": "src/environments/environment.hmr.ts"
-                                }
-                            ]
+                            "sourceMap": true
                         }
                     }
                 },
@@ -95,10 +84,6 @@
                     "configurations": {
                         "production": {
                             "browserTarget": "supp:build:production"
-                        },
-                        "hmr": {
-                            "hmr": true,
-                            "browserTarget": "supp:build:hmr"
                         },
                         "ec": {
                             "browserTarget": "supp:build:ec"

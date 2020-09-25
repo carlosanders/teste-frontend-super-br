@@ -1,5 +1,5 @@
 import {
-    AfterViewInit,
+    AfterViewInit, ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     ElementRef,
@@ -17,6 +17,7 @@ import {LoginService} from '../app/main/auth/login/login.service';
     selector: 'widgets',
     templateUrl: './widgets.component.html',
     styleUrls: ['./widgets.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
@@ -55,7 +56,10 @@ export class WidgetsComponent implements OnInit, AfterViewInit {
         this.containers.map(
             (vcr: ViewContainerRef, index: number) => {
                 this._dynamicService.loadComponent(this.widgets[index].module)
-                    .then(componentFactory => vcr.createComponent(componentFactory));
+                    .then( componentFactory  => {
+                        vcr.createComponent(componentFactory);
+                        this._changeDetectorRef.markForCheck();
+                    });
             }
         );
     }

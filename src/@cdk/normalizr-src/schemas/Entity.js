@@ -1,24 +1,24 @@
-import * as ImmutableUtils from './ImmutableUtils';
+import * as ImmutableUtils from "./ImmutableUtils";
 
 const getDefaultGetId = (idAttribute) => (input) =>
   ImmutableUtils.isImmutable(input) ? input.get(idAttribute) : input[idAttribute];
 
 export default class EntitySchema {
   constructor(key, definition = {}, options = {}) {
-    if (!key || typeof key !== 'string') {
+    if (!key || typeof key !== "string") {
       throw new Error(`Expected a string key for Entity, but found ${key}.`);
     }
 
     const {
-      idAttribute = 'id',
+      idAttribute = "id",
       mergeStrategy = (entityA, entityB) => {
         return { ...entityA, ...entityB };
       },
-      processStrategy = (input) => ({ ...input })
+      processStrategy = (input) => ({ ...input }),
     } = options;
 
     this._key = key;
-    this._getId = typeof idAttribute === 'function' ? idAttribute : getDefaultGetId(idAttribute);
+    this._getId = typeof idAttribute === "function" ? idAttribute : getDefaultGetId(idAttribute);
     this._idAttribute = idAttribute;
     this._mergeStrategy = mergeStrategy;
     this._processStrategy = processStrategy;
@@ -67,14 +67,14 @@ export default class EntitySchema {
     Object.keys(this.schema).forEach((key) => {
       if (processedEntity.hasOwnProperty(key) && processedEntity[key] !== null) {
         const schema = this.schema[key];
-        const resolvedSchema = typeof schema === 'function' ? schema(input) : schema;
+        const resolvedSchema = typeof schema === "function" ? schema(input) : schema;
         processedEntity[key] = visit(
           processedEntity[key],
           processedEntity,
           key,
           resolvedSchema,
           addEntity,
-          visitedEntities
+          visitedEntities,
         );
       } else {
         delete processedEntity[key];

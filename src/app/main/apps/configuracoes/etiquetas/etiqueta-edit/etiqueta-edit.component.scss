@@ -1,29 +1,37 @@
-@import "../../../../../../@cdk/scss/cdk";
-
 etiqueta-edit {
-    height: 100%;
-    overflow-y: auto;
+    display: flex;
+    flex: 1 1 auto;
 
-    .altura {
-        height: 100%;
-    }
+    .page-layout {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: row;
 
-    .sidebar {
-        background: transparent !important;
-        box-shadow: none !important;
-
-        &:not(.locked-open) {
-            background: white;
+        .locked-open {
+            box-shadow: none !important;
+            border-right: 1px solid rgba(0, 0, 0, 0.12);
         }
-    }
 
-    .center {
-        width: 100%;
+        > .center {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
 
-        .header {
-            .actions {
-                margin-left: auto;
-                margin-right: 16px;
+            > .header {
+                flex: 0 1 auto;
+                display: flex;
+
+                .actions {
+                    margin-left: auto;
+                    margin-right: 16px;
+                }
+            }
+
+            > .content {
+                flex: 1 1 auto;
+                display: flex;
+                height: 0;
+                padding: 16px;
             }
         }
     }

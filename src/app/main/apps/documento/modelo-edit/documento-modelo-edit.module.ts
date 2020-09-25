@@ -13,6 +13,7 @@ import {CdkModeloFormModule} from '@cdk/components/modelo/cdk-modelo-form/cdk-mo
 import {ModeloEditComponent} from './modelo-edit.component';
 import {ModeloService} from '@cdk/services/modelo.service';
 import {modulesConfig} from 'modules/modules-config';
+import {AtividadeCreateStoreModule} from '../../tarefas/tarefa-detail/atividades/atividade-create/store/store.module';
 
 const routes: Routes = [
     {
@@ -20,8 +21,12 @@ const routes: Routes = [
         component: ModeloEditComponent,
         children: [
             {
-                path       : 'componente-digital',
-                loadChildren: () => import('../componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
+                path: 'anexos',
+                loadChildren: () => import('./anexos/modelo-edit-anexos.module').then(m => m.ModeloEditAnexosModule)
+            },
+            {
+                path: 'dados-basicos',
+                loadChildren: () => import('./dados-basicos/modelo-edit-dados-basicos.module').then(m => m.ModeloEditDadosBasicosModule)
             }
         ]
     }
@@ -48,11 +53,11 @@ modulesConfig.forEach((module) => {
         MatButtonModule,
         MatMenuModule,
 
-        DocumentoStoreModule,
-
         CdkComponenteDigitalCardListModule,
         CdkDocumentoCardListModule,
         CdkUploadModule,
+
+        AtividadeCreateStoreModule,
 
         TranslateModule,
         CdkSharedModule,
@@ -60,7 +65,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoService,
-        ModeloService
+        ModeloService,
     ],
     exports: [
         ModeloEditComponent

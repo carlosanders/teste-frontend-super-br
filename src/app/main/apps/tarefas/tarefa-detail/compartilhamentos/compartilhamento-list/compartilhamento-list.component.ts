@@ -83,7 +83,7 @@ export class CompartilhamentoListComponent implements OnInit, OnDestroy {
         }));
     }
 
-    create () : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 

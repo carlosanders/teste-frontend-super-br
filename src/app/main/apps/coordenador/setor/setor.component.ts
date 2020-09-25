@@ -70,7 +70,7 @@ export class SetorComponent implements OnInit, OnDestroy {
         return (this.routerState.params.setorHandle && this.routerState.params.setorHandle !== 'default' &&
             this.routerState.params.setorHandle !== 'criar')
             && (this.routerState.url.indexOf('modelos') > -1 || this.routerState.url.indexOf('repositorios') > -1 ||
-                this.routerState.url.indexOf('usuarios') > -1 || this.routerState.url.indexOf('numeros-unicos-documentos') > -1)
+                this.routerState.url.indexOf('usuarios') > -1 || this.routerState.url.indexOf('numeros-unicos-documentos') > -1);
     }
 
     /**

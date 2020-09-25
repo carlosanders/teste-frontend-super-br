@@ -9,10 +9,11 @@ import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Repositorio} from '@cdk/models/repositorio.model';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {Documento} from '../../../../../../@cdk/models';
 
 @Component({
     selector: 'coordenador-repositorios-list',
@@ -36,14 +37,17 @@ export class RepositoriosListComponent implements OnInit {
     colunas: string[];
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _activatedRoute
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.RepositoriosListAppState>,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.repositorios$ = this._store.pipe(select(fromStore.getRepositoriosList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -97,7 +101,7 @@ export class RepositoriosListComponent implements OnInit {
         }));
     }
 
-    create() : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
@@ -105,8 +109,28 @@ export class RepositoriosListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + repositorioId]);
     }
 
-    editConteudo(documentoId: number): void {
-        this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/repositorio']).then();
+    editConteudo(documento: Documento): void {
+        let primary: string;
+        primary = 'componente-digital/';
+        if (documento.componentesDigitais[0]) {
+            primary += documento.componentesDigitais[0].id;
+        } else {
+            primary += '0';
+        }
+        this._router.navigate([
+                'documento/' + documento.id,
+                {
+                    outlets:
+                        {
+                            primary: primary,
+                            sidebar: 'repositorio/dados-basicos'
+                        }
+                }
+            ],
+            {
+                relativeTo: this._activatedRoute.parent
+            }
+        ).then();
     }
 
     especieSetores(repositorioId: number): void {

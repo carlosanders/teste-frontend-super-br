@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                 if (!loaded) {
                     const params = {
                         filter: {
-                            'parent': 'isNull'
+                            parent: 'isNull'
                         },
                         gridFilter: {},
                         limit: 5,

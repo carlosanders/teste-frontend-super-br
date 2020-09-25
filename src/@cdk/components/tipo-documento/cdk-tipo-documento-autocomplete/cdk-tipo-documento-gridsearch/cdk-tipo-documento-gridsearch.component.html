@@ -1,6 +1,7 @@
 <cdk-tipo-documento-grid
         [loading]="loading"
         [tiposDocumentos]="tiposDocumentos"
+        [displayedColumns]="['id', 'nome', 'sigla', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

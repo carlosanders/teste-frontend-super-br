@@ -109,7 +109,7 @@ export class CdkClassificacaoTreeComponent {
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
         return flatNode;
-    };
+    }
 
     /**
      *

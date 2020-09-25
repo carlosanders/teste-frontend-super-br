@@ -1,6 +1,7 @@
 <cdk-genero-relevancia-grid
         [loading]="loading"
         [generoRelevancias]="generoRelevancias"
+        [displayedColumns]="['id', 'nome', 'descricao', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

@@ -35,7 +35,7 @@ export const ArquivistaClassificacaoBlocoInitialState: ArquivistaClassificacaoBl
     loaded: false,
     loading: false,
     saving: false
-}
+};
 
 export function ArquivistaClassificacaoBlocoReducer(
     state = ArquivistaClassificacaoBlocoInitialState,

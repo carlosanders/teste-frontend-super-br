@@ -1,145 +1,122 @@
-<div class="pr-16" fxFlex *ngIf="activeCard === 'form'" cdkPerfectScrollbar>
-    <form class="p-16" fxLayoutGap="36px"
-          fxLayout="column"
-          fxLayoutAlign="start"
-          name="form" [formGroup]="form">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-        <div fxFlex="1 0 auto" fxLayout="column">
+    <mat-slide-toggle formControlName="urgente">
+        Urgente
+    </mat-slide-toggle>
 
-            <mat-slide-toggle formControlName="urgente" class="mr-16 mb-16" fxFlex="0 1 auto">
-                Urgente
-            </mat-slide-toggle>
+    <mat-form-field>
+        <input matInput placeholder="Processo"
+               formControlName="processo"
+               [matAutocomplete]="processo.autocomplete" required
+               (blur)="checkProcesso()">
+        <cdk-processo-autocomplete
+            #processo="processoAutocomplete"
+            [control]="form.get('processo')"
+            [pagination]="processoPagination">
+        </cdk-processo-autocomplete>
+        <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
+                (click)="showProcessoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('processo').hasError('formError')">
+            {{form.get('processo').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Processo"
-                           formControlName="processo"
-                           [matAutocomplete]="processo.autocomplete" required
-                           (blur)="checkProcesso()">
-                </div>
-                <cdk-processo-autocomplete
-                    #processo="processoAutocomplete"
-                    [control]="form.get('processo')"
-                    [pagination]="processoPagination">
-                </cdk-processo-autocomplete>
-                <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button
-                        (click)="showProcessoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('processo').hasError('formError')">
-                    {{form.get('processo').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Setor de Origem"
+               formControlName="setorOrigem"
+               [matAutocomplete]="setorOrigem.autocomplete" required
+               (blur)="checkSetorOrigem()">
+        <mat-option *ngIf="setorOrigemListIsLoading">
+            <mat-spinner diameter="16"></mat-spinner>
+        </mat-option>
+        <cdk-setor-autocomplete
+            #setorOrigem="setorAutocomplete"
+            [control]="form.get('setorOrigem')"
+            [pagination]="setorOrigemPagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorOrigemTree()">
+            <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorOrigemGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('setorOrigem').hasError('formError')">
+            {{form.get('setorOrigem').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Setor de Origem"
-                           formControlName="setorOrigem"
-                           [matAutocomplete]="setorOrigem.autocomplete" required
-                           (blur)="checkSetorOrigem()">
-                    <mat-option *ngIf="setorOrigemListIsLoading">
-                        <mat-spinner diameter="16"></mat-spinner>
-                    </mat-option>
-                </div>
-                <cdk-setor-autocomplete
-                    #setorOrigem="setorAutocomplete"
-                    [control]="form.get('setorOrigem')"
-                    [pagination]="setorOrigemPagination">
-                </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showSetorOrigemTree()">
-                    <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
-                </button>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showSetorOrigemGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('setorOrigem').hasError('formError')">
-                    {{form.get('setorOrigem').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field>
+        <input matInput placeholder="Unidade"
+               formControlName="unidade"
+               [matAutocomplete]="unidade.autocomplete" required
+               (blur)="checkUnidade()">
+        <cdk-setor-autocomplete
+            #unidade="setorAutocomplete"
+            [control]="form.get('unidade')"
+            [pagination]="unidadePagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showUnidadeGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('unidade').hasError('formError')">
+            {{form.get('unidade').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Unidade"
-                           formControlName="unidade"
-                           [matAutocomplete]="unidade.autocomplete" required
-                           (blur)="checkUnidade()">
-                </div>
-                <cdk-setor-autocomplete
-                    #unidade="setorAutocomplete"
-                    [control]="form.get('unidade')"
-                    [pagination]="unidadePagination">
-                </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showUnidadeGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('unidade').hasError('formError')">
-                    {{form.get('unidade').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+    <mat-form-field *ngIf="form.get('unidade').value">
+        <input matInput placeholder="Setor de Destino"
+               formControlName="setorDestino"
+               [matAutocomplete]="setorDestino.autocomplete" required
+               (blur)="checkSetorDestino()">
+        <mat-option *ngIf="setorDestinoListIsLoading">
+            <mat-spinner diameter="16"></mat-spinner>
+        </mat-option>
+        <cdk-setor-autocomplete
+            #setorDestino="setorAutocomplete"
+            [control]="form.get('setorDestino')"
+            [pagination]="setorDestinoPagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorDestinoTree()">
+            <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+        </button>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showSetorDestinoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('setorDestino').hasError('formError')">
+            {{form.get('setorDestino').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-            <mat-form-field fxFlex="100" *ngIf="form.get('unidade').value">
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Setor de Destino"
-                           formControlName="setorDestino"
-                           [matAutocomplete]="setorDestino.autocomplete" required
-                           (blur)="checkSetorDestino()">
-                    <mat-option *ngIf="setorDestinoListIsLoading">
-                        <mat-spinner diameter="16"></mat-spinner>
-                    </mat-option>
-                </div>
-                <cdk-setor-autocomplete
-                    #setorDestino="setorAutocomplete"
-                    [control]="form.get('setorDestino')"
-                    [pagination]="setorDestinoPagination">
-                </cdk-setor-autocomplete>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showSetorDestinoTree()">
-                    <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
-                </button>
-                <button matSuffix mat-button mat-icon-button
-                        (click)="showSetorDestinoGrid()">
-                    <mat-icon matTooltip="Procurar">search</mat-icon>
-                </button>
-                <mat-error *ngIf="form.get('setorDestino').hasError('formError')">
-                    {{form.get('setorDestino').errors.formError}}
-                </mat-error>
-            </mat-form-field>
-
-            <mat-form-field class="mr-16" fxFlex="1 0 auto">
+    <mat-form-field>
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>
-                <mat-error *ngIf="form.get('observacao').hasError('formError')">
-                    {{form.get('observacao').errors.formError}}
-                </mat-error>
-            </mat-form-field>
+        <mat-error *ngIf="form.get('observacao').hasError('formError')">
+            {{form.get('observacao').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
-        </div>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
-        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
 
-        <div *ngIf="!saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <button mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
-                    [disabled]="form.invalid">
-                SALVAR
-            </button>
-            <button mat-raised-button color="warn" type="button" class="mr-sm-12" (click)="doAbort()">
-                CANCELAR
-            </button>
-        </div>
-
-        <div *ngIf="saving" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-             fxLayoutAlign="center center">
-            <mat-spinner color="accent" diameter="24"></mat-spinner>
-        </div>
-    </form>
-</div>
+</form>
 
 <cdk-processo-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'processo-gridsearch'"
     [pagination]="processoPagination"
     (selected)="selectProcesso($event)"
@@ -147,7 +124,6 @@
 </cdk-processo-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-origem-gridsearch'"
     [pagination]="setorOrigemPagination"
     (selected)="selectSetorOrigem($event)"
@@ -155,7 +131,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-destino-gridsearch'"
     [pagination]="setorDestinoPagination"
     (selected)="selectSetorDestino($event)"
@@ -163,7 +138,6 @@
 </cdk-setor-gridsearch>
 
 <cdk-setor-tree
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-origem-tree'"
     [pagination]="setorOrigemPaginationTree"
     (selected)="selectSetorOrigem($event)"
@@ -171,7 +145,6 @@
 </cdk-setor-tree>
 
 <cdk-setor-tree
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'setor-destino-tree'"
     [pagination]="setorDestinoPaginationTree"
     (selected)="selectSetorDestino($event)"
@@ -179,7 +152,6 @@
 </cdk-setor-tree>
 
 <cdk-setor-gridsearch
-    fxFlex="1 0 auto"
     *ngIf="activeCard === 'unidade-gridsearch'"
     [pagination]="unidadePagination"
     (selected)="selectUnidade($event)"

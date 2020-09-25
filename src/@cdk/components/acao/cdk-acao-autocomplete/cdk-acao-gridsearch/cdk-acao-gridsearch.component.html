@@ -1,6 +1,7 @@
 <cdk-acao-grid
         [loading]="loading"
         [acaos]="acaos"
+        [displayedColumns]="['id', 'contexto', 'trigger', 'etiqueta.nome', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (select)="select($event)"

@@ -67,7 +67,7 @@
             <mat-spinner diameter="32"></mat-spinner>
         </div>
 
-        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
             <table mat-table [dataSource]="dataSource" matSort [hidden]="loading">
 
                 <!-- Selection Column -->
@@ -98,28 +98,10 @@
 
                 <!-- Especie Column -->
 
-                <ng-container matColumnDef="workflow.especieProcesso.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Workflow
-                    </th>
-                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
-                        data-label='Workflow: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.workflow?.especieProcesso?.nome}} </td>
-                </ng-container>
-
-                <ng-container matColumnDef="workflow.especieTarefa.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Workflow
-                    </th>
-                    <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
-                        data-label='Workflow: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.workflow?.especieProcesso?.nome}} </td>
-                </ng-container>
-
                 <!-- Column -->
                 <ng-container matColumnDef="especieAtividade.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Espécie Atividade
+                        Espécie Atividade Lançada
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Espécie Atividade: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow?.especieAtividade?.nome}} </td>
@@ -128,7 +110,7 @@
                 <!-- Column -->
                 <ng-container matColumnDef="especieTarefaFrom.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Espécie Tarefa From
+                        Espécie Tarefa De
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Espécie Tarefa From: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow?.especieTarefaFrom?.nome}} </td>
@@ -137,7 +119,7 @@
                 <!--  Column -->
                 <ng-container matColumnDef="especieTarefaTo.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Espécie Tarefa To
+                        Espécie Tarefa Para
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Espécie Tarefa From: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow?.especieTarefaTo?.nome}} </td>

@@ -1,6 +1,6 @@
-(function () {
+(function() {
     var a = {
-            exec: function (editor) {
+            exec: function(editor) {
 
                 /*
                 Ext.Msg.confirm('Atenção!', 'Deseja realmente salvar essa minuta em PDF? A operação não poderá ser desfeita!', function (button){
@@ -76,17 +76,17 @@
                 });
 
                  */
-            }
+            },
         },
         b = "salvarpdf";
     CKEDITOR.plugins.add(b, {
-        init: function (editor) {
+        init: function(editor) {
             editor.addCommand(b, a);
             editor.ui.addButton("salvarpdf", {
                 label: "Salvar em PDF",
                 icon: this.path + "salvarpdf.png",
-                command: b
+                command: b,
             });
-        }
+        },
     });
 })();

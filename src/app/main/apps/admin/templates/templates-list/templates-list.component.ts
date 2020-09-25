@@ -1,15 +1,19 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Template} from '../../../../../../@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
+import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
     selector: 'templates-list',
     templateUrl: './templates-list.component.html',
-    styleUrls: ['./templates-list.component.scss']
+    styleUrls: ['./templates-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class TemplatesListComponent implements OnInit {
 

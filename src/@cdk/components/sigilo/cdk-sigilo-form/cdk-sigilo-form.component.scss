@@ -1,28 +1,22 @@
+@import "../../../scss/partials/cdk-form";
+
 cdk-sigilo-form {
-    height: 100%;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
-    form {
-        width: 100%;
+    .dates {
+        display: flex;
+        flex-direction: row;
+        flex: 1 1 auto;
     }
 
-    .form-card {
-        border-radius: 8px;
+    mat-slide-toggle {
+        margin-right: 16px;
+        margin-bottom: 16px;
     }
 
-    .form-errors-model {
-        flex: 1;
-
-        code {
-            background: none !important;
-        }
+    mat-radio-button {
+        margin-right: 10px;
     }
-
-    cdk-modalidade-categoria-sigilo-gridsearch {
-        width: 100%;
-    }
-
-    cdk-tipo-sigilo-gridsearch {
-        width: 100%;
-    }
-
 }

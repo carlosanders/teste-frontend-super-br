@@ -1,5 +1,5 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { RootLocalizadoresListReducer, RootLocalizadoresListState } from './localizadores-list.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {RootLocalizadoresListReducer, RootLocalizadoresListState} from './localizadores-list.reducer';
 
 export interface RootLocalizadoresListAppState
 {

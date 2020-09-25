@@ -6,6 +6,7 @@ import {StoreArquivistaClassificacaoModule} from './store/store.module';
 import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {CdkClassificacaoTreeService} from '@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
 import {LoginService} from '../../../auth/login/login.service';
+import {DirectivesModule} from '../../../../../@cdk/directives/directives';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import {LoginService} from '../../../auth/login/login.service';
     imports: [
         CommonModule,
         CdkClassificacaoTreeModule,
-        StoreArquivistaClassificacaoModule
+        StoreArquivistaClassificacaoModule,
+        DirectivesModule
     ],
     providers: [
         ClassificacaoService,

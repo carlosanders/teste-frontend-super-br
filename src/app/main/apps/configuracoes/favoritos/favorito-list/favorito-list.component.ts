@@ -89,7 +89,7 @@ export class FavoritoListComponent implements OnInit {
         this._store.dispatch(new fromStore.DeleteFavorito(favoritoId));
     }
 
-    create () : void {
+    create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 }

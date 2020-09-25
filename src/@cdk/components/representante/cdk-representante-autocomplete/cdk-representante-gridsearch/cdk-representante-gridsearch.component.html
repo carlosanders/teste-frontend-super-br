@@ -1,6 +1,7 @@
 d<cdk-representante-grid
         [loading]="loading"
         [representantes]="representantes"
+        [displayedColumns]="['id', 'nome', 'inscricao', 'modalidadeRepresentante.valor', 'interessado.pessoa.nome', 'origemDados.servico', 'actions']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

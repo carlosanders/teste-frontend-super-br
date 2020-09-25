@@ -151,7 +151,6 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
     }
 
     doAbortColaborador(): void {
-        //this.stepper.previous();
         this._store.dispatch(new Back());
     }
 }

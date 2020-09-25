@@ -43,11 +43,12 @@
                     }
                 }
 
-                // documento-avulo list
-                .documento-avulso-list {
-                    border-right-color: map-get($foreground, divider);
+                .content {
+                    // documento-avulo list
+                    .documento-avulso-list {
+                        border-right-color: map-get($foreground, divider);
+                    }
                 }
-
             }
         }
     }
