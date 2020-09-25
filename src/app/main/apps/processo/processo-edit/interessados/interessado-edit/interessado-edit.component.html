@@ -1,4 +1,5 @@
-<cdk-interessado-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-interessado-form
         [interessado]="interessado"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -7,6 +8,6 @@
         [pessoa]="pessoa"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-interessado-form>
-
+    </cdk-interessado-form>
+</div>
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

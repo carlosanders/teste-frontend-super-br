@@ -7,14 +7,6 @@ pessoa-edit {
         display: flex;
         flex-direction: row;
 
-        > .sidebar {
-            background: transparent !important;
-            box-shadow: none !important;
-            &:not(.locked-open) {
-                background: white;
-            }
-        }
-
         > .center {
             flex: 1 1 auto;
             display: flex;

@@ -1,7 +1,16 @@
 @import "../../../../../@cdk/scss/cdk";
 
 tarefa-edit-bloco {
-  .bloco-edit {
-    @include mat-elevation(1);
-  }
+    display: flex;
+    flex: 1 1 auto;
+    > .content {
+        flex: 1 1 auto;
+        flex-direction: column;
+        display: flex;
+        padding: 16px;
+        overflow-y: auto;
+        .bloco-edit {
+            @include mat-elevation(1);
+        }
+    }
 }

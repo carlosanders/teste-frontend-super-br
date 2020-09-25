@@ -1,4 +1,4 @@
-<div fxLayout="row" class="m-12">
+<div class="header">
     <button mat-mini-fab
             class="m-8 active accent"
             (click)="upload()"
@@ -19,15 +19,16 @@
     </cdk-componente-digital-card-list>
 </div>
 
-<cdk-juntada-grid
-    [loading]="(loading$ | async)"
-    [juntadas]="(juntadas$ | async)"
-    [total]="(pagination$ | async)?.total"
-    [actions]="['copiar','edit', 'showDeleted']"
-    (reload)="reload($event)"
-    (excluded)="excluded($event)"
-    (copiar)="copiar($event)"
-    (edit)="editar($event)">
-</cdk-juntada-grid>
-
+<div class="content">
+    <cdk-juntada-grid
+        [loading]="(loading$ | async)"
+        [juntadas]="(juntadas$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [actions]="['copiar','edit', 'showDeleted']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (copiar)="copiar($event)"
+        (edit)="editar($event)">
+    </cdk-juntada-grid>
+</div>
 <router-outlet></router-outlet>

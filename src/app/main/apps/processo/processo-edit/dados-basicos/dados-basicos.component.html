@@ -1,4 +1,5 @@
-<cdk-processo-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-processo-form
         [processo]="processo"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -14,6 +15,6 @@
         (save)="submit($event)"
         (post)="post($event)"
         (put)="put($event)">
-</cdk-processo-form>
-
+    </cdk-processo-form>
+</div>
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

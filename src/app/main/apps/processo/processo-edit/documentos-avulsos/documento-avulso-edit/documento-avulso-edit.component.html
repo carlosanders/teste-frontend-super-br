@@ -1,8 +1,10 @@
-<cdk-documento-avulso-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-documento-avulso-form
         [documentoAvulso]="documentoAvulso"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"
         [logEntryPagination]="logEntryPagination"
         (abort)="doAbort()">
-</cdk-documento-avulso-form>
+    </cdk-documento-avulso-form>
+</div>
