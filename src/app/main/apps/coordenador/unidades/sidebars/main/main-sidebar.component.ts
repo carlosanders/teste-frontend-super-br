@@ -56,6 +56,11 @@ export class UnidadesOrgaoCentralMainSidebarComponent implements OnInit {
                 link: 'repositorios'
             },
             {
+                nome: 'Etiquetas da Unidade',
+                icon: 'label',
+                link: 'etiquetas'
+            },
+            {
                 nome: 'Usuários da Unidade',
                 icon: 'person',
                 link: 'usuarios'

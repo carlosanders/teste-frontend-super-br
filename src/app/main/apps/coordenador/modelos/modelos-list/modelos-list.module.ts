@@ -22,7 +22,7 @@ import {ModelosListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {CdkModeloGridModule} from '@cdk/components/modelo/cdk-modelo-grid/cdk-modelo-grid.module';
 import {LoginService} from '../../../../auth/login/login.service';
-import {TemplateService} from '../../../../../../@cdk/services/template.service';
+import {TemplateService} from '@cdk/services/template.service';
 import {modulesConfig} from 'modules/modules-config';
 
 const routes: Routes = [

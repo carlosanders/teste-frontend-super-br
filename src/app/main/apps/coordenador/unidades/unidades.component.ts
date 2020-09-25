@@ -42,7 +42,8 @@ export class UnidadesComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _router: Router
-    ) {}
+    ) {
+    }
 
     /**
      * On init
@@ -85,7 +86,8 @@ export class UnidadesComponent implements OnInit, OnDestroy {
         return (!this.routerState.params.setorHandle || this.routerState.params.setorHandle === 'default' ||
             (this.routerState.params.setorHandle &&
                 (this.routerState.url.indexOf('modelos') === -1 && this.routerState.url.indexOf('repositorios') === -1 &&
-                    this.routerState.url.indexOf('usuarios') === -1 && this.routerState.url.indexOf('numeros-unicos-documentos') === -1) &&
+                    this.routerState.url.indexOf('etiquetas') === -1 && this.routerState.url.indexOf('usuarios') === -1 &&
+                    this.routerState.url.indexOf('numeros-unicos-documentos') === -1) &&
                 (this.routerState.url.indexOf('editar') > -1 || this.routerState.url.indexOf('lotacoes') > -1 ||
                     this.routerState.url.indexOf('localizadores') > -1)))
             && (this.routerState.params.unidadeHandle && this.routerState.params.unidadeHandle !== 'default' && this.routerState.params.unidadeHandle !== 'criar');
