@@ -16,11 +16,13 @@ import {merge, of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
-import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
 import {ComponenteDigital, Juntada} from '@cdk/models';
 import {JuntadaDataSource} from '@cdk/data-sources/juntada-data-source';
 import {FormControl} from '@angular/forms';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
+import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {MatDialog} from '../../../angular/material';
 
 @Component({
     selector: 'cdk-juntada-grid',
@@ -198,6 +200,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     @Output()
     selectedIds: number[] = [];
 
+    @Output()
+    assinar = new EventEmitter<number[]>();
+
     dataSource: JuntadaDataSource;
 
     showFilter = false;
@@ -212,11 +217,13 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _componenteDigitalService
+     * @param dialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
         private _componenteDigitalService: ComponenteDigitalService,
+        public dialog: MatDialog,
     ) {
         this.gridFilter = {};
         this.juntadas = [];
@@ -414,5 +421,16 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     addDesentranhar(juntada: Juntada): void {
         this.desentranharBloco.emit(juntada);
+    }
+
+    doAssinar(documento): void {
+        const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            result.documento = documento;
+            this.assinar.emit(result);
+        });
     }
 }

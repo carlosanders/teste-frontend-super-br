@@ -9,7 +9,7 @@ import {
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Juntada, Processo} from '@cdk/models';
+import {Assinatura, Juntada, Processo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -122,6 +122,26 @@ export class JuntadaListComponent implements OnInit {
 
     copiar(juntadaId: number[]): void {
         this._store.dispatch(new fromStore.CopiarDocumentoJuntada(juntadaId));
+    }
+
+    doAssinatura(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    password: result.password
+                }));
+            });
+        }
     }
 
     editar(documentoId: number): void {

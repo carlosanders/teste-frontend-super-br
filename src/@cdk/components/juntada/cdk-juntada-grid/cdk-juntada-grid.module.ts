@@ -18,6 +18,7 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkJuntadaGridComponent} from './cdk-juntada-grid.component';
 import {CdkJuntadaFilterModule} from '../sidebars/cdk-juntada-filter/cdk-juntada-filter.module';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
+import {MatFormFieldModule} from '../../../angular/material';
 
 @NgModule({
     declarations: [
@@ -34,7 +35,7 @@ import {ComponenteDigitalService} from '../../../services/componente-digital.ser
         MatPaginatorModule,
         MatSortModule,
         MatTooltipModule,
-
+        MatFormFieldModule,
         CdkJuntadaFilterModule,
 
         CdkSharedModule,

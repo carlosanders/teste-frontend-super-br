@@ -23,10 +23,11 @@
     [loading]="(loading$ | async)"
     [juntadas]="(juntadas$ | async)"
     [total]="(pagination$ | async)?.total"
-    [actions]="['copiar','edit', 'showDeleted']"
+    [actions]="['copiar','edit', 'assinar', 'showDeleted']"
     (reload)="reload($event)"
     (excluded)="excluded($event)"
     (copiar)="copiar($event)"
+    (assinar)="assinar($event)"
     (edit)="editar($event)">
 </cdk-juntada-grid>
 

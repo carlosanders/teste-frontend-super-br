@@ -41,6 +41,8 @@ cdk-processo-list {
             flex-direction: column;
             height: 0;
             overflow-y: auto;
+            align-items: center;
+            justify-content: center;
 
             > .loading-wrapper {
                 flex: 1 1 auto;
