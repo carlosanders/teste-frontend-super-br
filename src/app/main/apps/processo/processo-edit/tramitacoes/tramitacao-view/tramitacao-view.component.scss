@@ -2,61 +2,59 @@
 
 tramitacao-view {
 
-    height: 100%;
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
 
-    .sidebar {
-        width: 230px !important;
-        min-width: 230px !important;
-        max-width: 230px !important;
+        height: 56px !important;
+        min-height: 56px !important;
+        max-height: 56px !important;
+
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 8px;
+        }
+
+        .tramitacao-navigation {
+            flex: 0 1 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
 
-    .center {
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
 
-        position: relative;
-
-        .header {
-            height: 56px !important;
-            min-height: 56px !important;
-            max-height: 56px !important;
+        > .loading {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
-        .content {
-            position: relative;
+        > .tramitacao-view-content {
+            flex: 1 1 auto;
+            display: flex;
+            @include mat-elevation(1);
 
-            .tramitacao-view-tramitacao {
-                position: absolute;
-                top: 0;
-                right: 0;
-                bottom: 0;
-                left: 0;
-                padding: 16px;
-                overflow: auto;
-                -webkit-overflow-scrolling: touch;
-
-                &.ng-animating {
-                    overflow: hidden;
-                }
-
-                @media (max-width: 720px) {
-                    padding: 0 0 120px 0;
-                }
-
-                .tramitacao-view-content {
-                    padding: 16px;
-                    margin: 0 auto;
-                    width: 100%;
-                    height: 100%;
-                    border-radius: 8px;
-                    @include mat-elevation(1);
-
-                    iframe {
-                        width: 100%;
-                        height: 100%;
-                        border: none;
-                    }
-                }
+            > iframe {
+                flex: 1 1 auto;
+                display: flex;
+                border: none;
             }
         }
+
     }
 }
 

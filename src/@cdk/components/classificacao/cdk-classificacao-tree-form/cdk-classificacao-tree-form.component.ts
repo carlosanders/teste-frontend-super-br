@@ -65,7 +65,7 @@ export class CdkClassificacaoTreeFormComponent{
 
 
     @Input()
-    classificacao: Classificacao;
+    classificacao: Classificacao[];
 
     @Input()
     saving: boolean;

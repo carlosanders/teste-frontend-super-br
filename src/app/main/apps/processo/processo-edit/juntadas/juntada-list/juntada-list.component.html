@@ -19,16 +19,17 @@
     </cdk-componente-digital-card-list>
 </div>
 
-<cdk-juntada-grid
-    [loading]="(loading$ | async)"
-    [juntadas]="(juntadas$ | async)"
-    [total]="(pagination$ | async)?.total"
-    [actions]="['copiar','edit', 'assinar', 'showDeleted']"
-    (reload)="reload($event)"
-    (excluded)="excluded($event)"
-    (copiar)="copiar($event)"
-    (assinar)="assinar($event)"
-    (edit)="editar($event)">
-</cdk-juntada-grid>
-
+<div class="content">
+    <cdk-juntada-grid
+        [loading]="(loading$ | async)"
+        [juntadas]="(juntadas$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [actions]="['copiar','edit', 'assinar', 'showDeleted']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (copiar)="copiar($event)"
+        (edit)="editar($event)"
+        (assinar)="assinar($event)">
+    </cdk-juntada-grid>
+</div>
 <router-outlet></router-outlet>

@@ -1,6 +1,5 @@
-<h3>Configuração da restrição de acesso</h3>
-
-<cdk-visibilidade-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-visibilidade-form
         [visibilidade]="visibilidade"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -8,4 +7,5 @@
         [setorPagination]="setorPagination"
         [usuarioPagination]="usuarioPagination"
         (save)="submit($event)">
-</cdk-visibilidade-form>
+    </cdk-visibilidade-form>
+</div>

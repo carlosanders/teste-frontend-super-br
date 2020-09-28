@@ -53,6 +53,11 @@ export class SetorMainSidebarComponent implements OnInit {
                 link: 'repositorios'
             },
             {
+                nome: 'Etiquetas do Setor',
+                icon: 'label',
+                link: 'etiquetas'
+            },
+            {
                 nome: 'Usuários do Setor',
                 icon: 'person',
                 link: 'usuarios'

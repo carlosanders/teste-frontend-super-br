@@ -1,8 +1,10 @@
-<cdk-garantia-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-garantia-form
         [garantia]="garantia"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeGarantiaPagination]="modalidadeGarantiaPagination"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-garantia-form>
+    </cdk-garantia-form>
+</div>
