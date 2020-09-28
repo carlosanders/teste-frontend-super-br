@@ -60,6 +60,11 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'repositorios'
             },
             {
+                nome: 'Etiquetas Nacionais',
+                icon: 'label',
+                link: 'etiquetas'
+            },
+            {
                 nome: 'Usuários Nacionais',
                 icon: 'person',
                 link: 'usuarios'
@@ -83,6 +88,11 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'repositorios'
             },
             {
+                nome: 'Etiquetas da Unidade',
+                icon: 'label',
+                link: 'etiquetas'
+            },
+            {
                 nome: 'Usuários da Unidade',
                 icon: 'person',
                 link: 'usuarios'
@@ -104,6 +114,11 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Repositórios do Setor',
                 icon: 'add_comment',
                 link: 'repositorios'
+            },
+            {
+                nome: 'Etiquetas do Setor',
+                icon: 'label',
+                link: 'etiquetas'
             },
             {
                 nome: 'Usuários do Setor',

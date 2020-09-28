@@ -7,7 +7,7 @@ import {
     Etiqueta,
     Tarefa,
     Documento,
-    Processo
+    Processo, Setor, ModalidadeOrgaoCentral
 } from '@cdk/models';
 import {Relatorio} from './relatorio.model';
 
@@ -60,10 +60,21 @@ export class VinculacaoEtiqueta {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     documentoAvulso?: DocumentoAvulso;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     usuario?: Usuario;
+
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    setor?: Setor;
+
+    @Type(() => Setor)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    unidade?: Setor;
+
+    @Type(() => ModalidadeOrgaoCentral)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    modalidadeOrgaoCentral?: ModalidadeOrgaoCentral;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -113,6 +124,9 @@ export class VinculacaoEtiqueta {
         this.processo = null;
         this.documentoAvulso = null;
         this.usuario = null;
+        this.setor = null;
+        this.unidade = null;
+        this.modalidadeOrgaoCentral = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

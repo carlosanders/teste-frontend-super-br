@@ -1,0 +1,38 @@
+coordenador-etiqueta-edit {
+    display: flex;
+    flex: 1 1 auto;
+
+    .page-layout {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: row;
+
+        .locked-open {
+            box-shadow: none !important;
+            border-right: 1px solid rgba(0, 0, 0, 0.12);
+        }
+
+        > .center {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            > .header {
+                flex: 0 1 auto;
+                display: flex;
+
+                .actions {
+                    margin-left: auto;
+                    margin-right: 16px;
+                }
+            }
+
+            > .content {
+                flex: 1 1 auto;
+                display: flex;
+                height: 0;
+                padding: 16px;
+            }
+        }
+    }
+}

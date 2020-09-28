@@ -43,6 +43,10 @@ const routes: Routes = [
                 loadChildren: () => import('./unidades/unidades.module').then(m => m.UnidadesModule)
             },
             {
+                path       : ':entidadeHandle/etiquetas',
+                loadChildren: () => import('./etiquetas/etiquetas.module').then(m => m.EtiquetasModule)
+            },
+            {
                 path       : ':entidadeHandle/numeros-unicos-documentos',
                 loadChildren: () => import('./numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
             },
