@@ -107,6 +107,10 @@ relatorios {
                             align-items: center;
                         }
 
+                        &.maximizado {
+                            display: none !important;
+                        }
+
                         &.mobile-mode {
 
                             &.current-relatorio {

@@ -2,7 +2,6 @@
      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
      (resizeEnd)="onResizeEndProcessoList($event)"
      [fxFlex]="processoListSize"
-     [hidden]="(maximizado$ | async)"
      cdkPerfectScrollbar
      infiniteScroll
      [scrollWindow]="false"
@@ -12,7 +11,8 @@
      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-processo': currentProcessoId,
-                        'no-current-processo': !currentProcessoId
+                        'no-current-processo': !currentProcessoId,
+                        'maximizado': (maximizado$ | async)
                      }">
     <cdk-processo-list (scrolled)="onScroll()"
                        [loading]="(loading$ | async)"
@@ -37,7 +37,7 @@
 </div>
 <div class="processo-detail" mwlResizable [enableGhostResize]="true"
      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
-     [fxFlex]="100 - processoListSize"
+     [fxFlex]="100"
      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-processo': currentProcessoId,

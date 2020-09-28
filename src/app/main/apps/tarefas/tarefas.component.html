@@ -1,9 +1,5 @@
 <div class="page-layout carded left-sidebar inner-scroll">
 
-    <!-- TOP BACKGROUND -->
-    <div class="top-bg accent"></div>
-    <!-- / TOP BACKGROUND -->
-
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="tarefas-main-sidebar" position="left"
                  lockedOpen="gt-md">
@@ -48,11 +44,11 @@
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      (resizeEnd)="onResizeEndTarefaList($event)"
                      [fxFlex]="tarefaListSize"
-                     [hidden]="(maximizado$ | async)"
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-tarefa': currentTarefaId,
-                        'no-current-tarefa': !currentTarefaId
+                        'no-current-tarefa': !currentTarefaId,
+                        'maximizado': (maximizado$ | async)
                      }">
                     <div class="loading" *ngIf="(changingFolderIds$ | async)?.length">
                         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
@@ -98,7 +94,7 @@
                 </div>
 
                 <div class="tarefa-detail" mwlResizable [enableGhostResize]="true"
-                     [fxFlex]="100 - tarefaListSize"
+                     [fxFlex]="100"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      [ngClass]="{
                         'mobile-mode': mobileMode,

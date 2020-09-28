@@ -1,36 +1,33 @@
 <div fxLayout="column" fxFlex cdkPerfectScrollbar>
 
-    <mat-list class="date" cdkFocusRegionStart>
+    <div fxFlex="0 1 auto" fxLayout="column" class="p-16 accent">
+        <h1>Informações</h1>
+    </div>
 
-        <h3 class="accent" matSubheader cdkFocusInit>
-            <span>Informações</span>
-        </h3>
-
-        <div class="secondary-text mb-0 p-16">
-            <div class="mb-12">
-                {{date | date:'EEEE'}}
-            </div>
-            <div fxLayout="row" fxLayoutAlign="start start">
-                <span> {{date | date:'d'}} de {{date | date:'MMMM'}}</span>
-            </div>
+    <div class="p-16">
+        <div class="secondary-text">
+            {{date | date:'EEEE'}}
         </div>
-    </mat-list>
+        <div class="mt-8" fxLayout="row" fxLayoutAlign="start start">
+            <span class="secondary-text"> {{date | date:'d'}} de {{date | date:'MMMM'}}</span>
+        </div>
+    </div>
 
-    <mat-divider cdkFocusRegionEnd></mat-divider>
+    <mat-divider></mat-divider>
 
-    <mat-list>
-        <h3 matSubheader>
-            <span>Últimas Operações</span>
+    <mat-list class="p-16">
+        <h3>
+            Últimas Operações
         </h3>
 
         <mat-list-item *ngFor="let operacao of operacoes">
-            <h3 matLine>{{operacao.type}}</h3>
-            <p matLine class="secondary-text">{{operacao.content}}</p>
-            <p matLine class="secondary-text">{{operacao.dateTime | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
+            <h3>{{operacao.type}}</h3>
+            <p class="secondary-text">{{operacao.content}}</p>
+            <p class="secondary-text">{{operacao.dateTime | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
         </mat-list-item>
 
         <mat-list-item *ngIf="!operacoes.length">
-            <p matLine class="secondary-text">Não há operações ainda!</p>
+            <p class="secondary-text">Não há operações ainda!</p>
         </mat-list-item>
     </mat-list>
 

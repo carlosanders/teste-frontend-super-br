@@ -110,6 +110,10 @@ oficios {
                             align-items: center;
                         }
 
+                        &.maximizado {
+                            display: none !important;
+                        }
+
                         &.mobile-mode {
 
                             &.current-documento-avulso {

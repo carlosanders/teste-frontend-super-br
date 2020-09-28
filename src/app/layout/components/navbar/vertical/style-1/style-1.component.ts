@@ -1,23 +1,22 @@
-import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { delay, filter, take, takeUntil } from 'rxjs/operators';
+import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {delay, filter, take, takeUntil} from 'rxjs/operators';
 
-import { CdkConfigService } from '@cdk/services/config.service';
-import { CdkNavigationService } from '@cdk/components/navigation/navigation.service';
-import { CdkPerfectScrollbarDirective } from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
-import { CdkSidebarService } from '@cdk/components/sidebar/sidebar.service';
+import {CdkConfigService} from '@cdk/services/config.service';
+import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
+import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Usuario} from '@cdk/models/usuario.model';
 
 @Component({
-    selector     : 'navbar-vertical-style-1',
-    templateUrl  : './style-1.component.html',
-    styleUrls    : ['./style-1.component.scss'],
+    selector: 'navbar-vertical-style-1',
+    templateUrl: './style-1.component.html',
+    styleUrls: ['./style-1.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
-{
+export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
     cdkConfig: any;
     navigation: any;
 
@@ -40,8 +39,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
         private _cdkSidebarService: CdkSidebarService,
         public _loginService: LoginService,
         private _router: Router
-    )
-    {
+    ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
 
@@ -54,10 +52,8 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
 
     // Directive
     @ViewChild(CdkPerfectScrollbarDirective, {static: true})
-    set directive(theDirective: CdkPerfectScrollbarDirective)
-    {
-        if ( !theDirective )
-        {
+    set directive(theDirective: CdkPerfectScrollbarDirective) {
+        if (!theDirective) {
             return;
         }
 
@@ -83,11 +79,10 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
                     setTimeout(() => {
                         const activeNavItem: any = document.querySelector('navbar .nav-link.active');
 
-                        if ( activeNavItem && activeNavItem.offsetTop && activeNavItem.offsetParent)
-                        {
-                            const activeItemOffsetTop       = activeNavItem.offsetTop,
-                                  activeItemOffsetParentTop = activeNavItem.offsetParent.offsetTop,
-                                  scrollDistance            = activeItemOffsetTop - activeItemOffsetParentTop - (48 * 3) - 168;
+                        if (activeNavItem && activeNavItem.offsetTop && activeNavItem.offsetParent) {
+                            const activeItemOffsetTop = activeNavItem.offsetTop,
+                                activeItemOffsetParentTop = activeNavItem.offsetParent.offsetTop,
+                                scrollDistance = activeItemOffsetTop - activeItemOffsetParentTop - (48 * 3) - 168;
 
                             this._cdkPerfectScrollbar.scrollToTop(scrollDistance);
                         }
@@ -103,16 +98,14 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this._router.events
             .pipe(
                 filter((event) => event instanceof NavigationEnd),
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(() => {
-                    if ( this._cdkSidebarService.getSidebar('navbar') )
-                    {
+                    if (this._cdkSidebarService.getSidebar('navbar')) {
                         this._cdkSidebarService.getSidebar('navbar').close();
                     }
                 }
@@ -139,8 +132,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -153,16 +145,14 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy
     /**
      * Toggle sidebar opened status
      */
-    toggleSidebarOpened(): void
-    {
+    toggleSidebarOpened(): void {
         this._cdkSidebarService.getSidebar('navbar').toggleOpen();
     }
 
     /**
      * Toggle sidebar folded status
      */
-    toggleSidebarFolded(): void
-    {
+    toggleSidebarFolded(): void {
         this._cdkSidebarService.getSidebar('navbar').toggleFold();
     }
 }
