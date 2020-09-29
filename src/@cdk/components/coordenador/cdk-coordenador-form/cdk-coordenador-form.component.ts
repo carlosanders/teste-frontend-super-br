@@ -10,6 +10,8 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pagination, Coordenador, ModalidadeOrgaoCentral, Setor} from '@cdk/models';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-coordenador-form',
@@ -100,6 +102,79 @@ export class CdkCoordenadorFormComponent implements OnChanges, OnInit, OnDestroy
      * On init
      */
     ngOnInit(): void {
+        if (this.form.get('unidade').value && this.form.get('tipo').value === 'S') {
+            this.form.get('setor').enable();
+            this.setorPagination.filter['unidade.id'] = `eq:${this.form.get('unidade').value.id}`;
+            this.setorPagination.filter['parent'] = `isNotNull`;
+
+            this._changeDetectorRef.markForCheck();
+        }
+
+        this.form.get('tipo').valueChanges.pipe(
+            debounceTime(100),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    switch (value) {
+                        case 'M':
+                            this.form.get('orgaoCentral').enable();
+                            this.form.get('unidade').setValue(null);
+                            this.form.get('unidade').disable();
+                            this.form.get('setor').setValue(null);
+                            this.form.get('setor').disable();
+                            break;
+                        case 'U':
+                            this.form.get('unidade').enable();
+                            this.form.get('orgaoCentral').setValue(null);
+                            this.form.get('orgaoCentral').disable();
+                            this.form.get('setor').setValue(null);
+                            this.form.get('setor').disable();
+                            break;
+                        case 'S':
+                            this.form.get('orgaoCentral').setValue(null);
+                            this.form.get('orgaoCentral').disable();
+                            this.form.get('unidade').enable();
+                            if (this.form.get('unidade').value && typeof this.form.get('unidade').value === 'object') {
+                                this.form.get('setor').enable();
+                                this.form.get('setor').reset();
+                                this.setorPagination.filter['unidade.id'] = `eq:${this.form.get('unidade').value.id}`;
+                                this.setorPagination.filter['parent'] = `isNotNull`;
+                            }
+                            break;
+                        default:
+                            this.form.get('orgaoCentral').setValue(null);
+                            this.form.get('orgaoCentral').disable();
+                            this.form.get('unidade').setValue(null);
+                            this.form.get('unidade').disable();
+                            this.form.get('setor').setValue(null);
+                            this.form.get('setor').disable();
+                            break;
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('unidade').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (this.form.get('tipo').value === 'S' && value && typeof value === 'object') {
+                        this.form.get('setor').enable();
+                        this.form.get('setor').reset();
+                        this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
+                        this.setorPagination.filter['parent'] = `isNotNull`;
+
+                        this._changeDetectorRef.markForCheck();
+                    } else {
+                        this.form.get('setor').disable();
+                        this.form.get('setor').reset();
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**
@@ -146,46 +221,23 @@ export class CdkCoordenadorFormComponent implements OnChanges, OnInit, OnDestroy
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            this.save.emit(this.form.value);
+            const coordenador = new Coordenador();
+
+            Object.entries(this.form.value).forEach(
+                ([key, value]) => {
+                    coordenador[key] = value;
+                }
+            );
+
+            if (this.form.value.tipo === 'S') {
+                coordenador.unidade = null;
+            }
+            this.save.emit(coordenador);
         }
     }
 
     doAbort(): void {
         this.abort.emit();
-    }
-
-    selectTipo(tipo: string): void {
-        switch (tipo) {
-            case 'M':
-                this.form.get('orgaoCentral').enable();
-                this.form.get('unidade').setValue(null);
-                this.form.get('unidade').disable();
-                this.form.get('setor').setValue(null);
-                this.form.get('setor').disable();
-                break;
-            case 'U':
-                this.form.get('unidade').enable();
-                this.form.get('orgaoCentral').setValue(null);
-                this.form.get('orgaoCentral').disable();
-                this.form.get('setor').setValue(null);
-                this.form.get('setor').disable();
-                break;
-            case 'S':
-                this.form.get('setor').enable();
-                this.form.get('orgaoCentral').setValue(null);
-                this.form.get('orgaoCentral').disable();
-                this.form.get('unidade').setValue(null);
-                this.form.get('unidade').disable();
-                break;
-            default:
-                this.form.get('orgaoCentral').setValue(null);
-                this.form.get('orgaoCentral').disable();
-                this.form.get('unidade').setValue(null);
-                this.form.get('unidade').disable();
-                this.form.get('setor').setValue(null);
-                this.form.get('setor').disable();
-                break;
-        }
     }
 
     checkOrgaoCentral(): void {

@@ -22,16 +22,16 @@ processo {
                 max-height: 72px !important;
 
                 > .search-wrapper {
-
                     flex: 1 1 auto;
                     display: flex;
-                    height: 56px;
                     flex-direction: row;
+                    justify-content: flex-start;
                     align-items: center;
 
                     border-radius: 28px;
                     overflow: hidden;
                     @include mat-elevation(1);
+                    height: 46px;
 
                     > .sidebar-toggle {
                         margin: 0 0 0 6px;
@@ -44,14 +44,14 @@ processo {
                     > .search {
                         flex: 1 1 auto;
                         display: flex;
-                        height: 46px;
-                        line-height: 46px;
                         flex-direction: row;
+                        justify-content: flex-start;
                         align-items: center;
 
+                        height: 46px;
                         padding: 0 8px;
 
-                        > cdk-vinculacao-etiqueta-chips {
+                        > cdk-etiqueta-chips {
                             margin-left: 16px;
                             margin-right: 16px;
                         }

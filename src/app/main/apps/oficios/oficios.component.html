@@ -1,9 +1,5 @@
 <div class="page-layout carded left-sidebar inner-scroll">
 
-    <!-- TOP BACKGROUND -->
-    <div class="top-bg accent"></div>
-    <!-- / TOP BACKGROUND -->
-
     <!-- SIDEBAR -->
     <cdk-sidebar *ngIf="!(maximizado$ | async)" class="sidebar" name="documento-avulso-main-sidebar" position="left"
                   lockedOpen="gt-md">
@@ -47,11 +43,11 @@
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      (resizeEnd)="onResizeEndDocumentoAvulsoList($event)"
                      [fxFlex]="documentoAvulsoListSize"
-                     [hidden]="(maximizado$ | async)"
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-documento-avulso': currentDocumentoAvulsoId,
-                        'no-current-documento-avulso': !currentDocumentoAvulsoId
+                        'no-current-documento-avulso': !currentDocumentoAvulsoId,
+                        'maximizado': (maximizado$ | async)
                      }">
 
                     <cdk-documento-avulso-list (scrolled)="onScroll()"
@@ -71,6 +67,7 @@
                 </div>
                 <div class="oficio-detail" mwlResizable [enableGhostResize]="true"
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
+                     [fxFlex]="100"
                      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-documento-avulso': currentDocumentoAvulsoId,

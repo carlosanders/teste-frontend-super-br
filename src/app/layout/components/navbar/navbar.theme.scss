@@ -1,4 +1,4 @@
-@mixin toolbar-theme($theme) {
+@mixin navbar-theme($theme) {
 
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
@@ -6,14 +6,10 @@
     $warn: map-get($theme, warn);
     $is-dark: map-get($theme, is-dark);
 
-    toolbar {
+    navbar {
 
-        mat-toolbar {
+        .navbar-top, .navbar-scroll-container, .user, .avatar-container  {
             background: map-get($background, card);
-        }
-
-        .toolbar-separator {
-            background: map-get($foreground, divider);
         }
     }
 }
