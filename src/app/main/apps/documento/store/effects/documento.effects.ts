@@ -432,7 +432,7 @@ export class DocumentoEffect {
                         // @retirar: return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta,  {conteudo: action.payload.vinculacaoEtiqueta.conteudo}).pipe(
                         mergeMap((response) => [
                             new DocumentoActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
-                            new UpdateData<VinculacaoEtiqueta>({id: response.id, schema: vinculacaoEtiquetaSchema, changes: {conteudo: response.conteudo}})
+                            new UpdateData<VinculacaoEtiqueta>({id: response.id, schema: vinculacaoEtiquetaSchema, changes: {conteudo: response.conteudo, privada: response.privada}})
                         ]),
                         catchError((err) => {
                             console.log(err);

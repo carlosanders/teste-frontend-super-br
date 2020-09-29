@@ -41,7 +41,7 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeEtiqueta.valor', 'ativo', 'corHexadecimal', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeEtiqueta.valor', 'privada', 'ativo', 'corHexadecimal', 'actions'];
 
     allColumns: any[] = [
         {
@@ -62,6 +62,11 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
         {
             id: 'descricao',
             label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'privada',
+            label: 'Privada',
             fixed: false
         },
         {

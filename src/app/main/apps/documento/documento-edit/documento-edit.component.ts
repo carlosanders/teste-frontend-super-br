@@ -201,7 +201,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         vinculacaoEtiqueta.id = values.id;
         this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
-            changes: {conteudo: values.conteudo}
+            changes: {conteudo: values.conteudo, privada: values.privada}
         }));
     }
 

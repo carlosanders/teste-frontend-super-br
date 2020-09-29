@@ -50,6 +50,7 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
 
         this.form = this._formBuilder.group({
             id: [data.id],
+            privada: [data.privada],
             conteudo: [data.conteudo],
             podeAlterarConteudo: [data.podeAlterarConteudo]
         });
@@ -68,6 +69,7 @@ export class CdkVinculacaoEtiquetaEditDialogComponent implements OnInit {
             this.data.mostraSpinnerSalvamento = true;
             this.editVinc.emit({
                 id: this.form.value.id,
+                privada: this.form.value.privada,
                 conteudo: this.form.value.conteudo
             });   
         }

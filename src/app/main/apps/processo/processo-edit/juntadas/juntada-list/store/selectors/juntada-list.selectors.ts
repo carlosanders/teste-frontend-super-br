@@ -8,7 +8,6 @@ import {
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {Juntada} from '@cdk/models';
-
 const schemaSelectors = createSchemaSelectors<Juntada>(juntadaSchema);
 
 export const getJuntadaListState = createSelector(
@@ -62,4 +61,14 @@ export const getCopiandoJuntadas = createSelector(
     schemaSelectors.getNormalizedEntities,
     getCopiandoIds,
     schemaSelectors.entitiesProjector
+);
+
+export const getAssinandoDocumentosId = createSelector(
+    getJuntadaListState,
+    (state: JuntadaListState) => state.assinandoDocumentoIds
+);
+
+export const getRemovendoAssinaturaDocumentosId = createSelector(
+    getJuntadaListState,
+    (state: JuntadaListState) => state.removendoAssinaturaDocumentoIds
 );

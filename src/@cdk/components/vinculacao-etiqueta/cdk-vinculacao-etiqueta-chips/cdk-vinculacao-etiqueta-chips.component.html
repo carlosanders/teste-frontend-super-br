@@ -10,7 +10,10 @@
             (click)="openDialogEdit(vinculacaoEtiqueta)"
             (removed)="remove(vinculacaoEtiqueta)">
             <mat-spinner *ngIf="savingVinculacaoEtiquetaId===vinculacaoEtiqueta.id" diameter="16"></mat-spinner>
-            <mat-icon *ngIf="savingVinculacaoEtiquetaId!==vinculacaoEtiqueta.id" class="icon">person</mat-icon>
+            <mat-icon class="icon" *ngIf="savingVinculacaoEtiquetaId!==vinculacaoEtiqueta.id &&
+                                            vinculacaoEtiqueta.privada">person</mat-icon>
+            <mat-icon class="icon" *ngIf="savingVinculacaoEtiquetaId!==vinculacaoEtiqueta.id &&
+                                            !vinculacaoEtiqueta.privada">public</mat-icon>
             <mat-icon *ngIf="vinculacaoEtiqueta.conteudo" class="icon">subject</mat-icon>
             {{vinculacaoEtiqueta.etiqueta.nome}}
             <mat-icon matChipRemove

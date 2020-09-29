@@ -35,6 +35,8 @@ export class JuntadaListComponent implements OnInit {
     copiandoIds$: Observable<any>;
     processo$: Observable<Processo>;
     processo: Processo;
+    assinandoDocumentosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
@@ -55,6 +57,8 @@ export class JuntadaListComponent implements OnInit {
         this.desentranhandoIds$ = this._store.pipe(select(fromStore.getDesentranhandoIds));
         this.copiandoIds$ = this._store.pipe(select(fromStore.getCopiandoIds));
         this.processo$ = this._store.pipe(select(getProcesso));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
 
         this._store
             .pipe(select(getRouterState))
@@ -124,7 +128,7 @@ export class JuntadaListComponent implements OnInit {
         this._store.dispatch(new fromStore.CopiarDocumentoJuntada(juntadaId));
     }
 
-    doAssinatura(result): void {
+    assinar(result): void {
         if (result.certificadoDigital) {
             this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
         } else {
@@ -150,5 +154,9 @@ export class JuntadaListComponent implements OnInit {
 
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
+    removeAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
     }
 }

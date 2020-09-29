@@ -22,7 +22,7 @@ import {JuntadaDataSource} from '@cdk/data-sources/juntada-data-source';
 import {FormControl} from '@angular/forms';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {MatDialog} from '../../../angular/material';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
     selector: 'cdk-juntada-grid',
@@ -212,6 +212,15 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     hasSelected = false;
     isIndeterminate = false;
     hasExcluded = false;
+
+    @Input()
+    assinandoId: number[] = [];
+
+    @Output()
+    removeAssinatura = new EventEmitter<number>();
+
+    @Input()
+    removendoAssinaturaId: number[] = [];
 
     /**
      * @param _changeDetectorRef
@@ -432,5 +441,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
             result.documento = documento;
             this.assinar.emit(result);
         });
+    }
+
+    doRemoveAssinatura(documentoId): void {
+        this.removeAssinatura.emit(documentoId);
     }
 }

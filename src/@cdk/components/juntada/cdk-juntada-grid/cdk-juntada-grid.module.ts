@@ -17,8 +17,9 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkJuntadaGridComponent} from './cdk-juntada-grid.component';
 import {CdkJuntadaFilterModule} from '../sidebars/cdk-juntada-filter/cdk-juntada-filter.module';
-import {ComponenteDigitalService} from '../../../services/componente-digital.service';
 import {MatFormFieldModule} from '../../../angular/material';
+import {CdkAssinaturaEletronicaPluginModule} from '../../componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
+import {AssinaturaService} from '../../../services/assinatura.service';
 
 @NgModule({
     declarations: [
@@ -37,12 +38,13 @@ import {MatFormFieldModule} from '../../../angular/material';
         MatTooltipModule,
         MatFormFieldModule,
         CdkJuntadaFilterModule,
-
+        CdkAssinaturaEletronicaPluginModule,
         CdkSharedModule,
-        CdkSidebarModule,
+        CdkSidebarModule
     ],
     providers: [
-        JuntadaService
+        JuntadaService,
+        AssinaturaService
     ],
     exports: [
         CdkJuntadaGridComponent

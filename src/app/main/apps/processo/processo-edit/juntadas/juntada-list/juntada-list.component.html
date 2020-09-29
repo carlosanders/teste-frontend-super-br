@@ -29,7 +29,10 @@
         (excluded)="excluded($event)"
         (copiar)="copiar($event)"
         (edit)="editar($event)"
-        (assinar)="assinar($event)">
+        (assinar)="assinar($event)"
+        [assinandoId]="(assinandoDocumentosId$ | async)"
+        (removeAssinatura)="removeAssinatura($event)"
+        [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)">
     </cdk-juntada-grid>
 </div>
 <router-outlet></router-outlet>

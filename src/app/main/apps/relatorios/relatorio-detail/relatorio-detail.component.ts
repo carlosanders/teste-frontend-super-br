@@ -175,7 +175,7 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
         vinculacaoEtiqueta.id = values.id;
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
-            changes: {conteudo: values.conteudo}
+            changes: {conteudo: values.conteudo, privada: values.privada}
         }));         
     }
 

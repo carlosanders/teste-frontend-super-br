@@ -18,7 +18,6 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
-
 @Injectable()
 export class JuntadaListEffect {
 
@@ -182,4 +181,23 @@ export class JuntadaListEffect {
                     );
                 })
             );
+
+    @Effect()
+    removeAssinaturaDocumento: any =
+        this._actions
+            .pipe(
+                ofType<JuntadaListActions.RemoveAssinaturaDocumento>(JuntadaListActions.REMOVE_ASSINATURA_DOCUMENTO),
+                mergeMap((action) => {
+                        return this._documentoService.removeAssinatura(action.payload)
+                            .pipe(
+                                mergeMap((response) => [
+                                    new JuntadaListActions.RemoveAssinaturaDocumentoSuccess(action.payload),
+                                ]),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    return of(new JuntadaListActions.RemoveAssinaturaDocumentoFailed(action.payload));
+                                })
+                            );
+                    }
+                ));
 }
