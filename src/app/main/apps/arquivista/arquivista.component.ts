@@ -18,8 +18,6 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../auth/login/login.service';
 import {Observable, Subject} from 'rxjs';
 import {Usuario} from '@cdk/models/usuario.model';
-import {getRouterState} from '../../../store/reducers';
-import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'arquivista',
@@ -58,10 +56,14 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
     links: any;
 
     /**
-     * Constructor
      *
-     * @param {ChangeDetectorRef} _changeDetectorRef
-     * @param {CdkSidebarService} _cdkSidebarService
+     * @param _changeDetectorRef
+     * @param _cdkSidebarService
+     * @param _cdkTranslationLoaderService
+     * @param _processoService
+     * @param _router
+     * @param _store
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -76,12 +78,26 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
 
-        this.vinculacaoEtiquetaPagination.filter = {
-            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-            'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
-        };
+        this.vinculacaoEtiquetaPagination.filter = [
+            {
+                'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+            },
+            {
+                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+            },
+            {
+                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+            },
+            {
+                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+            }
+        ];
 
-        this.colaborador = this._loginService.getUserProfile().colaborador;
+        this.colaborador = this._profile.colaborador;
         this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
             if (!this.unidades.includes(lotacao.setor.unidade) && lotacao.arquivista === true) {
                 this.unidades.push(lotacao.setor.unidade);

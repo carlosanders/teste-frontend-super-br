@@ -6,6 +6,7 @@
     <h3>{{(processos$ | async)?.length}} processo(s) selecionada(s) </h3>
 
     <cdk-etiqueta-chips [etiquetas]="etiquetas"
+                        [pagination]="vinculacaoEtiquetaPagination"
                         (create)="addEtiqueta($event)"
                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
 
