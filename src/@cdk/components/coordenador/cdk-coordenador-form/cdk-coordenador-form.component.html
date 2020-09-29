@@ -2,8 +2,7 @@
 
     <mat-form-field>
         <mat-select placeholder="Tipo de coordenação"
-                    formControlName="tipo" required
-                    (blur)="selectTipo(form.get('tipo').value)">
+                    formControlName="tipo" required>
             <div *ngFor="let tipo of tipos">
                 <mat-option [value]="tipo.id">{{ tipo.label }}</mat-option>
             </div>
@@ -32,7 +31,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field *ngIf="form.get('tipo').value === 'U'">
+    <mat-form-field *ngIf="form.get('tipo').value === 'U' || form.get('tipo').value === 'S'">
         <input matInput placeholder="Unidade"
                formControlName="unidade"
                [matAutocomplete]="unidade.autocomplete"
@@ -51,7 +50,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field *ngIf="form.get('tipo').value === 'S'">
+    <mat-form-field *ngIf="form.get('tipo').value === 'S' && !form.get('setor').disabled">
         <input matInput placeholder="Setor"
                formControlName="setor"
                [matAutocomplete]="setor.autocomplete"
