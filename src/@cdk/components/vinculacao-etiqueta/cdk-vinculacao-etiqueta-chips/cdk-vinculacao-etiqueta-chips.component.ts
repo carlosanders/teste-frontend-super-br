@@ -130,7 +130,12 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     /**
      * On change
      */
+    // tslint:disable-next-line:use-lifecycle-interface
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+
+        if (changes['vinculacoesEtiquetas'] && this.vinculacoesEtiquetas) {
+            this.vinculacoesEtiquetas = this.vinculacoesEtiquetas.filter(e => e.criadoEm );
+        }
 
         // o trecho de código abaixo é apenas para situações em que um dialog de
         // alteração de conteúdo de vinculação de etiqueta foi aberto
@@ -176,7 +181,8 @@ export class CdkVinculacaoEtiquetaChipsComponent {
                     id: vinculacaoEtiqueta.id,
                     corFundo: vinculacaoEtiqueta.etiqueta.corHexadecimal,
                     mostraSpinnerSalvamento: false,
-                    podeAlterarConteudo: vinculacaoEtiqueta.podeAlterarConteudo
+                    podeAlterarConteudo: vinculacaoEtiqueta.podeAlterarConteudo,
+                    privada: vinculacaoEtiqueta.privada
                 },
                 width: '600px',
                 height: '300px',

@@ -107,11 +107,24 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.etiqueta$ = this._store.pipe(select(getEtiqueta));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = {
-            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-            'modalidadeEtiqueta.valor': 'eq:TAREFA'
-        };
-        
+        this.vinculacaoEtiquetaPagination.filter = [
+            {
+                'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            },
+            {
+                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            },
+            {
+                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            },
+            {
+                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            }
+        ];
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.pluginLoading$ = this._store.pipe(select(fromStore.getPluginLoading));
@@ -206,7 +219,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         vinculacaoEtiqueta.id = values.id;
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
-            changes: {conteudo: values.conteudo}
+            changes: {conteudo: values.conteudo, privada: values.privada}
         }));         
     }
 

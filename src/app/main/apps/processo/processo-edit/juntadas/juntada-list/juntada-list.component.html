@@ -1,4 +1,4 @@
-<div class="header">
+<div fxLayout="row" class="m-12">
     <button mat-mini-fab
             class="m-8 active accent"
             (click)="upload()"
@@ -24,11 +24,15 @@
         [loading]="(loading$ | async)"
         [juntadas]="(juntadas$ | async)"
         [total]="(pagination$ | async)?.total"
-        [actions]="['copiar','edit', 'showDeleted']"
+        [actions]="['copiar','edit', 'assinar', 'showDeleted']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (copiar)="copiar($event)"
-        (edit)="editar($event)">
+        (edit)="editar($event)"
+        (assinar)="assinar($event)"
+        [assinandoId]="(assinandoDocumentosId$ | async)"
+        (removeAssinatura)="removeAssinatura($event)"
+        [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)">
     </cdk-juntada-grid>
 </div>
 <router-outlet></router-outlet>

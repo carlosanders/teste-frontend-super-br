@@ -17,6 +17,8 @@ export interface JuntadaListState {
     desentranhadoIds: number[];
     copiandoIds: number[];
     copiadoIds: number[];
+    assinandoDocumentoIds: number[];
+    removendoAssinaturaDocumentoIds: number[];
 }
 
 export const JuntadaListInitialState: JuntadaListState = {
@@ -35,7 +37,9 @@ export const JuntadaListInitialState: JuntadaListState = {
     desentranhadoIds: [],
     desentranhandoIds: [],
     copiandoIds: [],
-    copiadoIds: []
+    copiadoIds: [],
+    assinandoDocumentoIds: [],
+    removendoAssinaturaDocumentoIds: [],
 };
 
 export function JuntadaListReducer(state = JuntadaListInitialState, action: JuntadaListActions.JuntadaListActionsAll): JuntadaListState {
@@ -130,6 +134,48 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
             return {
                 ...state,
                 copiandoIds: state.copiandoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case JuntadaListActions.ASSINA_DOCUMENTO_JUNTADA: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
+            };
+        }
+
+        case JuntadaListActions.ASSINA_DOCUMENTO_JUNTADA_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case JuntadaListActions.ASSINA_DOCUMENTO_JUNTADA_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case JuntadaListActions.REMOVE_ASSINATURA_DOCUMENTO: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
+            };
+        }
+
+        case JuntadaListActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case JuntadaListActions.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
             };
         }
 

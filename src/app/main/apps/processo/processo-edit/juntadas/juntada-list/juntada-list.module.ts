@@ -24,6 +24,7 @@ import * as fromGuards from 'app/main/apps/processo/processo-edit/juntadas/junta
 import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk-juntada-grid.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {modulesConfig} from 'modules/modules-config';
+import {AssinaturaService} from '../../../../../../../@cdk/services/assinatura.service';
 
 const routes: Routes = [
     {
@@ -78,6 +79,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         JuntadaService,
+        AssinaturaService,
         fromGuards.ResolveGuard
     ],
     exports: [

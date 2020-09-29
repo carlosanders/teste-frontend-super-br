@@ -108,20 +108,6 @@ export function DocumentosReducer(
             };
         }
 
-        case DocumentosActions.CONVERTE_DOCUMENTO_SUCESS: {
-            return {
-                ...state,
-                convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
-            };
-        }
-
-        case DocumentosActions.CONVERTE_DOCUMENTO_FAILED: {
-            return {
-                ...state,
-                convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
-            };
-        }
-
         default:
             return state;
     }

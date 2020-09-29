@@ -222,7 +222,7 @@ export class ProcessoDetailEffect {
                             new UpdateData<VinculacaoEtiqueta>({
                                 id: response.id,
                                 schema: vinculacaoEtiquetaSchema,
-                                changes: {conteudo: response.conteudo}
+                                changes: {conteudo: response.conteudo, privada: response.privada}
                             })
                         ]),
                         catchError((err) => {

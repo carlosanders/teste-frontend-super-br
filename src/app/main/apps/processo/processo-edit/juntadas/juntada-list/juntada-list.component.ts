@@ -9,7 +9,7 @@ import {
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Juntada, Processo} from '@cdk/models';
+import {Assinatura, Juntada, Processo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -35,6 +35,8 @@ export class JuntadaListComponent implements OnInit {
     copiandoIds$: Observable<any>;
     processo$: Observable<Processo>;
     processo: Processo;
+    assinandoDocumentosId$: Observable<number[]>;
+    removendoAssinaturaDocumentosId$: Observable<number[]>;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
@@ -55,6 +57,8 @@ export class JuntadaListComponent implements OnInit {
         this.desentranhandoIds$ = this._store.pipe(select(fromStore.getDesentranhandoIds));
         this.copiandoIds$ = this._store.pipe(select(fromStore.getCopiandoIds));
         this.processo$ = this._store.pipe(select(getProcesso));
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
 
         this._store
             .pipe(select(getRouterState))
@@ -124,11 +128,35 @@ export class JuntadaListComponent implements OnInit {
         this._store.dispatch(new fromStore.CopiarDocumentoJuntada(juntadaId));
     }
 
+    assinar(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    assinatura: assinatura,
+                    password: result.password
+                }));
+            });
+        }
+    }
+
     editar(documentoId: number): void {
         this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/editar']).then();
     }
 
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
+    removeAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
     }
 }

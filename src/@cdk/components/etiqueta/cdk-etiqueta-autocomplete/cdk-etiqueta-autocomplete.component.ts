@@ -68,10 +68,13 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         let filterParam = '';
                         if (Array.isArray(this.pagination.filter)) {
-                            const arrayFilterParam = [
-                                ...this.pagination.filter,
-                                termFilter
-                            ];
+                            const arrayFilterParam = this.pagination.filter.map((value) => {
+                                const orFilter = {
+                                    ...value,
+                                    ...termFilter
+                                };
+                                return orFilter;
+                            });
                             filterParam = JSON.stringify(arrayFilterParam);
                         } else {
                             const objectFilterParam = {

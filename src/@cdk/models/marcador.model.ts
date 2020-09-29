@@ -20,6 +20,8 @@ export class Etiqueta {
 
     ativo?: boolean;
 
+    privada?: boolean;
+
     sistema?: boolean;
 
     @Type(() => ModalidadeEtiqueta)
@@ -61,6 +63,7 @@ export class Etiqueta {
         this.uuid = null;
         this.nome = null;
         this.ativo = null;
+        this.privada = null;
         this.sistema = null;
         this.descricao = null;
         this.corHexadecimal = null;

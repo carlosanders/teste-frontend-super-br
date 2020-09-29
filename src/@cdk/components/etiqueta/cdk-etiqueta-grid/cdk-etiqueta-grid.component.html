@@ -126,6 +126,17 @@
                 </ng-container>
 
                 <!-- Ativo Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="privada">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Privada
+                    </th>
+                    <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Privada: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1}">
+                        <mat-checkbox [disabled]="true" [checked]="etiqueta.privada"></mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- Ativo Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="ativo">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Ativo

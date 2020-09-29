@@ -107,7 +107,8 @@ export class DocumentoAvulsoListComponent implements OnInit {
     }
 
     responder(documentoAvulsoId: number[]): void {
-        this._store.dispatch(new fromStore.ResponderDocumentoAvulso(documentoAvulsoId));
+        const oficioId = documentoAvulsoId[0];
+        this._router.navigate([this.routerState.url.replace('listar', 'responder/') + oficioId]);
     }
 
 }
