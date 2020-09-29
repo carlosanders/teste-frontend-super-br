@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {DocumentoAvulso, VinculacaoEtiqueta} from '@cdk/models';
+import {DocumentoAvulso, Pagination, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -39,6 +39,8 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
+    vinculacaoEtiquetaPagination: Pagination;
+
     operacoes: any[] = [];
 
     private _profile: any;
@@ -64,6 +66,26 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();
+
+        this.vinculacaoEtiquetaPagination = new Pagination();
+        this.vinculacaoEtiquetaPagination.filter = [
+            {
+                'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                'modalidadeEtiqueta.valor': 'eq:OFICIO'
+            },
+            {
+                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:OFICIO'
+            },
+            {
+                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:OFICIO'
+            },
+            {
+                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:OFICIO'
+            }
+        ];
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -149,9 +149,22 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.vinculacaoEtiquetaPagination.filter = [
             {
                 'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-                'sistema': 'eq:true',
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
             },
             {
+                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            },
+            {
+                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            },
+            {
+                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            },
+            {
+                'sistema': 'eq:true',
                 'modalidadeEtiqueta.valor': 'eq:TAREFA'
             }
         ];
