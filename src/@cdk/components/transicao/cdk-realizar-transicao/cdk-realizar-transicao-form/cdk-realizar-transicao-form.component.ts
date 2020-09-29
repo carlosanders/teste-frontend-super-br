@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -6,15 +7,19 @@ import {
     OnChanges,
     OnInit,
     Output,
-    SimpleChange
+    SimpleChange, ViewEncapsulation
 } from '@angular/core';
 import {ModalidadeTransicao, Pagination, Processo, Transicao} from '../../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {cdkAnimations} from '../../../../animations';
 
 @Component({
     selector: 'cdk-realizar-transicao-form',
     templateUrl: './cdk-realizar-transicao-form.component.html',
-    styleUrls: ['./cdk-realizar-transicao-form.component.scss']
+    styleUrls: ['./cdk-realizar-transicao-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkRealizarTransicaoFormComponent
     implements OnInit, OnChanges {
@@ -88,6 +93,9 @@ export class CdkRealizarTransicaoFormComponent
         this.form.get('processo').setValue(processo);
     }
 
+    doAbort(): void {
+        this.abort.emit();
+    }
 
     /**
      * On change

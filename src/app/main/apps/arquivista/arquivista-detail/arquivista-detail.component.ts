@@ -1,9 +1,9 @@
 import {
-    AfterViewInit,
+    AfterViewInit, ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit
+    OnInit, ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '../../../../../@cdk/models';
@@ -21,11 +21,15 @@ import {
 } from './store';
 import {getRouterState, getScreenState} from '../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
     selector: 'arquivista-detail',
     templateUrl: './arquivista-detail.component.html',
-    styleUrls: ['./arquivista-detail.component.scss']
+    styleUrls: ['./arquivista-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private _unsubscribeAll: Subject<any> = new Subject();

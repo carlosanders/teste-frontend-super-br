@@ -135,10 +135,8 @@ export class ProcessoViewEffect {
                                 relativeTo: this._activatedRoute.parent
                             }
                         ).then();
-                    } else {
-                        this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
-                        return of(null);
                     }
+
                     if (index[currentStep.step] === undefined) {
                         // não tem documentos, vamos para capa
                         this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());

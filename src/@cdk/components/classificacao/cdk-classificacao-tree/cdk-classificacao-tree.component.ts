@@ -1,5 +1,14 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChildren} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    EventEmitter,
+    Input,
+    Output,
+    Renderer2,
+    ViewChildren, ViewEncapsulation
+} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {ClassificacaoService} from '../../../services/classificacao.service';
 import {catchError, debounceTime, distinctUntilChanged, finalize} from 'rxjs/operators';
@@ -8,6 +17,7 @@ import {CdkClassificacaoTreeService, ClassificacaoNode} from './services/cdk-cla
 import {SelectionModel} from '@angular/cdk/collections';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Processo} from '../../../models';
+import {cdkAnimations} from "../../../animations";
 
 export class FlatNode {
     expandable: boolean;
@@ -28,7 +38,10 @@ export class FlatNode {
 @Component({
     selector: 'cdk-classificacao-tree',
     templateUrl: './cdk-classificacao-tree.component.html',
-    styleUrls: ['./cdk-classificacao-tree.component.scss']
+    styleUrls: ['./cdk-classificacao-tree.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkClassificacaoTreeComponent {
 

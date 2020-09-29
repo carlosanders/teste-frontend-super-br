@@ -16,6 +16,7 @@ import {CdkModalidadeTransicaoAutocompleteModule} from '../../../modalidade-tran
 import {CdkModalidadeTransicaoGridsearchModule} from '../../../modalidade-transicao/cdk-modalidade-transicao-autocomplete/cdk-modalidade-transicao-gridsearch/cdk-modalidade-transicao-gridsearch.module';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {ProcessoService} from '../../../../services/processo.service';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import {ProcessoService} from '../../../../services/processo.service';
         CdkModalidadeTransicaoAutocompleteModule,
         CdkModalidadeTransicaoGridsearchModule,
         CdkSharedModule,
+        MatTooltipModule,
     ],
     providers: [
         ProcessoService,

@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -6,24 +7,24 @@ import {
     OnChanges,
     OnInit,
     Output,
-    SimpleChange
+    SimpleChange, ViewEncapsulation
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Lembrete, Pagination, Processo} from '../../../models';
 import {catchError, finalize} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {RouterStateUrl} from '../../../../app/store/reducers';
 import {LembreteService} from '../../../services/lembrete.service';
+import {cdkAnimations} from '../../../animations';
 
 @Component({
     selector: 'cdk-lembrete-form',
     templateUrl: './cdk-lembrete-form.component.html',
-    styleUrls: ['./cdk-lembrete-form.component.scss']
+    styleUrls: ['./cdk-lembrete-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkLembreteFormComponent implements OnInit, OnChanges {
-
-
-    private routerState: RouterStateUrl;
 
     activeCard = 'form';
     form: FormGroup;

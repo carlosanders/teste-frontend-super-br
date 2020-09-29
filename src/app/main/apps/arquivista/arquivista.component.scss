@@ -63,7 +63,7 @@ arquivista {
                     }
                 }
 
-                > &.current-arquivista-selected {
+                > &.current-processo-selected {
                     .search-wrapper {
                         display: none !important;
                     }
@@ -82,10 +82,6 @@ arquivista {
                         height: 32px;
                         width: 1px;
                         margin: 0 12px;
-                    }
-
-                    .arquivista-list-control {
-                        margin-left: auto;
                     }
                 }
 

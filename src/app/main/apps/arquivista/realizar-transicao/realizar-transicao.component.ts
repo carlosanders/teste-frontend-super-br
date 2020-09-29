@@ -1,16 +1,20 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Pagination, Processo, Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 
 @Component({
     selector: 'realizar-transicao',
     templateUrl: './realizar-transicao.component.html',
-    styleUrls: ['./realizar-transicao.component.scss']
+    styleUrls: ['./realizar-transicao.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class RealizarTransicaoComponent implements OnInit {
 

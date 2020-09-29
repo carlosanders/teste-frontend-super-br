@@ -59,13 +59,13 @@ export class CriarDataPrevistaTransicaoEffects {
      * Save Lembrete Success
      */
     @Effect({dispatch: false})
-    saveLembreteSuccess: any =
+    saveDataPrevistaTransicaoSuccess: any =
         this._actions
             .pipe(
                 ofType<DataPrevistaTransicaoActions.SaveDataPrevistaTransicaoSuccess>(DataPrevistaTransicaoActions.SAVE_DATA_PREVISTA_TRANSICAO_SUCCESS),
                 tap(() => {
                     this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
-                    + '/aguardando-decurso/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
+                    + '/' + this.routerState.params.typeHandle]).then();
                 })
             );
 

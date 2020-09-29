@@ -16,6 +16,10 @@ arquivista-main-sidebar {
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
+
+            .logo-text {
+                font-size: 24px;
+            }
         }
     }
 

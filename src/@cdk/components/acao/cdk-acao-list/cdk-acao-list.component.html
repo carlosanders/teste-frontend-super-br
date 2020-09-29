@@ -22,7 +22,7 @@
 
 </div>
 
-<div *ngIf="acoes.length === 0 && !loading" class="no-items">
-    <span class="no-acoes-text hint-text">{{ 'Nenhuma ação foi criada ainda!' }}</span>
+<div class="no-acoes-text" *ngIf="acoes.length === 0 && !loading" class="no-items">
+    <span class="hint-text">{{ 'Nenhuma ação foi criada ainda!' }}</span>
 </div>
 

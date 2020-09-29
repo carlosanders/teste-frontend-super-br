@@ -89,6 +89,7 @@ $typography: mat-typography-config(
 @import "src/app/main/auth/esqueci-senha/esqueci-senha.theme";
 @import "src/app/main/apps/painel/painel.theme";
 @import "src/app/main/apps/tarefas/tarefas.theme";
+@import "src/app/main/apps/arquivista/arquivista.theme";
 @import "src/app/main/apps/processo/processo.theme";
 @import "src/app/main/apps/documento/documento.theme";
 @import "src/app/main/apps/pessoa/pessoa.theme";
@@ -113,6 +114,7 @@ $typography: mat-typography-config(
     @include activate-theme($theme);
     @include esqueci-senha-theme($theme);
     @include tarefas-theme($theme);
+    @include arquivista-theme($theme);
     @include painel-theme($theme);
     @include processo-theme($theme);
     @include documento-theme($theme);

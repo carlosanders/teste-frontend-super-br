@@ -1,12 +1,7 @@
-form {
-    width: 100%;
-}
+@import "../../../../scss/partials/cdk-form";
 
-.title {
-    margin-bottom: 5px !important;
-
-    h2 {
-        font-size: 16px;
-        font-weight: bold;
-    }
+cdk-realizar-transicao-form {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 }

@@ -34,6 +34,7 @@ form {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+        margin-bottom: 16px;
 
         > mat-radio-group {
             margin-bottom: 8px;

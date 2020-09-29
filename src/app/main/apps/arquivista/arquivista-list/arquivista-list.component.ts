@@ -27,7 +27,6 @@ import {cdkAnimations} from '@cdk/animations';
 
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
-import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/arquivista/arquivista-list/store';
 import {Usuario} from '@cdk/models/usuario.model';

@@ -74,7 +74,7 @@ export class TarefaEffect {
             .pipe(
                 ofType<TarefaActions.SaveTarefaSuccess>(TarefaActions.SAVE_TAREFA_SUCCESS),
                 tap(() => {
-                    this._router.navigate(['/apps/processo/' + this.routerState.params.processoHandle + '/editar/dados-basicos']).then();
+                    this._router.navigate(['/apps/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
                 })
             );
 }

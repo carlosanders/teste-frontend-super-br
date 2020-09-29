@@ -43,11 +43,12 @@
                     }
                 }
 
-                // Arquivista list
-                .arquivista-list {
-                    border-right-color: map-get($foreground, divider);
+                .content {
+                    // Arquivista list
+                    .arquivista-list {
+                        border-right-color: map-get($foreground, divider);
+                    }
                 }
-
             }
         }
     }
@@ -145,7 +146,7 @@
     }
 
     // Arquivista list item
-    cdk-arquivista-list-item {
+    cdk-processo-list-item {
         border-bottom-color: map-get($foreground, divider);
 
         .etiquetas {
@@ -164,9 +165,8 @@
         }
     }
 
-    // Todo edit
     arquivista-detail {
-        .arquivista-header {
+        > .header {
             background: map-get($background, background);
             border-bottom-color: map-get($foreground, divider);
 
