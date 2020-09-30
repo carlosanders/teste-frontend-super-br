@@ -20,8 +20,6 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
 
     activeCard = 'form';
 
-    inputProcesso = '';
-
     @Input()
     processoPagination: Pagination;
 
@@ -38,12 +36,12 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
      */
     constructor(
         private _cdkConfigService: CdkConfigService,
-        // private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder
     )
     {
-        // this.form = this._formBuilder.group({
-        //     processo: [null],
-        // });
+        this.form = this._formBuilder.group({
+            processo: [null],
+        });
 
         this.processoPagination = new Pagination();
         this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'setorAtual', 'setorAtual.unidade'];
@@ -119,7 +117,7 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
 
 
     checkProcesso(): void {
-        const value = this.inputProcesso;
+        const value = this.form.get('processo').value;
         if (!value || typeof value !== 'object') {
             this.form.get('processo').setValue(null);
         }
@@ -127,8 +125,7 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
 
     selectProcesso(processo: Processo): void {
         if (processo) {
-            this.inputProcesso = processo.NUP;
-            // this.form.get('processo').setValue(processo);
+            this.form.get('processo').setValue(processo);
         }
         this.activeCard = 'form';
     }

@@ -1,61 +1,32 @@
-<!--<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">-->
+<form name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <div class="cdk-search-bar" [ngClass]="{'expanded':!collapsed}">
+    <div class="cdk-search-bar" [ngClass]="{'expanded':!collapsed}" id="UM">
+        <div class="cdk-search-bar-content" id="DOIS">
 
-        <div class="cdk-search-bar-content">
+            <button mat-icon-button class="cdk-search-bar-expander" aria-label="Expand Search Bar"
+                    (click)="expand()"
+                    *ngIf="collapsed">
+                <mat-icon class="s-24 secondary-text">search</mat-icon>
+            </button>
 
-
-            <!--        <input id="cdk-search-bar-input" class="ml-24" type="text" placeholder="Digite o NUP" (input)="search($event)"-->
-            <!--               fxFlex>-->
-
-<!--            <mat-form-field>-->
-                <label for="cdk-search-bar-input">
-                    <button mat-icon-button class="cdk-search-bar-expander" aria-label="Expand Search Bar"
-                            (click)="expand()"
-                            *ngIf="collapsed">
-                        <mat-icon class="s-24 secondary-text">search</mat-icon>
-                    </button>
-                </label>
-
-
-                <input id="cdk-search-bar-input" *ngIf="!collapsed"
-                       matInput placeholder="Processo"
+            <span *ngIf="!collapsed" id="TRES" class="form-field-flex">
+                <input id="cdk-search-bar-input"
+                       matInput placeholder="Procurar por processo"
                        formControlName="processo"
-                       [matAutocomplete]="processo.autocomplete" required
-                       (blur)="checkProcesso()"
-                       [(ngModel)]="inputProcesso">
-                <cdk-processo-autocomplete
-                    #processo="processoAutocomplete"
-                    [control]="inputProcesso"
+                       [matAutocomplete]="processoSearch.autocomplete"
+                       (blur)="checkProcesso()">
+                <cdk-processo-search-autocomplete
+                    #processoSearch="processoSearchAutocomplete"
+                    [control]="form.get('processo')"
                     [pagination]="processoPagination">
-                </cdk-processo-autocomplete>
-<!--            </mat-form-field>-->
-            <!--            -->
-            <!--            <input id="cdk-search-bar-input"-->
-            <!--                   matInput placeholder="Processo"-->
-            <!--                   formControlName="processo"-->
-            <!--                   [matAutocomplete]="processo.autocomplete" required-->
-            <!--                   (blur)="checkProcesso()">-->
-            <!--            <cdk-processo-autocomplete-->
-            <!--                #processo="processoAutocomplete"-->
-            <!--                [control]="form.get('processo')"-->
-            <!--                [pagination]="processoPagination">-->
-            <!--            </cdk-processo-autocomplete>-->
-            <!--            <button *ngIf="form.get('processo').enabled" matSuffix mat-button mat-icon-button-->
-            <!--                    (click)="showProcessoGrid()">-->
-            <!--                <mat-icon matTooltip="Procurar">search</mat-icon>-->
-            <!--            </button>-->
-            <!--            <mat-error *ngIf="form.get('processo').hasError('formError')">-->
-            <!--                {{form.get('processo').errors.formError}}-->
-            <!--            </mat-error>-->
-            <!--        </mat-form-field>-->
-
+                </cdk-processo-search-autocomplete>
+            </span>
 
             <button mat-icon-button class="cdk-search-bar-collapser" (click)="collapse()"
                     aria-label="Collapse Search Bar">
                 <mat-icon class="s-24 secondary-text">close</mat-icon>
             </button>
-        </div>
 
+        </div>
     </div>
-<!--</form>-->
+</form>

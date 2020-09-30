@@ -80,6 +80,11 @@
         }
     }
 
+    .form-field-flex {
+        flex: 0 1 auto;
+    }
+
+
     body {
 
         &.cdk-search-bar-expanded {

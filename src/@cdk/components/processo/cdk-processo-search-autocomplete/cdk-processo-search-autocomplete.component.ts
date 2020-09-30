@@ -32,10 +32,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
-    @Input()
     processoSearchList: Processo[];
-
-    @Input()
     processoSearchListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
@@ -51,7 +48,6 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
@@ -59,14 +55,10 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             switchMap((value) => {
                     let termFilter = {};
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = [
-                            {
-                                nome: `like:%${bit}%`
-                            },
-                            {
-                                numeroDocumentoPrincipal: `like:%${bit}%`
-                            }
-                        ];
+                        termFilter = {
+                            ...termFilter,
+                            NUP: `like:%${bit}%`
+                        };
                     });
                     if (typeof value === 'string') {
                         this.processoSearchListIsLoading = true;
@@ -75,7 +67,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
                             ...this.pagination.filter,
                             ...termFilter
                         };
-                        return this._processoService.search(
+                        return this._processoService.query(
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,
@@ -85,6 +77,34 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
                                 finalize(() => this.processoSearchListIsLoading = false),
                                 catchError(() => of([]))
                             );
+
+                        // value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                        //     termFilter = [
+                        //         {
+                        //             nome: `like:%${bit}%`
+                        //         },
+                        //         {
+                        //             numeroDocumentoPrincipal: `like:%${bit}%`
+                        //         }
+                        //     ];
+                        // });
+                        // if (typeof value === 'string') {
+                        //     this.processoSearchListIsLoading = true;
+                        //     this._changeDetectorRef.markForCheck();
+                        //     const filterParam = {
+                        //         ...this.pagination.filter,
+                        //         ...termFilter
+                        //     };
+                        //     return this._processoService.search(
+                        //         JSON.stringify(filterParam),
+                        //         this.pagination.limit,
+                        //         this.pagination.offset,
+                        //         JSON.stringify(this.pagination.sort),
+                        //         JSON.stringify(this.pagination.populate))
+                        //         .pipe(
+                        //             finalize(() => this.processoSearchListIsLoading = false),
+                        //             catchError(() => of([]))
+                        //         );
                     } else {
                         return of([]);
                     }
@@ -96,11 +116,8 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
         });
     }
 
-    displayProcessoFn(processoSearch): string {
-        let retorno = processoSearch ? processoSearch.nome : '';
-        if (processoSearch && processoSearch.numeroDocumentoPrincipal) {
-            retorno += ' (' + processoSearch.numeroDocumentoPrincipal + ')';
-        }
+    displayProcessoFn(processoSearch: Processo): string {
+        let retorno = processoSearch ? processoSearch.NUP + ' HURRU!' : '';
         return retorno;
     }
 }
