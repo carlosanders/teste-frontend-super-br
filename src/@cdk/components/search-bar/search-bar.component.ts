@@ -1,8 +1,10 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { CdkConfigService } from '@cdk/services/config.service';
+import {Pagination, Processo} from '../../models';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector   : 'cdk-search-bar',
@@ -13,6 +15,15 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
 {
     collapsed: boolean;
     cdkConfig: any;
+
+    form: FormGroup;
+
+    activeCard = 'form';
+
+    inputProcesso = '';
+
+    @Input()
+    processoPagination: Pagination;
 
     @Output()
     inputText: EventEmitter<any>;
@@ -26,9 +37,17 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
      * @param {CdkConfigService} _cdkConfigService
      */
     constructor(
-        private _cdkConfigService: CdkConfigService
+        private _cdkConfigService: CdkConfigService,
+        // private _formBuilder: FormBuilder
     )
     {
+        // this.form = this._formBuilder.group({
+        //     processo: [null],
+        // });
+
+        this.processoPagination = new Pagination();
+        this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'setorAtual', 'setorAtual.unidade'];
+
         // Set the defaults
         this.inputText = new EventEmitter();
         this.collapsed = true;
@@ -98,4 +117,19 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
         }
     }
 
+
+    checkProcesso(): void {
+        const value = this.inputProcesso;
+        if (!value || typeof value !== 'object') {
+            this.form.get('processo').setValue(null);
+        }
+    }
+
+    selectProcesso(processo: Processo): void {
+        if (processo) {
+            this.inputProcesso = processo.NUP;
+            // this.form.get('processo').setValue(processo);
+        }
+        this.activeCard = 'form';
+    }
 }

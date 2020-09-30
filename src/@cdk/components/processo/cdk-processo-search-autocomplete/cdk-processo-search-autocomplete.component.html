@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayProcessoFn">
+    <mat-option *ngFor="let processo of processoSearchList"
+                [value]="processo">
+        <span [innerHTML]="displayProcessoFn(processo) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="processoSearchList">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>
