@@ -65,6 +65,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     savingVinculacaoEtiquetaId$: Observable<any>;
     vinculacaoEtiquetaErrors$: Observable<any>;
 
+    routeAtividade = 'atividade';
+
     /**
      *
      * @param _store
@@ -171,6 +173,12 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
+            }
+
+            if (module.routerLinks.hasOwnProperty(path) &&
+                module.routerLinks[path].hasOwnProperty('atividade') &&
+                module.routerLinks[path]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividade = module.routerLinks[path]['atividade'][this.routerState.params.generoHandle];
             }
         });
 
