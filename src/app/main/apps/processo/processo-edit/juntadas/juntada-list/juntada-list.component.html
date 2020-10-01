@@ -1,4 +1,4 @@
-<div fxLayout="row" class="m-12">
+<div class="header">
     <button mat-mini-fab
             class="m-8 active accent"
             (click)="upload()"
@@ -12,14 +12,15 @@
             matTooltip="Desentranhar">
         <mat-icon class="secondary-text">low_priority</mat-icon>
     </button>
+</div>
+
+<div class="content">
 
     <cdk-componente-digital-card-list #ckdUpload
                                       [processoOrigem]="processo"
                                       (completed)="onComplete()">
     </cdk-componente-digital-card-list>
-</div>
 
-<div class="content">
     <cdk-juntada-grid
         [loading]="(loading$ | async)"
         [juntadas]="(juntadas$ | async)"
