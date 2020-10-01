@@ -20,6 +20,7 @@ import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Etiqueta} from '@cdk/models';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'vinculacao-etiqueta-create',
@@ -158,5 +159,9 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
 
             this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta(vinculacaoEtiqueta));
         });
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }
