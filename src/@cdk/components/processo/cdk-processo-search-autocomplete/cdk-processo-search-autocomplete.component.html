@@ -1,9 +1,15 @@
 <mat-autocomplete [displayWith]="displayProcessoFn">
     <mat-option *ngFor="let processo of processoSearchList"
-                [value]="processo">
-        <span [innerHTML]="displayProcessoFn(processo) | highlightOption: this.control.value"></span>
+                [value]="processo" class="multiline-auto-complete-options">
+        <span [innerHTML]="displayProcessoFn(processo) | highlightOption: this.control.value" class="span-block"></span>
+        <span *ngIf="processo.titulo" [innerHTML]="'Título: ' + processo.titulo | highlightOption: this.control.value" class="span-block">{{processo.titulo}}</span>
+        <span *ngIf="processo.descricao" [innerHTML]="'Descrição: ' + processo.descricao | highlightOption: this.control.value" class="span-block">{{processo.titulo}}</span>
+        <span *ngIf="processo.outroNumero" [innerHTML]="'Outro Número:' + processo.outroNumero | highlightOption: this.control.value" class="span-block">{{processo.titulo}}</span><br>
+        <mat-divider></mat-divider>
     </mat-option>
-    <mat-option *ngIf="processoSearchList">
+    <mat-option *ngIf="processoSearchListIsLoading">
         <mat-spinner diameter="16"></mat-spinner>
     </mat-option>
 </mat-autocomplete>
+
+

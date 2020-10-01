@@ -19,6 +19,25 @@
             align-items: center;
             justify-content: flex-start;
 
+            .form-field-flex {
+                display: flex;
+                flex-direction: row;
+                flex: 1 1 auto;
+                justify-content: flex-start;
+                align-items: center;
+                border-radius: 28px;
+                background: white;
+                margin: 0px 16px;
+                padding-left: 8px;
+                height: 45px;
+                @include mat-elevation(1);
+
+                .input-field {
+                    font: 400 16px/1.125 Muli, Helvetica Neue, Arial, sans-serif;
+                    margin-left: 16px;
+                }
+            }
+
             .cdk-search-bar-expander,
             .cdk-search-bar-collapser {
                 cursor: pointer;
@@ -47,6 +66,11 @@
 
             .cdk-search-bar-collapser {
                 display: none;
+            }
+
+            .cdk-search-bar-expand {
+                display: flex;
+                align-items: center;
             }
 
             #cdk-search-bar-input {
@@ -79,11 +103,6 @@
             }
         }
     }
-
-    .form-field-flex {
-        flex: 0 1 auto;
-    }
-
 
     body {
 

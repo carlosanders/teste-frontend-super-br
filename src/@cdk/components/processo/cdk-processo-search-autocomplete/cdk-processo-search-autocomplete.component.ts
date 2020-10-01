@@ -117,7 +117,6 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
     }
 
     displayProcessoFn(processoSearch: Processo): string {
-        let retorno = processoSearch ? processoSearch.NUP + ' HURRU!' : '';
-        return retorno;
+        return processoSearch ? processoSearch.NUP : '';
     }
 }
