@@ -24,6 +24,12 @@ export class CdkDownloadFormComponent implements OnInit, OnChanges, OnDestroy {
     saving: boolean;
 
     @Input()
+    parcial = true;
+
+    @Input()
+    labelTitle = 'Processo';
+
+    @Input()
     valid = true;
 
     @Input()
