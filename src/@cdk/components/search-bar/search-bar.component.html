@@ -1,5 +1,4 @@
 <form name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
-
     <div class="cdk-search-bar" [ngClass]="{'expanded':!collapsed}">
         <div class="cdk-search-bar-content">
 
@@ -23,28 +22,11 @@
                 </cdk-processo-search-autocomplete>
             </div>
 
-            <!--            <span *ngIf="!collapsed" class="form-field-flex">-->
-            <!--                <input id="cdk-search-bar-input"-->
-            <!--                       matInput placeholder="Procurar por processo"-->
-            <!--                       formControlName="processo"-->
-            <!--                       [matAutocomplete]="processoSearch.autocomplete"-->
-            <!--                       (blur)="checkProcesso()">-->
-            <!--                <cdk-processo-autocomplete-->
-            <!--                    #processoSearch="processoAutocomplete"-->
-            <!--                    [control]="form.get('processo')"-->
-            <!--                    [pagination]="processoPagination">-->
-            <!--                </cdk-processo-autocomplete>-->
-            <!--            </span>-->
-
             <button mat-icon-button [ngClass]="collapsed? 'cdk-search-bar-collapser' : 'cdk-search-bar-expand'"
                     (click)="collapse()"
                     aria-label="Collapse Search Bar">
                 <mat-icon class="s-24 secondary-text">close</mat-icon>
             </button>
-            <!--            <button mat-icon-button class="cdk-search-bar-collapser" (click)="collapse()"-->
-            <!--                    aria-label="Collapse Search Bar">-->
-            <!--                <mat-icon class="s-24 secondary-text">close</mat-icon>-->
-            <!--            </button>-->
 
         </div>
     </div>

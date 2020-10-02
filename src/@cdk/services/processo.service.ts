@@ -2,11 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {PaginatedResponse, Pessoa, Processo, Tarefa} from '@cdk/models';
+import {PaginatedResponse, Processo, Visibilidade} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
-import {plainToClass, classToPlain} from 'class-transformer';
+import {classToPlain, plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
-import {Visibilidade} from '@cdk/models';
 import {ParentGenericService} from './parent-generic.service';
 
 @Injectable()
@@ -120,7 +119,7 @@ export class ProcessoService extends ParentGenericService<Processo> {
 
         return this.modelService.search('administrativo/processo', new HttpParams({fromObject: params}))
             .pipe(
-                map(response => new PaginatedResponse(plainToClass(Pessoa, response['entities']), response['total']))
+                map(response => new PaginatedResponse(plainToClass(Processo, response['entities']), response['total']))
             );
     }
 }
