@@ -197,6 +197,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
      */
     ngOnInit(): void {
 
+        this.evento = false;
+
         if (this.form.get('processo').value && this.form.get('processo').value.NUP) {
             this.form.get('especieTarefa').enable();
             if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {

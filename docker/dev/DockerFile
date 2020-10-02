@@ -17,9 +17,9 @@ RUN npm config set unsafe-perm true
 
 RUN npm install npm@latest -g
 
-RUN npm install -g @angular/cli@11.0.0-next.3
-
 RUN npm install
+
+RUN npm install -g @angular/cli@11.0.0-next.3
 
 EXPOSE 4200
 

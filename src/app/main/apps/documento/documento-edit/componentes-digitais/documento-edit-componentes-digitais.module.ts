@@ -14,7 +14,6 @@ import {DocumentoEditComponentesDigitaisComponent} from './documento-edit-compon
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
 import * as fromGuards from './store/guards';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 
 const routes: Routes = [
     {
@@ -53,7 +52,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoService,
-        ComponenteDigitalService,
         fromGuards.ResolveGuard
     ],
     exports: [

@@ -70,7 +70,7 @@ export class CalendarService implements Resolve<any>
                 100,
                 0,
                 '{}',
-                '["populateAll"]').subscribe((response: any) => {
+                '["populateAll", "especieTarefa.generoTarefa"]').subscribe((response: any) => {
                 this.events = response['entities'].map(tarefa => {
                     const data = {
                         start    : tarefa.dataHoraInicioPrazo.toDate(),
