@@ -157,16 +157,17 @@ export class ResolveGuard implements CanActivate {
             select(getVinculacoesProcessosLoaded),
             tap(loaded => {
                 const params = {
-                    filter: [
-                        [
+                    filter: {
+                        orX: [
                             {
                                 'processo.id': `eq:${this.routerState.params['processoHandle']}`
                             },
                             {
-                                'processoVinculado.id': `eq:${this.routerState.params['processoHandle']}`
+                                'processoVinculado.id':
+                                    `eq:${this.routerState.params['processoHandle']}`
                             }
                         ]
-                    ],
+                    },
                     sort: {},
                     limit: 10,
                     offset: 0,

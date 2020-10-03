@@ -59,7 +59,7 @@ export class ResolveGuard implements CanActivate {
             catchError(() => of(false))
         );
     }
- 
+
     /**
      * Get Processo
      *
@@ -73,7 +73,7 @@ export class ResolveGuard implements CanActivate {
             select(getProcessoLoaded),
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                    if (this.routerState.params['processoHandle'] === 'criar' ) {
+                    if (this.routerState.params['processoHandle'] === 'criar') {
                         this._store.dispatch(new fromStore.CreateProcesso());
                     } else {
                         this._store.dispatch(new fromStore.SetProcesso({
@@ -162,11 +162,9 @@ export class ResolveGuard implements CanActivate {
             select(getVinculacoesProcessosLoaded),
             tap(loaded => {
                 const params = {
-                    filter: [
-                        {
-                            'processo.id': `eq:${this.routerState.params['processoHandle']}`
-                        }
-                    ],
+                    filter: {
+                        'processo.id': `eq:${this.routerState.params['processoHandle']}`
+                    },
                     sort: {},
                     limit: 10,
                     offset: 0,
