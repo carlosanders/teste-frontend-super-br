@@ -9,7 +9,8 @@
             [compartilhamento]="compartilhamento"
             [valid]="(tarefas$ | async)?.length > 0"
             [saving]="(isSaving$ | async)"
-            (save)="submit($event)">
+            (save)="submit($event)"
+            (abort)="doAbort()">
     </cdk-compartilhamento-form>
 
     <mat-list *ngIf="operacoes.length > 0" fxFlex>
