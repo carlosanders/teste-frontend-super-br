@@ -103,6 +103,10 @@ const routes: Routes = [
             {
                 path: 'redistribuicao-edit-bloco',
                 loadChildren: () => import('./redistribuicao-edit-bloco/redistribuicao-edit-bloco.module').then(m => m.RedistribuicaoEditBlocoModule),
+            },
+            {
+                path: 'operacoes-bloco',
+                loadChildren: () => import('./operacoes-bloco/tarefas-operacoes-bloco.module').then(m => m.TarefasOperacoesBlocoModule),
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

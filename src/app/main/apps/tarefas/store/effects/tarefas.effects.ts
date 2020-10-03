@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, concatMap, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, concatMap, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
@@ -306,4 +306,35 @@ export class TarefasEffect {
                     );
                 })
             );
+
+    /**
+     * Change Selected Tarefas
+     */
+    @Effect({ dispatch: false })
+    changeSelectedTarefas: any =
+        this._actions
+            .pipe(
+                ofType<TarefasActions.ChangeSelectedTarefas>(TarefasActions.CHANGE_SELECTED_TAREFAS),
+                tap((action) => {
+                    if (action.payload.length > 0) {
+                        this._router.navigate([
+                            'apps',
+                            'tarefas',
+                            this.routerState.params.generoHandle,
+                            this.routerState.params.typeHandle,
+                            this.routerState.params.targetHandle,
+                            'operacoes-bloco'
+                        ]).then();
+                    } else if (this.routerState.url.indexOf('operacoes-bloco') > 0) {
+                        this._router.navigate([
+                            'apps',
+                            'tarefas',
+                            this.routerState.params.generoHandle,
+                            this.routerState.params.typeHandle,
+                            this.routerState.params.targetHandle
+                        ]).then();
+                    }
+                })
+            );
+
 }
