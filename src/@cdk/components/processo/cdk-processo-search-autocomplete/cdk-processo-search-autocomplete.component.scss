@@ -1,0 +1,15 @@
+cdk-processo-search-autocomplete {
+    flex: 1 1 auto;
+    display: flex;
+}
+
+.span-block {
+    display: block;
+}
+
+.multiline-auto-complete-options {
+    min-height: 48px !important;
+    height: auto !important;
+    line-height: normal !important;
+    padding: 10px 10px 10px 10px !important;
+}

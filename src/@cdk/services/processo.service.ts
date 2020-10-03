@@ -2,11 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Processo, Tarefa} from '@cdk/models';
+import {PaginatedResponse, Processo, Visibilidade} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
-import {plainToClass, classToPlain} from 'class-transformer';
+import {classToPlain, plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
-import {Visibilidade} from '@cdk/models';
 import {ParentGenericService} from './parent-generic.service';
 
 @Injectable()
@@ -107,5 +106,20 @@ export class ProcessoService extends ParentGenericService<Processo> {
     imprimirEtiqueta(id: number | string, params: HttpParams = new HttpParams(), context: any = '{}'): Observable<any> {
         params['context'] = context;
         return this.http.get(`${environment.api_url}administrativo/processo/imprime_etiqueta/${id}` + environment.xdebug, {params});
+    }
+
+    search(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
+        const params = {};
+        params['where'] = filters;
+        params['limit'] = limit;
+        params['offset'] = offset;
+        params['order'] = order;
+        params['populate'] = populate;
+        params['context'] = context;
+
+        return this.modelService.search('administrativo/processo', new HttpParams({fromObject: params}))
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(Processo, response['entities']), response['total']))
+            );
     }
 }
