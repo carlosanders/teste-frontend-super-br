@@ -230,7 +230,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         }));
     }
 
-    addEtiqueta(etiqueta: Etiqueta) {
+    addEtiqueta(etiqueta: Etiqueta): void {
         this._store.dispatch(new SaveEtiqueta({etiqueta: etiqueta, tarefa: this.tarefa}));
         this.etiqueta = null;
         this.showEtiqueta = false;
