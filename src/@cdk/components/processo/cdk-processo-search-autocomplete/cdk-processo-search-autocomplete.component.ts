@@ -49,28 +49,53 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
 
     ngOnInit(): void {
         this.control.valueChanges.pipe(
-            tap( () => this.processoSearchList = []),
+            tap(() => this.processoSearchList = []),
             debounceTime(300),
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilter = {};
+                    let termFilterNUP = {};
+                    let termFilterInteressadoNome = {};
+                    let termFilterInteressadoNumeroDocumentoPrincipal = {};
+                    let termFilterTitulo = {};
+                    let termFilterDescricao = {};
+                    let termFilterOutroNumero = {};
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = [
-                            {
-                                NUP: `like:%${bit}%`
-                            },
-                            {
-                                titulo: `like:%${bit}%`
-                            },
-                            {
-                                descricao: `like:%${bit}%`
-                            },
-                            {
-                                outroNumero: `like:%${bit}%`
-                            }
-                        ];
+                        termFilterNUP = {
+                            ...termFilterNUP,
+                            NUP: `like:%${bit}%`
+                        };
+                        termFilterInteressadoNome = {
+                            ...termFilterInteressadoNome,
+                            'interessados.pessoa.nome': `like:%${bit}%`
+                        };
+                        termFilterInteressadoNumeroDocumentoPrincipal = {
+                            ...termFilterInteressadoNumeroDocumentoPrincipal,
+                            'interessados.pessoa.numeroDocumentoPrincipal': `like:%${bit}%`
+                        };
+                        termFilterTitulo = {
+                            ...termFilterTitulo,
+                            titulo: `like:%${bit}%`
+                        };
+                        termFilterDescricao = {
+                            ...termFilterDescricao,
+                            descricao: `like:%${bit}%`
+                        };
+                        termFilterOutroNumero = {
+                            ...termFilterOutroNumero,
+                            outroNumero: `like:%${bit}%`
+                        };
                     });
+                    const termFilter = {
+                        orX: [
+                            termFilterNUP,
+                            termFilterInteressadoNome,
+                            termFilterInteressadoNumeroDocumentoPrincipal,
+                            termFilterTitulo,
+                            termFilterDescricao,
+                            termFilterOutroNumero
+                        ]
+                    };
                     if (typeof value === 'string') {
                         this.processoSearchListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
@@ -100,6 +125,6 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
     }
 
     displayProcessoFn(processoSearch: Processo): string {
-        return processoSearch ? processoSearch.NUP : '';
+        return processoSearch ? processoSearch.NUPFormatado : '';
     }
 }

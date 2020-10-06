@@ -316,7 +316,7 @@ export class TarefasEffect {
             .pipe(
                 ofType<TarefasActions.ChangeSelectedTarefas>(TarefasActions.CHANGE_SELECTED_TAREFAS),
                 tap((action) => {
-                    if (action.payload.length > 0) {
+                    if (action.payload.length > 1) {
                         this._router.navigate([
                             'apps',
                             'tarefas',

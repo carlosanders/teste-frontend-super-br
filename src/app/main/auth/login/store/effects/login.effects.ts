@@ -15,8 +15,7 @@ export class LoginEffects {
         private loginService: LoginService,
         private router: Router,
         private route: ActivatedRoute
-    ) {
-    }
+    ) {}
 
     @Effect()
     Login: Observable<LoginActions.LoginActionsAll> =
@@ -127,8 +126,8 @@ export class LoginEffects {
                 switchMap(() => {
                         return this.loginService.getProfile()
                             .pipe(
-                                map((data) => {
-                                    return new LoginActions.LoginProfileSuccess({profile: data.entities[0]});
+                                map((response) => {
+                                    return new LoginActions.LoginProfileSuccess({profile: response});
                                 }),
                                 catchError((error) => {
                                     return of(new LoginActions.LoginProfileFailure({error: error}));
