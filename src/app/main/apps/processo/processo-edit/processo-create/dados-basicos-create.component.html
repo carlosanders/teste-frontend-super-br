@@ -75,27 +75,29 @@
     </mat-step>
     <mat-step optional>
         <ng-template matStepLabel>Documentos</ng-template>
-        <div fxLayout="row" class="mt-8">
-            <button mat-mini-fab
-                    class="m-4 active accent"
-                    (click)="upload()">
-                <mat-icon class="secondary-text">attach_file</mat-icon>
-            </button>
+        <div fxFlex fxLayout="column">
+            <div fxLayout="row" class="mt-8">
+                <button mat-mini-fab
+                        class="m-4 active accent"
+                        (click)="upload()">
+                    <mat-icon class="secondary-text">attach_file</mat-icon>
+                </button>
 
-            <cdk-componente-digital-card-list #ckdUpload
-                                              [processoOrigem]="processo"
-                                              (completed)="onCompleteJuntada()">
-            </cdk-componente-digital-card-list>
+                <cdk-componente-digital-card-list #ckdUpload
+                                                  [processoOrigem]="processo"
+                                                  (completed)="onCompleteJuntada()">
+                </cdk-componente-digital-card-list>
+            </div>
+
+            <cdk-juntada-grid
+                [loading]="(juntadasLoading$ | async)"
+                [juntadas]="(juntadas$ | async)"
+                [total]="(juntadasPagination$ | async)?.total"
+                [actions]="['showDeleted']"
+                (reload)="reloadJuntadas($event)"
+                (excluded)="excludedJuntadas($event)">
+            </cdk-juntada-grid>
         </div>
-
-        <cdk-juntada-grid
-            [loading]="(juntadasLoading$ | async)"
-            [juntadas]="(juntadas$ | async)"
-            [total]="(juntadasPagination$ | async)?.total"
-            [actions]="['showDeleted']"
-            (reload)="reloadJuntadas($event)"
-            (excluded)="excludedJuntadas($event)">
-        </cdk-juntada-grid>
     </mat-step>
     <mat-step optional>
         <ng-template matStepLabel>Vinculações</ng-template>
