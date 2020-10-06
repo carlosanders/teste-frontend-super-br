@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -7,11 +7,15 @@ import * as fromStore from './store';
 import {Lembrete, Processo} from '../../../../../@cdk/models';
 import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
     selector: '<span class="mr-4 ml-4">/</span>arquivista-lembrete-bloco',
     templateUrl: './arquivista-lembrete-bloco.component.html',
-    styleUrls: ['./arquivista-lembrete-bloco.component.scss']
+    styleUrls: ['./arquivista-lembrete-bloco.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class ArquivistaLembreteBlocoComponent implements OnInit {
 

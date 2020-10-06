@@ -1,5 +1,8 @@
 <!-- SIDEBAR HEADER -->
-<div fxLayout="column" fxLayoutAlign="space-between start">
+<div class="side-header">
+    <div class="logo">
+        <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Eventos</span>
+    </div>
 </div>
 <!-- / SIDEBAR HEADER -->
 
@@ -53,9 +56,10 @@
 <!-- / SIDEBAR CONTENT -->
 
 <!-- SIDEBAR FOOT -->
-<div fxLayout="column" fxLayoutAlign="end stretch" >
+<div class="footer">
     <mat-divider></mat-divider>
-    <mat-toolbar>
+    <div class="actions">
+        <mat-toolbar>
         <button mat-icon-button class="secondary-text" routerLink="/apps/tarefas/administrativo/minhas-tarefas/entrada" routerLinkActive="mat-accent" matTooltip="Tarefas">
             <mat-icon>check_box</mat-icon>
         </button>

@@ -10,7 +10,9 @@ cdk-tarefa-form {
         margin-bottom: 16px;
     }
 
-    .canto {
-        margin-left: auto;
+    .dias-uteis {
+        display: flex;
+        flex: 0 1 auto;
+        justify-content: space-between;
     }
 }

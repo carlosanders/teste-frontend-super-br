@@ -80,6 +80,7 @@ $typography: mat-typography-config(
 // Import app and page component themes here to enable theming for them
 @import "src/app/layout/components/chat-panel/chat-panel.theme";
 @import "src/app/layout/components/toolbar/toolbar.theme";
+@import "src/app/layout/components/navbar/navbar.theme";
 @import "main/apps/calendario/calendar.theme";
 
 @import "src/app/main/auth/login/login.theme";
@@ -88,6 +89,7 @@ $typography: mat-typography-config(
 @import "src/app/main/auth/esqueci-senha/esqueci-senha.theme";
 @import "src/app/main/apps/painel/painel.theme";
 @import "src/app/main/apps/tarefas/tarefas.theme";
+@import "src/app/main/apps/arquivista/arquivista.theme";
 @import "src/app/main/apps/processo/processo.theme";
 @import "src/app/main/apps/documento/documento.theme";
 @import "src/app/main/apps/pessoa/pessoa.theme";
@@ -107,12 +109,12 @@ $typography: mat-typography-config(
     // Layout components
     @include chat-panel-theme($theme);
     @include toolbar-theme($theme);
-
     @include login-theme($theme);
     @include register-theme($theme);
     @include activate-theme($theme);
     @include esqueci-senha-theme($theme);
     @include tarefas-theme($theme);
+    @include arquivista-theme($theme);
     @include painel-theme($theme);
     @include processo-theme($theme);
     @include documento-theme($theme);
@@ -134,7 +136,7 @@ $typography: mat-typography-config(
 
 // Define the primary, accent and warn palettes
 $default-primary-palette: mat-palette($cdk-navy);
-$default-accent-palette: mat-palette($mat-light-blue, 600, 400, 700);
+$default-accent-palette: mat-palette($mat-indigo, 600, 400, 700);
 $default-warn-palette: mat-palette($mat-red);
 
 // Create the Material theme object
@@ -158,41 +160,6 @@ body.theme-default {
         primary: $default-primary-palette,
         accent: $default-accent-palette,
         warn: $default-warn-palette
-    );
-
-    @include cdk-color-classes($palettes);
-}
-
-// -----------------------------------------------------------------------------------------------------
-// @ Define a yellow light theme
-// -----------------------------------------------------------------------------------------------------
-
-// Define the primary, accent and warn palettes
-$yellow-light-theme-primary-palette: mat-palette($cdk-navy, 600, 400, 700);
-$yellow-light-theme-accent-palette: mat-palette($mat-yellow, 600, 400, 700);
-$yellow-light-theme-warn-palette: mat-palette($mat-red);
-
-// Create the Material theme object
-$yellow-light-theme: mat-light-theme($yellow-light-theme-primary-palette, $yellow-light-theme-accent-palette, $yellow-light-theme-warn-palette);
-
-// Add ".theme-yellow-light" class to the body to activate this theme.
-// Class name must start with "theme-" !!!
-body.theme-yellow-light {
-
-    // Generate the Angular Material theme
-    @include angular-material-theme($yellow-light-theme);
-
-    // Apply the theme to the Cdk Core
-    @include cdk-core-theme($yellow-light-theme);
-
-    // Apply the theme to the user components
-    @include components-theme($yellow-light-theme);
-
-    // Generate Cdk color classes for primary, accent and warn colors
-    $palettes: (
-        primary: $yellow-light-theme-primary-palette,
-        accent: $yellow-light-theme-accent-palette,
-        warn: $yellow-light-theme-warn-palette
     );
 
     @include cdk-color-classes($palettes);
@@ -228,41 +195,6 @@ body.theme-blue-gray-dark {
         primary: $blue-gray-dark-theme-primary-palette,
         accent: $blue-gray-dark-theme-accent-palette,
         warn: $blue-gray-dark-theme-warn-palette
-    );
-
-    @include cdk-color-classes($palettes);
-}
-
-// -----------------------------------------------------------------------------------------------------
-// @ Define a pink dark theme
-// -----------------------------------------------------------------------------------------------------
-
-// Define the primary, accent and warn palettes
-$pink-dark-theme-primary-palette: mat-palette($mat-pink);
-$pink-dark-theme-accent-palette: mat-palette($mat-pink);
-$pink-dark-theme-warn-palette: mat-palette($mat-red);
-
-// Create the Material theme object
-$pink-dark-theme: mat-dark-theme($pink-dark-theme-primary-palette, $pink-dark-theme-accent-palette, $pink-dark-theme-warn-palette);
-
-// Add ".theme-pink-dark" class to the body to activate this theme.
-// Class name must start with "theme-" !!!
-body.theme-pink-dark {
-
-    // Generate the Angular Material theme
-    @include angular-material-theme($pink-dark-theme);
-
-    // Apply the theme to the Cdk Core
-    @include cdk-core-theme($pink-dark-theme);
-
-    // Apply the theme to the user components
-    @include components-theme($pink-dark-theme);
-
-    // Generate Cdk color classes for primary, accent and warn colors
-    $palettes: (
-        primary: $pink-dark-theme-primary-palette,
-        accent: $pink-dark-theme-accent-palette,
-        warn: $pink-dark-theme-warn-palette
     );
 
     @include cdk-color-classes($palettes);

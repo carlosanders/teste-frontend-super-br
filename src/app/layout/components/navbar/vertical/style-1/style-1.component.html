@@ -1,4 +1,4 @@
-<div class="navbar-top" [ngClass]="cdkConfig.layout.navbar.secondaryBackground">
+<div class="navbar-top">
 
     <div class="logo">
         <img class="logo-icon" src="assets/images/logos/supp.png">
@@ -22,14 +22,14 @@
 </div>
 
 
-<div class="navbar-scroll-container" [ngClass]="cdkConfig.layout.navbar.primaryBackground"
+<div class="navbar-scroll-container"
      cdkPerfectScrollbar [cdkPerfectScrollbarOptions]="{suppressScrollX: true}">
 
-    <div class="user" fxLayout="column" [ngClass]="cdkConfig.layout.navbar.secondaryBackground">
+    <div class="user" fxLayout="column">
 
         <div class="h3 username">{{userProfile?.nome.split(' ')[0]}}</div>
         <div class="h5 email hint-text mt-8">{{userProfile?.email}}</div>
-        <div class="avatar-container" [ngClass]="cdkConfig.layout.navbar.primaryBackground">
+        <div class="avatar-container">
             <img class="avatar" src="assets/images/avatars/User.png">
         </div>
 

@@ -95,11 +95,11 @@ tarefas {
                     display: flex;
                     flex-direction: row;
 
-                    > .tarefa-list {
+                    .tarefa-list {
                         display: flex;
                         flex-direction: column;
 
-                        > .loading {
+                        .loading {
                             flex: 1 1 auto;
                             display: flex;
                             flex-direction: row;
@@ -107,15 +107,23 @@ tarefas {
                             align-items: center;
                         }
 
+                        &.maximizado {
+                            display: none !important;
+                        }
+
                         &.mobile-mode {
 
                             &.current-tarefa {
                                 display: none !important;
                             }
+
+                            &.no-current-tarefa {
+                                max-width: 100% !important;
+                            }
                         }
                     }
 
-                    > .tarefa-detail {
+                    .tarefa-detail {
 
                         display: flex;
 
@@ -123,6 +131,10 @@ tarefas {
 
                             &.no-current-tarefa {
                                 display: none !important;
+                            }
+
+                            &.current-tarefa {
+                                max-width: 100% !important;
                             }
                         }
                     }

@@ -17,8 +17,9 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getSelectedTarefas} from '../store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {filter, map, skip, takeUntil} from 'rxjs/operators';
+import {filter, skip, takeUntil} from 'rxjs/operators';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'redistribuicao-edit-bloco',
@@ -179,5 +180,9 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
 
             this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa}));
         });
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }

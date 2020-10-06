@@ -2,7 +2,7 @@
 
     <div class="header">
 
-        <span class="title">Theme Options</span>
+        <span class="title">Opções de Interface</span>
 
         <button mat-icon-button class="close-button" (click)="toggleSidebarOpen('themeOptionsPanel')">
             <mat-icon>close</mat-icon>
@@ -15,13 +15,11 @@
         <!-- COLOR THEME -->
         <div class="group">
 
-            <h2>Color themes</h2>
+            <h2>Cores</h2>
 
             <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="colorTheme">
-                <mat-radio-button class="mb-12" value="theme-default">Default Light</mat-radio-button>
-                <mat-radio-button class="mb-12" value="theme-yellow-light">Yellow Light</mat-radio-button>
-                <mat-radio-button class="mb-12" value="theme-blue-gray-dark">Blue-Gray Dark</mat-radio-button>
-                <mat-radio-button class="mb-12" value="theme-pink-dark">Pink Dark</mat-radio-button>
+                <mat-radio-button class="mb-12" value="theme-default">Modo Claro</mat-radio-button>
+                <mat-radio-button class="mb-12" value="theme-blue-gray-dark">Modo Escuro</mat-radio-button>
             </mat-radio-group>
 
         </div>
@@ -29,24 +27,24 @@
         <!-- LAYOUT STYLES -->
         <div class="group" formGroupName="layout">
 
-            <h2>Layout Styles</h2>
+            <h2>Estilo Layout</h2>
 
             <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="style">
 
                 <mat-radio-button class="mb-12" value="vertical-layout-1">
-                    Vertical Layout #1
+                    Vertical #1
                 </mat-radio-button>
 
                 <mat-radio-button class="mb-12" value="vertical-layout-2">
-                    Vertical Layout #2
+                    Vertical #2
                 </mat-radio-button>
 
                 <mat-radio-button class="mb-12" value="vertical-layout-3">
-                    Vertical Layout #3
+                    Vertical #3
                 </mat-radio-button>
 
                 <mat-radio-button class="mb-12" value="horizontal-layout-1">
-                    Horizontal Layout #1
+                    Horizontal #1
                 </mat-radio-button>
 
             </mat-radio-group>
@@ -60,10 +58,10 @@
                     <!-- LAYOUT WIDTH -->
                     <div class="group mt-32">
 
-                        <h2>Layout Width</h2>
+                        <h2>Largura Layout</h2>
                         <mat-radio-group fxLayout="column" fxLayoutAlign="start start" formControlName="width">
-                            <mat-radio-button class="mb-12" value="fullwidth">Fullwidth</mat-radio-button>
-                            <mat-radio-button class="mb-12" value="boxed">Boxed</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="fullwidth">Tela Cheia</mat-radio-button>
+                            <mat-radio-button class="mb-12" value="boxed">Caixa</mat-radio-button>
                         </mat-radio-group>
 
                     </div>

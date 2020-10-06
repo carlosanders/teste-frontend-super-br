@@ -5,7 +5,7 @@ arquivista-list {
     display: flex;
     flex-direction: row;
 
-    > .arquivista-list {
+    > .processo-list {
         display: flex;
         flex-direction: column;
 
@@ -17,21 +17,25 @@ arquivista-list {
             align-items: center;
         }
 
+        &.maximizado {
+            display: none !important;
+        }
+
         &.mobile-mode {
 
-            &.current-arquivista {
+            &.current-processo {
                 display: none !important;
             }
         }
     }
 
-    > .arquivista-detail {
+    > .processo-detail {
 
         display: flex;
 
         &.mobile-mode {
 
-            &.no-current-arquivista {
+            &.no-current-processo {
                 display: none !important;
             }
         }

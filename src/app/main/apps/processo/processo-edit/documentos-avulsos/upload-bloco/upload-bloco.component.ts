@@ -42,7 +42,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
-    @ViewChild('ckdUpload', {static: false})
+    @ViewChild('cdkUpload', {static: false})
     cdkUpload;
 
     /**

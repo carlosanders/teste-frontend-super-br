@@ -36,6 +36,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     notificacoes: Notificacao[] = [];
     notificacoesCount: string;
     carregandoNotificacao = true;
+    cdkConfig: any;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -57,7 +58,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         public _loginService: LoginService,
         private _notificacaoService: NotificacaoService,
         private _store: Store<fromStore.State>,
-        private _router: Router
+        private _router: Router,
     ) {
         // Set the defaults
         this.userStatusOptions = [
@@ -121,6 +122,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this._cdkConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((settings) => {
+                // Subscribe to config changes
+                this.cdkConfig = settings;
                 this.horizontalNavbar = settings.layout.navbar.position === 'top';
                 this.rightNavbar = settings.layout.navbar.position === 'right';
                 this.hiddenNavbar = settings.layout.navbar.hidden === true;
@@ -183,8 +186,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      *
      * @param value
      */
-    search(value): void {
-        this._router.navigate(['apps/pesquisa/processos/' + value.replace(/\D/g, '')]);
+    search(emissao): void {
+        const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
+        this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
     }
 
     goConfiguracoes(): void {

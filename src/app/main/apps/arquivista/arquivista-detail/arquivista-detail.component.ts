@@ -1,9 +1,9 @@
 import {
-    AfterViewInit,
+    AfterViewInit, ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     OnDestroy,
-    OnInit
+    OnInit, ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '../../../../../@cdk/models';
@@ -21,11 +21,15 @@ import {
 } from './store';
 import {getRouterState, getScreenState} from '../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
+import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
     selector: 'arquivista-detail',
     templateUrl: './arquivista-detail.component.html',
-    styleUrls: ['./arquivista-detail.component.scss']
+    styleUrls: ['./arquivista-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -70,10 +74,24 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = {
-            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-            'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
-        };
+        this.vinculacaoEtiquetaPagination.filter = [
+            {
+                'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+            },
+            {
+                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+            },
+            {
+                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+            },
+            {
+                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+            }
+        ];
 
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStoreProcesso.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -125,7 +143,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         vinculacaoEtiqueta.id = values.id;
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
-            changes: {conteudo: values.conteudo}
+            changes: {conteudo: values.conteudo, privada: values.privada}
         }));
     }
 

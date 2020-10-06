@@ -14,7 +14,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
-import {Assunto, Processo, Tarefa} from '@cdk/models';
+import {Assunto, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -65,12 +65,6 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     paginationVinculacoesProcessos: any;
     loadingVinculacoesProcessos$: Observable<boolean>;
 
-    tarefas$: Observable<Tarefa[]>;
-    tarefas: Tarefa[] = [];
-    paginationTarefas$: Observable<any>;
-    paginationTarefas: any;
-    loadingTarefas$: Observable<boolean>;
-
     chaveAcesso: string;
 
     /**
@@ -91,17 +85,14 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntos));
         this.interessados$ = this._store.pipe(select(fromStore.getInteressados));
         this.vinculacoesProcessos$ = this._store.pipe(select(fromStore.getVinculacoesProcessos));
-        this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
 
         this.loadingAssuntos$ = this._store.pipe(select(fromStore.getIsAssuntosLoading));
         this.loadingInteressados$ = this._store.pipe(select(fromStore.getIsInteressadosLoading));
         this.loadingVinculacoesProcessos$ = this._store.pipe(select(fromStore.getIsVinculacoesProcessosLoading));
-        this.loadingTarefas$ = this._store.pipe(select(fromStore.getIsTarefasLoading));
 
         this.paginationAssuntos$ = this._store.pipe(select(fromStore.getPaginationAssuntos));
         this.paginationInteressados$ = this._store.pipe(select(fromStore.getPaginationInteressados));
         this.paginationVinculacoesProcessos$ = this._store.pipe(select(fromStore.getPaginationVinculacoesProcessos));
-        this.paginationTarefas$ = this._store.pipe(select(fromStore.getPaginationTarefas));
     }
 
     ngOnInit(): void {
@@ -147,13 +138,6 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             this.vinculacoesProcessos = vinculacoesProcessos;
         });
 
-        this.tarefas$.pipe(
-            takeUntil(this._unsubscribeAll),
-            filter(tarefas => !!tarefas)
-        ).subscribe( tarefas => {
-            this.tarefas = tarefas;
-        });
-
         this.paginationAssuntos$.subscribe(pagination => {
             this.paginationAssuntos = pagination;
         });
@@ -164,10 +148,6 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
         this.paginationVinculacoesProcessos$.subscribe(pagination => {
             this.paginationVinculacoesProcessos = pagination;
-        });
-
-        this.paginationTarefas$.subscribe(pagination => {
-            this.paginationTarefas = pagination;
         });
     }
 
@@ -231,23 +211,6 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             limit: params.limit,
             offset: params.offset,
             populate: this.paginationVinculacoesProcessos.populate
-        }));
-    }
-
-    reloadTarefas(params): void {
-        this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
-
-        this._store.dispatch(new fromStore.GetTarefas({
-            processoId: this.processo.id,
-            ...this.paginationTarefas,
-            filter: {
-                ...this.paginationTarefas.filter,
-                ...params.gridFilter
-            },
-            sort: params.sort,
-            limit: params.limit,
-            offset: params.offset,
-            populate: this.paginationTarefas.populate
         }));
     }
 

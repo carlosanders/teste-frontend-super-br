@@ -1,4 +1,4 @@
-<div [@animateStagger]="{value:'50'}" fxLayout="column">
+<div [@animateStagger]="{value:'50'}">
 
     <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
             (click)="doCreate()"
@@ -7,21 +7,22 @@
         <mat-icon>add</mat-icon>
     </button>
 
-    <div fxLayout="column" fxFlex
-         fxLayoutAlign="center center">
-        <mat-spinner class="acao-list-loading" *ngIf="loading" diameter="24"></mat-spinner>
+    <div class="loading" *ngIf="loading">
+        <mat-spinner class="visibilidade-list-loading" diameter="32"></mat-spinner>
     </div>
 
-    <cdk-acao-list-item matRipple *ngFor="let acao of acoes" [acao]="acao"
-                                [deleting]="deletingIds.length > 0 && deletingIds.indexOf(acao.id) > -1"
-                                [total]="acoes.length"
-                                (delete)="doDeleteacao($event)"
-                                [@animate]="{value:'*',params:{y:'100%'}}">
-    </cdk-acao-list-item>
+    <div class="items" cdkPerfectScrollbar *ngIf="!loading">
+        <cdk-acao-list-item matRipple *ngFor="let acao of acoes" [acao]="acao"
+                                    [deleting]="deletingIds.length > 0 && deletingIds.indexOf(acao.id) > -1"
+                                    [total]="acoes.length"
+                                    (delete)="doDeleteacao($event)"
+                                    [@animate]="{value:'*',params:{y:'100%'}}">
+        </cdk-acao-list-item>
+    </div>
 
 </div>
 
-<div *ngIf="acoes.length === 0 && !loading" fxLayout="column" fxLayoutAlign="center center" fxFlexFill>
-    <span class="no-acoes-text hint-text">{{ 'Nenhuma ação foi criada ainda!' }}</span>
+<div class="no-acoes-text" *ngIf="acoes.length === 0 && !loading" class="no-items">
+    <span class="hint-text">{{ 'Nenhuma ação foi criada ainda!' }}</span>
 </div>
 

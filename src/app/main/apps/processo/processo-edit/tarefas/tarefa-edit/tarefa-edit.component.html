@@ -1,4 +1,5 @@
-<cdk-tarefa-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-tarefa-form
         [tarefa]="tarefa"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -6,4 +7,5 @@
         [logEntryPagination]="logEntryPagination"
         (save)="submit($event)"
         (abort)="doAbort()">
-</cdk-tarefa-form>
+    </cdk-tarefa-form>
+</div>

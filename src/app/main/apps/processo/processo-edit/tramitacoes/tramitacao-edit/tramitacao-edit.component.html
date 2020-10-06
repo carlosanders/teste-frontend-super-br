@@ -1,4 +1,5 @@
-<cdk-tramitacao-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-tramitacao-form
         [tramitacao]="tramitacao"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -7,4 +8,5 @@
         [setorOrigemPagination]="setorOrigemPagination"
         [setorOrigemPaginationTree]="setorOrigemPaginationTree"
         [setorDestinoPagination]="setorDestinoPagination">
-</cdk-tramitacao-form>
+    </cdk-tramitacao-form>
+</div>

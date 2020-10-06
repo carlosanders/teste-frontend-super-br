@@ -14,6 +14,18 @@ export const COPIA_DOCUMENTO_JUNTADA = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA';
 export const COPIA_DOCUMENTO_JUNTADA_SUCCESS = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA SUCCESS';
 export const COPIA_DOCUMENTO_JUNTADA_FAILED = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA FAILED';
 
+export const ASSINA_DOCUMENTO_JUNTADA = '[JUNTADA LIST] ASSINA DOCUMENTO';
+export const ASSINA_DOCUMENTO_JUNTADA_SUCCESS = '[JUNTADA LIST] ASSINA DOCUMENTO SUCCESS';
+export const ASSINA_DOCUMENTO_JUNTADA_FAILED = '[JUNTADA LIST] ASSINA DOCUMENTO FAILED';
+
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[JUNTADA LIST] ASSINA DOCUMENTO ELETRONICAMENTE';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[JUNTADA LIST] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[JUNTADA LIST] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
+
+export const REMOVE_ASSINATURA_DOCUMENTO = '[JUNTADA LIST] REMOVE ASSINATURA DOCUMENTO';
+export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[JUNTADA LIST] REMOVE ASSINATURA DOCUMENTO SUCCESS';
+export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[JUNTADA LIST] REMOVE ASSINATURA DOCUMENTO FAILED';
+
 /**
  * Get Juntadas
  */
@@ -135,6 +147,116 @@ export class CopiarDocumentoJuntadaFailed implements Action
     }
 }
 
+
+/**
+ * Assina Documento
+ */
+export class AssinaDocumento implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_JUNTADA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Success
+ */
+export class AssinaDocumentoSuccess implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_JUNTADA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Failed
+ */
+export class AssinaDocumentoFailed implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_JUNTADA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente
+ */
+export class AssinaDocumentoEletronicamente implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Success
+ */
+export class AssinaDocumentoEletronicamenteSuccess implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Failed
+ */
+export class AssinaDocumentoEletronicamenteFailed implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
+/**
+ * Remove Assinatura Documento
+ */
+export class RemoveAssinaturaDocumento implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Success
+ */
+export class RemoveAssinaturaDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Failed
+ */
+export class RemoveAssinaturaDocumentoFailed implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type JuntadaListActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -145,5 +267,14 @@ export type JuntadaListActionsAll
     | CopiarDocumentoJuntadaFailed
     | DesentranharJuntada
     | DesentranharJuntadaSuccess
-    | DesentranharJuntadaFailed;
+    | DesentranharJuntadaFailed
+    | AssinaDocumento
+    | AssinaDocumentoSuccess
+    | AssinaDocumentoFailed
+    | AssinaDocumentoEletronicamente
+    | AssinaDocumentoEletronicamenteSuccess
+    | AssinaDocumentoEletronicamenteFailed
+    | RemoveAssinaturaDocumento
+    | RemoveAssinaturaDocumentoSuccess
+    | RemoveAssinaturaDocumentoFailed;
 

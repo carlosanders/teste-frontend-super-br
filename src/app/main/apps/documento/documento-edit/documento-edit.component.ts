@@ -65,6 +65,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
     savingVinculacaoEtiquetaId$: Observable<any>;
     vinculacaoEtiquetaErrors$: Observable<any>;
 
+    routeAtividade = 'atividade';
+
     /**
      *
      * @param _store
@@ -107,10 +109,24 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
 
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = {
-            'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-            'modalidadeEtiqueta.valor': 'eq:DOCUMENTO'
-        };
+        this.vinculacaoEtiquetaPagination.filter = [
+            {
+                'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                'modalidadeEtiqueta.valor': 'eq:DOCUMENTO'
+            },
+            {
+                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:DOCUMENTO'
+            },
+            {
+                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:DOCUMENTO'
+            },
+            {
+                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:DOCUMENTO'
+            }
+        ];
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.vinculacaoEtiquetaErrors$ = this._store.pipe(select(fromStore.getVinculacaoEtiquetaErrors));
     }
@@ -158,6 +174,12 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
             }
+
+            if (module.routerLinks.hasOwnProperty(path) &&
+                module.routerLinks[path].hasOwnProperty('atividade') &&
+                module.routerLinks[path]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividade = module.routerLinks[path]['atividade'][this.routerState.params.generoHandle];
+            }
         });
 
         const path1 = 'app/main/apps/documento/documento-edit#form';
@@ -201,7 +223,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         vinculacaoEtiqueta.id = values.id;
         this._store.dispatch(new fromStore.SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
-            changes: {conteudo: values.conteudo}
+            changes: {conteudo: values.conteudo, privada: values.privada}
         }));
     }
 

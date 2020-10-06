@@ -1,14 +1,26 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, SimpleChange} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    Input, OnChanges,
+    OnInit,
+    Output, SimpleChange,
+    ViewEncapsulation
+} from '@angular/core';
 import {Pagination, Processo} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {cdkAnimations} from '../../../animations';
 
 @Component({
     selector: 'cdk-data-prevista-transicao',
     templateUrl: './cdk-data-prevista-transicao.component.html',
-    styleUrls: ['./cdk-data-prevista-transicao.component.scss']
+    styleUrls: ['./cdk-data-prevista-transicao.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
-export class CdkDataPrevistaTransicaoComponent implements OnInit {
-
+export class CdkDataPrevistaTransicaoComponent implements OnInit, OnChanges {
 
     @Input()
     processoId: number;
@@ -32,7 +44,6 @@ export class CdkDataPrevistaTransicaoComponent implements OnInit {
     @Input()
     processoPagination: Pagination;
 
-
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
@@ -51,6 +62,35 @@ export class CdkDataPrevistaTransicaoComponent implements OnInit {
 
     ngOnInit(): void {
         this.setProcesso();
+    }
+
+    /**
+     * On change
+     */
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+
+        if (this.errors && this.errors.status && this.errors.status === 422) {
+            try {
+                const data = JSON.parse(this.errors.error.message);
+                const fields = Object.keys(data || {});
+                fields.forEach((field) => {
+                    const control = this.form.get(field);
+                    control.setErrors({formError: data[field].join(' - ')});
+                });
+            } catch (e) {
+                this.form.setErrors({rulesError: this.errors.error.message});
+            }
+        }
+
+        if (!this.errors) {
+            Object.keys(this.form.controls).forEach(key => {
+                this.form.get(key).setErrors(null);
+            });
+
+            this.form.setErrors(null);
+        }
+
+        this._changeDetectorRef.markForCheck();
     }
 
     setProcesso(): void {
@@ -73,5 +113,7 @@ export class CdkDataPrevistaTransicaoComponent implements OnInit {
         this.activeCard = 'form';
     }
 
-
+    doAbort(): void {
+        this.abort.emit();
+    }
 }

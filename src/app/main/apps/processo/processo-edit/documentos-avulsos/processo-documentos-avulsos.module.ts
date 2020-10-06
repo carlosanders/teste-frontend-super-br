@@ -36,7 +36,11 @@ const routes: Routes = [
             },
             {
                 path       : 'responder',
-                loadChildren: () => import('./upload-bloco/documento-avulso-upload-bloco.module').then(m => m.DocumentoAvulsoUploadBlocoModule),
+                loadChildren: () => import('./responder/responder.module').then(m => m.ResponderModule),
+            },
+            {
+                path       : 'documento',
+                loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule),
             },
             {
                 path: '**',

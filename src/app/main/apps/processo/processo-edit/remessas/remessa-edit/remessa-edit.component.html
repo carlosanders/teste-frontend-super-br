@@ -1,4 +1,5 @@
-<cdk-remessa-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-remessa-form
         [tramitacao]="tramitacao"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -9,6 +10,6 @@
         (abort)="doAbort()"
         [setorOrigemPagination]="setorOrigemPagination"
         [setorOrigemPaginationTree]="setorOrigemPaginationTree">
-</cdk-remessa-form>
-
+    </cdk-remessa-form>
+</div>
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

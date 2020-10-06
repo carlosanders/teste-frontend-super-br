@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {VinculacaoEtiqueta} from '@cdk/models';
+import {Pagination, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -20,6 +20,7 @@ import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Etiqueta} from '@cdk/models';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'vinculacao-etiqueta-create',
@@ -39,6 +40,8 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
     vinculacaoEtiqueta: VinculacaoEtiqueta;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+
+    vinculacaoEtiquetaPagination: Pagination;
 
     operacoes: any[] = [];
 
@@ -65,7 +68,25 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();
-
+        this.vinculacaoEtiquetaPagination = new Pagination();
+        this.vinculacaoEtiquetaPagination.filter = [
+            {
+                'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            },
+            {
+                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            },
+            {
+                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            },
+            {
+                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                'modalidadeEtiqueta.valor': 'eq:TAREFA'
+            }
+        ];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -138,5 +159,9 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
 
             this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta(vinculacaoEtiqueta));
         });
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }

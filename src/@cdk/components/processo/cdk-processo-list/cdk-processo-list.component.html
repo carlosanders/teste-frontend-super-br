@@ -8,7 +8,7 @@
 
     <div class="header">
 
-        <mat-checkbox (click)="toggleSelectAll($event)"
+        <mat-checkbox (click)="toggleSelectAll($event)" class="ml-8"
                       [checked]="!!selectedIds.length"
                       [indeterminate]="isIndeterminate">
         </mat-checkbox>
@@ -111,8 +111,8 @@
             <mat-spinner class="loading" diameter="24"></mat-spinner>
         </div>
 
-        <div *ngIf="processos?.length === 0 && !loading">
-            <span class="no-processos-text hint-text">{{ 'PROCESSO.NO_MESSAGES' | translate }}</span>
+        <div class="no-processos-text" *ngIf="processos?.length === 0 && !loading">
+            <span class="hint-text">{{ 'PROCESSO.NO_MESSAGES' | translate }}</span>
         </div>
 
         <cdk-processo-list-item matRipple *ngFor="let processo of processos" [processo]="processo"

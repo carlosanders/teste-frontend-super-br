@@ -138,6 +138,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     processo = new EventEmitter<Processo>();
 
+    generoProcessos: any[] = [];
+
     /**
      * Constructor
      */
@@ -194,6 +196,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+
+        this.evento = false;
 
         if (this.form.get('processo').value && this.form.get('processo').value.NUP) {
             this.form.get('especieTarefa').enable();
@@ -328,7 +332,36 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
                     if (this.form.get('blocoProcessos').value && typeof value === 'object' && value) {
-                        this.processos.push(value);
+                        // bloco de processo so pode ser realizado por processos do mesmo genero
+                        if (this.processos.length > 0) {
+
+                            this.form.controls['processo'].setErrors(null);
+
+                            // caso seja o mesmo genero dos processos existentes
+                            if (this.generoProcessos.find(genero =>
+                                (genero === value.especieProcesso.generoProcesso.nome)
+                            )) {
+                                this.processos.push(value);
+                            }
+
+                            // caso nao seja o mesmo genero mas ainda é um genero que nao existe no array
+                            if (this.generoProcessos.find(genero =>
+                                (genero !== value.especieProcesso.generoProcesso.nome && this.generoProcessos.length === 0)
+                            )) {
+                                this.processos.push(value);
+                                this.generoProcessos.push(value.especieProcesso.generoProcesso.nome);
+                            }
+
+                            // caso nao seja o mesmo genero e já existe generos iguais
+                            if (this.generoProcessos.find(genero => genero !==
+                                value.especieProcesso.generoProcesso.nome && this.generoProcessos.length > 0)) {
+                                this.form.controls['processo'].setErrors({formError: 'Bloco de processos devem ser do mesmo gênero.'});
+                            }
+                        } else {
+                            this.processos.push(value);
+                            this.generoProcessos.push(value.especieProcesso.generoProcesso.nome);
+                        }
+
                         this._changeDetectorRef.markForCheck();
                     }
 
@@ -341,6 +374,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             this.especieTarefaPagination.filter = {
                                 'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
                                     this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
+                            };
+                        }
+                        if (this.form.get('blocoProcessos').value && this.processos.length > 0) {
+                            this.especieTarefaPagination.filter = {
+                                'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
+                                    this.generoProcessos[0].toUpperCase()
                             };
                         }
                     } else {
@@ -448,6 +487,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         if (!this.evento) {
                             this.form.get('localEvento').reset();
                         }
+
                         this._changeDetectorRef.markForCheck();
                     }
                     return of([]);
@@ -696,6 +736,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                 this.save.emit(this.form.value);
             }
+
+            this.generoProcessos = ['ADMINISTRATIVO'];
         }
     }
 

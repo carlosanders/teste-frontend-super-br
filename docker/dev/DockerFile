@@ -1,5 +1,5 @@
 # pulled from ubuntu
-FROM node:12.18.2-alpine
+FROM node:12.18.2-alpine as base
 
 RUN apk add tzdata
 
@@ -9,17 +9,13 @@ MAINTAINER Leonardo Nobre <leonardo.nobre@agu.gov.br>
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
 
-WORKDIR /app
-
-COPY package.json /app/package.json
-
 RUN npm config set unsafe-perm true
 
 RUN npm install npm@latest -g
 
-RUN npm install -g @angular/cli@11.0.0-next.3
+FROM base as dev
 
-RUN npm install
+WORKDIR /app
 
 EXPOSE 4200
 

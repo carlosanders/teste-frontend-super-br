@@ -198,14 +198,13 @@
 
         <mat-card-subtitle>Prazo</mat-card-subtitle>
 
-        <div [hidden]="evento">
+        <div class="dias-uteis" [hidden]="evento">
             <mat-form-field class="dias-input">
                 <input matInput type="number" class="prazoDias" min="1" max="180"
                        formControlName="prazoDias" placeholder="Em dia(s)">
             </mat-form-field>
 
-            <mat-slide-toggle formControlName="diasUteis"
-                              class="canto">
+            <mat-slide-toggle formControlName="diasUteis">
                 Dias Úteis
             </mat-slide-toggle>
         </div>

@@ -1,5 +1,5 @@
 pessoa {
-    .full-screen {
+    > .full-screen {
         position: fixed;
         top: 0;
         left: 0;
@@ -11,13 +11,13 @@ pessoa {
         align-items: center;
         background: rgba(0, 0, 0, 0.5) !important;
 
-        .modal {
+        > .modal {
             height: 95%;
             width: 98%;
             flex: 0 1 auto;
             display: flex;
             flex-direction: column;
-            border: 1px solid rgba(0, 0, 0, 0.12);
+            background: white;
 
             > .header {
                 flex: 0 1 auto;
@@ -25,6 +25,7 @@ pessoa {
                 align-items: center;
                 display: flex;
                 flex-direction: row;
+                padding: 8px;
             }
 
             > .content {

@@ -26,31 +26,28 @@ relatorio-view {
         flex: 1 1 auto;
         display: flex;
 
-        > .processo-view-relatorio {
+        flex-direction: column;
+
+        > .loading, .sem-relatorios {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
 
-            > .loading, .sem-relatorios {
+        > .relatorio-view-relatorio-content {
+            flex: 1 1 auto;
+            display: flex;
+            @include mat-elevation(1);
+
+            > iframe {
                 flex: 1 1 auto;
                 display: flex;
-                flex-direction: column;
-                justify-content: center;
-                align-items: center;
-            }
-
-            > .relatorio-view-relatorio-content {
-                flex: 1 1 auto;
-                display: flex;
-                @include mat-elevation(1);
-
-                > iframe {
-                    flex: 1 1 auto;
-                    display: flex;
-                    border: none;
-                }
+                border: none;
             }
         }
+
     }
 }
 

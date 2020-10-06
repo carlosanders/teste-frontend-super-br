@@ -80,9 +80,9 @@
             <mat-spinner class="documento-avulso-list-loading" diameter="24"></mat-spinner>
         </div>
 
-        <div *ngIf="documentosAvulso.length === 0 && !loading" fxLayout="column" fxFlex="1 1 auto"
+        <div class="no-documento-avulso-text" *ngIf="documentosAvulso.length === 0 && !loading" fxLayout="column" fxFlex="1 1 auto"
              fxLayoutAlign="center center">
-            <span class="no-documento-avulso-text hint-text">{{ 'OFICIO.NO_MESSAGES' | translate }}</span>
+            <span class="hint-text">{{ 'OFICIO.NO_MESSAGES' | translate }}</span>
         </div>
 
         <div *ngIf="documentosAvulso.length > 0"

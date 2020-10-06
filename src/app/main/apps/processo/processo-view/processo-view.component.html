@@ -41,8 +41,6 @@
         <!-- CONTENT -->
         <div class="content">
 
-            <router-outlet></router-outlet>
-
             <div *ngIf="!capa" class="processo-view-juntada">
 
                 <div class="loading" *ngIf="loading">
@@ -59,6 +57,8 @@
                     </iframe>
                 </div>
             </div>
+
+            <router-outlet></router-outlet>
         </div>
         <!-- / CONTENT -->
     </div>

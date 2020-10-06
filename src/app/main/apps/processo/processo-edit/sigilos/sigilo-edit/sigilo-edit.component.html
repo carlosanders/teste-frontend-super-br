@@ -1,8 +1,10 @@
-<cdk-sigilo-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-sigilo-form
         [sigilo]="sigilo"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"
         [logEntryPagination]="logEntryPagination"
         (abort)="doAbort()">
-</cdk-sigilo-form>
+    </cdk-sigilo-form>
+</div>

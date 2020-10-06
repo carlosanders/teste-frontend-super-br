@@ -14,7 +14,7 @@
     </div>
 </div>
 
-<div *ngIf="visibilidades && visibilidades.length === 0 && !loading" class="no-items">
-    <span class="no-visibilidades-text hint-text">{{ 'ACESSO LIBERADO' }}</span>
+<div class="no-visibilidades-text" *ngIf="visibilidades && visibilidades.length === 0 && !loading" class="no-items">
+    <span class="hint-text">{{ 'ACESSO LIBERADO' }}</span>
 </div>
 

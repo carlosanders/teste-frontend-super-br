@@ -9,7 +9,10 @@ cdk-pessoa-filter {
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        padding: 16px;
+        padding: 24px;
+        height: 64px;
+        min-height: 64px;
+        max-height: 64px;
     }
 
     > .content {

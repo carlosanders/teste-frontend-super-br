@@ -5,6 +5,7 @@ import {CriarDataPrevistaStoreModule} from './store/store.module';
 import {LoginService} from '../../../auth/login/login.service';
 import {ProcessoService} from '../../../../../@cdk/services/processo.service';
 import {CdkDataPrevistaTransicaoModule} from '../../../../../@cdk/components/transicao/data-prevista-transicao/cdk-data-prevista-transicao.module';
+import {CdkSharedModule} from "../../../../../@cdk/shared.module";
 
 
 @NgModule({
@@ -12,7 +13,8 @@ import {CdkDataPrevistaTransicaoModule} from '../../../../../@cdk/components/tra
     imports: [
         CommonModule,
         CriarDataPrevistaStoreModule,
-        CdkDataPrevistaTransicaoModule
+        CdkDataPrevistaTransicaoModule,
+        CdkSharedModule
     ],
     providers: [
         ProcessoService,

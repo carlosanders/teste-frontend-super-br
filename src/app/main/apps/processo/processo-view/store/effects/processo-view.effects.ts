@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError, map, mergeMap, withLatestFrom, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
@@ -135,18 +135,23 @@ export class ProcessoViewEffect {
                                 relativeTo: this._activatedRoute.parent
                             }
                         ).then();
-                    } else {
-                        this._router.navigate([this.routerState.url.replace('/capa', '')]).then();
                     }
-                    if (typeof index[currentStep.step] === 'undefined' || typeof index[currentStep.step][currentStep.subStep] === 'undefined') {
-                        // return throwError(new Error('não há documentos'));
-                        this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
-                    }
-                    const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
-                        {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
-                    const context = JSON.stringify(chaveAcesso);
 
-                    return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
+                    if (index[currentStep.step] === undefined) {
+                        // não tem documentos, vamos para capa
+                        this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
+                        return of(null);
+                    } else if (index[currentStep.step][currentStep.subStep] === undefined) {
+                        // temos documento sem componente digital
+                        return of(null);
+                    } else {
+                        // temos componente digital, vamos pega-lo
+                        const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
+                            {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
+                        const context = JSON.stringify(chaveAcesso);
+
+                        return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
+                    }
                 }),
                 map((response: any) => {
                     return new ProcessoViewActions.SetCurrentStepSuccess(response);
@@ -190,7 +195,6 @@ export class ProcessoViewEffect {
                 map(() => {
                     if (this.routerState.url.indexOf('/documento/') !== -1) {
                         // Navegação do processo deve ocorrer por outlet
-                        console.log(this._activatedRoute.snapshot);
                         this._router.navigate(
                             [
                                 this.routerState.url.split('/documento/')[0] + '/documento/' +

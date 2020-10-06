@@ -1,4 +1,5 @@
 arquivista-detail {
+
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
@@ -7,6 +8,7 @@ arquivista-detail {
         flex: 0 1 auto;
         display: flex;
         border-bottom: 1px solid;
+        max-height: 56px;
 
         > .actions {
             flex: 1 1 auto;

@@ -1,9 +1,5 @@
 <div class="page-layout carded left-sidebar inner-scroll">
 
-    <!-- TOP BACKGROUND -->
-    <div class="top-bg accent"></div>
-    <!-- / TOP BACKGROUND -->
-
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="processo-main-sidebar" position="left"
                  [lockedOpen]="routerState.url.indexOf('apps/processo') > -1 ? 'gt-md' : 'gt-xl'">
@@ -41,7 +37,7 @@
                 </button>
 
                 <div class="search">
-                    <mat-icon class="secondary-text">label</mat-icon>
+                    <mat-icon class="secondary-text mr-8">label</mat-icon>
                     <cdk-vinculacao-etiqueta-chips
                         [placeholder]="'Coloque etiquetas para o processo'"
                         [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"

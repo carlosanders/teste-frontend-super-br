@@ -16,8 +16,8 @@ export const cdkConfig: CdkConfig = {
         style    : 'vertical-layout-1',
         width    : 'fullwidth',
         navbar   : {
-            primaryBackground  : 'cdk-navy-700',
-            secondaryBackground: 'cdk-navy-900',
+            primaryBackground  : 'cdk-white-500',
+            secondaryBackground: 'cdk-white-500',
             folded             : true,
             hidden             : false,
             position           : 'left',
@@ -31,7 +31,7 @@ export const cdkConfig: CdkConfig = {
         },
         footer   : {
             customBackgroundColor: true,
-            background           : 'cdk-navy-900',
+            background           : 'cdk-white-500',
             hidden               : true,
             position             : 'below-fixed'
         },

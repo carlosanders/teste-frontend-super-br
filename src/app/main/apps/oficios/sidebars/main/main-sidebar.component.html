@@ -1,10 +1,7 @@
 <!-- SIDEBAR HEADER -->
 <div fxLayout="column" fxLayoutAlign="space-between start"
-     class="header accent p-24 pb-4">
+     class="header p-24 pb-4">
     <div class="logo" fxFlex fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon class="logo-icon s-24" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-            check_box
-        </mat-icon>
         <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Ofícios</span>
     </div>
 </div>
@@ -15,22 +12,24 @@
 
     <div class="nav material2">
         <div *ngFor="let pessoaConveniada of pessoasConveniadas">
-            <div class="nav-subheader">{{ pessoaConveniada.pessoa.nome }}</div>
+            <div *ngIf="pessoaConveniada.pessoa.pessoaValidada">
+                <div class="nav-subheader">{{ pessoaConveniada.pessoa.nome }}</div>
 
-            <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
-                <a class="nav-link" matRipple [routerLink]="'/apps/oficios/entrada/' + pessoaConveniada.pessoa.id"
-                   [routerLinkActive]="['active', 'accent']">
-                    <mat-icon class="nav-link-icon">inbox</mat-icon>
-                    <span>Entrada</span>
-                </a>
-            </div>
+                <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
+                    <a class="nav-link" matRipple [routerLink]="'/apps/oficios/entrada/' + pessoaConveniada.pessoa.id"
+                       [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="nav-link-icon">inbox</mat-icon>
+                        <span>Entrada</span>
+                    </a>
+                </div>
 
-            <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
-                <a class="nav-link" matRipple [routerLink]="'/apps/oficios/saida/' + pessoaConveniada.pessoa.id"
-                   [routerLinkActive]="['active', 'accent']">
-                    <mat-icon class="nav-link-icon">sendbox</mat-icon>
-                    <span>Saída</span>
-                </a>
+                <div class="nav-item" dndDropzone (dndDrop)="onDrop([$event, null])">
+                    <a class="nav-link" matRipple [routerLink]="'/apps/oficios/saida/' + pessoaConveniada.pessoa.id"
+                       [routerLinkActive]="['active', 'accent']">
+                        <mat-icon class="nav-link-icon">sendbox</mat-icon>
+                        <span>Saída</span>
+                    </a>
+                </div>
             </div>
         </div>
 

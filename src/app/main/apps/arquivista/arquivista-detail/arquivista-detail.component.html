@@ -41,7 +41,7 @@
         <mat-icon class="black-fg">swap_horiz</mat-icon>
     </button>
 
-    <button *ngIf="!(processo$ | async)?.dataHoraProximaTransicao && isPendenciaAnalise()" mat-icon-button
+    <button mat-icon-button
             aria-label="Realizar Transição" matTooltip="Data Prevista Transição"
             [routerLink]="[(processo$ | async)?.id, 'criar-data-prevista-transicao']"
             [routerLinkActive]="['active', 'accent']">

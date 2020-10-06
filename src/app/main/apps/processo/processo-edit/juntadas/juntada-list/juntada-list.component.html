@@ -1,4 +1,4 @@
-<div fxLayout="row" class="m-12">
+<div class="header">
     <button mat-mini-fab
             class="m-8 active accent"
             (click)="upload()"
@@ -12,22 +12,28 @@
             matTooltip="Desentranhar">
         <mat-icon class="secondary-text">low_priority</mat-icon>
     </button>
+</div>
+
+<div class="content">
 
     <cdk-componente-digital-card-list #ckdUpload
                                       [processoOrigem]="processo"
                                       (completed)="onComplete()">
     </cdk-componente-digital-card-list>
+
+    <cdk-juntada-grid
+        [loading]="(loading$ | async)"
+        [juntadas]="(juntadas$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [actions]="['copiar','edit', 'assinar', 'showDeleted']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (copiar)="copiar($event)"
+        (edit)="editar($event)"
+        (assinar)="assinar($event)"
+        [assinandoId]="(assinandoDocumentosId$ | async)"
+        (removeAssinatura)="removeAssinatura($event)"
+        [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)">
+    </cdk-juntada-grid>
 </div>
-
-<cdk-juntada-grid
-    [loading]="(loading$ | async)"
-    [juntadas]="(juntadas$ | async)"
-    [total]="(pagination$ | async)?.total"
-    [actions]="['copiar','edit', 'showDeleted']"
-    (reload)="reload($event)"
-    (excluded)="excluded($event)"
-    (copiar)="copiar($event)"
-    (edit)="editar($event)">
-</cdk-juntada-grid>
-
 <router-outlet></router-outlet>

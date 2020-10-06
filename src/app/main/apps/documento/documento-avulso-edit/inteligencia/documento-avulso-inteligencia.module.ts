@@ -9,7 +9,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';
 import {DocumentoAvulsoEditInteligenciaStoreModule} from './store/store.module';
@@ -52,7 +51,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         DocumentoService,
-        ComponenteDigitalService,
         RepositorioService,
         fromGuards.ResolveGuard
     ],

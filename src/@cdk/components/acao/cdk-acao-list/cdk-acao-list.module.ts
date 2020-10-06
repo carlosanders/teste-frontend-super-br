@@ -7,6 +7,7 @@ import {
     MatProgressSpinnerModule,
     MatSortModule, MatMenuModule, MatAutocompleteModule, MatRippleModule,
 } from '@cdk/angular/material';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkAcaoListComponent} from './cdk-acao-list.component';
@@ -26,6 +27,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
         MatIconModule,
         MatCheckboxModule,
         MatInputModule,
+        MatTooltipModule,
         MatProgressSpinnerModule,
         MatSortModule,
         MatMenuModule,

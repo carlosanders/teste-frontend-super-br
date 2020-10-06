@@ -1,0 +1,15 @@
+@mixin navbar-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+    $accent: map-get($theme, accent);
+    $warn: map-get($theme, warn);
+    $is-dark: map-get($theme, is-dark);
+
+    navbar {
+
+        .navbar-top, .navbar-scroll-container, .user, .avatar-container  {
+            background: map-get($background, card);
+        }
+    }
+}

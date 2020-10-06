@@ -1,9 +1,4 @@
-<form *ngIf="activeCard === 'form'" name="form" [formGroup]="form">
-
-    <div class="title">
-        <h2>REALIZAR TRANSIÇÃO ARQUIVISTA</h2>
-    </div>
-
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
         <input matInput placeholder="Modalidade de Transição"
@@ -53,15 +48,15 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-        <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid">
-            REALIZAR TRANSIÇÃO
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
         </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
 
-    <div *ngIf="saving">
-        <mat-spinner color="accent" diameter="24"></mat-spinner>
-    </div>
 </form>
 
 <cdk-modalidade-transicao-gridsearch

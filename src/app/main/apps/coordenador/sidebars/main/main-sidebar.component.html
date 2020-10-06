@@ -1,9 +1,6 @@
 <!-- SIDEBAR HEADER -->
-<div class="header accent">
+<div class="header">
     <div class="logo">
-        <mat-icon class="logo-icon s-32" [@animate]="{value:'*',params:{delay:'50ms',scale:'0.2'}}">
-            settings
-        </mat-icon>
         <span class="logo-text ml-8 s-24" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Coordenador</span>
     </div>
 </div>
@@ -14,7 +11,7 @@
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_ORGAO_CENTRAL'">
         <div *ngIf="this.orgaos?.length">
             <div class="nav-subheader pl-8 mt-0">
-                <mat-icon>language</mat-icon>
+                <mat-icon class="mr-8">language</mat-icon>
                 <span>ÓRGÃO CENTRAL</span>
             </div>
             <div *ngFor="let orgao of orgaos">
@@ -34,7 +31,7 @@
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_UNIDADE'">
         <div *ngIf="this.unidades?.length">
             <div class="nav-subheader pl-8 mt-0">
-                <mat-icon>language</mat-icon>
+                <mat-icon class="mr-8">language</mat-icon>
                 <span>UNIDADE</span>
             </div>
             <div *ngFor="let setor of unidades">
@@ -63,7 +60,7 @@
     <div class="nav material2" *showIfRole="'ROLE_COORDENADOR_SETOR'">
         <div *ngIf="this.setores?.length">
             <div class="nav-subheader pl-8 mt-0">
-                <mat-icon>language</mat-icon>
+                <mat-icon class="mr-8">language</mat-icon>
                 <span>SETOR</span>
             </div>
             <div *ngFor="let setor of setores">

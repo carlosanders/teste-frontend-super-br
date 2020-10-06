@@ -1,4 +1,5 @@
-<cdk-volume-form
+<div class="content" cdkPerfectScrollbar>
+    <cdk-volume-form
         [volume]="volume"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
@@ -6,4 +7,5 @@
         (save)="submit($event)"
         [logEntryPagination]="logEntryPagination"
         (abort)="doAbort()">
-</cdk-volume-form>
+    </cdk-volume-form>
+</div>

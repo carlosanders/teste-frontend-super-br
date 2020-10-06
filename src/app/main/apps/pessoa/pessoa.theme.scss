@@ -5,14 +5,13 @@
     $accent: map-get($theme, accent);
     $is-dark: map-get($theme, is-dark);
 
-    // Processo
     pessoa {
         .header {
             background: map-get($background, background);
             border-bottom-color: map-get($foreground, divider);
         }
-        .full-screen {
-            background: map-get($background, card);
+        .modal {
+            background: map-get($foreground, foreground);
         }
     }
 

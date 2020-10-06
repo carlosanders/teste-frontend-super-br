@@ -65,8 +65,7 @@ modulesConfig.forEach((module) => {
 
     ],
     providers: [
-        fromGuards.ResolveGuard,
-        ComponenteDigitalService
+        fromGuards.ResolveGuard
     ],
     exports: [
         ComponenteDigitalComponent
