@@ -63,6 +63,7 @@
     "ngx-drag-drop": "2.0.0",
     "ngx-infinite-scroll": "9.1.0",
     "ngx-upper-case-directive": "1.0.3",
+    "ngx-currency": "2.5.1",
     "node": "12.18.2",
     "sass": "1.26.11",
     "perfect-scrollbar": "1.5.0",
