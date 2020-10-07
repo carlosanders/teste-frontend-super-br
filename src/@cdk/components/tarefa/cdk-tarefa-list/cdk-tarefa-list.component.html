@@ -184,8 +184,11 @@
             <span class="hint-text">{{ 'TAREFA.NO_MESSAGES' | translate }}</span>
         </div>
 
-        <div *ngIf="tarefas?.length > 0 && deleteTotal === false">
+        <div (click)="loadPage()" fxFlex="0 1 auto" fxLayoutAlign="center center" class="nova-tarefa p-8 warn" *ngIf="novaTarefa">
+            <span class="mat-body">Nova tarefa recebida... regarregue a lista!</span>
+        </div>
 
+        <div *ngIf="tarefas?.length > 0 && deleteTotal === false">
             <div *ngFor="let tarefa of tarefas">
                 <cdk-tarefa-list-item
                     *ngIf="(deletingIds.indexOf(tarefa.id) === -1) || (errorDelete.indexOf(tarefa.id) > -1)"

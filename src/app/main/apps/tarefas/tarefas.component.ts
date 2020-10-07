@@ -21,7 +21,7 @@ import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 
-import {getRouterState, getScreenState} from 'app/store/reducers';
+import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 
@@ -105,6 +105,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routeAtividade = 'atividades/criar';
     routeAtividadeBloco = 'atividade-bloco';
+    novaTarefa = false;
 
     /**
      * @param _changeDetectorRef
@@ -185,6 +186,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     ngOnInit(): void {
 
+        this.novaTarefa = false;
+
         this._store
             .pipe(
                 select(getRouterState),
@@ -192,6 +195,18 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+            }
+        });
+
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(message => {
+            if (message && message.type === 'nova_tarefa') {
+                if (message.content.genero === this.routerState.params.generoHandle) {
+                    this.novaTarefa = true;
+                }
             }
         });
 

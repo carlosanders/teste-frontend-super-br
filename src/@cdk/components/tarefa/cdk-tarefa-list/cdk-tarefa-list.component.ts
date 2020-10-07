@@ -163,6 +163,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    @Input()
+    novaTarefa = false;
+
     /**
      * Constructor
      */
@@ -181,6 +184,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
      * On init
      */
     ngOnInit(): void {
+        this.novaTarefa = false;
     }
 
     ngAfterViewInit(): void {
@@ -215,6 +219,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     loadPage(): void {
+        this.novaTarefa = false;
         this.deleteTotal = false;
         this.reload.emit({
             listFilter: this.listFilter.filters,
