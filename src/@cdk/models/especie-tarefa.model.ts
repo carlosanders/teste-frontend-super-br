@@ -24,6 +24,8 @@ export class EspecieTarefa {
 
     corHexadecimalSecundaria?: string;
 
+    valida?: boolean;
+
     // @Exclude({ toPlainOnly: true })
     @Type(() => GeneroTarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -67,6 +69,7 @@ export class EspecieTarefa {
         this.ativo = null;
         this.evento = null;
         this.generoTarefa = null;
+        this.valida = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.corHexadecimalPrimaria = null;

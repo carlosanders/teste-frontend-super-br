@@ -176,7 +176,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'setorAtual', 'setorAtual.unidade'];
+        this.processoPagination.populate =
+            ['especieProcesso', 'especieProcesso.generoProcesso',
+                'especieProcesso.workflow', 'setorAtual', 'setorAtual.unidade'];
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.unidadeResponsavelPagination = new Pagination();
@@ -317,7 +319,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                     if (typeof value === 'object' && value && value.apenasDistribuidor && value.id !== this._profile.lotacoes[0].setor.id) {
-                        this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'] = `eq:${true}`;
+                        this.usuarioResponsavelPagination['context'] = { setorApenasDistribuidor: value.id };
                     }
 
                     this._changeDetectorRef.markForCheck();
@@ -376,6 +378,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                                     this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
                             };
                         }
+
+                        // caso processo seja de workflow verificar espécies permitidas
+                        this.especieTarefaPagination['context'] = {};
+                        if (value.especieProcesso.workflow) {
+                            this.especieTarefaPagination['context'] = { processoId: value.id };
+                        }
+
                         if (this.form.get('blocoProcessos').value && this.processos.length > 0) {
                             this.especieTarefaPagination.filter = {
                                 'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
@@ -487,7 +496,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         if (!this.evento) {
                             this.form.get('localEvento').reset();
                         }
-
                         this._changeDetectorRef.markForCheck();
                     }
                     return of([]);

@@ -131,18 +131,6 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
             {
                 'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
                 'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-            },
-            {
-                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-            },
-            {
-                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-            },
-            {
-                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:PROCESSO'
             }
         ];
 
