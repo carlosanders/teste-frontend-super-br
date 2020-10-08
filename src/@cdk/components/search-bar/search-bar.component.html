@@ -1,22 +1,33 @@
-<div class="cdk-search-bar" [ngClass]="{'expanded':!collapsed}">
+<form name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+    <div class="cdk-search-bar" [ngClass]="{'expanded':!collapsed}">
+        <div class="cdk-search-bar-content">
 
-    <div class="cdk-search-bar-content">
-
-        <label for="cdk-search-bar-input">
-            <button mat-icon-button class="cdk-search-bar-expander" aria-label="Expand Search Bar" (click)="expand()"
+            <button mat-icon-button class="cdk-search-bar-expander" aria-label="Expand Search Bar"
+                    (click)="expand()"
                     *ngIf="collapsed">
                 <mat-icon class="s-24 secondary-text">search</mat-icon>
             </button>
-        </label>
 
-        <input id="cdk-search-bar-input" class="ml-24" type="text" placeholder="Digite o NUP" (input)="search($event)"
-               fxFlex>
+            <div *ngIf="!collapsed" class="form-field-flex">
+                <mat-icon class="secondary-text">search</mat-icon>
+                <input matInput class="input-field"
+                       placeholder="Pesquisa rápida de processos"
+                       formControlName="processo"
+                       [matAutocomplete]="processoSearch.autocomplete"
+                       (blur)="checkProcesso()">
+                <cdk-processo-search-autocomplete
+                    #processoSearch="processoSearchAutocomplete"
+                    [control]="form.get('processo')"
+                    [pagination]="processoPagination">
+                </cdk-processo-search-autocomplete>
+            </div>
 
-        <button mat-icon-button class="cdk-search-bar-collapser" (click)="collapse()"
-                aria-label="Collapse Search Bar">
-            <mat-icon class="s-24 secondary-text">close</mat-icon>
-        </button>
+            <button mat-icon-button [ngClass]="collapsed? 'cdk-search-bar-collapser' : 'cdk-search-bar-expand'"
+                    (click)="collapse()"
+                    aria-label="Collapse Search Bar">
+                <mat-icon class="s-24 secondary-text">close</mat-icon>
+            </button>
 
+        </div>
     </div>
-
-</div>
+</form>

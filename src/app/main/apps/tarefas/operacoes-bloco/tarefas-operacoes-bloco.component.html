@@ -1,0 +1,115 @@
+<div class="actions">
+
+    <mat-icon class="s-32">schedule</mat-icon>
+    <div class="mat-title mb-16">{{tarefas.length}} tarefas selecionadas</div>
+
+    <button mat-menu-item [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length">
+        <ng-container>
+            <mat-icon>folder</mat-icon>
+            <span>Mover</span>
+        </ng-container>
+    </button>
+
+    <mat-menu #folderMenu="matMenu">
+        <button mat-menu-item
+                (click)="setFolder(null)">ENTRADA
+        </button>
+        <button mat-menu-item *ngFor="let folder of (folders$ | async)"
+                (click)="setFolder(folder)">{{folder.nome}}
+        </button>
+    </mat-menu>
+
+    <button mat-menu-item aria-label="apagar"
+            (click)="doDeleteTarefaBloco()">
+        <ng-container>
+            <mat-icon>delete</mat-icon>
+            <span>Apagar</span>
+        </ng-container>
+    </button>
+
+    <button mat-menu-item aria-label="criar tarefa"
+            (click)="doCreateTarefaBloco()">
+        <ng-container>
+            <mat-icon>check_box</mat-icon>
+            <span>Criar Tarefa</span>
+        </ng-container>
+    </button>
+
+    <button mat-menu-item aria-label="criar ofício"
+            (click)="doCreateDocumentoAvulsoBloco()">
+        <ng-container>
+            <mat-icon>mail</mat-icon>
+            <span>Criar Ofício</span>
+        </ng-container>
+    </button>
+
+    <button mat-menu-item aria-label="editar tarefa"
+            (click)="doEditTarefaBloco()">
+        <ng-container>
+            <mat-icon>edit</mat-icon>
+            <span>Editar</span>
+        </ng-container>
+    </button>
+
+    <button mat-menu-item aria-label="redistribuir tarefa"
+            (click)="doRedistribuiTarefaBloco()">
+        <ng-container>
+            <mat-icon>forward</mat-icon>
+            <span>Redistribuir</span>
+        </ng-container>
+    </button>
+
+    <button mat-menu-item aria-label="dar ciencia"
+            (click)="doCienciaBloco()">
+        <ng-container>
+            <mat-icon>check</mat-icon>
+            <span>Dar Ciência</span>
+        </ng-container>
+    </button>
+
+    <button mat-menu-item aria-label="movimentar"
+            (click)="doMovimentarBloco()">
+        <ng-container>
+            <mat-icon>send</mat-icon>
+            <span>Movimentar</span>
+        </ng-container>
+    </button>
+
+    <button mat-menu-item aria-label="minutas" [matMenuTriggerFor]="selectMenuMinutas">
+        <ng-container>
+            <mat-icon>attach_file</mat-icon>
+            <span>Minutas</span>
+        </ng-container>
+    </button>
+    <mat-menu fxHide #selectMenuMinutas="matMenu">
+        <button mat-menu-item (click)="doUploadBloco()">
+            Upload
+        </button>
+        <button mat-menu-item (click)="doEditorBloco()">
+            Editor
+        </button>
+    </mat-menu>
+
+    <button mat-menu-item aria-label="etiquetar"
+            (click)="doEtiquetarBloco()">
+        <ng-container>
+            <mat-icon>label</mat-icon>
+            <span>Etiquetar</span>
+        </ng-container>
+    </button>
+
+    <button mat-menu-item aria-label="compartilhar"
+            (click)="doCompartilharBloco()">
+        <ng-container>
+            <mat-icon>share</mat-icon>
+            <span>Compartilhar</span>
+        </ng-container>
+    </button>
+
+    <ng-template #dynamicComponent></ng-template>
+
+    <button class="mt-16" mat-raised-button aria-label="cancelar" color="warn"
+            (click)="doAbort()">
+        Cancelar
+    </button>
+</div>

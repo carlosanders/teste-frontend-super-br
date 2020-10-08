@@ -21,7 +21,7 @@ import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 
-import {getRouterState, getScreenState} from 'app/store/reducers';
+import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 
@@ -105,6 +105,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routeAtividade = 'atividades/criar';
     routeAtividadeBloco = 'atividade-bloco';
+    novaTarefa = false;
 
     /**
      * @param _changeDetectorRef
@@ -146,28 +147,31 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = [
-            {
-                'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-                'modalidadeEtiqueta.valor': 'eq:TAREFA'
-            },
-            {
-                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:TAREFA'
-            },
-            {
-                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:TAREFA'
-            },
-            {
-                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:TAREFA'
-            },
-            {
-                'sistema': 'eq:true',
-                'modalidadeEtiqueta.valor': 'eq:TAREFA'
-            }
-        ];
+        this.vinculacaoEtiquetaPagination.filter = {
+            orX: [
+                {
+                    'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                    'modalidadeEtiqueta.valor': 'eq:TAREFA'
+                },
+                {
+                    'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:TAREFA'
+                },
+                {
+                    'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:TAREFA'
+                },
+                {
+                    // tslint:disable-next-line:max-line-length
+                    'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:TAREFA'
+                },
+                {
+                    'sistema': 'eq:true',
+                    'modalidadeEtiqueta.valor': 'eq:TAREFA'
+                }
+            ]
+        };
 
         this.loadingAssuntosProcessosId$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
         this.cienciaIds$ = this._store.pipe(select(fromStore.getCienciaTarefaIds));
@@ -182,6 +186,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      */
     ngOnInit(): void {
 
+        this.novaTarefa = false;
+
         this._store
             .pipe(
                 select(getRouterState),
@@ -189,6 +195,18 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+            }
+        });
+
+        this._store
+            .pipe(
+                select(getMercureState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(message => {
+            if (message && message.type === 'nova_tarefa') {
+                if (message.content.genero === this.routerState.params.generoHandle) {
+                    this.novaTarefa = true;
+                }
             }
         });
 
@@ -403,7 +421,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCreateTarefa(params): void {
-        console.log (params);
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + params.processoId]).then();
     }
 

@@ -13,8 +13,23 @@ atividade-create {
             padding-bottom: 16px;
         }
 
-        .mat-tab-body {
-            padding-top: 16px;
+        .mat-tab-body-wrapper {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+
+            .mat-tab-body {
+                display: flex;
+                flex: 1 1 auto;
+                flex-direction: column;
+                padding-top: 16px;
+
+                > .mat-tab-body-content {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 auto;
+                }
+            }
         }
     }
 }

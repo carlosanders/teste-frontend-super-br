@@ -58,7 +58,7 @@
 
             <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of processo.vinculacoesEtiquetas"
-                     fxLayout="row" fxLayoutAlign="start center">
+                     fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.conteudo">
                     <div class="etiqueta-color"
                          [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
                     <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>

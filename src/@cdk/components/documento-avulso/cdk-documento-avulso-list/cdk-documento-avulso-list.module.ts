@@ -10,7 +10,8 @@ import {
     MatAutocompleteModule,
     MatRippleModule,
     MatDatepickerModule,
-    MatRadioModule
+    MatRadioModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
 
 import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimepicker/core';
@@ -44,6 +45,7 @@ import {CdkDocumentoAvulsoFilterModule} from '../sidebars/cdk-documento-avulso-f
         MatMenuModule,
         MatAutocompleteModule,
         MatDatepickerModule,
+        MatTooltipModule,
 
         DndModule,
 

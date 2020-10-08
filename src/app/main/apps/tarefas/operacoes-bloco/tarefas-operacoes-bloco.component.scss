@@ -1,0 +1,25 @@
+tarefas-operacoes-bloco {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    > .actions {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        flex: 1 1 auto;
+        margin-top: 16px;
+
+        .mat-menu-item {
+            display: flex;
+            flex: 0 0 auto;
+            justify-content: flex-start;
+            align-items: center;
+            flex-direction: row;
+        }
+    }
+
+}

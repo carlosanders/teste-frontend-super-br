@@ -1,19 +1,22 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, EventEmitter, Input,
-    OnInit, Output, ViewChild,
+    Component,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Etiqueta} from '@cdk/models';
+import {Etiqueta, Pagination} from '@cdk/models';
 import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-etiqueta-autocomplete',
@@ -67,15 +70,14 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
                         this.etiquetaListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         let filterParam = '';
-                        if (Array.isArray(this.pagination.filter)) {
-                            const arrayFilterParam = this.pagination.filter.map((value) => {
-                                const orFilter = {
-                                    ...value,
+                        if (Array.isArray(this.pagination.filter.orX)) {
+                            const arrayFilterParam = this.pagination.filter.orX.map((v) => {
+                                return {
+                                    ...v,
                                     ...termFilter
                                 };
-                                return orFilter;
                             });
-                            filterParam = JSON.stringify(arrayFilterParam);
+                            filterParam = JSON.stringify({orX: arrayFilterParam});
                         } else {
                             const objectFilterParam = {
                                 ...this.pagination.filter,

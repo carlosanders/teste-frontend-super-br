@@ -6,7 +6,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-    <form fxLayoutGap="16px" name="form" [formGroup]="form">
+   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
         <mat-form-field>
             <mat-label>Cóodigo do Documento</mat-label>
             <input matInput #codigoDocumento

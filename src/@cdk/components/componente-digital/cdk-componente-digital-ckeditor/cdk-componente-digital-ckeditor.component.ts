@@ -252,6 +252,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 this.pdf.emit();
                 this.gerandoPdf = false;
             }
+
+            this._changeDetectorRef.detectChanges();
         }
     }
 

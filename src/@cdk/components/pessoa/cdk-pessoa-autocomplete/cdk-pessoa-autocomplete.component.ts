@@ -57,17 +57,24 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilter = {};
+                    let termFilterNome = {};
+                    let termFilterNumeroDocumentoPrincipal = {};
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = [
-                            {
-                                nome: `like:%${bit}%`
-                            },
-                            {
-                                numeroDocumentoPrincipal: `like:%${bit}%`
-                            }
-                        ];
+                        termFilterNome = {
+                            ...termFilterNome,
+                            nome: `like:%${bit}%`
+                        };
+                        termFilterNumeroDocumentoPrincipal = {
+                            ...termFilterNumeroDocumentoPrincipal,
+                            numeroDocumentoPrincipal: `like:%${bit}%`
+                        };
                     });
+                    const termFilter = {
+                        orX: [
+                            termFilterNome,
+                            termFilterNumeroDocumentoPrincipal
+                        ]
+                    };
                     if (typeof value === 'string') {
                         this.pessoaListIsLoading = true;
                         this._changeDetectorRef.markForCheck();

@@ -58,6 +58,10 @@ cdk-tarefa-list {
                 }
             }
 
+            > .nova-tarefa {
+                cursor: pointer;
+            }
+
             > .no-tarefas-text {
                 flex: 1 1 auto;
                 display: flex;
