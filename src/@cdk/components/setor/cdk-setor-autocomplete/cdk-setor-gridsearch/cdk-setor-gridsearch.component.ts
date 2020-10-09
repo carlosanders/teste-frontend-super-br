@@ -77,10 +77,10 @@ export class CdkSetorGridsearchComponent implements OnInit {
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-                this.setores = response['entities'];
-                this.total = response['total'];
-                this._changeDetectorRef.markForCheck();
-            });
+            this.setores = response['entities'];
+            this.total = response['total'];
+            this._changeDetectorRef.markForCheck();
+        });
     }
 
     reload(params): void {
@@ -95,7 +95,7 @@ export class CdkSetorGridsearchComponent implements OnInit {
             offset: params.offset,
             populate: this.pagination.populate
         };
-        this.load (params);
+        this.load(params);
     }
 
     select(setor): void {

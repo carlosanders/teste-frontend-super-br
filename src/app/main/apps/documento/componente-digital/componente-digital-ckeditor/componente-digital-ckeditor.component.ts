@@ -16,6 +16,7 @@ import {takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from '../../../../../store/reducers';
 import {getRepositorioComponenteDigital} from '../../store/selectors';
 import {SetQueryRepositorios, SetRepositorioComponenteDigital} from 'app/main/apps/documento/documento-edit/inteligencia/store/actions';
+import {SetQueryRepositorios as SetQueryRepositoriosAvulso, SetRepositorioComponenteDigital as SetRepositorioComponenteDigitalAvulso} from 'app/main/apps/documento/documento-avulso-edit/inteligencia/store/actions';
 import {Pagination} from '@cdk/models/pagination';
 
 @Component({
@@ -173,11 +174,19 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
     }
 
     doClearRepositorio(): void {
-        this._store.dispatch(new SetRepositorioComponenteDigital(''));
+        if (this.routerState.url.indexOf('sidebar:oficio') === -1) {
+            this._store.dispatch(new SetRepositorioComponenteDigital(''));
+        } else {
+            this._store.dispatch(new SetRepositorioComponenteDigitalAvulso(''));
+        }
     }
 
     doQuery(query): void {
-        this._store.dispatch(new SetQueryRepositorios({'documento.componentesDigitais.conteudo': query}));
+        if (this.routerState.url.indexOf('sidebar:oficio') === -1) {
+            this._store.dispatch(new SetQueryRepositorios({'documento.componentesDigitais.conteudo': query}));
+        } else {
+            this._store.dispatch(new SetQueryRepositoriosAvulso({'documento.componentesDigitais.conteudo': query}));
+        }
     }
 
     /**

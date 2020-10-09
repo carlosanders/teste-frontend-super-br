@@ -6,7 +6,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-    <form fxLayoutGap="16px" name="form" [formGroup]="form">
+   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>

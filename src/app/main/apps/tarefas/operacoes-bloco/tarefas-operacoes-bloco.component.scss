@@ -5,48 +5,21 @@ tarefas-operacoes-bloco {
     justify-content: flex-start;
     align-items: center;
 
-    > div {
+    > .actions {
         display: flex;
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
         flex: 1 1 auto;
+        margin-top: 16px;
 
-        > .header {
+        .mat-menu-item {
             display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
             flex: 0 0 auto;
-            margin-top: 24px;
-            margin-bottom: 16px;
-        }
-
-        > .actions {
-            display: flex;
-            flex-direction: column;
             justify-content: flex-start;
-            align-items: flex-start;
-            flex: 1 1 auto;
-            overflow-y: auto;
-            height: 0;
-
-            .mat-menu-item {
-                display: flex;
-                flex: 0 0 auto;
-                justify-content: flex-start;
-                align-items: center;
-                flex-direction: row;
-            }
-        }
-
-        > .footer {
-            display: flex;
-            flex: 0 0 auto;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            margin-bottom: 20px;
+            flex-direction: row;
         }
     }
+
 }
