@@ -46,7 +46,7 @@
             [control]="form.get('especieTarefa')"
             [pagination]="especieTarefaPagination">
         </cdk-especie-tarefa-autocomplete>
-        <button [disabled]="!form.get('processo').value || (form.get('processo').value).especieProcesso.workflow"
+        <button [disabled]="!form.get('processo').value || (form.get('processo').value)?.especieProcesso?.workflow"
                 matSuffix mat-button mat-icon-button
                 (click)="getFavoritosEspecieTarefa()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
