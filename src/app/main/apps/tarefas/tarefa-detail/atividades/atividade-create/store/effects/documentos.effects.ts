@@ -257,7 +257,7 @@ export class AtividadeCreateDocumentosEffect {
                     }
                     let sidebar = 'oficio/dados-basicos';
                     if (!action.payload.documentoAvulsoRemessa) {
-                        sidebar = 'editar/anexos';
+                        sidebar = 'editar/atividade';
                     }
                     this._router.navigate([this.routerState.url + '/documento/' + action.payload.id, {
                             outlets: {

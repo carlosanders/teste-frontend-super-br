@@ -138,7 +138,7 @@ export class ComponenteDigitalEffect {
                 ofType<ComponenteDigitalActions.GetDocumentoSuccess>(ComponenteDigitalActions.GET_DOCUMENTO_SUCCESS),
                 tap((action) => {
                     const primary = 'componente-digital/' + action.payload.componenteDigitalId;
-                    const sidebar = 'editar/anexos';
+                    const sidebar = 'editar/atividade';
                     this._router.navigate([
                             this.routerState.url.replace('modelo', '/atividades/criar/documento') + '/' + action.payload.documentoId,
                             {

@@ -77,7 +77,7 @@ export class ComponentesDigitaisComponent implements OnInit {
     edit($event: {componenteDigital: ComponenteDigital, chaveAcesso: string}): void {
         const chaveAcessoHandle = $event.chaveAcesso ? '/' + $event.chaveAcesso : '';
         this._router.navigate(['apps/processo/' +
-        $event.componenteDigital.documento.juntadaAtual.volume.processo.id +
+        $event.componenteDigital.documento?.juntadaAtual?.volume?.processo.id +
         '/editar/juntadas/listar/documento/' +
         $event.componenteDigital.documento.id +
         '/componente-digital/' +
