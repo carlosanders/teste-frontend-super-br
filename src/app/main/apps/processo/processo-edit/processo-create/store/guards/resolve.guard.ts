@@ -98,6 +98,10 @@ export class ResolveGuard implements CanActivate {
     getAssuntos(): any {
         this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
 
+        if (this.routerState.params['processoHandle'] === 'criar') {
+            return this._store.pipe(take(1));
+        }
+
         return this._store.pipe(
             select(getAssuntosLoaded),
             tap(loaded => {
@@ -128,6 +132,10 @@ export class ResolveGuard implements CanActivate {
     getInteressados(): any {
         this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
 
+        if (this.routerState.params['processoHandle'] === 'criar') {
+            return this._store.pipe(take(1));
+        }
+
         return this._store.pipe(
             select(getInteressadosLoaded),
             tap(loaded => {
@@ -157,6 +165,10 @@ export class ResolveGuard implements CanActivate {
      */
     getVinculacoesProcessos(): any {
         this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
+
+        if (this.routerState.params['processoHandle'] === 'criar') {
+            return this._store.pipe(take(1));
+        }
 
         return this._store.pipe(
             select(getVinculacoesProcessosLoaded),
@@ -189,6 +201,10 @@ export class ResolveGuard implements CanActivate {
      */
     getJuntadas(): any {
         this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+
+        if (this.routerState.params['processoHandle'] === 'criar') {
+            return this._store.pipe(take(1));
+        }
 
         return this._store.pipe(
             select(getJuntadaLoaded),
