@@ -10,7 +10,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {AddData} from '@cdk/ngrx-normalizr';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {ComponenteDigital} from '@cdk/models';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
@@ -29,7 +29,8 @@ export class ComponenteDigitalEffect {
         private _componenteDigitalService: ComponenteDigitalService,
         private _documentoService: DocumentoService,
         private _store: Store<State>,
-        private _router: Router
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -77,7 +78,10 @@ export class ComponenteDigitalEffect {
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
                             new ComponenteDigitalActions.GetDocumento(response.id),
-                            new AddData<ComponenteDigital>({data: [{...action.payload, ...response}], schema: componenteDigitalSchema}),
+                            new AddData<ComponenteDigital>({
+                                data: [{...action.payload, ...response}],
+                                schema: componenteDigitalSchema
+                            }),
                             new OperacoesActions.Resultado({
                                 type: 'componenteDigital',
                                 content: `Componente Digital id ${response.id} criado com sucesso!`,
@@ -85,7 +89,7 @@ export class ComponenteDigitalEffect {
                             })
                         ]),
                         catchError((err) => {
-                            console.log (err);
+                            console.log(err);
                             return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
                         })
                     );
@@ -127,15 +131,26 @@ export class ComponenteDigitalEffect {
                 })
             );
 
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     getDocumentoSuccess: any =
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.GetDocumentoSuccess>(ComponenteDigitalActions.GET_DOCUMENTO_SUCCESS),
                 tap((action) => {
+                    const primary = 'componente-digital/' + action.payload.componenteDigitalId;
+                    const sidebar = 'editar/anexos';
                     this._router.navigate([
-                        this.routerState.url.replace('modelo', '/atividades/criar/documento') + '/' + action.payload.documentoId]
-                    ).then();
+                            this.routerState.url.replace('modelo', '/atividades/criar/documento') + '/' + action.payload.documentoId,
+                            {
+                                outlets: {
+                                    primary: primary,
+                                    sidebar: sidebar
+                                }
+                            }
+                        ],
+                        {
+                            relativeTo: this._activatedRoute.parent
+                        }).then();
                 })
             );
 
