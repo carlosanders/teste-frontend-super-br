@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
+import {Usuario, Workflow} from '@cdk/models';
 import { GeneroProcesso } from '@cdk/models';
 
 export class EspecieProcesso {
@@ -56,6 +56,10 @@ export class EspecieProcesso {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: Date;
 
+    @Type(() => Workflow)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    workflow?: Workflow;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -69,5 +73,6 @@ export class EspecieProcesso {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.workflow = null;
     }
 }

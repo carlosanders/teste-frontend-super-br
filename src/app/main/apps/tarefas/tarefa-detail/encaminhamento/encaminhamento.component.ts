@@ -88,7 +88,7 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
     submit(values): void {
         if (values.options === 'criar_tarefa') {
             this._router.navigate([
-                this.routerState.url.split('/encaminhamento')[0] + '/criar/' + this.tarefa.processo.id
+                this.routerState.url.split('/tarefa')[0] + '/criar/' + this.tarefa.processo.id
             ]).then();
 
         }
@@ -99,11 +99,6 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
             this._router.navigate([
                 'apps/processo/' + this.tarefa.processo.id + '/editar/remessas/editar/criar'
             ]).then();
-        } else {
-            this._router.navigate([
-                'apps/processo/' + this.tarefa.processo.id + '/editar/' + values.options
-            ]).then();
-
         }
     }
 

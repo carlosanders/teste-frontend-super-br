@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {Usuario} from '@cdk/models';
+import {Usuario, Workflow} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {Setor} from '@cdk/models';
@@ -58,6 +58,10 @@ export class Tarefa {
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorOrigem?: Setor;
+
+    @Type(() => Workflow)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    workflow?: Workflow;
 
     @Exclude()
     unidadeResponsavel?: Setor;
@@ -133,6 +137,7 @@ export class Tarefa {
         this.dataHoraConclusaoPrazo = null;
         this.dataHoraLeitura = null;
         this.processo = null;
+        this.workflow = null;
         this.especieTarefa = null;
         this.usuarioResponsavel = null;
         this.setorOrigem = null;

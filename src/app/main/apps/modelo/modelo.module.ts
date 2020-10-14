@@ -10,6 +10,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
+import {MatFormFieldModule} from '@angular/material/form-field';
 
 const routes: Routes = [
     {
@@ -40,6 +41,7 @@ modulesConfig.forEach((module) => {
 
         TranslateModule,
         CdkSharedModule,
+        MatFormFieldModule,
     ],
     providers: [
         DocumentoService,

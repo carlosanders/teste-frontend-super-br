@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
+import {Usuario, Workflow} from '@cdk/models';
 import { GeneroTarefa } from '@cdk/models';
 
 export class EspecieTarefa {
@@ -25,6 +25,11 @@ export class EspecieTarefa {
     corHexadecimalSecundaria?: string;
 
     valida?: boolean;
+
+    // @Exclude({ toPlainOnly: true })
+    @Type(() => Workflow)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    workflow?: Workflow;
 
     // @Exclude({ toPlainOnly: true })
     @Type(() => GeneroTarefa)
@@ -69,6 +74,7 @@ export class EspecieTarefa {
         this.ativo = null;
         this.evento = null;
         this.generoTarefa = null;
+        this.workflow = null;
         this.valida = null;
         this.criadoPor = null;
         this.criadoEm = null;

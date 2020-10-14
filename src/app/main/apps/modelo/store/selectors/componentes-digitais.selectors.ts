@@ -19,3 +19,8 @@ export const getErrors = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.errors
 );
+
+export const getIsLoadingSaving = createSelector(
+    getComponenteDigitalState,
+    (state: ComponenteDigitalState) => state.loading
+);

@@ -114,6 +114,7 @@
             [pagination]="especieAtividadePagination">
         </cdk-especie-atividade-autocomplete>
         <button matSuffix mat-button mat-icon-button
+                [disabled]="(form.get('tarefa').value).workflow"
                 (click)="getFavoritosEspecieAtividade()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
@@ -178,6 +179,7 @@
 
 <cdk-especie-atividade-gridsearch
     *ngIf="activeCard === 'especie-atividade-gridsearch'"
+    [pagination]="especieAtividadePagination"
     (selected)="selectEspecieAtividade($event)"
     (cancel)="cancel()">
 </cdk-especie-atividade-gridsearch>
