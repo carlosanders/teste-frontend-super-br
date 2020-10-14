@@ -17,6 +17,7 @@ import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {CdkVinculacaoUsuarioFormComponent} from './cdk-vinculacao-usuario-form.component';
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-
 
         CdkSharedModule,
         CdkLogentryGridsearchModule,
+        MatCardModule,
     ],
     providers: [
         UsuarioService

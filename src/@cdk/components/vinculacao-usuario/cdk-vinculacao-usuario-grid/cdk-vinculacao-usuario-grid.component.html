@@ -139,6 +139,45 @@
                     </td>
                 </ng-container>
 
+                <!-- Criar Oficio Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criaOficio') > -1" matColumnDef="criaOficio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Cria Ofício
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Cria Ofício: '>
+                        <mat-checkbox
+                            [disabled]="true"
+                            [checked]="vinculacaoUsuario.criaOficio"></mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- Criar Minuta Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('criaMinuta') > -1" matColumnDef="criaMinuta">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Cria Minuta
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Cria Minuta: '>
+                        <mat-checkbox
+                            [disabled]="true"
+                            [checked]="vinculacaoUsuario.criaMinuta"></mat-checkbox>
+                    </td>
+                </ng-container>
+
+                <!-- Compartilha Tarefa Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('compartilhaTarefa') > -1" matColumnDef="compartilhaTarefa">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Compartilha Tarefa
+                    </th>
+                    <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
+                        data-label='Compartilha Tarefa: '>
+                        <mat-checkbox
+                            [disabled]="true"
+                            [checked]="vinculacaoUsuario.compartilhaTarefa"></mat-checkbox>
+                    </td>
+                </ng-container>
+
                 <!-- CriadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
