@@ -68,6 +68,9 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
 
     inputArquivista = false;
 
+    @Input()
+    isCoordenador = true;
+
     /**
      * Constructor
      */
@@ -84,8 +87,8 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
             distribuidor: [null],
             arquivista: [null],
             peso: ['100', [Validators.required]],
-            centena: [null],
-            digito: [null]
+            centenasDistribuicao: [null],
+            digitosDistribuicao: [null]
         });
        this.colaboradorPagination = new Pagination();
        this.unidadePagination = new Pagination();

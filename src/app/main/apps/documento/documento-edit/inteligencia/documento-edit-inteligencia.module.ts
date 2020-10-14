@@ -18,8 +18,7 @@ import * as fromGuards from './store/guards';
 const routes: Routes = [
     {
         path: '',
-        component: DocumentoEditInteligenciaComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        component: DocumentoEditInteligenciaComponent
     }
 ];
 
