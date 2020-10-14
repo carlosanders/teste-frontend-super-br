@@ -364,7 +364,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     editComponenteDigital(componenteDigital: ComponenteDigital): void {
-        if (componenteDigital.documento.juntadaAtual.volume.processo.visibilidadeExterna || this.isColaborador) {
+        if (componenteDigital.documento?.juntadaAtual?.volume?.processo?.visibilidadeExterna || this.isColaborador) {
             this.edit.emit({componenteDigital: componenteDigital});
             return;
         }

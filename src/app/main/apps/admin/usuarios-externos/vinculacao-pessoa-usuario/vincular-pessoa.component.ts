@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -6,7 +13,7 @@ import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {Back} from '../../../../../store/actions';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'vincular-pessoa',
@@ -16,7 +23,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class VincularPessoaComponent implements OnInit {
+export class VincularPessoaComponent implements OnInit, OnDestroy {
 
 
     private _unsubscribeAll: Subject<any> = new Subject();
@@ -59,6 +66,5 @@ export class VincularPessoaComponent implements OnInit {
     goBack(): void {
         this._store.dispatch(new Back());
     }
-
 
 }

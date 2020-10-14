@@ -205,7 +205,7 @@ export class DocumentosVinculadosEffects {
             .pipe(
                 ofType<DocumentosVinculadosActions.ClickedDocumentoVinculado>(DocumentosVinculadosActions.CLICKED_DOCUMENTO_VINCULADO),
                 tap((action) => {
-                    let sidebar = 'editar/anexos';
+                    let sidebar = 'editar/atividade';
                     let primary: string;
                     primary = 'componente-digital/';
                     if (action.payload.componentesDigitais[0]) {
