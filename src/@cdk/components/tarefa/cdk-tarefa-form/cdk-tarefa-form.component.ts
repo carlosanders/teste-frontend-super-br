@@ -490,7 +490,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
                 this.especieTarefaPagination['context'] = {};
-                if (this.form.get('processo').value.especieProcesso.workflow) {
+                if (this.form.get('processo').value?.especieProcesso?.workflow) {
                     if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
                         this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
                     } else {
