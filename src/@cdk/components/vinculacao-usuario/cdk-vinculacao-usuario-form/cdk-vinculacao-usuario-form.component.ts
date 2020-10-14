@@ -59,7 +59,10 @@ export class CdkVinculacaoUsuarioFormComponent implements OnChanges, OnDestroy, 
             id: [null],
             usuario: [null],
             usuarioVinculado: [null, [Validators.required]],
-            encerraTarefa: [null]
+            encerraTarefa: [null],
+            criaOficio: [null],
+            criaMinuta: [null],
+            compartilhaTarefa: [null],
         });
 
         this.usuarioVinculadoPagination = new Pagination();

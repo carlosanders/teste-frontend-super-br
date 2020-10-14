@@ -14,7 +14,7 @@ import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Setor} from '@cdk/models';
-import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
@@ -176,7 +176,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'setorAtual', 'setorAtual.unidade'];
+        this.processoPagination.populate =
+            ['especieProcesso', 'especieProcesso.generoProcesso',
+                'especieProcesso.workflow', 'setorAtual', 'setorAtual.unidade'];
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.unidadeResponsavelPagination = new Pagination();
@@ -317,7 +319,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                     if (typeof value === 'object' && value && value.apenasDistribuidor && value.id !== this._profile.lotacoes[0].setor.id) {
-                        this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'] = `eq:${true}`;
+                        this.usuarioResponsavelPagination['context'] = { setorApenasDistribuidor: value.id };
                     }
 
                     this._changeDetectorRef.markForCheck();
@@ -376,11 +378,17 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                                     this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
                             };
                         }
+
                         if (this.form.get('blocoProcessos').value && this.processos.length > 0) {
                             this.especieTarefaPagination.filter = {
                                 'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
                                     this.generoProcessos[0].toUpperCase()
                             };
+                        }
+
+                        if (value.especieProcesso.workflow &&
+                            this.form.get('especieTarefa').value) {
+                            this.form.get('especieTarefa').reset();
                         }
                     } else {
                         this.form.get('especieTarefa').disable();
@@ -481,16 +489,30 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(500),
             distinctUntilChanged(),
             switchMap((value) => {
-                    if (value) {
-                        this.clearValidators();
-                        this.evento = value.evento;
-                        if (!this.evento) {
-                            this.form.get('localEvento').reset();
-                        }
-
-                        this._changeDetectorRef.markForCheck();
+                this.especieTarefaPagination['context'] = {};
+                if (this.form.get('processo').value.especieProcesso.workflow) {
+                    if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
+                        this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
+                    } else {
+                        this.especieTarefaPagination.filter = {
+                            'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
+                                this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
+                        };
                     }
-                    return of([]);
+                    this.especieTarefaPagination['context'] = { processoId: this.form.get('processo').value.id };
+                    this._changeDetectorRef.detectChanges();
+                }
+
+                if (value) {
+                    this.clearValidators();
+                    this.evento = value.evento;
+                    if (!this.evento) {
+                        this.form.get('localEvento').reset();
+                    }
+
+                    this._changeDetectorRef.markForCheck();
+                }
+                return of([]);
                 }
             )
         ).subscribe();
@@ -765,6 +787,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     showEspecieTarefaGrid(): void {
+        // caso processo seja de workflow verificar espécies permitidas
+        this.especieTarefaPagination['context'] = {};
+        if (this.form.get('processo').value.especieProcesso.workflow &&
+            !this.form.get('especieTarefa').value) {
+            this.especieTarefaPagination.filter = {
+                orX : [
+                    {'workflow.id': 'eq:' + this.form.get('processo').value.especieProcesso.workflow.id},
+                    {'transicoesWorkflowTo.id' : 'isNotNull'}
+                ]
+            };
+            this.especieTarefaPagination['context'] = { processoId: this.form.get('processo').value.id };
+        }
+
         this.activeCard = 'especie-tarefa-gridsearch';
     }
 

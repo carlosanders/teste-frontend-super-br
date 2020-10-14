@@ -38,6 +38,8 @@ export class CdkEspecieTarefaAutocompleteComponent implements OnInit {
     @Input()
     especieTarefaListIsLoading: boolean;
 
+    isWorflow = false;
+
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
@@ -75,7 +77,8 @@ export class CdkEspecieTarefaAutocompleteComponent implements OnInit {
                             this.pagination.limit,
                             this.pagination.offset,
                             JSON.stringify(this.pagination.sort),
-                            JSON.stringify(this.pagination.populate))
+                            JSON.stringify(this.pagination.populate),
+                            JSON.stringify(this.pagination['context']))
                             .pipe(
                                 finalize(() => this.especieTarefaListIsLoading = false),
                                 catchError(() => of([]))
@@ -87,6 +90,9 @@ export class CdkEspecieTarefaAutocompleteComponent implements OnInit {
             )
         ).subscribe(response => {
             this.especieTarefaList = response['entities'];
+            if (this.pagination['context'] && this.pagination['context'].processoId) {
+                this.isWorflow = true;
+            }
             this._changeDetectorRef.markForCheck();
         });
     }

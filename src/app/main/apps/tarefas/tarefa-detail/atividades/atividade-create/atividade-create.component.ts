@@ -134,6 +134,16 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             } else {
                 this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
             }
+
+            // caso tarefa seja de workflow verificar espécies permitidas
+            this.especieAtividadePagination['context'] = {};
+            if (tarefa.workflow) {
+                this.especieAtividadePagination.filter = {
+                    'transicoesWorkflow.especieTarefaFrom.id' : 'eq:' + tarefa.especieTarefa.id
+                };
+                this.especieAtividadePagination['context'] = { tarefaId: tarefa.id };
+            }
+
         });
 
         this._store.pipe(

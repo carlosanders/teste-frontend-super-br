@@ -204,6 +204,8 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     isIndeterminate = false;
     hasExcluded = false;
 
+    isDistribuidor = false;
+
     /**
      *
      * @param _changeDetectorRef
@@ -218,6 +220,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     }
 
     ngOnChanges(): void {
+        if (this.usuarios) {
+            this.isDistribuidor = this.usuarios.some(item => item.isDisponivel);
+        }
         this.dataSource = new UsuarioDataSource(of(this.usuarios));
         this.paginator.length = this.total;
     }

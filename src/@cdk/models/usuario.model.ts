@@ -31,6 +31,8 @@ export class Usuario {
 
     jwt?: string;
 
+    isDisponivel?: boolean;
+
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -103,5 +105,6 @@ export class Usuario {
         this.coordenadores = [];
         this.password = null;
         this.jwt = null;
+        this.isDisponivel = null;
     }
 }

@@ -3,11 +3,15 @@ import * as ComponenteDigitalActions from 'app/main/apps/modelo/store/actions/co
 export interface ComponenteDigitalState {
     saving: boolean;
     errors: any;
+    loading: boolean;
+    loaded: any;
 }
 
 export const ComponenteDigitalInitialState: ComponenteDigitalState = {
     saving: false,
-    errors: false
+    errors: false,
+    loading: false,
+    loaded: false
 };
 
 export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, action: ComponenteDigitalActions.ComponenteDigitalActionsAll): ComponenteDigitalState {
@@ -15,15 +19,20 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
 
         case ComponenteDigitalActions.CREATE_COMPONENTE_DIGITAL: {
             return {
+                ...state,
                 saving: false,
-                errors: false
+                errors: false,
+                loading: true,
+                loaded: false
             };
         }
 
         case ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL: {
             return {
                 ...state,
-                saving: true
+                saving: true,
+                loading: true,
+                loaded: false
             };
         }
 
@@ -31,7 +40,9 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
             return {
                 ...state,
                 saving: false,
-                errors: false
+                errors: false,
+                loading: false,
+                loaded: true
             };
         }
 
@@ -39,7 +50,8 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
             return {
                 ...state,
                 saving: false,
-                errors: action.payload
+                errors: action.payload,
+                loading: false
             };
         }
 

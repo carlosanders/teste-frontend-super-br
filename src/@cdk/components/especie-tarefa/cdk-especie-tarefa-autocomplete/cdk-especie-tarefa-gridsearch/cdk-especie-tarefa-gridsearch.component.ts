@@ -76,7 +76,8 @@ export class CdkEspecieTarefaGridsearchComponent implements OnInit {
             params.limit,
             params.offset,
             JSON.stringify(params.sort),
-            JSON.stringify(params.populate))
+            JSON.stringify(params.populate),
+            JSON.stringify(params.context))
             .pipe(
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
