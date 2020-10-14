@@ -163,6 +163,8 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     isIndeterminate = false;
     hasExcluded = false;
 
+    isWorflow = false;
+
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
@@ -176,6 +178,12 @@ export class CdkEspecieTarefaGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     ngOnChanges(): void {
+        if (this.especieTarefas) {
+            this.isWorflow = this.especieTarefas.some(item => item.valida !== null);
+            if (this.isWorflow) {
+                this.hasExcluded = true;
+            }
+        }
         this.dataSource = new EspecieTarefaDataSource(of(this.especieTarefas));
         this.paginator.length = this.total;
     }

@@ -193,6 +193,10 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             }
         );
 
+        if (this.processo.especieProcesso.workflow) {
+            tarefa.workflow = this.processo.especieProcesso.workflow;
+        }
+
         tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
 
         this._store.dispatch(new fromStore.SaveTarefa(tarefa));

@@ -78,7 +78,8 @@ export class TarefaDetailEffect {
                             'setorOrigem.unidade',
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta']));
+                            'vinculacoesEtiquetas.etiqueta',
+                            'workflow']));
                 }),
                 mergeMap(response => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
