@@ -23,7 +23,7 @@
                     Ofício vinculado pendente de resposta</span>
                 <span *ngIf="documentoAvulso.dataHoraResposta">
                     Ofício vinculado respondido em
-                    {{documentoAvulso.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
+                    {{documentoAvulso.dataHoraResposta?.toDate() | date: 'dd/MM/yyyy H:mm'}}</span>
             </div>
 
             <div class="body mt-4">
@@ -32,8 +32,8 @@
                 </div>
 
                 <div>
-                    {{documentoAvulso.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}}
-                    ATÉ {{documentoAvulso.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+                    {{documentoAvulso.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+                    ATÉ {{documentoAvulso.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
                 </div>
             </div>
 

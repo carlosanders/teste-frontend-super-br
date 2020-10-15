@@ -131,7 +131,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -152,7 +152,7 @@
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -172,7 +172,7 @@
                     </th>
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
                         data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

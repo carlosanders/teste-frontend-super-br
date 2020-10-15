@@ -156,7 +156,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
                         data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -177,7 +177,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -197,7 +197,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieDocumentoAvulso" class='has_label_on_mobile'
                         data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieDocumentoAvulso.id) > -1}"> {{especieDocumentoAvulso.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

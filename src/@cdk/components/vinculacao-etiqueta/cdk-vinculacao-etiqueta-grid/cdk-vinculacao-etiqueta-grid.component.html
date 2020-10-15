@@ -166,7 +166,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile'
                         data-label='Data Expiração: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.dataHoraExpiracao | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.dataHoraExpiracao?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->
@@ -195,7 +195,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile'
                         data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -216,7 +216,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -236,7 +236,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoEtiqueta" class='has_label_on_mobile'
                         data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoEtiqueta.id) > -1}"> {{vinculacaoEtiqueta.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

@@ -51,7 +51,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Criado Em
                     </th>
-                    <td mat-cell *matCellDef="let lembrete" class='has_label_on_mobile' data-label='Criado Em: '> {{lembrete.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                    <td mat-cell *matCellDef="let lembrete" class='has_label_on_mobile' data-label='Criado Em: '> {{lembrete.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
                 <!-- AtualizadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1" matColumnDef="atualizadoPor.nome">
@@ -65,7 +65,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Atualizado Em
                     </th>
-                    <td mat-cell *matCellDef="let lembrete" class='has_label_on_mobile' data-label='Atualizado Em: '> {{lembrete.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                    <td mat-cell *matCellDef="let lembrete" class='has_label_on_mobile' data-label='Atualizado Em: '> {{lembrete.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
                 <!-- ApagadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
@@ -79,7 +79,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Apagado Em
                     </th>
-                    <td mat-cell *matCellDef="let lembrete" class='has_label_on_mobile' data-label='Apagado Em: '> {{lembrete.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                    <td mat-cell *matCellDef="let lembrete" class='has_label_on_mobile' data-label='Apagado Em: '> {{lembrete.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let lembrete; columns: displayedColumns;">

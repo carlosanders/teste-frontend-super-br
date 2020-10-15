@@ -149,7 +149,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let especieSetor" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieSetor.id) > -1}"> {{especieSetor.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieSetor.id) > -1}"> {{especieSetor.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -169,7 +169,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let especieSetor" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieSetor.id) > -1}"> {{especieSetor.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieSetor.id) > -1}"> {{especieSetor.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -187,7 +187,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let especieSetor" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(especieSetor.id) > -1}"> {{especieSetor.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(especieSetor.id) > -1}"> {{especieSetor.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

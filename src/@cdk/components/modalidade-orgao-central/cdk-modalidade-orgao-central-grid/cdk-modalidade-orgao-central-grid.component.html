@@ -146,7 +146,7 @@
                     </th>
                     <td mat-cell *matCellDef="let modalidadeorgaoCentral" class='has_label_on_mobile'
                         data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadeorgaoCentral.id) > -1}"> {{modalidadeorgaoCentral.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadeorgaoCentral.id) > -1}"> {{modalidadeorgaoCentral.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -167,7 +167,7 @@
                     </th>
                     <td mat-cell *matCellDef="let modalidadeorgaoCentral" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadeorgaoCentral.id) > -1}"> {{modalidadeorgaoCentral.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadeorgaoCentral.id) > -1}"> {{modalidadeorgaoCentral.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -187,7 +187,7 @@
                     </th>
                     <td mat-cell *matCellDef="let modalidadeorgaoCentral" class='has_label_on_mobile'
                         data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadeorgaoCentral.id) > -1}"> {{modalidadeorgaoCentral.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modalidadeorgaoCentral.id) > -1}"> {{modalidadeorgaoCentral.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

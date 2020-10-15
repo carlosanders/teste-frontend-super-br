@@ -258,7 +258,7 @@
                     Data Software Criação
                 </th>
                 <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile' data-label='Data Software Criação: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.dataHoraSoftwareCriacao | date: 'dd/MM/yyyy'}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.dataHoraSoftwareCriacao?.toDate() | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- DataHoraLockEdicao Column -->
@@ -267,7 +267,7 @@
                     Data Lock Edição
                 </th>
                 <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile' data-label='Data Lock Edição: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.dataHoraLockEdicao | date: 'dd/MM/yyyy'}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.dataHoraLockEdicao?.toDate() | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- ModalidadeAlvoInibidor Column -->
@@ -339,7 +339,7 @@
                     Criado Em
                 </th>
                 <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile' data-label='Criado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- AtualizadoPor Column -->
@@ -357,7 +357,7 @@
                     Atualizado Em
                 </th>
                 <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile' data-label='Atualizado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- ApagadoPor Column -->
@@ -375,7 +375,7 @@
                     Apagado Em
                 </th>
                 <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile' data-label='Apagado Em: '
-                    [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                    [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
                 <!-- Actions Column -->

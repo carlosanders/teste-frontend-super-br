@@ -26,11 +26,11 @@ export class Notificacao {
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraExpiracao?: Date;
+    dataHoraExpiracao?: moment.Moment;
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraLeitura?: Date;
+    dataHoraLeitura?: moment.Moment;
 
     conteudo?: string;
 
@@ -44,7 +44,7 @@ export class Notificacao {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    criadoEm?: Date;
+    criadoEm?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -54,7 +54,7 @@ export class Notificacao {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    atualizadoEm?: Date;
+    atualizadoEm?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -64,7 +64,7 @@ export class Notificacao {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    apagadoEm?: Date;
+    apagadoEm?: moment.Moment;
 
     constructor() {
         this.id = null;

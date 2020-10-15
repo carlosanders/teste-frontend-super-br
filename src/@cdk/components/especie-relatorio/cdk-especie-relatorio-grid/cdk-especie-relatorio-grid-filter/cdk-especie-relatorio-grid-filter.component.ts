@@ -192,6 +192,9 @@ export class CdkEspecieRelatorioGridFilterComponent implements OnInit {
         });
     }
 
+    buscar(): void {
+    }
+
     limpar(): void {
         this.filters = {};
         this.selected.emit(this.filters);

@@ -15,7 +15,7 @@ export class LogEntry {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    loggedAt?: Date;
+    loggedAt?: moment.Moment;
 
     objectClass?: string;
 

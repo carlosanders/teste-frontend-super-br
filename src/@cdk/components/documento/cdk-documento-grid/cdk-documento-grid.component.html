@@ -237,7 +237,7 @@
                         Data Produção
                     </th>
                     <td mat-cell *matCellDef="let documento" class='has_label_on_mobile' data-label='Data Produção: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.dataHoraProducao | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.dataHoraProducao?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DocumentoOrigem Column -->
@@ -344,7 +344,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let documento" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -363,7 +363,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let documento" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -381,7 +381,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let documento" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

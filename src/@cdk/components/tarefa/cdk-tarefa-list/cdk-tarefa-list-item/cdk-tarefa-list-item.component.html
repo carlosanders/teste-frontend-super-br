@@ -40,7 +40,7 @@
                     <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
                     >Ofício vinculado pendente de resposta</span>
                 <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta | date: 'dd/MM/yyyy H:mm'}}</span>
+                >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta?.toDate() | date: 'dd/MM/yyyy H:mm'}}</span>
             </div>
 
             <div class="subtitle" *ngIf="isOpen">
@@ -63,12 +63,12 @@
             </div>
 
             <div *ngIf="tarefa.dataHoraFinalPrazo">
-                {{tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}}
-                ATÉ {{tarefa.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}}
+                {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+                ATÉ {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
             </div>
 
             <div *ngIf="!tarefa.dataHoraFinalPrazo">
-                {{(tarefa.dataHoraInicioPrazo | date: 'dd/MM/yyyy')}}
+                {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy')}}
                 ATÉ
                 <mat-icon class="secondary-text" matTooltip="Prazo fechado">
                     lock

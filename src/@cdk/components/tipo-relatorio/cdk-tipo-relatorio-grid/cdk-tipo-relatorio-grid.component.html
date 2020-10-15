@@ -161,7 +161,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let tipoRelatorio" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1}"> {{tipoRelatorio.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1}"> {{tipoRelatorio.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -182,7 +182,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoRelatorio" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1}"> {{tipoRelatorio.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1}"> {{tipoRelatorio.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -200,7 +200,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let tipoRelatorio" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1}"> {{tipoRelatorio.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoRelatorio.id) > -1}"> {{tipoRelatorio.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

@@ -38,12 +38,12 @@
 
             <div class="body mt-4">
                 <div>
-                    Data Abertura:  {{processo.dataHoraAbertura | date: 'dd/MM/yyyy'}}
+                    Data Abertura:  {{processo.dataHoraAbertura?.toDate() | date: 'dd/MM/yyyy'}}
                 </div>
 
                 <div *showIfRole="'ROLE_COLABORADOR'">
                     <div>
-                        Data Transição: {{processo.dataHoraProximaTransicao | date: 'dd/MM/yyyy'}}
+                        Data Transição: {{processo.dataHoraProximaTransicao?.toDate() | date: 'dd/MM/yyyy'}}
                     </div>
 
                     <div *ngIf="processo.classificacao">

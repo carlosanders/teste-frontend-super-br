@@ -225,7 +225,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1}">
-                        {{juntada.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        {{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -246,7 +246,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1}">
-                        {{juntada.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        {{juntada.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -265,7 +265,7 @@
                     </th>
                     <td mat-cell *matCellDef="let juntada" class='has_label_on_mobile' data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(juntada.id) > -1}">
-                        {{juntada.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        {{juntada.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
