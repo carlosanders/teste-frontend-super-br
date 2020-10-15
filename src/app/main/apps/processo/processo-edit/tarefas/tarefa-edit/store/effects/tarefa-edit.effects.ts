@@ -63,7 +63,8 @@ export class TarefaEditEffect {
                             'setorResponsavel.unidade',
                             'setorOrigem',
                             'setorOrigem.unidade',
-                            'especieTarefa.generoTarefa'
+                            'especieTarefa.generoTarefa',
+                            'processo.especieProcesso.workflow'
                         ]));
                 }),
                 switchMap(response => [

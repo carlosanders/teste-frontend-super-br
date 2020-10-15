@@ -63,6 +63,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     processo: Processo;
     isSavingProcesso$: Observable<boolean>;
     errors$: Observable<any>;
+    errorsTarefa$: Observable<any>;
 
     especieProcessoPagination: Pagination;
     setorAtualPagination: Pagination;
@@ -149,6 +150,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     ) {
         this.isSavingProcesso$ = this._store.pipe(select(fromStore.getProcessoIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getProcessoErrors));
+        this.errorsTarefa$ = this._store.pipe(select(fromStore.getTarefaErrors));
         this.processo$ = this._store.pipe(select(getProcesso));
         this._profile = this._loginService.getUserProfile();
 
@@ -560,6 +562,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 tarefa[key] = value;
             }
         );
+
+        if (this.processo.especieProcesso?.workflow) {
+            tarefa.workflow = this.processo.especieProcesso.workflow;
+        }
 
         this._store.dispatch(new SaveTarefa(tarefa));
     }

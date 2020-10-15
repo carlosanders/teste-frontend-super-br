@@ -129,7 +129,7 @@
             [form]="formTarefa"
             [tarefa]="tarefa"
             [saving]="(isSavingTarefa$ | async)"
-            [errors]="(errors$ | async)"
+            [errors]="(errorsTarefa$ | async)"
             [especieTarefaPagination]="especieTarefaPagination"
             [logEntryPagination]="logEntryPagination"
             (save)="submitTarefa($event)"

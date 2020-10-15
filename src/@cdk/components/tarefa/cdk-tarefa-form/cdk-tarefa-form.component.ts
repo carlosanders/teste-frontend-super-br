@@ -211,6 +211,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
                 };
             }
+            if (this.form.get('processo').value.especieProcesso?.workflow) {
+                this.addFilterProcessoWorfkflow();
+            }
         } else {
             this.form.get('especieTarefa').disable();
         }
@@ -645,6 +648,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('usuarioResponsavel').disable();
                 this.setorResponsavelPagination.filter['unidade.id'] = `eq:${this.tarefa.unidadeResponsavel.id}`;
             }
+
+            if (this.tarefa.processo?.especieProcesso?.workflow) {
+                this.addFilterProcessoWorfkflow();
+            }
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
@@ -787,19 +794,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     showEspecieTarefaGrid(): void {
-        // caso processo seja de workflow verificar espécies permitidas
-        this.especieTarefaPagination['context'] = {};
-        if (this.form.get('processo').value.especieProcesso.workflow &&
-            !this.form.get('especieTarefa').value) {
-            this.especieTarefaPagination.filter = {
-                orX : [
-                    {'workflow.id': 'eq:' + this.form.get('processo').value.especieProcesso.workflow.id},
-                    {'transicoesWorkflowTo.id' : 'isNotNull'}
-                ]
-            };
-            this.especieTarefaPagination['context'] = { processoId: this.form.get('processo').value.id };
-        }
 
+        this.addFilterProcessoWorfkflow();
         this.activeCard = 'especie-tarefa-gridsearch';
     }
 
@@ -1053,5 +1049,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             }
         );
+    }
+
+    addFilterProcessoWorfkflow(): void {
+        // caso processo seja de workflow verificar espécies permitidas
+        this.especieTarefaPagination['context'] = {};
+        if (this.form.get('processo').value.especieProcesso.workflow) {
+            this.especieTarefaPagination.filter = {
+                orX : [
+                    {'workflow.id': 'eq:' + this.form.get('processo').value.especieProcesso.workflow.id},
+                    {'transicoesWorkflowTo.id' : 'isNotNull'}
+                ]
+            };
+            this.especieTarefaPagination['context'] = { processoId: this.form.get('processo').value.id };
+        }
     }
 }

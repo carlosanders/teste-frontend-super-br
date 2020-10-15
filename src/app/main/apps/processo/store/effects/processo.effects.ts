@@ -65,7 +65,9 @@ export class ProcessoEffect {
                             'classificacao.modalidadeDestinacao',
                             'lembretes',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
+                            'vinculacoesEtiquetas.etiqueta',
+                            'especieProcesso',
+                            'especieProcesso.workflow'
                         ]),
                         JSON.stringify(chaveAcesso));
                 }),

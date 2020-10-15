@@ -65,7 +65,9 @@ export class DadosBasicosEffect {
                             'especieProcesso.generoProcesso',
                             'setorAtual.unidade',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
+                            'vinculacoesEtiquetas.etiqueta',
+                            'especieProcesso',
+                            'especieProcesso.workflow'
                         ]));
                 }),
                 switchMap(response => [

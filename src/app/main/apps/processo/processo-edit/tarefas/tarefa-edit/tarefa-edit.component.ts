@@ -63,7 +63,7 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
 
         this.logEntryPagination = new Pagination();
         this.especieTarefaPagination = new Pagination();
-        this.especieTarefaPagination.populate = ['generoTarefa'];
+        this.especieTarefaPagination.populate = ['generoTarefa', 'especieProcesso', 'especieProcesso.workflow'];
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
@@ -120,6 +120,10 @@ export class TarefaEditComponent implements OnInit, OnDestroy {
                 tarefa[key] = value;
             }
         );
+
+        if (this.processo.especieProcesso?.workflow) {
+            tarefa.workflow = this.processo.especieProcesso.workflow;
+        }
 
         this._store.dispatch(new fromStore.SaveTarefa(tarefa));
 
