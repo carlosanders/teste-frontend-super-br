@@ -1,5 +1,4 @@
-<cdk-componente-digital-card class="ml-8 mb-8"
-                             *ngFor="let componenteDigital of componentesDigitais"
+<cdk-componente-digital-card *ngFor="let componenteDigital of componentesDigitais"
                              [componenteDigital]="componenteDigital"
                              [selected]="selectedIds.indexOf(componenteDigital.id) > -1"
                              (cancel)="onCancel($event)"

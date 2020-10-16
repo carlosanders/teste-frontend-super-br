@@ -26,7 +26,7 @@ import {DocumentoAvulso} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkComponenteDigitalCardListComponent implements OnInit {
+export class CdkComponenteDigitalCardListComponent {
 
     @Input()
     componentesDigitais: ComponenteDigital[] = [];
@@ -98,9 +98,6 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
     ) {
     }
 
-    ngOnInit(): void {
-    }
-
     toggleInSelected(componenteDigitalId): void {
         const selectedComponentesDigitaisId = [...this.selectedIds];
 
@@ -125,12 +122,10 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
     }
 
     onRetry(componenteDigital): void {
-        this.retryFile(componenteDigital.file);
+        const file = new FileUploadModel();
+        console.log(componenteDigital);
+        this.retryFile(componenteDigital);
     }
-
-    /**
-     * Upload
-     */
 
     upload(): void {
         const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
@@ -155,7 +150,8 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
         fileUpload.click();
     }
 
-    cancelFile(file: FileUploadModel): void {
+    cancelFile(componenteDigital: ComponenteDigital): void {
+        const file = componenteDigital.file;
         file.sub.unsubscribe();
         file.inProgress = false;
         file.canRetry = true;
@@ -163,9 +159,9 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
         // this.removeFileFromArray(file);
     }
 
-    retryFile(file: FileUploadModel): void {
-        this.uploadFile(file);
-        file.canRetry = false;
+    retryFile(componenteDigital: ComponenteDigital): void {
+        this.componentesDigitais = this.componentesDigitais.filter(comp => comp.canRetry ? false : true);
+        this.uploadFile(componenteDigital.file);
     }
 
     private getBase64(file): any {
@@ -178,18 +174,17 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
     }
 
     private uploadFile(file: FileUploadModel): void {
-
         /**
          * multipart formdata
          * const params = new FormData();
          * fd.append('conteudo', file.data);
          */
-
         file.canCancel = true;
 
         this.getBase64(file.data).then(
             conteudo => {
                 const componenteDigital = new ComponenteDigital();
+                componenteDigital.file = file;
                 componenteDigital.conteudo = conteudo;
                 componenteDigital.mimetype = 'application/pdf';
                 componenteDigital.fileName = file.data.name;

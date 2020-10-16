@@ -140,7 +140,7 @@ export class ComponenteDigital {
     apagadoEm?: Date;
 
     @Exclude()
-    file?: File;
+    file?: any;
     @Exclude()
     state?: string;
     @Exclude()
