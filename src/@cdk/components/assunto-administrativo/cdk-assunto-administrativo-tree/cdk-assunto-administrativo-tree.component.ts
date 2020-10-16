@@ -283,7 +283,7 @@ export class CdkAssuntoAdministrativoTreeComponent {
         this.loading = true;
         const params = {
             filter: {
-                parent: parent,
+                'parent.id': parent,
             },
             sort: {
                 nome: 'ASC'

@@ -61,20 +61,36 @@ export class CdkEspecieAtividadeFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('nome').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({nome: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    nome: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('nome')) {
+                    delete this.filters['nome'];
+                }
             }
         });
 
         this.form.get('descricao').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({descricao: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    descricao: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('descricao')) {
+                    delete this.filters['descricao'];
+                }
             }
         });
 
@@ -120,15 +136,6 @@ export class CdkEspecieAtividadeFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
         this.form.get('criadoPor').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
@@ -154,21 +161,6 @@ export class CdkEspecieAtividadeFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
                     }
                 }
             }

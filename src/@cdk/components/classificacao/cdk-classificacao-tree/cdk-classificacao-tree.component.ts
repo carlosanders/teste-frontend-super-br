@@ -241,7 +241,7 @@ export class CdkClassificacaoTreeComponent {
         this.loading = true;
         const params = {
             filter: {
-                parent: parent,
+                'parent.id': parent,
                 permissaoUso: 'eq:1'
             },
             sort: {
