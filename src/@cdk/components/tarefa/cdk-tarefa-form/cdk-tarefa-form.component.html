@@ -240,8 +240,7 @@
                                 required></mat-datetimepicker>
         </mat-form-field>
 
-        <mat-form-field [hidden]="!evento"
-                        *ngIf="mode === 'regular' || mode === 'bloco-create'">
+        <mat-form-field *ngIf="evento && (mode === 'regular' || mode === 'bloco-create')">
             <input type="text" formControlName="localEvento"
                    matInput placeholder="Local do Evento" maxlength="255" upperCase/>
             <mat-error *ngIf="form.get('observacao').hasError('formError')">
