@@ -1,28 +1,30 @@
-<div [@animateStagger]="{value:'50'}">
-
+<div class="header">
     <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
             (click)="doCreate()"
             aria-label="novo"
             matTooltip="Novo">
         <mat-icon>add</mat-icon>
     </button>
+</div>
 
+<div class="content" cdkPerfectScrollbar>
     <div class="loading" *ngIf="loading">
         <mat-spinner class="visibilidade-list-loading" diameter="32"></mat-spinner>
     </div>
 
-    <div class="items" cdkPerfectScrollbar *ngIf="!loading">
+    <div class="items" *ngIf="acoes.length > 0 && !loading">
         <cdk-acao-list-item matRipple *ngFor="let acao of acoes" [acao]="acao"
-                                    [deleting]="deletingIds.length > 0 && deletingIds.indexOf(acao.id) > -1"
-                                    [total]="acoes.length"
-                                    (delete)="doDeleteacao($event)"
-                                    [@animate]="{value:'*',params:{y:'100%'}}">
+                            [deleting]="deletingIds.length > 0 && deletingIds.indexOf(acao.id) > -1"
+                            [total]="acoes.length"
+                            (delete)="doDeleteacao($event)"
+                            [@animate]="{value:'*',params:{y:'100%'}}">
         </cdk-acao-list-item>
     </div>
 
+    <div class="no-acoes-text" *ngIf="acoes.length === 0 && !loading">
+        <span class="hint-text">{{ 'Nenhuma ação foi criada ainda!' }}</span>
+    </div>
 </div>
 
-<div class="no-acoes-text" *ngIf="acoes.length === 0 && !loading" class="no-items">
-    <span class="hint-text">{{ 'Nenhuma ação foi criada ainda!' }}</span>
-</div>
+
 
