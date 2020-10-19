@@ -131,6 +131,7 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
      */
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadRepositorios());
+        this._store.dispatch(new fromStore.UnloadComponenteDigital());
     }
 
     reload(params): void {

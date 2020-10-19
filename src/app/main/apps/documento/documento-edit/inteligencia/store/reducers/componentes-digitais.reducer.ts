@@ -123,6 +123,12 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
             };
         }
 
+        case ComponenteDigitalActions.UNLOAD_REPOSITORIO_COMPONENTE_DIGITAL: {
+            return {
+                ...ComponenteDigitalInitialState
+            };
+        }
+
         default:
             return state;
     }

@@ -12,6 +12,8 @@ export const GET_COMPONENTES_DIGITAIS_FAILED = '[DOCUMENTO COMPONENTE DIGITAL] G
 
 export const RELOAD_COMPONENTES_DIGITAIS = '[DOCUMENTO COMPONENTE DIGITAL] RELOAD COMPONENTES DIGITAIS';
 
+export const UNLOAD_REPOSITORIO_COMPONENTE_DIGITAL = '[DOCUMENTO COMPONENTE DIGITAL] UNLOAD COMPONENTE DIGITAL';
+
 /**
  * Get ComponentesDigitais
  */
@@ -102,6 +104,18 @@ export class SetRepositorioComponenteDigital implements Action
     }
 }
 
+/**
+ * Unload Componente Digital
+ */
+export class UnloadComponenteDigital implements Action
+{
+    readonly type = UNLOAD_REPOSITORIO_COMPONENTE_DIGITAL;
+
+    constructor()
+    {
+    }
+}
+
 export type ComponenteDigitalActionsAll
     = DownloadComponenteDigital
     | DownloadComponenteDigitalSuccess
@@ -110,4 +124,5 @@ export type ComponenteDigitalActionsAll
     | GetComponentesDigitais
     | GetComponentesDigitaisFailed
     | GetComponentesDigitaisSuccess
-    | ReloadComponentesDigitais;
+    | ReloadComponentesDigitais
+    | UnloadComponenteDigital;
