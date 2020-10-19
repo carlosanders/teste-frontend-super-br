@@ -10,6 +10,8 @@ import * as fromGuards from './store/guards';
 import {MatButtonModule, MatIconModule} from '@cdk/angular/material';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {modulesConfig} from 'modules/modules-config';
+import {DocumentoEditInteligenciaStoreModule} from '../documento-edit/inteligencia/store/store.module';
+import {DocumentoAvulsoEditInteligenciaStoreModule} from '../documento-avulso-edit/inteligencia/store/store.module';
 
 const routes: Routes = [
     {
@@ -62,6 +64,8 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
 
         ComponenteDigitalStoreModule,
+        DocumentoEditInteligenciaStoreModule,
+        DocumentoAvulsoEditInteligenciaStoreModule
 
     ],
     providers: [
