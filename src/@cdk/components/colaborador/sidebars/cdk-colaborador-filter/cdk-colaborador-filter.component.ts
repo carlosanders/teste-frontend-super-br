@@ -54,16 +54,18 @@ export class CdkColaboradorFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('cargo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'cargo.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('cargo.id')) {
-                        delete this.filters['cargo.id'];
-                    }
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({cargo: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
+                this.filters = {
+                    ...this.filters,
+                    andX: andxFilter
+                };
+            } else {
+                if (this.filters.hasOwnProperty('cargo')) {
+                    delete this.filters['cargo'];
                 }
             }
         });

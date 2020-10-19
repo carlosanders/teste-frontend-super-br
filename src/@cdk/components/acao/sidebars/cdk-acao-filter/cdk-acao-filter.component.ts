@@ -61,20 +61,36 @@ export class CdkAcaoFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('contexto').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({contexto: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    nome: `contexto:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('contexto')) {
+                    delete this.filters['contexto'];
+                }
             }
         });
 
         this.form.get('trigger').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({trigger: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    trigger: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('trigger')) {
+                    delete this.filters['trigger'];
+                }
             }
         });
 

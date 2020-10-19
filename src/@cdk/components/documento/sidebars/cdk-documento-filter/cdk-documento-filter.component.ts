@@ -77,65 +77,121 @@ export class CdkDocumentoFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('descricaoOutros').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({descricaoOutros: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    descricaoOutros: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('descricaoOutros')) {
+                    delete this.filters['descricaoOutros'];
+                }
             }
         });
 
         this.form.get('outroNumero').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({outroNumero: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    outroNumero: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('outroNumero')) {
+                    delete this.filters['outroNumero'];
+                }
             }
         });
 
         this.form.get('redator').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({redator: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    redator: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('redator')) {
+                    delete this.filters['redator'];
+                }
             }
         });
 
         this.form.get('localizadorOriginal').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({localizadorOriginal: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    localizadorOriginal: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('localizadorOriginal')) {
+                    delete this.filters['localizadorOriginal'];
+                }
             }
         });
 
         this.form.get('localProducao').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({localProducao: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    localProducao: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('localProducao')) {
+                    delete this.filters['localProducao'];
+                }
             }
         });
 
         this.form.get('autor').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({autor: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    autor: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('autor')) {
+                    delete this.filters['autor'];
+                }
             }
         });
 
         this.form.get('observacao').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({observacao: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    observacao: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('observacao')) {
+                    delete this.filters['observacao'];
+                }
             }
         });
 

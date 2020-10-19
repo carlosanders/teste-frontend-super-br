@@ -63,38 +63,70 @@ export class CdkAssuntoAdministrativoFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('nome').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({nome: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    nome: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('nome')) {
+                    delete this.filters['nome'];
+                }
             }
         });
 
         this.form.get('glossario').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({glossario: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    glossario: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('glossario')) {
+                    delete this.filters['glossario'];
+                }
             }
         });
 
         this.form.get('dispositivoLegal').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({dispositivoLegal: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    dispositivoLegal: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('dispositivoLegal')) {
+                    delete this.filters['dispositivoLegal'];
+                }
             }
         });
 
         this.form.get('codigoCNJ').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({codigoCNJ: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    codigoCNJ: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('codigoCNJ')) {
+                    delete this.filters['codigoCNJ'];
+                }
             }
         });
 

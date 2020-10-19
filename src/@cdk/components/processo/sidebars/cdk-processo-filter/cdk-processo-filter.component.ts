@@ -34,6 +34,8 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    filters: any = {};
+
     /**
      * Constructor
      */
@@ -84,61 +86,105 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
      */
     ngOnInit(): void {
         this.form.get('NUP').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const NUP = value.replace(/[^\w\-]+/g, '').replace(/-+/g, '');
-                this._cdkProcessoFilterService.filters = {
-                    ...this._cdkProcessoFilterService.filters,
-                    NUP: `like:${NUP}%`
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({NUP: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
+                this.filters = {
+                    ...this.filters,
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('NUP')) {
+                    delete this.filters['NUP'];
+                }
             }
         });
 
         this.form.get('nome').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (this.mode === 'search') {
-                    this._cdkProcessoFilterService.filters = {
-                        ...this._cdkProcessoFilterService.filters,
-                        'interessados.pessoa.nome': `like:${value}%`
-                    };
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({'interessados.pessoa.nome': `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
+                this.filters = {
+                    ...this.filters,
+                    andX: andxFilter
+                };
+            } else {
+                if (this.filters.hasOwnProperty('interessados.pessoa.nome')) {
+                    delete this.filters['interessados.pessoa.nome'];
                 }
             }
         });
 
         this.form.get('cpfCnpj').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (this.mode === 'search') {
-                    this._cdkProcessoFilterService.filters = {
-                        ...this._cdkProcessoFilterService.filters,
-                        'interessados.pessoa.numeroDocumentoPrincipal': `like:${value}%`
-                    };
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({'interessados.pessoa.numeroDocumentoPrincipal': `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
+                this.filters = {
+                    ...this.filters,
+                    andX: andxFilter
+                };
+            } else {
+                if (this.filters.hasOwnProperty('interessados.pessoa.numeroDocumentoPrincipal')) {
+                    delete this.filters['interessados.pessoa.numeroDocumentoPrincipal'];
+                }
+            }
+
+        });
+
+        this.form.get('titulo').valueChanges.subscribe(value => {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({titulo: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
+                this.filters = {
+                    ...this.filters,
+                    andX: andxFilter
+                };
+            } else {
+                if (this.filters.hasOwnProperty('titulo')) {
+                    delete this.filters['titulo'];
                 }
             }
         });
 
-        this.form.get('titulo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this._cdkProcessoFilterService.filters = {
-                    ...this._cdkProcessoFilterService.filters,
-                    titulo: `like:${value}%`
-                };
-            }
-        });
-
         this.form.get('descricao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this._cdkProcessoFilterService.filters = {
-                    ...this._cdkProcessoFilterService.filters,
-                    descricao: `like:${value}%`
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({descricao: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
+                this.filters = {
+                    ...this.filters,
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('descricao')) {
+                    delete this.filters['descricao'];
+                }
             }
         });
 
         this.form.get('outroNumero').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this._cdkProcessoFilterService.filters = {
-                    ...this._cdkProcessoFilterService.filters,
-                    outroNumero: `like:${value}%`
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({outroNumero: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
+                this.filters = {
+                    ...this.filters,
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('outroNumero')) {
+                    delete this.filters['outroNumero'];
+                }
             }
         });
 

@@ -77,20 +77,36 @@ export class CdkLotacaoFilterComponent implements OnInit {
         });
 
         this.form.get('digitosDistribuicao').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({digitosDistribuicao: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    digitosDistribuicao: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('digitosDistribuicao')) {
+                    delete this.filters['digitosDistribuicao'];
+                }
             }
         });
 
         this.form.get('centenasDistribuicao').valueChanges.subscribe(value => {
-            if (value !== null) {
+            const andxFilter = [];
+            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({centenasDistribuicao: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    centenasDistribuicao: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('centenasDistribuicao')) {
+                    delete this.filters['centenasDistribuicao'];
+                }
             }
         });
 
