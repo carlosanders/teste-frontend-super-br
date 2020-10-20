@@ -318,7 +318,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }
 
         this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: this.processo.id};
-        this.especieProcessoPagination.populate = ['generoProcesso'];
+        this.especieProcessoPagination.populate = ['classificacao', 'generoProcesso', 'modalidadeMeio'];
         this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:' + this.genero.toUpperCase()};
 
         this.especieTarefaPagination.populate = ['generoTarefa'];

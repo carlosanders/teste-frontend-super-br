@@ -315,13 +315,6 @@ especieDocumentoAvulso.define({
     apagadoPor: usuario
 });
 
-especieProcesso.define({
-    generoProcesso: generoProcesso,
-    criadoPor: usuario,
-    atualizadoPor: usuario,
-    apagadoPor: usuario
-});
-
 especieRelatorio.define({
     generoRelatorio: generoRelatorio,
     criadoPor: usuario,
@@ -345,6 +338,15 @@ especieSetor.define({
 
 especieTarefa.define({
     generoTarefa: generoTarefa,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+especieProcesso.define({
+    generoProcesso: generoProcesso,
+    classificacao: classificacao,
+    modalidadeMeio: modalidadeMeio,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
