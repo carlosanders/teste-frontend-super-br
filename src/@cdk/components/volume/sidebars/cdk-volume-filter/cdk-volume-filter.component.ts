@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
-  
+
 @Component({
     selector: 'cdk-volume-filter',
     templateUrl: './cdk-volume-filter.component.html',
@@ -199,4 +199,5 @@ export class CdkVolumeFilterComponent implements OnInit {
         this.emite();
         this.form.reset();
     }
+    
 }
