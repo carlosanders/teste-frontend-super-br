@@ -297,6 +297,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     // -----------------------------------------------------------------------------------------------------
 
     reload(params): void {
+        this.novaTarefa = false;
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
 
         const nparams = {

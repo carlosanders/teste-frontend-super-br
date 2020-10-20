@@ -3,62 +3,41 @@ cdk-acao-list {
     display: flex;
     flex-direction: column;
 
-    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 8px;
+    }
 
-    > div {
+    > .content {
+
+        flex: 1 1 auto;
         display: flex;
         flex-direction: column;
-        flex: 1 1 auto;
+        overflow-y: auto;
 
         > .loading {
             flex: 1 1 auto;
             display: flex;
             justify-content: center;
             align-items: center;
-
-            > .visibilidade-list-loading {
-                z-index: 9999;
-                margin-top: 48px;
-                display: flex;
-                position: fixed;
-                transform: translate(-50%, -50%);
-            }
         }
 
         > .items {
             display: flex;
             flex-direction: column;
             flex: 1 1 auto;
-            overflow-y: auto;
-            height: 0;
         }
 
-    }
-
-    > .no-items {
-        display: flex;
-        flex-direction: row;
-        flex: 0 0 100%;
-        place-content: flex-start flex-start;
-    }
-
-    .toolbar {
-
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-
-        .toolbar-separator {
-            height: 32px;
-            width: 1px;
-            margin: 0 12px;
+        > .no-acoes-text {
+            display: flex;
+            flex: 1 1 auto;
+            justify-content: center;
+            align-items: center;
         }
 
-        .acao-list-control {
-            margin-left: auto;
-        }
-    }
-
-    .no-acoes-text {
-        font-size: 16px;
-        font-weight: 300;
     }
 }

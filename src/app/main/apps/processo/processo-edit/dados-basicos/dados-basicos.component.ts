@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -18,6 +18,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getProcesso} from './store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
+import {MercureService} from '../../../../../../@cdk/services/mercure.service';
 
 @Component({
     selector: 'dados-basicos',
@@ -49,15 +50,18 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
     /**
      *
+     * @param _changeDetectorRef
      * @param _store
      * @param _router
      * @param _loginService
+     * @param _mercureService
      */
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         private _store: Store<fromStore.DadosBasicosAppState>,
         private _router: Router,
         public _loginService: LoginService,
-
+        private _mercureService: MercureService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -80,7 +84,16 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.processo$.subscribe(
-            processo => this.processo = processo
+            processo => {
+                if (this.processo && processo && (this.processo.id !== processo.id)) {
+                    this._mercureService.unsubscribe(this.processo.origemDados['@id']);
+                }
+                if (processo?.origemDados?.status === 0) {
+                    this._mercureService.subscribe(processo.origemDados['@id']);
+                }
+                this.processo = processo;
+                this._changeDetectorRef.markForCheck();
+            }
         );
 
         if (!this.processo) {
@@ -98,7 +111,6 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
             });
 
         this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: + this.processo.id};
-        // this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:ADMINISTRATIVO'};
         this.especieProcessoPagination.populate = ['generoProcesso'];
         this.setorAtualPagination.populate = ['unidade', 'parent'];
         this.setorAtualPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
@@ -110,7 +122,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-
+        this._mercureService.unsubscribe(this.processo.origemDados['@id']);
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }

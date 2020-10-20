@@ -5,6 +5,10 @@ import { Usuario } from '@cdk/models';
 
 export class OrigemDados {
 
+    '@id'?: string = null;
+    '@type'?: string = null;
+    '@context'?: string = null;
+
     @Exclude({ toPlainOnly: true })
     id?: number;
 
