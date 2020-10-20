@@ -90,7 +90,18 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
 
         this.selectedIds$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selected => this.selectedIds = selected);
+        ).subscribe(selected => {
+            this.selectedIds = selected;
+            if (selected.length === 0) {
+                this._router.navigate([
+                    'apps',
+                    'tarefas',
+                    this.routerState.params.generoHandle,
+                    this.routerState.params.typeHandle,
+                    this.routerState.params.targetHandle
+                ]).then();
+            }
+        });
 
         this._store
             .pipe(
