@@ -4,9 +4,9 @@
 
 // Import app and page component themes here to enable theming for them
 // Adicionar aqui o caminho dos temas de cada módulo instalado
-@import "./judicial/module.theme";
+//@import "./judicial/module.theme";
 
 @mixin modules-theme($theme) {
     //@include judicial-theme($theme);
-    @include judicial-theme($theme);
+    //@include judicial-theme($theme);
 }
