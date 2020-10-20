@@ -77,18 +77,20 @@ export class CdkDistribuicaoFilterComponent implements OnInit {
         });
 
         this.form.get('auditoriaDistribuicao').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({auditoriaDistribuicao: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('auditoriaDistribuicao')) {
-                    delete this.filters['auditoriaDistribuicao'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({auditoriaDistribuicao: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('auditoriaDistribuicao')) {
+                        delete this.filters['auditoriaDistribuicao'];
+                    }
                 }
             }
         });

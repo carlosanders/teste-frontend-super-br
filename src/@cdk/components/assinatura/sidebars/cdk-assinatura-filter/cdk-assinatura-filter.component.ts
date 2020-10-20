@@ -64,69 +64,77 @@ export class CdkAssinaturaFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('algoritmoHash').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({algoritmoHash: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('algoritmoHash')) {
-                    delete this.filters['algoritmoHash'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({algoritmoHash: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('algoritmoHash')) {
+                        delete this.filters['algoritmoHash'];
+                    }
                 }
             }
         });
 
         this.form.get('assinatura').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({assinatura: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('assinatura')) {
-                    delete this.filters['assinatura'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({assinatura: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('assinatura')) {
+                        delete this.filters['assinatura'];
+                    }
                 }
             }
         });
 
         this.form.get('cadeiaCertificadoPEM').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({cadeiaCertificadoPEM: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('cadeiaCertificadoPEM')) {
-                    delete this.filters['cadeiaCertificadoPEM'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({cadeiaCertificadoPEM: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('cadeiaCertificadoPEM')) {
+                        delete this.filters['cadeiaCertificadoPEM'];
+                    }
                 }
             }
         });
 
         this.form.get('cadeiaCertificadoPkiPath').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({cadeiaCertificadoPkiPath: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('cadeiaCertificadoPkiPath')) {
-                    delete this.filters['cadeiaCertificadoPkiPath'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({cadeiaCertificadoPkiPath: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('cadeiaCertificadoPkiPath')) {
+                        delete this.filters['cadeiaCertificadoPkiPath'];
+                    }
                 }
             }
         });

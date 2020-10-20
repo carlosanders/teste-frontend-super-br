@@ -77,86 +77,96 @@ export class CdkSetorFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('nome').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({nome: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('nome')) {
-                    delete this.filters['nome'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({nome: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('nome')) {
+                        delete this.filters['nome'];
+                    }
                 }
             }
         });
 
         this.form.get('endereco').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({endereco: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('endereco')) {
-                    delete this.filters['endereco'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({endereco: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('endereco')) {
+                        delete this.filters['endereco'];
+                    }
                 }
             }
         });
 
         this.form.get('email').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({email: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('email')) {
-                    delete this.filters['email'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({email: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('email')) {
+                        delete this.filters['email'];
+                    }
                 }
             }
         });
 
         this.form.get('sigla').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({sigla: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('sigla')) {
-                    delete this.filters['sigla'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({sigla: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('sigla')) {
+                        delete this.filters['sigla'];
+                    }
                 }
             }
         });
 
         this.form.get('prefixoNUP').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({prefixoNUP: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('prefixoNUP')) {
-                    delete this.filters['prefixoNUP'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({prefixoNUP: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('prefixoNUP')) {
+                        delete this.filters['prefixoNUP'];
+                    }
                 }
             }
         });

@@ -54,8 +54,9 @@ export class CdkColaboradorFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('cargo').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andxFilter.push({cargo: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
@@ -66,6 +67,7 @@ export class CdkColaboradorFilterComponent implements OnInit {
             } else {
                 if (this.filters.hasOwnProperty('cargo')) {
                     delete this.filters['cargo'];
+                    }
                 }
             }
         });

@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {Pagination} from '../../../../models/pagination';
+import {Pagination} from '../../../../models';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 
 @Component({
@@ -77,35 +77,39 @@ export class CdkLotacaoFilterComponent implements OnInit {
         });
 
         this.form.get('digitosDistribuicao').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({digitosDistribuicao: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('digitosDistribuicao')) {
-                    delete this.filters['digitosDistribuicao'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({digitosDistribuicao: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('digitosDistribuicao')) {
+                        delete this.filters['digitosDistribuicao'];
+                    }
                 }
             }
         });
 
         this.form.get('centenasDistribuicao').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({centenasDistribuicao: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('centenasDistribuicao')) {
-                    delete this.filters['centenasDistribuicao'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({centenasDistribuicao: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('centenasDistribuicao')) {
+                        delete this.filters['centenasDistribuicao'];
+                    }
                 }
             }
         });

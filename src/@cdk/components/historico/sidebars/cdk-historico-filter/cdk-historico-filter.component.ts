@@ -59,18 +59,20 @@ export class CdkHistoricoFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('descricao').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andxFilter.push({descricao: `like:%${bit}%`});
-            });
-            if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
-                    andX: andxFilter
-                };
-            } else {
-                if (this.filters.hasOwnProperty('descricao')) {
-                    delete this.filters['descricao'];
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({descricao: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('descricao')) {
+                        delete this.filters['descricao'];
+                    }
                 }
             }
         });

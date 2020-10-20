@@ -67,8 +67,9 @@ export class CdkEnderecoFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('bairro').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andxFilter.push({bairro: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
@@ -79,13 +80,15 @@ export class CdkEnderecoFilterComponent implements OnInit {
             } else {
                 if (this.filters.hasOwnProperty('bairro')) {
                     delete this.filters['bairro'];
+                    }
                 }
             }
         });
 
         this.form.get('cep').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andxFilter.push({cep: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
@@ -96,13 +99,15 @@ export class CdkEnderecoFilterComponent implements OnInit {
             } else {
                 if (this.filters.hasOwnProperty('cep')) {
                     delete this.filters['cep'];
+                    }
                 }
             }
         });
 
         this.form.get('complemento').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andxFilter.push({complemento: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
@@ -113,13 +118,15 @@ export class CdkEnderecoFilterComponent implements OnInit {
             } else {
                 if (this.filters.hasOwnProperty('complemento')) {
                     delete this.filters['complemento'];
+                    }
                 }
             }
         });
 
         this.form.get('logradouro').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andxFilter.push({logradouro: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
@@ -130,13 +137,15 @@ export class CdkEnderecoFilterComponent implements OnInit {
             } else {
                 if (this.filters.hasOwnProperty('logradouro')) {
                     delete this.filters['logradouro'];
+                    }
                 }
             }
         });
 
         this.form.get('numero').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andxFilter.push({numero: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
@@ -147,13 +156,15 @@ export class CdkEnderecoFilterComponent implements OnInit {
             } else {
                 if (this.filters.hasOwnProperty('numero')) {
                     delete this.filters['numero'];
+                    }
                 }
             }
         });
 
         this.form.get('observacao').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andxFilter.push({observacao: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
@@ -164,6 +175,7 @@ export class CdkEnderecoFilterComponent implements OnInit {
             } else {
                 if (this.filters.hasOwnProperty('observacao')) {
                     delete this.filters['observacao'];
+                    }
                 }
             }
         });

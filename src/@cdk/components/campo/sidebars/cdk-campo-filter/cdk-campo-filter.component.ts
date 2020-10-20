@@ -54,8 +54,9 @@ export class CdkCampoFilterComponent implements OnInit {
      */
     ngOnInit(): void {
         this.form.get('nome').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andxFilter.push({nome: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
@@ -66,13 +67,15 @@ export class CdkCampoFilterComponent implements OnInit {
             } else {
                 if (this.filters.hasOwnProperty('nome')) {
                     delete this.filters['nome'];
+                    }
                 }
             }
         });
 
         this.form.get('descricao').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andxFilter.push({descricao: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
@@ -83,13 +86,15 @@ export class CdkCampoFilterComponent implements OnInit {
             } else {
                 if (this.filters.hasOwnProperty('descricao')) {
                     delete this.filters['descricao'];
+                    }
                 }
             }
         });
 
         this.form.get('html').valueChanges.subscribe(value => {
-            const andxFilter = [];
-            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andxFilter.push({html: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
@@ -100,6 +105,7 @@ export class CdkCampoFilterComponent implements OnInit {
             } else {
                 if (this.filters.hasOwnProperty('html')) {
                     delete this.filters['html'];
+                    }
                 }
             }
         });
