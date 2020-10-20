@@ -3,8 +3,8 @@
 </div>
 <div class="bottom-sheet">
     <div>
-        <mat-icon>delete</mat-icon>
-        <span> Deletado(a)</span>
+        <mat-icon>{{data.icon}}</mat-icon>
+        <span>{{data.text}}</span>
     </div>
     <button mat-button type="button" class="primary" (click)="desfazer()">Desfazer</button>
 </div>

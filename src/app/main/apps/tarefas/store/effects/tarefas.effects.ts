@@ -5,8 +5,18 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, of} from 'rxjs';
-import {catchError, concatMap, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {interval, Observable, of} from 'rxjs';
+import {
+    buffer,
+    bufferWhen,
+    catchError,
+    concatMap, delayWhen,
+    map, mergeAll,
+    mergeMap,
+    switchMap,
+    tap,
+    withLatestFrom
+} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
@@ -19,6 +29,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 import {Assunto} from '@cdk/models/assunto.model';
 import {AssuntoService} from '@cdk/services/assunto.service';
+import {getBufferingDelete, getDeletingTarefaIds} from '../selectors';
 
 @Injectable()
 export class TarefasEffect {
@@ -140,7 +151,13 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.DeleteTarefa>(TarefasActions.DELETE_TAREFA),
-                mergeMap((action) => {
+                buffer(this._store.pipe(select(getBufferingDelete))),
+                mergeAll(),
+                withLatestFrom(this._store.pipe(select(getDeletingTarefaIds))),
+                mergeMap(([action, deletingTarefasIds]) => {
+                    if (deletingTarefasIds.indexOf(action.payload) === -1) {
+                        return of(new TarefasActions.DeleteTarefaCancelSuccess(action.payload));
+                    }
                     return this._tarefaService.destroy(action.payload).pipe(
                         map((response) => new TarefasActions.DeleteTarefaSuccess(response.id)),
                         catchError((err) => {
@@ -152,7 +169,7 @@ export class TarefasEffect {
                             return of(new TarefasActions.DeleteTarefaFailed(payload));
                         })
                     );
-                })
+                }, 25)
             );
 
     /**

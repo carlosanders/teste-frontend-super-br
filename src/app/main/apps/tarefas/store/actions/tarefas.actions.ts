@@ -16,6 +16,10 @@ export const DELETE_TAREFA = '[TAREFAS] DELETE TAREFA';
 export const DELETE_TAREFA_SUCCESS = '[TAREFAS] DELETE TAREFA SUCCESS';
 export const DELETE_TAREFA_FAILED = '[TAREFAS] DELETE TAREFA FAILED';
 
+export const DELETE_TAREFA_FLUSH = '[TAREFAS] DELETE TAREFA FLUSH';
+export const DELETE_TAREFA_CANCEL = '[TAREFAS] DELETE TAREFA CANCEL';
+export const DELETE_TAREFA_CANCEL_SUCCESS = '[TAREFAS] DELETE TAREFA CANCEL SUCCESS';
+
 export const CHANGE_SELECTED_TAREFAS = '[TAREFAS] CHANGE SELECTED TAREFAS';
 
 export const REMOVE_TAREFA = '[TAREFAS] REMOVE TAREFA';
@@ -207,6 +211,36 @@ export class DeleteTarefaSuccess implements Action {
  */
 export class DeleteTarefaFailed implements Action {
     readonly type = DELETE_TAREFA_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Delete Tarefa Flush
+ */
+export class DeleteTarefaFlush implements Action {
+    readonly type = DELETE_TAREFA_FLUSH;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Tarefa Cancel
+ */
+export class DeleteTarefaCancel implements Action {
+    readonly type = DELETE_TAREFA_CANCEL;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Tarefa Cancel Success
+ */
+export class DeleteTarefaCancelSuccess implements Action {
+    readonly type = DELETE_TAREFA_CANCEL_SUCCESS;
 
     constructor(public payload: any) {
     }
@@ -530,6 +564,9 @@ export type TarefasActionsAll
     | DeleteTarefa
     | DeleteTarefaSuccess
     | DeleteTarefaFailed
+    | DeleteTarefaFlush
+    | DeleteTarefaCancel
+    | DeleteTarefaCancelSuccess
     | SaveTarefa
     | SaveTarefaSuccess
     | SaveTarefaFailed

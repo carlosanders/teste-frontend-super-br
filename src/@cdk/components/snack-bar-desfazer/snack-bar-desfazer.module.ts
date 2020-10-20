@@ -1,15 +1,13 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SnackBarDeleteComponent } from './snack-bar-delete.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {SnackBarDesfazerComponent} from './snack-bar-desfazer.component';
 import {MatIconModule} from '@angular/material/icon';
 import {FlexModule} from '@angular/flex-layout';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 
-
-
 @NgModule({
-  declarations: [SnackBarDeleteComponent],
+    declarations: [SnackBarDesfazerComponent],
     imports: [
         CommonModule,
         MatIconModule,
@@ -18,7 +16,8 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
         MatProgressBarModule
     ],
     entryComponents: [
-        SnackBarDeleteComponent
+        SnackBarDesfazerComponent
     ]
 })
-export class SnackBarDeleteModule { }
+export class SnackBarDesfazerModule {
+}

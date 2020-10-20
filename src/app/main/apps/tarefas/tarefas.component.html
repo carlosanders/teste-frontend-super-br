@@ -55,7 +55,7 @@
                     </div>
                     <cdk-tarefa-list (scrolled)="onScroll()"
                                      [loading]="(loading$ | async)"
-                                     [tarefas]="tarefas"
+                                     [tarefas]="(tarefas$ | async)"
                                      [error]="(error$ | async)"
                                      [errorDelete]="(errorDelete$ | async)"
                                      [deletingIds]="(deletingIds$ | async)"

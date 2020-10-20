@@ -15,16 +15,14 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getSelectedTarefas} from '../store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {modulesConfig} from 'modules/modules-config';
 import {DynamicService} from 'modules/dynamic.service';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
-import {SnackBarDeleteComponent} from '@cdk/components/snack-bar-delete/snack-bar-delete.component';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {SnackBarDeleteService} from '@cdk/components/snack-bar-delete/snack-bar-delete.service';
 
 @Component({
     selector: 'tarefas-operacoes-bloco',
@@ -55,9 +53,8 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
-    deleteTotal = false;
-    tarefasDeletadasTemporiamente: Tarefa [] = [];
-    sheetRef: MatSnackBarRef<SnackBarDeleteComponent>;
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
 
     /**
      *
@@ -67,7 +64,6 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
      * @param _snackBar
      * @param _router
      * @param _changeDetectorRef
-     * @param _snackBarDeleteService
      */
     constructor(
         private _dynamicService: DynamicService,
@@ -75,8 +71,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         public _loginService: LoginService,
         private _snackBar: MatSnackBar,
         private _router: Router,
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _snackBarDeleteService: SnackBarDeleteService,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.tarefas$ = this._store.pipe(select(fromStoreTarefas.getSelectedTarefas));
         this.folders$ = this._store.pipe(select(fromStoreTarefas.getFolders));
@@ -119,7 +114,6 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             }
         });
 
-        const path2 = 'app/main/apps/tarefas';
         modulesConfig.forEach((module) => {
             if (module.routerLinks.hasOwnProperty(path) &&
                 module.routerLinks[path].hasOwnProperty('atividade-bloco') &&
@@ -139,51 +133,36 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    deleteTemporariamente(tarefaId): void {
-        const tarefaDeletada = this.tarefas.filter(tarefa => tarefa.id === tarefaId);
-        this.tarefasDeletadasTemporiamente.push(tarefaDeletada.shift());
-    }
-
-    desfazerDelete(tarefaId): void {
-        this.deleteTotal = false;
-        this.tarefasDeletadasTemporiamente = this.tarefasDeletadasTemporiamente.filter(tarefa => tarefa.id !== tarefaId);
-        this._changeDetectorRef.detectChanges();
-    }
-
-    doDelete(tarefaId: number): void {
+    doDeleteTarefa(tarefaId: number): void {
         this._store.dispatch(new fromStoreTarefas.DeleteTarefa(tarefaId));
-    }
 
-    doDeleteTarefa(tarefaId): void {
-        this.deleteTemporariamente(tarefaId);
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
 
-        this.sheetRef = this._snackBar.openFromComponent(SnackBarDeleteComponent, this._snackBarDeleteService.config);
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['fuse-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Deletado(a)'
+            }
+        });
 
-        this.sheetRef.afterDismissed().subscribe((data) => {
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
             if (data.dismissedByAction === true) {
-                this.desfazerDelete(tarefaId);
+                this._store.dispatch(new fromStoreTarefas.DeleteTarefaCancel());
             } else {
-                this.doDelete(tarefaId);
+                this._store.dispatch(new fromStoreTarefas.DeleteTarefaFlush());
             }
         });
     }
 
     doDeleteTarefaBloco(): void {
-        this.deleteTotal = this.selectedIds.length === this.tarefas.length;
-
-        this.selectedIds.forEach(tarefaId => this.deleteTemporariamente(tarefaId));
-
-        this.sheetRef = this._snackBar.openFromComponent(SnackBarDeleteComponent, this._snackBarDeleteService.config);
-
-        this.sheetRef.afterDismissed().subscribe((data) => {
-            if (data.dismissedByAction === true) {
-                this.selectedIds.forEach(tarefaId => this.desfazerDelete(tarefaId));
-                this.deleteTotal = false;
-            } else {
-                this.selectedIds.forEach(tarefaId => this.doDelete(tarefaId));
-            }
-        });
-
+        this.selectedIds.forEach(tarefaId => this.doDeleteTarefa(tarefaId));
     }
 
     doCompartilharBloco(): void {

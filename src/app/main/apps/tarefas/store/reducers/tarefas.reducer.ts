@@ -18,6 +18,7 @@ export interface TarefasState {
     loading: boolean;
     loaded: any;
     deletingTarefaIds: number[];
+    bufferingDelete: number;
     changingFolderTarefaIds: number[];
     togglingLidaTarefaIds: number[];
     currentTarefaId: number;
@@ -49,6 +50,7 @@ export const TarefasInitialState: TarefasState = {
     deletingTarefaIds: [],
     changingFolderTarefaIds: [],
     togglingLidaTarefaIds: [],
+    bufferingDelete: 0,
     deletedTarefaIds: [],
     selectedTarefaIds: [],
     currentTarefaId: null,
@@ -124,7 +126,6 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 loading: false,
                 loaded: false,
                 errorDelete: []
-
             };
         }
 
@@ -166,24 +167,24 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         }
 
         case TarefasActions.DELETE_TAREFA: {
+            const entitiesId = state.entitiesId.filter(id => id !== action.payload);
+            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload);
             return {
                 ...state,
+                entitiesId: entitiesId,
+                selectedTarefaIds: selectedTarefaIds,
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
+                },
                 deletingTarefaIds: [...state.deletingTarefaIds, action.payload],
                 error: null
             };
         }
 
         case TarefasActions.DELETE_TAREFA_SUCCESS: {
-            const entitiesId = state.entitiesId.filter(id => id !== action.payload);
-            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload);
             return {
                 ...state,
-                entitiesId: entitiesId,
-                pagination: {
-                    ...state.pagination,
-                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
-                },
-                selectedTarefaIds: selectedTarefaIds,
                 deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload),
                 errorDelete: [],
                 error: null
@@ -195,7 +196,36 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 ...state,
                 errorDelete: [...state.errorDelete, action.payload.id],
                 deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload.id),
+                entitiesId: [...state.entitiesId, action.payload.id],
                 error: action.payload.error
+            };
+        }
+
+        case TarefasActions.DELETE_TAREFA_CANCEL: {
+            return {
+                ...state,
+                deletingTarefaIds: [],
+                bufferingDelete: state.bufferingDelete + 1,
+                errorDelete: [],
+                error: null
+            };
+        }
+
+        case TarefasActions.DELETE_TAREFA_FLUSH: {
+            return {
+                ...state,
+                bufferingDelete: state.bufferingDelete + 1
+            };
+        }
+
+        case TarefasActions.DELETE_TAREFA_CANCEL_SUCCESS: {
+            return {
+                ...state,
+                entitiesId: [...state.entitiesId, action.payload],
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total + 1
+                },
             };
         }
 
@@ -252,6 +282,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
 
             return {
                 ...state,
+                // tslint:disable-next-line:max-line-length
                 loadingAssuntosProcessosId: (state.loadingAssuntosProcessosId.indexOf(action.payload.processoId) === -1 ? [...state.loadingAssuntosProcessosId, action.payload.processoId] : [...state.loadingAssuntosProcessosId])
             };
         }
