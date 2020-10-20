@@ -59,14 +59,12 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilter = {};
+                    const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = {
-                            ...termFilter,
-                            nome: `like:%${bit}%`
-                        };
+                        andxFilter.push({
+                            nome: `like:%${bit}%`});
                     });
-                    if (typeof value === 'string') {
+                    if (typeof value === 'string' && andxFilter.length > 0) {
                         this.etiquetaListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         let filterParam = '';
@@ -74,14 +72,14 @@ export class CdkEtiquetaAutocompleteComponent implements OnInit {
                             const arrayFilterParam = this.pagination.filter.orX.map((v) => {
                                 return {
                                     ...v,
-                                    ...termFilter
+                                    andX: andxFilter
                                 };
                             });
                             filterParam = JSON.stringify({orX: arrayFilterParam});
                         } else {
                             const objectFilterParam = {
                                 ...this.pagination.filter,
-                                ...termFilter
+                                andX: andxFilter
                             };
                             filterParam = JSON.stringify(objectFilterParam);
                         }

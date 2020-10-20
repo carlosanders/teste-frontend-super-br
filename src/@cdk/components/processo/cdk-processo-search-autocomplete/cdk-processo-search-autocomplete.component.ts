@@ -54,37 +54,31 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilterNUP = {};
-                    let termFilterInteressadoNome = {};
-                    let termFilterInteressadoNumeroDocumentoPrincipal = {};
-                    let termFilterTitulo = {};
-                    let termFilterDescricao = {};
-                    let termFilterOutroNumero = {};
+                    let termFilterNUP = [];
+                    let termFilterInteressadoNome = [];
+                    let termFilterInteressadoNumeroDocumentoPrincipal = [];
+                    let termFilterTitulo = [];
+                    let termFilterDescricao = [];
+                    let termFilterOutroNumero = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilterNUP = {
-                            ...termFilterNUP,
+                        termFilterNUP.push({
                             NUP: `like:%${bit}%`
-                        };
-                        termFilterInteressadoNome = {
-                            ...termFilterInteressadoNome,
+                        });
+                        termFilterInteressadoNome.push({
                             'interessados.pessoa.nome': `like:%${bit}%`
-                        };
-                        termFilterInteressadoNumeroDocumentoPrincipal = {
-                            ...termFilterInteressadoNumeroDocumentoPrincipal,
+                        });
+                        termFilterInteressadoNumeroDocumentoPrincipal.push({
                             'interessados.pessoa.numeroDocumentoPrincipal': `like:%${bit}%`
-                        };
-                        termFilterTitulo = {
-                            ...termFilterTitulo,
+                        });
+                        termFilterTitulo.push({
                             titulo: `like:%${bit}%`
-                        };
-                        termFilterDescricao = {
-                            ...termFilterDescricao,
+                        });
+                        termFilterDescricao.push({
                             descricao: `like:%${bit}%`
-                        };
-                        termFilterOutroNumero = {
-                            ...termFilterOutroNumero,
+                        });
+                        termFilterOutroNumero.push({
                             outroNumero: `like:%${bit}%`
-                        };
+                        });
                     });
                     const termFilter = {
                         orX: [
@@ -96,7 +90,8 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
                             termFilterOutroNumero
                         ]
                     };
-                    if (typeof value === 'string') {
+                    if (typeof value === 'string' && (termFilterNUP.length > 0 ||  termFilterInteressadoNome.length > 0 || termFilterInteressadoNumeroDocumentoPrincipal.length > 0 ||
+                        termFilterTitulo.length > 0 || termFilterDescricao.length > 0 || termFilterOutroNumero.length > 0)) {
                         this.processoSearchListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {

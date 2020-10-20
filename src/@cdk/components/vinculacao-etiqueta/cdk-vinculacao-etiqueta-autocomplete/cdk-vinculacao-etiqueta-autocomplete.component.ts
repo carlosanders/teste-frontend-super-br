@@ -53,27 +53,25 @@ export class CdkVinculacaoEtiquetaAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilter = {};
+                    const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = {
-                            ...termFilter,
-                            'etiqueta.nome': `like:%${bit}%`
-                        };
+                        andxFilter.push({
+                            'etiqueta.nome': `like:%${bit}%`});
                     });
-                    if (typeof value === 'string') {
+                    if (typeof value === 'string' && andxFilter.length > 0) {
                         this.vinculacaoEtiquetaListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         let filterParam = '';
                         if (Array.isArray(this.pagination.filter)) {
                             const arrayFilterParam = [
                                 ...this.pagination.filter,
-                                termFilter
+                                andxFilter
                             ];
                             filterParam = JSON.stringify(arrayFilterParam);
                         } else {
                             const objectFilterParam = {
                                 ...this.pagination.filter,
-                                ...termFilter
+                                andX: andxFilter
                             };
                             filterParam = JSON.stringify(objectFilterParam);
                         }

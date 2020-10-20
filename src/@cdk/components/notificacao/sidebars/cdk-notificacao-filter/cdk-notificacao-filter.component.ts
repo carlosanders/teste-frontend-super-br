@@ -65,10 +65,20 @@ export class CdkNotificacaoFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('conteudo').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    conteudo: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({conteudo: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('conteudo')) {
+                        delete this.filters['conteudo'];
+                    }
+                }
             }
         });
 

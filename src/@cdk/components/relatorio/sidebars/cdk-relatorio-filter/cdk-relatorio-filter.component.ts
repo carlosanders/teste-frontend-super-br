@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, Input, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    OnInit,
+    Output,
+    Input,
+    ViewEncapsulation
+} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
@@ -100,10 +108,20 @@ export class CdkRelatorioFilterComponent implements OnInit {
 
         this.form.get('observacao').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    observacao: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({observacao: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('observacao')) {
+                        delete this.filters['observacao'];
+                    }
+                }
             }
         });
 

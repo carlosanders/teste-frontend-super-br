@@ -7,9 +7,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {EspecieTarefa} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import {FormControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
@@ -59,19 +57,17 @@ export class CdkEspecieRelatorioAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilter = {};
+                    const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = {
-                            ...termFilter,
-                            nome: `like:%${bit}%`
-                        };
+                        andxFilter.push({
+                            nome: `like:%${bit}%`});
                     });
-                    if (typeof value === 'string') {
+                    if (typeof value === 'string' && andxFilter.length > 0) {
                         this.especieRelatorioListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            ...termFilter
+                            andX: andxFilter
                         };
                         return this._especieRelatorioService.query(
                             JSON.stringify(filterParam),

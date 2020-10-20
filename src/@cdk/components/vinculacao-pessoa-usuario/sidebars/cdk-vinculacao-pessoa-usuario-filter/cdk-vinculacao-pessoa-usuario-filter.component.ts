@@ -54,13 +54,22 @@ export class CdkVinculacaoPessoaUsuarioFilterComponent implements OnInit {
 
         this.form.get('nome').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    'pessoa.nome': `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({'pessoa.nome': `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('pessoa.nome')) {
+                        delete this.filters['pessoa.nome'];
+                    }
+                }
             }
         });
-
     }
 
     emite(): void {

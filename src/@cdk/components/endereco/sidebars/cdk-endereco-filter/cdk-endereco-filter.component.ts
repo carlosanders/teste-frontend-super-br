@@ -68,55 +68,115 @@ export class CdkEnderecoFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('bairro').valueChanges.subscribe(value => {
             if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({bairro: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    bairro: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('bairro')) {
+                    delete this.filters['bairro'];
+                    }
+                }
             }
         });
 
         this.form.get('cep').valueChanges.subscribe(value => {
             if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({cep: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    cep: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('cep')) {
+                    delete this.filters['cep'];
+                    }
+                }
             }
         });
 
         this.form.get('complemento').valueChanges.subscribe(value => {
             if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({complemento: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    complemento: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('complemento')) {
+                    delete this.filters['complemento'];
+                    }
+                }
             }
         });
 
         this.form.get('logradouro').valueChanges.subscribe(value => {
             if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({logradouro: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    logradouro: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('logradouro')) {
+                    delete this.filters['logradouro'];
+                    }
+                }
             }
         });
 
         this.form.get('numero').valueChanges.subscribe(value => {
             if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({numero: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    numero: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('numero')) {
+                    delete this.filters['numero'];
+                    }
+                }
             }
         });
 
         this.form.get('observacao').valueChanges.subscribe(value => {
             if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andxFilter.push({observacao: `like:%${bit}%`});
+            });
+            if (andxFilter.length > 0) {
                 this.filters = {
                     ...this.filters,
-                    observacao: `like:${value}%`
+                    andX: andxFilter
                 };
+            } else {
+                if (this.filters.hasOwnProperty('observacao')) {
+                    delete this.filters['observacao'];
+                    }
+                }
             }
         });
 

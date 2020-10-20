@@ -64,19 +64,39 @@ export class CdkDocumentoIdentificadorFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('codigoDocumento').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    codigoDocumento: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({codigoDocumento: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('codigoDocumento')) {
+                        delete this.filters['codigoDocumento'];
+                    }
+                }
             }
         });
 
         this.form.get('emissorDocumento').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    emissorDocumento: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({emissorDocumento: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('emissorDocumento')) {
+                        delete this.filters['emissorDocumento'];
+                    }
+                }
             }
         });
 

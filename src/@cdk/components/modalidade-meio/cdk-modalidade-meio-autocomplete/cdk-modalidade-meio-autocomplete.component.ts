@@ -1,19 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnInit, ViewChild,
+    Component,
+    Input,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {ModalidadeMeio} from '@cdk/models';
+import {ModalidadeMeio, Pagination} from '@cdk/models';
 import {ModalidadeMeioService} from '@cdk/services/modalidade-meio.service';
 import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-modalidade-meio-autocomplete',
@@ -56,19 +57,17 @@ export class CdkModalidadeMeioAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilter = {};
+                    const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = {
-                            ...termFilter,
-                            valor: `like:%${bit}%`
-                        };
+                        andxFilter.push({
+                            valor: `like:%${bit}%`});
                     });
-                    if (typeof value === 'string') {
+                    if (typeof value === 'string' && andxFilter.length > 0) {
                         this.modalidadeMeioListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            ...termFilter
+                            andX: andxFilter
                         };
                         return this._modalidadeMeioService.query(
                             JSON.stringify(filterParam),
@@ -92,7 +91,6 @@ export class CdkModalidadeMeioAutocompleteComponent implements OnInit {
     }
 
     displayModalidadeMeioFn(modalidadeMeio): string {
-        const displayed = modalidadeMeio ? modalidadeMeio.valor : '';
-        return displayed;
+        return modalidadeMeio ? modalidadeMeio.valor : '';
     }
 }
