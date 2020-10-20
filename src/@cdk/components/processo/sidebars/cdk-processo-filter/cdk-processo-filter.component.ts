@@ -34,8 +34,6 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
-    filters: any = {};
-
     /**
      * Constructor
      */
@@ -91,13 +89,13 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                 andxFilter.push({NUP: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     andX: andxFilter
                 };
             } else {
-                if (this.filters.hasOwnProperty('NUP')) {
-                    delete this.filters['NUP'];
+                if (this._cdkProcessoFilterService.filters.hasOwnProperty('NUP')) {
+                    delete this._cdkProcessoFilterService.filters['NUP'];
                 }
             }
         });
@@ -108,13 +106,13 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                 andxFilter.push({'interessados.pessoa.nome': `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     andX: andxFilter
                 };
             } else {
-                if (this.filters.hasOwnProperty('interessados.pessoa.nome')) {
-                    delete this.filters['interessados.pessoa.nome'];
+                if (this._cdkProcessoFilterService.filters.hasOwnProperty('interessados.pessoa.nome')) {
+                    delete this._cdkProcessoFilterService.filters['interessados.pessoa.nome'];
                 }
             }
         });
@@ -125,16 +123,15 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                 andxFilter.push({'interessados.pessoa.numeroDocumentoPrincipal': `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     andX: andxFilter
                 };
             } else {
-                if (this.filters.hasOwnProperty('interessados.pessoa.numeroDocumentoPrincipal')) {
-                    delete this.filters['interessados.pessoa.numeroDocumentoPrincipal'];
+                if (this._cdkProcessoFilterService.filters.hasOwnProperty('interessados.pessoa.numeroDocumentoPrincipal')) {
+                    delete this._cdkProcessoFilterService.filters['interessados.pessoa.numeroDocumentoPrincipal'];
                 }
             }
-
         });
 
         this.form.get('titulo').valueChanges.subscribe(value => {
@@ -143,13 +140,13 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                 andxFilter.push({titulo: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     andX: andxFilter
                 };
             } else {
-                if (this.filters.hasOwnProperty('titulo')) {
-                    delete this.filters['titulo'];
+                if (this._cdkProcessoFilterService.filters.hasOwnProperty('titulo')) {
+                    delete this._cdkProcessoFilterService.filters['titulo'];
                 }
             }
         });
@@ -160,13 +157,13 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                 andxFilter.push({descricao: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     andX: andxFilter
                 };
             } else {
-                if (this.filters.hasOwnProperty('descricao')) {
-                    delete this.filters['descricao'];
+                if (this._cdkProcessoFilterService.filters.hasOwnProperty('descricao')) {
+                    delete this._cdkProcessoFilterService.filters['descricao'];
                 }
             }
         });
@@ -177,13 +174,13 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                 andxFilter.push({outroNumero: `like:%${bit}%`});
             });
             if (andxFilter.length > 0) {
-                this.filters = {
-                    ...this.filters,
+                this._cdkProcessoFilterService.filters = {
+                    ...this._cdkProcessoFilterService.filters,
                     andX: andxFilter
                 };
             } else {
-                if (this.filters.hasOwnProperty('outroNumero')) {
-                    delete this.filters['outroNumero'];
+                if (this._cdkProcessoFilterService.filters.hasOwnProperty('outroNumero')) {
+                    delete this._cdkProcessoFilterService.filters['outroNumero'];
                 }
             }
         });
@@ -361,15 +358,11 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                         ...this._cdkProcessoFilterService.filters,
                         'modalidadeMeio.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this._cdkProcessoFilterService.filters.hasOwnProperty('modalidadeMeio.id')) {
                         this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
                         delete this._cdkProcessoFilterService.filters['modalidadeMeio.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -381,15 +374,11 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                         ...this._cdkProcessoFilterService.filters,
                         'especieProcesso.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this._cdkProcessoFilterService.filters.hasOwnProperty('especieProcesso.id')) {
                         this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
                         delete this._cdkProcessoFilterService.filters['especieProcesso.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -400,7 +389,6 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                     ...this._cdkProcessoFilterService.filters,
                     criadoEm: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -410,7 +398,6 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                     ...this._cdkProcessoFilterService.filters,
                     atualizadoEm: `eq:${value}`
                 };
-                this.emite();
             }
         });
 
@@ -421,15 +408,11 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                         ...this._cdkProcessoFilterService.filters,
                         'criadoPor.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this._cdkProcessoFilterService.filters.hasOwnProperty('criadoPor.id')) {
                         this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
                         delete this._cdkProcessoFilterService.filters['criadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
@@ -441,15 +424,11 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                         ...this._cdkProcessoFilterService.filters,
                         'atualizadoPor.id': `eq:${value.id}`
                     };
-                    this.emite();
                 } else {
                     if (this._cdkProcessoFilterService.filters.hasOwnProperty('atualizadoPor.id')) {
                         this._cdkProcessoFilterService.filters = {...this._cdkProcessoFilterService.filters};
                         delete this._cdkProcessoFilterService.filters['atualizadoPor.id'];
                     }
-                }
-                if (!value) {
-                    this.emite();
                 }
             }
         });
