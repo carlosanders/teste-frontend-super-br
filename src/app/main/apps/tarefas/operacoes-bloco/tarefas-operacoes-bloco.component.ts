@@ -86,7 +86,18 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     ngOnInit(): void {
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefas => this.tarefas = tarefas);
+        ).subscribe(tarefas => {
+            this.tarefas = tarefas;
+            if (tarefas.length === 0) {
+                this._router.navigate([
+                    'apps',
+                    'tarefas',
+                    this.routerState.params.generoHandle,
+                    this.routerState.params.typeHandle,
+                    this.routerState.params.targetHandle
+                ]).then();
+            }
+        });
 
         this.selectedIds$.pipe(
             takeUntil(this._unsubscribeAll)

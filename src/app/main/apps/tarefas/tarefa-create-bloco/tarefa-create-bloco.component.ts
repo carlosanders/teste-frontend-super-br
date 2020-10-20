@@ -19,6 +19,7 @@ import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
+import {Back} from 'app/store/actions';
 
 @Component({
     selector: 'tarefa-create',
@@ -131,5 +132,9 @@ export class TarefaCreateBlocoComponent implements OnInit, OnDestroy {
 
             this._store.dispatch(new fromStore.SaveTarefa(tarefa));
         });
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }

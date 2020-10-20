@@ -342,7 +342,7 @@ export class TarefasEffect {
                             this.routerState.params.targetHandle,
                             'operacoes-bloco'
                         ]).then();
-                    } else if (this.routerState.url.indexOf('operacoes-bloco') > 0) {
+                    } else if (this.routerState.url.indexOf('bloco') > 0) {
                         this._router.navigate([
                             'apps',
                             'tarefas',
