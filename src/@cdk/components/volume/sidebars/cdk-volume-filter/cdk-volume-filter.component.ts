@@ -54,9 +54,8 @@ export class CdkVolumeFilterComponent implements OnInit {
     }
 
     // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
+    // @ Lifecycle hookss
     // -----------------------------------------------------------------------------------------------------
-
     /**
      * On init
      */
@@ -199,5 +198,5 @@ export class CdkVolumeFilterComponent implements OnInit {
         this.emite();
         this.form.reset();
     }
-    
+
 }
