@@ -74,6 +74,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBloco = new EventEmitter<number[]>();
+
+    @Output()
     folder = new EventEmitter<any>();
 
     @Output()
@@ -229,7 +232,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     doDeleteTarefaBloco(): void {
-        this.selectedIds.forEach(tarefaId => this.doDeleteTarefa(tarefaId));
+        this.deleteBloco.emit(this.selectedIds);
     }
 
     setFolder(folder): void {

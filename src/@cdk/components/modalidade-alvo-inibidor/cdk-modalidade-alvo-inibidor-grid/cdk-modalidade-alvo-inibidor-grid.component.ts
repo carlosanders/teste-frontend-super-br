@@ -116,7 +116,7 @@ export class CdkModalidadeAlvoInibidorGridComponent implements AfterViewInit, On
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];

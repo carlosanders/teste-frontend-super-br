@@ -88,7 +88,7 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
     ];
     columns = new FormControl();
     @Input()
-    pageSize = 5;
+    pageSize = 10;
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
     @ViewChild(MatSort, {static: true})
