@@ -83,6 +83,7 @@ export * from './pagination';
 export * from './paginated.response';
 export * from './pessoa.model';
 export * from './processo.model';
+export * from './regra.model';
 export * from './relacionamento-pessoal.model';
 export * from './relevancia.model';
 export * from './repositorio.model';

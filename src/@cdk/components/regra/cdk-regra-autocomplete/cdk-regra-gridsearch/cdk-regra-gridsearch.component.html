@@ -1,0 +1,10 @@
+<cdk-regra-grid
+        [loading]="loading"
+        [regras]="regras"
+        [displayedColumns]="['id', 'nome', 'descricao', 'etiqueta.nome', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-regra-grid>

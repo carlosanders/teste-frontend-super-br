@@ -235,6 +235,24 @@
                             <mat-icon>edit</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('acoes') > -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(etiqueta.id) > -1"
+                                (click)="acoesEtiqueta(etiqueta.id)"
+                                aria-label="ações"
+                                matTooltip="Ações">
+                            <mat-icon>beenhere</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('regras') > -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(etiqueta.id) > -1"
+                                (click)="regrasEtiqueta(etiqueta.id)"
+                                aria-label="regras"
+                                matTooltip="Regras">
+                            <mat-icon>assignment</mat-icon>
+                        </button>
+
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(etiqueta.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>

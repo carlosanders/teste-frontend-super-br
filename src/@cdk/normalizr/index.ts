@@ -82,6 +82,7 @@ export const origemDados = new schema.Entity('origem-dados');
 export const pais = new schema.Entity('pais');
 export const pessoa = new schema.Entity('pessoa');
 export const processo = new schema.Entity('processo');
+export const regra = new schema.Entity('regra');
 export const relacionamentoPessoal = new schema.Entity('relacionamento-pessoal');
 export const relevancia = new schema.Entity('relevancia');
 export const relatorio = new schema.Entity('relatorio');
@@ -713,6 +714,12 @@ processo.define({
     lembretes: [lembrete],
     assuntos: [assunto],
     interessados: [interessado]
+});
+
+regra.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
 });
 
 relacionamentoPessoal.define({

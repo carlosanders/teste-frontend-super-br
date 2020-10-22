@@ -102,6 +102,14 @@ export class EtiquetaListComponent implements OnInit {
         this._router.navigate(['apps/configuracoes/etiquetas/editar/' + etiquetaId + '/dados-basicos']);
     }
 
+    acoes(etiquetaId: number): void {
+        this._router.navigate(['apps/configuracoes/etiquetas/editar/' + etiquetaId + '/acoes']);
+    }
+
+    regras(etiquetaId: number): void {
+        this._router.navigate(['apps/configuracoes/etiquetas/editar/' + etiquetaId + '/regras']);
+    }
+
     delete(etiquetaId: number): void {
         this._store.dispatch(new fromStore.DeleteEtiqueta(etiquetaId));
     }
