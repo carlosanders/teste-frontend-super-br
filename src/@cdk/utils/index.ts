@@ -1,4 +1,5 @@
 export class CdkUtils {
+
     /**
      * Filter array by string
      *
@@ -16,6 +17,18 @@ export class CdkUtils {
         return mainArr.filter(itemObj => {
             return this.searchInObj(itemObj, searchText);
         });
+    }
+
+    /**
+     * @param length
+     */
+    public static makeId(length: number = 8): string {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return result;
     }
 
     /**
