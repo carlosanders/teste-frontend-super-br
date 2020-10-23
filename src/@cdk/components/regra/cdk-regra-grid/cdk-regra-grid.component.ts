@@ -120,7 +120,7 @@ export class CdkRegraGridComponent implements AfterViewInit, OnInit, OnChanges {
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input()
     actions: string[] = ['delete', 'select'];
@@ -142,6 +142,9 @@ export class CdkRegraGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Output()
     delete = new EventEmitter<number>();
+
+    @Output()
+    edit = new EventEmitter<number>();
 
     @Output()
     selected = new EventEmitter<Regra>();
@@ -252,6 +255,10 @@ export class CdkRegraGridComponent implements AfterViewInit, OnInit, OnChanges {
         else {
             this.loadPage();
         }
+    }
+
+    editRegra(regraId): void {
+        this.edit.emit(regraId);
     }
 
     selectRegra(regra: Regra): void {

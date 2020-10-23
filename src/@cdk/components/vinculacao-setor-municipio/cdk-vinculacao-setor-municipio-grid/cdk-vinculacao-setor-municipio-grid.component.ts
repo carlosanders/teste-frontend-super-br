@@ -108,7 +108,7 @@ export class CdkVinculacaoSetorMunicipioGridComponent implements AfterViewInit, 
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input()
     actions: string[] = ['delete', 'select'];

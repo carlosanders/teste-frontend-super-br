@@ -151,7 +151,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input()
     actions: string[] = ['edit', 'editConteudo', 'especie', 'delete', 'select'];

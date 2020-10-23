@@ -34,7 +34,7 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
     loading = false;
 
     @Input()
-    acaos: Acao[];
+    acoes: Acao[];
 
     @Input()
     total = 0;
@@ -120,7 +120,7 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
@@ -171,11 +171,11 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
         private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
-        this.acaos = [];
+        this.acoes = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new AcaoDataSource(of(this.acaos));
+        this.dataSource = new AcaoDataSource(of(this.acoes));
         this.paginator.length = this.total;
     }
 
@@ -190,7 +190,7 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new AcaoDataSource(of(this.acaos));
+        this.dataSource = new AcaoDataSource(of(this.acoes));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -269,8 +269,8 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
         this.delete.emit(acaoId);
     }
 
-    deleteAcaos(acaosId): void {
-        acaosId.forEach(acaoId => this.deleteAcao(acaoId));
+    deleteAcoes(acoesId): void {
+        acoesId.forEach(acaoId => this.deleteAcao(acaoId));
     }
 
     /**
@@ -292,7 +292,7 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.acaos).map(k => this.acaos[k]);
+        const arr = Object.keys(this.acoes).map(k => this.acoes[k]);
         this.selectedIds = arr.map(acao => acao.id);
         this.recompute();
     }
@@ -318,7 +318,7 @@ export class CdkAcaoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.acaos.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.acoes.length && this.selectedIds.length > 0);
     }
 
     setFilter(gridFilter): void {

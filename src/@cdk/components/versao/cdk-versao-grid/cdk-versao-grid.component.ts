@@ -45,7 +45,7 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input()
     actions: string[] = ['reverter', 'visualizar', 'comparar'];

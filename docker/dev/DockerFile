@@ -11,6 +11,12 @@ ENV NODE_OPTIONS=--max-old-space-size=8192
 
 RUN npm config set unsafe-perm true
 
+RUN mv /usr/local/bin/node /usr/local/bin/node_bin
+
+COPY docker/dev/node.sh /usr/local/bin/node
+
+RUN chmod +x /usr/local/bin/node
+
 RUN npm install npm@latest -g
 
 FROM base as dev

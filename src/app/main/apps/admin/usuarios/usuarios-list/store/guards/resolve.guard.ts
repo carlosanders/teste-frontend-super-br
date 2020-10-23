@@ -75,7 +75,7 @@ export class ResolveGuard implements CanActivate {
                             'colaborador.id': 'isNotNull'
                         },
                         gridFilter: {},
-                        limit: 5,
+                        limit: 10,
                         offset: 0,
                         sort: {},
                         populate: [

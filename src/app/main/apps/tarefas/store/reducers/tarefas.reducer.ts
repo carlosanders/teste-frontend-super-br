@@ -167,8 +167,8 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         }
 
         case TarefasActions.DELETE_TAREFA: {
-            const entitiesId = state.entitiesId.filter(id => id !== action.payload);
-            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload);
+            const entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefaId);
+            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefaId);
             return {
                 ...state,
                 entitiesId: entitiesId,
@@ -177,7 +177,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                     ...state.pagination,
                     total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
                 },
-                deletingTarefaIds: [...state.deletingTarefaIds, action.payload],
+                deletingTarefaIds: [...state.deletingTarefaIds, action.payload.tarefaId],
                 error: null
             };
         }

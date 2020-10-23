@@ -1,9 +1,10 @@
 import { Action } from '@ngrx/store';
 
 export const RESULTADO = '[OPERACOES] RESULTADO';
+export const OPERACAO = '[OPERACOES] OPERACAO';
 
 /**
- * Message
+ * Resultado
  */
 export class Resultado implements Action
 {
@@ -14,5 +15,18 @@ export class Resultado implements Action
     }
 }
 
+/**
+ * Operacao
+ */
+export class Operacao implements Action
+{
+    readonly type = OPERACAO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type OperacoesActionsAll
-    = Resultado;
+    = Resultado
+    | Operacao;

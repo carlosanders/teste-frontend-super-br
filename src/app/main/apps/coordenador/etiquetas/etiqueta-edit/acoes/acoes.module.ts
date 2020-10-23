@@ -76,9 +76,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         EtiquetaService
-    ],
-    exports: [
-        AcoesComponent
     ]
 })
 export class AcoesModule {
