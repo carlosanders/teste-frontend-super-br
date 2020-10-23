@@ -36,7 +36,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/acoes/regra-edit';
+const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/regras/regra-edit';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

@@ -64,15 +64,13 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
 
         RegraListStoreModule,
+
         CdkRegraGridModule,
     ],
     providers: [
         EtiquetaService,
         RegraService,
         fromGuards.ResolveGuard
-    ],
-    exports: [
-        RegraListComponent
     ]
 })
 export class RegraListModule {

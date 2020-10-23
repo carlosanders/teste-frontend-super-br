@@ -13,20 +13,15 @@ import {
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {RegraService} from '@cdk/services/regra.service';
 import {CdkRegraGridComponent} from './cdk-regra-grid.component';
-import {CdkRegraAutocompleteModule} from '@cdk/components/regra/cdk-regra-autocomplete/cdk-regra-autocomplete.module';
 import {CdkRegraFilterModule} from '../sidebars/cdk-regra-filter/cdk-regra-filter.module';
-import {CommonModule} from '@angular/common';
-import {CdkSidebarModule} from '@cdk/components/index';
+import {CdkSidebarModule} from '../..';
 
 @NgModule({
     declarations: [
         CdkRegraGridComponent,
     ],
     imports: [
-        CommonModule,
-
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -37,15 +32,11 @@ import {CdkSidebarModule} from '@cdk/components/index';
         MatSortModule,
         MatTooltipModule,
         MatSelectModule,
-
-        CdkRegraAutocompleteModule,
         CdkRegraFilterModule,
-
         CdkSidebarModule,
         CdkSharedModule,
     ],
     providers: [
-        RegraService,
     ],
     exports: [
         CdkRegraGridComponent

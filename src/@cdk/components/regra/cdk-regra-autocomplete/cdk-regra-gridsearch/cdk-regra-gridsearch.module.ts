@@ -14,7 +14,6 @@ import {RegraService} from '@cdk/services/regra.service';
         CdkRegraGridModule,
 
         CdkSharedModule,
-        CdkRegraGridModule,
     ],
     providers: [
         RegraService

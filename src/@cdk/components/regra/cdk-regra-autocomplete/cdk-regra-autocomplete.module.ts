@@ -2,7 +2,6 @@ import {NgModule} from '@angular/core';
 import {
     MatProgressSpinnerModule,
     MatAutocompleteModule,
-    MatSelectModule,
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -15,7 +14,6 @@ import {PipesModule} from '@cdk/pipes/pipes.module';
         CdkRegraAutocompleteComponent,
     ],
     imports: [
-        MatSelectModule,
         MatAutocompleteModule,
         MatProgressSpinnerModule,
 
