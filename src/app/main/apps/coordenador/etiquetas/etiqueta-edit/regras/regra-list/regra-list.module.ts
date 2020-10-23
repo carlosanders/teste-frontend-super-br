@@ -16,7 +16,6 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {RegraListComponent} from './regra-list.component';
-import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {RouterModule, Routes} from '@angular/router';
 import {RegraListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
@@ -67,7 +66,6 @@ modulesConfig.forEach((module) => {
         CdkRegraGridModule,
     ],
     providers: [
-        EtiquetaService,
         RegraService,
         fromGuards.ResolveGuard
     ],

@@ -15,7 +15,6 @@ import {
 import {CdkSharedModule} from '@cdk/shared.module';
 import {RegraService} from '@cdk/services/regra.service';
 import {CdkRegraGridComponent} from './cdk-regra-grid.component';
-import {CdkRegraAutocompleteModule} from '@cdk/components/regra/cdk-regra-autocomplete/cdk-regra-autocomplete.module';
 import {CdkRegraFilterModule} from '../sidebars/cdk-regra-filter/cdk-regra-filter.module';
 import {CommonModule} from '@angular/common';
 import {CdkSidebarModule} from '@cdk/components/index';
@@ -38,7 +37,6 @@ import {CdkSidebarModule} from '@cdk/components/index';
         MatTooltipModule,
         MatSelectModule,
 
-        CdkRegraAutocompleteModule,
         CdkRegraFilterModule,
 
         CdkSidebarModule,
