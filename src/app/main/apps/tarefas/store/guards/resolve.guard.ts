@@ -125,7 +125,8 @@ export class ResolveGuard implements CanActivate {
                             'setorOrigem.unidade',
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
+                            'vinculacoesEtiquetas.etiqueta',
+                            'processo.especieProcesso.workflow'
                         ],
                         context: {modulo: this.routerState.params['generoHandle']}
                     };

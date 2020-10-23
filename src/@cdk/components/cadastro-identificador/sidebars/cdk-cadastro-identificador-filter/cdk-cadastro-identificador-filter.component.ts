@@ -61,10 +61,20 @@ export class CdkCadastroIdentificadorFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('numero').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    numero: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({numero: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('numero')) {
+                        delete this.filters['numero'];
+                    }
+                }
             }
         });
 

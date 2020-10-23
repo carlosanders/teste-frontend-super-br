@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
@@ -15,7 +15,7 @@ import {getCounterState} from 'app/store';
 import {Logout} from '../../../main/auth/login/store/actions';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
-import {getIsLoading, getNormalizedNotificacaoEntities} from '../../../store/selectors';
+import {getIsLoading, getNormalizedNotificacaoEntities, getOperacoesEmProcessamento} from '../../../store/selectors';
 
 @Component({
     selector: 'toolbar',
@@ -41,6 +41,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     // Private
     private _unsubscribeAll: Subject<any>;
 
+    operacoesProcessando = 0;
+    operacoesPendentes = 0;
+
     /**
      *
      * @param _cdkConfigService
@@ -58,7 +61,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         public _loginService: LoginService,
         private _notificacaoService: NotificacaoService,
         private _store: Store<fromStore.State>,
-        private _router: Router,
+        private _router: Router
     ) {
         // Set the defaults
         this.userStatusOptions = [
@@ -157,6 +160,20 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 }
             }
         );
+        this._store
+            .pipe(
+                select(getOperacoesEmProcessamento),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(value => {
+                this.operacoesProcessando = Object.keys(value).length;
+                if (this.operacoesProcessando === 0) {
+                    this.operacoesPendentes = 0;
+                } else {
+                    if (this.operacoesProcessando > this.operacoesPendentes) {
+                        this.operacoesPendentes = this.operacoesProcessando;
+                    }
+                }
+            });
     }
 
     /**
@@ -184,7 +201,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     /**
      * Search
      *
-     * @param value
+     * @param emissao
      */
     search(emissao): void {
         const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';

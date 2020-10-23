@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '../../../../../../../@cdk/animations';
 import {Observable} from 'rxjs';
-import {Pagination, VinculacaoPessoaUsuario} from '../../../../../../../@cdk/models';
+import {Pagination, Usuario, VinculacaoPessoaUsuario} from '../../../../../../../@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from '../../../../../auth/login/login.service';
@@ -23,7 +23,7 @@ export class VinculacaoPessoaUsuarioEditComponent implements OnInit {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     pessoaPagination: Pagination;
-    usuarioExterno: number;
+    usuarioExterno: Usuario;
 
     constructor(
         private _store: Store<fromStore.VinculacaoPessoaUsuarioEditAppState>,
@@ -39,8 +39,11 @@ export class VinculacaoPessoaUsuarioEditComponent implements OnInit {
                     this.routerState = routerState.state;
                 }
             });
+
         this.pessoaPagination = new Pagination();
-        this.usuarioExterno = this.routerState.params.usuariosExternosHandler;
+
+        this.usuarioExterno = new Usuario();
+        this.usuarioExterno.id = this.routerState.params.usuariosExternosHandler;
 
     }
 

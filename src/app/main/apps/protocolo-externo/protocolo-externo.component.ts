@@ -127,24 +127,14 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
         this._profile = _loginService.getUserProfile();
         this.pessoasConveniadas =  this._profile.vinculacoesPessoasUsuarios;
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = [
-            {
-                'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-                'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-            },
-            {
-                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-            },
-            {
-                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-            },
-            {
-                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-            }
-        ];
+        this.vinculacaoEtiquetaPagination.filter = {
+            orX: [
+                {
+                    'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                }
+            ]
+        };
 
         this.loadingAssuntosProcessosId$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
         this.loadingInteressadosProcessosId$ = this._store.pipe(select(fromStore.getIsInteressadoLoading));

@@ -6,7 +6,16 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, concatMap, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {
+    buffer,
+    catchError,
+    concatMap,
+    map, mergeAll,
+    mergeMap,
+    switchMap,
+    tap,
+    withLatestFrom
+} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
@@ -19,6 +28,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 import {Assunto} from '@cdk/models/assunto.model';
 import {AssuntoService} from '@cdk/services/assunto.service';
+import {getBufferingDelete, getDeletingTarefaIds} from '../selectors';
 
 @Injectable()
 export class TarefasEffect {
@@ -140,19 +150,57 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.DeleteTarefa>(TarefasActions.DELETE_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.destroy(action.payload).pipe(
-                        map((response) => new TarefasActions.DeleteTarefaSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Apagando a tarefa id ' + action.payload.tarefaId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                buffer(this._store.pipe(select(getBufferingDelete))),
+                mergeAll(),
+                withLatestFrom(this._store.pipe(select(getDeletingTarefaIds))),
+                mergeMap(([action, deletingTarefasIds]) => {
+                    if (deletingTarefasIds.indexOf(action.payload.tarefaId) === -1) {
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'tarefa',
+                            content: 'Operação de apagar a tarefa id ' + action.payload.tarefaId + ' foi cancelada!',
+                            status: 3, // cancelada
+                            lote: action.payload.loteId
+                        }));
+                        return of(new TarefasActions.DeleteTarefaCancelSuccess(action.payload.tarefaId));
+                    }
+                    return this._tarefaService.destroy(action.payload.tarefaId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Tarefa id ' + action.payload.tarefaId + ' deletada com sucesso.',
+                                status: 2, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            return new TarefasActions.DeleteTarefaSuccess(response.id);
+                        }),
                         catchError((err) => {
                             const payload = {
-                                id: action.payload,
+                                id: action.payload.tarefaId,
                                 error: err
                             };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Erro ao apagar a tarefa id ' + action.payload.tarefaId + '!',
+                                status: 2, // cancelada
+                                lote: action.payload.loteId
+                            }));
                             console.log(err);
                             return of(new TarefasActions.DeleteTarefaFailed(payload));
                         })
                     );
-                })
+                }, 25)
             );
 
     /**
@@ -325,7 +373,7 @@ export class TarefasEffect {
                             this.routerState.params.targetHandle,
                             'operacoes-bloco'
                         ]).then();
-                    } else if (this.routerState.url.indexOf('operacoes-bloco') > 0) {
+                    } else if (this.routerState.url.indexOf('bloco') > 0) {
                         this._router.navigate([
                             'apps',
                             'tarefas',

@@ -71,37 +71,77 @@ export class CdkSigiloFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('observacao').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    observacao: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({observacao: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('observacao')) {
+                        delete this.filters['observacao'];
+                    }
+                }
             }
         });
 
         this.form.get('codigoIndexacao').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    codigoIndexacao: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({codigoIndexacao: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('codigoIndexacao')) {
+                        delete this.filters['codigoIndexacao'];
+                    }
+                }
             }
         });
 
         this.form.get('fundamentoLegal').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    fundamentoLegal: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({fundamentoLegal: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('fundamentoLegal')) {
+                        delete this.filters['fundamentoLegal'];
+                    }
+                }
             }
         });
 
         this.form.get('razoesClassificacaoSigilo').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    razoesClassificacaoSigilo: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({razoesClassificacaoSigilo: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('razoesClassificacaoSigilo')) {
+                        delete this.filters['razoesClassificacaoSigilo'];
+                    }
+                }
             }
         });
 

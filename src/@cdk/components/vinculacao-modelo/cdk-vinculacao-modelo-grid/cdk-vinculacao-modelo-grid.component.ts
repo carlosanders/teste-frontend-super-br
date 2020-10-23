@@ -138,7 +138,7 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];

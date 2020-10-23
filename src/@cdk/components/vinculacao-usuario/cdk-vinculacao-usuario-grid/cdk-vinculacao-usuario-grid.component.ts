@@ -42,7 +42,8 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'usuarioVinculado.nome', 'encerraTarefa', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'usuarioVinculado.nome',
+        'encerraTarefa', 'criaOficio', 'criaMinuta', 'compartilhaTarefa', 'actions'];
 
     allColumns: any[] = [
         {
@@ -68,6 +69,21 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
         {
             id: 'encerraTarefa',
             label: 'Encerrar Tarefa',
+            fixed: false
+        },
+        {
+            id: 'criaOficio',
+            label: 'Cria Oficio',
+            fixed: false
+        },
+        {
+            id: 'criaMinuta',
+            label: 'Cria Minuta',
+            fixed: false
+        },
+        {
+            id: 'compartilhaTarefa',
+            label: 'Compartilha Tarefa',
             fixed: false
         },
         {
@@ -116,7 +132,7 @@ export class CdkVinculacaoUsuarioGridComponent implements AfterViewInit, OnInit,
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];

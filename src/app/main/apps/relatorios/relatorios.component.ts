@@ -131,24 +131,27 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = [
-            {
-                'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-                'modalidadeEtiqueta.valor': 'eq:RELATORIO'
-            },
-            {
-                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:RELATORIO'
-            },
-            {
-                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:RELATORIO'
-            },
-            {
-                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:RELATORIO'
-            }
-        ];
+        this.vinculacaoEtiquetaPagination.filter = {
+            orX: [
+                {
+                    'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                    'modalidadeEtiqueta.valor': 'eq:RELATORIO'
+                },
+                {
+                    'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:RELATORIO'
+                },
+                {
+                    'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:RELATORIO'
+                },
+                {
+                    // tslint:disable-next-line:max-line-length
+                    'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:RELATORIO'
+                }
+            ]
+        };
 
         this.loadedIdRelatorios$ = this._store.pipe(select(fromStore.getLoadedRelatorioIds));
     }

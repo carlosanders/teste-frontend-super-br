@@ -1,0 +1,30 @@
+vincular-pessoa {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    > .vincular-content {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+
+        > .header {
+            display: flex;
+            flex: 0 1 auto;
+
+            > .actions {
+                flex: 1 1 auto;
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: center;
+            }
+        }
+
+        > .content {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+        }
+    }
+}

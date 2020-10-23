@@ -1,12 +1,50 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <mat-slide-toggle formControlName="encerraTarefa">
-        Encerra Tarefa
-    </mat-slide-toggle>
-    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('encerraTarefa')">
-        <mat-icon matTooltip="Histórico">history</mat-icon>
-    </button>
+    <mat-card>
+
+        <mat-card-subtitle>Permissões</mat-card-subtitle>
+
+        <div>
+            <mat-slide-toggle formControlName="encerraTarefa">
+                Encerra Tarefa
+            </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('encerraTarefa')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+        </div>
+
+        <div>
+            <mat-slide-toggle formControlName="criaOficio">
+                Cria Ofício
+            </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('criaOficio')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+        </div>
+
+        <div>
+            <mat-slide-toggle formControlName="criaMinuta">
+                Cria Minuta
+            </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('criaMinuta')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+        </div>
+
+        <div>
+            <mat-slide-toggle formControlName="compartilhaTarefa">
+                Compartilha Tarefa
+            </mat-slide-toggle>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('compartilhaTarefa')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+        </div>
+
+    </mat-card>
 
     <mat-form-field>
         <input matInput placeholder="Assessor"

@@ -59,7 +59,6 @@ export const getError = createSelector(
     (state: TarefasState) => state.error
 );
 
-
 export const getErrorDelete = createSelector(
     getTarefasState,
     (state: TarefasState) => state.errorDelete
@@ -78,6 +77,11 @@ export const getChangingFolderTarefaIds = createSelector(
 export const getDeletedTarefaIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.deletedTarefaIds
+);
+
+export const getBufferingDelete = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.bufferingDelete
 );
 
 export const getIsAssuntoLoading = createSelector(

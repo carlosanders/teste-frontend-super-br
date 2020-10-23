@@ -9,3 +9,4 @@ export const modulesConfig = [
     modulesConfigDisciplinar,
     // modulesConfigDivida
 ];
+

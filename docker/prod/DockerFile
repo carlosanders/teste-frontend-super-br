@@ -1,5 +1,5 @@
 # build
-FROM node:12.18.2-alpine AS build
+FROM node:12.19.0-alpine AS build
 
 ENV NODE_OPTIONS=--max-old-space-size=8192
 
@@ -11,7 +11,7 @@ RUN npm config set unsafe-perm true
 
 RUN npm install npm@latest -g
 
-RUN npm install -g @angular/cli@11.0.0-next.3
+RUN npm install -g @angular/cli@11.0.0-next.6
 
 RUN npm install
 

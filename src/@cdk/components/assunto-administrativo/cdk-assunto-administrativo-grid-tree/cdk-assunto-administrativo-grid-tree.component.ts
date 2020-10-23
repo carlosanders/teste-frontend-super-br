@@ -115,7 +115,7 @@ export class CdkAssuntoAdministrativoGridTreeComponent implements OnInit {
         this.loading = true;
         const params = {
             filter: {
-                parent: parent
+                'parent.id': parent
             },
             sort: {
                 nome: 'ASC'

@@ -130,10 +130,10 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'regras', 'acoes'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -152,6 +152,12 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Output()
     delete = new EventEmitter<number>();
+
+    @Output()
+    regras = new EventEmitter<number>();
+
+    @Output()
+    acoes = new EventEmitter<number>();
 
     @Output()
     selected = new EventEmitter<Etiqueta>();
@@ -280,6 +286,14 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
 
     deleteEtiquetas(etiquetasId): void {
         etiquetasId.forEach(etiquetaId => this.deleteEtiqueta(etiquetaId));
+    }
+
+    acoesEtiqueta(etiquetaId): void {
+        this.acoes.emit(etiquetaId);
+    }
+
+    regrasEtiqueta(etiquetaId): void {
+        this.regras.emit(etiquetaId);
     }
 
     /**

@@ -53,19 +53,17 @@ export class CdkDesentranhamentoAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilter = {};
+                    const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilter = {
-                            ...termFilter,
-                            'juntada.descricao': `like:%${bit}%`
-                        };
+                        andxFilter.push({
+                            'juntada.descricao': `like:%${bit}%`});
                     });
-                    if (typeof value === 'string') {
+                    if (typeof value === 'string' && andxFilter.length > 0) {
                         this.desentranhamentoListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            ...termFilter
+                            andX: andxFilter
                         };
                         return this._desentranhamentoService.query(
                             JSON.stringify(filterParam),

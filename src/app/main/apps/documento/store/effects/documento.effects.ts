@@ -183,7 +183,7 @@ export class DocumentoEffect {
                                 filter: {
                                     'componenteDigital.id': 'eq:' + action.payload.currentComponenteDigitalId
                                 },
-                                limit: 5,
+                                limit: 10,
                                 offset: 0,
                                 sort: {criadoEm: 'DESC'}
                             }));

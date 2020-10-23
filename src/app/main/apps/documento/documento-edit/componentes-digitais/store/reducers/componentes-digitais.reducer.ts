@@ -24,7 +24,7 @@ export interface ComponenteDigitalState {
 export const ComponenteDigitalInitialState: ComponenteDigitalState = {
     entitiesId: [],
     pagination: {
-        limit: 5,
+        limit: 10,
         offset: 0,
         filter: {},
         gridFilter: {},

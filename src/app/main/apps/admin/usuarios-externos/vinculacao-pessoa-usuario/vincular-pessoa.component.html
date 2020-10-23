@@ -1,7 +1,6 @@
-<div class="vinculacao-pessoa-usuario-content" fxFlex fxLayout="column">
-    <!-- CONTENT HEADER -->
-    <div fxFlex="0 1 auto" fxLayout="column" *ngIf="action !== 'lotacoes' && action !== 'localizadores'">
-        <div class="actions m-8" fxLayout="row" fxLayoutAlign="start center">
+<div class="vincular-content">
+    <div class="header">
+        <div class="actions m-8">
             <button mat-icon-button
                     *ngIf="action === 'listar'"
                     (click)="goBack()"
@@ -11,10 +10,9 @@
             </button>
         </div>
     </div>
-    <!-- / CONTENT HEADER -->
 
     <!-- CONTENT -->
-    <div class="p-16" fxFlex="1 1 auto" cdkPerfectScrollbar>
+    <div class="content p-16" cdkPerfectScrollbar>
         <router-outlet></router-outlet>
     </div>
     <!-- / CONTENT -->

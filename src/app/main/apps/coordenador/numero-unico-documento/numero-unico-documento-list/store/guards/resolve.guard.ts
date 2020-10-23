@@ -75,7 +75,7 @@ export class ResolveGuard implements CanActivate {
                             'setor.id': 'eq:' + setorId
                         },
                         gridFilter: {},
-                        limit: 5,
+                        limit: 10,
                         offset: 0,
                         sort: {criadoEm: 'DESC'},
                         populate: [

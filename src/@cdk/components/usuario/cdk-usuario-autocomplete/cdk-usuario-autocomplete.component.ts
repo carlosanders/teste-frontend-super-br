@@ -45,6 +45,8 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
 
     filtrarPor: string;
 
+    isDistribuidor = false;
+
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _usuarioService: UsuarioService
@@ -62,19 +64,17 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilter = {};
+                    const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         if (this.filtrarPor && this.filtrarPor === 'username') {
                             this.pagination.populate = ['populateAll', 'colaborador', 'colaborador.cargo', 'colaborador.modalidadeColaborador'];
-                            termFilter = {
-                                ...termFilter,
+                            andxFilter.push({
                                 username: `like:%${bit}%`
-                            };
+                            });
                         } else {
-                            termFilter = {
-                                ...termFilter,
+                            andxFilter.push({
                                 nome: `like:%${bit}%`
-                            };
+                            });
                         }
                     });
                     if (typeof value === 'string') {
@@ -83,14 +83,16 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            ...termFilter
+                            andX: andxFilter
                         };
+
                         return this._usuarioService.query(
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,
                             JSON.stringify(this.pagination.sort),
-                            JSON.stringify(this.pagination.populate))
+                            JSON.stringify(this.pagination.populate),
+                            JSON.stringify(this.pagination['context']))
                             .pipe(
                                 finalize(() => {
                                     this.usuarioListIsLoading = false;
@@ -105,6 +107,9 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
             )
         ).subscribe(response => {
             this.usuarioList = response['entities'];
+            if (this.pagination['context'] && this.pagination['context'].setorApenasDistribuidor) {
+                this.isDistribuidor = true;
+            }
             this._changeDetectorRef.markForCheck();
         });
     }

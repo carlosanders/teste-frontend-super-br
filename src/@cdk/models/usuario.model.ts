@@ -31,6 +31,8 @@ export class Usuario {
 
     jwt?: string;
 
+    isDisponivel?: boolean;
+
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -39,7 +41,7 @@ export class Usuario {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    criadoEm?: Date;
+    criadoEm?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -49,7 +51,7 @@ export class Usuario {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    atualizadoEm?: Date;
+    atualizadoEm?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -59,7 +61,7 @@ export class Usuario {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    apagadoEm?: Date;
+    apagadoEm?: moment.Moment;
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoUsuario)
@@ -103,5 +105,6 @@ export class Usuario {
         this.coordenadores = [];
         this.password = null;
         this.jwt = null;
+        this.isDisponivel = null;
     }
 }

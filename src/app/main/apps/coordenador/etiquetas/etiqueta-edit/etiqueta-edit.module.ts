@@ -30,6 +30,10 @@ const routes: Routes = [
                 loadChildren: () => import('./acoes/acoes.module').then(m => m.AcoesModule)
             },
             {
+                path       : 'regras',
+                loadChildren: () => import('./regras/regras.module').then(m => m.RegrasModule)
+            },
+            {
                 path       : '**',
                 redirectTo: 'dados-basicos'
             }

@@ -64,7 +64,7 @@ export class ResolveGuard implements CanActivate {
                             'usuarioVinculado.id': 'eq:' + this.routerState.params.usuariosExternosHandler
                         },
                         gridFilter: {},
-                        limit: 5,
+                        limit: 10,
                         offset: 0,
                         sort: {criadoEm: 'ASC'},
                         populate: [

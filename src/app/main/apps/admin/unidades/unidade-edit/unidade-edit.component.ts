@@ -104,6 +104,7 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
     }
 
     submit(values): void {
+        console.log(values);
         const unidade = new Setor();
         Object.entries(values).forEach(
             ([key, value]) => {
@@ -113,6 +114,12 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
 
         if (!unidade.sequenciaInicialNUP) {
             unidade.sequenciaInicialNUP = 0;
+        }
+
+        if (!unidade.unidade) {
+            const unid = new Setor();
+            unid.id = values.id;
+            unidade.unidade = unid;
         }
 
         this._store.dispatch(new fromStore.SaveUnidade(unidade));

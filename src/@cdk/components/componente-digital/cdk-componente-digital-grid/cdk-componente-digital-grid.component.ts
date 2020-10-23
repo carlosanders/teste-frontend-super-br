@@ -219,7 +219,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input() target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;
 
@@ -364,7 +364,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     editComponenteDigital(componenteDigital: ComponenteDigital): void {
-        if (componenteDigital.documento.juntadaAtual.volume.processo.visibilidadeExterna || this.isColaborador) {
+        if (componenteDigital.documento?.juntadaAtual?.volume?.processo?.visibilidadeExterna || this.isColaborador) {
             this.edit.emit({componenteDigital: componenteDigital});
             return;
         }

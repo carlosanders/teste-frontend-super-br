@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {Usuario} from '@cdk/models';
+import {Usuario, Workflow} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {Setor} from '@cdk/models';
@@ -28,20 +28,20 @@ export class Tarefa {
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraLeitura?: Date;
+    dataHoraLeitura?: moment.Moment;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    dataHoraInicioPrazo?: Date|moment.Moment;
+    dataHoraInicioPrazo?: moment.Moment;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    dataHoraFinalPrazo?: Date|moment.Moment;
+    dataHoraFinalPrazo?: moment.Moment;
 
     @Exclude({toPlainOnly: true})
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    dataHoraConclusaoPrazo?: Date;
+    dataHoraConclusaoPrazo?: moment.Moment;
 
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -58,6 +58,10 @@ export class Tarefa {
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     setorOrigem?: Setor;
+
+    @Type(() => Workflow)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    workflow?: Workflow;
 
     @Exclude()
     unidadeResponsavel?: Setor;
@@ -79,7 +83,7 @@ export class Tarefa {
     @Exclude({toPlainOnly: true})
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    criadoEm?: Date;
+    criadoEm?: moment.Moment;
 
     @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
@@ -89,7 +93,7 @@ export class Tarefa {
     @Exclude({toPlainOnly: true})
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    atualizadoEm?: Date;
+    atualizadoEm?: moment.Moment;
 
     @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
@@ -99,7 +103,7 @@ export class Tarefa {
     @Exclude({toPlainOnly: true})
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    apagadoEm?: Date;
+    apagadoEm?: moment.Moment;
 
     distribuicaoAutomatica?: boolean;
 
@@ -133,6 +137,7 @@ export class Tarefa {
         this.dataHoraConclusaoPrazo = null;
         this.dataHoraLeitura = null;
         this.processo = null;
+        this.workflow = null;
         this.especieTarefa = null;
         this.usuarioResponsavel = null;
         this.setorOrigem = null;

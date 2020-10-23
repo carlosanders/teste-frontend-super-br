@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -6,20 +7,24 @@ import {
     OnChanges,
     OnInit,
     Output,
-    SimpleChange
+    SimpleChange, ViewEncapsulation
 } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Pagination, Pessoa, Usuario, VinculacaoPessoaUsuario} from '../../../models';
+import {cdkAnimations} from '../../../animations';
 
 @Component({
     selector: 'cdk-vinculacao-pessoa-usuario-form',
     templateUrl: './cdk-vinculacao-pessoa-usuario-form.component.html',
-    styleUrls: ['./cdk-vinculacao-pessoa-usuario-form.component.scss']
+    styleUrls: ['./cdk-vinculacao-pessoa-usuario-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkVinculacaoPessoaUsuarioFormComponent implements OnInit, OnChanges {
 
     @Input()
-    usuarioExterno: number;
+    usuarioExterno: Usuario;
 
     @Input()
     saving: boolean;
@@ -45,13 +50,15 @@ export class CdkVinculacaoPessoaUsuarioFormComponent implements OnInit, OnChange
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder
     ) {
-    }
-
-    ngOnInit(): void {
         this.form = this._formBuilder.group({
             pessoa: [null, Validators.required],
             usuarioVinculado: [null]
         });
+
+        this.pessoaPagination = new Pagination();
+    }
+
+    ngOnInit(): void {
     }
 
     checkPessoa(): void {
@@ -74,15 +81,8 @@ export class CdkVinculacaoPessoaUsuarioFormComponent implements OnInit, OnChange
 
     submit(): void {
         if (this.form.valid) {
-            this.form.get('usuarioVinculado').setValue(this.getUsuarioExterno());
             this.save.emit(this.form.value);
         }
-    }
-
-    getUsuarioExterno(): Usuario {
-        const usuario = new  Usuario();
-        usuario.id = this.usuarioExterno;
-        return usuario;
     }
 
     doAbort(): void {
@@ -97,6 +97,7 @@ export class CdkVinculacaoPessoaUsuarioFormComponent implements OnInit, OnChange
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        this.form.get('usuarioVinculado').setValue(this.usuarioExterno);
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
             try {

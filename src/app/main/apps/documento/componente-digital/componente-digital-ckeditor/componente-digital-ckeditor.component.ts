@@ -14,7 +14,8 @@ import {select, Store} from '@ngrx/store';
 import {Assinatura, ComponenteDigital} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 import {getMercureState, getRouterState} from '../../../../../store/reducers';
-import {getRepositorioComponenteDigital} from '../../store/selectors';
+import {getRepositorioComponenteDigital} from '../../documento-edit/inteligencia/store/selectors';
+import {getRepositorioComponenteDigital as getRepositorioComponenteDigitalAvulso} from '../../documento-avulso-edit/inteligencia/store/selectors';
 import {SetQueryRepositorios, SetRepositorioComponenteDigital} from 'app/main/apps/documento/documento-edit/inteligencia/store/actions';
 import {SetQueryRepositorios as SetQueryRepositoriosAvulso, SetRepositorioComponenteDigital as SetRepositorioComponenteDigitalAvulso} from 'app/main/apps/documento/documento-avulso-edit/inteligencia/store/actions';
 import {Pagination} from '@cdk/models/pagination';
@@ -64,18 +65,6 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.repositorio$ = this._store.pipe(select(getRepositorioComponenteDigital));
-        this.assinandoDocumentosId$ = this._store.pipe(select(fromDocumentoStore.getAssinandoDocumentosId));
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
         this._store
             .pipe(
                 select(getRouterState),
@@ -101,7 +90,22 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                 }
             }
         });
+        this.assinandoDocumentosId$ = this._store.pipe(select(fromDocumentoStore.getAssinandoDocumentosId));
+        if (this.routerState.url.indexOf('sidebar:oficio') === -1) {
+            this.repositorio$ = this._store.pipe(select(getRepositorioComponenteDigital));
+        } else if (this.routerState.url.indexOf('sidebar:oficio') !== -1) {
+            this.repositorio$ = this._store.pipe(select(getRepositorioComponenteDigitalAvulso));
+        }
+    }
 
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * On init
+     */
+    ngOnInit(): void {
         this.componenteDigital$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(cd => {

@@ -65,19 +65,19 @@
 
     <mat-checkbox formControlName="principal">
         Principal
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('principal')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
     </mat-checkbox>
-    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('principal')">
-        <mat-icon matTooltip="Histórico">history</mat-icon>
-    </button>
 
     <mat-checkbox formControlName="distribuidor">
         Distribuidor
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('distribuidor')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
     </mat-checkbox>
-    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('distribuidor')">
-        <mat-icon matTooltip="Histórico">history</mat-icon>
-    </button>
 
     <div *ngIf="inputArquivista">
         <mat-checkbox formControlName="arquivista">
@@ -88,6 +88,36 @@
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
     </div>
+
+    <mat-form-field *ngIf="isCoordenador && !form.value.setor?.distribuicaoCentena">
+
+        <input matInput placeholder="Dígitos"
+               formControlName="digitosDistribuicao">
+
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('digitosDistribuicao')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+
+        <mat-error *ngIf="form.get('digitosDistribuicao').hasError('formError')">
+            {{form.get('digitosDistribuicao').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-form-field *ngIf="isCoordenador && form.value.setor?.distribuicaoCentena">
+
+        <input matInput placeholder="Centenas"
+               formControlName="centenasDistribuicao">
+
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('centenasDistribuicao')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+
+        <mat-error *ngIf="form.get('centenasDistribuicao').hasError('formError')">
+            {{form.get('centenasDistribuicao').errors.formError}}
+        </mat-error>
+    </mat-form-field>
 
     <mat-form-field>
 

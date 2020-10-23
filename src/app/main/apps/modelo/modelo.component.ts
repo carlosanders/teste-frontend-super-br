@@ -28,6 +28,8 @@ export class ModeloComponent implements OnInit, OnDestroy  {
 
     modelos$: Observable<Modelo[]>;
     loading$: Observable<boolean>;
+    error$: Observable<any>;
+    erro: any;
     pagination$: Observable<any>;
     pagination: any;
 
@@ -55,6 +57,7 @@ export class ModeloComponent implements OnInit, OnDestroy  {
         this.modelos$ = this._store.pipe(select(fromStore.getModelos));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.error$ = this._store.pipe(select(fromStore.getErrors));
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
@@ -76,6 +79,11 @@ export class ModeloComponent implements OnInit, OnDestroy  {
         });
         this.tarefa$.subscribe(tarefa => {
             this.tarefa = tarefa;
+        });
+        this.error$.subscribe(erro => {
+            if (erro) {
+                this.erro = erro.error.message;
+            }
         });
     }
 
@@ -102,6 +110,7 @@ export class ModeloComponent implements OnInit, OnDestroy  {
     }
 
     doSelect(modelo): void {
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
         this._store.dispatch(new fromStore.CreateComponenteDigital({
             modelo: modelo,
             tarefaOrigem: this.tarefa,

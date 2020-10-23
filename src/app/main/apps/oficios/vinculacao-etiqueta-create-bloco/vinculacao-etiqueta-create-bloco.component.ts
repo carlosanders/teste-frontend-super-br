@@ -68,24 +68,27 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
         this._profile = _loginService.getUserProfile();
 
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = [
-            {
-                'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-                'modalidadeEtiqueta.valor': 'eq:OFICIO'
-            },
-            {
-                'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:OFICIO'
-            },
-            {
-                'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:OFICIO'
-            },
-            {
-                'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
-                'modalidadeEtiqueta.valor': 'eq:OFICIO'
-            }
-        ];
+        this.vinculacaoEtiquetaPagination.filter = {
+            orX: [
+                {
+                    'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                    'modalidadeEtiqueta.valor': 'eq:OFICIO'
+                },
+                {
+                    'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:OFICIO'
+                },
+                {
+                    'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:OFICIO'
+                },
+                {
+                    // tslint:disable-next-line:max-line-length
+                    'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'modalidadeEtiqueta.valor': 'eq:OFICIO'
+                }
+            ]
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------

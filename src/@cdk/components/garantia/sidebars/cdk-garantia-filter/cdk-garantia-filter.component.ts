@@ -65,7 +65,7 @@ export class CdkGarantiaFilterComponent implements OnInit {
                         ...this.filters,
                         'modalidadeGarantia.id': `eq:${value.id}`
                     };
-                    
+
                 } else {
                     if (this.filters.hasOwnProperty('modalidadeGarantia.id')) {
                         delete this.filters['modalidadeGarantia.id'];
@@ -163,11 +163,11 @@ export class CdkGarantiaFilterComponent implements OnInit {
     }
 
     emite(): void {
-            const request = {
-                filters: this.filters
-            };
-            this.selected.emit(request);
-            this._cdkSidebarService.getSidebar('cdk-garantia-filter').close();
+        const request = {
+            filters: this.filters
+        };
+        this.selected.emit(request);
+        this._cdkSidebarService.getSidebar('cdk-garantia-filter').close();
     }
 
     buscar(): void {

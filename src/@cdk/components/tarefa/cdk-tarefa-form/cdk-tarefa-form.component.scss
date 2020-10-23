@@ -15,4 +15,10 @@ cdk-tarefa-form {
         flex: 0 1 auto;
         justify-content: space-between;
     }
+
+    .bloco-responsaveis {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+    }
 }

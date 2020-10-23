@@ -21,7 +21,7 @@
 
     <div class="status-remessa" [hidden]="!(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa">
         <span *ngIf="(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa != null">
-            Objeto remetido em: {{(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa | date: 'dd/MM/yyyy HH:mm:ss':'-0300'}}
+            Objeto remetido em: {{(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa?.toDate() | date: 'dd/MM/yyyy HH:mm:ss':'-0300'}}
         </span>
         <span *ngIf="(documento$ | async).documentoAvulsoRemessa.usuarioRemessa != null">
             Remetido por: {{(documento$ | async).documentoAvulsoRemessa.usuarioRemessa.nome}}

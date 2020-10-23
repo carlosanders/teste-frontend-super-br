@@ -74,7 +74,7 @@ export class LoginService {
     }
 
     login(username: string, password: string): Observable<any> {
-        const url = `${environment.base_url}auth/getToken` + environment.xdebug;
+        const url = `${environment.base_url}auth/get_token` + environment.xdebug;
         return this.http.post(url, {username, password});
     }
 
@@ -84,7 +84,7 @@ export class LoginService {
     }
 
     refreshToken(): Observable<any> {
-        const url = `${environment.base_url}auth/refreshToken` + environment.xdebug;
+        const url = `${environment.base_url}auth/refresh_token` + environment.xdebug;
         return this.http.get(url);
     }
 

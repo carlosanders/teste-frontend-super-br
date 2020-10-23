@@ -57,17 +57,15 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilterNome = {};
-                    let termFilterNumeroDocumentoPrincipal = {};
+                    const termFilterNome = [];
+                    const termFilterNumeroDocumentoPrincipal = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilterNome = {
-                            ...termFilterNome,
+                        termFilterNome.push({
                             nome: `like:%${bit}%`
-                        };
-                        termFilterNumeroDocumentoPrincipal = {
-                            ...termFilterNumeroDocumentoPrincipal,
+                        });
+                        termFilterNumeroDocumentoPrincipal.push({
                             numeroDocumentoPrincipal: `like:%${bit}%`
-                        };
+                        });
                     });
                     const termFilter = {
                         orX: [
@@ -75,7 +73,7 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                             termFilterNumeroDocumentoPrincipal
                         ]
                     };
-                    if (typeof value === 'string') {
+                    if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterNumeroDocumentoPrincipal.length > 0)) {
                         this.pessoaListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
