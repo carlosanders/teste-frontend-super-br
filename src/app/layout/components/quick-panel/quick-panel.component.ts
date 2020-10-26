@@ -33,7 +33,6 @@ export class QuickPanelComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
         this._store.pipe(
             select(getOperacoes)
         ).subscribe((operacoes) => {
@@ -56,6 +55,25 @@ export class QuickPanelComponent implements OnInit {
                 }
             }
         });
+    }
 
+    refazer(operacao) : void {
+        if (Array.isArray(operacao.redo)) {
+            operacao.redo.forEach((action) => {
+                this._store.dispatch(action);
+            });
+        } else {
+            this._store.dispatch(operacao.redo);
+        }
+    }
+
+    desfazer(operacao) : void {
+        if (Array.isArray(operacao.undo)) {
+            operacao.undo.forEach((action) => {
+                this._store.dispatch(action);
+            });
+        } else {
+            this._store.dispatch(operacao.undo);
+        }
     }
 }

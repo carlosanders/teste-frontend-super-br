@@ -7,6 +7,6 @@ export const modulesConfig = [
     modulesConfigJudicial,
     modulesConfigConsultivo,
     modulesConfigDisciplinar,
-    // modulesConfigDivida
+//    modulesConfigDivida
 ];
 

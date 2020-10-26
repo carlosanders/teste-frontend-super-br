@@ -19,9 +19,19 @@
         <mat-card-content>
             <div class="card-content">
                 <span class="secondary-text">{{operacao.content}}</span>
-                <span class="card-date secondary-text">{{operacao.dateTime?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+                <span class="mt-8 card-date secondary-text">{{operacao.dateTime?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
             </div>
         </mat-card-content>
+        <mat-card-actions>
+            <button *ngIf="operacao.status >= 2 && operacao.redo" mat-icon-button
+                    class="secondary-text" matTooltip="Refazer" (click)="refazer(operacao)">
+                <mat-icon>redo</mat-icon> Refazer
+            </button>
+            <button *ngIf="operacao.status === 1 && operacao.undo" mat-icon-button
+                    class="secondary-text" matTooltip="Desfazer" (click)="desfazer(operacao)">
+                <mat-icon>undo</mat-icon> Desfazer
+            </button>
+        </mat-card-actions>
     </mat-card>
 
 </div>
