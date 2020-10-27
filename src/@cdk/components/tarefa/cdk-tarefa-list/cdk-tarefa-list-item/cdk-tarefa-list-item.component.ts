@@ -34,7 +34,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     toggleInSelectedTarefas = new EventEmitter();
 
     @Output()
-    delete = new EventEmitter<number>();
+    delete = new EventEmitter<Tarefa>();
 
     @Output()
     compartilhar = new EventEmitter<number>();
@@ -149,7 +149,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     }
 
     doDelete(): void {
-        this.delete.emit(this.tarefa.id);
+        this.delete.emit(this.tarefa);
     }
 
     doMovimentar(): void {

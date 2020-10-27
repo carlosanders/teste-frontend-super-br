@@ -8,6 +8,8 @@ import {MatCardModule} from "@angular/material/card";
 import {MatProgressBarModule} from "@angular/material/progress-bar";
 import {MatIconModule} from "@angular/material/icon";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatButtonModule} from "@angular/material/button";
 
 @NgModule({
     declarations: [
@@ -23,6 +25,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
         MatProgressBarModule,
         MatIconModule,
         MatProgressSpinnerModule,
+        MatTooltipModule,
+        MatButtonModule,
     ],
     exports: [
         QuickPanelComponent
