@@ -22,6 +22,9 @@ import {Regra} from '@cdk/models';
 export class CdkRegraFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
+    regra: Regra;
+
+    @Input()
     saving: boolean;
 
     @Input()
@@ -46,6 +49,7 @@ export class CdkRegraFormComponent implements OnInit, OnChanges, OnDestroy {
     ) {
         this.form = this._formBuilder.group({
             nome: [null, [Validators.required]],
+            etiqueta: [null],
             descricao: [null],
             criteria: [null, [Validators.required]]
         });
@@ -65,6 +69,10 @@ export class CdkRegraFormComponent implements OnInit, OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['regra'] && this.regra && ((!this.regra.id && !this.form.dirty))) {
+            this.form.patchValue({...this.regra});
+        }
+
         if (this.errors && this.errors.status && this.errors.status === 422) {
             try {
                 const data = JSON.parse(this.errors.error.message);
