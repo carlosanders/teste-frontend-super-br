@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, OnDestroy,
@@ -15,6 +16,8 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Processo} from '@cdk/models';
 import {Tarefa} from '@cdk/models';
+import {DynamicService} from 'modules/dynamic.service';
+import {modulesConfig} from 'modules/modules-config';
 
 @Component({
     selector: 'modelo',
@@ -24,7 +27,7 @@ import {Tarefa} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ModeloComponent implements OnInit, OnDestroy  {
+export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
 
     modelos$: Observable<Modelo[]>;
     loading$: Observable<boolean>;
@@ -43,15 +46,21 @@ export class ModeloComponent implements OnInit, OnDestroy  {
 
     filter = {};
 
+    routeAtividadeTarefa = 'atividades/criar';
+    routeAtividadeDocumento = 'atividade'
+
     /**
+     *
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _dynamicService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.ModelosAppState>,
+        private _dynamicService: DynamicService
     ) {
 
         this.modelos$ = this._store.pipe(select(fromStore.getModelos));
@@ -68,6 +77,25 @@ export class ModeloComponent implements OnInit, OnDestroy  {
                     this.routerState = routerState.state;
                 }
             });
+    }
+
+    ngAfterViewInit(): void {
+        const path = 'app/main/apps/tarefas/tarefa-detail';
+        modulesConfig.forEach((module) => {
+            if (module.routerLinks.hasOwnProperty(path) &&
+                module.routerLinks[path].hasOwnProperty('atividades') &&
+                module.routerLinks[path]['atividades'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividadeTarefa = module.routerLinks[path]['atividades'][this.routerState.params.generoHandle];
+            }
+        });
+        const pathDocumento = 'app/main/apps/documento/documento-edit';
+        modulesConfig.forEach((module) => {
+            if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
+                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
+            }
+        });
     }
 
     ngOnInit(): void {
@@ -114,7 +142,9 @@ export class ModeloComponent implements OnInit, OnDestroy  {
         this._store.dispatch(new fromStore.CreateComponenteDigital({
             modelo: modelo,
             tarefaOrigem: this.tarefa,
-            processoOrigem: this.processo
+            processoOrigem: this.processo,
+            routeAtividadeTarefa: this.routeAtividadeTarefa,
+            routeAtividadeDocumento: this.routeAtividadeDocumento
         }));
     }
 
