@@ -37,8 +37,7 @@ export class RegrasComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.CoordenadorEtiquetaEditAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
-    ) {
-            }
+    ) {}
 
     /**
      * On init

@@ -5,7 +5,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
 
 import * as RegraEditActions from '../actions/regra-edit.actions';
-import * as RegraListActions from '../../../regra-list/store/actions/regra-list.actions';
+// import * as RegraListActions from '../../../regra-list/store/actions/regra-list.actions';
 
 import {AddData} from '@cdk/ngrx-normalizr';
 import {regra as regraSchema} from '@cdk/normalizr';
@@ -49,7 +49,7 @@ export class RegraEditEffect {
                     return this._regraService.save(action.payload).pipe(
                         mergeMap((response: Regra) => [
                             new RegraEditActions.SaveRegraSuccess(),
-                            new RegraListActions.ReloadRegras(),
+                            // new RegraListActions.ReloadRegras(),
                             new AddData<Regra>({data: [response], schema: regraSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'regra',
