@@ -2,12 +2,11 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-
 import { CdkConfigService } from '@cdk/services/config.service';
 import { cdkAnimations } from '@cdk/animations';
-
 import * as fromStore from 'app/main/auth/login/store';
 import { getLoginAppState } from 'app/main/auth/login/store';
+import {environment} from "../../../../environments/environment";
 
 @Component({
     selector     : 'login',
@@ -22,6 +21,7 @@ export class LoginComponent implements OnInit
     getLoginState: Observable<any>;
     errorMessage: string | null;
     loading: boolean;
+    certificadoDigital = false;
 
     /**
      * Constructor
@@ -79,6 +79,10 @@ export class LoginComponent implements OnInit
             this.loading = false;
             this.errorMessage = state.login.errorMessage;
         });
+
+        if (environment.base_url_x509) {
+            this.certificadoDigital = true;
+        }
     }
 
     onSubmit(): void {
@@ -88,5 +92,10 @@ export class LoginComponent implements OnInit
         };
         this.loading = true;
         this.store.dispatch(new fromStore.Login(payload));
+    }
+
+    onSubmitX509(): void {
+        this.loading = true;
+        this.store.dispatch(new fromStore.LoginX509());
     }
 }

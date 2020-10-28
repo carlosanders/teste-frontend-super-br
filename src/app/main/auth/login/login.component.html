@@ -50,9 +50,13 @@
                     </a>
                 </div>
 
-                <button (click)="onSubmit()" mat-raised-button color="accent" class="submit-button" aria-label="LOG IN"
+                <button (click)="onSubmit()" mat-raised-button color="accent" class="submit-button" aria-label="login"
                         [disabled]="loginForm.invalid">
                     LOGIN
+                </button>
+
+                <button *ngIf="certificadoDigital" (click)="onSubmitX509()" mat-raised-button color="accent" class="submit-button" aria-label="login com certificado digital">
+                    CERTIFICADO DIGITAL
                 </button>
 
                 <div fxLayout="row" fxLayout.xs="column"

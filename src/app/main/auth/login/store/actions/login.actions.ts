@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 export const LOGIN = '[Login] Login Attempt';
+export const LOGIN_X509 = '[Login] Login Attempt X509';
 export const LOGIN_REFRESH_TOKEN = '[Login] LoginRefreshToken Attempt';
 export const LOGOUT = '[Login] Logout';
 export const UNLOAD = '[Login] Unload';
@@ -15,6 +16,11 @@ export const LOGIN_PROFILE_FAILURE = '[Login] Profile Failure';
 export class Login implements Action {
     readonly type = LOGIN;
     constructor(public payload: any) {}
+}
+
+export class LoginX509 implements Action {
+    readonly type = LOGIN_X509;
+    constructor() {}
 }
 
 export class LoginSuccess implements Action {
@@ -68,6 +74,7 @@ export class LoginProfileFailure implements Action {
 
 export type LoginActionsAll =
     | Login
+    | LoginX509
     | Logout
     | Unload
     | LoginSuccess

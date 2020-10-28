@@ -20,7 +20,7 @@ spec:
                 - name: angular
                   image: 172.17.24.157:5000/angular-prod:latest
                   ports:
-                      - containerPort: 443
+                      - containerPort: 4200
                         protocol: "TCP"
                   tty: true
                   stdin: true
@@ -35,8 +35,8 @@ metadata:
 spec:
     ports:
         - name: http
-          port: 443
-          targetPort: 443
+          port: 4200
+          targetPort: 4200
           protocol: TCP
     selector:
         app: angular
@@ -47,9 +47,8 @@ kind: Ingress
 metadata:
     name: angular-prod-ingress
     annotations:
-        kubernetes.io/ingress.class: nginx
-        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        nginx.ingress.kubernetes.io/rewrite-target: /
+        kubernetes.io/ingress.class: "nginx"
+        nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
     rules:
         - host: supp.agu.gov.br
@@ -57,5 +56,5 @@ spec:
               paths:
                   - backend:
                         serviceName: angular
-                        servicePort: 443
+                        servicePort: 4200
 

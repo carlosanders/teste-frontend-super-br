@@ -22,17 +22,14 @@ RUN node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --conf
 FROM nginx:stable-alpine
 
 COPY --from=build /var/www/html/docker/prod/nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /var/www/html/docker/prod/server.crt /etc/nginx/ssl/server.crt
-COPY --from=build /var/www/html/docker/prod/server.key /etc/nginx/ssl/server.key
-
 COPY --from=build /var/www/html/dist /usr/share/nginx/html
 
-#RUN chown -R root:daemon /usr/share/nginx/html/*
-#RUN chmod -R 440 /usr/share/nginx/html/*
-#RUN find /usr/share/nginx/html/ -mindepth 1 -type d -exec chmod +x {} \;
+RUN chown -R root:nginx /usr/share/nginx/html/*
+RUN chmod -R 440 /usr/share/nginx/html/*
+RUN find /usr/share/nginx/html/ -mindepth 1 -type d -exec chmod +x {} \;
 
-#HEALTHCHECK --interval=5s --timeout=3s CMD curl --fail http://localhost/ || exit
+HEALTHCHECK --interval=5s --timeout=3s CMD curl --fail http://localhost:4200/ || exit
 
-EXPOSE 443
+EXPOSE 4200
 
 CMD ["nginx", "-g", "daemon off;"]

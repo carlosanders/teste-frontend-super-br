@@ -72,6 +72,11 @@ export class LoginService {
         return this.http.post(url, {username, password});
     }
 
+    loginX509(): Observable<any> {
+        const url = `${environment.base_url_x509}auth/get_token_x509` + environment.xdebug;
+        return this.http.get(url);
+    }
+
     getProfile(): Observable<any> {
         const url = `${environment.base_url}profile` + environment.xdebug;
         return this.http.get(url);
