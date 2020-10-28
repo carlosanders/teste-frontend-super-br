@@ -246,4 +246,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     goToCapaProcesso(): void {
         this._store.dispatch(new fromStore.GetCapaProcesso());
     }
+
+    enviarDocumentoEmail(juntadaId): void {
+        this._router.navigateByUrl(this.routerState.url.replace('/processo/' +
+            this.routerState.params.processoHandle +
+            '/visualizar', '/processo/' +
+            this.routerState.params.processoHandle + '/envia-email/' + juntadaId)).then();
+    }
 }

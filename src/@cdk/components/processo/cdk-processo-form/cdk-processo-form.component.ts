@@ -332,6 +332,31 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             });
         }
 
+        this.form.get('especieProcesso').valueChanges.subscribe(value => {
+            if (value && typeof value === 'object') {
+                if (value.classificacao) {
+                    this.form.get('classificacao').setValue(value.classificacao);
+                    this.form.get('classificacao').clearValidators();
+                } else {
+                    this.form.get('classificacao').setValue(null);
+                }
+
+                if (value.modalidadeMeio) {
+                    this.form.get('modalidadeMeio').setValue(value.modalidadeMeio);
+                    this.form.get('modalidadeMeio').clearValidators();
+                } else {
+                    this.form.get('modalidadeMeio').setValue(null);
+                }
+
+                if (value.titulo) {
+                    this.form.get('titulo').setValue(value.titulo);
+                    this.form.get('titulo').clearValidators();
+                } else {
+                    this.form.get('titulo').setValue(null);
+                }
+            }
+        });
+
         this.form.get('modalidadeFase').disable();
     }
 
@@ -410,21 +435,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     selectEspecieProcesso(especieProcesso: EspecieProcesso): void {
         if (especieProcesso) {
             this.form.get('especieProcesso').setValue(especieProcesso);
-
-            if (especieProcesso.classificacao) {
-                this.form.get('classificacao').setValue(especieProcesso.classificacao);
-                this.form.get('classificacao').clearValidators();
-            }
-
-            if (especieProcesso.modalidadeMeio) {
-                this.form.get('modalidadeMeio').setValue(especieProcesso.modalidadeMeio);
-                this.form.get('modalidadeMeio').clearValidators();
-            }
-
-            if (especieProcesso.titulo) {
-                this.form.get('titulo').setValue(especieProcesso.titulo);
-                this.form.get('titulo').clearValidators();
-            }
         }
         this.activeCard = 'form';
     }

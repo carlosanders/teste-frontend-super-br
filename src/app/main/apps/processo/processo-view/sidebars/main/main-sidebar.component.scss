@@ -201,5 +201,13 @@ processo-view-main-sidebar {
                 font-size: 10px;
             }
         }
+
+        .actions {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
+        }
     }
 }
