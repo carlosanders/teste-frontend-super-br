@@ -208,7 +208,7 @@
                     (redistribuirTarefa)="doRedistribuirTarefa($event)"
                     (cienciaTarefa)="doCienciaTarefa($event)"
                     (editProcesso)="doEditProcesso($event)"
-                    [ngClass]="{'selected':tarefa.id === currentTarefaId}"
+                    [ngClass]="{'selected':tarefa.id === currentTarefaId, 'error': errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1}"
                     (loadAssuntos)="doLoadAssuntos($event)"
                     [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"

@@ -69,8 +69,8 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                     });
                     const termFilter = {
                         orX: [
-                            termFilterNome,
-                            termFilterNumeroDocumentoPrincipal
+                            {orX: termFilterNome},
+                            {orX: termFilterNumeroDocumentoPrincipal}
                         ]
                     };
                     if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterNumeroDocumentoPrincipal.length > 0)) {

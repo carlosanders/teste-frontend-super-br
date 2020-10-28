@@ -112,7 +112,7 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 5;
+    pageSize = 10;
 
     @Input()
     actions: string[] = ['transicoes', 'edit', 'delete', 'select'];

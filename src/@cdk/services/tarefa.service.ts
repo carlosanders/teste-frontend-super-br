@@ -50,6 +50,22 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         );
     }
 
+    undelete(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
+        const params: HttpParams = new HttpParams();
+        params['context'] = context;
+        return this.http.patch(
+            `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}/${'undelete'}` + environment.xdebug,
+            null,
+            {params}
+        ).pipe(
+            map(response => {
+                response = plainToClass(Tarefa, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Tarefa(), {...tarefa, ...response});
+            })
+        );
+    }
+
     patch(tarefa: Tarefa, changes: any, context: any = '{}'): Observable<Tarefa> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;

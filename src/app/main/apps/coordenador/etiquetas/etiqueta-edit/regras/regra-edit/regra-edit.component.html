@@ -1,0 +1,9 @@
+<div class="content" cdkPerfectScrollbar>
+    <cdk-regra-form
+        [regra]="regra"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-regra-form>
+</div>

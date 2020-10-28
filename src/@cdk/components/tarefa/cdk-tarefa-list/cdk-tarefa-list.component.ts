@@ -71,7 +71,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     scrolled = new EventEmitter<any>();
 
     @Output()
-    delete = new EventEmitter<number>();
+    delete = new EventEmitter<Tarefa>();
+
+    @Output()
+    deleteBloco = new EventEmitter<Tarefa[]>();
 
     @Output()
     folder = new EventEmitter<any>();
@@ -224,12 +227,18 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.toggleUrgente.emit(tarefa);
     }
 
-    doDeleteTarefa(tarefaId): void {
-        this.delete.emit(tarefaId);
+    doDeleteTarefa(tarefa: Tarefa): void {
+        this.delete.emit(tarefa);
     }
 
     doDeleteTarefaBloco(): void {
-        this.selectedIds.forEach(tarefaId => this.doDeleteTarefa(tarefaId));
+        const tarefasBloco = [];
+        this.tarefas.forEach((tarefa: Tarefa) => {
+            if (this.selectedIds.indexOf(tarefa.id) > -1) {
+                tarefasBloco.push(tarefa);
+            }
+        })
+        this.deleteBloco.emit(tarefasBloco);
     }
 
     setFolder(folder): void {

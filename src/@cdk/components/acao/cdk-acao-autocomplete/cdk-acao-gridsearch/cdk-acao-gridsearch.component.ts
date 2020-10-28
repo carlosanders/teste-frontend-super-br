@@ -38,7 +38,7 @@ export class CdkAcaoGridsearchComponent implements OnInit {
     @Output()
     cancel = new EventEmitter();
 
-    acaos: Acao[];
+    acoes: Acao[];
 
     total = 0;
 
@@ -74,7 +74,7 @@ export class CdkAcaoGridsearchComponent implements OnInit {
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-                this.acaos = response['entities'];
+                this.acoes = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });

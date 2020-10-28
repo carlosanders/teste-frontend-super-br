@@ -87,6 +87,6 @@ export class CdkAcaoAutocompleteComponent implements OnInit {
     }
 
     displayAcaoFn(acao): string {
-        return acao ? acao.NUP : null;
+        return acao ? acao.contexto : null;
     }
 }

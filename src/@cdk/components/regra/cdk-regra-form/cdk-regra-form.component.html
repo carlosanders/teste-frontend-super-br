@@ -1,0 +1,35 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-form-field>
+        <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
+    </mat-form-field>
+
+    <mat-form-field>
+        <textarea matInput placeholder="Criteria"
+               formControlName="criteria">
+        </textarea>
+        <mat-error *ngIf="form.get('criteria').hasError('formError')">
+            {{form.get('criteria').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" type="submit" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+    <div>{{form.errors}}</div>
+
+</form>

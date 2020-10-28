@@ -54,6 +54,10 @@ export class EtiquetaEditMainSidebarComponent implements OnInit, OnDestroy {
             {
                 nome: 'Ações',
                 link: 'acoes'
+            },
+            {
+                nome: 'Regras',
+                link: 'regras'
             }
         ];
     }

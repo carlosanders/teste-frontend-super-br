@@ -31,6 +31,7 @@ import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tarefas',
@@ -108,6 +109,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
+    lote: string;
 
     /**
      * @param _changeDetectorRef
@@ -363,8 +365,30 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }));
     }
 
-    deleteTarefa(tarefaId: number): void {
-        this._store.dispatch(new fromStore.DeleteTarefa(tarefaId));
+    deleteTarefa(tarefa: Tarefa, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteTarefa({
+            tarefaId: tarefa.id,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStore.DeleteTarefa({
+                    tarefaId: tarefa.id,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DeleteTarefaFlush()
+            ],
+            undo: new fromStore.UndeleteTarefa({
+                tarefa: tarefa,
+                operacaoId: operacaoId,
+                redo: null,
+                undo: null
+            })
+        }));
 
         if (this.snackSubscription) {
             // temos um snack aberto, temos que ignorar
@@ -389,6 +413,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 this._store.dispatch(new fromStore.DeleteTarefaFlush());
             }
         });
+    }
+
+    deleteBlocoTarefa(tarefas: Tarefa[]): void {
+        this.lote = CdkUtils.makeId();
+        tarefas.forEach((tarefa: Tarefa) => this.deleteTarefa(tarefa, this.lote));
     }
 
     doToggleUrgente(tarefa: Tarefa): void {
