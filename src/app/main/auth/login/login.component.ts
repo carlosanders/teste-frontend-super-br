@@ -7,6 +7,7 @@ import { cdkAnimations } from '@cdk/animations';
 import * as fromStore from 'app/main/auth/login/store';
 import { getLoginAppState } from 'app/main/auth/login/store';
 import {environment} from "../../../../environments/environment";
+import {getRouterState} from "../../../store/reducers";
 
 @Component({
     selector     : 'login',
@@ -22,6 +23,7 @@ export class LoginComponent implements OnInit
     errorMessage: string | null;
     loading: boolean;
     certificadoDigital = false;
+    routerState: any;
 
     /**
      * Constructor
@@ -54,6 +56,14 @@ export class LoginComponent implements OnInit
             }
         };
 
+        this.store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
+
         this.getLoginState = this.store.pipe(select(getLoginAppState));
     }
 
@@ -82,6 +92,14 @@ export class LoginComponent implements OnInit
 
         if (environment.base_url_x509) {
             this.certificadoDigital = true;
+        }
+
+        if (this.routerState.params['jwt']) {
+            this.store.dispatch(new fromStore.LoginSuccess({
+                token: this.routerState.params['token'],
+                exp: this.routerState.params['exp'],
+                timestamp: this.routerState.params['timestamp']
+            }));
         }
     }
 

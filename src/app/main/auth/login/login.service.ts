@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Usuario} from '@cdk/models';
@@ -73,8 +73,13 @@ export class LoginService {
     }
 
     loginX509(): Observable<any> {
-        const url = `${environment.base_url_x509}auth/get_token_x509` + environment.xdebug;
-        return this.http.get(url);
+        const url = `${environment.base_url_x509}auth/x509_get_token` + environment.xdebug;
+
+        return this.http.get(url, {
+            headers: new HttpHeaders({
+                'Upgrade-Insecure-Requests': '1'
+            })
+        });
     }
 
     getProfile(): Observable<any> {
