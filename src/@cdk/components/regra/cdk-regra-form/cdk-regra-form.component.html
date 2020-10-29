@@ -8,14 +8,28 @@
         <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
     </mat-form-field>
 
-    <mat-form-field>
-        <textarea matInput placeholder="Criteria"
-               formControlName="criteria">
-        </textarea>
-        <mat-error *ngIf="form.get('criteria').hasError('formError')">
-            {{form.get('criteria').errors.formError}}
-        </mat-error>
-    </mat-form-field>
+    <mat-card class="criteria mb-16">
+        <mat-card-subtitle>Critérios</mat-card-subtitle>
+
+        <button class="accent" mat-icon-button *ngIf="!showFormCriteria"
+                (click)="doCreateCriteria()"
+                aria-label="novo"
+                matTooltip="Novo critério">
+            <mat-icon>add</mat-icon>
+        </button>
+
+        <cdk-criteria-form *ngIf="showFormCriteria"
+                           [especieCriteriaList]="especieCriteriaList"
+                           [setorRecebidoPagination]="setorRecebidoPagination"
+                           [unidadeRecebidoPagination]="unidadeRecebidaPagination"
+                           [usuarioRecebidoPagination]="usuarioRecebidoPagination"
+                           (save)="submitCriteria($event)"
+                           (abort)="cancelFormCriteria()">
+        </cdk-criteria-form>
+
+        <cdk-criteria-list [criterias]="criterias">
+        </cdk-criteria-list>
+    </mat-card>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

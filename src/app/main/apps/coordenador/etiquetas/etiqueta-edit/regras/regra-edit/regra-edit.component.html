@@ -3,6 +3,10 @@
         [regra]="regra"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        [especieCriteriaList]="especieCriteriaList"
+        [setorRecebidoPagination]="setorPagination"
+        [unidadeRecebidaPagination]="unidadePagination"
+        [usuarioRecebidoPagination]="usuarioPagination"
         (save)="submit($event)"
         (abort)="doAbort()">
     </cdk-regra-form>
