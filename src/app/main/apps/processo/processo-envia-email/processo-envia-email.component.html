@@ -1,0 +1,9 @@
+<div class="content">
+    <cdk-envia-email-form
+        [juntada]="juntada"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="cancel()">
+    </cdk-envia-email-form>
+</div>

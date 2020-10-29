@@ -68,6 +68,10 @@ const routes: Routes = [
                 path: 'etiqueta',
                 loadChildren: () => import('./processo-etiqueta-view/processo-etiqueta-view.module').then(m => m.ProcessoEtiquetaViewModule),
                 canActivate: [fromGuards.ResolveGuard]
+            },
+            {
+                path: 'envia-email',
+                loadChildren: () => import('./processo-envia-email/processo-envia-email.module').then(m => m.ProcessoEnviaEmailModule),
             }
         ]
     }
