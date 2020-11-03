@@ -7,7 +7,7 @@ import { effects } from './effects';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('acao-list-app', reducers),
+        StoreModule.forFeature('configuracoes-acao-list-app', reducers),
         EffectsModule.forFeature(effects)
     ],
     providers: []
