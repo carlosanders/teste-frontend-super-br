@@ -9,7 +9,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Regra} from '@cdk/models';
+import {Criteria, Pagination, Regra} from '@cdk/models';
 
 @Component({
     selector: 'cdk-regra-form',
@@ -36,9 +36,25 @@ export class CdkRegraFormComponent implements OnInit, OnChanges, OnDestroy {
     @Output()
     abort = new EventEmitter<any>();
 
+    showFormCriteria = false;
+
     form: FormGroup;
 
     activeCard = 'form';
+
+    criterias: Criteria[];
+
+    @Input()
+    especieCriteriaList: Criteria[];
+
+    @Input()
+    setorRecebidoPagination: Pagination;
+
+    @Input()
+    unidadeRecebidaPagination: Pagination;
+
+    @Input()
+    usuarioRecebidoPagination: Pagination;
 
     /**
      * Constructor
@@ -51,8 +67,11 @@ export class CdkRegraFormComponent implements OnInit, OnChanges, OnDestroy {
             nome: [null, [Validators.required]],
             etiqueta: [null],
             descricao: [null],
-            criteria: [null, [Validators.required]]
+            criterias: [null, [Validators.required]]
         });
+
+        this.especieCriteriaList = [];
+        this.criterias = [];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -120,4 +139,20 @@ export class CdkRegraFormComponent implements OnInit, OnChanges, OnDestroy {
         this.activeCard = 'form';
     }
 
+    doCreateCriteria(): void {
+        this.showFormCriteria = true;
+    }
+
+    cancelFormCriteria(): void {
+        this.showFormCriteria = false;
+    }
+
+    submitCriteria(criteria: Criteria): void {
+        const findDuplicate = this.criterias.some(item => (item.id === criteria.id) && (item.valor === criteria.valor));
+        if (!findDuplicate) {
+            this.criterias.push(criteria);
+            this.form.get('criterias').setValue(this.criterias);
+        }
+        this.cancelFormCriteria();
+    }
 }

@@ -14,7 +14,7 @@ import {Etiqueta} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../../store/selectors';
-import {Usuario} from '@cdk/models';
+import {Criteria, Usuario} from '@cdk/models';
 import {Back} from 'app/store/actions';
 
 @Component({
@@ -41,6 +41,31 @@ export class RegraEditComponent implements OnInit, OnDestroy {
 
     _profile: Usuario;
 
+    especieCriteriaList: Criteria[] = [];
+
+    criteriasTemplate: any[] = [
+        {
+            id: 1,
+            descricao: 'Observação contém:',
+            mapeamento: "{'observacao':'like:%{placeholder}%'}"
+        },
+        {
+            id: 2,
+            descricao: 'Recebido de setor:',
+            mapeamento: "{'setorResponsavel.id':'eq:{placeholder}'}"
+        },
+        {
+            id: 3,
+            descricao: 'Recebido de unidade:',
+            mapeamento: "{'unidadeResponsavel.id':'eq:{placeholder}'}"
+        },
+        {
+            id: 4,
+            descricao: 'Recebido de usuário:',
+            mapeamento: "{'usuarioResponsavel.id':'eq:{placeholder}'}"
+        },
+    ];
+
     /**
      * @param _store
      * @param _loginService
@@ -65,6 +90,14 @@ export class RegraEditComponent implements OnInit, OnDestroy {
 
         this.usuarioPagination = new Pagination();
         this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
+
+        this.criteriasTemplate.forEach((criteria) => {
+            let newCriteria = new Criteria();
+            newCriteria.id = criteria.id;
+            newCriteria.descricao = criteria.descricao;
+            newCriteria.mapeamento = criteria.mapeamento;
+            this.especieCriteriaList.push(newCriteria);
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -103,11 +136,22 @@ export class RegraEditComponent implements OnInit, OnDestroy {
     submit(values): void {
         const regra = new Regra();
 
+        let criterias: string[] = [];
+        values.criterias.forEach((criteria: Criteria) => {
+            const eachCriteria = criteria.mapeamento.replace('{placeholder}', criteria.valor);
+            criterias.push(eachCriteria);
+        });
+
+        const criteria = criterias.join(',');
+        delete values.criterias;
+
         Object.entries(values).forEach(
             ([key, value]) => {
                 regra[key] = value;
             }
         );
+
+        regra.criteria = criteria;
 
         this._store.dispatch(new fromStore.SaveRegra(regra));
     }
