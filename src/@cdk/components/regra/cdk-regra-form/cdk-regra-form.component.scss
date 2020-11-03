@@ -22,4 +22,13 @@ cdk-regra-form {
     mat-radio-button {
         margin-right: 10px;
     }
+
+    > .criteria {
+        display: flex;
+        flex: 1 1 auto;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: column;
+        align-content: flex-start;
+    }
 }

@@ -251,7 +251,7 @@ export class DocumentoAvulsoResponderEffect {
                 ofType<DocumentoAvulsoReponderActions.AssinaDocumentoSuccess>(DocumentoAvulsoReponderActions.ASSINA_DOCUMENTO_SUCCESS),
                 tap((action) => {
 
-                    const url = environment.jnlp + 'v1/assinatura/' + action.payload.jwt + '/get_jnlp';
+                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
                     const ifrm = document.createElement('iframe');
                     ifrm.setAttribute('src', url);

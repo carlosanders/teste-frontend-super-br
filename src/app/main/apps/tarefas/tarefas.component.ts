@@ -365,12 +365,29 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }));
     }
 
-    deleteTarefa(tarefaId: number, loteId: string = null): void {
+    deleteTarefa(tarefa: Tarefa, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.DeleteTarefa({
-            tarefaId: tarefaId,
+            tarefaId: tarefa.id,
             operacaoId: operacaoId,
-            loteId: loteId
+            loteId: loteId,
+            redo: [
+                new fromStore.DeleteTarefa({
+                    tarefaId: tarefa.id,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DeleteTarefaFlush()
+            ],
+            undo: new fromStore.UndeleteTarefa({
+                tarefa: tarefa,
+                operacaoId: operacaoId,
+                redo: null,
+                undo: null
+            })
         }));
 
         if (this.snackSubscription) {
@@ -398,9 +415,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         });
     }
 
-    deleteBlocoTarefa(tarefasId: number[]): void {
+    deleteBlocoTarefa(tarefas: Tarefa[]): void {
         this.lote = CdkUtils.makeId();
-        tarefasId.forEach(tarefaId => this.deleteTarefa(tarefaId, this.lote));
+        tarefas.forEach((tarefa: Tarefa) => this.deleteTarefa(tarefa, this.lote));
     }
 
     doToggleUrgente(tarefa: Tarefa): void {

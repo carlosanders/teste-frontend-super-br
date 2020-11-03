@@ -1,0 +1,22 @@
+@mixin certificado-theme($theme) {
+
+    $background: map-get($theme, background);
+    $foreground: map-get($theme, foreground);
+
+    certificado {
+
+        #certificado {
+
+            #certificado-form-wrapper {
+
+                #certificado-form {
+                    background: map-get($background, card);
+
+                    .subtitle {
+                        color: map-get($foreground, secondary-text);
+                    }
+                }
+            }
+        }
+    }
+}

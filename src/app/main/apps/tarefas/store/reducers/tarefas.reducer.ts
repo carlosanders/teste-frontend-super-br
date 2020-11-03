@@ -18,6 +18,7 @@ export interface TarefasState {
     loading: boolean;
     loaded: any;
     deletingTarefaIds: number[];
+    undeletingTarefaIds: number[];
     bufferingDelete: number;
     changingFolderTarefaIds: number[];
     togglingLidaTarefaIds: number[];
@@ -48,6 +49,7 @@ export const TarefasInitialState: TarefasState = {
     loading: false,
     loaded: false,
     deletingTarefaIds: [],
+    undeletingTarefaIds: [],
     changingFolderTarefaIds: [],
     togglingLidaTarefaIds: [],
     bufferingDelete: 0,
@@ -198,6 +200,28 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 deletingTarefaIds: state.deletingTarefaIds.filter(id => id !== action.payload.id),
                 entitiesId: [...state.entitiesId, action.payload.id],
                 error: action.payload.error
+            };
+        }
+
+        case TarefasActions.UNDELETE_TAREFA: {
+            return {
+                ...state,
+                undeletingTarefaIds: [...state.undeletingTarefaIds, action.payload.tarefa.id],
+            };
+        }
+
+        case TarefasActions.UNDELETE_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.id),
+                entitiesId: [...state.entitiesId, action.payload.id],
+            };
+        }
+
+        case TarefasActions.UNDELETE_TAREFA_FAILED: {
+            return {
+                ...state,
+                undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.id)
             };
         }
 

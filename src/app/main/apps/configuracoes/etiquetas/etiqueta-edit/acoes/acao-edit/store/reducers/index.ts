@@ -7,7 +7,7 @@ export interface AcaoEditAppState
 }
 
 export const getAcaoEditAppState = createFeatureSelector<AcaoEditAppState>(
-    'acao-edit-app'
+    'configuracoes-acao-edit-app'
 );
 
 export const getAppState = createSelector(

@@ -4,7 +4,6 @@ import {
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
     MatProgressSpinnerModule,
     MatTableModule,
     MatPaginatorModule,
@@ -16,9 +15,9 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {RegrasComponent} from './regras.component';
-import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
+import {RegraService} from '@cdk/services/regra.service';
 
 const routes: Routes = [
     {
@@ -42,7 +41,7 @@ const routes: Routes = [
 
 ];
 
-const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/regras';
+const path = 'app/main/apps/coordenador/etiquetas/etiqueta-edit/regras';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -62,7 +61,6 @@ modulesConfig.forEach((module) => {
         MatButtonModule,
         MatFormFieldModule,
         MatIconModule,
-        MatCheckboxModule,
         MatInputModule,
         MatProgressSpinnerModule,
         MatTableModule,
@@ -75,7 +73,7 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
     ],
     providers: [
-        EtiquetaService
+        RegraService
     ],
     exports: [
         RegrasComponent

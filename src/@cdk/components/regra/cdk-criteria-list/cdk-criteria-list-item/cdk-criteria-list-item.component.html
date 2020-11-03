@@ -1,0 +1,23 @@
+<div>
+    <div class="info">
+        <div class="title">
+            <span>{{criteria.descricao}}</span>
+        </div>
+        <div class="body mt-4">
+            <span>{{criteria.exibicao}}</span>
+        </div>
+    </div>
+
+    <div class="actions">
+
+        <div class="spinner-container m-8" *ngIf="deleting">
+            <mat-spinner diameter="24"></mat-spinner>
+        </div>
+
+        <button mat-icon-button *ngIf="!deleting" aria-label="remover"
+                (click)="doDelete()">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
+
+</div>

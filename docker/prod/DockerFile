@@ -11,7 +11,7 @@ RUN npm config set unsafe-perm true
 
 RUN npm install npm@latest -g
 
-RUN npm install -g @angular/cli@11.0.0-next.6
+RUN npm install -g @angular/cli@11.0.0-rc.0
 
 RUN npm install
 
@@ -22,8 +22,13 @@ RUN node --max_old_space_size=8192 node_modules/@angular/cli/bin/ng build --conf
 FROM nginx:stable-alpine
 
 COPY --from=build /var/www/html/docker/prod/nginx.conf /etc/nginx/conf.d/default.conf
-
 COPY --from=build /var/www/html/dist /usr/share/nginx/html
+
+RUN chown -R root:nginx /usr/share/nginx/html/*
+RUN chmod -R 440 /usr/share/nginx/html/*
+RUN find /usr/share/nginx/html/ -mindepth 1 -type d -exec chmod +x {} \;
+
+HEALTHCHECK --interval=5s --timeout=3s CMD curl --fail http://localhost:4200/ || exit
 
 EXPOSE 4200
 

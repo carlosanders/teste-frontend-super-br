@@ -7,7 +7,7 @@ export interface AcaoListAppState
 }
 
 export const getAcaoListAppState = createFeatureSelector<AcaoListAppState>(
-    'acao-list-app'
+    'configuracoes-acao-list-app'
 );
 
 export const getAppState = createSelector(

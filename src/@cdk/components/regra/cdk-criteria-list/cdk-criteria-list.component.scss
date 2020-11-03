@@ -1,0 +1,43 @@
+cdk-criteria-list {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    > .header {
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 8px;
+    }
+
+    > .content {
+
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+
+        > .loading {
+            flex: 1 1 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        > .items {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+        }
+
+        > .no-criterias-text {
+            display: flex;
+            flex: 1 1 auto;
+            justify-content: center;
+            align-items: center;
+        }
+
+    }
+}

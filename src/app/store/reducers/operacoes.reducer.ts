@@ -8,6 +8,8 @@ export interface Operacao {
     status: number;
     lote: string;
     dateTime: string;
+    redo: any;
+    undo: any;
 }
 
 export interface Lote {
@@ -23,8 +25,6 @@ export interface OperacoesState {
     dateTime: string;
     operacoes: { [id: string]: Operacao };
     lotes: { [id: string]: Lote };
-    loteIdAtual: string;
-    operacaoIdAtual: string;
 }
 
 export const OperacoesInitialState: OperacoesState = {
@@ -33,9 +33,7 @@ export const OperacoesInitialState: OperacoesState = {
     success: null,
     dateTime: null,
     operacoes: {},
-    lotes: {},
-    loteIdAtual: null,
-    operacaoIdAtual: null
+    lotes: {}
 };
 
 export function OperacoesReducer(state = OperacoesInitialState, action: OperacoesActions.OperacoesActionsAll): OperacoesState {
@@ -52,10 +50,20 @@ export function OperacoesReducer(state = OperacoesInitialState, action: Operacoe
         }
 
         case OperacoesActions.OPERACAO: {
+            let redo = action.payload.redo;
+            let undo = action.payload.undo;
+            if (redo === 'inherent') {
+                redo = state.operacoes[action.payload.id]?.redo;
+            }
+            if (undo === 'inherent') {
+                undo = state.operacoes[action.payload.id]?.undo;
+            }
             const operacoes = {
                 ...state.operacoes,
                 [action.payload.id]: {
                     ...action.payload,
+                    redo: redo,
+                    undo: undo,
                     dateTime: (action.payload.dateTime ?? moment())
                 }
             };
@@ -73,9 +81,7 @@ export function OperacoesReducer(state = OperacoesInitialState, action: Operacoe
             return {
                 ...state,
                 operacoes: operacoes,
-                operacaoIdAtual: action.payload.id,
                 lotes: lotes,
-                loteIdAtual: action.payload.lote,
                 type: action.payload.type,
                 content: action.payload.content,
                 dateTime: (action.payload.dateTime ?? moment()),

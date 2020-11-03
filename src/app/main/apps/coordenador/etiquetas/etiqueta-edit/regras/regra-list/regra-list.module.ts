@@ -16,7 +16,6 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {RegraListComponent} from './regra-list.component';
-import {EtiquetaService} from '@cdk/services/etiqueta.service';
 import {RouterModule, Routes} from '@angular/router';
 import {RegraListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
@@ -32,7 +31,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/regras/regra-list';
+const path = 'app/main/apps/coordenador/etiquetas/etiqueta-edit/regras/regra-list';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -68,7 +67,6 @@ modulesConfig.forEach((module) => {
         CdkRegraGridModule,
     ],
     providers: [
-        EtiquetaService,
         RegraService,
         fromGuards.ResolveGuard
     ]

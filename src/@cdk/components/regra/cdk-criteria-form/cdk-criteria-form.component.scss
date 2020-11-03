@@ -1,0 +1,19 @@
+@import "../../../scss/partials/cdk-form";
+
+cdk-criteria-form {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    mat-slide-toggle {
+        margin-right: 16px;
+        margin-bottom: 16px;
+    }
+
+    .setor-recebido {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+    }
+
+}

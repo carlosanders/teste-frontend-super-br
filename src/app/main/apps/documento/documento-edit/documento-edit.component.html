@@ -84,6 +84,15 @@
                         </ng-container>
                     </button>
 
+                    <button mat-menu-item aria-label="modelos"
+                            matTooltip="Modelo" routerLink="modelos"
+                            [routerLinkActive]="['active', 'accent']">
+                        <ng-container>
+                            <mat-icon class="black-fg">file_copy</mat-icon>
+                            <span>Modelo</span>
+                        </ng-container>
+                    </button>
+
                     <ng-template #dynamicComponent></ng-template>
                 </mat-menu>
             </div>

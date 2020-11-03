@@ -42,6 +42,10 @@ const appRoutes: Routes = [
         loadChildren: () => import('./main/auth/auth.module').then(m => m.AuthModule)
     },
     {
+        path: 'pages',
+        loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
+    },
+    {
         path: '**',
         redirectTo: 'auth/login'
     }

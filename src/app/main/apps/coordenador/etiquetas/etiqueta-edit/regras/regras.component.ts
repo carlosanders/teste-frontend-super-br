@@ -37,8 +37,7 @@ export class RegrasComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.CoordenadorEtiquetaEditAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router
-    ) {
-            }
+    ) {}
 
     /**
      * On init
@@ -71,6 +70,9 @@ export class RegrasComponent implements OnInit, OnDestroy {
     goBack(): void {
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
+        }
+        if (this.action === 'listar') {
+            this._router.navigate([this.routerState.url.replace('editar/' + this.routerState.params.etiquetaHandle + '/regras/listar', 'listar')]).then();
         }
     }
 }

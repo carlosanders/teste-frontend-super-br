@@ -14,6 +14,10 @@ import {
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkRegraFormComponent} from './cdk-regra-form.component';
 import {RegraService} from '@cdk/services/regra.service';
+import {CdkCriteriaFormModule} from '../cdk-criteria-form/cdk-criteria-form.module';
+import {CdkCriteriaListModule} from '../cdk-criteria-list/cdk-criteria-list.module';
+import {MatCardModule} from '@angular/material/card';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [
@@ -32,6 +36,10 @@ import {RegraService} from '@cdk/services/regra.service';
         MatTooltipModule,
 
         CdkSharedModule,
+        CdkCriteriaFormModule,
+        CdkCriteriaListModule,
+        MatCardModule,
+        NgxUpperCaseDirectiveModule,
     ],
     providers: [
         RegraService
