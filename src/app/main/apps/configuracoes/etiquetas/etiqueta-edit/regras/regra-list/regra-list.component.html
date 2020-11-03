@@ -1,0 +1,11 @@
+<cdk-regra-grid
+        [loading]="(loading$ | async)"
+        [regras]="regras"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['create', 'delete']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (create)="create()"
+        (delete)="delete($event)">
+</cdk-regra-grid>

@@ -9,7 +9,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkSidebarModule } from '@cdk/components';
 
-import { EtiquetaEditMainSidebarComponent } from './sidebars/main/main-sidebar.component';
 import { EtiquetaEditComponent } from './etiqueta-edit.component';
 import { CommonModule } from '@angular/common';
 import * as fromGuards from './store/guards';
@@ -28,6 +27,10 @@ const routes: Routes = [
             {
                 path       : 'acoes',
                 loadChildren: () => import('./acoes/acoes.module').then(m => m.AcoesModule)
+            },
+            {
+                path       : 'regras',
+                loadChildren: () => import('./regras/regras.module').then(m => m.RegrasModule)
             },
             {
                 path       : '**',
@@ -49,7 +52,6 @@ modulesConfig.forEach((module) => {
 @NgModule({
     declarations   : [
         EtiquetaEditComponent,
-        EtiquetaEditMainSidebarComponent
     ],
     imports        : [
         CommonModule,

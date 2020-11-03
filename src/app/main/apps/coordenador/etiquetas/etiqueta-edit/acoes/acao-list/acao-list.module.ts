@@ -32,7 +32,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/acoes/acao-list';
+const path = 'app/main/apps/coordenador/etiquetas/etiqueta-edit/acoes/acao-list';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
