@@ -40,28 +40,6 @@ export class LoginEffects {
                 ));
 
     @Effect()
-    LoginX509: Observable<LoginActions.LoginActionsAll> =
-        this.actions
-            .pipe(
-                ofType<LoginActions.Login>(LoginActions.LOGIN_X509),
-                switchMap(() => {
-                        return this.loginService.loginX509()
-                            .pipe(
-                                map((data) => {
-                                    return new LoginActions.LoginSuccess(data);
-                                }),
-                                catchError((error) => {
-                                    let msg = 'Sistema indisponível, tente mais tarde!';
-                                    if (error && error.error && error.error.code && error.error.code === 401) {
-                                        msg = 'Dados incorretos!';
-                                    }
-                                    return of(new LoginActions.LoginFailure({error: msg}));
-                                })
-                            );
-                    }
-                ));
-
-    @Effect()
     LoginRefreshToken: Observable<LoginActions.LoginActionsAll> =
         this.actions
             .pipe(

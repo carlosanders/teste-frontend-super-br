@@ -72,16 +72,6 @@ export class LoginService {
         return this.http.post(url, {username, password});
     }
 
-    loginX509(): Observable<any> {
-        const url = `${environment.base_url_x509}auth/x509_get_token` + environment.xdebug;
-
-        return this.http.get(url, {
-            headers: new HttpHeaders({
-                'Upgrade-Insecure-Requests': '1'
-            })
-        });
-    }
-
     getProfile(): Observable<any> {
         const url = `${environment.base_url}profile` + environment.xdebug;
         return this.http.get(url);

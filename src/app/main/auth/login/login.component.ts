@@ -94,7 +94,9 @@ export class LoginComponent implements OnInit
             this.certificadoDigital = true;
         }
 
-        if (this.routerState.params['jwt']) {
+        if (this.routerState.params['token'] &&
+            this.routerState.params['exp'] &&
+            this.routerState.params['timestamp']) {
             this.store.dispatch(new fromStore.LoginSuccess({
                 token: this.routerState.params['token'],
                 exp: this.routerState.params['exp'],
@@ -110,10 +112,5 @@ export class LoginComponent implements OnInit
         };
         this.loading = true;
         this.store.dispatch(new fromStore.Login(payload));
-    }
-
-    onSubmitX509(): void {
-        this.loading = true;
-        this.store.dispatch(new fromStore.LoginX509());
     }
 }

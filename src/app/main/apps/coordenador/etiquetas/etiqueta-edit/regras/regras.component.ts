@@ -71,5 +71,8 @@ export class RegrasComponent implements OnInit, OnDestroy {
         if (this.action === 'criar') {
             this._router.navigate([this.routerState.url.replace('editar/criar', 'listar')]).then();
         }
+        if (this.action === 'listar') {
+            this._router.navigate([this.routerState.url.replace('editar/' + this.routerState.params.etiquetaHandle + '/regras/listar', 'listar')]).then();
+        }
     }
 }
