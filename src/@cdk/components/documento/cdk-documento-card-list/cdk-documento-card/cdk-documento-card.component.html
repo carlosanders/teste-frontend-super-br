@@ -53,7 +53,7 @@
                 <span>Assinar</span>
             </button>
             <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(documento.id)" mat-menu-item
-                    *ngIf="documento.assinado">
+                    *ngIf="documento.assinado && _loginService.isGranted('ROLE_COLABORADOR')">
                 <mat-icon color="accent">lock_open</mat-icon>
                 <span>Remover Assinatura</span>
             </button>
@@ -67,7 +67,9 @@
                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                 <span>Ver Resposta</span>
             </button>
-            <button fxLayout="row" fxLayoutAlign="start center" [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
+            <button fxLayout="row" fxLayoutAlign="start center"
+                    *showIfRole="'ROLE_COLABORADOR'"
+                    [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
                 <mat-icon color="accent">edit</mat-icon>
                 <span>Alterar Tipo de Documento</span>
             </button>
