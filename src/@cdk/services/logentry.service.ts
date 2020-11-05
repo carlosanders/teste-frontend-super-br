@@ -1,7 +1,10 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
+import {map} from "rxjs/operators";
+import {plainToClass} from "class-transformer";
+import {LogEntry, PaginatedResponse} from "../models";
 
 @Injectable()
 export class LogEntryService {
@@ -11,7 +14,7 @@ export class LogEntryService {
     ) {
     }
 
-    getLog(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<any> {
+    getLogs(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<any> {
 
         const params = {};
         params['where'] = filters;
@@ -22,7 +25,9 @@ export class LogEntryService {
         params['context'] = context;
 
         const url = `${environment.base_url}v1/administrativo/logEntry/logentry` + environment.xdebug;
-        return this.http.get(url, {params});
+        return this.http.get(url, {params}).pipe(
+            map(response => new PaginatedResponse(plainToClass(LogEntry, response['entities']), response['total']))
+        );
     }
 
 }

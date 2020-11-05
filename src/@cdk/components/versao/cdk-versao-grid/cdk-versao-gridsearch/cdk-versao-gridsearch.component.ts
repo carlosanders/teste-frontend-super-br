@@ -74,7 +74,7 @@ export class CdkVersaoGridsearchComponent implements OnInit {
 
         this.loading = true;
 
-        this._logEntryService.getLog(
+        this._logEntryService.getLogs(
             JSON.stringify(params.filter),
             params.limit,
             params.offset,
@@ -84,6 +84,7 @@ export class CdkVersaoGridsearchComponent implements OnInit {
                 catchError(() => of([]))
             ).subscribe(response => {
                 this.logEntrys = response['entities'];
+                console.log (this.logEntrys);
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });

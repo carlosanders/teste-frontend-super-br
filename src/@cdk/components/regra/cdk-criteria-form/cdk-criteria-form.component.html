@@ -14,7 +14,7 @@
 
     <div class="setor-recebido" *ngIf="criteriaSelect.value?.id === 2">
         <mat-form-field>
-            <input matInput placeholder="Unidade Origem"
+            <input matInput placeholder="Unidade"
                    formControlName="unidade"
                    [matAutocomplete]="unidade.autocomplete" required
                    (blur)="checkUnidadeOrigem()">
@@ -33,7 +33,7 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="form.get('unidade').value">
-            <input matInput placeholder="Setor Origem"
+            <input matInput placeholder="Setor"
                    formControlName="setor"
                    [matAutocomplete]="setor.autocomplete" required
                    (blur)="checkSetorRecebido()">
@@ -53,7 +53,7 @@
     </div>
 
     <mat-form-field *ngIf="criteriaSelect.value?.id === 3">
-        <input matInput placeholder="Unidade Origem"
+        <input matInput placeholder="Unidade"
                formControlName="unidade"
                [matAutocomplete]="unidade.autocomplete" required
                (blur)="checkUnidadeRecebido()">
@@ -72,7 +72,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="criteriaSelect.value?.id === 4">
-        <input matInput placeholder="Usuário Origem"
+        <input matInput placeholder="Usuário"
                formControlName="usuario"
                [matAutocomplete]="usuario.autocomplete" required
                (blur)="checkUsuarioRecebido()">
@@ -97,12 +97,12 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-        <button mat-raised-button color="accent" type="submit" (click)="submit()"
-                [disabled]="form.invalid" *ngIf="!saving">
-            SALVAR
+        <button mat-icon-button type="submit" (click)="submit()" class="accent"
+                [disabled]="!criteriaSelect.value?.id || form.invalid" *ngIf="!saving">
+            <mat-icon>check</mat-icon>
         </button>
-        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
-            CANCELAR
+        <button mat-icon-button type="button" (click)="doAbort()" *ngIf="!saving" class="warn">
+            <mat-icon>delete</mat-icon>
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>

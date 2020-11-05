@@ -68,7 +68,7 @@ export class CdkLogentryGridsearchComponent implements OnInit {
 
         this.loading = true;
 
-        this._logEntryService.getLog(
+        this._logEntryService.getLogs(
             JSON.stringify(params.filter),
             params.limit,
             params.offset,
