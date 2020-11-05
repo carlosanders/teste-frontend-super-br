@@ -133,20 +133,20 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
             valorEconomico: [null],
             semValorEconomico: [null],
             classificacao: [null],
-            procedencia: [null, [Validators.required]],
+            procedencia: [null],
             localizador: [null],
             setorAtual: [null],
             modalidadeMeio: [null],
             modalidadeFase: [null],
             dataHoraAbertura: [null],
             setorInicial: [null, [Validators.required]],
-            tipoProtocolo: [null, [Validators.required]],
-            unidadeArquivistica: [null, [Validators.required]],
+            tipoProtocolo: [null],
+            unidadeArquivistica: [null],
             generoSetor: [null, [Validators.required]],
             especieSetor: [null, [Validators.required]],
             estado: [null, [Validators.required]],
             requerimento: [null, [Validators.required, Validators.maxLength(255)]],
-            protocoloEletronico: [null, [Validators.required]]
+            protocoloEletronico: [null]
         });
     }
 

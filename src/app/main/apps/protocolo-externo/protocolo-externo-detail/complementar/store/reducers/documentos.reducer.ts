@@ -7,6 +7,7 @@ export interface DocumentosState {
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    removendoAssinaturaDocumentoIds: number[];
     loading: boolean;
     loaded: boolean;
 }
@@ -18,6 +19,7 @@ export const DocumentosInitialState: DocumentosState = {
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
     convertendoDocumentoIds: [],
+    removendoAssinaturaDocumentoIds: [],
     loading: false,
     loaded: false,
 };
@@ -100,6 +102,27 @@ export function DocumentosReducer(
             };
         }
 
+        case DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documentoId]
+            };
+        }
+
+        case DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
         case DocumentosActions.CHANGE_SELECTED_DOCUMENTOS: {
             return {
                 ...state,
@@ -107,17 +130,24 @@ export function DocumentosReducer(
             };
         }
 
-        case DocumentosActions.CONVERTE_DOCUMENTO_SUCESS: {
+        case DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO: {
             return {
                 ...state,
-                convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+                removendoAssinaturaDocumentoIds: [...state.removendoAssinaturaDocumentoIds, action.payload]
             };
         }
 
-        case DocumentosActions.CONVERTE_DOCUMENTO_FAILED: {
+        case DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_SUCCESS: {
             return {
                 ...state,
-                convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                removendoAssinaturaDocumentoIds: state.removendoAssinaturaDocumentoIds.filter(id => id !== action.payload)
             };
         }
 
