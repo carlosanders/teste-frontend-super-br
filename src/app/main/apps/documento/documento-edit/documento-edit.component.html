@@ -93,6 +93,15 @@
                         </ng-container>
                     </button>
 
+                    <button mat-menu-item aria-label="versões"
+                            matTooltip="Versões" routerLink="versoes"
+                            [routerLinkActive]="['active', 'accent']">
+                        <ng-container>
+                            <mat-icon class="black-fg">folder</mat-icon>
+                            <span>Versões</span>
+                        </ng-container>
+                    </button>
+
                     <ng-template #dynamicComponent></ng-template>
                 </mat-menu>
             </div>

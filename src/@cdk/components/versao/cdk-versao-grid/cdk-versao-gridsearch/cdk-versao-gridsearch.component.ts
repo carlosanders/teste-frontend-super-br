@@ -84,7 +84,6 @@ export class CdkVersaoGridsearchComponent implements OnInit {
                 catchError(() => of([]))
             ).subscribe(response => {
                 this.logEntrys = response['entities'];
-                console.log (this.logEntrys);
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });
@@ -106,8 +105,8 @@ export class CdkVersaoGridsearchComponent implements OnInit {
     }
 
     doReverter(params): void {
-        this.loading = true;
         this.reverter.emit(params);
+        this.reload(this.pagination);
     }
 
     doVisualizar(params): void {
