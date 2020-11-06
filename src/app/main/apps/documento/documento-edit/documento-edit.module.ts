@@ -56,6 +56,10 @@ const routes: Routes = [
             {
                 path: 'modelos',
                 loadChildren: () => import('./modelos/documento-edit-modelos.module').then(m => m.DocumentoEditModelosModule)
+            },
+            {
+                path: 'versoes',
+                loadChildren: () => import('./versoes/documento-edit-versoes.module').then(m => m.DocumentoEditVersoesModule)
             }
         ]
     }

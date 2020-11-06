@@ -182,6 +182,12 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 this.doSave();
             }
         );
+
+        this._componenteDigitalService.revertendo.subscribe(
+            (value) => {
+                this.revertendo = value;
+            }
+        )
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -229,7 +235,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
             if (this.revertendo) {
                 this.fetch();
-                this.revertendo = false;
+                this._componenteDigitalService.revertendo.next(false);
                 this.dialog.closeAll();
             }
 
@@ -445,7 +451,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         });
 
         dialogRef.componentInstance.reverter.subscribe((value) => {
-            this.revertendo = true;
+            this._componenteDigitalService.revertendo.next(true);
             this.reverter.emit(value);
         });
 

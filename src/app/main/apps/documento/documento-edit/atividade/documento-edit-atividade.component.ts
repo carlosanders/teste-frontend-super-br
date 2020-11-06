@@ -37,6 +37,9 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
     atividadeErrors$: Observable<any>;
 
     especieAtividadePagination: Pagination;
+    unidadeAprovacaoPagination: Pagination;
+    setorAprovacaoPagination: Pagination;
+    usuarioAprovacaoPagination: Pagination;
 
     /**
      *
@@ -54,6 +57,15 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
 
         this.especieAtividadePagination = new Pagination();
         this.especieAtividadePagination.populate = ['generoAtividade'];
+
+        this.unidadeAprovacaoPagination = new Pagination();
+        this.unidadeAprovacaoPagination.filter = {parent: 'isNull'};
+
+        this.setorAprovacaoPagination = new Pagination();
+        this.setorAprovacaoPagination.filter = {parent: 'isNotNull'};
+        this.setorAprovacaoPagination.populate = ['unidade', 'parent'];
+
+        this.usuarioAprovacaoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
