@@ -75,7 +75,7 @@
                         </ng-container>
                     </button>
 
-                    <button mat-menu-item aria-label="juntada" *ngIf="(documento$ | async).minuta"
+                    <button mat-menu-item aria-label="juntada" *ngIf="(documento$ | async)?.minuta"
                             matTooltip="Juntada" routerLink="juntada"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>

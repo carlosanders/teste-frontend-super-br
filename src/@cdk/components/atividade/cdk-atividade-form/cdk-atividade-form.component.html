@@ -192,12 +192,14 @@
 
 <cdk-usuario-gridsearch
     *ngIf="activeCard === 'usuario-aprovacao-gridsearch'"
+    [pagination]="usuarioAprovacaoPagination"
     (selected)="selectUsuarioAprovacao($event)"
     (cancel)="cancel()">
 </cdk-usuario-gridsearch>
 
 <cdk-setor-gridsearch
     *ngIf="activeCard === 'setor-aprovacao-gridsearch'"
+    [pagination]="setorAprovacaoPagination"
     (selected)="selectSetorAprovacao($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
