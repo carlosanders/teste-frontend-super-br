@@ -77,11 +77,11 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
         );
     }
 
-    approve(componenteDigital: ComponenteDigital, context: any = '{}'): Observable<ComponenteDigital> {
+    aprovar(componenteDigital: ComponenteDigital, context: any = '{}'): Observable<ComponenteDigital> {
         const params = {};
         params['context'] = context;
         return this.modelService.post(
-            'administrativo/componente_digital/aprova', classToPlain(componenteDigital), new HttpParams({fromObject: params})
+            'administrativo/componente_digital/aprovar', classToPlain(componenteDigital), new HttpParams({fromObject: params})
         ).pipe(
             map(response => {
                 response = plainToClass(ComponenteDigital, response);

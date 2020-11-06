@@ -1,6 +1,6 @@
 <h3 style="font-weight: bold">Componentes Digitais</h3>
 
-<button mat-mini-fab *ngIf="(documento$ | async).minuta"
+<button mat-mini-fab *ngIf="(documento$ | async)?.minuta"
         class="ml-8 mb-16 active accent add-file-button"
         matTooltip="Novo Componente Digital" aria-label="novo componente digital"
         (click)="uploadComponenteDigital()">

@@ -167,7 +167,7 @@ export class ComponenteDigitalEffects {
      * @type {Observable<any>}
      */
     @Effect()
-    approveComponenteDigital: any =
+    aprovarComponenteDigital: any =
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.ApproveComponenteDigital>(ComponenteDigitalActions.APPROVE_COMPONENTE_DIGITAL),
@@ -176,7 +176,7 @@ export class ComponenteDigitalEffects {
                     const componenteDigital = new ComponenteDigital();
                     componenteDigital.documentoOrigem = action.payload.documentoOrigem;
 
-                    return this._componenteDigitalService.approve(componenteDigital).pipe(
+                    return this._componenteDigitalService.aprovar(componenteDigital).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.ApproveComponenteDigitalSuccess(response),
                             new AddData<ComponenteDigital>({data: [{...action.payload, ...response}], schema: componenteDigitalSchema}),
