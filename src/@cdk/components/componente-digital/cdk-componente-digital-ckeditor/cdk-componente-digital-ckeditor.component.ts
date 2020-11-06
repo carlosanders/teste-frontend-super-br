@@ -18,7 +18,6 @@ import {MatDialog} from '@cdk/angular/material';
 import {CdkCampoPluginComponent} from './cdk-plugins/cdk-campo-plugin/cdk-campo-plugin.component';
 import {filter} from 'rxjs/operators';
 import {CdkRepositorioPluginComponent} from './cdk-plugins/cdk-respositorio-plugin/cdk-repositorio-plugin.component';
-import {CdkVersaoPluginComponent} from './cdk-plugins/cdk-versao-plugin/cdk-versao-plugin.component';
 import {Pagination} from '@cdk/models';
 import {CdkAssinaturaEletronicaPluginComponent} from './cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
@@ -105,7 +104,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             [
                 {name: 'salvar', items: ['saveButton']},
                 {name: 'assinar', items: ['assinarButton']},
-                {name: 'ferramentas', items: ['pdfButton', 'versaoButton', 'PrintSemZoom']},
+                {name: 'ferramentas', items: ['pdfButton', 'PrintSemZoom']},
                 {name: 'clipboard', items: ['Cut', 'Copy', 'Paste', 'PasteText', '-', 'Undo', 'Redo']},
                 {name: 'editing', items: ['Find', 'Replace', '-', 'SelectAll']},
                 {
@@ -323,7 +322,6 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         this.editor.getCommand('campoCmd').enable();
         this.editor.getCommand('repositorioCmd').enable();
         this.editor.getCommand('assinarCmd').enable();
-        this.editor.getCommand('versaoCmd').enable();
 
         if (this.mode === 'documento') {
             this.editor.getCommand('campoCmd').disable();
@@ -332,7 +330,6 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
         if (this.mode === 'modelo' || this.mode === 'template' || this.mode === 'repositorio') {
             this.editor.getCommand('assinarCmd').disable();
-            this.editor.getCommand('versaoCmd').disable();
         }
 
         this.resizeFunction();
@@ -435,32 +432,6 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     doCampo(): void {
         const dialogRef = this.dialog.open(CdkCampoPluginComponent, {
             width: '600px'
-        });
-
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
-            this.editor.insertHtml(result.html);
-        });
-    }
-
-    doVersao(): void {
-        const dialogRef = this.dialog.open(CdkVersaoPluginComponent, {
-            width: '600px',
-            data: {
-                logEntryPagination: this.logEntryPagination
-            }
-        });
-
-        dialogRef.componentInstance.reverter.subscribe((value) => {
-            this._componenteDigitalService.revertendo.next(true);
-            this.reverter.emit(value);
-        });
-
-        dialogRef.componentInstance.visualizar.subscribe((value) => {
-            this.visualizar.emit(value);
-        });
-
-        dialogRef.componentInstance.comparar.subscribe((value) => {
-            this.comparar.emit(value);
         });
 
         dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
