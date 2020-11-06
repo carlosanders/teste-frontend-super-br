@@ -41,7 +41,7 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'criadoEm', 'criadoPor.nome', 'dataHoraAssinatura', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'criadoEm', 'criadoPor.nome', 'assinadoPor', 'dataHoraAssinatura', 'actions'];
 
     allColumns: any[] = [
         {
@@ -67,6 +67,11 @@ export class CdkAssinaturaGridComponent implements AfterViewInit, OnInit, OnChan
         {
             id: 'criadoPor.nome',
             label: 'Criado Por',
+            fixed: false
+        },
+        {
+            id: 'assinadoPor',
+            label: 'Assinado Por',
             fixed: false
         },
         {

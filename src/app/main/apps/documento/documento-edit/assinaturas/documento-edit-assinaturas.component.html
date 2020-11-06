@@ -6,7 +6,7 @@
     [assinaturas]="(assinaturas$ | async)"
     [total]="(paginationAssinatura$ | async)?.total"
     [actions]="['delete']"
-    [displayedColumns]="['id', 'dataHoraAssinatura', 'criadoPor.nome', 'actions']"
+    [displayedColumns]="['id', 'dataHoraAssinatura', 'assinadoPor', 'actions']"
     [deletingIds]="(deletingAssinaturaIds$ | async)"
     [deletedIds]="(deletedAssinaturaIds$ | async)"
     (delete)="deleteAssinatura($event)"
