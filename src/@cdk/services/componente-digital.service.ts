@@ -18,6 +18,7 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
     public doEditorSave: Subject<any> = new Subject();
     public completedEditorSave: Subject<any> = new Subject();
     public revertendo: Subject<boolean> = new Subject();
+    public alterandoModelo: Subject<boolean> = new Subject();
 
     constructor(
         protected modelService: ModelService,
