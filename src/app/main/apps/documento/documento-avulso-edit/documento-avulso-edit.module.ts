@@ -30,6 +30,14 @@ const routes: Routes = [
             {
                 path: 'inteligencia',
                 loadChildren: () => import('./inteligencia/documento-avulso-inteligencia.module').then(m => m.DocumentoAvulsoInteligenciaModule)
+            },
+            {
+                path: 'modelos',
+                loadChildren: () => import('./modelos/documento-avulso-edit-modelos.module').then(m => m.DocumentoAvulsoEditModelosModule)
+            },
+            {
+                path: 'versoes',
+                loadChildren: () => import('./versoes/documento-avulso-edit-versoes.module').then(m => m.DocumentoAvulsoEditVersoesModule)
             }
         ]
     }

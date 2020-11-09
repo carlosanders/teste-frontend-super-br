@@ -160,6 +160,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     revertendo = false;
 
+    alterandoModelo = false;
+
     src: any;
 
     /**
@@ -185,6 +187,12 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         this._componenteDigitalService.revertendo.subscribe(
             (value) => {
                 this.revertendo = value;
+            }
+        )
+
+        this._componenteDigitalService.alterandoModelo.subscribe(
+            (value) => {
+                this.alterandoModelo = value;
             }
         )
     }
@@ -236,6 +244,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 this.fetch();
                 this._componenteDigitalService.revertendo.next(false);
                 this.dialog.closeAll();
+            }
+
+            if (this.alterandoModelo) {
+                this.fetch();
+                this._componenteDigitalService.alterandoModelo.next(false);
             }
 
             if (this.componenteDigital && this.componenteDigital.conteudo) {

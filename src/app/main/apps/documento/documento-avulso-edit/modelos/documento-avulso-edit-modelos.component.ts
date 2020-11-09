@@ -18,14 +18,14 @@ import {ModeloService} from '@cdk/services/modelo.service';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
-    selector: 'documento-edit-modelos',
-    templateUrl: './documento-edit-modelos.component.html',
-    styleUrls: ['./documento-edit-modelos.component.scss'],
+    selector: 'documento-avulso-edit-modelos',
+    templateUrl: './documento-avulso-edit-modelos.component.html',
+    styleUrls: ['./documento-avulso-edit-modelos.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
+export class DocumentoAvulsoEditModelosComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -53,7 +53,7 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
      * @param _modeloService
      */
     constructor(
-        private _store: Store<fromStore.DocumentoEditModelosAppState>,
+        private _store: Store<fromStore.DocumentoAvulsoEditModelosAppState>,
         private _location: Location,
         private _router: Router,
         private _modeloService: ModeloService
@@ -86,7 +86,6 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
         ).subscribe(
             componenteDigital => this.currentComponenteDigital = componenteDigital
         );
-
         this.error$.subscribe(erro => {
             if (erro) {
                 this.erro = erro.error.message;
@@ -96,7 +95,6 @@ export class DocumentoEditModelosComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadModelos());
-        // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
