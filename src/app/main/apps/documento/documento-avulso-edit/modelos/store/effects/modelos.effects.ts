@@ -10,18 +10,24 @@ import * as ModelosActions from '../actions/modelos.actions';
 
 import {ModeloService} from '@cdk/services/modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {Modelo} from '@cdk/models';
+import {ComponenteDigital, Modelo} from '@cdk/models';
 import {modelo as modeloSchema} from '@cdk/normalizr';
+import * as fromStore from '../';
 
 @Injectable()
 export class ModelosEffects {
     routerState: any;
+    currentComponenteDigital: ComponenteDigital;
 
     constructor(
         private _actions: Actions,
         private _modeloService: ModeloService,
         private _store: Store<State>
     ) {
+        this._store.pipe(select(fromStore.getCurrentComponenteDigital))
+            .subscribe(componenteDigital => {
+                this.currentComponenteDigital = componenteDigital;
+            });
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -41,10 +47,21 @@ export class ModelosEffects {
             .pipe(
                 ofType<ModelosActions.GetModelos>(ModelosActions.GET_MODELOS),
                 switchMap((action) => {
+                    const filter: any = {
+                        orX: []
+                    };
+                    if (action.payload.filter?.orX) {
+                        action.payload.filter.orX.forEach((filtro) => {
+                            filter.orX.push({
+                                ...filtro,
+                                id: 'neq:' + this.currentComponenteDigital.modelo.id
+                            });
+                        });
+                    }
                     return this._modeloService.search(
                         JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.gridFilter,
+                            ...filter,
+                            ...action.payload.gridFilter
                         }),
                         action.payload.limit,
                         action.payload.offset,
@@ -63,10 +80,9 @@ export class ModelosEffects {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new ModelosActions.GetModelosFailed(err));
                     return caught;
                 })
-
             );
 }
