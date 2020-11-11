@@ -55,7 +55,7 @@
                     LOGIN
                 </button>
 
-                <a [href]="'https://suppbackendsecure.agu.gov.br/auth/x509_cert'" mat-raised-button color="accent" class="submit-button" aria-label="login com certificado digital">
+                <a *ngIf="certificadoDigital" [href]="'https://suppbackendsecure.agu.gov.br/auth/x509_cert'" mat-raised-button color="accent" class="submit-button" aria-label="login com certificado digital">
                     CERTIFICADO DIGITAL
                 </a>
 

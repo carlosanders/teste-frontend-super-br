@@ -331,9 +331,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.etiquetas.forEach((e) => {
             etiquetasId.push(e.id);
         });
-        const etiquetaFilter = {
-            'vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
-        };
+        let etiquetaFilter = {};
+        if (etiquetasId.length) {
+            etiquetaFilter = {
+                'vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
+            };
+        } else {
+
+        }
         const nparams = {
             ...this.pagination,
             etiquetaFilter: etiquetaFilter

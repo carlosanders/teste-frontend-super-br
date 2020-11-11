@@ -75,7 +75,7 @@
                         </ng-container>
                     </button>
 
-                    <button mat-menu-item aria-label="juntada" *ngIf="(documento$ | async).minuta"
+                    <button mat-menu-item aria-label="juntada" *ngIf="(documento$ | async)?.minuta"
                             matTooltip="Juntada" routerLink="juntada"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
@@ -90,6 +90,15 @@
                         <ng-container>
                             <mat-icon class="black-fg">file_copy</mat-icon>
                             <span>Modelo</span>
+                        </ng-container>
+                    </button>
+
+                    <button mat-menu-item aria-label="versões"
+                            matTooltip="Versões" routerLink="versoes"
+                            [routerLinkActive]="['active', 'accent']">
+                        <ng-container>
+                            <mat-icon class="black-fg">folder</mat-icon>
+                            <span>Versões</span>
                         </ng-container>
                     </button>
 

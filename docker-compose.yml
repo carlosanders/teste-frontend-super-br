@@ -13,7 +13,7 @@ services:
         command: tail -f /dev/null
         networks:
             supp_frontend_network:
-                ipv4_address: 192.168.70.10
+                ipv4_address: 192.168.2.10
 
     angular-prod:
         container_name: angular-prod
@@ -28,7 +28,7 @@ services:
         command: tail -f /dev/null
         networks:
             supp_frontend_network:
-                ipv4_address: 192.168.70.11
+                ipv4_address: 192.168.2.11
 
 networks:
     supp_frontend_network:
@@ -36,4 +36,4 @@ networks:
         ipam:
             driver: default
             config:
-                - subnet: 192.168.70.0/24
+                - subnet: 192.168.2.0/24

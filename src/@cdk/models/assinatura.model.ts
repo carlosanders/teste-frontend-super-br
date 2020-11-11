@@ -17,6 +17,8 @@ export class Assinatura {
 
     assinatura?: string;
 
+    assinadoPor?: string;
+
     cadeiaCertificadoPEM?: string;
 
     cadeiaCertificadoPkiPath?: string;
@@ -69,6 +71,7 @@ export class Assinatura {
         this.uuid = null;
         this.algoritmoHash = null;
         this.assinatura = null;
+        this.assinadoPor = null;
         this.cadeiaCertificadoPEM = null;
         this.cadeiaCertificadoPkiPath = null;
         this.dataHoraAssinatura = null;

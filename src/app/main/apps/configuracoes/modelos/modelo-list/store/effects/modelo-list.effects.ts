@@ -44,7 +44,7 @@ export class ModeloListEffect {
             .pipe(
                 ofType<ModeloListActions.GetModelos>(ModeloListActions.GET_MODELOS),
                 switchMap((action) => {
-                    return this._modeloService.query(
+                    return this._modeloService.search(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,

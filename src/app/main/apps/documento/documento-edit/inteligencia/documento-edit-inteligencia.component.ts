@@ -91,7 +91,7 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
         });
 
         this.pagination$.subscribe(pagination => {
-            if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
+            if (this.pagination && pagination && pagination.ckeditorFilter && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reload(this.pagination);
             } else {
@@ -114,6 +114,7 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
      * On destroy
      */
     ngOnDestroy(): void {
+        this.pagination = null;
         this._store.dispatch(new fromStore.UnloadRepositorios());
         this._store.dispatch(new fromStore.UnloadComponenteDigital());
     }

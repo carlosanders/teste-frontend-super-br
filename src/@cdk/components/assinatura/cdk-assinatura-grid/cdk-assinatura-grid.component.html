@@ -96,6 +96,15 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.id}} </td>
                 </ng-container>
 
+                <!-- AssinadoPor Column -->
+                <ng-container matColumnDef="assinadoPor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Assinado Por
+                    </th>
+                    <td mat-cell *matCellDef="let assinatura" class='has_label_on_mobile' data-label='Assinado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(assinatura.id) > -1}"> {{assinatura.assinadoPor}} </td>
+                </ng-container>
+
                 <!-- DataHoraAssinatura Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('dataHoraAssinatura') > -1" matColumnDef="dataHoraAssinatura">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>

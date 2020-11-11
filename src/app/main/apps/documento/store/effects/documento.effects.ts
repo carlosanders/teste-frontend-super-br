@@ -102,6 +102,7 @@ export class DocumentoEffect {
                             'tipoDocumento',
                             'componentesDigitais',
                             'componentesDigitais.assinaturas',
+                            'componentesDigitais.modelo',
                             'modelo',
                             'modelo.template',
                             'modelo.modalidadeModelo',

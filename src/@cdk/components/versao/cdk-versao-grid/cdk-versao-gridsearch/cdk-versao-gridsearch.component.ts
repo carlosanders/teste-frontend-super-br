@@ -74,7 +74,7 @@ export class CdkVersaoGridsearchComponent implements OnInit {
 
         this.loading = true;
 
-        this._logEntryService.getLog(
+        this._logEntryService.getLogs(
             JSON.stringify(params.filter),
             params.limit,
             params.offset,
@@ -105,8 +105,8 @@ export class CdkVersaoGridsearchComponent implements OnInit {
     }
 
     doReverter(params): void {
-        this.loading = true;
         this.reverter.emit(params);
+        this.reload(this.pagination);
     }
 
     doVisualizar(params): void {

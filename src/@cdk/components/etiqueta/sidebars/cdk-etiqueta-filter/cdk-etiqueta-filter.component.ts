@@ -42,7 +42,6 @@ export class CdkEtiquetaFilterComponent implements OnInit {
             nome: [null],
             descricao: [null],
             corHexadecimal: [null],
-            ativo: [null],
             modalidadeEtiqueta: [null],
             criadoPor: [null],
             criadoEm: [null],
@@ -115,15 +114,6 @@ export class CdkEtiquetaFilterComponent implements OnInit {
                         delete this.filters['corHexadecimal'];
                     }
                 }
-            }
-        });
-
-        this.form.get('ativo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    ativo: `eq:${value}`
-                };
             }
         });
 

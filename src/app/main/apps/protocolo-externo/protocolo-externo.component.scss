@@ -12,6 +12,9 @@ protocolo-externo {
 
         > .center {
 
+            flex: 1 1 auto;
+            display: flex;
+
             > .header {
 
                 flex: 0 1 auto;

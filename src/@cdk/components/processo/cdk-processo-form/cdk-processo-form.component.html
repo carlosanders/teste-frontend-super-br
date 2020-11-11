@@ -92,9 +92,7 @@
         </mat-form-field>
 
         <mat-form-field
-            *ngIf="this._profile.vinculacoesPessoasUsuarios &&
-            this._profile.vinculacoesPessoasUsuarios.length > 1
-            && paramHandle === 'meus-processos'">
+            *showIfRole="'ROLE_COLABORADOR'">
             <input matInput placeholder="Procedência"
                    formControlName="procedencia"
                    required

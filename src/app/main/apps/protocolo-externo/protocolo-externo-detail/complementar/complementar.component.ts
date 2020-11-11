@@ -18,7 +18,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Documento } from '@cdk/models/documento.model';
 import { getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
-import { Processo, Usuario } from '@cdk/models';
+import {Assinatura, Processo, Usuario} from '@cdk/models';
 import { getProcesso } from '../store/selectors';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
@@ -178,8 +178,30 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
-    doAssinatura(documentoId): void {
-        this._store.dispatch(new fromStore.AssinaDocumento(documentoId));
+    doAssinatura(result): void {
+        if (result.certificadoDigital) {
+            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+        } else {
+            result.documento.componentesDigitais.forEach((componenteDigital) => {
+                const assinatura = new Assinatura();
+                assinatura.componenteDigital = componenteDigital;
+                assinatura.algoritmoHash = 'A1';
+                assinatura.cadeiaCertificadoPEM = 'A1';
+                assinatura.cadeiaCertificadoPkiPath = 'A1';
+                assinatura.assinatura = 'A1';
+
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                    documentoId: result.documento.id,
+                    assinatura: assinatura,
+                    password: result.password,
+                    processoId: this.processo.id
+                }));
+            });
+        }
+    }
+
+    doRemoveAssinatura(documentoId): void {
+        this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
     }
 
     onClicked(documento): void {
