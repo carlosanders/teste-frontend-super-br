@@ -1,0 +1,10 @@
+<cdk-modalidade-orgao-central-grid
+    [loading]="(loading$ | async)"
+    [modalidadeOrgaoCentralList]="(modalidadeOrgaoCentralList$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [displayedColumns]="['id', 'valor', 'descricao', 'ativo', 'actions']"
+    [actions]="['edit', 'create']"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-modalidade-orgao-central-grid>
