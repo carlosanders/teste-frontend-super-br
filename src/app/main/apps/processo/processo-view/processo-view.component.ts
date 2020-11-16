@@ -25,6 +25,7 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {filter, takeUntil} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models';
 import {getRouterState} from '../../../../store/reducers';
+import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
     selector: 'processo-view',
@@ -82,6 +83,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      * @param _componenteDigitalService
      * @param _sanitizer
      * @param _store
+     * @param _router
+     * @param _activatedRoute
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -89,7 +92,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private _cdkSidebarService: CdkSidebarService,
         private _componenteDigitalService: ComponenteDigitalService,
         private _sanitizer: DomSanitizer,
-        private _store: Store<fromStore.ProcessoViewAppState>
+        private _store: Store<fromStore.ProcessoViewAppState>,
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
 
@@ -149,7 +154,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                this.capa = routerState.state.url.indexOf('/capa') > -1;
+                this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa';
             }
         });
 
@@ -161,7 +166,36 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
-        this._store.dispatch(new fromStore.SetCurrentStep({step: 0, subStep: 0}));
+        if (this.capa && this.routerState.url.indexOf('mostrar') === -1) {
+            if (this.routerState.url.indexOf('/documento/') !== -1) {
+                // Navegação do processo deve ocorrer por outlet
+                this._router.navigate(
+                    [
+                        this.routerState.url.split('/documento/')[0] + '/documento/' +
+                        this.routerState.params.documentoHandle,
+                        {
+                            outlets: {
+                                primary: [
+                                    this.routerState.url.indexOf('anexar-copia') === -1 ?
+                                        'visualizar-processo' : 'anexar-copia',
+                                    this.routerState.params.processoHandle,
+                                    'visualizar',
+                                    'capa',
+                                    'mostrar'
+                                ]
+                            }
+                        }
+                    ],
+                    {
+                        relativeTo: this._activatedRoute.parent
+                    }
+                ).then();
+            } else {
+                this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
+                    '/processo/' +
+                    this.routerState.params.processoHandle + '/visualizar/capa/mostrar').then();
+            }
+        }
     }
 
     ngOnDestroy(): void {
@@ -169,7 +203,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-        this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+        if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+            this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -191,19 +227,13 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // in the animation direction registered
         this._changeDetectorRef.detectChanges();
 
-        let payload = {
-            step: this.currentStep.step + 1,
-            subStep: 0
-        };
+        let step = (this.currentStep.step + 1) + '-0';
 
         if ((this.currentStep.subStep + 1) === this.index[this.currentStep.step].length - 1) {
-            payload = {
-                step: this.currentStep.step,
-                subStep: this.currentStep.subStep + 1
-            };
+            step = this.currentStep.step + '-' + (this.currentStep.subStep + 1);
         }
 
-        this._store.dispatch(new fromStore.SetCurrentStep(payload));
+        this.navigateToStep(step);
     }
 
     /**
@@ -234,7 +264,37 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             }
         }
 
-        this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: subStep}));
+        this.navigateToStep(step + '-' + subStep);
+    }
+
+    navigateToStep(step: string): void {
+        if (this.routerState.url.indexOf('/documento/') !== -1) {
+            // Navegação do processo deve ocorrer por outlet
+            this._router.navigate(
+                [
+                    this.routerState.url.split('/documento/')[0] + '/documento/' +
+                    this.routerState.params.documentoHandle,
+                    {
+                        outlets: {
+                            primary: [
+                                this.routerState.url.indexOf('anexar-copia') === -1 ?
+                                    'visualizar-processo' : 'anexar-copia',
+                                this.routerState.params.processoHandle,
+                                'visualizar',
+                                step
+                            ]
+                        }
+                    }
+                ],
+                {
+                    relativeTo: this._activatedRoute.parent
+                }
+            ).then();
+        } else {
+            this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
+                '/processo/' +
+                this.routerState.params.processoHandle + '/visualizar/' + step).then();
+        }
     }
 
     /**

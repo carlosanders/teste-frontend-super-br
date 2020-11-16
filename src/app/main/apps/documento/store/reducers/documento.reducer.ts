@@ -42,6 +42,7 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
         case DocumentoActions.GET_DOCUMENTO_SUCCESS: {
 
             return {
+                ...state,
                 documentoId: action.payload.documentoId,
                 currentComponenteDigitalId: action.payload.currentComponenteDigitalId,
                 loading: false,
@@ -50,12 +51,13 @@ export function DocumentoReducer(state = DocumentoInitialState, action: Document
                 errors: false,
                 assinandoDocumentoIds: [],
                 vinculacaoEtiquetaErrors: false,
-                savingVinculacaoEtiquetaId: null
+                savingVinculacaoEtiquetaId: null,
             };
         }
 
         case DocumentoActions.GET_DOCUMENTO_FAILED: {
             return {
+                ...state,
                 documentoId: null,
                 currentComponenteDigitalId: null,
                 loading: false,
