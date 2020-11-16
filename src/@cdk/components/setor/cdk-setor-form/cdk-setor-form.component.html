@@ -94,99 +94,99 @@
         </mat-error>
     </mat-form-field>
 
-    <div class="legendaGrupo">Distribuição Automática:</div>
-
-    <mat-radio-group class="distribuicaoCentena"
-                     formControlName="distribuicaoCentena"
-                     aria-labelledby="Tipo Prevenção Absoluta">
-        <div class="start center mat-form-field-wrapper">
-            <label id="distribuicaoCentena" class="flex legenda">Tipo Prevenção Absoluta</label>
-
-            <mat-radio-button [value]="false">
-                DÍGITO
-            </mat-radio-button>
-            <mat-radio-button [value]="true">
-                CENTENA
-            </mat-radio-button>
-        </div>
-    </mat-radio-group>
-    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('distribuicaoCentena')">
-        <mat-icon matTooltip="Histórico">history</mat-icon>
-    </button>
-
-
-    <mat-radio-group class="prazoEqualizacao"
-                     formControlName="prazoEqualizacao"
-                     aria-labelledby="Prazo Máximo Equalização">
-        <div class="start center mat-form-field-wrapper">
-            <label id="prazoEqualizacao" class="flex legenda">Prazo Máximo Equalização </label>
-            <mat-radio-button [value]="7">
-                7 DIAS
-            </mat-radio-button>
-            <mat-radio-button [value]="30">
-                30 DIAS
-            </mat-radio-button>
-        </div>
-    </mat-radio-group>
-    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('prazoEqualizacao')">
-        <mat-icon matTooltip="Histórico">history</mat-icon>
-    </button>
-
-
-    <mat-radio-group class="divergenciaMaxima"
-                     formControlName="divergenciaMaxima"
-                     aria-labelledby="Divergência Máxima Diária">
-        <div class="start center mat-form-field-wrapper">
-            <label id="divergenciaMaxima" class="flex legenda">Divergência Máxima Diária </label>
-            <mat-radio-button [value]="25">
-                PEQUENA
-            </mat-radio-button>
-            <mat-radio-button [value]="100">
-                GRANDE
-            </mat-radio-button>
-        </div>
-    </mat-radio-group>
-    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('divergenciaMaxima')">
-        <mat-icon matTooltip="Histórico">history</mat-icon>
-    </button>
-
-    <mat-checkbox formControlName="apenasDistribuicaoAutomatica">
-        Desconsiderar Distribuição Manual
-    </mat-checkbox>
-    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('apenasDistribuicaoAutomatica')">
-        <mat-icon matTooltip="Histórico">history</mat-icon>
-    </button>
-
-    <mat-checkbox formControlName="comPrevencaoRelativa">
-        Aplicar Prevenção Relativa
-    </mat-checkbox>
-    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('comPrevencaoRelativa')">
-        <mat-icon matTooltip="Histórico">history</mat-icon>
-    </button>
-
-    <div class="legendaGrupo mat-form-field-wrapper">Funcionamento:</div>
-
     <mat-checkbox formControlName="ativo">
         Ativo
+
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('ativo')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
     </mat-checkbox>
-    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('ativo')">
-        <mat-icon matTooltip="Histórico">history</mat-icon>
-    </button>
 
     <mat-checkbox formControlName="apenasDistribuidor">
         Distribuidor
-    </mat-checkbox>
-    <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('apenasDistribuidor')">
-        <mat-icon matTooltip="Histórico">history</mat-icon>
-    </button>
 
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                (click)="showLogEntryGrid('apenasDistribuidor')">
+            <mat-icon matTooltip="Histórico">history</mat-icon>
+        </button>
+    </mat-checkbox>
+
+    <mat-card>
+        <mat-card-title>Distribuição Automática</mat-card-title>
+
+        <mat-radio-group class="distribuicaoCentena"
+                         formControlName="distribuicaoCentena"
+                         aria-labelledby="Tipo Prevenção Absoluta">
+            <div class="start center mat-form-field-wrapper">
+                <label id="distribuicaoCentena" class="mr-16 flex legenda">Tipo Prevenção Absoluta</label>
+                <mat-radio-button [value]="false">
+                    DÍGITO
+                </mat-radio-button>
+                <mat-radio-button [value]="true">
+                    CENTENA
+                </mat-radio-button>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('distribuicaoCentena')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+            </div>
+        </mat-radio-group>
+
+        <mat-radio-group class="prazoEqualizacao"
+                         formControlName="prazoEqualizacao"
+                         aria-labelledby="Prazo Máximo Equalização">
+            <div class="start center mat-form-field-wrapper">
+                <label id="prazoEqualizacao" class="mr-16 flex legenda">Prazo Máximo Equalização </label>
+                <mat-radio-button [value]="7">
+                    7 DIAS
+                </mat-radio-button>
+                <mat-radio-button [value]="30">
+                    30 DIAS
+                </mat-radio-button>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('prazoEqualizacao')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+            </div>
+        </mat-radio-group>
+
+        <mat-radio-group class="divergenciaMaxima"
+                         formControlName="divergenciaMaxima"
+                         aria-labelledby="Divergência Máxima Diária">
+            <div class="start center mat-form-field-wrapper">
+                <label id="divergenciaMaxima" class="mr-16 flex legenda">Divergência Máxima Diária </label>
+                <mat-radio-button [value]="25">
+                    PEQUENA
+                </mat-radio-button>
+                <mat-radio-button [value]="100">
+                    GRANDE
+                </mat-radio-button>
+                <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                        (click)="showLogEntryGrid('divergenciaMaxima')">
+                    <mat-icon matTooltip="Histórico">history</mat-icon>
+                </button>
+            </div>
+        </mat-radio-group>
+
+        <mat-checkbox formControlName="apenasDistribuicaoAutomatica">
+            Desconsiderar Distribuição Manual
+
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('apenasDistribuicaoAutomatica')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="comPrevencaoRelativa">
+            Aplicar Prevenção Relativa
+
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('comPrevencaoRelativa')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+        </mat-checkbox>
+    </mat-card>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
