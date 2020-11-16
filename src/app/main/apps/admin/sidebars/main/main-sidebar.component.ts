@@ -39,6 +39,11 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 link: 'especie-atividades'
             },
             {
+                nome: 'Espécie Processo',
+                icon: 'insert_drive_file',
+                link: 'especie-processo'
+            },
+            {
                 nome: 'Unidades',
                 icon: 'location_city',
                 link: 'unidades'

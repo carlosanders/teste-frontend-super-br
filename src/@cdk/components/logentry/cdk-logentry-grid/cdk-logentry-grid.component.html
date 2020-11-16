@@ -95,7 +95,7 @@
                         Alterado em
                     </th>
                     <td mat-cell *matCellDef="let logEntry" class='has_label_on_mobile' data-label='loggedAt: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(logEntry.logId) > -1}"> {{logEntry.loggedAt?.date | date:'dd/MM/yyyy HH:mm:ss'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(logEntry.logId) > -1}"> {{logEntry.loggedAt?.toDate() | date:'dd/MM/yyyy HH:mm:ss'}} </td>
                 </ng-container>
 
                 <!-- Username Column -->
@@ -158,7 +158,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let logEntry" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(logEntry.id) > -1}"> {{logEntry.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(logEntry.id) > -1}"> {{logEntry.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -177,7 +177,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let logEntry" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(logEntry.id) > -1}"> {{logEntry.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(logEntry.id) > -1}"> {{logEntry.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -195,7 +195,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let logEntry" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(logEntry.id) > -1}"> {{logEntry.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(logEntry.id) > -1}"> {{logEntry.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -242,7 +242,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
         </div>
 
     </div>

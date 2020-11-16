@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Usuario} from '@cdk/models';
@@ -13,19 +13,12 @@ export class LoginService {
     constructor(private http: HttpClient, private _store: Store<State>) {
     }
 
-    init(): void {
-        if (this.getUserProfile()) {
-            this.startCountdown();
-        }
-    }
-
     getUserProfile(): Usuario {
         return JSON.parse(localStorage.getItem('userProfile'));
     }
 
     setUserProfile(userProfile: any): void {
         localStorage.setItem('userProfile', JSON.stringify(userProfile));
-        this.init();
     }
 
     removeUserProfile(): void {
@@ -37,6 +30,7 @@ export class LoginService {
         localStorage.setItem('token', action.payload.token);
         this.setTimestamp(action);
         this.setExp(action);
+        this.startCountdown();
     }
 
     setExp(action): void {

@@ -81,7 +81,7 @@ export class AtividadeDocumentoEffects {
                         this._store.dispatch(new GetDocumentos());
                     }
                     this._store.dispatch(new UnloadDocumento());
-                    this._router.navigate([this.routerState.url.split('/documento/')[0] + '/encaminhamento']).then();
+                    this._router.navigate([this.routerState.url.split('/atividades/criar/documento/')[0] + '/encaminhamento']).then();
                 })
             );
 

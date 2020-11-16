@@ -56,4 +56,4 @@ O backend estará disponível em http://suppfront:4200
 
 9) CRIA O AMBIENTE
 
-kubectl apply -f docker/kubernetes/angular-prod.yaml
+kubectl apply -f docker/kubernetes/angular-prod.yaml --namespace=angular-nginx

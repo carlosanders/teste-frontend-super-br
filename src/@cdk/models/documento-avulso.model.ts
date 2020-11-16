@@ -41,19 +41,19 @@ export class DocumentoAvulso {
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraEncerramento?: Date|moment.Moment;
+    dataHoraEncerramento?: moment.Moment;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraInicioPrazo?: Date|moment.Moment;
+    dataHoraInicioPrazo?: moment.Moment;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraFinalPrazo?: Date|moment.Moment;
+    dataHoraFinalPrazo?: moment.Moment;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraConclusaoPrazo?: Date|moment.Moment;
+    dataHoraConclusaoPrazo?: moment.Moment;
 
     @Exclude()
     unidadeResponsavel?: Setor;
@@ -69,22 +69,22 @@ export class DocumentoAvulso {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraRemessa?: Date;
+    dataHoraRemessa?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraResposta?: Date|moment.Moment;
+    dataHoraResposta?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraLeitura?: Date|moment.Moment;
+    dataHoraLeitura?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraReiteracao?: Date|moment.Moment;
+    dataHoraReiteracao?: moment.Moment;
 
     @Type(() => Documento)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -144,7 +144,7 @@ export class DocumentoAvulso {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    criadoEm?: Date;
+    criadoEm?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -154,7 +154,7 @@ export class DocumentoAvulso {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    atualizadoEm?: Date;
+    atualizadoEm?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -164,7 +164,7 @@ export class DocumentoAvulso {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    apagadoEm?: Date;
+    apagadoEm?: moment.Moment;
 
     @Exclude({toPlainOnly: true})
     @Type(() => VinculacaoEtiqueta)

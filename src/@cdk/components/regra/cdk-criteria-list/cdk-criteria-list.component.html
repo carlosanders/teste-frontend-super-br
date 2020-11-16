@@ -1,0 +1,20 @@
+<div class="content" cdkPerfectScrollbar>
+    <div class="loading" *ngIf="loading">
+        <mat-spinner class="visibilidade-list-loading" diameter="32"></mat-spinner>
+    </div>
+
+    <div class="items" *ngIf="criterias.length > 0 && !loading">
+        <cdk-criteria-list-item matRipple *ngFor="let criteria of criterias" [criteria]="criteria"
+                            [total]="criterias.length"
+                            (delete)="doDeleteCriteria($event)"
+                            [@animate]="{value:'*',params:{y:'100%'}}">
+        </cdk-criteria-list-item>
+    </div>
+
+    <div class="no-criterias-text" *ngIf="criterias.length === 0 && !loading">
+        <span class="hint-text">{{ 'Nenhum critério foi criada ainda!' }}</span>
+    </div>
+</div>
+
+
+

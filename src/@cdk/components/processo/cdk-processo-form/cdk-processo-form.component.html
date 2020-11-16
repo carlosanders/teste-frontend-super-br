@@ -6,7 +6,7 @@
             <mat-card-subtitle>Integração</mat-card-subtitle>
             <div>ORIGEM DE DADOS: {{this.processo?.origemDados.fonteDados}}</div>
             <div>ÚLTIMA
-                SINCRONIZAÇÃO: {{this.processo?.origemDados.dataHoraUltimaConsulta | date: 'dd/MM/yyyy HH:mm'}}</div>
+                SINCRONIZAÇÃO: {{this.processo?.origemDados.dataHoraUltimaConsulta?.toDate() | date: 'dd/MM/yyyy HH:mm'}}</div>
             <div *ngIf="this.processo?.origemDados.status === 1">STATUS: SUCESSO</div>
             <div *ngIf="this.processo?.origemDados.status >= 2">STATUS: ERRO!</div>
             <div *ngIf="this.processo?.origemDados.status === 0" class="spinner-wrapper">
@@ -92,9 +92,7 @@
         </mat-form-field>
 
         <mat-form-field
-            *ngIf="this._profile.vinculacoesPessoasUsuarios &&
-            this._profile.vinculacoesPessoasUsuarios.length > 1
-            && paramHandle === 'meus-processos'">
+            *showIfRole="'ROLE_COLABORADOR'">
             <input matInput placeholder="Procedência"
                    formControlName="procedencia"
                    required

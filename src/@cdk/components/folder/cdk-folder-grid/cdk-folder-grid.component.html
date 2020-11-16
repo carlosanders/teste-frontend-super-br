@@ -148,7 +148,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -167,7 +167,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -185,7 +185,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -233,7 +233,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
         </div>
 
     </div>

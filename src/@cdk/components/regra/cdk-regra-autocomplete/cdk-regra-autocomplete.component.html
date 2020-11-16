@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayRegraFn">
+    <mat-option *ngFor="let regra of regraList"
+                [value]="regra">
+        <span [innerHTML]="displayRegraFn(regra) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="regraListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

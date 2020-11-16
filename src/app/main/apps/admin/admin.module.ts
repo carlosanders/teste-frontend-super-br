@@ -26,6 +26,10 @@ const routes: Routes = [
                 loadChildren: () => import('./especie-atividade/especie-atividade.module').then(m => m.EspecieAtividadeModule)
             },
             {
+                path: 'especie-processo',
+                loadChildren: () => import('./especie-processo/especie-processo.module').then(m => m.EspecieProcessoModule)
+            },
+            {
                 path: 'unidades',
                 loadChildren: () => import('./unidades/unidades.module').then(m => m.UnidadesModule)
             },

@@ -149,9 +149,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: [
-                ...this.pagination.populate
-            ]
+            populate: []
         }));
     }
 }

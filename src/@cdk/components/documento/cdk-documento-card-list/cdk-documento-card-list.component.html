@@ -32,6 +32,7 @@
         </button>
 
         <button mat-menu-item aria-label="remover assinatura"
+                *showIfRole="'ROLE_COLABORADOR'"
                 (click)="doRemoveAssinaturaDocumentoBloco()">
             <ng-container>
                 <mat-icon>lock_open</mat-icon>
@@ -48,6 +49,7 @@
         </button>
 
         <button fxLayout="row" aria-label="alterar tipo documento" fxLayoutAlign="start center"
+                *showIfRole="'ROLE_COLABORADOR'"
                 [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
             <mat-icon>edit</mat-icon>
             <span>Alterar Tipo de Documento</span>

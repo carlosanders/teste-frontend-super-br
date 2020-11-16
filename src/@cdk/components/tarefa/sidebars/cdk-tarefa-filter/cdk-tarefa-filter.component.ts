@@ -23,7 +23,7 @@ import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkTarefaFilterComponent implements OnInit, AfterViewInit  {
+export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
 
     @Output()
     selected = new EventEmitter<any>();
@@ -35,6 +35,8 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit  {
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
+
+    filters: any = {};
 
     /**
      * Constructor
@@ -85,19 +87,39 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit  {
     ngOnInit(): void {
         this.form.get('postIt').valueChanges.subscribe(value => {
             if (value !== null) {
-                this._cdkTarefaFilterService.filters = {
-                    ...this._cdkTarefaFilterService.filters,
-                    postIt: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({postIt: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('postIt')) {
+                        delete this.filters['postIt'];
+                    }
+                }
             }
         });
 
         this.form.get('observacao').valueChanges.subscribe(value => {
             if (value !== null) {
-                this._cdkTarefaFilterService.filters = {
-                    ...this._cdkTarefaFilterService.filters,
-                    observacao: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({observacao: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('observacao')) {
+                        delete this.filters['observacao'];
+                    }
+                }
             }
         });
 

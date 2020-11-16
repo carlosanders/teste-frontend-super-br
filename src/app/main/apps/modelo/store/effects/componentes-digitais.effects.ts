@@ -23,6 +23,8 @@ import {GetDocumentos} from '../../../tarefas/tarefa-detail/atividades/atividade
 export class ComponenteDigitalEffect {
     routerState: any;
     componenteDigitalId: number;
+    routeAtividadeTarefa: string;
+    routeAtividadeDocumento: string;
 
     constructor(
         private _actions: Actions,
@@ -57,7 +59,13 @@ export class ComponenteDigitalEffect {
                     componenteDigital.tarefaOrigem = action.payload.tarefaOrigem;
                     componenteDigital.fileName = action.payload.modelo.nome + '.html';
 
-                    return new ComponenteDigitalActions.SaveComponenteDigital(componenteDigital);
+                    return new ComponenteDigitalActions.SaveComponenteDigital(
+                        {
+                            componenteDigital: componenteDigital,
+                            routeTarefa: action.payload.routeAtividadeTarefa,
+                            routeDocumento: action.payload.routeAtividadeDocumento
+                        }
+                    );
                 }),
             );
 
@@ -71,15 +79,19 @@ export class ComponenteDigitalEffect {
             .pipe(
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
                 switchMap((action) => {
-                    return this._componenteDigitalService.save(action.payload).pipe(
+                    return this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
                         tap((response) => {
                             this._store.dispatch(new GetDocumentos());
                         }),
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
-                            new ComponenteDigitalActions.GetDocumento(response.id),
+                            new ComponenteDigitalActions.GetDocumento({
+                                componenteDigitalId: response.id,
+                                routeTarefa: action.payload.routeTarefa,
+                                routeDocumento: action.payload.routeDocumento
+                            }),
                             new AddData<ComponenteDigital>({
-                                data: [{...action.payload, ...response}],
+                                data: [{...action.payload.componenteDigital, ...response}],
                                 schema: componenteDigitalSchema
                             }),
                             new OperacoesActions.Resultado({
@@ -106,12 +118,15 @@ export class ComponenteDigitalEffect {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.GetDocumento>(ComponenteDigitalActions.GET_DOCUMENTO),
-                tap((action) =>
-                    this.componenteDigitalId = action.payload
+                tap((action) => {
+                        this.componenteDigitalId = action.payload.componenteDigitalId;
+                        this.routeAtividadeTarefa = action.payload.routeTarefa;
+                        this.routeAtividadeDocumento = action.payload.routeDocumento;
+                    }
                 ),
                 switchMap((action) => {
                     return this._documentoService.query(
-                        `{"componentesDigitais.id": "eq:${action.payload}"}`,
+                        `{"componentesDigitais.id": "eq:${action.payload.componenteDigitalId}"}`,
                         1,
                         0,
                         '{}',
@@ -121,7 +136,9 @@ export class ComponenteDigitalEffect {
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new ComponenteDigitalActions.GetDocumentoSuccess({
                         documentoId: response['entities'][0].id,
-                        componenteDigitalId: this.componenteDigitalId
+                        componenteDigitalId: this.componenteDigitalId,
+                        routeTarefa: this.routeAtividadeTarefa,
+                        routeDocumento: this.routeAtividadeDocumento
                     }),
                 ]),
                 catchError((err, caught) => {
@@ -138,9 +155,10 @@ export class ComponenteDigitalEffect {
                 ofType<ComponenteDigitalActions.GetDocumentoSuccess>(ComponenteDigitalActions.GET_DOCUMENTO_SUCCESS),
                 tap((action) => {
                     const primary = 'componente-digital/' + action.payload.componenteDigitalId;
-                    const sidebar = 'editar/atividade';
+                    let sidebar = 'editar/' + action.payload.routeDocumento;
+
                     this._router.navigate([
-                            this.routerState.url.replace('modelo', '/atividades/criar/documento') + '/' + action.payload.documentoId,
+                            this.routerState.url.replace('modelo', action.payload.routeTarefa + '/documento') + '/' + action.payload.documentoId,
                             {
                                 outlets: {
                                     primary: primary,

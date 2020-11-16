@@ -64,19 +64,17 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    let termFilter = {};
+                    const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         if (this.filtrarPor && this.filtrarPor === 'username') {
                             this.pagination.populate = ['populateAll', 'colaborador', 'colaborador.cargo', 'colaborador.modalidadeColaborador'];
-                            termFilter = {
-                                ...termFilter,
+                            andxFilter.push({
                                 username: `like:%${bit}%`
-                            };
+                            });
                         } else {
-                            termFilter = {
-                                ...termFilter,
+                            andxFilter.push({
                                 nome: `like:%${bit}%`
-                            };
+                            });
                         }
                     });
                     if (typeof value === 'string') {
@@ -85,7 +83,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            ...termFilter
+                            andX: andxFilter
                         };
 
                         return this._usuarioService.query(

@@ -65,7 +65,7 @@ export class ResolveGuard implements CanActivate {
                             'workflow.id': 'eq:' + this.routerState.params.workflowHandle
                         },
                         gridFilter: {},
-                        limit: 5,
+                        limit: 10,
                         offset: 0,
                         sort: {criadoEm: 'ASC'},
                         populate: [

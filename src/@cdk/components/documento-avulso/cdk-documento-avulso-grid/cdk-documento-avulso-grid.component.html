@@ -160,7 +160,7 @@
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
                         data-label='Data Encerramento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraEncerramento | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraEncerramento?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraInicioPrazo Column -->
@@ -171,7 +171,7 @@
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
                         data-label='Data do Início Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraInicioPrazo | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraFinalPrazo Column -->
@@ -182,7 +182,7 @@
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
                         data-label='Data do Final do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraFinalPrazo | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraConclusaoPrazo Column -->
@@ -193,7 +193,7 @@
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
                         data-label='Data da Conclusão do Prazo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraConclusaoPrazo | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraConclusaoPrazo?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- PessoaDestino Column -->
@@ -225,7 +225,7 @@
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
                         data-label='Data Remessa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraRemessa | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraRemessa?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraResposta Column -->
@@ -235,7 +235,7 @@
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
                         data-label='Data Resposta: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraResposta | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraResposta?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DataHoraReiteracao Column -->
@@ -246,7 +246,7 @@
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
                         data-label='Data Reiteracao: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraReiteracao | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.dataHoraReiteracao?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- DocumentoResposta Column -->
@@ -417,7 +417,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.criadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -438,7 +438,7 @@
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.atualizadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -457,7 +457,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let documentoAvulso" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.apagadoEm | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documentoAvulso.id) > -1 || documentoAvulso.apagadoEm}"> {{documentoAvulso.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -513,7 +513,7 @@
         </div>
 
         <div class="footer">
-            <mat-paginator [disabled]="loading" [pageSizeOptions]="[5, 10]"></mat-paginator>
+            <mat-paginator [disabled]="loading" [pageSizeOptions]="[10, 25]"></mat-paginator>
         </div>
 
     </div>

@@ -24,8 +24,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.module';
-import {SnackBarDeleteComponent} from '../../snack-bar-delete/snack-bar-delete.component';
-import {SnackBarDeleteModule} from '../../snack-bar-delete/snack-bar-delete.module';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
 
 @NgModule({
@@ -34,7 +32,6 @@ import {CdkTarefaListService} from './cdk-tarefa-list.service';
         CdkTarefaListItemComponent
     ],
     imports: [
-
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,
@@ -43,25 +40,18 @@ import {CdkTarefaListService} from './cdk-tarefa-list.service';
         MatSortModule,
         MatMenuModule,
         MatAutocompleteModule,
-
         DndModule,
-
         CdkEspecieTarefaAutocompleteModule,
         CdkProcessoAutocompleteModule,
-
         TranslateModule,
-
         PipesModule,
-
         CdkSharedModule,
         CdkSidebarModule,
         MatRippleModule,
         MatTooltipModule,
         InfiniteScrollModule,
         MatExpansionModule,
-
-        CdkTarefaFilterModule,
-        SnackBarDeleteModule
+        CdkTarefaFilterModule
     ],
     providers: [
         EspecieTarefaService,
@@ -71,8 +61,7 @@ import {CdkTarefaListService} from './cdk-tarefa-list.service';
     ],
     exports: [
         CdkTarefaListComponent
-    ],
-    entryComponents: [SnackBarDeleteComponent],
+    ]
 })
 export class CdkTarefaListModule {
 }

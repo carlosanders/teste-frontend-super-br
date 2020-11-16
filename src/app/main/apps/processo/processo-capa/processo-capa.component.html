@@ -45,7 +45,7 @@
             <mat-grid-tile
                 [colspan]="3"
                 [rowspan]="1">
-                {{ processo.dataHoraAbertura | date: 'dd/MM/yyyy' }}
+                {{ processo.dataHoraAbertura?.toDate() | date: 'dd/MM/yyyy' }}
             </mat-grid-tile>
 
             <mat-grid-tile

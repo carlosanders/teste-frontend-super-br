@@ -42,7 +42,6 @@ export class CdkEtiquetaFilterComponent implements OnInit {
             nome: [null],
             descricao: [null],
             corHexadecimal: [null],
-            ativo: [null],
             modalidadeEtiqueta: [null],
             criadoPor: [null],
             criadoEm: [null],
@@ -63,37 +62,58 @@ export class CdkEtiquetaFilterComponent implements OnInit {
     ngOnInit(): void {
         this.form.get('nome').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    nome: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({nome: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('nome')) {
+                        delete this.filters['nome'];
+                    }
+                }
             }
         });
 
         this.form.get('descricao').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    descricao: `like:${value}%`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({descricao: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('descricao')) {
+                        delete this.filters['descricao'];
+                    }
+                }
             }
         });
 
         this.form.get('corHexadecimal').valueChanges.subscribe(value => {
             if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    corHexadecimal: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('ativo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    ativo: `eq:${value}`
-                };
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({corHexadecimal: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('corHexadecimal')) {
+                        delete this.filters['corHexadecimal'];
+                    }
+                }
             }
         });
 

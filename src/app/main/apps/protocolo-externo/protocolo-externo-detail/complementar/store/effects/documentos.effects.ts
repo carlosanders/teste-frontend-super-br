@@ -8,11 +8,13 @@ import * as DocumentosActions from '../actions';
 import { AddData } from '@cdk/ngrx-normalizr';
 import { select, Store } from '@ngrx/store';
 import { getRouterState, State } from 'app/store/reducers';
-import { Documento, DocumentoAvulso } from '@cdk/models';
+import {Assinatura, Documento, DocumentoAvulso} from '@cdk/models';
 import { DocumentoService } from '@cdk/services/documento.service';
-import { documento as documentoSchema } from '@cdk/normalizr';
+import {assinatura as assinaturaSchema, documento as documentoSchema} from '@cdk/normalizr';
 import { Router } from '@angular/router';
 import { environment } from 'environments/environment';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
+import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 @Injectable()
 export class DocumentosEffects {
@@ -22,6 +24,7 @@ export class DocumentosEffects {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>
     ) {
@@ -209,7 +212,7 @@ export class DocumentosEffects {
                 ofType<DocumentosActions.AssinaDocumentoSuccess>(DocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
                 tap((action) => {
 
-                    const url = environment.jnlp + 'v1/assinatura/' + action.payload.jwt + '/get_jnlp';
+                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
 
                     const ifrm = document.createElement('iframe');
                     ifrm.setAttribute('src', url);
@@ -220,4 +223,53 @@ export class DocumentosEffects {
                     setTimeout(() => document.body.removeChild(ifrm), 20000);
                 }));
 
+    /**
+     * Save Documento Assinatura Eletronica
+     * @type {Observable<any>}
+     */
+    @Effect()
+    assinaDocumentoEletronicamente: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.AssinaDocumentoEletronicamente>(DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
+                switchMap((action) => {
+                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({password: action.payload.password})).pipe(
+                        mergeMap((response: Assinatura) => [
+                            new DocumentosActions.AssinaDocumentoEletronicamenteSuccess(response.componenteDigital.id),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                            new DocumentosActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
+                            new OperacoesActions.Resultado({
+                                type: 'assinatura',
+                                content: `Assinatura id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new DocumentosActions.AssinaDocumentoEletronicamenteFailed(err));
+                        })
+                    );
+                })
+            );
+
+    @Effect()
+    removeAssinaturaDocumento: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.RemoveAssinaturaDocumento>(DocumentosActions.REMOVE_ASSINATURA_DOCUMENTO),
+                mergeMap((action) => {
+                        return this._documentoService.removeAssinatura(action.payload)
+                            .pipe(
+                                mergeMap((response) => [
+                                    new DocumentosActions.RemoveAssinaturaDocumentoSuccess(action.payload),
+                                    new DocumentosActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
+                                ]),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    this._store.dispatch(new DocumentosActions.RemoveAssinaturaDocumentoFailed(action.payload));
+                                    return caught;
+                                })
+                            );
+                    }
+                ));
 }

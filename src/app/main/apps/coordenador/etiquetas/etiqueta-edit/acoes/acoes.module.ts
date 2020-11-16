@@ -42,7 +42,7 @@ const routes: Routes = [
 
 ];
 
-const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/acoes';
+const path = 'app/main/apps/coordenador/etiquetas/etiqueta-edit/acoes';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -76,9 +76,6 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         EtiquetaService
-    ],
-    exports: [
-        AcoesComponent
     ]
 })
 export class AcoesModule {

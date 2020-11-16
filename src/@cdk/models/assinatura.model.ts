@@ -17,13 +17,15 @@ export class Assinatura {
 
     assinatura?: string;
 
+    assinadoPor?: string;
+
     cadeiaCertificadoPEM?: string;
 
     cadeiaCertificadoPkiPath?: string;
 
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraAssinatura?: Date;
+    dataHoraAssinatura?: moment.Moment;
 
     @Type(() => ComponenteDigital)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -42,7 +44,7 @@ export class Assinatura {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    criadoEm?: Date;
+    criadoEm?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -52,7 +54,7 @@ export class Assinatura {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    atualizadoEm?: Date;
+    atualizadoEm?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -62,13 +64,14 @@ export class Assinatura {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    apagadoEm?: Date;
+    apagadoEm?: moment.Moment;
 
     constructor() {
         this.id = null;
         this.uuid = null;
         this.algoritmoHash = null;
         this.assinatura = null;
+        this.assinadoPor = null;
         this.cadeiaCertificadoPEM = null;
         this.cadeiaCertificadoPkiPath = null;
         this.dataHoraAssinatura = null;

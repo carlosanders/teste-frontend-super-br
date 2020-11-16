@@ -84,26 +84,29 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.loading$ = this._store.pipe(select(fromStore.getProcessoIsLoading));
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = {
-            orX: [
-                {
-                    'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-                },
-                {
-                    'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
-                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-                },
-                {
-                    'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
-                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-                },
-                {
-                    'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
-                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
-                }
-            ]
-        };
+        if (!_loginService.isGranted('ROLE_USUARIO_EXTERNO'))
+        {
+            this.vinculacaoEtiquetaPagination.filter = {
+                orX: [
+                    {
+                        'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
+                        'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                    },
+                    {
+                        'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
+                        'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                    },
+                    {
+                        'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                        'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                    },
+                    {
+                        'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                        'modalidadeEtiqueta.valor': 'eq:PROCESSO'
+                    }
+                ]
+            };
+        }
 
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));

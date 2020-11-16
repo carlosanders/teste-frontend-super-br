@@ -13,6 +13,7 @@ import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {DeleteTarefaSuccess} from '../../../../tarefas/store/actions';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -296,4 +297,13 @@ export class ComponenteDigitalEffect {
                 })
             );
 
+    @Effect({dispatch: false})
+    revertComponenteDigitalSuccess: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.RevertComponenteDigitalSuccess>(ComponenteDigitalActions.REVERT_COMPONENTE_DIGITAL_SUCCESS),
+                tap((action) => {
+                    this._componenteDigitalService.revertendo.next(true);
+                })
+            )
 }

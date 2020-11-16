@@ -20,11 +20,8 @@ import {Etiqueta, Folder, Pagination, Tarefa, Usuario} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
 import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
-
 import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
-
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
-
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
@@ -32,6 +29,9 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {SnackBarDesfazerComponent} from '../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tarefas',
@@ -107,6 +107,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     routeAtividadeBloco = 'atividade-bloco';
     novaTarefa = false;
 
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
+    lote: string;
+
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
@@ -116,6 +120,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _store
      * @param _loginService
      * @param _dynamicService
+     * @param _snackBar
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -125,7 +130,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _router: Router,
         private _store: Store<fromStore.TarefasAppState>,
         private _loginService: LoginService,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _snackBar: MatSnackBar
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
@@ -297,6 +303,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     // -----------------------------------------------------------------------------------------------------
 
     reload(params): void {
+        this.novaTarefa = false;
         this._store.dispatch(new fromStore.UnloadTarefas({reset: false}));
 
         const nparams = {
@@ -324,9 +331,14 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.etiquetas.forEach((e) => {
             etiquetasId.push(e.id);
         });
-        const etiquetaFilter = {
-            'vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
-        };
+        let etiquetaFilter = {};
+        if (etiquetasId.length) {
+            etiquetaFilter = {
+                'vinculacoesEtiquetas.etiqueta.id': `in:${etiquetasId.join(',')}`
+            };
+        } else {
+
+        }
         const nparams = {
             ...this.pagination,
             etiquetaFilter: etiquetaFilter
@@ -358,8 +370,59 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         }));
     }
 
-    deleteTarefa(tarefaId: number): void {
-        this._store.dispatch(new fromStore.DeleteTarefa(tarefaId));
+    deleteTarefa(tarefa: Tarefa, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteTarefa({
+            tarefaId: tarefa.id,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStore.DeleteTarefa({
+                    tarefaId: tarefa.id,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DeleteTarefaFlush()
+            ],
+            undo: new fromStore.UndeleteTarefa({
+                tarefa: tarefa,
+                operacaoId: operacaoId,
+                redo: null,
+                undo: null
+            })
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['fuse-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Deletado(a)'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStore.DeleteTarefaCancel());
+            } else {
+                this._store.dispatch(new fromStore.DeleteTarefaFlush());
+            }
+        });
+    }
+
+    deleteBlocoTarefa(tarefas: Tarefa[]): void {
+        this.lote = CdkUtils.makeId();
+        tarefas.forEach((tarefa: Tarefa) => this.deleteTarefa(tarefa, this.lote));
     }
 
     doToggleUrgente(tarefa: Tarefa): void {

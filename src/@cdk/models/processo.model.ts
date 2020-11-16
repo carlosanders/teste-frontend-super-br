@@ -108,16 +108,16 @@ export class Processo {
 
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    dataHoraAbertura?: Date;
+    dataHoraAbertura?: moment.Moment;
 
     @Exclude({toPlainOnly: true})
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    dataHoraProximaTransicao?: Date;
+    dataHoraProximaTransicao?: moment.Moment;
 
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    dataHoraPrazoResposta?: Date;
+    dataHoraPrazoResposta?: moment.Moment;
 
     @Type(() => ModalidadeFase)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
@@ -147,7 +147,7 @@ export class Processo {
     @Exclude({toPlainOnly: true})
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    criadoEm?: Date;
+    criadoEm?: moment.Moment;
 
     @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
@@ -157,7 +157,7 @@ export class Processo {
     @Exclude({toPlainOnly: true})
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    atualizadoEm?: Date;
+    atualizadoEm?: moment.Moment;
 
     @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
@@ -167,7 +167,7 @@ export class Processo {
     @Exclude({toPlainOnly: true})
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
-    apagadoEm?: Date;
+    apagadoEm?: moment.Moment;
 
     @Exclude({toPlainOnly: true})
     @Type(() => Assunto)

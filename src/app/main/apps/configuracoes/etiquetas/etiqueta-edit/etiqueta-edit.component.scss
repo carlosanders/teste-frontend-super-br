@@ -17,16 +17,6 @@ etiqueta-edit {
             display: flex;
             flex-direction: column;
 
-            > .header {
-                flex: 0 1 auto;
-                display: flex;
-
-                .actions {
-                    margin-left: auto;
-                    margin-right: 16px;
-                }
-            }
-
             > .content {
                 flex: 1 1 auto;
                 display: flex;

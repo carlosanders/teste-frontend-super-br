@@ -19,6 +19,14 @@ export const ASSINA_DOCUMENTO = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_SUCCESS = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_FAILED = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO FAILED';
 
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
+export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
+
+export const REMOVE_ASSINATURA_DOCUMENTO = '[COMPLEMENTAR DOCUMENTOS] REMOVE ASSINATURA DOCUMENTO';
+export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[COMPLEMENTAR DOCUMENTOS] REMOVE ASSINATURA DOCUMENTO SUCCESS';
+export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[COMPLEMENTAR DOCUMENTOS] REMOVE ASSINATURA DOCUMENTO FAILED';
+
 export const CHANGE_SELECTED_DOCUMENTOS = '[COMPLEMENTAR DOCUMENTOS] CHANGE SELECTED DOCUMENTOS';
 
 
@@ -184,6 +192,79 @@ export class AssinaDocumentoFailed implements Action
     }
 }
 
+
+/**
+ * Assina Documento Eletronicamente
+ */
+export class AssinaDocumentoEletronicamente implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Success
+ */
+export class AssinaDocumentoEletronicamenteSuccess implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Documento Eletronicamente Failed
+ */
+export class AssinaDocumentoEletronicamenteFailed implements Action
+{
+    readonly type = ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento
+ */
+export class RemoveAssinaturaDocumento implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Success
+ */
+export class RemoveAssinaturaDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Assinatura Documento Failed
+ */
+export class RemoveAssinaturaDocumentoFailed implements Action
+{
+    readonly type = REMOVE_ASSINATURA_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 /**
  * Change Selected Documentos
  */
@@ -206,6 +287,12 @@ export type DocumentosActionsAll
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
+    | AssinaDocumentoEletronicamente
+    | AssinaDocumentoEletronicamenteFailed
+    | AssinaDocumentoEletronicamenteSuccess
+    | RemoveAssinaturaDocumento
+    | RemoveAssinaturaDocumentoFailed
+    | RemoveAssinaturaDocumentoSuccess
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed

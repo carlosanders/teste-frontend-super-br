@@ -130,8 +130,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
-
-        this._loginService.init();
     }
 
     // -----------------------------------------------------------------------------------------------------

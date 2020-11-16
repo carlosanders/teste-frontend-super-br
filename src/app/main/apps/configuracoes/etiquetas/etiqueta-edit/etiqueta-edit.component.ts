@@ -7,7 +7,6 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
@@ -28,12 +27,10 @@ export class EtiquetaEditComponent implements OnInit, OnDestroy {
     /**
      *
      * @param _changeDetectorRef
-     * @param _cdkSidebarService
      * @param _store
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService,
         private _store: Store<fromStore.State>
     ) {
 
@@ -72,14 +69,5 @@ export class EtiquetaEditComponent implements OnInit, OnDestroy {
      */
     refresh(): void {
         this._changeDetectorRef.markForCheck();
-    }
-
-    /**
-     * Toggle the sidebar
-     *
-     * @param name
-     */
-    toggleSidebar(name): void {
-        this._cdkSidebarService.getSidebar(name).toggleOpen();
     }
 }

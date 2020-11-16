@@ -82,6 +82,7 @@ export const origemDados = new schema.Entity('origem-dados');
 export const pais = new schema.Entity('pais');
 export const pessoa = new schema.Entity('pessoa');
 export const processo = new schema.Entity('processo');
+export const regra = new schema.Entity('regra');
 export const relacionamentoPessoal = new schema.Entity('relacionamento-pessoal');
 export const relevancia = new schema.Entity('relevancia');
 export const relatorio = new schema.Entity('relatorio');
@@ -137,7 +138,10 @@ areaTrabalho.define({
 assinatura.define({
     componenteDigital: componenteDigital,
     origemDados: origemDados,
-    usuario: usuario
+    usuario: usuario,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
 });
 
 assunto.define({
@@ -315,13 +319,6 @@ especieDocumentoAvulso.define({
     apagadoPor: usuario
 });
 
-especieProcesso.define({
-    generoProcesso: generoProcesso,
-    criadoPor: usuario,
-    atualizadoPor: usuario,
-    apagadoPor: usuario
-});
-
 especieRelatorio.define({
     generoRelatorio: generoRelatorio,
     criadoPor: usuario,
@@ -345,6 +342,15 @@ especieSetor.define({
 
 especieTarefa.define({
     generoTarefa: generoTarefa,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+especieProcesso.define({
+    generoProcesso: generoProcesso,
+    classificacao: classificacao,
+    modalidadeMeio: modalidadeMeio,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -711,6 +717,12 @@ processo.define({
     lembretes: [lembrete],
     assuntos: [assunto],
     interessados: [interessado]
+});
+
+regra.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
 });
 
 relacionamentoPessoal.define({

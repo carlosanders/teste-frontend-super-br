@@ -45,6 +45,8 @@ import {AssuntoListStoreModule} from 'app/main/apps/processo/processo-edit/assun
 import {modulesConfig} from 'modules/modules-config';
 import {InteressadoService} from '../../../../@cdk/services/interessado.service';
 import {DocumentoService} from '../../../../@cdk/services/documento.service';
+import {SnackBarDesfazerComponent} from '../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {SnackBarDesfazerModule} from '../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module';
 
 const routes: Routes = [
     {
@@ -132,7 +134,6 @@ modulesConfig.forEach((module) => {
     ],
     imports: [
         RouterModule.forChild(routes),
-
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -148,28 +149,19 @@ modulesConfig.forEach((module) => {
         MatTooltipModule,
         MatProgressBarModule,
         MatDividerModule,
-
         DndModule,
-
         CdkTarefaListModule,
         CdkTarefaFormModule,
-
         CdkEtiquetaChipsModule,
-
         TranslateModule,
-
         ResizableModule,
-
         PipesModule,
-
         InfiniteScrollModule,
-
         CdkSharedModule,
         CdkSidebarModule,
-
         TarefasStoreModule,
-
         AssuntoListStoreModule,
+        SnackBarDesfazerModule,
     ],
     providers: [
         TarefaService,
@@ -183,7 +175,8 @@ modulesConfig.forEach((module) => {
         AssuntoService,
         InteressadoService,
         DocumentoService
-    ]
+    ],
+    entryComponents: [SnackBarDesfazerComponent],
 })
 export class TarefasModule {
 }

@@ -25,7 +25,7 @@ export interface AssinaturasState {
 export const AssinaturasInitialState: AssinaturasState = {
     entitiesId: [],
     pagination: {
-        limit: 5,
+        limit: 10,
         offset: 0,
         filter: {},
         gridFilter: {},

@@ -70,7 +70,7 @@ export class ResolveGuard implements CanActivate {
                             'processo.id': processoId
                         },
                         gridFilter: {},
-                        limit: 5,
+                        limit: 10,
                         offset: 0,
                         sort: {criadoEm: 'DESC'},
                         populate: [

@@ -21,7 +21,7 @@ export interface UsuariosListState {
 export const UsuariosListInitialState: UsuariosListState = {
     entitiesId: [],
     pagination: {
-        limit: 5,
+        limit: 10,
         offset: 0,
         filter: {},
         gridFilter: {},

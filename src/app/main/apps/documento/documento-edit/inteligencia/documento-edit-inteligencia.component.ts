@@ -3,7 +3,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     OnDestroy,
-    OnInit, ViewChild, ViewContainerRef,
+    OnInit,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -14,8 +14,6 @@ import {ComponenteDigital, Repositorio} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getRouterState} from 'app/store/reducers';
-import {DynamicService} from '../../../../../../modules/dynamic.service';
-import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
@@ -40,9 +38,6 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
 
     componenteDigital$: Observable<ComponenteDigital>;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
-
     routerState: any;
 
     /**
@@ -52,7 +47,6 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
      * @param _router
      * @param _repositorioService
      * @param _componenteDigitalService
-     * @param _dynamicService
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditInteligenciaAppState>,
@@ -60,7 +54,6 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
         private _router: Router,
         private _repositorioService: RepositorioService,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _dynamicService: DynamicService
     ) {
         this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
         this.repositorios$ = this._store.pipe(select(fromStore.getRepositorios));
@@ -98,7 +91,7 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
         });
 
         this.pagination$.subscribe(pagination => {
-            if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
+            if (this.pagination && pagination && pagination.ckeditorFilter && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reload(this.pagination);
             } else {
@@ -115,22 +108,15 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/documento/documento-edit/inteligencia';
-        modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
-                    this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
-                }));
-            }
-        });
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        this.pagination = null;
         this._store.dispatch(new fromStore.UnloadRepositorios());
+        this._store.dispatch(new fromStore.UnloadComponenteDigital());
     }
 
     reload(params): void {

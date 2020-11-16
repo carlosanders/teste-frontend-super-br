@@ -1,30 +1,35 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import {Usuario, Workflow} from '@cdk/models';
+import {Classificacao, ModalidadeMeio, Usuario, Workflow} from '@cdk/models';
 import { GeneroProcesso } from '@cdk/models';
 
 export class EspecieProcesso {
 
-    @Exclude({ toPlainOnly: true })
     id?: number;
 
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
     nome?: string;
 
-    @Exclude({ toPlainOnly: true })
     descricao?: string;
 
-    @Exclude({ toPlainOnly: true })
     ativo?: boolean;
 
-    @Exclude({ toPlainOnly: true })
     @Type(() => GeneroProcesso)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     generoProcesso?: GeneroProcesso;
+
+    @Type(() => ModalidadeMeio)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    modalidadeMeio?: ModalidadeMeio;
+
+    @Type(() => Classificacao)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    classificacao?: Classificacao;
+
+    titulo?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -34,7 +39,7 @@ export class EspecieProcesso {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    criadoEm?: Date;
+    criadoEm?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -44,7 +49,7 @@ export class EspecieProcesso {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    atualizadoEm?: Date;
+    atualizadoEm?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -54,8 +59,9 @@ export class EspecieProcesso {
     @Exclude({ toPlainOnly: true })
     @Transform(value => value ? value.format() : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
-    apagadoEm?: Date;
+    apagadoEm?: moment.Moment;
 
+    @Exclude({ toPlainOnly: true })
     @Type(() => Workflow)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     workflow?: Workflow;
@@ -67,6 +73,9 @@ export class EspecieProcesso {
         this.descricao = null;
         this.ativo = null;
         this.generoProcesso = null;
+        this.classificacao = null;
+        this.modalidadeMeio = null;
+        this.titulo = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

@@ -120,7 +120,7 @@ export class CdkSetorTreeComponent implements OnInit {
         const params = {
             filter: {
                 ...this.pagination.filter,
-                parent: parent
+                'parent.id': parent
             },
             sort: {
                 nome: 'ASC'

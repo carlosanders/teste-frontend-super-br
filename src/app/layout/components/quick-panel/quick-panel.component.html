@@ -1,36 +1,37 @@
-<div fxLayout="column" fxFlex cdkPerfectScrollbar>
+<div class="header accent">
+    <h1>Últimas Operações</h1>
+</div>
 
-    <div fxFlex="0 1 auto" fxLayout="column" class="p-16 accent">
-        <h1>Informações</h1>
-    </div>
+<mat-progress-bar *ngIf="operacoesPendentes > 0" mode="determinate" [value]="(operacoesProcessando * 100) / operacoesPendentes"></mat-progress-bar>
 
-    <div class="p-16">
-        <div class="secondary-text">
-            {{date | date:'EEEE'}}
-        </div>
-        <div class="mt-8" fxLayout="row" fxLayoutAlign="start start">
-            <span class="secondary-text"> {{date | date:'d'}} de {{date | date:'MMMM'}}</span>
-        </div>
-    </div>
+<div class="content" cdkPerfectScrollbar>
 
-    <mat-divider></mat-divider>
-
-    <mat-list class="p-16">
-        <h3>
-            Últimas Operações
-        </h3>
-
-        <mat-list-item *ngFor="let operacao of operacoes">
-            <h3>{{operacao.type}}</h3>
-            <p class="secondary-text">{{operacao.content}}</p>
-            <p class="secondary-text">{{operacao.dateTime | date: 'dd/MM/yyyy HH:mm:ss'}}</p>
-        </mat-list-item>
-
-        <mat-list-item *ngIf="!operacoes.length">
-            <p class="secondary-text">Não há operações ainda!</p>
-        </mat-list-item>
-    </mat-list>
-
-    <mat-divider></mat-divider>
+    <mat-card class="mt-8 ml-8 mr-8" *ngFor="let operacao of operacoes">
+        <mat-card-title>
+            <div class="card-header">
+                <span class="secondary-text">{{operacao.type | titlecase}}</span>
+                <span *ngIf="operacao.status === 0"><mat-spinner [diameter]="16"></mat-spinner></span>
+                <span *ngIf="operacao.status === 1"><mat-icon>check</mat-icon></span>
+                <span *ngIf="operacao.status === 2"><mat-icon class="warn">clear</mat-icon></span>
+                <span *ngIf="operacao.status === 3"><mat-icon>cancel</mat-icon></span>
+            </div>
+        </mat-card-title>
+        <mat-card-content>
+            <div class="card-content">
+                <span class="secondary-text">{{operacao.content}}</span>
+                <span class="mt-8 card-date secondary-text">{{operacao.dateTime?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button *ngIf="operacao.status >= 2 && operacao.redo" mat-icon-button
+                    class="secondary-text" matTooltip="Refazer" (click)="refazer(operacao)">
+                <mat-icon>redo</mat-icon> Refazer
+            </button>
+            <button *ngIf="operacao.status === 1 && operacao.undo" mat-icon-button
+                    class="secondary-text" matTooltip="Desfazer" (click)="desfazer(operacao)">
+                <mat-icon>undo</mat-icon> Desfazer
+            </button>
+        </mat-card-actions>
+    </mat-card>
 
 </div>

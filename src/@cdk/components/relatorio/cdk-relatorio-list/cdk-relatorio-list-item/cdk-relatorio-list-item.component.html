@@ -20,7 +20,7 @@
             </div>
 
             <div>
-                Criado em: {{relatorio.criadoEm | date: 'dd/MM/yyyy'}}
+                Criado em: {{relatorio.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}
             </div>
         </div>
 
