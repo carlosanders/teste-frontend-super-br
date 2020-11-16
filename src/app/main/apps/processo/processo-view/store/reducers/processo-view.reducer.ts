@@ -17,6 +17,7 @@ export interface ProcessoViewState {
         step: number;
         subStep: number;
     };
+    currentStepLoaded: any;
     index: any;
     binary: {
         src: any;
@@ -41,6 +42,7 @@ export const ProcessoViewInitialState: ProcessoViewState = {
         step: 0,
         subStep: 0
     },
+    currentStepLoaded: false,
     index: [],
     binary: {
         src: null,
@@ -130,9 +132,10 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
             return {
                 ...state,
                 binary: {
-                    src: action.payload,
+                    src: action.payload.binary,
                     loading: false
-                }
+                },
+                currentStepLoaded: action.payload.loaded
             };
         }
 
@@ -142,7 +145,8 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
                 binary: {
                     src: null,
                     loading: false
-                }
+                },
+                currentStepLoaded: false
             };
         }
 

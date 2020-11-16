@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 
 import {select, Store} from '@ngrx/store';
 
@@ -10,21 +10,25 @@ import {DocumentoAppState} from '../reducers';
 import * as fromStore from '../';
 import {getDocumentoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
+
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
 
     /**
-     * Constructor
      *
      * @param {Store<DocumentoAppState>} _store
+     * @param _activatedRoute
      */
     constructor(
-        private _store: Store<DocumentoAppState>
+        private _store: Store<DocumentoAppState>,
+        private _activatedRoute: ActivatedRoute
     ) {
         this._store
-            .pipe(select(getRouterState))
+            .pipe(
+                select(getRouterState)
+            )
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
