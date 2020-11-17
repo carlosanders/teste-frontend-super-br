@@ -23,6 +23,7 @@ import {modulesConfig} from 'modules/modules-config';
 import {CdkModeloAutocompleteModule} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 const routes: Routes = [
     {
@@ -84,7 +85,8 @@ modulesConfig.forEach((module) => {
         CdkModeloAutocompleteModule,
         CdkUploadModule,
         CdkComponenteDigitalCardListModule,
-        CdkTipoDocumentoAutocompleteModule
+        CdkTipoDocumentoAutocompleteModule,
+        MatProgressBarModule
     ],
     providers: [
         JuntadaService,
