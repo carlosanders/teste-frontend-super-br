@@ -56,6 +56,139 @@ processo-view-main-sidebar {
             }
         }
 
+        .minuta {
+            flex: 0 0 auto;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 16px;
+            cursor: pointer;
+
+            .etiquetas {
+                margin-top: 8px;
+
+                .etiqueta {
+                    font-size: 11px;
+                    border-radius: 4px;
+                    margin-top: 4px;
+                    margin-right: 4px;
+                    padding: 3px 8px;
+                    background-color: rgba(0, 0, 0, 0.08);
+
+                    .etiqueta-color {
+                        width: 8px;
+                        height: 8px;
+                        margin-right: 8px;
+                        border-radius: 50%;
+                    }
+                }
+            }
+
+            .current-tipo-documento {
+                font-weight: bold;
+            }
+
+            &.current {
+
+                .index {
+
+                    span {
+                        border: 2px solid;
+                    }
+                }
+
+                .descricao {
+                    font-weight: bold;
+                }
+
+            }
+
+            &.completed {
+
+                .index {
+
+                    span {
+                        border: 2px solid;
+                    }
+                }
+            }
+
+            &.first {
+
+                .index {
+
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+
+            &.last {
+                border-bottom: 1px solid black;
+
+                .index {
+
+                    &:after {
+                        display: none;
+                    }
+                }
+            }
+
+            .index {
+                display: flex;
+                margin-right: 12px;
+
+                &:before,
+                &:after {
+                    position: absolute;
+                    display: block;
+                    content: ' ';
+                    border-left: 1px solid;
+                    width: 1px;
+                    height: 50%;
+                    left: 33px;
+                    z-index: 8;
+                }
+
+                &:before {
+                    top: 0;
+                }
+
+                &:after {
+                    bottom: 0;
+                }
+
+                span {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    width: 34px;
+                    min-width: 34px;
+                    max-width: 34px;
+                    height: 34px;
+                    border-radius: 100%;
+                    border: 2px solid;
+                    font-weight: bold;
+                    font-size: 12px;
+                    z-index: 10;
+                }
+            }
+
+            .descricao {
+                display: flex;
+            }
+
+            .desentranhado {
+                color: red;
+            }
+
+            .criado-em {
+                font-style: italic;
+                font-size: 10px;
+            }
+        }
+
         .juntada {
             flex: 0 0 auto;
             display: flex;
