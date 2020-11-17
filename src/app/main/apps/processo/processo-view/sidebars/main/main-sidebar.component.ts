@@ -114,6 +114,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
+    minutasLoading$: Observable<boolean>;
+
+    minutasSaving$: Observable<boolean>;
+
     /**
      *
      * @param _juntadaService
@@ -203,6 +207,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                         this.tarefaOrigem = tarefa;
                     });
                     this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+                    this.minutasLoading$ = this._store.pipe(select(fromStore.getMinutasLoading));
+                    this.minutasSaving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
                 }
             }
         });

@@ -39,6 +39,14 @@ processo-view-main-sidebar {
         height: 0;
         overflow-y: auto;
 
+        > .loading-minutas {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+
         > .loading {
             flex: 1 1 auto;
             display: flex;

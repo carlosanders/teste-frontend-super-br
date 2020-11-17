@@ -88,11 +88,11 @@
      [infiniteScrollThrottle]="50"
      (scrolled)="onScroll()">
 
-    <div class="loading" *ngIf="(isLoading$ | async)">
-        <mat-spinner class="juntada-list-loading" diameter="24"></mat-spinner>
+    <div class="loading-minutas" *ngIf="((minutasLoading$ | async) || (minutasSaving$ | async)) && tarefa">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
 
-    <div class="minutas" matRipple *ngIf="!(isLoading$ | async) && tarefa">
+    <div class="minutas" matRipple *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async)) && tarefa">
         <button mat-mini-fab
                 class="m-4 active accent"
                 [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
@@ -252,6 +252,10 @@
             </mat-menu>
 
         </div>
+    </div>
+
+    <div class="loading" *ngIf="(isLoading$ | async)">
+        <mat-spinner class="juntada-list-loading" diameter="24"></mat-spinner>
     </div>
 
     <div class="juntada capa" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"
