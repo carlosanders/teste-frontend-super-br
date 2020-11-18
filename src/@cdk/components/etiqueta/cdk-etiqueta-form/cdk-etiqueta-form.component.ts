@@ -77,6 +77,7 @@ export class CdkEtiquetaFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             id: [null],
+            ativo: [null],
             privada: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             corHexadecimal: [null, [Validators.required]],

@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter,
+    EventEmitter, OnChanges,
     OnDestroy,
     OnInit,
     Output,
@@ -21,6 +21,7 @@ import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -60,16 +61,20 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     showAddFolder = false;
 
+    modulo: string;
+
     /**
      *
      * @param _store
      * @param _changeDetectorRef
      * @param _loginService
+     * @param router
      */
     constructor(
         private _store: Store<fromStore.TarefasAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         public _loginService: LoginService,
+        private router: Router
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         const path = 'app/main/apps/tarefas/sidebars/main';
@@ -79,13 +84,19 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
+
+        this.router.events.subscribe(() => {
+            if(this.router.url && this.router.url.split("/").length>=3) {
+                this.modulo = (this.router.url.split("/")[3]);
+                this.modulo = decodeURIComponent((this.modulo[0].toUpperCase() + this.modulo.substr(1).toLowerCase()));
+            }
+        });
     }
 
     /**
      * On init
      */
     ngOnInit(): void {
-
         this._store
             .pipe(
                 select(getRouterState),
@@ -118,6 +129,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this._loginService.getUserProfile().vinculacoesUsuariosPrincipais?.forEach((vinculacaoUsuario: VinculacaoUsuario) => {
             this.usuariosAssessor.push(vinculacaoUsuario.usuario);
         });
+
+        if(this.router.url && this.router.url.split("/").length>=3) {
+            this.modulo = (this.router.url.split("/")[3]);
+            this.modulo = decodeURIComponent((this.modulo[0].toUpperCase() + this.modulo.substr(1).toLowerCase()));
+        }
     }
 
     /**

@@ -1,4 +1,3 @@
-export {FloatLabelType} from '@angular/material/core';
 export * from '@angular/material/core';
 export * from '@angular/material/checkbox';
 export * from '@angular/material/button';

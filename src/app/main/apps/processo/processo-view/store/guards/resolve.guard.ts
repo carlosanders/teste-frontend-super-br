@@ -3,13 +3,15 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {ProcessoViewAppState} from 'app/main/apps/processo/processo-view/store/reducers';
 import * as fromStore from 'app/main/apps/processo/processo-view/store';
 import {getJuntadasLoaded} from 'app/main/apps/processo/processo-view/store/selectors';
 import {getRouterState} from 'app/store/reducers';
+import {getCurrentStep, getCurrentStepLoaded, getDocumentosHasLoaded} from 'app/main/apps/processo/processo-view/store';
+
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -41,9 +43,25 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getJuntadas().pipe(
+        return this.checkStore().pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
+        );
+    }
+
+    /**
+     * Check store
+     *
+     * @returns {Observable<any>}
+     */
+    checkStore(): Observable<any> {
+        return forkJoin(
+            this.getJuntadas(),
+            this.getCurrentStep()
+        ).pipe(
+            filter(([juntadasLoaded]) => !!(juntadasLoaded)),
+            take(1),
+            switchMap(() => this.getDocumentos())
         );
     }
 
@@ -56,7 +74,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getJuntadasLoaded),
             tap((loaded: any) => {
-                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
 
                     let processoFilter = null;
@@ -90,12 +108,70 @@ export class ResolveGuard implements CanActivate {
                     };
 
                     this._store.dispatch(new fromStore.GetJuntadas(params));
-                 }
+                }
             }),
             filter((loaded: any) => {
                 return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
             }),
             take(1)
         );
+    }
+
+    /**
+     * Get Componente Digital
+     *
+     * @returns {Observable<any>}
+     */
+    getCurrentStep(): any {
+        return this._store.pipe(
+            select(getCurrentStepLoaded),
+            tap((loaded: any) => {
+                if (this.routerState.params['stepHandle'] && (this.routerState.params['stepHandle'] !== 'capa')
+                    && (this.routerState.params['stepHandle'] !== loaded)) {
+                    const steps = this.routerState.params['stepHandle'].split('-');
+                    this._store.dispatch(new fromStore.SetCurrentStep({step: steps[0], subStep: steps[1]}));
+                }
+            }),
+            filter((loaded: any) => {
+                return (!this.routerState.params['stepHandle'] || this.routerState.params['stepHandle'] === 'capa')
+                    || (this.routerState.params['stepHandle'] === loaded);
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * Get Documentos
+     *
+     * @returns {Observable<any>}
+     */
+    getDocumentos(): any {
+        if (this.routerState.params['tarefaHandle']) {
+            return this._store.pipe(
+                select(getDocumentosHasLoaded),
+                tap((loaded: any) => {
+                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                        this._store.dispatch(new fromStore.GetDocumentos());
+                    }
+                }),
+                filter((loaded: any) => {
+                    return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+                }),
+                take(1)
+            );
+        } else {
+            return this._store.pipe(
+                select(getDocumentosHasLoaded),
+                tap((loaded: any) => {
+                    if (loaded) {
+                        this._store.dispatch(new fromStore.UnloadDocumentos());
+                    }
+                }),
+                filter((loaded: any) => {
+                    return !loaded;
+                }),
+                take(1)
+            );
+        }
     }
 }

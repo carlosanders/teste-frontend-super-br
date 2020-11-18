@@ -1,6 +1,54 @@
 <!-- SIDEBAR HEADER -->
 <div class="header p-8">
     <div class="actions">
+        <button mat-mini-fab
+                [matTooltip]="'Criar Minuta'"
+                class="m-8 active accent"
+                [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
+                #menuTriggerList="matMenuTrigger"
+                (click)="$event.stopPropagation()">
+            <mat-icon class="secondary-text">attach_file</mat-icon>
+        </button>
+
+        <mat-menu #moreMenu="matMenu">
+            <button mat-menu-item aria-label="upload"
+                    (click)="upload()">
+                <ng-container>
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    <span>Upload</span>
+                </ng-container>
+            </button>
+
+            <button fxLayout="row" aria-label="editor de textos" fxLayoutAlign="start center"
+                    [matMenuTriggerFor]="modeloMenu" mat-menu-item>
+                <mat-icon>create</mat-icon>
+                <span>Editor</span>
+            </button>
+            <ng-template #dynamicComponent></ng-template>
+        </mat-menu>
+
+        <mat-menu #modeloMenu="matMenu">
+            <form class="p-8 mb-8" style="width: 300px !important" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+                  fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">
+                <mat-form-field fxFlex="100">
+                    <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
+                        <input matInput placeholder="Modelo"
+                               formControlName="modelo"
+                               [matAutocomplete]="modelo.autocomplete"
+                               (blur)="checkModelo()">
+                    </div>
+                    <cdk-modelo-autocomplete
+                        #modelo="modeloAutocomplete"
+                        [control]="formEditor.get('modelo')"
+                        [pagination]="modeloPagination">
+                    </cdk-modelo-autocomplete>
+                </mat-form-field>
+                <button mat-raised-button color="accent" [disabled]="!formEditor.valid" (click)="doEditor()">
+                    EDITAR
+                </button>
+            </form>
+        </mat-menu>
+
         <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) != '{}'}" mat-icon-button
                 (click)="toggleFilter()"
                 aria-label="filtrar"
@@ -87,6 +135,140 @@
      [infiniteScrollDistance]="2"
      [infiniteScrollThrottle]="50"
      (scrolled)="onScroll()">
+
+    <div class="loading-minutas" *ngIf="((minutasLoading$ | async) || (minutasSaving$ | async)) && tarefa">
+        <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
+    </div>
+
+    <mat-expansion-panel expanded="true" class="mb-4 mt-4">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Minhas Minutas
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="minutas" matRipple *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async)) && tarefa">
+
+            <cdk-componente-digital-card-list #ckdUpload
+                                              [tarefaOrigem]="tarefaOrigem"
+                                              (completed)="onComplete()">
+            </cdk-componente-digital-card-list>
+
+            <div class="minuta" matRipple
+                 *ngFor="let minuta of (minutas); let i = index; let last = last; let first = first"
+                 (click)="onClickedMinuta(minuta)">
+                <div class="index">
+                    <span>
+                        <mat-icon>edit</mat-icon>
+                    </span>
+                </div>
+                <div fxFlex fxLayout="column">
+                    <div>
+                        <div class="descricao">{{minuta.tipoDocumento.nome}}</div>
+                        <div class="criado-em">{{minuta.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
+                        <div
+                            *ngIf="minuta.origemDados !== undefined && minuta.origemDados.status === 0">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-spinner diameter="24"></mat-spinner>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="minuta.origemDados !== undefined && (minuta.origemDados.status > 1) && (minuta.origemDados.status !== 11)">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-icon>error_outline</mat-icon>
+                                ERRO!
+                            </div>
+                        </div>
+                        <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
+                            <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of minuta.vinculacoesEtiquetas"
+                                 fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.label">
+                                <div class="etiqueta-color"
+                                     [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                                <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <mat-icon *ngIf="minuta.assinado" class="ml-8 mr-8">lock</mat-icon>
+                <div class="actions">
+                    <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                            aria-label="Ferramentas" (click)="$event.stopPropagation()">
+                        <mat-icon class="secondary-text">more_vert</mat-icon>
+                    </button>
+
+                    <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(minuta.id) > -1)"
+                         class="spinner-container m-8">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
+
+                    <mat-menu #moreMenu="matMenu">
+
+                        <button
+                            *ngIf="(!minuta.documentoAvulsoRemessa || !minuta.documentoAvulsoRemessa.dataHoraRemessa)"
+                            fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(minuta.id)" mat-menu-item>
+                            <mat-icon color="accent">delete</mat-icon>
+                            <span>Apagar Minuta</span>
+                        </button>
+                        <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura(minuta)" mat-menu-item>
+                            <mat-icon color="accent">lock</mat-icon>
+                            <span>Assinar</span>
+                        </button>
+                        <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(minuta.id)"
+                                mat-menu-item
+                                *ngIf="minuta.assinado">
+                            <mat-icon color="accent">lock_open</mat-icon>
+                            <span>Remover Assinatura</span>
+                        </button>
+                        <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(minuta.id)" mat-menu-item>
+                            <mat-icon color="accent">picture_as_pdf</mat-icon>
+                            <span>Converter em PDF</span>
+                        </button>
+                        <button *ngIf="minuta.documentoAvulsoRemessa && minuta.documentoAvulsoRemessa.dataHoraResposta"
+                                fxLayout="row" fxLayoutAlign="start center"
+                                (click)="doVerResposta(minuta.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
+                            <mat-icon color="accent">picture_as_pdf</mat-icon>
+                            <span>Ver Resposta</span>
+                        </button>
+                        <button fxLayout="row" fxLayoutAlign="start center"
+                                *showIfRole="'ROLE_COLABORADOR'"
+                                [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
+                            <mat-icon color="accent">edit</mat-icon>
+                            <span>Alterar Tipo de Documento</span>
+                        </button>
+                    </mat-menu>
+                </div>
+
+                <mat-menu #tipoDocumentoMenu="matMenu" class="menuTipoDocumento" id="testeMenu">
+                    <form class="p-8 mb-8" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+                          fxFlex="1 0 auto" name="form" [formGroup]="form" (click)="$event.stopPropagation()">
+                        <mat-form-field fxFlex="100">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <input mat-menu-item matInput placeholder="Tipo de Documento"
+                                       formControlName="tipoDocumento"
+                                       [matAutocomplete]="tipoDocumento.autocomplete"
+                                       (blur)="checkTipoDocumento()">
+                            </div>
+                            <cdk-tipo-documento-autocomplete
+                                #tipoDocumento="tipoDocumentoAutocomplete"
+                                [control]="form.get('tipoDocumento')"
+                                [pagination]="tipoDocumentoPagination">
+                            </cdk-tipo-documento-autocomplete>
+                            <mat-error *ngIf="form.get('tipoDocumento').hasError('formError')">
+                                {{form.get('tipoDocumento').errors.formError}}
+                            </mat-error>
+                        </mat-form-field>
+                        <button mat-raised-button color="accent" (click)="salvarTipoDocumento(minuta)">
+                            SALVAR
+                        </button>
+                    </form>
+                </mat-menu>
+
+            </div>
+        </div>
+    </mat-expansion-panel>
 
     <div class="loading" *ngIf="(isLoading$ | async)">
         <mat-spinner class="juntada-list-loading" diameter="24"></mat-spinner>

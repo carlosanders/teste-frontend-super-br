@@ -46,7 +46,7 @@ export class EtiquetaEditEffect {
             .pipe(
                 ofType<EtiquetaEditActions.SaveEtiqueta>(EtiquetaEditActions.SAVE_ETIQUETA),
                 switchMap((action) => {
-                    return this._etiquetaService.save(action.payload).pipe(
+                    return this._etiquetaService.save(action.payload, JSON.stringify({isAdmin: true})).pipe(
                         mergeMap((response: Etiqueta) => [
                             new EtiquetaEditActions.SaveEtiquetaSuccess(),
                             new EtiquetaListActions.ReloadEtiquetas(),
