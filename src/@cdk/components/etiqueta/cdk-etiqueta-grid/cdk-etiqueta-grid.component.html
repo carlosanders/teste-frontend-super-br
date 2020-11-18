@@ -125,7 +125,7 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1 || etiqueta.apagadoEm}"> {{etiqueta.descricao}} </td>
                 </ng-container>
 
-                <!-- Ativo Column -->
+                <!-- Privada Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('ativo') > -1" matColumnDef="privada">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Privada

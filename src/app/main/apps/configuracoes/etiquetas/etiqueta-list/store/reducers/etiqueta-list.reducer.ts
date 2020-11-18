@@ -10,6 +10,7 @@ export interface EtiquetaListState {
         populate: any;
         sort: any;
         total: number;
+        context: any;
     };
     loading: boolean;
     loaded: any;
@@ -27,6 +28,7 @@ export const EtiquetaListInitialState: EtiquetaListState = {
         populate: [],
         sort: {},
         total: 0,
+        context: {}
     },
     loading: false,
     loaded: false,
@@ -51,7 +53,8 @@ export function EtiquetaListReducer(
                     gridFilter: action.payload.gridFilter,
                     populate: action.payload.populate,
                     sort: action.payload.sort,
-                    total: state.pagination.total
+                    total: state.pagination.total,
+                    context: action.payload.context
                 }
             };
         }

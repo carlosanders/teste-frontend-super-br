@@ -11,7 +11,6 @@ import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
 import {getEtiquetaListLoaded} from '../selectors';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Usuario} from '@cdk/models';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -70,7 +69,8 @@ export class ResolveGuard implements CanActivate {
                         sort: {criadoEm: 'DESC'},
                         populate: [
                             'populateAll'
-                        ]
+                        ],
+                        context: {isAdmin: true}
                     };
 
                     this._store.dispatch(new fromStore.GetEtiquetas(params));

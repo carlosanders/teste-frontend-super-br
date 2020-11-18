@@ -80,7 +80,8 @@ export class ResolveGuard implements CanActivate {
                         sort: {criadoEm: 'DESC'},
                         populate: [
                             'populateAll'
-                        ]
+                        ],
+                        context: {isAdmin: true}
                     };
 
                     if (this.routerState.params.generoHandle === 'nacional' && !this.routerState.params.unidadeHandle) {

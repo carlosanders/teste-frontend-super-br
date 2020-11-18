@@ -16,7 +16,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../store';
 import {UnloadDocumento} from '../../../../store/actions';
-import {DeleteTarefaSuccess} from '../../../../../tarefas/store/actions';
+import {DeleteTarefaSuccess, RemoveTarefa} from '../../../../../tarefas/store/actions';
 import {GetDocumentos} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 
 @Injectable()
@@ -76,7 +76,7 @@ export class AtividadeDocumentoEffects {
                 ofType<AtividadeDocumentoActions.SaveAtividadeSuccess>(AtividadeDocumentoActions.SAVE_ATIVIDADE_SUCCESS),
                 tap((action) => {
                     if (action.payload.encerraTarefa) {
-                        this._store.dispatch(new DeleteTarefaSuccess(action.payload.tarefa.id));
+                        this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
                     } else {
                         this._store.dispatch(new GetDocumentos());
                     }

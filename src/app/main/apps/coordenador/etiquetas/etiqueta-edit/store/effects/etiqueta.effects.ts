@@ -53,7 +53,9 @@ export class EtiquetaEffect {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({isAdmin: true})
+                    );
                 }),
                 switchMap(response => [
                     new AddData<Etiqueta>({data: response['entities'], schema: etiquetaSchema}),
