@@ -9,6 +9,7 @@
             <button mat-mini-fab
                     class="m-4 active accent"
                     [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
+                    #menuTriggerList="matMenuTrigger"
                     (click)="$event.stopPropagation()">
                 <mat-icon class="secondary-text">attach_file</mat-icon>
             </button>
@@ -22,14 +23,34 @@
                     </ng-container>
                 </button>
 
-                <button mat-menu-item aria-label="editor de textos"
-                        (click)="modelo()">
-                    <ng-container>
-                        <mat-icon>create</mat-icon>
-                        <span>Editor</span>
-                    </ng-container>
+                <button fxLayout="row" aria-label="editor de textos" fxLayoutAlign="start center"
+                        [matMenuTriggerFor]="modeloMenu" mat-menu-item>
+                    <mat-icon>create</mat-icon>
+                    <span>Editor</span>
                 </button>
                 <ng-template #dynamicComponent></ng-template>
+            </mat-menu>
+
+            <mat-menu #modeloMenu="matMenu">
+                <form class="p-8 mb-8" style="width: 300px !important" fxLayoutGap="16px" fxLayout="column" fxLayoutAlign="start"
+                      fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">
+                    <mat-form-field fxFlex="100">
+                        <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
+                            <input matInput placeholder="Modelo"
+                                   formControlName="modelo"
+                                   [matAutocomplete]="modelo.autocomplete"
+                                   (blur)="checkModelo()">
+                        </div>
+                        <cdk-modelo-autocomplete
+                            #modelo="modeloAutocomplete"
+                            [control]="formEditor.get('modelo')"
+                            [pagination]="modeloPagination">
+                        </cdk-modelo-autocomplete>
+                    </mat-form-field>
+                    <button mat-raised-button color="accent" [disabled]="!formEditor.valid" (click)="doEditor()">
+                        EDITAR
+                    </button>
+                </form>
             </mat-menu>
 
             <cdk-documento-card-list [documentos]="minutas"
