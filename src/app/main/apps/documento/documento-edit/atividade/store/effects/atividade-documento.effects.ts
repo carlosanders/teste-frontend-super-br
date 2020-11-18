@@ -16,8 +16,6 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {UnloadDocumento} from '../../../../store/actions';
 import {RemoveTarefa} from '../../../../../tarefas/store/actions';
-import {GetDocumentos} from '../../../../../processo/processo-view/store/actions';
-
 
 @Injectable()
 export class AtividadeDocumentoEffects {
@@ -77,8 +75,6 @@ export class AtividadeDocumentoEffects {
                 tap((action) => {
                     if (action.payload.encerraTarefa) {
                         this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
-                    } else {
-                        this._store.dispatch(new GetDocumentos());
                     }
                     this._store.dispatch(new UnloadDocumento());
                     let split = this.routerState.url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';

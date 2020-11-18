@@ -114,32 +114,6 @@ export class ProcessoViewEffect {
                 ofType<ProcessoViewActions.SetCurrentStep>(ProcessoViewActions.SET_CURRENT_STEP),
                 withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep))),
                 switchMap(([action, index, currentStep]) => {
-                    // if (this.routerState.url.indexOf('/visualizar/capa') !== -1) {
-                    //     this._router.navigate([this.routerState.url.replace('/visualizar/capa', '/visualizar')]).then();
-                    // }
-                    // if (this.routerState.url.indexOf('/documento/') !== -1) {
-                    //     // Navegação do processo deve ocorrer por outlet
-                    //     this._router.navigate(
-                    //         [
-                    //             this.routerState.url.split('/documento/')[0] + '/documento/' +
-                    //             this.routerState.params.documentoHandle,
-                    //             {
-                    //                 outlets: {
-                    //                     primary: [
-                    //                         this.routerState.url.indexOf('anexar-copia') === -1 ?
-                    //                             'visualizar-processo' : 'anexar-copia',
-                    //                         this.routerState.params.processoHandle,
-                    //                         'visualizar'
-                    //                     ]
-                    //                 }
-                    //             }
-                    //         ],
-                    //         {
-                    //             relativeTo: this._activatedRoute.parent
-                    //         }
-                    //     ).then();
-                    // }
-
                     if (index[currentStep.step] === undefined) {
                         // não tem documentos, vamos para capa
                         this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());

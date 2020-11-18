@@ -11,7 +11,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Assinatura, Atividade, Pagination} from '@cdk/models';
+import {Assinatura, Atividade, Pagination, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -29,7 +29,8 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../../../store/actions';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../../modules/dynamic.service';
-
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
     selector: 'atividade-create',
@@ -49,6 +50,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     atividade: Atividade;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    errorEditor$: Observable<any>;
+    loading$: Observable<boolean>;
 
     private _profile: Colaborador;
 
@@ -70,30 +73,43 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     convertendoDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
 
+    formEditor: FormGroup;
+
+    modeloPagination: Pagination;
+
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
+
+    routeAtividadeDocumento = 'atividade';
+
     /**
+     *
      * @param _store
      * @param _loginService
      * @param _router
      * @param _changeDetectorRef
      * @param _dynamicService
+     * @param _formBuilder
      */
     constructor(
         private _store: Store<fromStore.AtividadeCreateAppState>,
         public _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _formBuilder: FormBuilder
     ) {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+        this.errorEditor$ = this._store.pipe(select(fromStore.getComponentesDigitaisErrors));
 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
@@ -106,6 +122,15 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         this.especieAtividadePagination = new Pagination();
         this.especieAtividadePagination.populate = ['generoAtividade'];
+
+        this.formEditor = this._formBuilder.group({
+            modelo: [null]
+        });
+
+        this.modeloPagination = new Pagination();
+        this.modeloPagination.filter = {
+            'modalidadeModelo.valor': 'eq:EM BRANCO'
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -230,6 +255,14 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 }));
             }
         });
+        const pathDocumento = 'app/main/apps/documento/documento-edit';
+        modulesConfig.forEach((module) => {
+            if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
+                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
+            }
+        });
     }
 
     /**
@@ -263,8 +296,28 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.SaveAtividade(atividade));
     }
 
+    checkModelo(): void {
+        const value = this.formEditor.get('modelo').value;
+        if (!value || typeof value !== 'object') {
+            this.formEditor.get('modelo').setValue(null);
+        }
+    }
+
     upload(): void {
         this.cdkUpload.upload();
+    }
+
+    doEditor(): void {
+        const modelo = this.formEditor.get('modelo').value;
+
+        //this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+        this._store.dispatch(new fromStore.CreateComponenteDigital({
+            modelo: modelo,
+            tarefaOrigem: this.tarefa,
+            routeAtividadeDocumento: this.routeAtividadeDocumento
+        }));
+        this.formEditor.get('modelo').setValue(null);
+        this.menuTriggerList.closeMenu();
     }
 
     modelo(): void {
