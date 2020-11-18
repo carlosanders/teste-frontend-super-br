@@ -188,6 +188,7 @@
                         </div>
                     </div>
                 </div>
+                <mat-icon *ngIf="minuta.assinado" class="ml-8 mr-8">lock</mat-icon>
                 <div class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                             aria-label="Ferramentas" (click)="$event.stopPropagation()">
@@ -211,7 +212,7 @@
                             <mat-icon color="accent">delete</mat-icon>
                             <span>Apagar Minuta</span>
                         </button>
-                        <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura(minuta.id)" mat-menu-item>
+                        <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura(minuta)" mat-menu-item>
                             <mat-icon color="accent">lock</mat-icon>
                             <span>Assinar</span>
                         </button>

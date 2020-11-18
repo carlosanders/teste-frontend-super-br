@@ -19,11 +19,15 @@ import {Observable, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getRouterState} from '../../../../../../store/reducers';
+import {getMercureState, getRouterState} from '../../../../../../store/reducers';
 import {getProcesso} from '../../../store/selectors';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {getTarefa} from '../../../../tarefas/tarefa-detail/store/selectors';
+import {UpdateData} from '../../../../../../../@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '../../../../../../../@cdk/normalizr';
+import {CdkAssinaturaEletronicaPluginComponent} from '../../../../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {MatDialog} from '../../../../../../../@cdk/angular/material';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -122,6 +126,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      *
      * @param _juntadaService
      * @param _changeDetectorRef
+     * @param dialog
      * @param _cdkSidebarService
      * @param _store
      * @param _formBuilder
@@ -131,6 +136,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     constructor(
         private _juntadaService: JuntadaService,
         private _changeDetectorRef: ChangeDetectorRef,
+        public dialog: MatDialog,
         private _cdkSidebarService: CdkSidebarService,
         private _store: Store<fromStore.ProcessoViewAppState>,
         private _formBuilder: FormBuilder,
@@ -241,6 +247,49 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                     this._changeDetectorRef.markForCheck();
                 }
             );
+            this._store
+                .pipe(
+                    select(getMercureState),
+                    takeUntil(this._unsubscribeAll)
+                ).subscribe(message => {
+                if (message && message.type === 'assinatura') {
+                    switch (message.content.action) {
+                        case 'assinatura_iniciada':
+                            this.javaWebStartOK = true;
+                            break;
+                        case 'assinatura_cancelada':
+                            this.javaWebStartOK = false;
+                            this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                            break;
+                        case 'assinatura_erro':
+                            this.javaWebStartOK = false;
+                            this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                            break;
+                        case 'assinatura_finalizada':
+                            this.javaWebStartOK = false;
+                            this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                            this._store.dispatch(new UpdateData<Documento>({
+                                id: message.content.documentoId,
+                                schema: documentoSchema,
+                                changes: {assinado: true}
+                            }));
+                            break;
+                    }
+                }
+            });
+            this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+                if (assinandoDocumentosId.length > 0) {
+                    setInterval(() => {
+                        // monitoramento do java
+                        if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                            assinandoDocumentosId.forEach(
+                                documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
+                            );
+                        }
+                    }, 30000);
+                }
+                this.assinandoDocumentosId = assinandoDocumentosId;
+            });
         }
         this.form.get('volume').valueChanges.subscribe(value => {
             if (typeof value === 'object' && value) {
@@ -400,24 +449,31 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._store.dispatch(new fromStore.UpdateDocumento(values));
     }
 
-    doAssinatura(result): void {
-        if (result.certificadoDigital) {
-            this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
-        } else {
-            result.documento.componentesDigitais.forEach((componenteDigital) => {
-                const assinatura = new Assinatura();
-                assinatura.componenteDigital = componenteDigital;
-                assinatura.algoritmoHash = 'A1';
-                assinatura.cadeiaCertificadoPEM = 'A1';
-                assinatura.cadeiaCertificadoPkiPath = 'A1';
-                assinatura.assinatura = 'A1';
+    doAssinatura(documento: Documento): void {
+        const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
 
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                    assinatura: assinatura,
-                    password: result.password
-                }));
-            });
-        }
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            result.documento = documento;
+            if (result.certificadoDigital) {
+                this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
+            } else {
+                result.documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+
+                    this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
+                        assinatura: assinatura,
+                        password: result.password
+                    }));
+                });
+            }
+        });
     }
 
     checkTipoDocumento(): void {

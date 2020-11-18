@@ -20,7 +20,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-import {Back} from '../../../store/actions';
+import {GetDocumentos as GetDocumentosProcesso} from '../processo/processo-view/store/actions';
+import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 
 @Component({
     selector: 'documento',
@@ -137,6 +138,11 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         this.destroying = true;
         this._store.dispatch(new fromStore.UnloadDocumento());
         let url = this.routerState.url.split('/documento/')[0];
+        if (url.indexOf('/atividades') !== -1) {
+            this._store.dispatch(new GetDocumentosAtividade());
+        } else {
+            this._store.dispatch(new GetDocumentosProcesso());
+        }
         if (url.indexOf('/capa') !== -1) {
             url += '/mostrar';
         }
