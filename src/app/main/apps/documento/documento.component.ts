@@ -22,6 +22,7 @@ import {takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../processo/processo-view/store/actions';
 import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
+import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 
 @Component({
     selector: 'documento',
@@ -147,7 +148,9 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         this._router.navigate([url]).then(() => {
             if (url.indexOf('/atividades') !== -1) {
                 this._store.dispatch(new GetDocumentosAtividade());
-            } else {
+            } else if (url.indexOf('/oficios') !== -1) {
+                this._store.dispatch(new GetDocumentosAvulsos());
+            } else if (url.indexOf('/processo') !== -1) {
                 this._store.dispatch(new GetDocumentosProcesso());
             }
         });
