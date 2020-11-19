@@ -52,7 +52,11 @@ const routes: Routes = [
             },
             {
                 path: 'modelo',
-                loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule),
+                loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule)
+            },
+            {
+                path: 'oficios',
+                loadChildren: () => import('./oficios/oficios.module').then(m => m.OficiosModule)
             },
             {
                 path: 'oficio',

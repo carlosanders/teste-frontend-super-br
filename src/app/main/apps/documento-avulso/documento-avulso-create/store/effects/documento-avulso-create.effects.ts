@@ -57,7 +57,7 @@ export class DocumentoAvulsoCreateEffect {
                                 this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
                                 + this.routerState.params.typeHandle + '/' +
                                 this.routerState.params.targetHandle + '/tarefa/' + this.routerState.params.tarefaHandle +
-                                '/atividades/criar']).then();
+                                '/oficios']).then();
                             }
                             else {
                                 this._store.dispatch(new DocumentoAvulsoCreateActions.GetDocumento(
@@ -122,7 +122,7 @@ export class DocumentoAvulsoCreateEffect {
                     const primary = 'componente-digital/' + action.payload.componenteDigitalId;
                     const sidebar = 'oficio/dados-basicos';
                     this._router.navigate([
-                            this.routerState.url.replace('oficio', '/atividades/criar/documento') + '/' + action.payload.documentoId,
+                            this.routerState.url.replace('oficio', '/oficios/documento') + '/' + action.payload.documentoId,
                             {
                                 outlets: {
                                     primary: primary,

@@ -11,14 +11,13 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Assinatura, Atividade, Pagination, Processo} from '@cdk/models';
+import {Assinatura} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
-import * as moment from 'moment';
 
-import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
+import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Tarefa} from '@cdk/models';
-import {getTarefa} from '../../store/selectors';
+import {getTarefa} from '../store/selectors';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Documento} from '@cdk/models';
 import {getRouterState, getMercureState} from 'app/store/reducers';
@@ -26,30 +25,27 @@ import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {Back} from '../../../../../../store/actions';
-import {modulesConfig} from '../../../../../../../modules/modules-config';
-import {DynamicService} from '../../../../../../../modules/dynamic.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {Back} from '../../../../../store/actions';
+import {modulesConfig} from '../../../../../../modules/modules-config';
+import {DynamicService} from '../../../../../../modules/dynamic.service';
+import {FormBuilder} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 
 @Component({
-    selector: 'atividade-create',
-    templateUrl: './atividade-create.component.html',
-    styleUrls: ['./atividade-create.component.scss'],
+    selector: 'tarefa-detail-oficios',
+    templateUrl: './oficios.component.html',
+    styleUrls: ['./oficios.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewInit {
+export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
 
-    atividade: Atividade;
-    isSaving$: Observable<boolean>;
-    errors$: Observable<any>;
     errorEditor$: Observable<any>;
     loading$: Observable<boolean>;
 
@@ -57,12 +53,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     routerState: any;
 
-    especieAtividadePagination: Pagination;
-
     documentos$: Observable<Documento[]>;
-    minutas: Documento[] = [];
+    oficios: Documento[] = [];
     selectedDocumentos$: Observable<Documento[]>;
     selectedMinutas: Documento[] = [];
+    selectedOficios: Documento[] = [];
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
@@ -71,19 +66,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     convertendoDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
 
-    formEditor: FormGroup;
-
-    modeloPagination: Pagination;
-
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
-
-    routeAtividadeDocumento = 'atividade';
 
     /**
      *
@@ -95,7 +81,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
      * @param _formBuilder
      */
     constructor(
-        private _store: Store<fromStore.AtividadeCreateAppState>,
+        private _store: Store<fromStore.TarefaOficiosAppState>,
         public _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -103,8 +89,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         private _formBuilder: FormBuilder
     ) {
         this.tarefa$ = this._store.pipe(select(getTarefa));
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
-        this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
         this.errorEditor$ = this._store.pipe(select(fromStore.getComponentesDigitaisErrors));
@@ -117,18 +101,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
-
-        this.especieAtividadePagination = new Pagination();
-        this.especieAtividadePagination.populate = ['generoAtividade'];
-
-        this.formEditor = this._formBuilder.group({
-            modelo: [null]
-        });
-
-        this.modeloPagination = new Pagination();
-        this.modeloPagination.filter = {
-            'modalidadeModelo.valor': 'eq:EM BRANCO'
-        };
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -139,34 +111,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
      * On init
      */
     ngOnInit(): void {
-        this.atividade = new Atividade();
-        this.atividade.encerraTarefa = true;
-        this.atividade.dataHoraConclusao = moment();
-
         this.tarefa$.pipe(
             takeUntil(this._unsubscribeAll),
             filter((tarefa) => !!tarefa)
         ).subscribe(tarefa => {
             this.tarefa = tarefa;
-            this.atividade.tarefa = tarefa;
-            this.atividade.usuario = tarefa.usuarioResponsavel;
-            this.atividade.setor = tarefa.setorResponsavel;
-
-            if (tarefa.especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
-                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'eq:ADMINISTRATIVO'};
-            } else {
-                this.especieAtividadePagination.filter = {'generoAtividade.nome': 'in:ADMINISTRATIVO,' + tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
-            }
-
-            // caso tarefa seja de workflow verificar espécies permitidas
-            this.especieAtividadePagination['context'] = {};
-            if (tarefa.workflow) {
-                this.especieAtividadePagination.filter = {
-                    'transicoesWorkflow.especieTarefaFrom.id' : 'eq:' + tarefa.especieTarefa.id
-                };
-                this.especieAtividadePagination['context'] = { tarefaId: tarefa.id };
-            }
-
         });
 
         this._store.pipe(
@@ -213,7 +162,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
-            this.selectedMinutas = selectedDocumentos.filter(documento => documento.minuta && !documento.documentoAvulsoRemessa);
+            this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
         });
 
         this.documentos$.pipe(
@@ -221,7 +170,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
+                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -242,21 +191,13 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create';
+        const path = 'app/main/apps/tarefas/tarefa-detail/oficios';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach((c => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
-            }
-        });
-        const pathDocumento = 'app/main/apps/documento/documento-edit';
-        modulesConfig.forEach((module) => {
-            if (module.routerLinks.hasOwnProperty(pathDocumento) &&
-                module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
-                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
-                this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
             }
         });
     }
@@ -275,49 +216,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submit(values): void {
-
-        delete values.unidadeAprovacao;
-
-        const atividade = new Atividade();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                atividade[key] = value;
-            }
-        );
-
-        atividade.documentos = this.minutas;
-
-        this._store.dispatch(new fromStore.SaveAtividade(atividade));
-    }
-
-    checkModelo(): void {
-        const value = this.formEditor.get('modelo').value;
-        if (!value || typeof value !== 'object') {
-            this.formEditor.get('modelo').setValue(null);
-        }
-    }
-
-    upload(): void {
-        this.cdkUpload.upload();
-    }
-
-    doEditor(): void {
-        const modelo = this.formEditor.get('modelo').value;
-
-        //this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
-        this._store.dispatch(new fromStore.CreateComponenteDigital({
-            modelo: modelo,
-            tarefaOrigem: this.tarefa,
-            routeAtividadeDocumento: this.routeAtividadeDocumento
-        }));
-        this.formEditor.get('modelo').setValue(null);
-        this.menuTriggerList.closeMenu();
-    }
-
-    modelo(): void {
-        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/modelo']).then();
+    oficio(): void {
+        this._router.navigate([this.routerState.url.split('/oficios')[0] + '/oficio']).then();
     }
 
     changedSelectedIds(selectedIds): void {

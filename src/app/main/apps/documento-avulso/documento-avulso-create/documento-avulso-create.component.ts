@@ -15,7 +15,6 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
-import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {Processo} from '@cdk/models';
 import {Tarefa} from '@cdk/models';
@@ -23,7 +22,7 @@ import {takeUntil} from 'rxjs/operators';
 import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
-import {Usuario} from '../../../../../@cdk/models/usuario.model';
+import {Usuario} from '@cdk/models/usuario.model';
 import {Back} from '../../../../store/actions';
 
 @Component({
