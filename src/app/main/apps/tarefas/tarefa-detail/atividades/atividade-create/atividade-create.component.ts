@@ -61,10 +61,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
-    oficios: Documento[] = [];
     selectedDocumentos$: Observable<Documento[]>;
     selectedMinutas: Documento[] = [];
-    selectedOficios: Documento[] = [];
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
@@ -216,7 +214,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
             this.selectedMinutas = selectedDocumentos.filter(documento => documento.minuta && !documento.documentoAvulsoRemessa);
-            this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
         });
 
         this.documentos$.pipe(
@@ -225,7 +222,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         ).subscribe(
             documentos => {
                 this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
-                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -324,10 +320,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/modelo']).then();
     }
 
-    oficio(): void {
-        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/oficio']).then();
-    }
-
     changedSelectedIds(selectedIds): void {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
@@ -377,7 +369,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     doConverte(documentoId): void {
-
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 
