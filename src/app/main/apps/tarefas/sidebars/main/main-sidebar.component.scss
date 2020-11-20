@@ -78,19 +78,6 @@ tarefas-main-sidebar {
             flex: 1 1 auto;
             align-items: center;
 
-            &.active {
-                text-decoration: none !important;
-                display: flex;
-                align-items: center;
-                height: 48px;
-                padding: 0 24px;
-                position: relative;
-                overflow: hidden;
-                cursor: pointer;
-                user-select: none;
-                color: red;
-            }
-
             .menu_content_label {
                 display: flex;
                 flex: 1 1 95%;
