@@ -11,16 +11,15 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule, MatTableModule, MatBadgeModule, MatTabsModule
+    MatProgressSpinnerModule, MatTooltipModule, MatBadgeModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-import {AtividadeCreateComponent} from './atividade-create.component';
+import {OficiosComponent} from './oficios.component';
 import {RouterModule, Routes} from '@angular/router';
 import {CdkAtividadeFormModule} from '@cdk/components/atividade/cdk-atividade-form/cdk-atividade-form.module';
 import {AtividadeCreateStoreModule} from './store/store.module';
-import {AtividadeService} from '@cdk/services/atividade.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
@@ -28,12 +27,11 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkModeloAutocompleteModule} from '../../../../../../../@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: AtividadeCreateComponent,
+        component: OficiosComponent,
         children: [
             {
                 path       : 'documento',
@@ -45,7 +43,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create';
+const path = 'app/main/apps/tarefas/tarefa-detail/oficios';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -55,7 +53,7 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        AtividadeCreateComponent
+        OficiosComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -72,7 +70,6 @@ modulesConfig.forEach((module) => {
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
-        MatTabsModule,
         MatBadgeModule,
         CdkComponenteDigitalCardListModule,
         CdkDocumentoCardListModule,
@@ -82,14 +79,12 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
         CdkSidebarModule,
-        CdkModeloAutocompleteModule,
     ],
     providers: [
-        AtividadeService,
         DocumentoService,
         LoginService,
         fromGuards.ResolveGuard
     ]
 })
-export class AtividadeCreateModule {
+export class OficiosModule {
 }
