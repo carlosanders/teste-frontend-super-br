@@ -84,78 +84,91 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="blocoDestinatarios">
-        Bloco de Destinatários
-    </mat-slide-toggle>
+    <mat-card *ngIf="!documentoAvulso.id">
 
-    <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="externa">
-        Destinário Externo
-    </mat-slide-toggle>
+        <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="blocoDestinatarios">
+            Bloco de Destinatários
+        </mat-slide-toggle>
 
-    <mat-form-field *ngIf="!form.get('externa').value">
-        <input matInput placeholder="Unidade"
-               formControlName="setorDestino"
-               [readonly]="inputModelo"
-               [matAutocomplete]="setorDestino.autocomplete" required
-               (blur)="checkSetorDestino()">
-        <cdk-setor-autocomplete
-            #setorDestino="setorAutocomplete"
-            [control]="form.get('setorDestino')"
-            [setorList]="setorDestinoList"
-            [setorListIsLoading]="setorDestinoListIsLoading"
-            [pagination]="setorDestinoPagination">
-        </cdk-setor-autocomplete>
-        <button *ngIf="!inputModelo" [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
-                (click)="getFavoritosSetorDestino()">
-            <mat-icon matTooltip="Favoritos">star</mat-icon>
-        </button>
-        <button *ngIf="form.get('setorDestino').enabled && !inputModelo" matSuffix mat-button mat-icon-button
-                (click)="showSetorDestinoGrid()">
-            <mat-icon matTooltip="Procurar">search</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('setorDestino').hasError('formError')">
-            {{form.get('setorDestino').errors.formError}}
-        </mat-error>
-    </mat-form-field>
+        <label id="minutas-rg">Selecione o mecanismo de remessa</label>
 
-    <mat-form-field *ngIf="form.get('externa').value">
-        <input matInput placeholder="Pessoa"
-               formControlName="pessoaDestino"
-               [readonly]="inputModelo"
-               [matAutocomplete]="pessoaDestino.autocomplete" required
-               (blur)="checkPessoaDestino()">
-        <cdk-pessoa-autocomplete
-            #pessoaDestino="pessoaAutocomplete"
-            [control]="form.get('pessoaDestino')"
-            [pessoaList]="pessoaDestinoList"
-            [pessoaListIsLoading]="pessoaDestinoListIsLoading"
-            [pagination]="pessoaDestinoPagination">
-        </cdk-pessoa-autocomplete>
-        <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
-                (click)="getFavoritosPessoaDestino()">
-            <mat-icon matTooltip="Favoritos">star</mat-icon>
-        </button>
-        <button *ngIf="form.get('pessoaDestino').value && form.get('pessoaDestino').value.id" matSuffix mat-button
-                mat-icon-button
-                (click)="doEditPessoaDestino()">
-            <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
-        </button>
-        <button matSuffix mat-button mat-icon-button *ngIf="!inputModelo"
-                (click)="doGerirPessoaDestino()">
-            <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('pessoaDestino').hasError('formError')">
-            {{form.get('pessoaDestino').errors.formError}}
-        </mat-error>
-    </mat-form-field>
+        <mat-radio-group [ngClass]="{'horizontal': (mode === 'horizontal'), 'vertical': (mode === 'vertical')}"
+                         formControlName="mecanismoRemessa" aria-labelledby="minutas-rg" required>
+            <mat-radio-button [value]="'interna'">
+                Interna
+            </mat-radio-button>
+            <mat-radio-button [value]="'externa'">
+                Externa
+            </mat-radio-button>
 
-    <div *ngIf="form.get('blocoDestinatarios').value" class="bloco-processos">
-        <cdk-bloco-destinatario-grid
-            [destinatarios]="destinatarios"
-            [total]="destinatarios.length"
-            (delete)="deleteDestinatarios($event)">
-        </cdk-bloco-destinatario-grid>
-    </div>
+            <ng-template #dynamicComponent></ng-template>
+        </mat-radio-group>
+
+        <mat-form-field *ngIf="!documentoAvulso.id && (form.get('mecanismoRemessa').value === 'interna')">
+            <input matInput placeholder="Unidade"
+                   formControlName="setorDestino"
+                   [readonly]="inputModelo"
+                   [matAutocomplete]="setorDestino.autocomplete" required
+                   (blur)="checkSetorDestino()">
+            <cdk-setor-autocomplete
+                #setorDestino="setorAutocomplete"
+                [control]="form.get('setorDestino')"
+                [setorList]="setorDestinoList"
+                [setorListIsLoading]="setorDestinoListIsLoading"
+                [pagination]="setorDestinoPagination">
+            </cdk-setor-autocomplete>
+            <button *ngIf="!inputModelo" [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                    (click)="getFavoritosSetorDestino()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
+            <button *ngIf="form.get('setorDestino').enabled && !inputModelo" matSuffix mat-button mat-icon-button
+                    (click)="showSetorDestinoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('setorDestino').hasError('formError')">
+                {{form.get('setorDestino').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="!documentoAvulso.id && (form.get('mecanismoRemessa').value !== 'interna')">
+            <input matInput placeholder="Pessoa"
+                   formControlName="pessoaDestino"
+                   [readonly]="inputModelo"
+                   [matAutocomplete]="pessoaDestino.autocomplete" required
+                   (blur)="checkPessoaDestino()">
+            <cdk-pessoa-autocomplete
+                #pessoaDestino="pessoaAutocomplete"
+                [control]="form.get('pessoaDestino')"
+                [pessoaList]="pessoaDestinoList"
+                [pessoaListIsLoading]="pessoaDestinoListIsLoading"
+                [pagination]="pessoaDestinoPagination">
+            </cdk-pessoa-autocomplete>
+            <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+                    (click)="getFavoritosPessoaDestino()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
+            <button *ngIf="form.get('pessoaDestino').value && form.get('pessoaDestino').value.id" matSuffix mat-button
+                    mat-icon-button
+                    (click)="doEditPessoaDestino()">
+                <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button *ngIf="!inputModelo"
+                    (click)="doGerirPessoaDestino()">
+                <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('pessoaDestino').hasError('formError')">
+                {{form.get('pessoaDestino').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <div *ngIf="form.get('blocoDestinatarios').value" class="bloco-processos">
+            <cdk-bloco-destinatario-grid
+                [destinatarios]="destinatarios"
+                [total]="destinatarios.length"
+                (delete)="deleteDestinatarios($event)">
+            </cdk-bloco-destinatario-grid>
+        </div>
+    </mat-card>
 
     <mat-slide-toggle formControlName="urgente">
         Urgente
