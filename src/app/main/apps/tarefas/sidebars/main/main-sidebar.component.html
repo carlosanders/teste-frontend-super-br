@@ -63,7 +63,7 @@
 
         <div class="nav-item" *ngFor="let folder of folders$ | async">
             <section dndDropzone (dndDrop)="onDrop([$event, folder])">
-                <div class="menu_content nav-link">
+                <div class="menu_content nav-link" [routerLinkActive]="['active', 'accent']">
                     <div class="menu_content_label">
                         <a matRipple
                            [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
