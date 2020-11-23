@@ -23,6 +23,9 @@ import {PessoaService} from '@cdk/services/pessoa.service';
 import {SetorService} from '@cdk/services/setor.service';
 import {CdkSetorTreeModule} from '../../setor/cdk-setor-tree/cdk-setor-tree.module';
 import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor-tree.service';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
+import {MatCardModule} from '@angular/material/card';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
     declarations: [
@@ -48,6 +51,9 @@ import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor
 
         CdkSharedModule,
         CdkSetorTreeModule,
+        NgxUpperCaseDirectiveModule,
+        MatCardModule,
+        MatRadioModule,
     ],
     providers: [
         ProcessoService,
