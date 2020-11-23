@@ -11,13 +11,10 @@ export class ModalidadeOrgaoCentral {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
     valor?: string;
 
-    @Exclude({ toPlainOnly: true })
     descricao?: string;
 
-    @Exclude({ toPlainOnly: true })
     ativo?: boolean;
 
     @Exclude({ toPlainOnly: true })
