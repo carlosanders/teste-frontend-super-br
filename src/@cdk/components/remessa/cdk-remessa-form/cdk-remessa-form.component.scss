@@ -4,4 +4,19 @@ cdk-remessa-form {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+
+    .mecanismo-remessa {
+        display: flex;
+        flex-direction: column;
+        flex: 1 1 auto;
+
+        > .horizontal {
+            display: flex;
+            flex-direction: row;
+
+            mat-radio-button {
+                margin-right: 10px;
+            }
+        }
+    }
 }

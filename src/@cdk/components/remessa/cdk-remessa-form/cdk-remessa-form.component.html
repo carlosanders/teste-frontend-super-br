@@ -50,6 +50,18 @@
         </mat-error>
     </mat-form-field>
 
+    <div class="mecanismo-remessa" [hidden]="extensoes.length === 0">
+        <label id="minutas-rg">Selecione o mecanismo de remessa</label>
+
+        <mat-radio-group class="horizontal" formControlName="mecanismoRemessa" aria-labelledby="minutas-rg" required>
+            <mat-radio-button value="manual">
+                Manual
+            </mat-radio-button>
+
+            <ng-template #dynamicComponent></ng-template>
+        </mat-radio-group>
+    </div>
+
     <mat-form-field>
         <input matInput placeholder="Pessoa"
                formControlName="pessoaDestino"

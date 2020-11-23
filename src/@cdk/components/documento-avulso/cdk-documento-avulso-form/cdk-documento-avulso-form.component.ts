@@ -248,7 +248,10 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach((c => {
                     this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
+                        .then(componentFactory => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
                 }));
             }
         });

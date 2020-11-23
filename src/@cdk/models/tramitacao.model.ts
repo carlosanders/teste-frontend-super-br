@@ -18,6 +18,8 @@ export class Tramitacao {
 
     urgente?: boolean;
 
+    mecanismoRemessa?: string;
+
     @Type(() => Processo)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     processo?: Processo;
@@ -82,6 +84,7 @@ export class Tramitacao {
         this.uuid = null;
         this.observacao = null;
         this.urgente = null;
+        this.mecanismoRemessa = 'manual';
         this.processo = null;
         this.setorDestino = null;
         this.setorAtual = null;
