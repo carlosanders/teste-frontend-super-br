@@ -115,7 +115,7 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['transicoes', 'edit', 'delete', 'select'];
+    actions: string[] = ['view', 'transicoes', 'edit', 'delete', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -137,6 +137,9 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Output()
     editTransicoesWorflow = new EventEmitter<number>();
+
+    @Output()
+    view = new EventEmitter<number>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -266,6 +269,10 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
 
     transicoesWorflow(workflowId: number): void {
         this.editTransicoesWorflow.emit(workflowId);
+    }
+
+    viewWorkflow(workflowId: number): void {
+        this.view.emit(workflowId);
     }
 
     deleteWorkflow(workflowId): void {
