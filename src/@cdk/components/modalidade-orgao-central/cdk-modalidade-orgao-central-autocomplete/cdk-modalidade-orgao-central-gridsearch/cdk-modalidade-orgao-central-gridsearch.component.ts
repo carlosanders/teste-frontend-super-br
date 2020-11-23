@@ -38,7 +38,7 @@ export class CdkModalidadeOrgaoCentralGridsearchComponent implements OnInit {
     @Output()
     cancel = new EventEmitter();
 
-    modalidadeorgaoCentrals: ModalidadeOrgaoCentral[];
+    modalidadeOrgaoCentralList: ModalidadeOrgaoCentral[];
 
     total = 0;
 
@@ -47,7 +47,7 @@ export class CdkModalidadeOrgaoCentralGridsearchComponent implements OnInit {
     /**
      *
      * @param _changeDetectorRef
-     * @param _modalidadeorgaoCentralService
+     * @param _modalidadeOrgaoCentralService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -74,7 +74,7 @@ export class CdkModalidadeOrgaoCentralGridsearchComponent implements OnInit {
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
             ).subscribe(response => {
-                this.modalidadeorgaoCentrals = response['entities'];
+                this.modalidadeOrgaoCentralList = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });
@@ -95,8 +95,8 @@ export class CdkModalidadeOrgaoCentralGridsearchComponent implements OnInit {
         this.load (params);
     }
 
-    select(modalidadeorgaoCentral): void {
-        this.selected.emit(modalidadeorgaoCentral);
+    select(modalidadeOrgaoCentral): void {
+        this.selected.emit(modalidadeOrgaoCentral);
     }
 
     doCancel(): void {

@@ -30,7 +30,7 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
     loading = false;
 
     @Input()
-    modalidadeorgaoCentrals: ModalidadeOrgaoCentral[];
+    modalidadeOrgaoCentralList: ModalidadeOrgaoCentral[];
 
     @Input()
     total = 0;
@@ -167,11 +167,11 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
         private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
-        this.modalidadeorgaoCentrals = [];
+        this.modalidadeOrgaoCentralList = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new ModalidadeOrgaoCentralDataSource(of(this.modalidadeorgaoCentrals));
+        this.dataSource = new ModalidadeOrgaoCentralDataSource(of(this.modalidadeOrgaoCentralList));
         this.paginator.length = this.total;
     }
 
@@ -186,7 +186,7 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new ModalidadeOrgaoCentralDataSource(of(this.modalidadeorgaoCentrals));
+        this.dataSource = new ModalidadeOrgaoCentralDataSource(of(this.modalidadeOrgaoCentralList));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -253,20 +253,20 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
         }
     }
 
-    editModalidadeOrgaoCentral(modalidadeorgaoCentralId): void {
-        this.edit.emit(modalidadeorgaoCentralId);
+    editModalidadeOrgaoCentral(modalidadeOrgaoCentralId): void {
+        this.edit.emit(modalidadeOrgaoCentralId);
     }
 
-    selectModalidadeOrgaoCentral(modalidadeorgaoCentral: ModalidadeOrgaoCentral): void {
-        this.selected.emit(modalidadeorgaoCentral);
+    selectModalidadeOrgaoCentral(modalidadeOrgaoCentral: ModalidadeOrgaoCentral): void {
+        this.selected.emit(modalidadeOrgaoCentral);
     }
 
-    deleteModalidadeOrgaoCentral(modalidadeorgaoCentralId): void {
-        this.delete.emit(modalidadeorgaoCentralId);
+    deleteModalidadeOrgaoCentral(modalidadeOrgaoCentralId): void {
+        this.delete.emit(modalidadeOrgaoCentralId);
     }
 
-    deleteModalidadeOrgaoCentrals(modalidadeorgaoCentralsId): void {
-        modalidadeorgaoCentralsId.forEach(modalidadeorgaoCentralId => this.deleteModalidadeOrgaoCentral(modalidadeorgaoCentralId));
+    deleteModalidadeOrgaoCentralList(modalidadeOrgaoCentralIdList): void {
+        modalidadeOrgaoCentralIdList.forEach(modalidadeOrgaoCentralId => this.deleteModalidadeOrgaoCentral(modalidadeOrgaoCentralId));
     }
 
     /**
@@ -288,8 +288,8 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.modalidadeorgaoCentrals).map(k => this.modalidadeorgaoCentrals[k]);
-        this.selectedIds = arr.map(modalidadeorgaoCentral => modalidadeorgaoCentral.id);
+        const arr = Object.keys(this.modalidadeOrgaoCentralList).map(k => this.modalidadeOrgaoCentralList[k]);
+        this.selectedIds = arr.map(modalidadeOrgaoCentral => modalidadeOrgaoCentral.id);
         this.recompute();
     }
 
@@ -301,20 +301,20 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
         this.recompute();
     }
 
-    toggleInSelected(modalidadeorgaoCentralId): void {
+    toggleInSelected(modalidadeOrgaoCentralId): void {
         const selectedModalidadeorgaoCentralIds = [...this.selectedIds];
 
-        if (selectedModalidadeorgaoCentralIds.find(id => id === modalidadeorgaoCentralId) !== undefined) {
-            this.selectedIds = selectedModalidadeorgaoCentralIds.filter(id => id !== modalidadeorgaoCentralId);
+        if (selectedModalidadeorgaoCentralIds.find(id => id === modalidadeOrgaoCentralId) !== undefined) {
+            this.selectedIds = selectedModalidadeorgaoCentralIds.filter(id => id !== modalidadeOrgaoCentralId);
         } else {
-            this.selectedIds = [...selectedModalidadeorgaoCentralIds, modalidadeorgaoCentralId];
+            this.selectedIds = [...selectedModalidadeorgaoCentralIds, modalidadeOrgaoCentralId];
         }
         this.recompute();
     }
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.modalidadeorgaoCentrals.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.modalidadeOrgaoCentralList.length && this.selectedIds.length > 0);
     }
 
     setFilter(gridFilter): void {
