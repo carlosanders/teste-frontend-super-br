@@ -56,7 +56,7 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                     link: 'modelos'
                 },
                 {
-                    nome: 'Repositórios',
+                    nome: 'Teses',
                     icon: 'add_comment',
                     link: 'repositorios'
                 },

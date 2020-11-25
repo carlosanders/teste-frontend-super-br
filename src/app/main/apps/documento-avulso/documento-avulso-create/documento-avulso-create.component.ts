@@ -18,12 +18,16 @@ import * as moment from 'moment';
 import {LoginService} from '../../../auth/login/login.service';
 import {Processo} from '@cdk/models';
 import {Tarefa} from '@cdk/models';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Back} from '../../../../store/actions';
+import {modulesConfig} from '../../../../../modules/modules-config';
+import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../../processo/processo-view/store/actions';
+import {GetDocumentos as GetDocumentosAtividade} from '../../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
+import {GetDocumentos as GetDocumentosAvulsos} from '../../tarefas/tarefa-detail/oficios/store/actions';
 
 @Component({
     selector: 'documento-avulso-create',
@@ -56,6 +60,8 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     routerState: any;
 
     pessoaDestino: Pessoa;
+
+    routeOficioDocumento = 'oficio';
 
     /**
      * @param _store
@@ -98,10 +104,18 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
         ).subscribe(processo => {
             this.processo = processo;
         });
+
         this.tarefa$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter((tarefa) => !!tarefa)
         ).subscribe(tarefa => {
             this.tarefa = tarefa;
+
+            if (tarefa.especieTarefa.generoTarefa.nome === 'ADMINISTRATIVO') {
+                this.especieDocumentoAvulsoPagination.filter = {'generoDocumentoAvulso.nome': 'eq:ADMINISTRATIVO'};
+            } else {
+                this.especieDocumentoAvulsoPagination.filter = {'generoDocumentoAvulso.nome': 'in:ADMINISTRATIVO,' + tarefa.especieTarefa.generoTarefa.nome.toUpperCase()};
+            }
         });
 
         this.documentoAvulso = new DocumentoAvulso();
@@ -125,6 +139,15 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
+
+        const pathDocumento = 'app/main/apps/documento/documento-edit';
+        modulesConfig.forEach((module) => {
+            if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                module.routerLinks[pathDocumento].hasOwnProperty('oficio') &&
+                module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
+            }
+        });
     }
 
     /**
@@ -173,7 +196,10 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store.dispatch(new fromStore.SaveDocumentoAvulso(documentoAvulso));
+        this._store.dispatch(new fromStore.SaveDocumentoAvulso({
+            documentoAvulso: documentoAvulso,
+            routeOficio: this.routeOficioDocumento
+        }));
 
     }
 

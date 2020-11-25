@@ -30,6 +30,10 @@ export class Tarefa {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataHoraLeitura?: moment.Moment;
 
+    @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
+    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+    dataHoraDistribuicao?: moment.Moment;
+
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     dataHoraInicioPrazo?: moment.Moment;
@@ -136,6 +140,7 @@ export class Tarefa {
         this.dataHoraFinalPrazo = null;
         this.dataHoraConclusaoPrazo = null;
         this.dataHoraLeitura = null;
+        this.dataHoraDistribuicao = null;
         this.processo = null;
         this.workflow = null;
         this.especieTarefa = null;

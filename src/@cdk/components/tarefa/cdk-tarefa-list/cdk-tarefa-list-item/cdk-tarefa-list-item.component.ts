@@ -11,6 +11,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
+import {Usuario} from "../../../../models";
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -26,6 +27,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Input()
     selected: boolean;
+
+    @Input()
+    usuarioAtual: Usuario;
 
     @Input()
     deleting: boolean;

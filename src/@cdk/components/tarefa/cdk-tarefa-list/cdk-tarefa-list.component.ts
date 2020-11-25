@@ -19,6 +19,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
+import {Usuario} from "../../../models";
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -36,6 +37,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     tarefas: Tarefa[] = [];
+
+    @Input()
+    usuarioAtual: Usuario;
 
     @Input()
     currentTarefaId: number;

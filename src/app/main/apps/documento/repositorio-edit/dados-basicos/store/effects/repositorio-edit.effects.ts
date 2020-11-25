@@ -48,7 +48,7 @@ export class RepositorioEditEffects {
                             new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
                             new OperacoesActions.Resultado({
                                 type: 'modelo',
-                                content: `Repositório id ${response.id} editado com sucesso!`,
+                                content: `Tese id ${response.id} editado com sucesso!`,
                                 dateTime: response.criadoEm
                             })
                         ]),

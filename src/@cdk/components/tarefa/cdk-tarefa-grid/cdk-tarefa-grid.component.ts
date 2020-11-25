@@ -86,6 +86,11 @@ export class CdkTarefaGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
+            id: 'dataHoraDistribuição',
+            label: 'Data da Distribuição',
+            fixed: false
+        },
+        {
             id: 'dataHoraInicioPrazo',
             label: 'Data do Início do Prazo',
             fixed: false

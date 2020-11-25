@@ -29,7 +29,7 @@
             </div>
 
             <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-                <span>{{tarefa.processo?.modalidadeMeio?.valor }} {{tarefa.processo?.especieProcesso?.nome }}</span>
+                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }}</span>
             </div>
 
             <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
@@ -48,28 +48,36 @@
                     <mat-spinner diameter=16></mat-spinner>
                 </div>
                 <div *ngIf="tarefa.processo?.assuntos?.length > 0">
-                    <span>ASSUNTO: {{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
+                    <span>{{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome | titleCasePipe}}</span>
                 </div>
             </div>
         </div>
 
         <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
             <div>
-                {{tarefa.especieTarefa?.nome}}
+                {{tarefa.especieTarefa?.nome | titleCasePipe}}
             </div>
 
             <div>
-                {{tarefa.setorResponsavel?.nome}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
+                {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
+            </div>
+
+            <div *ngIf="!usuarioAtual || (tarefa.usuarioResponsavel.id !== usuarioAtual.id)">
+                {{tarefa.usuarioResponsavel.nome | titleCasePipe}}
+            </div>
+
+            <div *ngIf="tarefa.dataHoraDistribuicao">
+                Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
             </div>
 
             <div *ngIf="tarefa.dataHoraFinalPrazo">
-                {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
-                ATÉ {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+                Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+                até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
             </div>
 
             <div *ngIf="!tarefa.dataHoraFinalPrazo">
-                {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy')}}
-                ATÉ
+                Prazo de {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy')}}
+                até
                 <mat-icon class="secondary-text" matTooltip="Prazo fechado">
                     lock
                 </mat-icon>

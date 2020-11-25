@@ -84,7 +84,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-card *ngIf="!documentoAvulso.id">
+    <mat-card [hidden]="!!documentoAvulso.id">
 
         <mat-slide-toggle *ngIf="!documentoAvulso.id" formControlName="blocoDestinatarios">
             Bloco de Destinatários

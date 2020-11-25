@@ -139,6 +139,27 @@ export function ProcessoViewDocumentosReducer(
             };
         }
 
+        case ProcessoViewDocumentosActions.ASSINA_JUNTADA: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload]
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload)
+            };
+        }
+
         case ProcessoViewDocumentosActions.CHANGE_SELECTED_DOCUMENTOS: {
             return {
                 ...state,

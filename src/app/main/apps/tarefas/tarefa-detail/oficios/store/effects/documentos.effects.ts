@@ -250,13 +250,13 @@ export class AtividadeCreateDocumentosEffect {
                 tap((action) => {
                     let primary: string;
                     primary = 'componente-digital/';
-                    if (action.payload.componentesDigitais[0]) {
-                        primary += action.payload.componentesDigitais[0].id;
+                    if (action.payload.documento.componentesDigitais[0]) {
+                        primary += action.payload.documento.componentesDigitais[0].id;
                     } else {
                         primary += '0';
                     }
-                    let sidebar = 'oficio/dados-basicos';
-                    this._router.navigate([this.routerState.url + '/documento/' + action.payload.id, {
+                    let sidebar = action.payload.routeOficio + '/dados-basicos';
+                    this._router.navigate([this.routerState.url + '/documento/' + action.payload.documento.id, {
                             outlets: {
                                 primary: primary,
                                 sidebar: sidebar

@@ -14,7 +14,6 @@ cdk-sidebar {
     min-width: 320px;
     max-width: 320px;
     z-index: 1000;
-    box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.35);
 
     @include media-breakpoint('xs') {
         min-width: 0 !important;
@@ -34,6 +33,7 @@ cdk-sidebar {
 
     &.open {
         transform: translateX(0);
+        box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.35);
     }
 
     &.locked-open {

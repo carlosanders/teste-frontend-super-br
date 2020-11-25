@@ -169,7 +169,7 @@
                 <button mat-menu-item (click)="doSort({'dataHoraFinalPrazo': 'DESC'})">Final do
                     Prazo
                 </button>
-                <button mat-menu-item (click)="doSort({'id': 'DESC'})">Mais Recente</button>
+                <button mat-menu-item (click)="doSort({'dataHoraDistribuicao': 'DESC'})">Data da Distribuição</button>
             </mat-menu>
 
             <div class="toolbar-separator"></div>
@@ -205,6 +205,7 @@
                 <cdk-tarefa-list-item
                     matRipple
                     [tarefa]="tarefa"
+                    [usuarioAtual]="usuarioAtual"
                     (click)="selectTarefa(tarefa);"
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"

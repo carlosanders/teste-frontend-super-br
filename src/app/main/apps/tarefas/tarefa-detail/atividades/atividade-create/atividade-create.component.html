@@ -1,9 +1,4 @@
 <div class="atividade">
-    <div class="titulo">
-        <span [matBadge]="minutas.length.toString()" matBadgeOverlap="false"
-              matBadgeColor="warn">Atividade</span>
-    </div>
-
     <div class="upload">
         <button mat-mini-fab
                 class="m-4 active accent"
@@ -67,7 +62,8 @@
                                  (clicked)="onClicked($event)"
                                  (changedSelectedIds)="changedSelectedIds($event)">
         </cdk-documento-card-list>
-        <cdk-componente-digital-card-list #ckdUpload
+        <cdk-componente-digital-card-list class="componente-digital-card"
+                                          #ckdUpload
                                           [tarefaOrigem]="tarefa"
                                           (completed)="onComplete()">
         </cdk-componente-digital-card-list>
