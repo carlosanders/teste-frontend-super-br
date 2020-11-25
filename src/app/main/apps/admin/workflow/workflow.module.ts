@@ -38,6 +38,10 @@ const routes: Routes = [
                 loadChildren: () => import('./transicao-workflow/transicao-workflow.module').then(m => m.TransicaoWorkflowModule)
             },
             {
+                path: 'visualizar/:workflowViewHandle',
+                loadChildren: () => import('./workflow-view/workflow-view.module').then(m => m.WorkflowViewModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

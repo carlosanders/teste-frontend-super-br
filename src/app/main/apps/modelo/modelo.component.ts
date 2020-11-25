@@ -47,7 +47,7 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
     filter = {};
 
     routeAtividadeTarefa = 'atividades/criar';
-    routeAtividadeDocumento = 'atividade'
+    routeAtividadeDocumento = 'atividade';
 
     /**
      *

@@ -75,6 +75,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
         if (!this.documentoAvulso) {
             this.documentoAvulso = new DocumentoAvulso();
+            this.documentoAvulso.mecanismoRemessa = 'interna';
             this.documentoAvulso.processo = this.processo;
             this.documentoAvulso.dataHoraInicioPrazo = moment();
             this.documentoAvulso.dataHoraFinalPrazo = moment().add(5, 'days').set({hour: 20, minute: 0, second: 0});

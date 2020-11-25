@@ -1,3 +1,5 @@
+@import '../../../../../../@cdk/scss/cdk';
+
 tarefas-main-sidebar {
     display: flex;
     flex: 1 1 auto;
@@ -7,15 +9,32 @@ tarefas-main-sidebar {
         display: flex;
         flex: 0 1 auto;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
 
         > .logo {
             display: flex;
             flex: 1 1 auto;
-            flex-direction: row;
-            justify-content: flex-start;
+            flex-direction: column;
+            justify-content: center;
             align-items: center;
+            padding-top: 10px;
+
+            > .titulo {
+                display: flex;
+                flex: 1 1 auto;
+                justify-content: center;
+                align-items: center;
+                font-size: 24px;
+            }
+
+            > .modulo {
+                display: flex;
+                flex: 1 1 auto;
+                justify-content: center;
+                align-items: center;
+                font-size: 1vw;
+            }
         }
     }
 
@@ -52,6 +71,40 @@ tarefas-main-sidebar {
         .btn_menu_item {
             margin-left: 171px;
             position: absolute;
+        }
+
+        .menu_content {
+            display: flex;
+            flex: 1 1 auto;
+            align-items: center;
+
+            .menu_content_label {
+                display: flex;
+                flex: 1 1 95%;
+
+                >a {
+                    color: currentColor;
+                }
+                >a:hover {
+                    text-decoration: none !important;
+                }
+            }
+
+            .menu_content_button {
+                display: flex;
+                flex: 1 1 5%;
+            }
+        }
+
+        .menu_tarefa {
+            height: 40px;
+            padding: 0 12px 0 24px;
+            //border-radius: 0 20px 20px 0;
+            //border-top-left-radius: 0px;
+            //border-top-right-radius: 20px;
+            //border-bottom-right-radius: 20px;
+            //border-bottom-left-radius: 0px;
+            margin-right: 16px;
         }
     }
 

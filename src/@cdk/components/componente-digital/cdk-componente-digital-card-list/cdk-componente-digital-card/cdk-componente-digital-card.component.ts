@@ -26,13 +26,13 @@ export class CdkComponenteDigitalCardComponent implements DoCheck {
     selected = true;
 
     @Output()
-    retry = new EventEmitter<number>();
+    retry = new EventEmitter<any>();
 
     @Output()
-    cancel = new EventEmitter<number>();
+    cancel = new EventEmitter<any>();
 
     @Output()
-    clicked = new EventEmitter<number>();
+    clicked = new EventEmitter<any>();
 
     @Output()
     changedSelected = new EventEmitter<boolean>();

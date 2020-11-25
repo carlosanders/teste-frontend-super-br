@@ -267,7 +267,6 @@
                             <mat-icon>save_alt</mat-icon>
                         </button>
 
-
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(tramitacao.id) > -1"
@@ -276,7 +275,6 @@
                                 matTooltip="Guia de tramitação">
                             <mat-icon>calendar_view_day</mat-icon>
                         </button>
-
 
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(tramitacao.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>

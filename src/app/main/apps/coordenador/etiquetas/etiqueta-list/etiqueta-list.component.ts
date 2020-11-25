@@ -75,7 +75,8 @@ export class EtiquetaListComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: this.pagination.populate
+            populate: this.pagination.populate,
+            context: this.pagination.context
         }));
     }
 

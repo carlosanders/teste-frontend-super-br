@@ -20,6 +20,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
+import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../processo/processo-view/store/actions';
+import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
+import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 
 @Component({
     selector: 'documento',
@@ -44,6 +47,8 @@ export class DocumentoComponent implements OnInit, OnDestroy {
 
     modoProcesso = 1;
 
+    destroying = false;
+
     /**
      *
      * @param _changeDetectorRef
@@ -64,6 +69,15 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         // Set the defaults
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.currentComponenteDigital$ = this._store.pipe(select(fromStore.getCurrentComponenteDigital));
+        this._store
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -86,16 +100,6 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         ).subscribe(
             componenteDigital => this.currentComponenteDigital = componenteDigital
         );
-
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
     }
 
     /**
@@ -132,12 +136,24 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     }
 
     back(): void {
-        this.destroyEditor();
+        this.destroying = true;
         this._store.dispatch(new fromStore.UnloadDocumento());
-        this._router.navigate([
-                this.routerState.url.split('/documento/')[0]
-            ]
-        ).then();
+        let url = this.routerState.url.split('/documento/')[0];
+        if (url.indexOf('/processo') !== -1) {
+            this._store.dispatch(new UnloadDocumentos());
+        }
+        if (url.indexOf('/capa') !== -1) {
+            url += '/mostrar';
+        }
+        this._router.navigate([url]).then(() => {
+            if (url.indexOf('/atividades') !== -1) {
+                this._store.dispatch(new GetDocumentosAtividade());
+            } else if (url.indexOf('/oficios') !== -1) {
+                this._store.dispatch(new GetDocumentosAvulsos());
+            } else if (url.indexOf('/processo') !== -1) {
+                this._store.dispatch(new GetDocumentosProcesso());
+            }
+        });
     }
 
     public destroyEditor(): void {
@@ -161,7 +177,10 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     gotoNextStep(): void {
         this.documento.componentesDigitais.forEach(componenteDigital => {
             if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial + 1)) {
-                this._store.dispatch(new fromStore.SetCurrentStep({id: componenteDigital.id, editavel: componenteDigital.editavel && this.documento.minuta}));
+                this._store.dispatch(new fromStore.SetCurrentStep({
+                    id: componenteDigital.id,
+                    editavel: componenteDigital.editavel && this.documento.minuta
+                }));
                 return;
             }
         });
@@ -173,7 +192,10 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     gotoPreviousStep(): void {
         this.documento.componentesDigitais.forEach(componenteDigital => {
             if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial - 1)) {
-                this._store.dispatch(new fromStore.SetCurrentStep({id: componenteDigital.id, editavel: componenteDigital.editavel && this.documento.minuta}));
+                this._store.dispatch(new fromStore.SetCurrentStep({
+                    id: componenteDigital.id,
+                    editavel: componenteDigital.editavel && this.documento.minuta
+                }));
                 return;
             }
         });

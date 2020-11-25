@@ -1,37 +1,30 @@
-<div fxLayout="row" fxLayoutAlign="start center">
+<div [ngClass]="!componenteDigital.canRetry ? 'content' : 'content borda-erro'">
 
-    <mat-checkbox class="mr-8 ml-8 select" [checked]="selected"
+    <mat-checkbox class="content-checkbox" [checked]="selected"
                   (change)="toggleInSelected(componenteDigital.id)"
                   (click)="$event.stopPropagation();">
     </mat-checkbox>
 
-    <div class="p-8 file" fxLayout="column" (click)="onClick(componenteDigital)">
+    <mat-icon class="ml-8 mr-8">picture_as_pdf</mat-icon>
 
-        <div fxLayout="row" fxLayoutAlign="start center">
-            <mat-icon class="ml-8 mr-8">picture_as_pdf</mat-icon>
-            <div class="mr-8">{{componenteDigital.documento?.tipoDocumento?.sigla || 'OUT'}}</div>
-        </div>
-
-        <div *ngIf="componenteDigital.inProgress" fxLayout="row" fxLayoutAlign="start center">
-            <mat-progress-bar mode="determinate" [value]="componenteDigital.progress"></mat-progress-bar>
-        </div>
-
-        <div class="space" *ngIf="!componenteDigital.inProgress" fxLayout="row" fxLayoutAlign="start center">
-        </div>
-
+    <div (click)="onClick(componenteDigital)" class="content-card">
+        <div>{{!componenteDigital.canRetry?'Carregando': componenteDigital.fileName}}</div>
+        <mat-progress-bar mode="determinate" *ngIf="componenteDigital.inProgress"
+                          [value]="componenteDigital.progress"></mat-progress-bar>
     </div>
 
-    <div class="more-vert">
+    <div class="menu">
         <button mat-icon-button [matMenuTriggerFor]="card20Menu" aria-label="more">
             <mat-icon>expand_more</mat-icon>
         </button>
-
         <mat-menu #card20Menu="matMenu">
-            <button [disabled]="!componenteDigital.canRetry" fxLayout="row" fxLayoutAlign="start center" (click)="onRetry(componenteDigital)" mat-menu-item>
+            <button [disabled]="!componenteDigital.canRetry"
+                    (click)="onRetry(componenteDigital)" mat-menu-item>
                 <mat-icon color="accent">desktop_windows</mat-icon>
                 <span>Repetir</span>
             </button>
-            <button [disabled]="!componenteDigital.canRetry" fxLayout="row" fxLayoutAlign="start center" (click)="onCancel(componenteDigital)" mat-menu-item>
+            <button [disabled]="!componenteDigital.canRetry"
+                    (click)="onCancel(componenteDigital)" mat-menu-item>
                 <mat-icon color="accent">delete</mat-icon>
                 <span>Cancelar</span>
             </button>

@@ -14,10 +14,8 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as fromStore from '../../store';
 import {UnloadDocumento} from '../../../../store/actions';
-import {DeleteTarefaSuccess} from '../../../../../tarefas/store/actions';
-import {GetDocumentos} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
+import {RemoveTarefa} from '../../../../../tarefas/store/actions';
 
 @Injectable()
 export class AtividadeDocumentoEffects {
@@ -76,12 +74,11 @@ export class AtividadeDocumentoEffects {
                 ofType<AtividadeDocumentoActions.SaveAtividadeSuccess>(AtividadeDocumentoActions.SAVE_ATIVIDADE_SUCCESS),
                 tap((action) => {
                     if (action.payload.encerraTarefa) {
-                        this._store.dispatch(new DeleteTarefaSuccess(action.payload.tarefa.id));
-                    } else {
-                        this._store.dispatch(new GetDocumentos());
+                        this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
                     }
                     this._store.dispatch(new UnloadDocumento());
-                    this._router.navigate([this.routerState.url.split('/atividades/criar/documento/')[0] + '/encaminhamento']).then();
+                    let split = this.routerState.url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';
+                    this._router.navigate([this.routerState.url.split(split)[0] + '/encaminhamento']).then();
                 })
             );
 

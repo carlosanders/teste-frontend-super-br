@@ -25,7 +25,7 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
-import {getRouterState} from 'app/store/reducers';
+import {getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SaveAssunto} from './store';
 import {SaveInteressado} from './store';
@@ -111,6 +111,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     vinculacoesProcessosDeletedIds$: Observable<any>;
     vinculacoesProcessosLoading$: Observable<boolean>;
     vinculacoesProcessosPagination$: Observable<any>;
+    screen$: Observable<any>;
     vinculacoesProcessosPagination: any;
     vinculacaoProcessoActivated = 'from';
 
@@ -123,6 +124,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     selectedIndex: number;
     isLinear: boolean;
+    mobileMode: boolean = false;
 
     private _unsubscribeAll: Subject<any>;
 
@@ -153,6 +155,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.errorsTarefa$ = this._store.pipe(select(fromStore.getTarefaErrors));
         this.processo$ = this._store.pipe(select(getProcesso));
         this._profile = this._loginService.getUserProfile();
+        this.screen$ = this._store.pipe(select(getScreenState));
 
         this.isSavingAssunto$ = this._store.pipe(select(getIsSavingAssunto));
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntos));
@@ -402,6 +405,16 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.tarefa = new Tarefa();
 
         this.isLinear = true;
+
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(screen => {
+            if (screen.size !== 'desktop') {
+                this.mobileMode = true;
+            } else {
+                this.mobileMode = false;
+            }
+        });
     }
 
     /**

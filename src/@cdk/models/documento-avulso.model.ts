@@ -29,6 +29,8 @@ export class DocumentoAvulso {
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     especieDocumentoAvulso?: EspecieDocumentoAvulso;
 
+    mecanismoRemessa?: string;
+
     observacao?: string;
 
     urgente?: boolean;
@@ -186,6 +188,7 @@ export class DocumentoAvulso {
         this.dataHoraLeitura = null;
         this.pessoaDestino = null;
         this.setorDestino = null;
+        this.mecanismoRemessa = null;
         this.dataHoraRemessa = null;
         this.dataHoraResposta = null;
         this.dataHoraReiteracao = null;

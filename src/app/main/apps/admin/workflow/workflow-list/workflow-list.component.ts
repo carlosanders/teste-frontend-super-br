@@ -82,4 +82,8 @@ export class WorkflowListComponent implements OnInit {
     delete(workflowId: number): void {
         this._store.dispatch(new fromStore.DeleteWorkflow(workflowId));
     }
+
+    view(workflowId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'visualizar/') + workflowId]);
+    }
 }

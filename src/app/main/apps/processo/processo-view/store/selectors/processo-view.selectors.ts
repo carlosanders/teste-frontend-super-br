@@ -56,3 +56,8 @@ export const getCurrentStep = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.currentStep
 );
+
+export const getCurrentStepLoaded = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.currentStepLoaded
+);

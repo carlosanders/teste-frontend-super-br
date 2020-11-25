@@ -1,22 +1,12 @@
 <div class="dados-basicos mb-16" *ngIf="(documento$ | async)">
     <div class="actions mb-8">
         <button mat-raised-button color="accent" class="mr-sm-12"
-                mat-icon-button [matMenuTriggerFor]="remeter"
+                mat-icon-button (click)="remeterDocumentoAvulso()"
                 [disabled]="(documento$ | async)?.documentoAvulsoRemessa.dataHoraRemessa != null || (isRemetendo$ | async)"
                 aria-label="remeter ofício"
                 matTooltip="Remeter Ofício">
             <mat-icon class="black-fg">send</mat-icon>
         </button>
-
-        <mat-menu #remeter="matMenu">
-            <button mat-menu-item
-                    (click)="remeterDocumentoAvulso()">
-                <mat-icon>send</mat-icon>
-                <span>Manual</span>
-            </button>
-
-            <ng-template #dynamicButtons></ng-template>
-        </mat-menu>
     </div>
 
     <div class="status-remessa" [hidden]="!(documento$ | async).documentoAvulsoRemessa.dataHoraRemessa">

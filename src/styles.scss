@@ -6,12 +6,16 @@
 
 content {
   &.full-screen {
-    z-index: 1001;
+    z-index: 1001 !important;
   }
 }
 
 mwlResizable {
   box-sizing: border-box; // required for the enableGhostResize option to work
+}
+
+.mat-expansion-panel-body {
+    padding: 0 !important;
 }
 
 .danger-snackbar {
@@ -35,6 +39,10 @@ mwlResizable {
 
 .mat-datetimepicker-calendar-content {
   width: 100% !important;
+}
+
+.mat-menu-panel {
+    max-width: 300px !important;
 }
 
 mat-cell, .mat-cell,
