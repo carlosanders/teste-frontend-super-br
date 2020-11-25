@@ -67,7 +67,8 @@
                                  (clicked)="onClicked($event)"
                                  (changedSelectedIds)="changedSelectedIds($event)">
         </cdk-documento-card-list>
-        <cdk-componente-digital-card-list #ckdUpload
+        <cdk-componente-digital-card-list class="componente-digital-card"
+                                          #ckdUpload
                                           [tarefaOrigem]="tarefa"
                                           (completed)="onComplete()">
         </cdk-componente-digital-card-list>

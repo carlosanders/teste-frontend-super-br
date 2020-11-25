@@ -264,7 +264,6 @@ $carded-header-height-without-toolbar: $carded-header-height - $carded-toolbar-h
                 max-width: 240px;
                 height: auto;
                 overflow: hidden;
-                @include mat-elevation(7);
 
                 &.locked-open {
                     background: none;
@@ -508,7 +507,6 @@ $carded-header-height-without-toolbar: $carded-header-height - $carded-toolbar-h
                 min-width: 240px;
                 max-width: 240px;
                 overflow: hidden;
-                @include mat-elevation(7);
 
                 &.locked-open {
                     background: none;
