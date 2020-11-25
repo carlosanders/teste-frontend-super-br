@@ -1,6 +1,8 @@
 dados-basicos-create {
     display: flex;
     flex: 1 1 auto;
+    width: 100%;
+
     > mat-horizontal-stepper {
         flex: 1 1 auto;
         display: flex !important;
@@ -15,6 +17,26 @@ dados-basicos-create {
                 display: flex;
             }
             > .mat-horizontal-stepper-content[aria-expanded=false] {
+                display: none !important;
+            }
+        }
+    }
+
+    > mat-vertical-stepper {
+        flex: 1 1 auto;
+        display: flex !important;
+        flex-direction: column;
+        overflow: auto;
+        > .mat-vertical-content-container {
+            overflow-y: auto !important;
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            > .mat-vertical-stepper-content[aria-expanded=true] {
+                flex: 1 1 auto;
+                display: flex;
+            }
+            > .mat-vertical-stepper-content[aria-expanded=false] {
                 display: none !important;
             }
         }

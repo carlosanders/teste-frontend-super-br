@@ -31,8 +31,6 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
 
     documento: Documento;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
-
     /**
      * Criando ponto de entrada para o componente de anexos
      */

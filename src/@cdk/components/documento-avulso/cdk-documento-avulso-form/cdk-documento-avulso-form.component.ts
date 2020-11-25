@@ -1,9 +1,10 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter, Input, OnChanges,
     OnDestroy, OnInit,
-    Output, SimpleChange,
+    Output, SimpleChange, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
@@ -19,6 +20,8 @@ import {Pagination} from '@cdk/models';
 import {Modelo} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
 import {FavoritoService} from '../../../services/favorito.service';
+import {DynamicService} from "../../../../modules/dynamic.service";
+import {modulesConfig} from "../../../../modules/modules-config";
 
 @Component({
     selector: 'cdk-documento-avulso-form',
@@ -39,7 +42,7 @@ import {FavoritoService} from '../../../services/favorito.service';
         }
     ]
 })
-export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDestroy {
+export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 
     @Input()
     documentoAvulso: DocumentoAvulso;
@@ -128,12 +131,16 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     setorDestinoListIsLoading: boolean;
 
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
+    container: ViewContainerRef;
+
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
+        private _dynamicService: DynamicService,
         private _favoritoService: FavoritoService
     ) {
 
@@ -142,6 +149,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             blocoProcessos: [null],
             processos: [null],
             processo: [null],
+            mecanismoRemessa: [null],
             tarefaOrigem: [null],
             blocoDestinatarios: [null],
             destinatarios: [null],
@@ -149,7 +157,6 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             especieDocumentoAvulso: [null, [Validators.required]],
             modelo: [null, [Validators.required]],
             dataHoraInicioPrazo: [null, [Validators.required]],
-            externa: [null],
             dataHoraFinalPrazo: [null, [Validators.required]],
             setorDestino: [null, [Validators.required]],
             pessoaDestino: [null, [Validators.required]],
@@ -176,18 +183,18 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         this.form.get('pessoaDestino').reset();
         this.form.get('pessoaDestino').disable();
 
-        this.form.get('externa').valueChanges.pipe(
+        this.form.get('mecanismoRemessa').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((value) => {
-                    if (value) {
-                        this.form.get('setorDestino').reset();
-                        this.form.get('setorDestino').disable();
-                        this.form.get('pessoaDestino').enable();
-                    } else {
+                    if (value === 'interna') {
                         this.form.get('pessoaDestino').reset();
                         this.form.get('pessoaDestino').disable();
                         this.form.get('setorDestino').enable();
+                    } else {
+                        this.form.get('setorDestino').reset();
+                        this.form.get('setorDestino').disable();
+                        this.form.get('pessoaDestino').enable();
                     }
 
                     return of([]);
@@ -235,6 +242,21 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         ).subscribe();
     }
 
+    ngAfterViewInit(): void {
+        const path = '@cdk/components/documento-avulso/cdk-documento-avulso-form/cdk-documento-avulso-form#radio';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => {
+                            this.container.createComponent(componentFactory);
+                            this._changeDetectorRef.markForCheck();
+                        });
+                }));
+            }
+        });
+    }
+
     /**
      * On change
      */
@@ -248,13 +270,6 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                 this.inputModelo = true;
                 this.form.get('pessoaDestino').enable();
                 this.form.get('setorDestino').enable();
-                if (this.documentoAvulso.pessoaDestino) {
-                    this.form.get('externa').setValue(true);
-                }
-                if (this.documentoAvulso.setorDestino) {
-                    this.form.get('externa').setValue(false);
-                }
-                this.form.get('externa').disable();
             }
         }
 

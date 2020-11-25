@@ -29,6 +29,11 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
+                nome: 'Modalidade Órgão Central',
+                icon: 'business',
+                link: 'modalidade-orgao-central'
+            },
+            {
                 nome: 'Espécie Tarefas',
                 icon: 'check_box',
                 link: 'especie-tarefas'

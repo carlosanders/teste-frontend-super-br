@@ -76,6 +76,10 @@ const routes: Routes = [
             {
                 path: 'workflows',
                 loadChildren: () => import('./workflow/workflow.module').then(m => m.WorkflowModule)
+            },
+            {
+                path: 'modalidade-orgao-central',
+                loadChildren: () => import('./modalidade-orgao-central/modalidade-orgao-central.module').then(m => m.ModalidadeOrgaoCentralModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

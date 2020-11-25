@@ -31,12 +31,6 @@
             <mat-icon class="black-fg">book</mat-icon>
         </button>
 
-        <button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
-                [routerLink]="routeAtividade"
-                [routerLinkActive]="['active', 'accent']">
-            <mat-icon class="black-fg">send</mat-icon>
-        </button>
-
         <button mat-icon-button aria-label="Editar Tarefa" matTooltip="Editar Tarefa"
                 [routerLink]="'editar'"
                 [routerLinkActive]="['active', 'accent']">
@@ -75,11 +69,27 @@
                 </ng-container>
             </button>
 
+            <button mat-menu-item aria-label="Atividades"
+                    [routerLink]="routeAtividade">
+                <ng-container>
+                    <mat-icon>send</mat-icon>
+                    <span>Atividades</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="Ofícios"
+                    [routerLink]="'oficios'">
+                <ng-container>
+                    <mat-icon>book</mat-icon>
+                    <span>Ofícios</span>
+                </ng-container>
+            </button>
+
             <ng-template #dynamicComponent></ng-template>
         </mat-menu>
     </div>
 </div>
 
-<div class="content" cdkPerfectScrollbar>
+<div class="content">
     <router-outlet></router-outlet>
 </div>
