@@ -111,6 +111,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     snackSubscription: any;
     lote: string;
 
+    usuarioAtual: Usuario
+
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
@@ -181,6 +183,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.loadingAssuntosProcessosId$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
         this.cienciaIds$ = this._store.pipe(select(fromStore.getCienciaTarefaIds));
+        this.usuarioAtual = this._loginService.getUserProfile();
     }
 
     // -----------------------------------------------------------------------------------------------------
