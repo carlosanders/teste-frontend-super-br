@@ -69,6 +69,11 @@ export const getDeletingTarefaIds = createSelector(
     (state: TarefasState) => state.deletingTarefaIds
 );
 
+export const getUnDeletingTarefaIds = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.undeletingTarefaIds
+);
+
 export const getChangingFolderTarefaIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.changingFolderTarefaIds

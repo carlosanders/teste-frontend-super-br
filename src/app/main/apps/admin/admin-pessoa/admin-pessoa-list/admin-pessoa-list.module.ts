@@ -32,6 +32,12 @@ const routes: Routes = [
     {
         path: '',
         component: AdminPessoaListComponent,
+        children: [
+            {
+                path: 'pessoa',
+                loadChildren: () => import('app/main/apps/pessoa/pessoa.module').then(m => m.PessoaModule),
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];

@@ -30,6 +30,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Input()
     deleting: boolean;
 
+    @Input()
+    undeleting: boolean;
+
     @Output()
     toggleInSelectedTarefas = new EventEmitter();
 
@@ -64,6 +67,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
+    restauraTarefa = new EventEmitter<Tarefa>();
+
+    @Output()
     removeTarefa = new EventEmitter<Tarefa>();
 
     @Output()
@@ -96,6 +102,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.deleting = false;
         this.ciencia = false;
         this.selected = false;
+        this.undeleting = false;
     }
 
     /**
@@ -186,6 +193,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     doToggleUrgente(): void {
         this.toggleUrgente.emit(this.tarefa);
+    }
+
+    doRestauraTarefa(): void {
+        this.restauraTarefa.emit(this.tarefa);
     }
 
     doTogglePanel(): void {

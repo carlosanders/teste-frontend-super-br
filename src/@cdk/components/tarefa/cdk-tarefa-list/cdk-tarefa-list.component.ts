@@ -47,6 +47,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     deletedIds: number[] = [];
 
     @Input()
+    unDeletingIds: number[] = [];
+
+    @Input()
     selectedIds: number[] = [];
 
     @Output()
@@ -72,6 +75,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Output()
     delete = new EventEmitter<Tarefa>();
+
+    @Output()
+    restauraTarefa = new EventEmitter<Tarefa>();
 
     @Output()
     deleteBloco = new EventEmitter<Tarefa[]>();
@@ -151,6 +157,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Input()
     errorDelete: number[] = [];
 
+    @Input()
+    targetHandle: any;
+
     listFilter: any;
     listSort: {} = {};
 
@@ -229,6 +238,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doDeleteTarefa(tarefa: Tarefa): void {
         this.delete.emit(tarefa);
+    }
+
+    doRestauraTarefa(tarefa: Tarefa): void {
+        this.restauraTarefa.emit(tarefa);
     }
 
     doDeleteTarefaBloco(): void {
@@ -380,6 +393,14 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doEditorBloco(): void {
         this.editorBloco.emit();
+    }
+
+    doRestaurarBloco(): void {
+        this.selectedIds.forEach(tarefaId => {
+            const tarefa = new Tarefa();
+            tarefa.id = tarefaId;
+            this.doRestauraTarefa(tarefa);
+        });
     }
 
     /**

@@ -128,7 +128,7 @@ export class ResolveGuard implements CanActivate {
                             'vinculacoesEtiquetas.etiqueta',
                             'processo.especieProcesso.workflow'
                         ],
-                        context: {modulo: this.routerState.params['generoHandle']}
+                        context: {}
                     };
 
                     const routeTypeParam = of('typeHandle');
@@ -167,9 +167,14 @@ export class ResolveGuard implements CanActivate {
                                 'dataHoraConclusaoPrazo': 'isNull'
                             };
                             let folderFilter = 'isNull';
+                            let paramUrl = '';
                             const routeTargetParam = of('targetHandle');
                             routeTargetParam.subscribe(targetParam => {
-                                if (this.routerState.params[targetParam] !== 'entrada' && this.routerState.params[targetParam] !== 'eventos') {
+                                if (
+                                    this.routerState.params[targetParam] !== 'entrada' &&
+                                    this.routerState.params[targetParam] !== 'eventos' &&
+                                    this.routerState.params[targetParam] !== 'lixeira'
+                                    ) {
                                     const folderName = this.routerState.params[targetParam];
                                     folderFilter = `eq:${folderName.toUpperCase()}`;
                                 }
@@ -179,10 +184,28 @@ export class ResolveGuard implements CanActivate {
                                 } else {
                                     tarefaFilter['especieTarefa.evento'] = 'eq:false';
                                 }
-                            });
-                            params['folderFilter'] = {
-                                'folder.nome': folderFilter
-                            };
+
+                                paramUrl = this.routerState.params[targetParam];
+                                if (this.routerState.params[targetParam] === 'lixeira') {
+                                    tarefaFilter = {
+                                        'usuarioResponsavel.id': 'eq:' + this._profile.id,
+                                        'apagadoEm': 'isNotNull'
+                                    };
+                                }
+
+                                });
+
+                            if (paramUrl !== 'lixeira') {
+                                params['folderFilter'] = {
+                                    'folder.nome': folderFilter
+                                };
+                                params.context = {modulo: this.routerState.params['generoHandle']}
+                            } else {
+                                params.context = {
+                                    modulo: this.routerState.params['generoHandle'],
+                                    mostrarApagadas: true
+                                }
+                            }
                         }
 
                         params['filter'] = tarefaFilter;

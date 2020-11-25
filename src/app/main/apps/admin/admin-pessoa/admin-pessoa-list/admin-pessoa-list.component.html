@@ -3,8 +3,9 @@
     [pessoas]="(pessoas$ | async)"
     [total]="(pagination$ | async)?.total"
     [displayedColumns]="['id', 'nome', 'numeroDocumentoPrincipal', 'pessoaRepresentada', 'pessoaConveniada', 'pessoaValidada', 'actions']"
-    [actions]="['edit']"
+    [actions]="['edit', 'create']"
     (reload)="reload($event)"
     (edit)="edit($event)"
     (create)="create()">
 </cdk-pessoa-grid>
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

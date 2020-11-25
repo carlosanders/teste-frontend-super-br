@@ -89,17 +89,23 @@
 
     <div class="actions">
 
-        <button mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
+        <button *ngIf="!tarefa.apagadoEm" mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
                 aria-label="Toggle important" fxHide.xs>
             <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
             <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
         </button>
 
-        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading">
+        <button *ngIf="tarefa.apagadoEm" matTooltip="Restaurar tarefa"
+                mat-icon-button (click)="doRestauraTarefa(); $event.stopPropagation();"
+                aria-label="Restaurar tarefa" fxHide.xs>
+            <mat-icon class="secondary-text">undo</mat-icon>
+        </button>
+
+        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading || undeleting">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button *ngIf="!deleting && !ciencia && !pluginLoading" mat-icon-button [matMenuTriggerFor]="moreMenu"
+        <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm" mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas"
                 (click)="$event.stopPropagation()">
             <mat-icon class="secondary-text">more_vert</mat-icon>

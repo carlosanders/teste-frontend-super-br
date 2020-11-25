@@ -23,6 +23,7 @@ import {DynamicService} from 'modules/dynamic.service';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {CdkUtils} from '../../../../../@cdk/utils';
 
 @Component({
     selector: 'tarefas-operacoes-bloco',
@@ -144,8 +145,32 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    doDeleteTarefa(tarefaId: number): void {
-        this._store.dispatch(new fromStoreTarefas.DeleteTarefa(tarefaId));
+    doDeleteTarefa(tarefaId, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        const tarefa = new Tarefa();
+        tarefa.id = tarefaId;
+        this._store.dispatch(new fromStoreTarefas.DeleteTarefa({
+            tarefaId: tarefa.id,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStoreTarefas.DeleteTarefa({
+                    tarefaId: tarefa.id,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStoreTarefas.DeleteTarefaFlush()
+            ],
+            undo: new fromStoreTarefas.UndeleteTarefa({
+                tarefa: tarefa,
+                operacaoId: operacaoId,
+                redo: null,
+                undo: null
+            })
+        }));
 
         if (this.snackSubscription) {
             // temos um snack aberto, temos que ignorar
@@ -172,8 +197,25 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         });
     }
 
+    doRestauraTarefa(tarefaId): void {
+        const operacaoId = CdkUtils.makeId();
+        const tarefa = new Tarefa();
+        tarefa.id = tarefaId;
+        this._store.dispatch(new fromStoreTarefas.UndeleteTarefa({
+            tarefa: tarefa,
+            operacaoId: operacaoId,
+            redo: null,
+            undo: null
+        }));
+    }
+
     doDeleteTarefaBloco(): void {
-        this.selectedIds.forEach(tarefaId => this.doDeleteTarefa(tarefaId));
+        const lote = CdkUtils.makeId();
+        this.selectedIds.forEach(tarefaId => this.doDeleteTarefa(tarefaId, lote));
+    }
+
+    doRestaurarBloco(): void {
+        this.selectedIds.forEach(tarefaId => this.doRestauraTarefa(tarefaId));
     }
 
     doCompartilharBloco(): void {
