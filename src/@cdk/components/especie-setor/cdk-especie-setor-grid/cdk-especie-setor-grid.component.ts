@@ -11,7 +11,7 @@ import {cdkAnimations} from '@cdk/animations';
 
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 
-import {tap} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 
 import {EspecieSetor} from '@cdk/models';
 import {EspecieSetorDataSource} from '@cdk/data-sources/especie-setor-data-source';
@@ -194,6 +194,24 @@ export class CdkEspecieSetorGridComponent implements AfterViewInit, OnInit, OnCh
         this.paginator.pageSize = this.pageSize;
 
         this.dataSource = new EspecieSetorDataSource(of(this.especieSetors));
+
+        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+
+        this.columns.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedColumns = [];
+                this.allColumns.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedColumns.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
+
     }
 
     ngAfterViewInit(): void {
