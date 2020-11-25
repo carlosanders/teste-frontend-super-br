@@ -66,3 +66,8 @@ export const getConvertendoDocumentosId = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.convertendoDocumentoIds
 );
+
+export const getMinutasLoading = createSelector(
+    getProcessoViewDocumentosState,
+    (state: ProcessoViewDocumentosState) => state.loading
+);

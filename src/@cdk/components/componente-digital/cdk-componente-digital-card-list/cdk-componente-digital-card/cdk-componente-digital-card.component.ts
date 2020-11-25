@@ -54,7 +54,6 @@ export class CdkComponenteDigitalCardComponent implements DoCheck {
     // -----------------------------------------------------------------------------------------------------
 
     ngDoCheck(): void {
-            console.log(this.componenteDigital);
         const changes = this.differ.diff(this.componenteDigital);
 
         if (changes) {
@@ -67,7 +66,6 @@ export class CdkComponenteDigitalCardComponent implements DoCheck {
     }
 
     toggleInSelected(componenteDigitalId): void {
-            console.log(this.componenteDigital);
         this.selected = !this.selected;
         this.changedSelected.emit(componenteDigitalId);
     }
@@ -77,12 +75,10 @@ export class CdkComponenteDigitalCardComponent implements DoCheck {
     }
 
     onRetry(componenteDigital): void {
-        console.log(componenteDigital);
         this.retry.emit(componenteDigital);
     }
 
     onClick(componenteDigital): void {
-            console.log(componenteDigital);
         this.clicked.emit(componenteDigital);
     }
 }

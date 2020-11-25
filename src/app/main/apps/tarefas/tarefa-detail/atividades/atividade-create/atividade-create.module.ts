@@ -28,12 +28,17 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import * as fromGuards from './store/guards';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {modulesConfig} from 'modules/modules-config';
+import {CdkModeloAutocompleteModule} from '../../../../../../../@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
 
 const routes: Routes = [
     {
         path: '',
         component: AtividadeCreateComponent,
         children: [
+            {
+                path       : 'documento',
+                loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
+            }
         ],
         canActivate: [fromGuards.ResolveGuard]
 
@@ -77,6 +82,7 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
         CdkSidebarModule,
+        CdkModeloAutocompleteModule,
     ],
     providers: [
         AtividadeService,

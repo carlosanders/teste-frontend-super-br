@@ -88,6 +88,8 @@ export class CdkComponenteDigitalCardListComponent {
 
     private files: Array<FileUploadModel> = [];
 
+    private arquivoSubscription: Subscription;
+
     /**
      * @param _http
      * @param _changeDetectorRef
@@ -123,8 +125,9 @@ export class CdkComponenteDigitalCardListComponent {
 
     onRetry(componenteDigital): void {
         const file = new FileUploadModel();
-        console.log(componenteDigital);
-        this.retryFile(componenteDigital);
+        this.componentesDigitais = this.componentesDigitais.filter(el => el.fileName != componenteDigital.fileName);
+        componenteDigital.file.sub.unsubscribe();
+        this.uploadFile(componenteDigital.file);
     }
 
     upload(): void {
@@ -156,12 +159,7 @@ export class CdkComponenteDigitalCardListComponent {
         file.inProgress = false;
         file.canRetry = true;
         file.canCancel = false;
-        // this.removeFileFromArray(file);
-    }
-
-    retryFile(componenteDigital: ComponenteDigital): void {
-        this.componentesDigitais = this.componentesDigitais.filter(comp => comp.canRetry ? false : true);
-        this.uploadFile(componenteDigital.file);
+        this.removeFileFromArray(file);
     }
 
     private getBase64(file): any {
@@ -207,7 +205,7 @@ export class CdkComponenteDigitalCardListComponent {
                 });
 
                 componenteDigital.inProgress = true;
-                file.sub = this._http.request(req).pipe(
+                this.arquivoSubscription = file.sub = this._http.request(req).pipe(
                     map(event => {
                         switch (event.type) {
                             case HttpEventType.UploadProgress:

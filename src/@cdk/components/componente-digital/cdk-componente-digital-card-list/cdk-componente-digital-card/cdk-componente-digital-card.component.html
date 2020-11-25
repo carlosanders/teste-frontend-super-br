@@ -1,11 +1,13 @@
 <div [ngClass]="!componenteDigital.canRetry ? 'content' : 'content borda-erro'">
+
     <mat-checkbox class="content-checkbox" [checked]="selected"
                   (change)="toggleInSelected(componenteDigital.id)"
                   (click)="$event.stopPropagation();">
     </mat-checkbox>
 
+    <mat-icon class="ml-8 mr-8">picture_as_pdf</mat-icon>
+
     <div (click)="onClick(componenteDigital)" class="content-card">
-       <!--        <div>{{componenteDigital.documento?.tipoDocumento?.sigla || 'Carregando'}}</div> -->
         <div>{{!componenteDigital.canRetry?'Carregando': componenteDigital.fileName}}</div>
         <mat-progress-bar mode="determinate" *ngIf="componenteDigital.inProgress"
                           [value]="componenteDigital.progress"></mat-progress-bar>

@@ -48,6 +48,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     totalSteps = 0;
 
+    tarefa: boolean;
+
     currentStep$: Observable<any>;
     currentStep: any;
 
@@ -155,6 +157,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa';
+                this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
             }
         });
 
@@ -167,7 +170,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
         if (this.capa && this.routerState.url.indexOf('mostrar') === -1) {
-            if (this.routerState.url.indexOf('/documento/') !== -1) {
+            if (this.routerState.url.indexOf('/documento/') !== -1 &&
+                (this.routerState.url.indexOf('anexar-copia') !== -1 || this.routerState.url.indexOf('visualizar-processo') !== -1)) {
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
                     [
@@ -190,7 +194,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         relativeTo: this._activatedRoute.parent
                     }
                 ).then();
-            } else {
+            } else if (this.routerState.url.indexOf('/documento/') === -1) {
                 this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
                     '/processo/' +
                     this.routerState.params.processoHandle + '/visualizar/capa/mostrar').then();
@@ -205,6 +209,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
         if (this.routerState.url.indexOf('anexar-copia') !== -1) {
             this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
+        }
+        if (this.tarefa) {
+            this._store.dispatch(new fromStore.UnloadDocumentos());
         }
     }
 

@@ -86,7 +86,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         });
 
         this.router.events.subscribe(() => {
-            // console.log(modulo);
             if(this.router.url && this.router.url.split("/").length>=3) {
                 this.modulo = (this.router.url.split("/")[3]);
                 this.modulo = decodeURIComponent((this.modulo[0].toUpperCase() + this.modulo.substr(1).toLowerCase()));
