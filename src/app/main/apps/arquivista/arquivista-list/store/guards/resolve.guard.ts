@@ -88,7 +88,7 @@ export class ResolveGuard implements CanActivate {
                     etiquetaFilter: {},
                     limit: 10,
                     offset: 0,
-                    sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
+                    sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', 'lembretes.id': 'DESC'},
                     populate: [
                         'especieProcesso',
                         'especieProcesso.generoProcesso',
@@ -102,7 +102,6 @@ export class ResolveGuard implements CanActivate {
                         'lembretes',
                         'vinculacoesEtiquetas',
                         'vinculacoesEtiquetas.etiqueta'
-
                     ]
                 };
 
@@ -115,7 +114,7 @@ export class ResolveGuard implements CanActivate {
                         processoFilter = {
                             'dataHoraProximaTransicao': 'lte:' + this.currentDate,
                             'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                            'setorAtual': 'in:' + this.setorAtual
+                            'setorAtual.id': 'in:' + this.setorAtual
 
                         };
                     }
@@ -124,7 +123,7 @@ export class ResolveGuard implements CanActivate {
                         processoFilter = {
                             'dataHoraProximaTransicao': 'gt:' + this.currentDate,
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'in:' + this.setorAtual
                         };
                     }
 
@@ -132,7 +131,7 @@ export class ResolveGuard implements CanActivate {
                         processoFilter = {
                             'dataHoraProximaTransicao': 'isNull',
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'in:' + this.setorAtual
                         };
 
                     }

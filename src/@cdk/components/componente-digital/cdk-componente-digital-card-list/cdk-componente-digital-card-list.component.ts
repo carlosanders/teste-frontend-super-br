@@ -223,6 +223,7 @@ export class CdkComponenteDigitalCardListComponent {
                     catchError((error: HttpErrorResponse) => {
                         componenteDigital.inProgress = false;
                         componenteDigital.canRetry = true;
+                        this.removeFileFromArray(file);
                         this._changeDetectorRef.markForCheck();
                         return of(`${file.data.name} upload falhou.`);
                     })
