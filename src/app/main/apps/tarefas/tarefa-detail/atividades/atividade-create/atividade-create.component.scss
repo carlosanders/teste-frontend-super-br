@@ -21,7 +21,14 @@ atividade-create {
         > .upload {
             padding-bottom: 16px;
             display: flex;
+            flex: 1  auto;
             flex-direction: row;
+            flex-wrap: wrap;
+
+            >.componente-digital-card {
+                padding-left: 10px;
+                padding-bottom: 16px;
+            }
         }
     }
 }
