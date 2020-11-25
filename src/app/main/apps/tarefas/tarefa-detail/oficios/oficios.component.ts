@@ -56,7 +56,6 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     documentos$: Observable<Documento[]>;
     oficios: Documento[] = [];
     selectedDocumentos$: Observable<Documento[]>;
-    selectedMinutas: Documento[] = [];
     selectedOficios: Documento[] = [];
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
@@ -70,6 +69,8 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     container: ViewContainerRef;
 
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
+
+    routeOficioDocumento = 'oficio';
 
     /**
      *
@@ -188,6 +189,15 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
+
+        const pathDocumento = 'app/main/apps/documento/documento-edit';
+        modulesConfig.forEach((module) => {
+            if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                module.routerLinks[pathDocumento].hasOwnProperty('oficio') &&
+                module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
+            }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -261,7 +271,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     onClicked(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+        this._store.dispatch(new fromStore.ClickedDocumento({
+            documento: documento,
+            routeOficio: this.routeOficioDocumento
+        }));
     }
 
     onComplete(): void {

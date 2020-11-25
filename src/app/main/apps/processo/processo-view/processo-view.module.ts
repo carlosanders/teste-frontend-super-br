@@ -39,6 +39,10 @@ const routes: Routes = [
             {
                 path       : 'documento',
                 loadChildren: () => import('app/main/apps/documento/documento.module').then(m => m.DocumentoModule),
+            },
+            {
+                path       : 'oficio',
+                loadChildren: () => import('app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module').then(m => m.DocumentoAvulsoCreateModule)
             }
         ]
     },

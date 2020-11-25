@@ -77,7 +77,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
         },
         {
             id: 'modalidadeRepositorio.valor',
-            label: 'Modalidade do Repositório',
+            label: 'Modalidade da Tese',
             fixed: false
         },
         {

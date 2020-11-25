@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import * as ProcessoViewDocumentosActions from '../actions/documentos.actions';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
@@ -14,10 +14,14 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {GetJuntadas} from '../actions';
+import {getPagination} from '../selectors';
 
 @Injectable()
 export class ProcessoViewDocumentosEffects {
     routerState: any;
+    routeAtividadeDocumento: string;
+    routeOficio: string;
 
     constructor(
         private _actions: Actions,
@@ -166,6 +170,30 @@ export class ProcessoViewDocumentosEffects {
                     }
                 ));
 
+    /**
+     * Assina Juntada
+     * @type {Observable<any>}
+     */
+    @Effect()
+    assinaJuntada: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.AssinaJuntada>(ProcessoViewDocumentosActions.ASSINA_JUNTADA),
+                mergeMap((action) => {
+                        return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                            .pipe(
+                                map((response) => {
+                                    return new ProcessoViewDocumentosActions.AssinaJuntadaSuccess(response);
+                                }),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    this._store.dispatch(new ProcessoViewDocumentosActions.AssinaJuntadaFailed(err));
+                                    return caught;
+                                })
+                            );
+                    }
+                ));
+
     @Effect()
     removeAssinaturaDocumento: any =
         this._actions
@@ -210,6 +238,28 @@ export class ProcessoViewDocumentosEffects {
                 }));
 
     /**
+     * Assina Juntada Success
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    assinaJuntadaSuccess: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.AssinaJuntadaSuccess>(ProcessoViewDocumentosActions.ASSINA_JUNTADA_SUCCESS),
+                tap((action) => {
+
+                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
+
+                    const ifrm = document.createElement('iframe');
+                    ifrm.setAttribute('src', url);
+                    ifrm.style.width = '0';
+                    ifrm.style.height = '0';
+                    ifrm.style.border = '0';
+                    document.body.appendChild(ifrm);
+                    setTimeout(() => document.body.removeChild(ifrm), 20000);
+                }));
+
+    /**
      * Save Documento Assinatura Eletronica
      * @type {Observable<any>}
      */
@@ -239,6 +289,36 @@ export class ProcessoViewDocumentosEffects {
             );
 
     /**
+     * Save Juntada Assinatura Eletronica
+     * @type {Observable<any>}
+     */
+    @Effect()
+    assinaJuntadaEletronicamente: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.AssinaJuntadaEletronicamente>(ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE),
+                withLatestFrom(this._store.pipe(select(getPagination))),
+                switchMap(([action, pagination]) => {
+                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({password: action.payload.password})).pipe(
+                        mergeMap((response: Assinatura) => [
+                            new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteSuccess(response),
+                            new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                            new GetJuntadas(pagination),
+                            new OperacoesActions.Resultado({
+                                type: 'assinatura',
+                                content: `Assinatura id ${response.id} criada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
      * Clicked Documento
      * @type {Observable<any>}
      */
@@ -250,19 +330,22 @@ export class ProcessoViewDocumentosEffects {
                 tap((action) => {
                     let primary: string;
                     primary = 'componente-digital/';
-                    if (action.payload.componentesDigitais[0]) {
-                        primary += action.payload.componentesDigitais[0].id;
+                    if (action.payload.documento.componentesDigitais[0]) {
+                        primary += action.payload.documento.componentesDigitais[0].id;
                     } else {
                         primary += '0';
                     }
-                    let sidebar = 'oficio/dados-basicos';
-                    if (!action.payload.documentoAvulsoRemessa) {
-                        sidebar = 'editar/atividade';
+                    let sidebar = action.payload.routeOficio + '/dados-basicos';
+                    if (!action.payload.documento.documentoAvulsoRemessa && !action.payload.documento.juntadaAtual) {
+                        sidebar = 'editar/' + action.payload.routeAtividade;
+                    } else if (action.payload.documento.juntadaAtual) {
+                        sidebar = 'editar/dados-basicos';
                     }
+
                     this._router.navigate([
                             this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
                             '/visualizar/' + this.routerState.params.stepHandle +
-                            '/documento/' + action.payload.id,
+                            '/documento/' + action.payload.documento.id,
                             {
                                 outlets: {
                                     primary: primary,

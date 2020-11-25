@@ -24,6 +24,7 @@ export class ComponentesDigitaisEffects {
     routerState: any;
     componenteDigitalId: number;
     routeAtividadeDocumento: string;
+    routeOficio: string;
 
     constructor(
         private _actions: Actions,

@@ -174,7 +174,7 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
         },
         {
             id: 'repositorio.nome',
-            label: 'Repositório',
+            label: 'Tese',
             fixed: false
         },
         {
