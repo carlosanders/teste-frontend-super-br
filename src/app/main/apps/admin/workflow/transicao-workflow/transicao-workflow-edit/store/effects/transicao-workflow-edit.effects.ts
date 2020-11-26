@@ -111,7 +111,7 @@ export class TransicaoWorkflowEditEffects {
             .pipe(
                 ofType<TransicaoWorkflowEditActions.SaveTransicaoWorkflowSuccess>(TransicaoWorkflowEditActions.SAVE_TRANSICAO_WORKFLOW_SUCCESS),
                 tap((action) => {
-                    this._router.navigate(['apps/admin/transicoes-workflows/listar']).then();
+                    this._router.navigate(['apps/admin/workflows/' + action.payload.workflow.id + '/transicoes/listar']).then();
                 })
             );
 

@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
     EventEmitter,
@@ -6,15 +7,19 @@ import {
     OnChanges,
     OnDestroy,
     Output,
-    SimpleChange
+    SimpleChange, ViewEncapsulation
 } from '@angular/core';
 import {AssuntoAdministrativo, Pagination, Pessoa} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {cdkAnimations} from '../../../animations';
 
 @Component({
     selector: 'cdk-assunto-administrativo-form',
     templateUrl: './cdk-assunto-administrativo-form.component.html',
-    styleUrls: ['./cdk-assunto-administrativo-form.component.scss']
+    styleUrls: ['./cdk-assunto-administrativo-form.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
 export class CdkAssuntoAdministrativoFormComponent implements OnChanges, OnDestroy {
 
@@ -53,9 +58,9 @@ export class CdkAssuntoAdministrativoFormComponent implements OnChanges, OnDestr
             id: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             parent: [null],
-            dispositivoLegal: [null, [Validators.required]],
-            codigoCNJ: [null, [Validators.required]],
-            glossario: [null, [Validators.required]],
+            dispositivoLegal: [null],
+            codigoCNJ: [null],
+            glossario: [null],
             ativo: [null],
         });
     }

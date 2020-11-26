@@ -32,7 +32,10 @@ export class CdkGeneroRelatorioAutocompleteComponent implements OnInit {
     @Input()
     control: AbstractControl;
 
+    @Input()
     generoRelatorioList: GeneroRelatorio[];
+
+    @Input()
     generoRelatorioListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;

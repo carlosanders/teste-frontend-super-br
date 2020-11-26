@@ -64,7 +64,7 @@ export class CdkTransicaoWorkflowFormComponent implements OnChanges, OnDestroy {
     loadForm(): void {
         this.form = this._formBuilder.group({
             id: [null],
-            workflow: [null, [Validators.required]],
+            workflow: [null],
             especieAtividade: [null, [Validators.required]],
             especieTarefaFrom: [null, [Validators.required]],
             especieTarefaTo: [null, [Validators.required]],

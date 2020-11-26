@@ -110,7 +110,13 @@ export class SetorEditComponent implements OnInit, OnDestroy {
         );
 
         if (!setor.sequenciaInicialNUP) {
-            setor.sequenciaInicialNUP = 0;
+            setor.sequenciaInicialNUP = 1;
+        }
+
+        if (!setor.parent) {
+            const parent = new Setor();
+            parent.id = parseInt(this.routerState.params.unidadeHandle);
+            setor.parent = parent;
         }
 
         this._store.dispatch(new fromStore.SaveSetor(setor));

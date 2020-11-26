@@ -90,9 +90,9 @@ export class CdkEspecieRelatorioAutocompleteComponent implements OnInit {
         });
     }
 
-    displayEspecieTarefaFn(especieTarefa): string {
-        let displayed = especieTarefa ? especieTarefa.nome : '';
-        displayed += (especieTarefa && especieTarefa.generoTarefa) ? (' (' + especieTarefa.generoTarefa.nome + ')') : '';
+    displayEspecieRelatorioFn(especieRelatorio): string {
+        let displayed = especieRelatorio ? especieRelatorio.nome : '';
+        displayed += (especieRelatorio && especieRelatorio.generoRelatorio) ? (' (' + especieRelatorio.generoRelatorio.nome + ')') : '';
         return displayed;
     }
 }

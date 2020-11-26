@@ -14,12 +14,12 @@ import {
 
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 
 import {CdkEspecieRelatorioGridComponent} from './cdk-especie-relatorio-grid.component';
 import {CdkEspecieRelatorioAutocompleteModule} from '@cdk/components/especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-autocomplete.module';
 import {CdkEspecieRelatorioGridFilterModule} from './cdk-especie-relatorio-grid-filter/cdk-especie-relatorio-grid-filter.module';
 import {CdkEspecieRelatorioMainSidebarComponent} from './sidebars/main/main.component';
+import {EspecieRelatorioService} from '../../../services/especie-relatorio.service';
 
 @NgModule({
     declarations: [
@@ -45,7 +45,7 @@ import {CdkEspecieRelatorioMainSidebarComponent} from './sidebars/main/main.comp
         CdkSidebarModule,
     ],
     providers: [
-        EspecieTarefaService
+        EspecieRelatorioService
     ],
     exports: [
         CdkEspecieRelatorioGridComponent
