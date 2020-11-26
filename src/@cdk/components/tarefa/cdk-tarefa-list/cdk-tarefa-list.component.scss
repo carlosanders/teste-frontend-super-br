@@ -31,6 +31,13 @@ cdk-tarefa-list {
 
             > .tarefa-list-control {
                 margin-left: auto;
+
+                .colunas {
+                    width: 20px !important;
+                    .mat-select-value {
+                        display: none !important;
+                    }
+                }
             }
         }
 

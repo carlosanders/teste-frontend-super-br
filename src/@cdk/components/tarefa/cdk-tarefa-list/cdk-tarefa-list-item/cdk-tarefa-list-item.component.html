@@ -37,10 +37,12 @@
             </div>
 
             <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
-                    <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                    >Ofício vinculado pendente de resposta</span>
-                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta?.toDate() | date: 'dd/MM/yyyy H:mm'}}</span>
+                <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta">
+                    Ofício vinculado pendente de resposta
+                </span>
+                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta">
+                    Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta?.toDate() | date: 'dd/MM/yyyy H:mm'}}
+                </span>
             </div>
 
             <div class="subtitle" *ngIf="isOpen">
@@ -54,28 +56,28 @@
         </div>
 
         <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
-            <div>
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
                 {{tarefa.especieTarefa?.nome | titleCasePipe}}
             </div>
 
-            <div>
+            <div *ngIf="displayedCampos.indexOf('setorResponsavel.nome') > -1">
                 {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
             </div>
 
-            <div *ngIf="!usuarioAtual || (tarefa.usuarioResponsavel.id !== usuarioAtual.id)">
+            <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel.id !== usuarioAtual.id)) && displayedCampos.indexOf('usuarioResponsavel.nome') > -1">
                 {{tarefa.usuarioResponsavel.nome | titleCasePipe}}
             </div>
 
-            <div *ngIf="tarefa.dataHoraDistribuicao">
+            <div *ngIf="tarefa.dataHoraDistribuicao && displayedCampos.indexOf('dataHoraDistribuicao') > -1">
                 Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
             </div>
 
-            <div *ngIf="tarefa.dataHoraFinalPrazo">
+            <div *ngIf="tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
                 Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
                 até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
             </div>
 
-            <div *ngIf="!tarefa.dataHoraFinalPrazo">
+            <div *ngIf="!tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
                 Prazo de {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy')}}
                 até
                 <mat-icon class="secondary-text" matTooltip="Prazo fechado">
@@ -113,7 +115,8 @@
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm" mat-icon-button [matMenuTriggerFor]="moreMenu"
+        <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm" mat-icon-button
+                [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas"
                 (click)="$event.stopPropagation()">
             <mat-icon class="secondary-text">more_vert</mat-icon>
