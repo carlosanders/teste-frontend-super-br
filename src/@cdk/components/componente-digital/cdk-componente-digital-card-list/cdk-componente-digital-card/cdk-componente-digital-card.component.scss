@@ -3,33 +3,56 @@
 cdk-componente-digital-card {
     display: flex;
     flex: 1 1 auto;
+    height: 46px;
 
     .content {
         display: flex;
         flex: 1 1 auto;
         align-items: center;
+        height: 44px;
+        margin-right: 8px;
         border-radius: 6px;
         border: 1px solid rgba(0, 0, 0, 0.12);
 
         .content-checkbox {
             display: flex;
             flex: 1 1 auto;
-            padding-left: 8px;
-            padding-right: 8px;
+            align-items: center;
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+            height: 44px;
+        }
+
+        .content-img {
+            display: flex;
+            flex: 1 1 auto;
+            align-items: center;
+            padding-left: 8px !important;
+            height: 44px;
         }
 
         .content-card {
             display: flex;
             flex: 1 1 auto;
             flex-direction: column;
-            padding-left: 14px;
-            padding-right: 14px;
             border-right: 1px solid rgba(0, 0, 0, 0.12);
+            height: 44px;
+
+            .content-card-item {
+                display: flex;
+                flex: 1 1 auto;
+                align-items: center;
+                margin-left: 8px;
+                margin-right: 8px;
+            }
         }
 
         .menu {
             display: flex;
             flex: 1 1 auto;
+            height: 44px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
         }
     }
 
@@ -38,8 +61,6 @@ cdk-componente-digital-card {
         flex: 1 1 auto;
         border: solid red 1px;
         border-radius: 6px;
-        min-height: 46px;
-        margin-left: 8px;
-        margin-right: 8px;
+        height: 46px;
     }
 }

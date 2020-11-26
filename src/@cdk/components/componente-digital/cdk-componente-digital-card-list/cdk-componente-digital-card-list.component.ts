@@ -64,6 +64,10 @@ export class CdkComponenteDigitalCardListComponent {
     @Output()
     changedSelectedIds = new EventEmitter<number[]>();
 
+    @Output()
+    erroUpload = new EventEmitter<string>();
+
+
     selectedIds: number[] = [];
 
     hasSelected = false;
@@ -225,6 +229,7 @@ export class CdkComponenteDigitalCardListComponent {
                         componenteDigital.canRetry = true;
                         this.removeFileFromArray(file);
                         this._changeDetectorRef.markForCheck();
+                        this.erroUpload.emit("Ocorreu um erro ao realizar o upload, clique no menu do arquivo para tentar novamente")
                         return of(`${file.data.name} upload falhou.`);
                     })
                 ).subscribe(

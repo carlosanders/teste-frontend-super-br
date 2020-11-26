@@ -29,6 +29,10 @@ atividade-create {
                 padding-left: 10px;
                 padding-bottom: 16px;
             }
+
+            >.mensagem-erro {
+                color: red;
+            }
         }
     }
 }

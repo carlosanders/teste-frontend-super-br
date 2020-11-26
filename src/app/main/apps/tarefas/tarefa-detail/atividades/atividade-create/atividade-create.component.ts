@@ -85,6 +85,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     routeAtividadeDocumento = 'atividade';
 
+    mensagemErro = null;
+
     /**
      *
      * @param _store
@@ -297,6 +299,12 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         if (!value || typeof value !== 'object') {
             this.formEditor.get('modelo').setValue(null);
         }
+    }
+
+    erroUpload(mensagemErro) {
+        console.log("Mensagem erro", mensagemErro);
+
+        this.mensagemErro = mensagemErro;
     }
 
     upload(): void {
