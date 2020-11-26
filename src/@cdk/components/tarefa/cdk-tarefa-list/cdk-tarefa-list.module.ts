@@ -25,6 +25,7 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.module';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
     declarations: [
@@ -51,7 +52,8 @@ import {CdkTarefaListService} from './cdk-tarefa-list.service';
         MatTooltipModule,
         InfiniteScrollModule,
         MatExpansionModule,
-        CdkTarefaFilterModule
+        CdkTarefaFilterModule,
+        MatSelectModule
     ],
     providers: [
         EspecieTarefaService,
