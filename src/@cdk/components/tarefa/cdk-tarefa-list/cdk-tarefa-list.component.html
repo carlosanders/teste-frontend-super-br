@@ -145,6 +145,14 @@
         </mat-menu>
 
         <div class="tarefa-list-control" fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field class="colunas mr-8" aria-label="campos" matTooltip="Campos">
+                <mat-select [formControl]="campos" multiple>
+                    <div *ngFor="let campo of allCampos">
+                        <mat-option *ngIf="!campo.fixed" [value]="campo.id">{{ campo.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
@@ -206,6 +214,7 @@
                     matRipple
                     [tarefa]="tarefa"
                     [usuarioAtual]="usuarioAtual"
+                    [displayedCampos]="displayedCampos"
                     (click)="selectTarefa(tarefa);"
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"

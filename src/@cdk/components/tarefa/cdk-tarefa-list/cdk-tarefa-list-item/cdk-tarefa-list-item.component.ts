@@ -96,6 +96,15 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    @Input()
+    displayedCampos: string[] = [
+        'especieTarefa.nome',
+        'setorResponsavel.nome',
+        'usuarioResponsavel.nome',
+        'dataHoraDistribuicao',
+        'dataHoraPrazo'
+    ];
+
     constructor(
         private _dynamicService: DynamicService,
         private _changeDetectorRef: ChangeDetectorRef,
