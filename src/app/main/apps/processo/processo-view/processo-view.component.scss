@@ -44,6 +44,7 @@ processo-view {
             > .content {
                 flex: 1 1 auto;
                 display: flex;
+                margin-left: 6px;
 
                 > .processo-view-juntada {
                     flex: 1 1 auto;
@@ -67,6 +68,7 @@ processo-view {
                             flex: 1 1 auto;
                             display: flex;
                             border: none;
+                            margin-left: 10px;
                         }
                     }
                 }

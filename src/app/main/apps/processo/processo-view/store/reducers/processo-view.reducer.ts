@@ -118,8 +118,8 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
             return {
                 ...state,
                 currentStep: {
-                   step: action.payload.step,
-                   subStep: action.payload.subStep,
+                   step: parseInt(action.payload.step),
+                   subStep: parseInt(action.payload.subStep),
                 },
                 binary: {
                     src: null,

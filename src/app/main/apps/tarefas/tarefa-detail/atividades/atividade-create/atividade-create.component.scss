@@ -9,6 +9,12 @@ atividade-create {
         display: flex;
         flex-direction: column;
 
+        > .mensagem-erro {
+            color: red;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
         > .titulo {
             display: flex;
             flex-direction: row;

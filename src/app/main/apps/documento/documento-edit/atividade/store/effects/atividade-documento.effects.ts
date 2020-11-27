@@ -16,6 +16,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {UnloadDocumento} from '../../../../store/actions';
 import {RemoveTarefa} from '../../../../../tarefas/store/actions';
+import {GetJuntadas, UnloadJuntadas} from '../../../../../processo/processo-view/store/actions';
 
 @Injectable()
 export class AtividadeDocumentoEffects {
@@ -77,6 +78,40 @@ export class AtividadeDocumentoEffects {
                         this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
                     }
                     this._store.dispatch(new UnloadDocumento());
+                    if (this.routerState.url.indexOf('/processo') !== -1) {
+                        this._store.dispatch(new UnloadJuntadas({reset: false}));
+                        let processoFilter = null;
+
+                        const routeParams = of('processoHandle');
+                        routeParams.subscribe(param => {
+                            processoFilter = `eq:${this.routerState.params[param]}`;
+                        });
+
+                        const params = {
+                            filter: {
+                                'volume.processo.id': processoFilter,
+                                'vinculada': 'eq:0'
+                            },
+                            listFilter: {},
+                            limit: 10,
+                            offset: 0,
+                            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+                            populate: [
+                                'documento',
+                                'documento.origemDados',
+                                'documento.tipoDocumento',
+                                'documento.componentesDigitais',
+                                'documento.vinculacoesDocumentos',
+                                'documento.vinculacoesDocumentos.documentoVinculado',
+                                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                                'documento.vinculacoesEtiquetas',
+                                'documento.vinculacoesEtiquetas.etiqueta'
+                            ]
+                        };
+
+                        this._store.dispatch(new GetJuntadas(params));
+                    }
                     let split = this.routerState.url.indexOf('/atividades/criar') !== -1 ? '/atividades/criar' : '/processo';
                     this._router.navigate([this.routerState.url.split(split)[0] + '/encaminhamento']).then();
                 })

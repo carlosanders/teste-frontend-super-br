@@ -26,6 +26,11 @@ export const REMOVE_ASSINATURA_DOCUMENTO = '[JUNTADA LIST] REMOVE ASSINATURA DOC
 export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[JUNTADA LIST] REMOVE ASSINATURA DOCUMENTO SUCCESS';
 export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[JUNTADA LIST] REMOVE ASSINATURA DOCUMENTO FAILED';
 
+export const REMOVE_VINCULACAO_DOCUMENTO = '[JUNTADA LIST] REMOVE VINCULACAO DOCUMENTO';
+export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[JUNTADA LIST] REMOVE VINCULACAO DOCUMENTO SUCCESS';
+export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[JUNTADA LIST] REMOVE VINCULACAO DOCUMENTO FAILED';
+
+
 /**
  * Get Juntadas
  */
@@ -220,7 +225,6 @@ export class AssinaDocumentoEletronicamenteFailed implements Action
     }
 }
 
-
 /**
  * Remove Assinatura Documento
  */
@@ -257,6 +261,42 @@ export class RemoveAssinaturaDocumentoFailed implements Action
     }
 }
 
+/**
+ * Remove Vinculacao Documento
+ */
+export class RemoveVinculacaoDocumento implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Vinculacao Documento Success
+ */
+export class RemoveVinculacaoDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Vinculacao Documento Failed
+ */
+export class RemoveVinculacaoDocumentoFailed implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type JuntadaListActionsAll
     = GetJuntadas
     | GetJuntadasSuccess
@@ -276,5 +316,8 @@ export type JuntadaListActionsAll
     | AssinaDocumentoEletronicamenteFailed
     | RemoveAssinaturaDocumento
     | RemoveAssinaturaDocumentoSuccess
-    | RemoveAssinaturaDocumentoFailed;
+    | RemoveAssinaturaDocumentoFailed
+    | RemoveVinculacaoDocumento
+    | RemoveVinculacaoDocumentoSuccess
+    | RemoveVinculacaoDocumentoFailed;
 

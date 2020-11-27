@@ -12,6 +12,7 @@ import {CdkSidebarModule} from '@cdk/components';
 
 import {ProcessoViewComponent} from './processo-view.component';
 import {JuntadaService} from '@cdk/services/juntada.service';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
 import {ProcessoViewMainSidebarComponent} from './sidebars/main/main-sidebar.component';
@@ -42,7 +43,13 @@ const routes: Routes = [
             },
             {
                 path       : 'oficio',
-                loadChildren: () => import('app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module').then(m => m.DocumentoAvulsoCreateModule)
+                loadChildren: () => import('app/main/apps/documento-avulso/documento-avulso-create/documento-avulso-create.module')
+                    .then(m => m.DocumentoAvulsoCreateModule)
+            },
+            {
+                path       : 'vincular',
+                loadChildren: () => import('app/main/apps/processo/processo-edit/juntadas/vinculacao-documento-create/vinculacao-documento-create.module')
+                    .then(m => m.VinculacaoDocumentoCreateModule)
             }
         ]
     },
@@ -96,6 +103,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         JuntadaService,
+        VinculacaoDocumentoService,
         fromGuards.ResolveGuard
     ]
 })

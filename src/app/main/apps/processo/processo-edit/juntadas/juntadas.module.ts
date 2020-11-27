@@ -38,6 +38,10 @@ const routes: Routes = [
                 loadChildren: () => import('./documento-copia-create-bloco/documento-copia-create-bloco.module').then(m => m.DocumentoCopiaCreateBlocoModule),
             },
             {
+                path       : 'vincular',
+                loadChildren: () => import('./vinculacao-documento-create/vinculacao-documento-create.module').then(m => m.VinculacaoDocumentoCreateModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

@@ -21,7 +21,7 @@
 
                 <button mat-mini-fab class="previous accent cdk-white-fg"
                         (click)="gotoPreviousStep()"
-                        [disabled]="currentStep.step === 0 && currentStep.subStep === 0">
+                        [disabled]="disabledBack()">
                     <mat-icon>chevron_left</mat-icon>
                 </button>
 
@@ -31,7 +31,7 @@
 
                 <button mat-mini-fab class="next accent cdk-white-fg"
                         (click)="gotoNextStep()"
-                        [disabled]="currentStep.step === totalSteps - 1 && currentStep.subStep === index[currentStep.step].length - 1">
+                        [disabled]="disabledNext()">
                     <mat-icon>chevron_right</mat-icon>
                 </button>
 
