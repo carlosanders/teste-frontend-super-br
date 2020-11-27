@@ -1,4 +1,8 @@
 <div class="atividade">
+    <div class="warn mb-16" *ngIf="mensagemErro">
+        {{mensagemErro}}
+    </div>
+
     <div class="upload">
         <button mat-mini-fab
                 class="m-4 active accent"
@@ -60,12 +64,14 @@
                                  (converte)="doConverte($event)"
                                  (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                                  (clicked)="onClicked($event)"
-                                 (changedSelectedIds)="changedSelectedIds($event)">
+                                 (changedSelectedIds)="changedSelectedIds($event)"
+                                 >
         </cdk-documento-card-list>
         <cdk-componente-digital-card-list class="componente-digital-card"
                                           #ckdUpload
                                           [tarefaOrigem]="tarefa"
-                                          (completed)="onComplete()">
+                                          (completed)="onComplete()"
+                                          (erroUpload)="erroUpload($event)">
         </cdk-componente-digital-card-list>
     </div>
 
