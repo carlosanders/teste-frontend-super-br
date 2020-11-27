@@ -4,7 +4,7 @@
         <input matInput placeholder="Documento"
                formControlName="documento"
                [matAutocomplete]="documento.autocomplete" required
-               (blur)="checkDocumento()">
+               (blur)="checkDocumento()" readonly>
         <cdk-documento-autocomplete
             #documento="documentoAutocomplete"
             [control]="form.get('documento')"

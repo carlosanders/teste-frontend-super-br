@@ -153,7 +153,7 @@
     <mat-expansion-panel expanded="true" class="mb-4 mt-4" *ngIf="tarefa" (closed)="onCloseMinutas()">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                Minhas Minutas
+                Minutas da Tarefa
             </mat-panel-title>
         </mat-expansion-panel-header>
         <div class="minutas" matRipple *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async)) && tarefa">
@@ -201,7 +201,12 @@
                 <mat-icon *ngIf="minuta.assinado" class="ml-8 mr-8">lock</mat-icon>
                 <div class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                            aria-label="Ferramentas" (click)="$event.stopPropagation()">
+                            aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                            *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(minuta.id) > -1)">
                         <mat-icon class="secondary-text">more_vert</mat-icon>
                     </button>
 
@@ -316,7 +321,12 @@
                 <mat-icon *ngIf="oficio.assinado" class="ml-8 mr-8">lock</mat-icon>
                 <div class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                            aria-label="Ferramentas" (click)="$event.stopPropagation()">
+                            aria-label="Ferramentas" (click)="$event.stopPropagation()"
+                            *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(oficio.id) > -1)">
                         <mat-icon class="secondary-text">more_vert</mat-icon>
                     </button>
 
@@ -522,6 +532,21 @@
                         <ng-container>
                             <mat-icon>lock</mat-icon>
                             <span>Assinar</span>
+                        </ng-container>
+                    </button>
+
+                    <button mat-menu-item aria-label="adicionar vinculação" (click)="doAdicionarVinculacao(juntada.id)">
+                        <ng-container>
+                            <mat-icon>link</mat-icon>
+                            <span>Adicionar vinculação</span>
+                        </ng-container>
+                    </button>
+
+                    <button mat-menu-item aria-label="remover vinculações" (click)="doRemoverVinculacoes(juntada)"
+                            *ngIf="juntada.documento.vinculacoesDocumentos.length > 0">
+                        <ng-container>
+                            <mat-icon>lock</mat-icon>
+                            <span>Desvincular</span>
                         </ng-container>
                     </button>
 

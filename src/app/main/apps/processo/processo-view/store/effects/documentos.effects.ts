@@ -13,6 +13,7 @@ import {assinatura as assinaturaSchema, documento as documentoSchema} from '@cdk
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetJuntadas} from '../actions';
 import {getPagination} from '../selectors';
@@ -27,6 +28,7 @@ export class ProcessoViewDocumentosEffects {
         private _actions: Actions,
         private _documentoService: DocumentoService,
         private _assinaturaService: AssinaturaService,
+        private _vinculacaoDocumentoService: VinculacaoDocumentoService,
         private _router: Router,
         private _store: Store<State>,
         public activatedRoute: ActivatedRoute
@@ -382,6 +384,27 @@ export class ProcessoViewDocumentosEffects {
                             ;
                     }
                 )
-            )
-    ;
+            );
+
+    @Effect()
+    removeVinculacaoDocumento: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.RemoveVinculacaoDocumento>(ProcessoViewDocumentosActions.REMOVE_VINCULACAO_DOCUMENTO),
+                withLatestFrom(this._store.pipe(select(getPagination))),
+                switchMap(([action, pagination]) => {
+                        return this._vinculacaoDocumentoService.destroy(action.payload)
+                            .pipe(
+                                mergeMap((response) => [
+                                    new GetJuntadas(pagination),
+                                    new ProcessoViewDocumentosActions.RemoveVinculacaoDocumentoSuccess(action.payload),
+                                ]),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    return of(new ProcessoViewDocumentosActions.RemoveVinculacaoDocumentoFailed(action.payload));
+                                })
+                            );
+                    }
+                ));
+
 }
