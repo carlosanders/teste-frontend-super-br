@@ -1,7 +1,7 @@
-<mat-autocomplete [displayWith]="displayEspecieTarefaFn">
+<mat-autocomplete [displayWith]="displayEspecieRelatorioFn">
     <mat-option *ngFor="let especieRelatorio of especieRelatorioList"
                 [value]="especieRelatorio">
-        <span [innerHTML]="displayEspecieTarefaFn(especieRelatorio) | highlightOption: this.control.value"></span>
+        <span [innerHTML]="displayEspecieRelatorioFn(especieRelatorio) | highlightOption: this.control.value"></span>
     </mat-option>
     <mat-option *ngIf="especieRelatorioListIsLoading">
         <mat-spinner diameter="16"></mat-spinner>

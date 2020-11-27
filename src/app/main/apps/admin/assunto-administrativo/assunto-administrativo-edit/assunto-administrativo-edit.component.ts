@@ -59,9 +59,9 @@ export class AssuntoAdministrativoEditComponent implements OnInit {
             id: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             parent: [null],
-            dispositivoLegal: [null, [Validators.required]],
-            codigoCNJ: [null, [Validators.required]],
-            glossario: [null, [Validators.required]],
+            dispositivoLegal: [null],
+            codigoCNJ: [null],
+            glossario: [null],
             ativo: [null],
         });
     }

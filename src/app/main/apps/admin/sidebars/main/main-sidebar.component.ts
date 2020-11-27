@@ -121,8 +121,9 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
             if (module.sidebars.hasOwnProperty(path)) {
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
-            this.links = CdkUtils.sortArraySideBar(this.links);
         });
+
+        this.links = CdkUtils.sortArraySideBar(this.links);
     }
 
     // -----------------------------------------------------------------------------------------------------

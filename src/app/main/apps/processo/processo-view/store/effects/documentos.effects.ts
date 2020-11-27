@@ -63,7 +63,7 @@ export class ProcessoViewDocumentosEffects {
                     const params = {
                         filter: {
                             'tarefaOrigem.id': tarefaId,
-                            'juntadaAtual':'isNull'
+                            'juntadaAtual': 'isNull'
                         },
                         limit: 10,
                         offset: 0,

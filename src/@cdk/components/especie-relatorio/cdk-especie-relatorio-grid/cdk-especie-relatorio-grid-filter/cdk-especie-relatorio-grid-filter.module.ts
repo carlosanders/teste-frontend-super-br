@@ -8,11 +8,11 @@ import {
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import {CdkEspecieRelatorioGridFilterComponent} from './cdk-especie-relatorio-grid-filter.component';
-import {CdkGeneroTarefaAutocompleteModule} from '@cdk/components/genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-autocomplete.module';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
+import {CdkGeneroRelatorioAutocompleteModule} from '../../../genero-relatorio/cdk-genero-relatorio-autocomplete/cdk-genero-relatorio-autocomplete.module';
+import {EspecieRelatorioService} from '../../../../services/especie-relatorio.service';
 
 @NgModule({
     declarations: [
@@ -29,11 +29,12 @@ import {MatDatetimepickerModule} from '@mat-datetimepicker/core';
 
         CdkSharedModule,
 
-        CdkGeneroTarefaAutocompleteModule,
+        CdkGeneroRelatorioAutocompleteModule,
         CdkUsuarioAutocompleteModule,
+        CdkGeneroRelatorioAutocompleteModule,
     ],
     providers: [
-        EspecieTarefaService,
+        EspecieRelatorioService,
     ],
     exports: [
         CdkEspecieRelatorioGridFilterComponent
