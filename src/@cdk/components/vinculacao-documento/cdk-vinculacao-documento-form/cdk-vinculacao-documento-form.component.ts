@@ -80,6 +80,7 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
      * On init
      */
     ngOnInit(): void {
+        this.form.get('documento').disable();
     }
 
     /**

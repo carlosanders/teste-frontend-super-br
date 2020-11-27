@@ -17,7 +17,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, filter, switchMap, tap} from 'rxjs/operators';
-import {ComponenteDigital, Juntada} from '@cdk/models';
+import {ComponenteDigital, Documento, Juntada} from '@cdk/models';
 import {JuntadaDataSource} from '@cdk/data-sources/juntada-data-source';
 import {FormControl} from '@angular/forms';
 import {ComponenteDigitalService} from '../../../services/componente-digital.service';
@@ -165,7 +165,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'desentranhar', 'copiar'];
+    actions: string[] = ['edit', 'delete', 'select', 'desentranhar', 'copiar', 'adicionarVinculacao', 'removerVinculacoes'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -183,7 +183,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     cancel = new EventEmitter<any>();
 
     @Output()
-    edit = new EventEmitter<number>();
+    edit = new EventEmitter<Documento>();
 
     @Output()
     delete = new EventEmitter<number>();
@@ -193,6 +193,12 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Output()
     copiar = new EventEmitter<number[]>();
+
+    @Output()
+    adicionarVinculacao = new EventEmitter<any>();
+
+    @Output()
+    removerVinculacoes = new EventEmitter<Juntada>();
 
     @Output()
     selected = new EventEmitter<Juntada>();
@@ -320,8 +326,8 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
         }
     }
 
-    editJuntada(documentoId): void {
-        this.edit.emit(documentoId);
+    editJuntada(documento: Documento): void {
+        this.edit.emit(documento);
     }
 
     selectJuntada(juntada: Juntada): void {
@@ -404,6 +410,14 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    doAdicionarVinculacao(juntadaId: number): void {
+        this.adicionarVinculacao.emit(juntadaId);
+    }
+
+    doRemoverVinculacoes(juntada: Juntada): void {
+        this.removerVinculacoes.emit(juntada);
     }
 
     download(componenteDigital: ComponenteDigital): void {

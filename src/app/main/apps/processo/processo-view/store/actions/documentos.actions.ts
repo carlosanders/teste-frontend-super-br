@@ -43,6 +43,10 @@ export const CONVERTE_DOCUMENTO_FAILED = '[PROCESSO VIEW] CONVERTE DOCUMENTO FAI
 
 export const CHANGE_SELECTED_DOCUMENTOS = '[PROCESSO VIEW] CHANGE SELECTED DOCUMENTOS';
 
+export const REMOVE_VINCULACAO_DOCUMENTO = '[PROCESSO VIEW] REMOVE VINCULACAO DOCUMENTO';
+export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] REMOVE VINCULACAO DOCUMENTO SUCCESS';
+export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[PROCESSO VIEW] REMOVE VINCULACAO DOCUMENTO FAILED';
+
 /**
  * Unload Documentos
  */
@@ -408,6 +412,42 @@ export class ConverteToPdfFailed implements Action
     }
 }
 
+/**
+ * Remove Vinculacao Documento
+ */
+export class RemoveVinculacaoDocumento implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Vinculacao Documento Success
+ */
+export class RemoveVinculacaoDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Vinculacao Documento Failed
+ */
+export class RemoveVinculacaoDocumentoFailed implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProcessoViewDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -439,4 +479,7 @@ export type ProcessoViewDocumentosActionsAll
     | ConverteToPdf
     | ConverteToPdfSucess
     | ConverteToPdfFailed
-    | UnloadDocumentos;
+    | UnloadDocumentos
+    | RemoveVinculacaoDocumento
+    | RemoveVinculacaoDocumentoSuccess
+    | RemoveVinculacaoDocumentoFailed;

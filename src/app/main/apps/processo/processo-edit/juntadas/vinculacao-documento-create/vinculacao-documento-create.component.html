@@ -1,0 +1,11 @@
+<div class="content" cdkPerfectScrollbar>
+    <cdk-vinculacao-documento-form
+        [vinculacaoDocumento]="vinculacaoDocumento"
+        [documentoVinculadoPagination]="documentoVinculadoPagination"
+        [modalidadeVinculacaoDocumentoPagination]="modalidadeVinculacaoDocumentoPagination"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-vinculacao-documento-form>
+</div>

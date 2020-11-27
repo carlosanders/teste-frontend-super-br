@@ -131,6 +131,9 @@ export class CdkModalidadeVinculacaoDocumentoGridComponent implements AfterViewI
     reload = new EventEmitter<any>();
 
     @Output()
+    excluded = new EventEmitter<any>();
+
+    @Output()
     cancel = new EventEmitter<any>();
 
     @Output()

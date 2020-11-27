@@ -16,6 +16,7 @@ import {Router} from '@angular/router';
 import {environment} from '../../../../../../../../../environments/environment';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 
 @Injectable()
@@ -28,6 +29,7 @@ export class JuntadaListEffect {
         private _juntadaService: JuntadaService,
         private _documentoService: DocumentoService,
         private _assinaturaService: AssinaturaService,
+        private _vinculacaoDocumentoService: VinculacaoDocumentoService,
         private _store: Store<State>,
         private _router: Router
     ) {
@@ -196,6 +198,25 @@ export class JuntadaListEffect {
                                 catchError((err, caught) => {
                                     console.log(err);
                                     return of(new JuntadaListActions.RemoveAssinaturaDocumentoFailed(action.payload));
+                                })
+                            );
+                    }
+                ));
+
+    @Effect()
+    removeVinculacaoDocumento: any =
+        this._actions
+            .pipe(
+                ofType<JuntadaListActions.RemoveVinculacaoDocumento>(JuntadaListActions.REMOVE_VINCULACAO_DOCUMENTO),
+                mergeMap((action) => {
+                        return this._vinculacaoDocumentoService.destroy(action.payload)
+                            .pipe(
+                                mergeMap((response) => [
+                                    new JuntadaListActions.RemoveVinculacaoDocumentoSuccess(action.payload),
+                                ]),
+                                catchError((err, caught) => {
+                                    console.log(err);
+                                    return of(new JuntadaListActions.RemoveVinculacaoDocumentoFailed(action.payload));
                                 })
                             );
                     }

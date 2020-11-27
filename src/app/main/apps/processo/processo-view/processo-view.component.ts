@@ -219,6 +219,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    disabledNext(): boolean {
+        return this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step].length - 1;
+    }
+
     /**
      * Go to next step
      */
@@ -236,11 +240,19 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         let step = (this.currentStep.step + 1) + '-0';
 
-        if ((this.currentStep.subStep + 1) === this.index[this.currentStep.step].length - 1) {
+        console.log(this.currentStep);
+        console.log(this.currentStep.subStep + 1);
+        console.log(this.index[this.currentStep.step].length);
+
+        if ((this.currentStep.subStep + 1) <= this.index[this.currentStep.step].length - 1) {
             step = this.currentStep.step + '-' + (this.currentStep.subStep + 1);
         }
 
         this.navigateToStep(step);
+    }
+
+    disabledBack(): boolean {
+        return this.currentStep.step === 0 && this.currentStep.subStep === 0;
     }
 
     /**

@@ -244,7 +244,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 takeUntil(this._unsubscribeAll)
             ).subscribe(
                 documentos => {
-                    this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
+                    this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa));
                     this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
                     this._changeDetectorRef.markForCheck();
                 }
@@ -529,6 +529,21 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 });
             }
         });
+    }
+
+    doAdicionarVinculacao(juntadaId: number): void {
+        this._router.navigate([
+            this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
+            '/visualizar/' + this.routerState.params.stepHandle + '/vincular/' + juntadaId
+        ]).then();
+    }
+
+    doRemoverVinculacoes(juntada: Juntada): void {
+        juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao.id));
+    }
+
+    removeVinculacao(vinculacaoDocumentoId: number): void {
+        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacaoDocumentoId));
     }
 
     checkTipoDocumento(): void {
