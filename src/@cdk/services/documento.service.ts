@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Documento} from '@cdk/models';
+import {Documento, Tarefa} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
@@ -81,5 +81,21 @@ export class DocumentoService extends ParentGenericService<Documento> {
                 plainToClass(ComponenteDigital, response)[0])            
                 )
         ;
+    }
+
+    undelete(documento: Documento, context: any = '{}'): Observable<Documento> {
+        const params: HttpParams = new HttpParams();
+        params['context'] = context;
+        return this.http.patch(
+            `${environment.api_url}${'administrativo/documento'}/${documento.id}/${'undelete'}` + environment.xdebug,
+            null,
+            {params}
+        ).pipe(
+            map(response => {
+                response = plainToClass(Documento, response);
+                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                return Object.assign(new Documento(), {...documento, ...response});
+            })
+        );
     }
 }

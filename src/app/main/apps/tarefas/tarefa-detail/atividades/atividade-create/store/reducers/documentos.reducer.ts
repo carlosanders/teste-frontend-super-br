@@ -5,6 +5,7 @@ export interface AtividadeCreateDocumentosState {
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
+    undeletingDocumentoIds: number[];
     alterandoDocumentoIds: number[];
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
@@ -22,6 +23,7 @@ export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosSta
     alterandoDocumentoIds: [],
     removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
+    undeletingDocumentoIds: [],
     loading: false,
     loaded: false,
 };
@@ -164,6 +166,29 @@ export function AtividadeCreateDocumentosReducer(
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
             };
         }
+
+        case AtividadeCreateDocumentosActions.UNDELETE_DOCUMENTO: {
+            return {
+                ...state,
+                undeletingDocumentoIds: [...state.undeletingDocumentoIds, action.payload.documento.id],
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.UNDELETE_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id),
+                documentosId: [...state.documentosId, action.payload.id],
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.UNDELETE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id)
+            };
+        }
+
         default:
             return state;
     }

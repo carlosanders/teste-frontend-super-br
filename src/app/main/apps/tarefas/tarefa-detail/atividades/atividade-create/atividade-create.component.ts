@@ -31,6 +31,7 @@ import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../../modules/dynamic.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'atividade-create',
@@ -372,7 +373,30 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 
+    doRestaurar(documentoId): void {
+        const operacaoId = CdkUtils.makeId();
+        const documento = new Documento();
+        documento.id = documentoId
+        this._store.dispatch(new fromStore.UndeleteDocumento({
+            documento: documento,
+            operacaoId: operacaoId,
+            redo: null,
+            undo: null
+        }));
+    }
+
     doAbort(): void {
         this._store.dispatch(new Back());
+    }
+
+    minutasExcluidas(): void {
+        const params = {
+            filter: {'tarefaOrigem.id':'eq:' + this.tarefa.id},
+            sort: {criadoEm: 'DESC'},
+            context: {
+                mostrarApagadas: true
+            }
+        };
+        this._store.dispatch(new fromStore.GetDocumentos(params));
     }
 }
