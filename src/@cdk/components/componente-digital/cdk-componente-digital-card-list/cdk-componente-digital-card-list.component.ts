@@ -17,6 +17,7 @@ import {Processo} from '@cdk/models';
 import {Tarefa} from '@cdk/models';
 import {Documento} from '@cdk/models';
 import {DocumentoAvulso} from '@cdk/models';
+import {ObjectAssignBuiltinFn} from '@angular/compiler-cli/src/ngtsc/partial_evaluator/src/builtin';
 
 @Component({
     selector: 'cdk-componente-digital-card-list',
@@ -158,12 +159,8 @@ export class CdkComponenteDigitalCardListComponent {
     }
 
     cancelFile(componenteDigital: ComponenteDigital): void {
-        const file = componenteDigital.file;
-        file.sub.unsubscribe();
-        file.inProgress = false;
-        file.canRetry = true;
-        file.canCancel = false;
-        this.removeFileFromArray(file);
+        // @ts-ignore
+        this.componentesDigitais = this.componentesDigitais.filter(el => el.fileName !== componenteDigital.data.name);
     }
 
     private getBase64(file): any {
@@ -229,7 +226,7 @@ export class CdkComponenteDigitalCardListComponent {
                         componenteDigital.canRetry = true;
                         this.removeFileFromArray(file);
                         this._changeDetectorRef.markForCheck();
-                        this.erroUpload.emit("Ocorreu um erro ao realizar o upload, clique no menu do arquivo para tentar novamente")
+                        this.erroUpload.emit("Ocorreu um erro ao realizar o upload, clique no menu do arquivo e em seguida em repetir para tentar novamente!")
                         return of(`${file.data.name} upload falhou.`);
                     })
                 ).subscribe(

@@ -1,4 +1,8 @@
 <div class="atividade">
+    <div class="mensagem-erro" *ngIf="mensagemErro">
+        {{mensagemErro}}
+    </div>
+
     <div class="upload">
         <button mat-mini-fab
                 class="m-4 active accent"
@@ -47,10 +51,6 @@
                 </button>
             </form>
         </mat-menu>
-
-        <div class="mensagem-erro" *ngIf="mensagemErro">
-            <h4>{{mensagemErro}}</h4>
-        </div>
 
         <cdk-documento-card-list [documentos]="minutas"
                                  [deletingId]="(deletingDocumentosId$ | async)"

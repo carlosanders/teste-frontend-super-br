@@ -302,8 +302,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     erroUpload(mensagemErro) {
-        console.log("Mensagem erro", mensagemErro);
-
         this.mensagemErro = mensagemErro;
     }
 
