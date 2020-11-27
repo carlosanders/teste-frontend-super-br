@@ -60,7 +60,8 @@ export class ProcessoViewDocumentosEffects {
 
                     const params = {
                         filter: {
-                            'tarefaOrigem.id': tarefaId
+                            'tarefaOrigem.id': tarefaId,
+                            'juntadaAtual': 'isNull'
                         },
                         limit: 10,
                         offset: 0,
@@ -71,8 +72,7 @@ export class ProcessoViewDocumentosEffects {
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.documentoResposta',
-                            'componentesDigitais',
-                            'juntadaAtual'
+                            'componentesDigitais'
                         ]
                     };
 
