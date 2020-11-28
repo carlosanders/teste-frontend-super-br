@@ -4,6 +4,7 @@
     </div>
 
     <div class="upload">
+
         <button mat-mini-fab
                 class="m-4 active accent"
                 [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
@@ -26,6 +27,15 @@
                 <mat-icon>create</mat-icon>
                 <span>Editor</span>
             </button>
+
+            <button mat-menu-item aria-label="upload"
+                    (click)="minutasExcluidas()">
+                <ng-container>
+                    <mat-icon>delete</mat-icon>
+                    <span>Lixeira</span>
+                </ng-container>
+            </button>
+
             <ng-template #dynamicComponent></ng-template>
         </mat-menu>
 
@@ -62,6 +72,7 @@
                                  (removeAssinatura)="doRemoveAssinatura($event)"
                                  (assinatura)="doAssinatura($event)"
                                  (converte)="doConverte($event)"
+                                 (restaurar)="doRestaurar($event)"
                                  (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                                  (clicked)="onClicked($event)"
                                  (changedSelectedIds)="changedSelectedIds($event)"

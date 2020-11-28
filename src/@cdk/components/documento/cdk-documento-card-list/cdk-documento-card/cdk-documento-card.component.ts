@@ -78,6 +78,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     @Output()
     changedSelected = new EventEmitter<boolean>();
 
+    @Output()
+    restaurar = new EventEmitter<boolean>();
+
     @Input()
     tipoDocumentoPagination: Pagination;
 
@@ -142,6 +145,10 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     doRemoveAssinatura(documentoId): void {
         this.removeAssinatura.emit(documentoId);
+    }
+
+    doRestaurar(documentoId): void {
+        this.restaurar.emit(documentoId);
     }
 
     doConverte(documentoId): void {

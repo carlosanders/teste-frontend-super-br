@@ -37,6 +37,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     converte = new EventEmitter<number>();
 
     @Output()
+    restaurar = new EventEmitter<number>();
+
+    @Output()
     clicked = new EventEmitter<number>();
 
     @Output()
@@ -213,6 +216,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     // **********************************MUDANÇA CONVERTE
     doConverte(documentoId): void {
         this.converte.emit(documentoId);
+    }
+
+    doRestaurar(documentoId): void {
+        this.restaurar.emit(documentoId);
     }
 
     doConverteDocumentoBloco(): void {

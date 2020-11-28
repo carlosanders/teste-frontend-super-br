@@ -45,7 +45,7 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.GetDocumentos>(AtividadeCreateDocumentosActions.GET_DOCUMENTOS),
-                switchMap(() => {
+                switchMap((action) => {
 
                     let tarefaId = null;
 
@@ -54,32 +54,45 @@ export class AtividadeCreateDocumentosEffect {
                         tarefaId = `eq:${this.routerState.params[param]}`;
                     });
 
-                    const params = {
-                        filter: {
-                            'tarefaOrigem.id': tarefaId
-                        },
-                        limit: 10,
-                        offset: 0,
-                        sort: {
-                            criadoEm: 'DESC'
-                        },
-                        populate: [
-                            'tipoDocumento',
-                            'documentoAvulsoRemessa',
-                            'documentoAvulsoRemessa.documentoResposta',
-                            'componentesDigitais',
-                            'juntadaAtual'
-                        ]
-                    };
+                    let params = {}
+                    if (!action.payload['filter']) {
+                        params = {
+                            filter: {
+                                'tarefaOrigem.id': tarefaId
+                            },
+                            limit: 10,
+                            offset: 0,
+                            sort: {
+                                criadoEm: 'DESC'
+                            },
+                            populate: [
+                                'tipoDocumento',
+                                'documentoAvulsoRemessa',
+                                'documentoAvulsoRemessa.documentoResposta',
+                                'componentesDigitais',
+                                'juntadaAtual'
+                            ]
+                        };
+                    } else {
+                        params = {
+                            filter: action.payload['filter'],
+                            limit: action.payload['limit'],
+                            offset: action.payload['offset'],
+                            sort: action.payload['sort'],
+                            populate: action.payload['populate'],
+                            context: action.payload['context']
+                        };
+                    }
 
                     return this._documentoService.query(
                         JSON.stringify({
-                            ...params.filter
+                            ...params['filter']
                         }),
-                        params.limit,
-                        params.offset,
-                        JSON.stringify(params.sort),
-                        JSON.stringify(params.populate));
+                        params['limit'],
+                        params['offset'],
+                        JSON.stringify(params['sort']),
+                        JSON.stringify(params['populate']),
+                        JSON.stringify(params['context']));
                 }),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
@@ -297,4 +310,53 @@ export class AtividadeCreateDocumentosEffect {
                 )
             )
     ;
+
+    /**
+     * Undelete Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    undeleteDocumento: any =
+        this._actions
+            .pipe(
+                ofType<AtividadeCreateDocumentosActions.UndeleteDocumento>(AtividadeCreateDocumentosActions.UNDELETE_DOCUMENTO),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documento',
+                        content: 'Restaurando a documento id ' + action.payload.documento.id + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._documentoService.undelete(action.payload.documento).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Documento id ' + action.payload.documento.id + ' restaurada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            return new AtividadeCreateDocumentosActions.UndeleteDocumentoSuccess(response);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.documento.id,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Erro ao restaurar a documento id ' + action.payload.documento.id + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new AtividadeCreateDocumentosActions.UndeleteDocumentoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 }
