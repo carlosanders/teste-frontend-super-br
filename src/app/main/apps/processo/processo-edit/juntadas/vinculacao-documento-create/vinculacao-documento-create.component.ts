@@ -16,6 +16,7 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../store/reducers';
+import {Back} from '../../../../../../store/actions';
 
 @Component({
     selector: 'vinculacao-documento-create',
@@ -105,7 +106,7 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
     }
 
     doAbort(): void {
-        this._router.navigate([this.routerState.url.replace(('vincular/' + this.routerState.params.juntadaHandle), 'listar')]).then();
+        this._store.dispatch(new Back());
     }
 
     /**
