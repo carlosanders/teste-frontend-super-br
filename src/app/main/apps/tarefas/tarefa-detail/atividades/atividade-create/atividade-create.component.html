@@ -76,6 +76,10 @@
                                  (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                                  (clicked)="onClicked($event)"
                                  (changedSelectedIds)="changedSelectedIds($event)"
+                                 [loadingDocumentosExcluidos]="(loadDocumentosExcluidos$ | async)"
+                                 [lixeiraMinutas]="(lixeiraMinutas$| async)"
+                                 (sairLixeira)="doSairLixeiraMinutas($event)"
+                                 [undeletingId]="(undeletingDocumentosId$ | async)"
                                  >
         </cdk-documento-card-list>
         <cdk-componente-digital-card-list class="componente-digital-card"
