@@ -279,7 +279,7 @@ export class AtividadeCreateDocumentosEffect {
                             }
                         }],
                         {
-                            relativeTo: this.activatedRoute.parent // <--- PARENT activated route.
+                            relativeTo: this.activatedRoute.parent
                         }).then();
 
                 })

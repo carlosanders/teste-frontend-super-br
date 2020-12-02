@@ -43,6 +43,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     deleting = false;
 
     @Input()
+    undeleting = false;
+
+    @Input()
     assinando = false;
 
     @Input()

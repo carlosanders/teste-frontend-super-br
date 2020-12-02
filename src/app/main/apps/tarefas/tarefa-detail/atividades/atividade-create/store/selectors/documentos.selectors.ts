@@ -62,3 +62,18 @@ export const getConvertendoDocumentosId = createSelector(
     getAtividadeCreateDocumentosState,
     (state: AtividadeCreateDocumentosState) => state.convertendoDocumentoIds
 );
+
+export const getDocumentosExcluidos = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.loadDocumentosExcluidos
+);
+
+export const getLixeiraMinutas = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.lixeiraMinutas
+);
+
+export const getUnDeletingDocumentosId = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.undeletingDocumentoIds
+);
