@@ -1,0 +1,8 @@
+<div class="restaurar" *ngIf="(documento$ | async).apagadoEm">
+    <button mat-raised-button color="accent"
+            *ngIf="!(isUndeleting$ | async)"
+            (click)="doRestaurar()" aria-label="restaurar">
+        <mat-icon>undo</mat-icon> Restaurar
+    </button>
+    <mat-spinner color="accent" diameter="24" *ngIf="(isUndeleting$ | async)"></mat-spinner>
+</div>

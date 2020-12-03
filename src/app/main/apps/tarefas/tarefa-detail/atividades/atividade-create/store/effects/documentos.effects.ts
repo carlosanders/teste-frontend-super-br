@@ -268,6 +268,9 @@ export class AtividadeCreateDocumentosEffect {
                     } else {
                         primary += '0';
                     }
+                    if (action.payload.apagadoEm) {
+                        primary += '/visualizar';
+                    }
                     let sidebar = 'oficio/dados-basicos';
                     if (!action.payload.documentoAvulsoRemessa) {
                         sidebar = 'editar/atividade';
@@ -279,7 +282,8 @@ export class AtividadeCreateDocumentosEffect {
                             }
                         }],
                         {
-                            relativeTo: this.activatedRoute.parent
+                            relativeTo: this.activatedRoute.parent,
+                            queryParams: {lixeira: action.payload.apagadoEm ? true : null}
                         }).then();
 
                 })

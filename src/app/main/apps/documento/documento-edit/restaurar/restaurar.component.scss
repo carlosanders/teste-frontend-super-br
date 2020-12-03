@@ -1,0 +1,16 @@
+documento-edit-restaurar {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+    > .restaurar {
+        display: flex;
+        flex-direction: row;
+        flex: 0.06 0;
+        justify-content: center;
+
+        > button {
+            flex: 0.2 0 auto;
+        }
+    }
+}
