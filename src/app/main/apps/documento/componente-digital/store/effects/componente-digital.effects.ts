@@ -19,6 +19,7 @@ import {DeleteTarefaSuccess} from '../../../../tarefas/store/actions';
 export class ComponenteDigitalEffect {
 
     routerState: any;
+    lixeira = false;
 
     constructor(
         private _actions: Actions,
@@ -31,6 +32,7 @@ export class ComponenteDigitalEffect {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    this.lixeira = !!routerState.state.queryParams.lixeira;
                 }
             });
     }
@@ -46,7 +48,7 @@ export class ComponenteDigitalEffect {
                 ofType<ComponenteDigitalActions.DownloadComponenteDigital>(ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL),
                 switchMap(() => {
                     let handle = { id: '', value: '' };
-                    let context = '{}';
+                    let context: any = '{}';
                     const routeParams = of('componenteDigitalHandle');
                     routeParams.subscribe(param => {
                         if (this.routerState.params[param]) {
@@ -59,9 +61,12 @@ export class ComponenteDigitalEffect {
                     const routeChaveAcessoParams = of('chaveAcessoHandle');
                     routeChaveAcessoParams.subscribe(param => {
                         if (this.routerState.params[param]) {
-                            context = JSON.stringify({chaveAcesso: this.routerState.params[param]});
+                            context = JSON.stringify({'chaveAcesso': this.routerState.params[param]});
                         }
                     });
+                    if (this.lixeira) {
+                        context = JSON.stringify({'mostrarApagadas': true});
+                    }
                     return this._componenteDigitalService.download(handle.value, context);
                 }),
                 mergeMap((response: ComponenteDigital) => [

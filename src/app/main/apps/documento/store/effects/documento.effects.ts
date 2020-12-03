@@ -31,6 +31,7 @@ import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.servi
 export class DocumentoEffect {
     routerState: any;
     private _profile: any;
+    lixeira = false;
 
     /**
      *
@@ -62,6 +63,7 @@ export class DocumentoEffect {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    this.lixeira = !!routerState.state.queryParams.lixeira;
                 }
             });
 
@@ -91,6 +93,12 @@ export class DocumentoEffect {
                             };
                         }
                     });
+                    let context = {};
+                    if (this.lixeira) {
+                        context = {'mostrarApagadas':true};
+                    }
+
+
                     return this._documentoService.query(
                         `{"id": "eq:${handle.value}"}`,
                         1,
@@ -113,14 +121,14 @@ export class DocumentoEffect {
                             'tarefaOrigem.processo.especieProcesso.generoProcesso',
                             'tarefaOrigem.processo.modalidadeMeio',
                             'tarefaOrigem.especieTarefa',
-                            'tarefaOrigem.especieTarefa.generoTarefa',                            
+                            'tarefaOrigem.especieTarefa.generoTarefa',
                             'tarefaOrigem.setorOrigem',
                             'tarefaOrigem.setorOrigem.unidade',
                             'tarefaOrigem.setorResponsavel',
                             'tarefaOrigem.setorResponsavel.unidade',
                             'tarefaOrigem.usuarioResponsavel',
                             'tarefaOrigem.vinculacoesEtiquetas',
-                            'tarefaOrigem.vinculacoesEtiquetas.etiqueta',                            
+                            'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
                             'repositorio',
                             'juntadaAtual',
                             'repositorio.modalidadeRepositorio',
@@ -145,7 +153,8 @@ export class DocumentoEffect {
                             'sigilos.tipoSigilo',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
-                        ]));
+                        ]),
+                        JSON.stringify(context))
                 }),
                 switchMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
@@ -266,13 +275,16 @@ export class DocumentoEffect {
                 withLatestFrom(this._store.pipe(select(DocumentoSelectors.getCurrentComponenteDigital))),
                 tap(([action, componenteDigital]) => {
                     let type = '/visualizar';
-                    if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado) {
+                    if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
                         type = '/editor/ckeditor';
                     }
                     if (this.routerState.url.indexOf('/assinaturas') > -1) {
                         type = '/assinaturas';
                     }
-                    const sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1];
+                    let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1].split('?')[0];
+                    if (componenteDigital.apagadoEm) {
+                        sidebar = 'editar/restaurar';
+                    }
                     this._router.navigate([
                             this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
                             {
@@ -283,7 +295,8 @@ export class DocumentoEffect {
                             }
                         ],
                         {
-                            relativeTo: this.activatedRoute.parent // <--- PARENT activated route.
+                            relativeTo: this.activatedRoute.parent,
+                            queryParams: {lixeira: this.lixeira ? true : null}
                         }).then();
                 })
             );

@@ -20,6 +20,7 @@ import * as fromStore from '../index';
 export class ComponenteDigitalEffect {
     routerState: any;
     componenteDigitalId: number;
+    lixeira = false;
 
     constructor(
         private _actions: Actions,
@@ -32,6 +33,7 @@ export class ComponenteDigitalEffect {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    this.lixeira = !!routerState.state.queryParams.lixeira;
                 }
             });
     }
