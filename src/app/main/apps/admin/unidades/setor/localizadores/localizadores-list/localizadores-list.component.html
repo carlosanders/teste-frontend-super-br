@@ -1,13 +1,28 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">edit_location</mat-icon>
+    <a [routerLink]="['/apps/admin/unidades/listar']">unidades</a>
+    <span class="mr-4 ml-4">/</span>
+    <a [routerLink]="['/apps/admin/unidades/editar', routerState.params.unidadeHandle]">
+        unidade {{routerState.params.unidadeHandle}}</a>
+    <span class="mr-4 ml-4">/</span>
+    <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', 'listar']">
+        setores</a>
+    <span class="mr-4 ml-4">/</span>
+    <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', 'editar', routerState.params.setorHandle]">
+        setor {{routerState.params.setorHandle}}</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>localizadores</span>
+</div>
 <cdk-localizador-grid
-        [loading]="(loading$ | async)"
-        [localizadors]="(localizadors$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [deletingIds]="(deletingIds$ | async)"
-        [deletedIds]="(deletedIds$ | async)"
-        [setorPagination]="setorPagination"
-        [actions]="['edit','create','delete']"
-        (reload)="reload($event)"
-        (create)="create()"
-        (edit)="edit($event)"
-        (delete)="delete($event)">
+    [loading]="(loading$ | async)"
+    [localizadors]="(localizadors$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [setorPagination]="setorPagination"
+    [actions]="['edit','create','delete']"
+    (reload)="reload($event)"
+    (create)="create()"
+    (edit)="edit($event)"
+    (delete)="delete($event)">
 </cdk-localizador-grid>

@@ -1,3 +1,9 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">person</mat-icon>
+    <a [routerLink]="['/apps/admin/externos/listar']">usuários externos</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>usuário externo {{routerState.params.usuariosExternosHandle}}</span>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-usuario-form
         [usuario]="(usuario$ | async)"

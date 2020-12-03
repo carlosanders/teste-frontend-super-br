@@ -1,3 +1,14 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">my_location</mat-icon>
+    <a [routerLink]="['/apps/admin/unidades/listar']">unidades</a>
+    <span class="mr-4 ml-4">/</span>
+    <a [routerLink]="['/apps/admin/unidades/editar', routerState.params.unidadeHandle]">
+        unidade {{routerState.params.unidadeHandle}}</a>
+    <span class="mr-4 ml-4">/</span>
+    <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'competencias', 'listar']">competências</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>competência {{ routerState.params.competenciaHandle }}</span>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-vinculacao-setor-municipio-form
         [vinculacaoSetorMunicipio]="vinculacaoSetorMunicipio"

@@ -34,6 +34,7 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
     setor: Setor;
     setorPagination: Pagination;
     colaboradorPagination: Pagination;
+    modulo: string;
 
     /**
      *
@@ -58,6 +59,15 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    if(this.routerState.url.includes('unidade')) {
+                        this.modulo = "unidade";
+                    }
+                    else if(this.routerState.url.includes('usuario')) {
+                        this.modulo = "usuario";
+                    }
+                    else {
+                        this.modulo = "lotacao";
+                    }
                 }
             });
 

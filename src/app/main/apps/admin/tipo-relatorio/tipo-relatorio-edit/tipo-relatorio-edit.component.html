@@ -1,3 +1,9 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">assessment</mat-icon>
+    <a [routerLink]="['/apps/admin/tipos-relatorios/listar']">tipos de relatorios</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>tipo de relatorio {{routerState.params.tipoRelatorioHandle}}</span>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-tipo-relatorio-form
         [tipoRelatorio]="(tipoRelatorio$ | async)"

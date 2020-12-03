@@ -1,3 +1,9 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">class</mat-icon>
+    <a [routerLink]="['/apps/admin/tipos-documentos/listar']">tipos de documentos</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>tipo de documento {{routerState.params.tipoDocumentoHandle}}</span>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-tipo-documento-form
         [tipoDocumento]="(tipoDocumento$ | async)"

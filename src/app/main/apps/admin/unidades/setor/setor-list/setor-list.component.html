@@ -1,3 +1,12 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">location_city</mat-icon>
+    <a [routerLink]="['/apps/admin/unidades/listar']">unidades</a>
+    <span class="mr-4 ml-4">/</span>
+    <a [routerLink]="['/apps/admin/unidades/editar', routerState.params.unidadeHandle]">
+        unidade {{routerState.params.unidadeHandle}}</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>setores</span>
+</div>
 <cdk-setor-grid
         [loading]="(loading$ | async)"
         [setores]="(setores$ | async)"

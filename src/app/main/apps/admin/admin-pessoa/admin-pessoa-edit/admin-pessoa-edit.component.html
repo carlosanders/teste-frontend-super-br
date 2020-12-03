@@ -1,3 +1,9 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">people</mat-icon>
+    <a [routerLink]="['/apps/admin/pessoas/listar']">pessoas</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>pessoa {{routerState.params.pessoaHandle}}</span>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-admin-pessoa-form
         [pessoa]="(pessoa$ | async)"

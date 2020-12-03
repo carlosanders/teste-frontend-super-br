@@ -1,3 +1,9 @@
+<div class="header">
+    <mat-icon class="mr-8 s-16">check_box</mat-icon>
+    <a [routerLink]="['/apps/admin/especie-tarefas/listar']">espécie tarefas</a>
+    <span class="mr-4 ml-4">/</span>
+    <span>espécie tarefas {{routerState.params.especieTarefaHandle}}</span>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-especie-tarefa-form
         [especieTarefa]="(especieTarefa$ | async)"
