@@ -432,5 +432,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             }
         };
         this._store.dispatch(new fromStore.GetDocumentos(params));
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos([]));
     }
 }
