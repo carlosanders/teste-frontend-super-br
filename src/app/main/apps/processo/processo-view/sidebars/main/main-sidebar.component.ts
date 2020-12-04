@@ -124,6 +124,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     minutasSaving$: Observable<boolean>;
 
+    minutasOpen = true;
+
     /**
      *
      * @param _juntadaService
@@ -405,7 +407,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._store.dispatch(new fromStore.GetDocumentos());
     }
 
+    onOpenMinutas(): void {
+        this.minutasOpen = true;
+    }
+
     onCloseMinutas(): void {
+        this.minutasOpen = false;
         this.reloadDocumentos();
     }
 
