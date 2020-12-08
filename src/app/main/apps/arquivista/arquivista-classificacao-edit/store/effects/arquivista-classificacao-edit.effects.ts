@@ -145,7 +145,7 @@ export class ArquivistaClassificacaoEditEffects {
                             processoFilter = {
                                 'dataHoraProximaTransicao': 'lt:' + this.currentDate,
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
 
                             };
                         }
@@ -154,7 +154,7 @@ export class ArquivistaClassificacaoEditEffects {
                             processoFilter = {
                                 'dataHoraProximaTransicao': 'gte:' + this.currentDate,
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
                             };
                         }
 
@@ -162,7 +162,7 @@ export class ArquivistaClassificacaoEditEffects {
                             processoFilter = {
                                 'dataHoraProximaTransicao': 'isNull',
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
                             };
 
                         }

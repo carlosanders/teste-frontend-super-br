@@ -11,11 +11,6 @@ export const GET_LEMBRETE = '[LEMBRETE] GET LEMBRETE';
 export const GET_LEMBRETE_SUCCESS = '[LEMBRETE] GET LEMBRETE SUCCESS';
 export const GET_LEMBRETE_FAILED = '[LEMBRETE] GET LEMBRETE FAILED';
 
-
-export const GET_PROCESSOS = '[LEMBRETE] GET PROCESSOS';
-export const GET_PROCESSOS_SUCCESS = '[LEMBRETE] GET PROCESSOS SUCCESS';
-export const GET_PROCESSOS_FAILED = '[LEMBRETE] GET PROCESSOS FAILED';
-
 /**
  * Get Lembrete
  */
@@ -112,38 +107,6 @@ export class CreateLembreteSuccess implements Action
     }
 }
 
-
-/**
- * Get Processos
- */
-export class GetProcessos implements Action {
-    readonly type = GET_PROCESSOS;
-
-    constructor(public payload: any) {
-    }
-}
-
-
-/**
- * Get Processos Success
- */
-export class GetProcessosSuccess implements Action {
-    readonly type = GET_PROCESSOS_SUCCESS;
-
-    constructor(public payload: any) {
-    }
-}
-
-/**
- * Get Processos Failed
- */
-export class GetProcessosFailed implements Action {
-    readonly type = GET_PROCESSOS_FAILED;
-
-    constructor(public payload: string) {
-    }
-}
-
 export type LembreteActionsAll
     = CreateLembrete
     | CreateLembreteSuccess
@@ -152,7 +115,4 @@ export type LembreteActionsAll
     | GetLembreteFailed
     | SaveLembrete
     | SaveLembreteSuccess
-    | SaveLembreteFailed
-    | GetProcessos
-    | GetProcessosFailed
-    | GetProcessosSuccess;
+    | SaveLembreteFailed;

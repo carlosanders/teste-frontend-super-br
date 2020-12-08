@@ -93,7 +93,7 @@ processo-view-main-sidebar {
             }
         }
 
-        > .metade:not(.metade-expanded) + .outra-metade {
+        .outra-metade {
             display: flex;
             flex-direction: column;
             flex: 1 0 auto;
