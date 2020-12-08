@@ -27,6 +27,7 @@ import {AssuntoAdministrativoEditStoreModule} from './store/store.module';
 import {AssuntoAdministrativoService} from '../../../../../../@cdk/services/assunto-administrativo.service';
 import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.service';
 import {CdkAssuntoAdministrativoFormModule} from '@cdk/components/assunto-administrativo/cdk-assunto-administrativo-form/cdk-assunto-administrativo-form.module';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 
 const routes: Routes = [
@@ -65,7 +66,8 @@ const routes: Routes = [
         CdkSidebarModule,
         MatStepperModule,
         AssuntoAdministrativoEditStoreModule,
-        CdkAssuntoAdministrativoFormModule
+        CdkAssuntoAdministrativoFormModule,
+        PathModule
 
     ],
     providers: [

@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">subject</mat-icon>
-    <span>assuntos</span>
+    <path icone="subject"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="assuntos">
+    </path>
 </div>
 <cdk-assunto-administrativo-grid
     [loading]="(loading$ | async)"

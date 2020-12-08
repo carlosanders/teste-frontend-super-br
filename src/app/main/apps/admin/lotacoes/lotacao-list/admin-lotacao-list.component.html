@@ -1,21 +1,8 @@
-<div class="header" *ngIf="modulo==='unidade'">
-    <mat-icon class="mr-8 s-16">low_priority</mat-icon>
-    <a [routerLink]="['/apps/admin/unidades/listar']">unidades</a>
-    <span class="mr-4 ml-4">/</span>
-    <a [routerLink]="['/apps/admin/unidades/editar', routerState.params.unidadeHandle]">
-        unidade {{routerState.params.unidadeHandle}}</a>
-    <span class="mr-4 ml-4">/</span>
-    <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', 'listar']">
-        setores</a>
-    <span class="mr-4 ml-4">/</span>
-    <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', 'editar', routerState.params.setorHandle]">
-        setor {{routerState.params.setorHandle}}</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>lotações</span>
-</div>
-<div class="header" *ngIf="modulo==='lotacao'">
-    <mat-icon class="mr-8 s-16">low_priority</mat-icon>
-    <span>lotações</span>
+<div class="header">
+    <path icone="map"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="{{modulo}}">
+    </path>
 </div>
 <cdk-lotacao-grid
         [loading]="(loading$ | async)"

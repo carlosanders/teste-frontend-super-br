@@ -1,8 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">insert_drive_file</mat-icon>
-    <a [routerLink]="['/apps/admin/especie-processo/listar']">espécie processos</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>espécie processo {{routerState.params.especieProcessoHandle}}</span>
+    <path icone="insert_drive_file"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-processo">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-especie-processo-form

@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">insert_drive_file</mat-icon>
-    <span>espécie processos</span>
+    <path icone="insert_drive_file"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-processo">
+    </path>
 </div>
 <cdk-especie-processo-grid
     [loading]="(loading$ | async)"

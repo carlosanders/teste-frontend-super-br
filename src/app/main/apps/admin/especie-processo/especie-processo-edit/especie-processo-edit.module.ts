@@ -28,6 +28,7 @@ import {EspecieProcessoService} from '../../../../../../@cdk/services/especie-pr
 import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.service';
 import {CdkEspecieProcessoFormModule} from '../../../../../../@cdk/components/especie-processo/cdk-especie-processo-form/cdk-especie-processo-form.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -72,7 +73,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
         MatStepperModule,
         EspecieProcessoEditStoreModule,
-        CdkEspecieProcessoFormModule
+        CdkEspecieProcessoFormModule,
+        PathModule
 
     ],
     providers: [

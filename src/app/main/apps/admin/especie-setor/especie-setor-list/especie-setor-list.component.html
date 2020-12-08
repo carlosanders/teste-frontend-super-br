@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">place</mat-icon>
-    <span>espécie setores</span>
+    <path icone="place"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-setor">
+    </path>
 </div>
 <cdk-especie-setor-grid
     [loading]="(loading$ | async)"

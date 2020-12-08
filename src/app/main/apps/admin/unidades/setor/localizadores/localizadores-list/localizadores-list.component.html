@@ -1,17 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">edit_location</mat-icon>
-    <a [routerLink]="['/apps/admin/unidades/listar']">unidades</a>
-    <span class="mr-4 ml-4">/</span>
-    <a [routerLink]="['/apps/admin/unidades/editar', routerState.params.unidadeHandle]">
-        unidade {{routerState.params.unidadeHandle}}</a>
-    <span class="mr-4 ml-4">/</span>
-    <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', 'listar']">
-        setores</a>
-    <span class="mr-4 ml-4">/</span>
-    <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', 'editar', routerState.params.setorHandle]">
-        setor {{routerState.params.setorHandle}}</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>localizadores</span>
+    <path icone="my_location"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="unidades">
+    </path>
 </div>
 <cdk-localizador-grid
     [loading]="(loading$ | async)"

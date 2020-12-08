@@ -1,8 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">business</mat-icon>
-    <a [routerLink]="['/apps/admin/modalidade-orgao-central/listar']">modalidades orgão central</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>modalidade orgão central {{routerState.params.modalidadeOrgaoCentralHandle}}</span>
+    <path icone="business"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="modalidade-orgao-central">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-modalidade-orgao-central-form

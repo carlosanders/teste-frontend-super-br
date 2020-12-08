@@ -26,6 +26,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MunicipioStoreModule} from './store/store.module';
 import {CdkMunicipioGridModule} from '../../../../../../@cdk/components/municipio/cdk-municipio-grid/cdk-municipio-grid.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -67,7 +68,8 @@ modulesConfig.forEach((module) => {
         MatDatepickerModule,
         MatDialogModule,
         MunicipioStoreModule,
-        CdkMunicipioGridModule
+        CdkMunicipioGridModule,
+        PathModule
     ],
     providers: [
         ResolveGuard

@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">place</mat-icon>
-    <span>municípios</span>
+    <path icone="location_on"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="municipios">
+    </path>
 </div>
 <cdk-municipio-grid
     [loading]="(loading$ | async)"

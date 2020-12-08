@@ -1,8 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">place</mat-icon>
-    <a [routerLink]="['/apps/admin/especie-setor/listar']">espécie setores</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>espécie setor {{routerState.params.especieSetorHandle}}</span>
+    <path icone="place"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-setor">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-especie-setor-form

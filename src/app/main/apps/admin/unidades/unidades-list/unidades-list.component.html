@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">location_city</mat-icon>
-    <span>unidades</span>
+    <path icone="location_city"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="unidades">
+    </path>
 </div>
 <cdk-setor-grid
     [loading]="(loading$ | async)"

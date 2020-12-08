@@ -1,8 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">subject</mat-icon>
-    <a [routerLink]="['/apps/admin/assuntos/listar']">assuntos</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>assunto {{routerState.params.assuntoAdministrativoHandle}}</span>
+    <path icone="subject"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="assuntos">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-assunto-administrativo-form

@@ -1,8 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">view_array</mat-icon>
-    <a [routerLink]="['/apps/admin/templates/listar']">templates</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>template {{routerState.params.templateHandle}}</span>
+    <path icone="view_array"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="templates">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-template-form

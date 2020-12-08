@@ -26,6 +26,7 @@ import {ModalidadeOrgaoCentralStoreModule} from './store/store.module';
 import {CdkModalidadeOrgaoCentralGridModule} from '../../../../../../@cdk/components/modalidade-orgao-central/cdk-modalidade-orgao-central-grid/cdk-modalidade-orgao-central-grid.module';
 import {ResolveGuard} from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -66,7 +67,8 @@ modulesConfig.forEach((module) => {
         MatDatepickerModule,
         MatDialogModule,
         ModalidadeOrgaoCentralStoreModule,
-        CdkModalidadeOrgaoCentralGridModule
+        CdkModalidadeOrgaoCentralGridModule,
+        PathModule
     ],
     providers: [
         ResolveGuard

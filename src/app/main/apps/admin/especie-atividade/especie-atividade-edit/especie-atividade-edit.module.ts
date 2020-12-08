@@ -28,6 +28,7 @@ import {EspecieAtividadeService} from '../../../../../../@cdk/services/especie-a
 import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.service';
 import {CdkEspecieAtividadeFormModule} from '../../../../../../@cdk/components/especie-atividade/cdk-especie-atividade-form/cdk-especie-atividade-form.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -72,7 +73,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
         MatStepperModule,
         EspecieAtividadeEditStoreModule,
-        CdkEspecieAtividadeFormModule
+        CdkEspecieAtividadeFormModule,
+        PathModule
 
     ],
     providers: [

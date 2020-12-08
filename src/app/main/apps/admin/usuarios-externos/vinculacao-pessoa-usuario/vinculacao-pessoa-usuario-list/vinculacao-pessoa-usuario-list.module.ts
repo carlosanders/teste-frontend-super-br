@@ -23,6 +23,7 @@ import {CdkVinculacaoPessoaUsuarioGridModule} from '../../../../../../../@cdk/co
 import {VinculacaoPessoaUsuarioService} from '../../../../../../../@cdk/services/vinculacao-pessoa-usuario.service';
 import {VinculacaoPessoaUsuarioStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -62,6 +63,7 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkPessoaGridModule,
         CdkVinculacaoPessoaUsuarioGridModule,
+        PathModule,
     ],
     providers: [
         fromGuards.ResolveGuard,

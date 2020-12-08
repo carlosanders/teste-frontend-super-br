@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">new_releases</mat-icon>
-    <span>espécie relevâncias</span>
+    <path icone="new_releases"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-relevancias">
+    </path>
 </div>
 <cdk-especie-relevancia-grid
     [loading]="(loading$ | async)"

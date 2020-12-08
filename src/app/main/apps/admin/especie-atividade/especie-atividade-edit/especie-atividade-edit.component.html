@@ -1,8 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">local_activity</mat-icon>
-    <a [routerLink]="['/apps/admin/especie-atividades/listar']">espécie atividades</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>espécie atividade {{routerState.params.especieAtividadeHandle}}</span>
+    <path icone="local_activity"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-atividades">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-especie-atividade-form

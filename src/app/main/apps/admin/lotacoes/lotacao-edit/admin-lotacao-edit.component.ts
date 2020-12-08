@@ -59,14 +59,15 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
-                    if(this.routerState.url.includes('unidade')) {
-                        this.modulo = "unidade";
+                    console.log(this.routerState.url);
+                    if(this.routerState.url.includes('unidades')) {
+                        this.modulo = "unidades";
                     }
-                    else if(this.routerState.url.includes('usuario')) {
-                        this.modulo = "usuario";
+                    else if(this.routerState.url.includes('usuarios')) {
+                        this.modulo = "usuarios";
                     }
                     else {
-                        this.modulo = "lotacao";
+                        this.modulo = "lotacoes";
                     }
                 }
             });

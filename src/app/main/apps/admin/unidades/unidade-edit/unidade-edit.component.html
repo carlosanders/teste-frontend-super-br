@@ -1,8 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">location_city</mat-icon>
-    <a [routerLink]="['/apps/admin/unidades/listar']">unidades</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>unidade {{routerState.params.unidadeHandle}}</span>
+    <path icone="location_city"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="unidades">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-unidade-form

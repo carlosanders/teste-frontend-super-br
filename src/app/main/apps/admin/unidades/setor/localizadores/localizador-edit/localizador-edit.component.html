@@ -1,20 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">my_location</mat-icon>
-        <a [routerLink]="['/apps/admin/unidades/listar']">unidades</a>
-        <span class="mr-4 ml-4">/</span>
-        <a [routerLink]="['/apps/admin/unidades/editar', routerState.params.unidadeHandle]">
-            unidade {{routerState.params.unidadeHandle}}</a>
-        <span class="mr-4 ml-4">/</span>
-        <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', 'listar']">
-            setores</a>
-        <span class="mr-4 ml-4">/</span>
-        <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', 'editar', routerState.params.setorHandle]">
-            setor {{routerState.params.setorHandle}}</a>
-        <span class="mr-4 ml-4">/</span>
-        <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', routerState.params.setorHandle, 'localizadores', 'listar']">
-            localizadores</a>
-        <span class="mr-4 ml-4">/</span>
-        <span>localizador {{ routerState.params.localizadorHandle }}</span>
+    <path icone="my_location"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="unidades">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-localizador-form

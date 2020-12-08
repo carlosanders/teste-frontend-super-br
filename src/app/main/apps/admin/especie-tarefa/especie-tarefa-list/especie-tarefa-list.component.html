@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">check_box</mat-icon>
-    <span>espécie tarefas</span>
+    <path icone="check_box"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-tarefas">
+    </path>
 </div>
 <cdk-especie-tarefa-grid
     [loading]="(loading$ | async)"

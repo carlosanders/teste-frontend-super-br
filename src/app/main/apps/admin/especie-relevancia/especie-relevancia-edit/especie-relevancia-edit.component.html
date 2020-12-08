@@ -1,8 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">new_releases</mat-icon>
-    <a [routerLink]="['/apps/admin/especie-relevancias/listar']">espécie relevâncias</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>espécie relevância {{routerState.params.especieRelevanciaHandle}}</span>
+    <path icone="new_releases"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-relevancias">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-especie-relevancia-form

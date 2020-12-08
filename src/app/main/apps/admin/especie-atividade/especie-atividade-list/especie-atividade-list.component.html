@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">local_activity</mat-icon>
-    <span>espécie atividades</span>
+    <path icone="local_activity"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-atividades">
+    </path>
 </div>
 <cdk-especie-atividade-grid
     [loading]="(loading$ | async)"

@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">class</mat-icon>
-    <span>tipos de documentos</span>
+    <path icone="class"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="tipos-documentos">
+    </path>
 </div>
 <cdk-tipo-documento-grid
     [loading]="(loading$ | async)"

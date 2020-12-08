@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">view_array</mat-icon>
-    <span>templates</span>
+    <path icone="view_array"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="templates">
+    </path>
 </div>
 <cdk-template-grid
     [loading]="(loading$ | async)"

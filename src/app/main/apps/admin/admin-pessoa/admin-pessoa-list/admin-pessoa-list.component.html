@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">people</mat-icon>
-    <span>pessoas</span>
+    <path icone="people"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="pessoas">
+    </path>
 </div>
 <cdk-pessoa-grid
     [loading]="(loading$ | async)"

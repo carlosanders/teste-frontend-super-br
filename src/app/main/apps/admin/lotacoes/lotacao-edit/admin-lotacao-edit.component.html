@@ -1,27 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">map</mat-icon>
-    <span *ngIf="modulo==='unidade'">
-        <a [routerLink]="['/apps/admin/unidades/listar']">unidades</a>
-        <span class="mr-4 ml-4">/</span>
-        <a [routerLink]="['/apps/admin/unidades/editar', routerState.params.unidadeHandle]">
-            unidade {{routerState.params.unidadeHandle}}</a>
-        <span class="mr-4 ml-4">/</span>
-        <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', 'listar']">
-            setores</a>
-        <span class="mr-4 ml-4">/</span>
-        <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', 'editar', routerState.params.setorHandle]">
-            setor {{routerState.params.setorHandle}}</a>
-        <span class="mr-4 ml-4">/</span>
-        <a [routerLink]="['/apps/admin/unidades', routerState.params.unidadeHandle, 'setores', routerState.params.setorHandle, 'lotacoes', 'listar']">
-            lotações</a>
-        <span class="mr-4 ml-4">/</span>
-        <span>lotação {{ routerState.params.lotacaoHandle }}</span>
-    </span>
-    <span *ngIf="modulo==='lotacao'">
-        <a [routerLink]="['/apps/admin/lotacoes/listar']">lotações</a>
-        <span class="mr-4 ml-4">/</span>
-        <span>lotação {{routerState.params.lotacaoHandle}}</span>
-    </span>
+    <path icone="map"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="{{modulo}}">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-lotacao-form

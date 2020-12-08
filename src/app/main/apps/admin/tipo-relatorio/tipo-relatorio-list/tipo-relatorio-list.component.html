@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">assessment</mat-icon>
-    <span>tipos de relatórios</span>
+    <path icone="assessment"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="tipos-relatorios">
+    </path>
 </div>
 <cdk-tipo-relatorio-grid
     [loading]="(loading$ | async)"

@@ -1,8 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">person</mat-icon>
-    <a [routerLink]="['/apps/admin/usuarios/listar']">usuarios</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>usuario {{routerState.params.usuarioHandle}}</span>
+    <path icone="person"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="usuarios">
+    </path>
 </div>
 <mat-horizontal-stepper linear #stepper>
     <mat-step [completed]="formUsuario.value.id">
