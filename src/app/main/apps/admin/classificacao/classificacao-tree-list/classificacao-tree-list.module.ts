@@ -29,6 +29,7 @@ import {CdkClassificacaoTreeModule} from '../../../../../../@cdk/components/clas
 import {CdkClassificacaoTreeService} from '../../../../../../@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
 import {ClassificacaoStoreModule} from '../classificacao-list/store/store.module';
 import {CdkClassificacaoTreeFormModule} from '../../../../../../@cdk/components/classificacao/cdk-classificacao-tree-form/cdk-classificacao-tree-form.module';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -64,7 +65,8 @@ const routes: Routes = [
         MatDatepickerModule,
         MatDialogModule,
         CdkClassificacaoTreeModule,
-        CdkClassificacaoTreeFormModule
+        CdkClassificacaoTreeFormModule,
+        PathModule
     ],
     providers: [
         LoginService,

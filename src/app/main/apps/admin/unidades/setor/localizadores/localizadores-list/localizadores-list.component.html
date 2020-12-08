@@ -1,13 +1,19 @@
+<div class="header">
+    <path icone="my_location"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="unidades">
+    </path>
+</div>
 <cdk-localizador-grid
-        [loading]="(loading$ | async)"
-        [localizadors]="(localizadors$ | async)"
-        [total]="(pagination$ | async)?.total"
-        [deletingIds]="(deletingIds$ | async)"
-        [deletedIds]="(deletedIds$ | async)"
-        [setorPagination]="setorPagination"
-        [actions]="['edit','create','delete']"
-        (reload)="reload($event)"
-        (create)="create()"
-        (edit)="edit($event)"
-        (delete)="delete($event)">
+    [loading]="(loading$ | async)"
+    [localizadors]="(localizadors$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [setorPagination]="setorPagination"
+    [actions]="['edit','create','delete']"
+    (reload)="reload($event)"
+    (create)="create()"
+    (edit)="edit($event)"
+    (delete)="delete($event)">
 </cdk-localizador-grid>

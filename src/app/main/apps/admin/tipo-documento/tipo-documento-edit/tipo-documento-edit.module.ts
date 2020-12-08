@@ -26,6 +26,7 @@ import {ResolveGuard} from './store/guards';
 import {TipoDocumentoEditStoreModule} from './store/store.module';
 import {TipoDocumentoService} from '../../../../../../@cdk/services/tipo-documento.service';
 import {CdkTipoDocumentoFormModule} from '../../../../../../@cdk/components/tipo-documento/cdk-tipo-documento-form/cdk-tipo-documento-form.module';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 
 const routes: Routes = [
@@ -64,7 +65,8 @@ const routes: Routes = [
         CdkSidebarModule,
         MatStepperModule,
         TipoDocumentoEditStoreModule,
-        CdkTipoDocumentoFormModule
+        CdkTipoDocumentoFormModule,
+        PathModule
 
     ],
     providers: [

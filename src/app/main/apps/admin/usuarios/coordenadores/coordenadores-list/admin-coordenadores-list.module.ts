@@ -22,6 +22,7 @@ import * as fromGuards from './store/guards';
 import {CdkCoordenadorGridModule} from '@cdk/components/coordenador/cdk-coordenador-grid/cdk-coordenador-grid.module';
 import {AdminCoordenadoresListStoreModule} from './store/store.module';
 import { LoginService } from '../../../../../auth/login/login.service';
+import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -56,6 +57,7 @@ const routes: Routes = [
 
         AdminCoordenadoresListStoreModule,
         CdkCoordenadorGridModule,
+        PathModule,
     ],
     providers: [
         CoordenadorService,

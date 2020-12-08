@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="new_releases"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-relevancias">
+    </path>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-especie-relevancia-form
         [especieRelevancia]="(especieRelevancia$ | async)"

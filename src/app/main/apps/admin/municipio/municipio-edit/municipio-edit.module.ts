@@ -28,6 +28,7 @@ import {MunicipioService} from '../../../../../../@cdk/services/municipio.servic
 import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.service';
 import {CdkMunicipioFormModule} from '../../../../../../@cdk/components/municipio/cdk-municipio-form/cdk-municipio-form.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -72,7 +73,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
         MatStepperModule,
         MunicipioEditStoreModule,
-        CdkMunicipioFormModule
+        CdkMunicipioFormModule,
+        PathModule
 
     ],
     providers: [

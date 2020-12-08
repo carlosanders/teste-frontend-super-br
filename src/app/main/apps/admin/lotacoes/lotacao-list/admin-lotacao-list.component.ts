@@ -28,6 +28,7 @@ export class AdminLotacaoListComponent implements OnInit {
     deletedIds$: Observable<any>;
     setorPagination: Pagination = new Pagination();
     colaboradorPagination: Pagination = new Pagination();
+    modulo: string;
 
     /**
      * @param _changeDetectorRef
@@ -50,6 +51,13 @@ export class AdminLotacaoListComponent implements OnInit {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    if (this.routerState.url.includes('unidade')) {
+                        this.modulo = 'unidade';
+                    } else if (this.routerState.url.includes('usuario')) {
+                        this.modulo = 'usuario';
+                    } else {
+                        this.modulo = 'lotacao';
+                    }
                 }
             });
 
