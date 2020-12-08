@@ -146,8 +146,8 @@
         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
 
-    <div class="metade" cdkPerfectScrollbar [ngClass]="{'metade-expanded': minutasOpen}">
-        <mat-expansion-panel expanded="true" class="mb-4 mt-4" *ngIf="tarefa" (closed)="onCloseMinutas()" (opened)="onOpenMinutas()">
+    <div class="metade" cdkPerfectScrollbar [ngClass]="{'metade-expanded': minutasOpen}" *ngIf="tarefa">
+        <mat-expansion-panel expanded="true" class="mb-4 mt-4" (closed)="onCloseMinutas()" (opened)="onOpenMinutas()">
             <mat-expansion-panel-header [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
                 <mat-panel-title>
                     Minutas da Tarefa

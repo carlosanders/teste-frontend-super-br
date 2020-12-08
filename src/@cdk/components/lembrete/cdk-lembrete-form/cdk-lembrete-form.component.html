@@ -31,16 +31,10 @@
         </button>
         <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
-
 </form>
 
-<cdk-lembrete-historico
+<cdk-lembrete-gridsearch
     *ngIf="activeCard === 'lembrete-gridsearch'"
-    [actions]="['cancel']"
-    [lembretes]="lembretes"
-    [total]="total"
-    (cancel)="cancel()"
-    (reload)="reload($event)">
-</cdk-lembrete-historico>
-
-<!-- <pre>{{this.form.value | json}}</pre>-->
+    [pagination]="pagination"
+    (cancel)="cancel()">
+</cdk-lembrete-gridsearch>

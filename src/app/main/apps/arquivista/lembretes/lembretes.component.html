@@ -1,8 +1,10 @@
 <div class="content" cdkPerfectScrollbar>
     <cdk-lembrete-form
         [processo]="processoId"
+        [pagination]="lembretesPagination"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        (reload)="doReload($event)"
         (save)="submit($event)">
     </cdk-lembrete-form>
 </div>

@@ -10,7 +10,7 @@ import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
 import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
-    selector: '<span class="mr-4 ml-4">/</span>arquivista-lembrete-bloco',
+    selector: 'arquivista-lembrete-bloco',
     templateUrl: './arquivista-lembrete-bloco.component.html',
     styleUrls: ['./arquivista-lembrete-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

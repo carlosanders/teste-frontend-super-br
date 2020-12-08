@@ -1,7 +1,7 @@
-d<cdk-lembrete-grid
+<cdk-lembrete-grid
         [loading]="loading"
         [lembretes]="lembretes"
-        [displayedColumns]="['id', 'processo', 'conteudo', 'actions']"
+        [displayedColumns]="['id', 'conteudo', 'criadoEm']"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"
