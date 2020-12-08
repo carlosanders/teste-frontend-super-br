@@ -17,6 +17,7 @@ import {LembreteDataSource} from '../../../data-sources/lembrete-data-source';
 import {CdkSidebarService} from '../../sidebar/sidebar.service';
 import {merge, of} from 'rxjs';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
+
 @Component({
     selector: 'cdk-lembrete-historico',
     templateUrl: './cdk-lembrete-historico.component.html',
@@ -103,6 +104,7 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
     isIndeterminate = false;
     @Input()
     actions: string[] = ['edit', 'delete', 'select'];
+
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService
@@ -110,10 +112,12 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
         this.gridFilter = {};
         this.lembretes = [];
     }
+
     ngOnChanges(): void {
         this.dataSource = new LembreteDataSource(of(this.lembretes));
         this.paginator.length = this.total;
     }
+
     ngOnInit(): void {
         const ElementQueries = require('css-element-queries/src/ElementQueries');
         ElementQueries.listen();
@@ -136,6 +140,7 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
             })
         ).subscribe();
     }
+
     ngAfterViewInit(): void {
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
         merge(
@@ -145,6 +150,7 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
             tap(() => this.loadPage())
         ).subscribe();
     }
+
     loadPage(): void {
         const filter = this.gridFilter.filters;
         const contexto = this.gridFilter.contexto ? this.gridFilter.contexto : null;
@@ -156,15 +162,18 @@ export class CdkLembreteHistoricoComponent implements AfterViewInit, OnInit, OnC
             context: contexto
         });
     }
+
     setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
     }
+
     doCancel(): void {
         this.cancel.emit();
     }
-    initConfigTable(): void{
+
+    initConfigTable(): void {
         this.paginator._intl.itemsPerPageLabel = 'Registros por página';
         this.paginator._intl.nextPageLabel = 'Seguinte';
         this.paginator._intl.previousPageLabel = 'Anterior';

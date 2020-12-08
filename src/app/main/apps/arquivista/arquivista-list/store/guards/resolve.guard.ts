@@ -114,7 +114,7 @@ export class ResolveGuard implements CanActivate {
                         processoFilter = {
                             'dataHoraProximaTransicao': 'lte:' + this.currentDate,
                             'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                            'setorAtual.id': 'in:' + this.setorAtual
+                            'setorAtual.id': 'eq:' + this.setorAtual
 
                         };
                     }
@@ -123,7 +123,7 @@ export class ResolveGuard implements CanActivate {
                         processoFilter = {
                             'dataHoraProximaTransicao': 'gt:' + this.currentDate,
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual.id': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
                         };
                     }
 
@@ -131,7 +131,7 @@ export class ResolveGuard implements CanActivate {
                         processoFilter = {
                             'dataHoraProximaTransicao': 'isNull',
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual.id': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
                         };
 
                     }
