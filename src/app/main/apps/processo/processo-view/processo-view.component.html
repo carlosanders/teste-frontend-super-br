@@ -10,14 +10,14 @@
     <div class="center">
 
         <!-- HEADER -->
-        <div class="header" *ngIf="routerState?.url?.indexOf('/capa') === -1">
+        <div class="header" *ngIf="routerState?.url?.indexOf('/capa') === -1 && !vinculacao && !documentoAvulso">
 
             <button mat-icon-button class="sidebar-toggle mr-16 cdk-black-fg" fxHide.gt-md
                     (click)="toggleSidebar('juntadas-left-sidebar-1')">
                 <mat-icon>menu</mat-icon>
             </button>
 
-            <div *ngIf="!capa" class="juntada-navigation">
+            <div *ngIf="!capa && !vinculacao && !documentoAvulso" class="juntada-navigation">
 
                 <button mat-mini-fab class="previous accent cdk-white-fg"
                         (click)="gotoPreviousStep()"
@@ -41,7 +41,7 @@
         <!-- CONTENT -->
         <div class="content">
 
-            <div *ngIf="!capa" class="processo-view-juntada">
+            <div *ngIf="!capa && !vinculacao && !documentoAvulso" class="processo-view-juntada">
 
                 <div class="loading" *ngIf="loading">
                     <mat-spinner diameter="24"></mat-spinner>

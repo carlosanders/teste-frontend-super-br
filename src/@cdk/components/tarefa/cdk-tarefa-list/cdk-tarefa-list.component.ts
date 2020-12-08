@@ -182,7 +182,6 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     displayedCampos: string[] = [
         'especieTarefa.nome',
         'setorResponsavel.nome',
-        'usuarioResponsavel.nome',
         'dataHoraDistribuicao',
         'dataHoraPrazo'
     ];
@@ -201,11 +200,6 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         {
             id: 'setorResponsavel.nome',
             label: 'Setor Responsável',
-            fixed: false
-        },
-        {
-            id: 'usuarioResponsavel.nome',
-            label: 'Usuário Responsável',
             fixed: false
         },
         {

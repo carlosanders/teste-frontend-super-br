@@ -100,7 +100,6 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     displayedCampos: string[] = [
         'especieTarefa.nome',
         'setorResponsavel.nome',
-        'usuarioResponsavel.nome',
         'dataHoraDistribuicao',
         'dataHoraPrazo'
     ];

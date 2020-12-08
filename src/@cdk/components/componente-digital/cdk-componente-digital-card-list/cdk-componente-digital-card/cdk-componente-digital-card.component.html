@@ -12,7 +12,9 @@
     </div>
 
     <div (click)="onClick(componenteDigital)" class="content-card light-blue-100">
-        <div class="content-card-item">{{!componenteDigital.canRetry ? 'CARREGANDO' : (!(componenteDigital.fileName.length>14) ? componenteDigital.fileName : componenteDigital.fileName.substr(0, 15) + "...")}}</div>
+        <div class="content-card-item">
+            {{!componenteDigital.canRetry ? 'CARREGANDO' : (!(componenteDigital.fileName.length>14) ? componenteDigital.fileName : componenteDigital.fileName.substr(0, 15) + "...")}}
+        </div>
         <div class="content-card-item">
             <mat-progress-bar mode="determinate" *ngIf="componenteDigital.inProgress"
                           [value]="componenteDigital.progress"></mat-progress-bar>

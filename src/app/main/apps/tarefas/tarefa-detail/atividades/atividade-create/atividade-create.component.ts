@@ -70,6 +70,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    loadDocumentosExcluidos$: Observable<boolean>;
+    lixeiraMinutas$: Observable<boolean>;
+    undeletingDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
 
     formEditor: FormGroup;
@@ -120,6 +123,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+
+        this.loadDocumentosExcluidos$ = this._store.pipe(select(fromStore.getDocumentosExcluidos));
+        this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
+        this.undeletingDocumentosId$ = this._store.pipe(select(fromStore.getUnDeletingDocumentosId));
 
         this.especieAtividadePagination = new Pagination();
         this.especieAtividadePagination.populate = ['generoAtividade'];
@@ -224,8 +231,15 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
+                this.minutas = documentos.filter(documento =>
+                    (!documento.documentoAvulsoRemessa && !documento.juntadaAtual && !documento.apagadoEm));
                 this._changeDetectorRef.markForCheck();
+
+                this.lixeiraMinutas$.subscribe(lixeira => {
+                    if (lixeira) {
+                        this.minutas = documentos.filter(documento => (documento.apagadoEm));
+                    }
+                } )
             }
         );
 
@@ -391,18 +405,33 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         }));
     }
 
+    doSairLixeiraMinutas(sair): void {
+        if (sair) {
+            this._store.dispatch(new fromStore.GetDocumentos());
+        }
+    }
+
     doAbort(): void {
         this._store.dispatch(new Back());
     }
 
     minutasExcluidas(): void {
+        this.minutas = [];
         const params = {
             filter: {'tarefaOrigem.id':'eq:' + this.tarefa.id},
             sort: {criadoEm: 'DESC'},
+            populate: [
+                'tipoDocumento',
+                'documentoAvulsoRemessa',
+                'documentoAvulsoRemessa.documentoResposta',
+                'componentesDigitais',
+                'juntadaAtual'
+            ],
             context: {
                 mostrarApagadas: true
             }
         };
         this._store.dispatch(new fromStore.GetDocumentos(params));
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos([]));
     }
 }

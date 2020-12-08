@@ -15,45 +15,57 @@
 
     <mat-menu #moreMenu="matMenu">
 
-        <button mat-menu-item aria-label="remover" *showIfRole="'ROLE_COLABORADOR'"
-                (click)="doDeleteDocumentoBloco()">
-            <ng-container>
-                <mat-icon>delete</mat-icon>
-                <span>Apagar Minutas</span>
-            </ng-container>
-        </button>
+        <div *ngIf="!lixeiraMinutas">
+            <button mat-menu-item aria-label="remover" *showIfRole="'ROLE_COLABORADOR'"
+                    (click)="doDeleteDocumentoBloco()">
+                <ng-container>
+                    <mat-icon>delete</mat-icon>
+                    <span>Apagar Minutas</span>
+                </ng-container>
+            </button>
 
-        <button mat-menu-item aria-label="assinar"
-                (click)="doAssinaturaDocumentoBloco()">
-            <ng-container>
-                <mat-icon>lock</mat-icon>
-                <span>Assinar</span>
-            </ng-container>
-        </button>
+            <button mat-menu-item aria-label="assinar"
+                    (click)="doAssinaturaDocumentoBloco()">
+                <ng-container>
+                    <mat-icon>lock</mat-icon>
+                    <span>Assinar</span>
+                </ng-container>
+            </button>
 
-        <button mat-menu-item aria-label="remover assinatura"
-                *showIfRole="'ROLE_COLABORADOR'"
-                (click)="doRemoveAssinaturaDocumentoBloco()">
-            <ng-container>
-                <mat-icon>lock_open</mat-icon>
-                <span>Remover Assinaturas</span>
-            </ng-container>
-        </button>
+            <button mat-menu-item aria-label="remover assinatura"
+                    *showIfRole="'ROLE_COLABORADOR'"
+                    (click)="doRemoveAssinaturaDocumentoBloco()">
+                <ng-container>
+                    <mat-icon>lock_open</mat-icon>
+                    <span>Remover Assinaturas</span>
+                </ng-container>
+            </button>
 
-        <button mat-menu-item aria-label="editar tarefa"
-                (click)="doConverteDocumentoBloco()">
-            <ng-container>
-                <mat-icon>picture_as_pdf</mat-icon>
-                <span>Converter em PDF</span>
-            </ng-container>
-        </button>
+            <button mat-menu-item aria-label="editar tarefa"
+                    (click)="doConverteDocumentoBloco()">
+                <ng-container>
+                    <mat-icon>picture_as_pdf</mat-icon>
+                    <span>Converter em PDF</span>
+                </ng-container>
+            </button>
 
-        <button fxLayout="row" aria-label="alterar tipo documento" fxLayoutAlign="start center"
-                *showIfRole="'ROLE_COLABORADOR'"
-                [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
-            <mat-icon>edit</mat-icon>
-            <span>Alterar Tipo de Documento</span>
-        </button>
+            <button fxLayout="row" aria-label="alterar tipo documento" fxLayoutAlign="start center"
+                    *showIfRole="'ROLE_COLABORADOR'"
+                    [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
+                <mat-icon>edit</mat-icon>
+                <span>Alterar Tipo de Documento</span>
+            </button>
+        </div>
+
+        <div *ngIf="lixeiraMinutas">
+            <button mat-menu-item aria-label="remover" *showIfRole="'ROLE_COLABORADOR'"
+                    (click)="doRestaurarBloco()">
+                <ng-container>
+                    <mat-icon>undo</mat-icon>
+                    <span>Restaurar Minutas</span>
+                </ng-container>
+            </button>
+        </div>
     </mat-menu>
 </div>
 
@@ -79,6 +91,16 @@
     </form>
 </mat-menu>
 
+<button mat-mini-fab *ngIf="!loadingDocumentosExcluidos && lixeiraMinutas"
+        class="m-4 active accent" aria-label="Sair da lixeira"
+        (click)="doSairLixeiraMinutas()" matTooltip="Sair da lixeira">
+    <mat-icon class="secondary-text">exit_to_app</mat-icon>
+</button>
+
+<div *ngIf="loadingDocumentosExcluidos" class="spinner-container m-8">
+    <mat-spinner diameter="24"></mat-spinner>
+</div>
+
 <cdk-documento-card class="ml-8 mb-8"
                     *ngFor="let documento of documentos"
                     [documento]="documento"
@@ -86,6 +108,7 @@
                     [deleting]="deletingId !== undefined && deletingId.indexOf(documento.id) > -1"
                     [assinando]="assinandoId !== undefined && assinandoId.indexOf(documento.id) > -1"
                     [alterando]="alterandoId !== undefined && alterandoId.indexOf(documento.id) > -1"
+                    [undeleting]="undeletingId !== undefined && undeletingId.indexOf(documento.id) > -1"
                     [removendoAssinatura]="removendoAssinaturaId !== undefined && removendoAssinaturaId.indexOf(documento.id) > -1"
                     [convertendo]="convertendoId != undefined && convertendoId.indexOf(documento.id) > -1"
                     [maisDeUmItemSelecionado]="selectedIds?.length > 1"

@@ -10,6 +10,8 @@ export interface AtividadeCreateDocumentosState {
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    loadDocumentosExcluidos: boolean;
+    lixeiraMinutas: boolean;
     loading: boolean;
     loaded: boolean;
 }
@@ -24,8 +26,10 @@ export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosSta
     removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
     undeletingDocumentoIds: [],
+    loadDocumentosExcluidos: false,
     loading: false,
     loaded: false,
+    lixeiraMinutas: false
 };
 
 export function AtividadeCreateDocumentosReducer(
@@ -34,11 +38,34 @@ export function AtividadeCreateDocumentosReducer(
 ): AtividadeCreateDocumentosState {
     switch (action.type) {
 
+        case AtividadeCreateDocumentosActions.GET_DOCUMENTOS: {
+            if (action.payload && action.payload['context'] &&
+                    action.payload['context']['mostrarApagadas']) {
+
+                return {
+                    ...state,
+                    documentosId: null,
+                    loaded: false,
+                    loadDocumentosExcluidos: true,
+                    lixeiraMinutas: true
+                };
+            } else {
+                return {
+                    ...state,
+                    documentosId: null,
+                    loaded: false,
+                    loadDocumentosExcluidos: false,
+                    lixeiraMinutas: false
+                };
+            }
+        }
+
         case AtividadeCreateDocumentosActions.GET_DOCUMENTOS_SUCCESS: {
             return {
                 ...state,
                 documentosId: action.payload.entitiesId,
                 documentosLoaded: action.payload.loaded,
+                loadDocumentosExcluidos: false
             };
         }
 
@@ -178,7 +205,7 @@ export function AtividadeCreateDocumentosReducer(
             return {
                 ...state,
                 undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id),
-                documentosId: [...state.documentosId, action.payload.id],
+                documentosId: state.documentosId.filter(id => id !== action.payload.id)
             };
         }
 

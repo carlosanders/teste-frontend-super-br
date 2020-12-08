@@ -64,7 +64,7 @@
                 {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
             </div>
 
-            <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel.id !== usuarioAtual.id)) && displayedCampos.indexOf('usuarioResponsavel.nome') > -1">
+            <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel.id !== usuarioAtual.id))">
                 {{tarefa.usuarioResponsavel.nome | titleCasePipe}}
             </div>
 

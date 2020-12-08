@@ -213,15 +213,16 @@ export class DocumentoComponent implements OnInit, OnDestroy {
             primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar';
             this._router.navigate([{outlets: {primary: primary}}],
                 {
-                    relativeTo: this._activatedRoute // <--- PARENT activated route.
+                    relativeTo: this._activatedRoute
                 }).then();
         } else {
             this.modoProcesso = 1;
             let primary: string;
-            primary = 'componente-digital/' + this.currentComponenteDigital.id + '/editor/ckeditor';
+            primary = 'componente-digital/' + this.currentComponenteDigital.id;
+            primary += (this.currentComponenteDigital.editavel && !this.currentComponenteDigital.assinado) ? '/editor/ckeditor' : '/visualizar';
             this._router.navigate([{outlets: {primary: primary}}],
                 {
-                    relativeTo: this._activatedRoute // <--- PARENT activated route.
+                    relativeTo: this._activatedRoute
                 }).then();
         }
     }
