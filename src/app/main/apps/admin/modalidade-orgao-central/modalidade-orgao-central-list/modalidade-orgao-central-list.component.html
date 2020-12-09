@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="business"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="modalidade-orgao-central">
+    </path>
+</div>
 <cdk-modalidade-orgao-central-grid
     [loading]="(loading$ | async)"
     [modalidadeOrgaoCentralList]="(modalidadeOrgaoCentralList$ | async)"

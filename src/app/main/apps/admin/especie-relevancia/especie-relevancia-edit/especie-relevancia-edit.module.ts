@@ -28,6 +28,7 @@ import {EspecieRelevanciaService} from '@cdk/services/especie-relevancia.service
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {CdkEspecieRelevanciaFormModule} from '@cdk/components/especie-relevancia/cdk-especie-relevancia-form/cdk-especie-relevancia-form.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -72,7 +73,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
         MatStepperModule,
         EspecieRelevanciaEditStoreModule,
-        CdkEspecieRelevanciaFormModule
+        CdkEspecieRelevanciaFormModule,
+        PathModule
 
     ],
     providers: [

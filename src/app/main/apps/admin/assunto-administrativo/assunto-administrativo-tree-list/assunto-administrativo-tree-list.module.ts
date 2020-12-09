@@ -27,6 +27,7 @@ import {AssuntoAdministrativoService} from '../../../../../../@cdk/services/assu
 import {AssuntoAdministrativoTreeStoreModule} from './store/store.module';
 import {CdkAssuntoAdministrativoTreeModule} from '../../../../../../@cdk/components/assunto-administrativo/cdk-assunto-administrativo-tree/cdk-assunto-administrativo-tree.module';
 import {CdkAssuntoAdministrativoTreeService} from '../../../../../../@cdk/components/assunto-administrativo/cdk-assunto-administrativo-tree/services/cdk-assunto-administrativo-tree.service';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -61,7 +62,8 @@ const routes: Routes = [
         MatMomentDatetimeModule,
         MatDatepickerModule,
         MatDialogModule,
-        CdkAssuntoAdministrativoTreeModule
+        CdkAssuntoAdministrativoTreeModule,
+        PathModule
     ],
     providers: [
         LoginService,

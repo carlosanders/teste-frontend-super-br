@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="people"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="pessoas">
+    </path>
+</div>
 <cdk-pessoa-grid
     [loading]="(loading$ | async)"
     [pessoas]="(pessoas$ | async)"

@@ -6,9 +6,11 @@ cdk-componente-digital-card-list {
     flex-wrap: wrap;
 
     > .toolbar {
+        flex: 1 1 auto;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
+        flex-wrap: wrap;
     }
 }

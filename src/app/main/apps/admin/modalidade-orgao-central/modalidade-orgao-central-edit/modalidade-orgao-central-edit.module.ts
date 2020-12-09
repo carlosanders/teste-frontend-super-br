@@ -28,6 +28,7 @@ import {ModalidadeOrgaoCentralService} from '../../../../../../@cdk/services/mod
 import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.service';
 import {CdkModalidadeOrgaoCentralFormModule} from '../../../../../../@cdk/components/modalidade-orgao-central/cdk-modalidade-orgao-central-form/cdk-modalidade-orgao-central-form.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -68,7 +69,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
         MatStepperModule,
         ModalidadeOrgaoCentralEditStoreModule,
-        CdkModalidadeOrgaoCentralFormModule
+        CdkModalidadeOrgaoCentralFormModule,
+        PathModule
 
     ],
     providers: [

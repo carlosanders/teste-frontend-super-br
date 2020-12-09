@@ -1,13 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">low_priority</mat-icon>
-    <a [routerLink]="['/apps/admin/workflows/listar']">workflows</a>
-    <span class="mr-4 ml-4">/</span>
-    <a [routerLink]="['/apps/admin/workflows/editar', routerState.params.workflowHandle]">
-        workflow {{routerState.params.workflowHandle}}</a>
-    <span class="mr-4 ml-4">/</span>
-    <a [routerLink]="['/apps/admin/workflows', routerState.params.workflowHandle, 'transicoes', 'listar']">transições</a>
-    <span class="mr-4 ml-4">/</span>
-    <span>transição {{ routerState.params.transicaoWorkflowHandle }}</span>
+    <path icone="low_priority"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="workflows">
+    </path>
 </div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-transicao-workflow-form

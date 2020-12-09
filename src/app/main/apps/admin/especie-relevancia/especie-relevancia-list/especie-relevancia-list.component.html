@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="new_releases"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-relevancias">
+    </path>
+</div>
 <cdk-especie-relevancia-grid
     [loading]="(loading$ | async)"
     [especieRelevancias]="(especieRelevancias$ | async)"

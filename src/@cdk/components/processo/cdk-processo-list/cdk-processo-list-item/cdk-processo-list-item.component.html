@@ -73,9 +73,8 @@
                         Lembrete
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <p *ngIf="editantoLembrete == false" (click)="doEditarLembrete()">{{processo.lembretes[0].conteudo}}</p>
-                <mat-form-field *ngIf="editantoLembrete == true"  fxFlex>
-
+                <p *ngIf="editantoLembrete === false" (click)="doEditarLembrete()" class="lembrete">{{processo.lembretes[0].conteudo}}</p>
+                <mat-form-field *ngIf="editantoLembrete === true">
                     <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembretes[0].conteudo" (blur)="doSalvarLembrete(processo, lembreteConteudo.value)" />
                 </mat-form-field>
             </mat-expansion-panel>

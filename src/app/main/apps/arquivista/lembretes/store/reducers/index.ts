@@ -1,11 +1,13 @@
 import {LembreteReducer, LembreteState} from './lembrete.reducer';
+import {ProcessoReducer, ProcessoState} from './processo.reducer';
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 
 export interface LembreteAppState {
     lembrete: LembreteState;
+    processo: ProcessoState;
 }
 
-export const getLembreteAppState = createFeatureSelector<LembreteAppState>('<span class="mr-4 ml-4">/</span>lembretes-form');
+export const getLembreteAppState = createFeatureSelector<LembreteAppState>('app-lembretes-form');
 
 export const getAppState = createSelector(
     getLembreteAppState,
@@ -13,7 +15,9 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<LembreteAppState> = {
-    lembrete: LembreteReducer
+    lembrete: LembreteReducer,
+    processo: ProcessoReducer
 };
 
 export * from './lembrete.reducer';
+export * from './processo.reducer';

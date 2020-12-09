@@ -1,5 +1,5 @@
 import * as LembreteActions from '../actions';
-import {Etiqueta} from '../../../../../../../@cdk/models';
+import {Etiqueta} from '@cdk/models';
 
 export interface LembreteState {
     entitiesId: number;
@@ -7,8 +7,7 @@ export interface LembreteState {
         limit: number;
         offset: number;
         filter: any;
-        listFilter: any;
-        etiquetaFilter: Etiqueta[];
+        gridFilter: any;
         populate: any;
         sort: any;
         total: number;
@@ -25,8 +24,7 @@ export const LembreteInitialState: LembreteState = {
         limit: 0,
         offset: 0,
         filter: {},
-        listFilter: {},
-        etiquetaFilter: [],
+        gridFilter: {},
         populate: [],
         sort: {},
         total: 0,
@@ -43,21 +41,35 @@ export function LembreteReducer(
 ): LembreteState {
     switch (action.type) {
 
-        case LembreteActions.GET_LEMBRETE : {
+        case LembreteActions.GET_LEMBRETE: {
             return {
                 ...state,
                 entitiesId: null,
-                loading: true
+                loading: true,
+                pagination: {
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    filter: action.payload.filter,
+                    gridFilter: action.payload.gridFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
             };
         }
 
         case LembreteActions.GET_LEMBRETE_SUCCESS: {
+            const loaded = action.payload.loaded;
 
             return {
                 ...state,
                 entitiesId: action.payload.entitiesId,
-                loaded: action.payload.loaded,
-                loading: false
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                },
+                loading: false,
+                loaded
             };
         }
 
@@ -101,47 +113,6 @@ export function LembreteReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
-            };
-        }
-
-        case LembreteActions.GET_PROCESSOS: {
-            return {
-                ...state,
-                loading: true,
-                pagination: {
-                    limit: action.payload.limit,
-                    offset: action.payload.offset,
-                    filter: action.payload.filter,
-                    listFilter: action.payload.listFilter,
-                    etiquetaFilter: action.payload.etiquetaFilter,
-                    populate: action.payload.populate,
-                    sort: action.payload.sort,
-                    total: state.pagination.total
-                }
-            };
-        }
-
-        case LembreteActions.GET_PROCESSOS_SUCCESS: {
-
-            const loaded = action.payload.loaded;
-
-            return {
-                ...state,
-                entitiesId: action.payload.entitiesId,
-                pagination: {
-                    ...state.pagination,
-                    total: action.payload.total
-                },
-                loading: false,
-                loaded
-            };
-        }
-
-        case LembreteActions.GET_PROCESSOS_FAILED: {
-            return {
-                ...state,
-                loading: false,
-                loaded: false
             };
         }
 

@@ -52,7 +52,7 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
     processo: number;
 
     @Input()
-    lembretes: Lembrete;
+    lembretes: Lembrete[];
 
     @Input()
     pagination: Pagination;
@@ -62,6 +62,9 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
 
     @Output()
     save = new EventEmitter<Lembrete>();
+
+    @Output()
+    reload = new EventEmitter<any>();
 
     @Output()
     abort = new EventEmitter<any>();
@@ -79,7 +82,6 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
         if (this.isBloco === null) {
             this.isBloco = false;
         }
-
     }
 
     ngOnInit(): void {
@@ -154,7 +156,7 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
         this.activeCard = 'lembrete-gridsearch';
     }
 
-    reload(params): void {
+    doReload(params): void {
         params = {
             ...this.pagination,
             filter: {
@@ -166,19 +168,13 @@ export class CdkLembreteFormComponent implements OnInit, OnChanges {
             offset: params.offset,
             populate: this.pagination.populate
         };
-        this.load(params);
+        this.reload.emit(params);
     }
 
     load(params): void {
 
         this.loading = true;
 
-        params.filter = {
-            processo: 'eq:' + this.processo
-        };
-        params.sort = {
-            criadoEm: 'DESC'
-        };
         this._lembreteService.query(
             JSON.stringify(params.filter),
             params.limit,

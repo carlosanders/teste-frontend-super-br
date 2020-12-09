@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="insert_drive_file"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-processo">
+    </path>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-especie-processo-form
         [especieProcesso]="(especieProcesso$ | async)"

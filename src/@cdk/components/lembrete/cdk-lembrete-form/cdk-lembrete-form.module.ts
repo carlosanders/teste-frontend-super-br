@@ -11,6 +11,7 @@ import {CdkLembreteGridModule} from '../cdk-lembrete-grid/cdk-lembrete-grid.modu
 import {CdkLembreteHistoricoModule} from '../cdk-lembrete-historico/cdk-lembrete-historico.module';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {CdkLembreteGridsearchModule} from '../cdk-lembrete-autocomplete/cdk-lembrete-gridsearch/cdk-lembrete-gridsearch.module';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         CommonModule,
         CdkLembreteGridModule,
         CdkLembreteHistoricoModule,
+        CdkLembreteGridsearchModule,
     ],
     exports: [
         CdkLembreteFormComponent

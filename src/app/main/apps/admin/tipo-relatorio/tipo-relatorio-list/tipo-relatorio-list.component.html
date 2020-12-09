@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="assessment"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="tipos-relatorios">
+    </path>
+</div>
 <cdk-tipo-relatorio-grid
     [loading]="(loading$ | async)"
     [tiposRelatorios]="(tipoRelatorios$ | async)"

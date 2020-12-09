@@ -29,6 +29,7 @@ import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
 import {UsuarioEditStoreModule} from './store/store.module';
 import {MatStepperModule} from '@angular/material/stepper';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -69,6 +70,7 @@ const routes: Routes = [
         CdkSharedModule,
         CdkSidebarModule,
         MatStepperModule,
+        PathModule,
     ],
     providers: [
         UsuarioService,

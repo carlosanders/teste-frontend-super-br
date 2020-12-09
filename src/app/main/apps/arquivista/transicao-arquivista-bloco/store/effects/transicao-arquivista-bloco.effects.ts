@@ -160,7 +160,7 @@ export class TransicaoArquivistaBlocoEffects {
                             processoFilter = {
                                 'dataHoraProximaTransicao': 'lt:' + this.currentDate,
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
 
                             };
                         }
@@ -169,7 +169,7 @@ export class TransicaoArquivistaBlocoEffects {
                             processoFilter = {
                                 'dataHoraProximaTransicao': 'gte:' + this.currentDate,
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
                             };
                         }
 
@@ -177,7 +177,7 @@ export class TransicaoArquivistaBlocoEffects {
                             processoFilter = {
                                 'dataHoraProximaTransicao': 'isNull',
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
                             };
 
                         }
