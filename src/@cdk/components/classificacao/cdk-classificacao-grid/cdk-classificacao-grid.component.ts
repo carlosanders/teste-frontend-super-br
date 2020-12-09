@@ -41,7 +41,7 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'codigo', 'nome', 'modalidadeDestinacao.valor', 'permissaoUso', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'codigo', 'nome', 'modalidadeDestinacao.valor', 'permissaoUso', 'tipoSigilo.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -118,6 +118,11 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
             id: 'permissaoUso',
             label: 'Permissão de Uso',
             fixed: false
+        },
+        {
+            id: 'tipoSigilo.nome',
+            label: 'Tipo de Sigilo',
+            fixed: true
         },
         {
             id: 'observacao',
