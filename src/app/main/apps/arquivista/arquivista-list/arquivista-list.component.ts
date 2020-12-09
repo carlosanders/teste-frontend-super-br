@@ -167,6 +167,9 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
             takeUntil(this._unsubscribeAll),
             filter(processos => !!processos)
         ).subscribe(processos => {
+            processos.forEach(processo => {
+                processo.lembretes = processo.lembretes.reverse();
+            });
             this.processos = processos;
         });
 

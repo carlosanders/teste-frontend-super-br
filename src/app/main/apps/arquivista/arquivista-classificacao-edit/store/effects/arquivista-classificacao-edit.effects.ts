@@ -116,7 +116,7 @@ export class ArquivistaClassificacaoEditEffects {
                         etiquetaFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
+                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC'},
                         populate: [
                             'especieProcesso',
                             'especieProcesso.generoProcesso',
