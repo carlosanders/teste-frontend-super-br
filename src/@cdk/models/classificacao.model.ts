@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
+import {TipoSigilo, Usuario} from '@cdk/models';
 import {ModalidadeDestinacao} from '@cdk/models';
 
 export class Classificacao {
@@ -13,6 +13,8 @@ export class Classificacao {
     uuid?: string;
 
     nome?: string;
+
+    nomeCompleto?: string;
 
     @Type(() => ModalidadeDestinacao)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -49,6 +51,10 @@ export class Classificacao {
     expandable?: boolean;
 
     level?: number;
+
+    @Type(() => TipoSigilo)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    tipoSigilo?: TipoSigilo;
 
     @Type(() => Classificacao)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -87,6 +93,8 @@ export class Classificacao {
     constructor() {
         this.id = null;
         this.uuid = null;
+        this.nome = null;
+        this.nomeCompleto = null;
         this.modalidadeDestinacao = null;
         this.prazoGuardaFaseCorrenteAno = null;
         this.prazoGuardaFaseCorrenteDia = null;
@@ -99,6 +107,7 @@ export class Classificacao {
         this.codigo = null;
         this.permissaoUso = null;
         this.observacao = null;
+        this.tipoSigilo = null;
         this.parent = null;
         this.criadoPor = null;
         this.criadoEm = null;
