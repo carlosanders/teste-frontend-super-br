@@ -16,6 +16,7 @@ import {getRouterState, State} from '../../../../../../store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as LembreteActions from '../actions/lembrete.actions';
 import * as fromStore from '../../store';
+import {GetProcessos} from '../../../arquivista-list/store';
 
 @Injectable()
 export class LembreteEffects {
@@ -114,7 +115,7 @@ export class LembreteEffects {
                         etiquetaFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
+                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC'},
                         populate: [
                             'especieProcesso',
                             'especieProcesso.generoProcesso',
@@ -169,7 +170,7 @@ export class LembreteEffects {
                         params['filter'] = processoFilter;
                     });
 
-                    this._store.dispatch(new fromStore.GetProcessos(params));
+                    this._store.dispatch(new GetProcessos(params));
                     this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
                     this.routerState.params.typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
                 })
