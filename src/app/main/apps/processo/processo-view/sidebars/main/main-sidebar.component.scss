@@ -43,95 +43,18 @@ processo-view-main-sidebar {
         display: flex;
         flex-direction: column;
 
-        .metade {
-            display: flex;
-            flex-direction: column;
-            flex: 0 1 auto;
-
-            mat-expansion-panel {
-                display: flex;
-                flex-direction: column;
-
-                mat-expansion-panel-header {
-                    display: flex;
-                    flex-direction: row;
-                    flex: 1 0 auto;
-                }
-            }
+        > .documentos-juntados-title {
+            padding-left: 24px;
+            padding-top: 15px;
+            font-size: 15px;
+            height: 55px;
         }
 
-        .metade-expanded {
-            flex: 0.5 1;
-
-            mat-expansion-panel {
-                display: flex;
-                flex-direction: column;
-
-                mat-expansion-panel-header {
-                    display: flex;
-                    flex-direction: row;
-                    flex: 1 0 auto;
-                }
-
-                mat-expansion-panel-header.mat-expanded + div.mat-expansion-panel-content {
-                    display: flex;
-                    flex-direction: column;
-                    overflow-y: auto;
-
-                    .mat-expansion-panel-body {
-                        display: flex;
-                        flex-direction: column;
-                        flex: 1 1 auto;
-
-                        .minutas {
-                            flex: 1 1 auto;
-                            display: flex;
-                            flex-direction: column;
-                        }
-                    }
-                }
-            }
-        }
-
-        .outra-metade {
+        > .juntadas {
             display: flex;
             flex-direction: column;
-            flex: 1 0 auto;
-        }
-
-        .metade-expanded + .outra-metade {
-            display: flex;
-            flex-direction: column;
-            flex: 0.5 1;
-
-            mat-expansion-panel {
-                display: flex;
-                flex-direction: column;
-
-                mat-expansion-panel-header {
-                    display: flex;
-                    flex-direction: row;
-                    flex: 1 0 auto;
-                }
-
-                mat-expansion-panel-header.mat-expanded + div.mat-expansion-panel-content {
-                    display: flex;
-                    flex-direction: column;
-                    overflow-y: auto;
-
-                    .mat-expansion-panel-body {
-                        display: flex;
-                        flex-direction: column;
-                        flex: 1 1 auto;
-
-                        .juntadas {
-                            flex: 1 1 auto;
-                            display: flex;
-                            flex-direction: column;
-                        }
-                    }
-                }
-            }
+            flex: 1 1 auto;
+            height: 0;
         }
 
         > .loading-minutas {
