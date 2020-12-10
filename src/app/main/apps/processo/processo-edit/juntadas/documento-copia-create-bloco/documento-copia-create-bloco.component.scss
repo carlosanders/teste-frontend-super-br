@@ -6,5 +6,6 @@ documento-copia-create {
         flex: 1 1 auto;
         display: flex;
         overflow-y: auto;
+        flex-direction: column;
     }
 }
