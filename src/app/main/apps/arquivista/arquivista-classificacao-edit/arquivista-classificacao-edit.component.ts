@@ -8,7 +8,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
-    selector: '<span class="mr-4 ml-4">/</span>arquivista-classificacao-edit',
+    selector: 'arquivista-classificacao-edit',
     templateUrl: './arquivista-classificacao-edit.component.html',
     styleUrls: ['./arquivista-classificacao-edit.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -5,7 +5,7 @@ export interface LembreteBlocoAppState {
     lembrete: LembreteBlocoState;
 }
 
-export const getLembreteBlocoAppState = createFeatureSelector<LembreteBlocoAppState>('<span class="mr-4 ml-4">/</span>lembretes-bloco-form');
+export const getLembreteBlocoAppState = createFeatureSelector<LembreteBlocoAppState>('lembretes-bloco-form');
 
 export const getAppState = createSelector(
     getLembreteBlocoAppState,
