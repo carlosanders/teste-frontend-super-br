@@ -9,6 +9,7 @@
             [documento]="documento"
             [valid]="(juntadas$ | async)?.length > 0"
             [saving]="(isSaving$ | async)"
+            (abort)="abort()"
             (save)="submit($event)">
     </cdk-documento-copia-form>
 

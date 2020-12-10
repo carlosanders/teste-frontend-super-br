@@ -110,6 +110,10 @@ export class Processo {
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     dataHoraAbertura?: moment.Moment;
 
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
+    dataHoraDesarquivamento?: moment.Moment;
+
     @Exclude({toPlainOnly: true})
     @Transform(value => value ? value.format() : null, {toPlainOnly: true})
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
@@ -194,6 +198,7 @@ export class Processo {
         this.especieProcesso = null;
         this.visibilidadeExterna = null;
         this.dataHoraAbertura = null;
+        this.dataHoraDesarquivamento = null;
         this.acessoNegado = null;
         this.somenteLeitura = null;
         this.acessoRestrito = null;
