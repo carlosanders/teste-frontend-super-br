@@ -3,7 +3,7 @@ import {Observable, Subject} from 'rxjs';
 import {Pagination, Processo, Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store/reducers';
+import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '../../../../../@cdk/animations';
 

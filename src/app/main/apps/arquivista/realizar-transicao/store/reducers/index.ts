@@ -5,7 +5,9 @@ export interface RealizarTransicaoAppState {
     arquivistaClassificacao: RealizarTransicaoState;
 }
 
-export const getRealizarTransicaoAppState = createFeatureSelector<RealizarTransicaoAppState>('<span class="mr-4 ml-4">/</span>arquivista-classificacao-edit');
+export const getRealizarTransicaoAppState = createFeatureSelector<RealizarTransicaoAppState>(
+    'realizar-transicao'
+);
 
 export const getAppState = createSelector(
     getRealizarTransicaoAppState,

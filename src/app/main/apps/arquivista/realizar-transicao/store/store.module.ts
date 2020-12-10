@@ -7,7 +7,7 @@ import {reducers} from './reducers';
 
 @NgModule({
     imports  : [
-        StoreModule.forFeature('<span class="mr-4 ml-4">/</span>realizar-transicao', reducers),
+        StoreModule.forFeature('realizar-transicao', reducers),
         EffectsModule.forFeature(effects)
     ]
 })
