@@ -11,6 +11,20 @@ cdk-processo-list-item {
 
     mat-expansion-panel{
         margin-top: 15px !important;
+
+        .lembrete {
+            margin-left: 8px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            text-wrap: normal;
+        }
+
+        mat-form-field {
+            display: flex;
+            flex: 1 1 auto;
+            margin-left: 8px;
+            margin-right: 8px;
+        }
     }
 
     .info {

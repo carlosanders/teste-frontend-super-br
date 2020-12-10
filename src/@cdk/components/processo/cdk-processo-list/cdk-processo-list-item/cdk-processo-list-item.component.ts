@@ -119,11 +119,11 @@ export class CdkProcessoListItemComponent implements OnInit {
     }
 
     doRealizarTransicao(processo): void {
-        this.realizarTransicao.emit(this.processo.id);
+        this.realizarTransicao.emit(processo.id);
     }
 
     doCriarLembrete(processo): void {
-        this.criarLembrete.emit(this.processo.id);
+        this.criarLembrete.emit(processo.id);
     }
 
     doEditarLembrete(): void {

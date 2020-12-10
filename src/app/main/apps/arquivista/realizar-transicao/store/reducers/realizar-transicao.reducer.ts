@@ -89,7 +89,7 @@ export function RealizarTransicaoReducer(
         case RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO_FAILED: {
             return {
                 ...state,
-                saving: true,
+                saving: false,
                 errors: action.payload
             };
         }

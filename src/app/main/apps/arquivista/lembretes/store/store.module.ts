@@ -11,7 +11,7 @@ import {reducers} from './reducers';
     declarations: [],
     imports: [
         CommonModule,
-        StoreModule.forFeature('<span class="mr-4 ml-4">/</span>lembretes-form', reducers),
+        StoreModule.forFeature('app-lembretes-form', reducers),
         EffectsModule.forFeature(effects)
     ]
 })

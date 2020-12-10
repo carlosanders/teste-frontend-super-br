@@ -1,23 +1,20 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {select, Store} from '@ngrx/store';
-import {getRouterState, State} from '../../../../../../store/reducers';
+import {getRouterState, State} from '../../../../../../store';
 import {Router} from '@angular/router';
 import * as DataPrevistaTransicaoActions from '../actions/criar-data-prevista-transicao.actions';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
-import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {UpdateData} from '@cdk/ngrx-normalizr';
 import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {of} from 'rxjs';
 import {Injectable} from '@angular/core';
-import * as moment from 'moment';
-import * as fromStoreProcesso from '../../../../processo/store';
 
 @Injectable()
 export class CriarDataPrevistaTransicaoEffects {
     routerState: any;
-    private currentDate: any;
 
     constructor(
         private _actions: Actions,
@@ -30,7 +27,6 @@ export class CriarDataPrevistaTransicaoEffects {
 
     /**
      * Save Lembrete
-     * @type {Observable<any>}
      */
     @Effect()
     saveDataPrevistaTransicao: any =
@@ -64,8 +60,8 @@ export class CriarDataPrevistaTransicaoEffects {
             .pipe(
                 ofType<DataPrevistaTransicaoActions.SaveDataPrevistaTransicaoSuccess>(DataPrevistaTransicaoActions.SAVE_DATA_PREVISTA_TRANSICAO_SUCCESS),
                 tap(() => {
-                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
-                    + '/' + this.routerState.params.typeHandle]).then();
+                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
+                    + this.routerState.params.typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
                 })
             );
 
