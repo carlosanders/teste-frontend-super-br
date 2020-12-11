@@ -7,15 +7,16 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
-import {VinculacaoProcesso} from '@cdk/models';
+import {Pagination, VinculacaoProcesso} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {Processo} from '@cdk/models';
 import {getProcesso} from '../../../store/selectors';
 import {Back} from '../../../../../../store/actions';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'vinculacao-processo-edit',
@@ -27,6 +28,8 @@ import {Back} from '../../../../../../store/actions';
 })
 export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     vinculacaoProcesso$: Observable<VinculacaoProcesso>;
     vinculacaoProcesso: VinculacaoProcesso;
     isSaving$: Observable<boolean>;
@@ -34,6 +37,8 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
 
     processo$: Observable<Processo>;
     processo: Processo;
+
+    processoVinculadoPagination: Pagination;
 
     /**
      * @param _store
@@ -45,6 +50,9 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.vinculacaoProcesso$ = this._store.pipe(select(fromStore.getVinculacaoProcesso));
         this.processo$ = this._store.pipe(select(getProcesso));
+
+        this.processoVinculadoPagination = new Pagination();
+        this.processoVinculadoPagination.populate = ['setorAtual', 'setorAtual.unidade'];
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -55,8 +63,16 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.processo$.subscribe(
-            processo => this.processo = processo
+        this.processo$.pipe(
+            takeUntil(this._unsubscribeAll),
+            filter(processo => !!processo)
+        ).subscribe(
+            processo => {
+                this.processo = processo;
+                this.processoVinculadoPagination.filter = {
+                    'id':'neq:' + this.processo.id
+                }
+            }
         );
 
         this.vinculacaoProcesso$.subscribe(
@@ -73,6 +89,9 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

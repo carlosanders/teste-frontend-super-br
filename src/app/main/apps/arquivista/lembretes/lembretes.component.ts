@@ -1,4 +1,11 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
 import {Observable, Subject} from 'rxjs';
 import {Lembrete, Pagination, Processo} from '../../../../../@cdk/models';
@@ -16,7 +23,7 @@ import {cdkAnimations} from '../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class LembretesComponent implements OnInit {
+export class LembretesComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
     loading: boolean;
@@ -60,6 +67,12 @@ export class LembretesComponent implements OnInit {
         ).subscribe(processos => {
             this.processos = processos;
         });
+    }
+
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     initObservales(): void {
