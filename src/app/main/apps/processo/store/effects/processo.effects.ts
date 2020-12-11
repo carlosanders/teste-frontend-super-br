@@ -62,6 +62,7 @@ export class ProcessoEffect {
                             'populateAll',
                             'especieProcesso.generoProcesso',
                             'setorAtual.unidade',
+                            'setorAtual.especieSetor',
                             'classificacao.modalidadeDestinacao',
                             'lembretes',
                             'vinculacoesEtiquetas',

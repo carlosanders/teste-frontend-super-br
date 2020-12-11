@@ -26,7 +26,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Valor (R$)" formControlName="valor" required>
+        <input matInput currencyMask placeholder="Valor (R$)" autocomplete="off" formControlName="valor" required>
         <mat-error *ngIf="form.get('valor').hasError('formError')">
             {{form.get('valor').errors.formError}}
         </mat-error>
