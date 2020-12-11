@@ -47,6 +47,7 @@ export class TipoRelatorioEditComponent implements OnInit {
                 }
             });
         this.especieRelatorioPagination = new Pagination();
+        this.especieRelatorioPagination.populate = ['populateAll'];
         this.loadForm();
     }
 

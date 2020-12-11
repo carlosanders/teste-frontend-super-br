@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Assinatura, Documento, Juntada, Pagination, Processo, Tarefa, TipoDocumento} from '@cdk/models';
+import {Assinatura, Documento, Juntada, Pagination, Processo, Tarefa} from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
@@ -24,10 +24,10 @@ import {getProcesso} from '../../../store/selectors';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {getTarefa} from '../../../../tarefas/tarefa-detail/store/selectors';
-import {UpdateData} from '../../../../../../../@cdk/ngrx-normalizr';
-import {documento as documentoSchema} from '../../../../../../../@cdk/normalizr';
-import {CdkAssinaturaEletronicaPluginComponent} from '../../../../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {MatDialog} from '../../../../../../../@cdk/angular/material';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {documento as documentoSchema} from '@cdk/normalizr';
+import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {MatDialog} from '@cdk/angular/material';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -51,6 +51,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
+    oficios: Documento[] = [];
 
     errors$: Observable<any>;
 
@@ -115,12 +116,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     cdkUpload;
 
     routeAtividadeDocumento = 'atividade';
+    routeOficioDocumento = 'oficio';
 
     @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
     minutasLoading$: Observable<boolean>;
 
     minutasSaving$: Observable<boolean>;
+
+    minutasOpen = true;
 
     /**
      *
@@ -220,7 +224,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         });
 
         const path = 'app/main/apps/processo/processo-view/sidebars/main';
-
         modulesConfig.forEach((module) => {
             if (module.sidebars.hasOwnProperty(path)) {
                 module.sidebars[path].forEach((s => this.links.push(s)));
@@ -243,7 +246,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 takeUntil(this._unsubscribeAll)
             ).subscribe(
                 documentos => {
-                    this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
+                    this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa));
+                    this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
                     this._changeDetectorRef.markForCheck();
                 }
             );
@@ -324,6 +328,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
                 this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
             }
+            if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                module.routerLinks[pathDocumento].hasOwnProperty('oficio') &&
+                module.routerLinks[pathDocumento]['oficio'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
+            }
         });
 
     }
@@ -392,6 +401,21 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._store.dispatch(new fromStore.GetJuntadas(nparams));
     }
 
+    reloadDocumentos(): void {
+        this._store.dispatch(new fromStore.UnloadDocumentos());
+
+        this._store.dispatch(new fromStore.GetDocumentos());
+    }
+
+    onOpenMinutas(): void {
+        this.minutasOpen = true;
+    }
+
+    onCloseMinutas(): void {
+        this.minutasOpen = false;
+        this.reloadDocumentos();
+    }
+
     checkModelo(): void {
         const value = this.formEditor.get('modelo').value;
         if (!value || typeof value !== 'object') {
@@ -442,11 +466,22 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     }
 
     onClickedMinuta(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+        this._store.dispatch(new fromStore.ClickedDocumento({
+            documento: documento,
+            routeAtividade: this.routeAtividadeDocumento,
+            routeOficio: this.routeOficioDocumento
+        }));
     }
 
     doAlterarTipoDocumento(values): void {
         this._store.dispatch(new fromStore.UpdateDocumento(values));
+    }
+
+    criarOficio(): void {
+        this._router.navigate([
+            this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
+            '/visualizar/' + this.routerState.params.stepHandle + '/oficio'
+        ]).then();
     }
 
     doAssinatura(documento: Documento): void {
@@ -474,6 +509,48 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 });
             }
         });
+    }
+
+    doAssinaturaJuntada(documento: Documento): void {
+        const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            result.documento = documento;
+            if (result.certificadoDigital) {
+                this._store.dispatch(new fromStore.AssinaJuntada(result.documento.id));
+            } else {
+                result.documento.componentesDigitais.forEach((componenteDigital) => {
+                    const assinatura = new Assinatura();
+                    assinatura.componenteDigital = componenteDigital;
+                    assinatura.algoritmoHash = 'A1';
+                    assinatura.cadeiaCertificadoPEM = 'A1';
+                    assinatura.cadeiaCertificadoPkiPath = 'A1';
+                    assinatura.assinatura = 'A1';
+
+                    this._store.dispatch(new fromStore.AssinaJuntadaEletronicamente({
+                        assinatura: assinatura,
+                        password: result.password
+                    }));
+                });
+            }
+        });
+    }
+
+    doAdicionarVinculacao(juntadaId: number): void {
+        this._router.navigate([
+            this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
+            '/visualizar/' + this.routerState.params.stepHandle + '/vincular/' + juntadaId
+        ]).then();
+    }
+
+    doRemoverVinculacoes(juntada: Juntada): void {
+        juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao.id));
+    }
+
+    removeVinculacao(vinculacaoDocumentoId: number): void {
+        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacaoDocumentoId));
     }
 
     checkTipoDocumento(): void {

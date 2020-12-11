@@ -1,12 +1,12 @@
-<form fxLayoutGap="16px"
-      name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <div *ngIf="this.processo?.id && this.processo?.origemDados">
         <mat-card *showIfRole="'ROLE_COLABORADOR'">
             <mat-card-subtitle>Integração</mat-card-subtitle>
             <div>ORIGEM DE DADOS: {{this.processo?.origemDados.fonteDados}}</div>
             <div>ÚLTIMA
-                SINCRONIZAÇÃO: {{this.processo?.origemDados.dataHoraUltimaConsulta?.toDate() | date: 'dd/MM/yyyy HH:mm'}}</div>
+                SINCRONIZAÇÃO:
+                {{this.processo?.origemDados.dataHoraUltimaConsulta?.toDate() | date: 'dd/MM/yyyy HH:mm'}}</div>
             <div *ngIf="this.processo?.origemDados.status === 1">STATUS: SUCESSO</div>
             <div *ngIf="this.processo?.origemDados.status >= 2">STATUS: ERRO!</div>
             <div *ngIf="this.processo?.origemDados.status === 0" class="spinner-wrapper">
@@ -19,11 +19,7 @@
     <mat-card *showIfNotRole="'ROLE_COLABORADOR'">
         <mat-form-field>
             <mat-label>Estado</mat-label>
-            <mat-select
-                matInput #estado
-                name="estado"
-                formControlName="estado"
-                required>
+            <mat-select matInput #estado name="estado" formControlName="estado" required>
                 <mat-option *ngFor="let estado of estados" [value]="estado.id">
                     {{estado.uf}}
                 </mat-option>
@@ -32,18 +28,13 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput placeholder="Ramo"
-                   formControlName="generoSetor"
-                   required
-                   [matAutocomplete]="generoSetor.autocomplete"
-                   (blur)="checkGeneroSetor()">
-            <cdk-genero-setor-autocomplete
-                #generoSetor="generoSetorAutocomplete"
-                [control]="form.get('generoSetor')"
+            <input matInput placeholder="Ramo" formControlName="generoSetor" required
+                [matAutocomplete]="generoSetor.autocomplete" (blur)="checkGeneroSetor()">
+            <cdk-genero-setor-autocomplete #generoSetor="generoSetorAutocomplete" [control]="form.get('generoSetor')"
                 [pagination]="generoSetorPagination">
             </cdk-genero-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button [disabled]="!form.get('estado').value"
-                    (click)="showGeneroSetorGrid()">
+                (click)="showGeneroSetorGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('generoSetor').hasError('formError')">
@@ -52,18 +43,13 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput placeholder="Atividade"
-                   formControlName="especieSetor"
-                   required
-                   [matAutocomplete]="especieSetor.autocomplete"
-                   (blur)="checkEspecieSetor()">
-            <cdk-especie-setor-autocomplete
-                #especieSetor="especieSetorAutocomplete"
-                [control]="form.get('especieSetor')"
-                [pagination]="especieSetorPagination">
+            <input matInput placeholder="Atividade" formControlName="especieSetor" required
+                [matAutocomplete]="especieSetor.autocomplete" (blur)="checkEspecieSetor()">
+            <cdk-especie-setor-autocomplete #especieSetor="especieSetorAutocomplete"
+                [control]="form.get('especieSetor')" [pagination]="especieSetorPagination">
             </cdk-especie-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button [disabled]="!form.get('generoSetor').value"
-                    (click)="showEspecieSetorGrid()">
+                (click)="showEspecieSetorGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
@@ -72,18 +58,13 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput placeholder="Unidade"
-                   formControlName="setorInicial"
-                   required
-                   [matAutocomplete]="setorInicial.autocomplete"
-                   (blur)="checkSetorInicial()">
-            <cdk-setor-autocomplete
-                #setorInicial="setorAutocomplete"
-                [control]="form.get('setorInicial')"
+            <input matInput placeholder="Unidade" formControlName="setorInicial" required
+                [matAutocomplete]="setorInicial.autocomplete" (blur)="checkSetorInicial()">
+            <cdk-setor-autocomplete #setorInicial="setorAutocomplete" [control]="form.get('setorInicial')"
                 [pagination]="setorInicialPagination">
             </cdk-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button [disabled]="!form.get('especieSetor').value"
-                    (click)="showSetorInicialGrid()">
+                (click)="showSetorInicialGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('setorInicial').hasError('formError')">
@@ -91,20 +72,13 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field
-            *showIfRole="'ROLE_COLABORADOR'">
-            <input matInput placeholder="Procedência"
-                   formControlName="procedencia"
-                   required
-                   [matAutocomplete]="procedencia.autocomplete"
-                   (blur)="checkProcedencia()">
-            <cdk-pessoa-autocomplete
-                #procedencia="pessoaAutocomplete"
-                [control]="form.get('procedencia')"
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <input matInput placeholder="Procedência" formControlName="procedencia" required
+                [matAutocomplete]="procedencia.autocomplete" (blur)="checkProcedencia()">
+            <cdk-pessoa-autocomplete #procedencia="pessoaAutocomplete" [control]="form.get('procedencia')"
                 [pagination]="procedenciaPagination">
             </cdk-pessoa-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showProcedenciaGrid()">
+            <button matSuffix mat-button mat-icon-button (click)="showProcedenciaGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('procedencia').hasError('formError')">
@@ -123,9 +97,7 @@
 
         <div class="responsive-group" *ngIf="!form.value.id">
             <label id="processo-rg3"></label>
-            <mat-radio-group class="poderes-rg"
-                             formControlName="unidadeArquivistica"
-                             aria-labelledby="processo-rg3">
+            <mat-radio-group class="poderes-rg" formControlName="unidadeArquivistica" aria-labelledby="processo-rg3">
                 <mat-radio-button [value]=1>
                     Processo
                 </mat-radio-button>
@@ -143,9 +115,7 @@
         <mat-card-subtitle>Dados do Protocolo</mat-card-subtitle>
         <div class="responsive-group" *ngIf="!form.value.id">
             <label id="processo-rg2"></label>
-            <mat-radio-group class="poderes-rg"
-                             formControlName="tipoProtocolo"
-                             aria-labelledby="processo-rg2">
+            <mat-radio-group class="poderes-rg" formControlName="tipoProtocolo" aria-labelledby="processo-rg2">
                 <mat-radio-button [value]=1 *ngIf="form.value.unidadeArquivistica !== 3">
                     Atribuir Novo Protocolo
                 </mat-radio-button>
@@ -160,55 +130,38 @@
 
         <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2">
             <mat-label>{{form.value.unidadeArquivistica !== 3 ? 'NUP' : 'Dossiê'}}</mat-label>
-            <input matInput #NUP
-                   name="NUP"
-                   formControlName="NUP"
-                   maxlength="21"
-                   [readonly]="readonlyNUP"
-                   required>
+            <input matInput #NUP name="NUP" formControlName="NUP" maxlength="21" [readonly]="readonlyNUP" required>
             <mat-hint align="end">{{NUP.value.length}} / 21</mat-hint>
             <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
         <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2">
             <mat-label>Data Hora de Abertura</mat-label>
-            <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura"
-                   required>
+            <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura" required>
             <mat-datetimepicker-toggle matSuffix [for]="dataHoraAbertura"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #dataHoraAbertura type="datetime" openOnFocus="true"
-                                timeInterval="5"></mat-datetimepicker>
+            <mat-datetimepicker #dataHoraAbertura type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput placeholder="Procedência"
-                   id="inputProcedencia"
-                   formControlName="procedencia"
-                   required
-                   [matAutocomplete]="procedencia.autocomplete"
-                   (blur)="checkProcedencia()">
-            <cdk-pessoa-autocomplete
-                #procedencia="pessoaAutocomplete"
-                [control]="form.get('procedencia')"
-                [pessoaList]="procedenciaList"
-                [pessoaListIsLoading]="procedenciaListIsLoading"
+            <input matInput placeholder="Procedência" id="inputProcedencia" formControlName="procedencia" required
+                [matAutocomplete]="procedencia.autocomplete" (blur)="checkProcedencia()">
+            <cdk-pessoa-autocomplete #procedencia="pessoaAutocomplete" [control]="form.get('procedencia')"
+                [pessoaList]="procedenciaList" [pessoaListIsLoading]="procedenciaListIsLoading"
                 [pagination]="procedenciaPagination">
             </cdk-pessoa-autocomplete>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="getFavoritosProcedencia()">
+            <button matSuffix mat-button mat-icon-button (click)="getFavoritosProcedencia()">
                 <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('procedencia')">
+                (click)="showLogEntryGrid('procedencia')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
-            <button *ngIf="form.get('procedencia').value && form.get('procedencia').value.id" matSuffix
-                    mat-button
-                    mat-icon-button
-                    (click)="doEditProcedencia()">
+            <button *ngIf="form.get('procedencia').value && form.get('procedencia').value.id" matSuffix mat-button
+                mat-icon-button (click)="doEditProcedencia()">
                 <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
             </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="doGerirProcedencia()">
+            <button matSuffix mat-button mat-icon-button (click)="doGerirProcedencia()">
                 <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
             </button>
             <mat-error *ngIf="form.get('procedencia').hasError('formError')">
@@ -220,15 +173,9 @@
     <mat-card *showIfNotRole="'ROLE_COLABORADOR'">
         <mat-form-field>
             <mat-label>Resumo</mat-label>
-            <input matInput #descricao
-                   name="descricao"
-                   formControlName="descricao"
-                   maxlength="255"
-                   upperCase
-                   required>
+            <input matInput #descricao name="descricao" formControlName="descricao" maxlength="255" upperCase required>
             <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('descricao')">
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('descricao')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
             <mat-error>Campo obrigatório!</mat-error>
@@ -236,15 +183,11 @@
 
         <mat-form-field>
             <mat-label>Requerimento</mat-label>
-            <input matInput #requerimento
-                   name="requerimento"
-                   formControlName="requerimento"
-                   maxlength="255"
-                   upperCase
-                   required>
+            <input matInput #requerimento name="requerimento" formControlName="requerimento" maxlength="255" upperCase
+                required>
             <mat-hint align="end">{{requerimento.value.length}} / 255</mat-hint>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('requerimento')">
+                (click)="showLogEntryGrid('requerimento')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
             <mat-error>Campo obrigatório!</mat-error>
@@ -257,18 +200,13 @@
         </mat-slide-toggle>
 
         <mat-form-field *ngIf="form.value.temProcessoOrigem === true">
-            <input matInput placeholder="Processo Origem"
-                   formControlName="processoOrigem"
-                   [matAutocomplete]="processoOrigem.autocomplete" required
-                   (blur)="checkProcesso()">
-            <cdk-processo-autocomplete
-                #processoOrigem="processoAutocomplete"
-                [control]="form.get('processoOrigem')"
+            <input matInput placeholder="Processo Origem" formControlName="processoOrigem"
+                [matAutocomplete]="processoOrigem.autocomplete" required (blur)="checkProcesso()">
+            <cdk-processo-autocomplete #processoOrigem="processoAutocomplete" [control]="form.get('processoOrigem')"
                 [pagination]="processoPagination">
             </cdk-processo-autocomplete>
-            <button *ngIf="form.get('processoOrigem').enabled" matSuffix mat-button
-                    mat-icon-button
-                    (click)="showProcessoGrid()">
+            <button *ngIf="form.get('processoOrigem').enabled" matSuffix mat-button mat-icon-button
+                (click)="showProcessoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('processoOrigem').hasError('formError')">
@@ -279,22 +217,16 @@
 
     <ng-template *showIfRole="'ROLE_COLABORADOR'">
         <mat-form-field>
-                <input matInput placeholder="Fase"
-                       formControlName="modalidadeFase"
-                       required
-                       [matAutocomplete]="modalidadeFase.autocomplete"
-                       (blur)="checkModalidadeFase()">
-            <cdk-modalidade-fase-autocomplete
-                #modalidadeFase="modalidadeFaseAutocomplete"
-                [control]="form.get('modalidadeFase')"
-                [pagination]="modalidadeFasePagination">
+            <input matInput placeholder="Fase" formControlName="modalidadeFase" required
+                [matAutocomplete]="modalidadeFase.autocomplete" (blur)="checkModalidadeFase()">
+            <cdk-modalidade-fase-autocomplete #modalidadeFase="modalidadeFaseAutocomplete"
+                [control]="form.get('modalidadeFase')" [pagination]="modalidadeFasePagination">
             </cdk-modalidade-fase-autocomplete>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showLogEntryGrid('modalidadeFase')">
+                (click)="showLogEntryGrid('modalidadeFase')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                    (click)="showModalidadeFaseGrid()">
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showModalidadeFaseGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('modalidadeFase').hasError('formError')">
@@ -305,28 +237,20 @@
 
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-        <input matInput placeholder="Processo de Trabalho"
-               formControlName="especieProcesso"
-               required
-               [matAutocomplete]="especieProcesso.autocomplete"
-               (blur)="checkEspecieProcesso()">
-        <cdk-especie-processo-autocomplete
-            #especieProcesso="especieProcessoAutocomplete"
-            [control]="form.get('especieProcesso')"
-            [especieProcessoList]="especieProcessoList"
-            [especieProcessoListIsLoading]="especieProcessoListIsLoading"
-            [pagination]="especieProcessoPagination">
+        <input matInput placeholder="Processo de Trabalho" formControlName="especieProcesso" required
+            [matAutocomplete]="especieProcesso.autocomplete" (blur)="checkEspecieProcesso()">
+        <cdk-especie-processo-autocomplete #especieProcesso="especieProcessoAutocomplete"
+            [control]="form.get('especieProcesso')" [especieProcessoList]="especieProcessoList"
+            [especieProcessoListIsLoading]="especieProcessoListIsLoading" [pagination]="especieProcessoPagination">
         </cdk-especie-processo-autocomplete>
-        <button matSuffix mat-button mat-icon-button
-                (click)="getFavoritosEspecieProcesso()">
+        <button matSuffix mat-button mat-icon-button (click)="getFavoritosEspecieProcesso()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('especieProcesso')">
+            (click)="showLogEntryGrid('especieProcesso')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button
-                (click)="showEspecieProcessoGrid()">
+        <button matSuffix mat-button mat-icon-button (click)="showEspecieProcessoGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('especieProcesso').hasError('formError')">
@@ -335,28 +259,20 @@
     </mat-form-field>
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-        <input matInput placeholder="Meio"
-               formControlName="modalidadeMeio"
-               required
-               [matAutocomplete]="modalidadeMeio.autocomplete"
-               (blur)="checkModalidadeMeio()">
-        <cdk-modalidade-meio-autocomplete
-            #modalidadeMeio="modalidadeMeioAutocomplete"
-            [control]="form.get('modalidadeMeio')"
-            [modalidadeMeioList]="modalidadeMeioList"
-            [modalidadeMeioListIsLoading]="modalidadeMeioListIsLoading"
-            [pagination]="modalidadeMeioPagination">
+        <input matInput placeholder="Meio" formControlName="modalidadeMeio" required
+            [matAutocomplete]="modalidadeMeio.autocomplete" (blur)="checkModalidadeMeio()">
+        <cdk-modalidade-meio-autocomplete #modalidadeMeio="modalidadeMeioAutocomplete"
+            [control]="form.get('modalidadeMeio')" [modalidadeMeioList]="modalidadeMeioList"
+            [modalidadeMeioListIsLoading]="modalidadeMeioListIsLoading" [pagination]="modalidadeMeioPagination">
         </cdk-modalidade-meio-autocomplete>
         <button [disabled]="!form.get('especieProcesso').value" matSuffix mat-button mat-icon-button
-                (click)="getFavoritosModalidadeMeio()">
+            (click)="getFavoritosModalidadeMeio()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('modalidadeMeio')">
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('modalidadeMeio')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button
-                (click)="showModalidadeMeioGrid()">
+        <button matSuffix mat-button mat-icon-button (click)="showModalidadeMeioGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('modalidadeMeio').hasError('formError')">
@@ -365,32 +281,23 @@
     </mat-form-field>
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-        <input matInput placeholder="Classificação"
-               formControlName="classificacao"
-               required
-               [matAutocomplete]="classificacao.autocomplete"
-               (blur)="checkClassificacao()">
-        <cdk-classificacao-autocomplete
-            #classificacao="classificacaoAutocomplete"
-            [control]="form.get('classificacao')"
-            [classificacaoList]="classificacaoList"
-            [classificacaoListIsLoading]="classificacaoListIsLoading"
+        <input matInput placeholder="Classificação" formControlName="classificacao" required
+            [matAutocomplete]="classificacao.autocomplete" (blur)="checkClassificacao()">
+        <cdk-classificacao-autocomplete #classificacao="classificacaoAutocomplete" [control]="form.get('classificacao')"
+            [classificacaoList]="classificacaoList" [classificacaoListIsLoading]="classificacaoListIsLoading"
             [pagination]="_classificacaoPagination">
         </cdk-classificacao-autocomplete>
         <button [disabled]="!form.get('especieProcesso').value" matSuffix mat-button mat-icon-button
-                (click)="getFavoritosClassificacao()">
+            (click)="getFavoritosClassificacao()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('classificacao')">
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('classificacao')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button
-                (click)="showClassificacaoTree()">
+        <button matSuffix mat-button mat-icon-button (click)="showClassificacaoTree()">
             <mat-icon matTooltip="Árvore de Classificações">subdirectory_arrow_right</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button
-                (click)="showClassificacaoGrid()">
+        <button matSuffix mat-button mat-icon-button (click)="showClassificacaoGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('classificacao').hasError('formError')">
@@ -400,79 +307,64 @@
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <mat-label>Título</mat-label>
-        <input matInput #titulo
-               name="titulo"
-               formControlName="titulo"
-               required
-               maxlength="255" upperCase>
+        <input matInput #titulo name="titulo" formControlName="titulo" required maxlength="255" upperCase>
         <mat-hint align="end">{{titulo.value.length}} / 255</mat-hint>
         <mat-error>Campo obrigatório!</mat-error>
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('titulo')">
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('titulo')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
     </mat-form-field>
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <mat-label>Descrição</mat-label>
-        <input matInput #descricao
-               name="descricao"
-               formControlName="descricao"
-               maxlength="255" upperCase>
+        <input matInput #descricao name="descricao" formControlName="descricao" maxlength="255" upperCase>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('descricao')">
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('descricao')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
     </mat-form-field>
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <mat-label>Outro Número</mat-label>
-        <input matInput #outroNumero
-               name="outroNumero"
-               formControlName="outroNumero"
-               maxlength="255">
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('outroNumero')">
+        <input matInput #outroNumero name="outroNumero" formControlName="outroNumero" maxlength="255">
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('outroNumero')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
     </mat-form-field>
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-        <input matInput placeholder="Setor Responsável"
-               formControlName="setorAtual"
-               required
-               [matAutocomplete]="setor.autocomplete"
-               (blur)="checkSetorAtual()">
-        <cdk-setor-autocomplete
-            #setor="setorAutocomplete"
-            [control]="form.get('setorAtual')"
-            [setorList]="setorAtualList"
-            [setorListIsLoading]="setorAtualListIsLoading"
+        <input matInput placeholder="Setor Responsável" formControlName="setorAtual" required
+            [matAutocomplete]="setor.autocomplete" (blur)="checkSetorAtual()">
+        <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')"
+            [setorList]="setorAtualList" [setorListIsLoading]="setorAtualListIsLoading"
             [pagination]="setorAtualPagination">
         </cdk-setor-autocomplete>
         <button [disabled]="!form.get('especieProcesso').value" matSuffix mat-button mat-icon-button
-                (click)="getFavoritosSetorAtual()">
+            (click)="getFavoritosSetorAtual()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('setorAtual')">
+        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('setorAtual')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button
-                (click)="showSetorGrid()">
+        <button matSuffix mat-button mat-icon-button (click)="showSetorGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('setorAtual').hasError('formError')">
             {{form.get('setorAtual').errors.formError}}
         </mat-error>
     </mat-form-field>
+    <mat-form-field *ngIf="mostraDataHoraDesarquivamento">
+        <mat-label>Data Desarquivamento Automático</mat-label>
+        <input matInput formControlName="dataHoraDesarquivamento" [matDatetimepicker]="dataHoraDesarquivamento">
+        <mat-datetimepicker-toggle matSuffix [for]="dataHoraDesarquivamento"></mat-datetimepicker-toggle>
+        <mat-datetimepicker #dataHoraDesarquivamento type="datetime" openOnFocus="true" timeInterval="5">
+        </mat-datetimepicker>
+    </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-        <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
@@ -482,85 +374,51 @@
     </div>
 </form>
 
-<cdk-processo-gridsearch
-    *ngIf="activeCard === 'processo-gridsearch'"
-    [pagination]="processoPagination"
-    (selected)="selectProcesso($event)"
-    (cancel)="cancel()">
+<cdk-processo-gridsearch *ngIf="activeCard === 'processo-gridsearch'" [pagination]="processoPagination"
+    (selected)="selectProcesso($event)" (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
-<cdk-especie-processo-gridsearch
-    *ngIf="activeCard === 'especie-processo-gridsearch'"
-    [pagination]="especieProcessoPagination"
-    (selected)="selectEspecieProcesso($event)"
-    (cancel)="cancel()">
+<cdk-especie-processo-gridsearch *ngIf="activeCard === 'especie-processo-gridsearch'"
+    [pagination]="especieProcessoPagination" (selected)="selectEspecieProcesso($event)" (cancel)="cancel()">
 </cdk-especie-processo-gridsearch>
 
-<cdk-modalidade-fase-gridsearch
-    *ngIf="activeCard === 'modalidade-fase-gridsearch'"
-    [pagination]="modalidadeFasePagination"
-    (selected)="selectModalidadeFase($event)"
-    (cancel)="cancel()">
+<cdk-modalidade-fase-gridsearch *ngIf="activeCard === 'modalidade-fase-gridsearch'"
+    [pagination]="modalidadeFasePagination" (selected)="selectModalidadeFase($event)" (cancel)="cancel()">
 </cdk-modalidade-fase-gridsearch>
 
-<cdk-modalidade-meio-gridsearch
-    *ngIf="activeCard === 'modalidade-meio-gridsearch'"
-    [pagination]="modalidadeMeioPagination"
-    (selected)="selectModalidadeMeio($event)"
-    (cancel)="cancel()">
+<cdk-modalidade-meio-gridsearch *ngIf="activeCard === 'modalidade-meio-gridsearch'"
+    [pagination]="modalidadeMeioPagination" (selected)="selectModalidadeMeio($event)" (cancel)="cancel()">
 </cdk-modalidade-meio-gridsearch>
 
-<cdk-classificacao-gridsearch
-    *ngIf="activeCard === 'classificacao-gridsearch'"
-    [pagination]="_classificacaoPagination"
-    (selected)="selectClassificacao($event)"
-    (cancel)="cancel()">
+<cdk-classificacao-gridsearch *ngIf="activeCard === 'classificacao-gridsearch'" [pagination]="_classificacaoPagination"
+    (selected)="selectClassificacao($event)" (cancel)="cancel()">
 </cdk-classificacao-gridsearch>
 
-<cdk-setor-gridsearch
-    *ngIf="activeCard === 'setor-gridsearch'"
-    [pagination]="setorAtualPagination"
-    (selected)="selectSetor($event)"
+<cdk-setor-gridsearch *ngIf="activeCard === 'setor-gridsearch'" [pagination]="setorAtualPagination"
+    (selected)="selectSetor($event)" (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-setor-gridsearch *ngIf="activeCard === 'setor-inicial-gridsearch'" [pagination]="setorInicialPagination"
+    [displayedColumns]="['select', 'id', 'unidade.nome', 'actions']" (selected)="selectSetorInicial($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
-<cdk-setor-gridsearch
-    *ngIf="activeCard === 'setor-inicial-gridsearch'"
-    [pagination]="setorInicialPagination"
-    [displayedColumns]="['select', 'id', 'unidade.nome', 'actions']"
-    (selected)="selectSetorInicial($event)"
-    (cancel)="cancel()">
-</cdk-setor-gridsearch>
-
-<cdk-logentry-gridsearch
-    *ngIf="activeCard === 'logentry-gridsearch'"
-    [pagination]="logEntryPagination"
+<cdk-logentry-gridsearch *ngIf="activeCard === 'logentry-gridsearch'" [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
 
-<cdk-genero-setor-gridsearch
-    *ngIf="activeCard === 'genero-setor-gridsearch'"
-    [pagination]="generoSetorPagination"
-    (selected)="selectGeneroSetor($event)"
-    (cancel)="cancel()">
+<cdk-genero-setor-gridsearch *ngIf="activeCard === 'genero-setor-gridsearch'" [pagination]="generoSetorPagination"
+    (selected)="selectGeneroSetor($event)" (cancel)="cancel()">
 </cdk-genero-setor-gridsearch>
 
-<cdk-especie-setor-gridsearch
-    *ngIf="activeCard === 'especie-setor-gridsearch'"
-    [pagination]="especieSetorPagination"
-    (selected)="selectEspecieSetor($event)"
-    (cancel)="cancel()">
+<cdk-especie-setor-gridsearch *ngIf="activeCard === 'especie-setor-gridsearch'" [pagination]="especieSetorPagination"
+    (selected)="selectEspecieSetor($event)" (cancel)="cancel()">
 </cdk-especie-setor-gridsearch>
 
-<cdk-pessoa-gridsearch
-    *ngIf="activeCard === 'procedencia-gridsearch'"
-    [pagination]="procedenciaPagination"
-    (selected)="selectProcedencia($event)"
-    (cancel)="cancel()">
+<cdk-pessoa-gridsearch *ngIf="activeCard === 'procedencia-gridsearch'" [pagination]="procedenciaPagination"
+    (selected)="selectProcedencia($event)" (cancel)="cancel()">
 </cdk-pessoa-gridsearch>
 
-<cdk-classificacao-grid-tree
-    *ngIf="activeCard === 'classificacao-grid-tree'"
-    (selected)="selectClassificacao($event)"
+<cdk-classificacao-grid-tree *ngIf="activeCard === 'classificacao-grid-tree'" (selected)="selectClassificacao($event)"
     (cancel)="cancel()">
 </cdk-classificacao-grid-tree>

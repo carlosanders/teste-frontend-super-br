@@ -323,9 +323,9 @@
                 <!-- Repositorio Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('repositorio.nome') > -1" matColumnDef="repositorio.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Repositório
+                        Tese
                     </th>
-                    <td mat-cell *matCellDef="let documento" class='has_label_on_mobile' data-label='Repositório: '
+                    <td mat-cell *matCellDef="let documento" class='has_label_on_mobile' data-label='Tese: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.repositorio?.nome}} </td>
                 </ng-container>
 

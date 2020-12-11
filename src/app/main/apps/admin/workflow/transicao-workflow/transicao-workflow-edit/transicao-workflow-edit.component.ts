@@ -65,7 +65,7 @@ export class TransicaoWorkflowEditComponent implements OnInit {
     loadForm(): void {
         this.formWorkflow = this._formBuilder.group({
             id: [null],
-            workflow: [null, [Validators.required]],
+            workflow: [null],
             especieAtividade: [null, [Validators.required]],
             especieTarefaFrom: [null, [Validators.required]],
             especieTarefaTo: [null, [Validators.required]],
@@ -84,6 +84,10 @@ export class TransicaoWorkflowEditComponent implements OnInit {
                 transicaoWorkflow[key] = value;
             }
         );
+
+        const workflow = new Workflow();
+        workflow.id = parseInt(this.routerState.params.workflowHandle);
+        transicaoWorkflow.workflow = workflow;
         this._store.dispatch(new fromStore.SaveTransicaoWorkflow(transicaoWorkflow));
 
     }

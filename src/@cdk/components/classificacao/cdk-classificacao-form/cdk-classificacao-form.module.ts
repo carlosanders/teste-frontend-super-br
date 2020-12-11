@@ -23,6 +23,8 @@ import {CdkClassificacaoAutocompleteModule} from '../cdk-classificacao-autocompl
 import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {CdkClassificacaoGridsearchModule} from '../cdk-classificacao-autocomplete/cdk-classificacao-gridsearch/cdk-classificacao-gridsearch.module';
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
+import {CdkTipoSigiloAutocompleteModule} from "../../tipo-sigilo/cdk-tipo-sigilo-autocomplete/cdk-tipo-sigilo-autocomplete.module";
+import {CdkTipoSigiloGridsearchModule} from "../../tipo-sigilo/cdk-tipo-sigilo-autocomplete/cdk-tipo-sigilo-gridsearch/cdk-tipo-sigilo-gridsearch.module";
 
 @NgModule({
     declarations: [
@@ -51,6 +53,8 @@ import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-
         CdkSharedModule,
         MatTooltipModule,
         CdkLogentryGridsearchModule,
+        CdkTipoSigiloAutocompleteModule,
+        CdkTipoSigiloGridsearchModule,
     ],
     providers: [
         ModalidadeDestinacaoService,

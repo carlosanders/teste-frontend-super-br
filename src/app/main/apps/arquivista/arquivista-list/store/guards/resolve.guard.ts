@@ -71,7 +71,7 @@ export class ResolveGuard implements CanActivate {
     isArquivista(role): any {
         return role === 'ROLE_ARQUIVISTA';
     }
-    
+
     /**
      * Get Processos
      *
@@ -88,7 +88,7 @@ export class ResolveGuard implements CanActivate {
                     etiquetaFilter: {},
                     limit: 10,
                     offset: 0,
-                    sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
+                    sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC'},
                     populate: [
                         'especieProcesso',
                         'especieProcesso.generoProcesso',
@@ -102,7 +102,6 @@ export class ResolveGuard implements CanActivate {
                         'lembretes',
                         'vinculacoesEtiquetas',
                         'vinculacoesEtiquetas.etiqueta'
-
                     ]
                 };
 
@@ -115,7 +114,7 @@ export class ResolveGuard implements CanActivate {
                         processoFilter = {
                             'dataHoraProximaTransicao': 'lte:' + this.currentDate,
                             'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                            'setorAtual': 'in:' + this.setorAtual
+                            'setorAtual.id': 'eq:' + this.setorAtual
 
                         };
                     }
@@ -123,16 +122,16 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params[typeParam] === 'aguardando-decurso') {
                         processoFilter = {
                             'dataHoraProximaTransicao': 'gt:' + this.currentDate,
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                            'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
+                            'setorAtual.id': 'eq:' + this.setorAtual
                         };
                     }
 
                     if (this.routerState.params[typeParam] === 'pendencia-analise') {
                         processoFilter = {
                             'dataHoraProximaTransicao': 'isNull',
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                            'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
+                            'setorAtual.id': 'eq:' + this.setorAtual
                         };
 
                     }

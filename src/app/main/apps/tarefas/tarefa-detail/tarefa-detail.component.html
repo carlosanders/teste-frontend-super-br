@@ -31,12 +31,6 @@
             <mat-icon class="black-fg">book</mat-icon>
         </button>
 
-        <button mat-icon-button aria-label="Movimentar" matTooltip="Movimentar"
-                [routerLink]="routeAtividade"
-                [routerLinkActive]="['active', 'accent']">
-            <mat-icon class="black-fg">send</mat-icon>
-        </button>
-
         <button mat-icon-button aria-label="Editar Tarefa" matTooltip="Editar Tarefa"
                 [routerLink]="'editar'"
                 [routerLinkActive]="['active', 'accent']">
@@ -72,6 +66,23 @@
                 <ng-container>
                     <mat-icon>share</mat-icon>
                     <span>Compartilhar</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="Atividades"
+                    [routerLink]="routeAtividade">
+                <ng-container>
+                    <mat-icon>send</mat-icon>
+                    <span>Atividades</span>
+                </ng-container>
+            </button>
+
+            
+            <button mat-menu-item aria-label="Ofícios"
+                    [routerLink]="'oficios'">
+                <ng-container>
+                    <mat-icon>chrome_reader_mode</mat-icon>
+                    <span>Ofícios</span>
                 </ng-container>
             </button>
 

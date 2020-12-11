@@ -27,11 +27,18 @@ import {CdkEspecieAtividadeGridModule} from '../../../../../../@cdk/components/e
 import {ResolveGuard} from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkPessoaGridModule} from '../../../../../../@cdk/components/pessoa/cdk-pessoa-grid/cdk-pessoa-grid.module';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
         path: '',
         component: AdminPessoaListComponent,
+        children: [
+            {
+                path: 'pessoa',
+                loadChildren: () => import('app/main/apps/pessoa/pessoa.module').then(m => m.PessoaModule),
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
@@ -69,7 +76,8 @@ modulesConfig.forEach((module) => {
         MatDialogModule,
         EspecieAtividadeStoreModule,
         CdkEspecieAtividadeGridModule,
-        CdkPessoaGridModule
+        CdkPessoaGridModule,
+        PathModule
     ],
     providers: [
         ResolveGuard

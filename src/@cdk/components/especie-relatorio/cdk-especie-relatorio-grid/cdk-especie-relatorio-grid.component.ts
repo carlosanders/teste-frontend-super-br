@@ -36,7 +36,7 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
     total = 0;
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoTarefa.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoRelatorio.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -65,8 +65,8 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
             fixed: false
         },
         {
-            id: 'generoTarefa.nome',
-            label: 'Gênero Tarefa',
+            id: 'generoRelatorio.nome',
+            label: 'Gênero Relatório',
             fixed: false
         },
         {

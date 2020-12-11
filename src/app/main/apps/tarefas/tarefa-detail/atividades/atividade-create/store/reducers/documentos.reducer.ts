@@ -5,10 +5,13 @@ export interface AtividadeCreateDocumentosState {
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
+    undeletingDocumentoIds: number[];
     alterandoDocumentoIds: number[];
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    loadDocumentosExcluidos: boolean;
+    lixeiraMinutas: boolean;
     loading: boolean;
     loaded: boolean;
 }
@@ -22,8 +25,11 @@ export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosSta
     alterandoDocumentoIds: [],
     removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
+    undeletingDocumentoIds: [],
+    loadDocumentosExcluidos: false,
     loading: false,
     loaded: false,
+    lixeiraMinutas: false
 };
 
 export function AtividadeCreateDocumentosReducer(
@@ -32,11 +38,34 @@ export function AtividadeCreateDocumentosReducer(
 ): AtividadeCreateDocumentosState {
     switch (action.type) {
 
+        case AtividadeCreateDocumentosActions.GET_DOCUMENTOS: {
+            if (action.payload && action.payload['context'] &&
+                    action.payload['context']['mostrarApagadas']) {
+
+                return {
+                    ...state,
+                    documentosId: null,
+                    loaded: false,
+                    loadDocumentosExcluidos: true,
+                    lixeiraMinutas: true
+                };
+            } else {
+                return {
+                    ...state,
+                    documentosId: null,
+                    loaded: false,
+                    loadDocumentosExcluidos: false,
+                    lixeiraMinutas: false
+                };
+            }
+        }
+
         case AtividadeCreateDocumentosActions.GET_DOCUMENTOS_SUCCESS: {
             return {
                 ...state,
                 documentosId: action.payload.entitiesId,
                 documentosLoaded: action.payload.loaded,
+                loadDocumentosExcluidos: false
             };
         }
 
@@ -164,6 +193,29 @@ export function AtividadeCreateDocumentosReducer(
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
             };
         }
+
+        case AtividadeCreateDocumentosActions.UNDELETE_DOCUMENTO: {
+            return {
+                ...state,
+                undeletingDocumentoIds: [...state.undeletingDocumentoIds, action.payload.documento.id],
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.UNDELETE_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id),
+                documentosId: state.documentosId.filter(id => id !== action.payload.id)
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.UNDELETE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id)
+            };
+        }
+
         default:
             return state;
     }

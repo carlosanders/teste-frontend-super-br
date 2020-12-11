@@ -19,6 +19,10 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
+import {Usuario} from "../../../models";
+import {FormControl} from '@angular/forms';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -38,6 +42,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     tarefas: Tarefa[] = [];
 
     @Input()
+    usuarioAtual: Usuario;
+
+    @Input()
     currentTarefaId: number;
 
     @Input()
@@ -45,6 +52,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     deletedIds: number[] = [];
+
+    @Input()
+    unDeletingIds: number[] = [];
 
     @Input()
     selectedIds: number[] = [];
@@ -72,6 +82,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Output()
     delete = new EventEmitter<Tarefa>();
+
+    @Output()
+    restauraTarefa = new EventEmitter<Tarefa>();
 
     @Output()
     deleteBloco = new EventEmitter<Tarefa[]>();
@@ -151,6 +164,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Input()
     errorDelete: number[] = [];
 
+    @Input()
+    targetHandle: any;
+
     listFilter: any;
     listSort: {} = {};
 
@@ -161,6 +177,44 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     novaTarefa = false;
+
+    @Input()
+    displayedCampos: string[] = [
+        'especieTarefa.nome',
+        'setorResponsavel.nome',
+        'dataHoraDistribuicao',
+        'dataHoraPrazo'
+    ];
+
+    allCampos: any[] = [
+        {
+            id: 'processo.nup',
+            label: 'NUP',
+            fixed: true
+        },
+        {
+            id: 'especieTarefa.nome',
+            label: 'Espécie Tarefa',
+            fixed: false
+        },
+        {
+            id: 'setorResponsavel.nome',
+            label: 'Setor Responsável',
+            fixed: false
+        },
+        {
+            id: 'dataHoraDistribuicao',
+            label: 'Data da Distribuição',
+            fixed: false
+        },
+        {
+            id: 'dataHoraPrazo',
+            label: 'Prazo',
+            fixed: false
+        }
+    ];
+
+    campos = new FormControl();
 
     /**
      * Constructor
@@ -179,6 +233,22 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
      */
     ngOnInit(): void {
         this.novaTarefa = false;
+
+        this.campos.setValue(this.allCampos.map(c => c.id).filter(c => this.displayedCampos.indexOf(c) > -1));
+        this.campos.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((values) => {
+                this.displayedCampos = [];
+                this.allCampos.forEach(c => {
+                    if (c.fixed || (values.indexOf(c.id) > -1)) {
+                        this.displayedCampos.push(c.id);
+                    }
+                });
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {
@@ -229,6 +299,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doDeleteTarefa(tarefa: Tarefa): void {
         this.delete.emit(tarefa);
+    }
+
+    doRestauraTarefa(tarefa: Tarefa): void {
+        this.restauraTarefa.emit(tarefa);
     }
 
     doDeleteTarefaBloco(): void {
@@ -380,6 +454,14 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doEditorBloco(): void {
         this.editorBloco.emit();
+    }
+
+    doRestaurarBloco(): void {
+        this.selectedIds.forEach(tarefaId => {
+            const tarefa = new Tarefa();
+            tarefa.id = tarefaId;
+            this.doRestauraTarefa(tarefa);
+        });
     }
 
     /**

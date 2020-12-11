@@ -3,4 +3,12 @@ documento-avulso-create {
     flex: 1 1 auto;
     flex-direction: column;
     padding: 16px;
+
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 8px;
+        overflow-y: auto;
+        height: 0;
+    }
 }

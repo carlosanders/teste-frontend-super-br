@@ -22,6 +22,10 @@ const routes: Routes = [
                 loadChildren: () => import('./especie-tarefa/especie-tarefa.module').then(m => m.EspecieTarefaModule)
             },
             {
+                path: 'especie-setor',
+                loadChildren: () => import('./especie-setor/especie-setor.module').then(m => m.EspecieSetorModule)
+            },
+            {
                 path: 'especie-atividades',
                 loadChildren: () => import('./especie-atividade/especie-atividade.module').then(m => m.EspecieAtividadeModule)
             },
@@ -76,6 +80,10 @@ const routes: Routes = [
             {
                 path: 'workflows',
                 loadChildren: () => import('./workflow/workflow.module').then(m => m.WorkflowModule)
+            },
+            {
+                path: 'modalidade-orgao-central',
+                loadChildren: () => import('./modalidade-orgao-central/modalidade-orgao-central.module').then(m => m.ModalidadeOrgaoCentralModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

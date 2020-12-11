@@ -74,6 +74,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     capa = false;
 
+    vinculacao = false;
+
+    documentoAvulso = false;
+
     @Output()
     select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
@@ -157,6 +161,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa';
+                this.vinculacao = routerState.state.url.indexOf('/vincular') !== -1;
+                this.documentoAvulso = routerState.state.url.indexOf('visualizar/' + routerState.state.params.stepHandle + '/oficio') !== -1;
                 this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
             }
         });
@@ -170,7 +176,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
         if (this.capa && this.routerState.url.indexOf('mostrar') === -1) {
-            if (this.routerState.url.indexOf('/documento/') !== -1) {
+            if (this.routerState.url.indexOf('/documento/') !== -1 &&
+                (this.routerState.url.indexOf('anexar-copia') !== -1 || this.routerState.url.indexOf('visualizar-processo') !== -1)) {
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
                     [
@@ -193,7 +200,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         relativeTo: this._activatedRoute.parent
                     }
                 ).then();
-            } else {
+            } else if (this.routerState.url.indexOf('/documento/') === -1) {
                 this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
                     '/processo/' +
                     this.routerState.params.processoHandle + '/visualizar/capa/mostrar').then();
@@ -218,6 +225,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    disabledNext(): boolean {
+        return this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step].length - 1;
+    }
+
     /**
      * Go to next step
      */
@@ -235,11 +246,15 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         let step = (this.currentStep.step + 1) + '-0';
 
-        if ((this.currentStep.subStep + 1) === this.index[this.currentStep.step].length - 1) {
+        if ((this.currentStep.subStep + 1) <= this.index[this.currentStep.step].length - 1) {
             step = this.currentStep.step + '-' + (this.currentStep.subStep + 1);
         }
 
         this.navigateToStep(step);
+    }
+
+    disabledBack(): boolean {
+        return this.currentStep.step === 0 && this.currentStep.subStep === 0;
     }
 
     /**

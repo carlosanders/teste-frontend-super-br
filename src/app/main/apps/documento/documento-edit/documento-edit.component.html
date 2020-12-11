@@ -3,33 +3,34 @@
     <div class="center">
         <!-- CONTENT HEADER -->
         <div class="actions p-16">
-            <button *ngIf="(tarefa$ | async)" mat-icon-button aria-label="movimentar"
+            <button *ngIf="(tarefa$ | async) && !(documento$ | async)?.juntadaAtual && !(documento$ | async)?.apagadoEm" mat-icon-button aria-label="movimentar"
                     matTooltip="Movimentar" [routerLink]="routeAtividade"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">send</mat-icon>
             </button>
 
-            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal" mat-icon-button
-                    aria-label="Visualizar Processo"
+            <button *ngIf="!(documento$ | async)?.vinculacaoDocumentoPrincipal && !(documento$ | async)?.apagadoEm" mat-icon-button
+                    aria-label="gerir anexos"
                     matTooltip="Gerir Anexos" routerLink="anexos"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">attachment</mat-icon>
             </button>
 
             <button mat-icon-button aria-label="editar o documento"
+                    *ngIf="!(documento$ | async)?.apagadoEm"
                     matTooltip="Editar o Documento" routerLink="dados-basicos"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">edit</mat-icon>
             </button>
 
-            <button *ngIf="!juntadaRoute && routerState.url.indexOf('/editor')  > -1" mat-icon-button
+            <button *ngIf="!juntadaRoute && routerState.url.indexOf('/editor')  > -1 && !(documento$ | async)?.apagadoEm" mat-icon-button
                     aria-label="inteligência jurídica"
                     matTooltip="Inteligência Jurídica" routerLink="inteligencia"
                     [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="black-fg">gavel</mat-icon>
             </button>
 
-            <div class="documento-edit-buttons">
+            <div class="documento-edit-buttons" *ngIf="!(documento$ | async)?.apagadoEm">
 
                 <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                         aria-label="Ferramentas" (click)="$event.stopPropagation()"
@@ -86,6 +87,7 @@
 
                     <button mat-menu-item aria-label="modelos"
                             matTooltip="Modelos" routerLink="modelos"
+                            *ngIf="this.currentComponenteDigital?.editavel"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
                             <mat-icon class="black-fg">file_copy</mat-icon>
@@ -95,6 +97,7 @@
 
                     <button mat-menu-item aria-label="versões"
                             matTooltip="Versões" routerLink="versoes"
+                            *ngIf="this.currentComponenteDigital?.editavel"
                             [routerLinkActive]="['active', 'accent']">
                         <ng-container>
                             <mat-icon class="black-fg">folder</mat-icon>
@@ -118,7 +121,7 @@
 
         <cdk-vinculacao-etiqueta-chips
             class="m-16"
-            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (documento$ | async)?.id"
+            *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (documento$ | async)?.id && !(documento$ | async)?.apagadoEm"
             [vinculacoesEtiquetas]="(documento$ | async)?.vinculacoesEtiquetas"
             (create)="onEtiquetaCreate($event)"
             (edit)="onEtiquetaEdit($event)"

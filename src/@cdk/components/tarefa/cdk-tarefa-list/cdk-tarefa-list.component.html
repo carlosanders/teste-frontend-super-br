@@ -41,98 +41,118 @@
 
         <mat-menu #moreMenu="matMenu">
 
-            <button mat-menu-item aria-label="apagar"
-                    (click)="doDeleteTarefaBloco()">
-                <ng-container>
-                    <mat-icon>delete</mat-icon>
-                    <span>Apagar</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="criar tarefa"
-                    (click)="doCreateTarefaBloco()">
-                <ng-container>
-                    <mat-icon>check_box</mat-icon>
-                    <span>Criar Tarefa</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="criar ofício"
-                    (click)="doCreateDocumentoAvulsoBloco()">
-                <ng-container>
-                    <mat-icon>mail</mat-icon>
-                    <span>Criar Ofício</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="editar tarefa"
-                    (click)="doEditTarefaBloco()">
-                <ng-container>
-                    <mat-icon>edit</mat-icon>
-                    <span>Editar</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="redistribuir tarefa"
-                    (click)="doRedistribuirBloco()">
-                <ng-container>
-                    <mat-icon>forward</mat-icon>
-                    <span>Redistribuir</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="dar ciencia"
-                    (click)="doCienciaBloco()">
-                <ng-container>
-                    <mat-icon>check</mat-icon>
-                    <span>Dar Ciência</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="movimentar"
-                    (click)="doMovimentarBloco()">
-                <ng-container>
-                    <mat-icon>send</mat-icon>
-                    <span>Movimentar</span>
-                </ng-container>
-            </button>
-
-            <button mat-menu-item aria-label="minutas" [matMenuTriggerFor]="selectMenuMinutas">
-                <ng-container>
-                    <mat-icon>attach_file</mat-icon>
-                    <span>Minutas</span>
-                </ng-container>
-            </button>
-            <mat-menu fxHide #selectMenuMinutas="matMenu">
-                <button mat-menu-item (click)="doUploadBloco()">
-                    Upload
+            <ng-template [ngIf]="targetHandle !== 'lixeira'">
+                <button mat-menu-item aria-label="apagar"
+                        (click)="doDeleteTarefaBloco()">
+                    <ng-container>
+                        <mat-icon>delete</mat-icon>
+                        <span>Apagar</span>
+                    </ng-container>
                 </button>
-                <button mat-menu-item (click)="doEditorBloco()">
-                    Editor
+
+                <button mat-menu-item aria-label="criar tarefa"
+                        (click)="doCreateTarefaBloco()">
+                    <ng-container>
+                        <mat-icon>check_box</mat-icon>
+                        <span>Criar Tarefa</span>
+                    </ng-container>
                 </button>
-            </mat-menu>
 
-            <button mat-menu-item aria-label="etiquetar"
-                    (click)="doEtiquetarBloco()">
-                <ng-container>
-                    <mat-icon>label</mat-icon>
-                    <span>Etiquetar</span>
-                </ng-container>
-            </button>
+                <button mat-menu-item aria-label="criar ofício"
+                        (click)="doCreateDocumentoAvulsoBloco()">
+                    <ng-container>
+                        <mat-icon>mail</mat-icon>
+                        <span>Criar Ofício</span>
+                    </ng-container>
+                </button>
 
-            <button mat-menu-item aria-label="compartilhar"
-                    (click)="doCompartilharBloco()">
-                <ng-container>
-                    <mat-icon>share</mat-icon>
-                    <span>Compartilhar</span>
-                </ng-container>
-            </button>
+                <button mat-menu-item aria-label="editar tarefa"
+                        (click)="doEditTarefaBloco()">
+                    <ng-container>
+                        <mat-icon>edit</mat-icon>
+                        <span>Editar</span>
+                    </ng-container>
+                </button>
 
-            <ng-template #dynamicComponent></ng-template>
+                <button mat-menu-item aria-label="redistribuir tarefa"
+                        (click)="doRedistribuirBloco()">
+                    <ng-container>
+                        <mat-icon>forward</mat-icon>
+                        <span>Redistribuir</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="dar ciencia"
+                        (click)="doCienciaBloco()">
+                    <ng-container>
+                        <mat-icon>check</mat-icon>
+                        <span>Dar Ciência</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="movimentar"
+                        (click)="doMovimentarBloco()">
+                    <ng-container>
+                        <mat-icon>send</mat-icon>
+                        <span>Movimentar</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="minutas" [matMenuTriggerFor]="selectMenuMinutas">
+                    <ng-container>
+                        <mat-icon>attach_file</mat-icon>
+                        <span>Minutas</span>
+                    </ng-container>
+                </button>
+                <mat-menu fxHide #selectMenuMinutas="matMenu">
+                    <button mat-menu-item (click)="doUploadBloco()">
+                        Upload
+                    </button>
+                    <button mat-menu-item (click)="doEditorBloco()">
+                        Editor
+                    </button>
+                </mat-menu>
+
+                <button mat-menu-item aria-label="etiquetar"
+                        (click)="doEtiquetarBloco()">
+                    <ng-container>
+                        <mat-icon>label</mat-icon>
+                        <span>Etiquetar</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="compartilhar"
+                        (click)="doCompartilharBloco()">
+                    <ng-container>
+                        <mat-icon>share</mat-icon>
+                        <span>Compartilhar</span>
+                    </ng-container>
+                </button>
+
+                <ng-template #dynamicComponent></ng-template>
+            </ng-template>
+
+            <ng-template [ngIf]="targetHandle === 'lixeira'">
+                <button mat-menu-item aria-label="restaurar"
+                        (click)="doRestaurarBloco()">
+                    <ng-container>
+                        <mat-icon>undo</mat-icon>
+                        <span>Restaurar</span>
+                    </ng-container>
+                </button>
+            </ng-template>
 
         </mat-menu>
 
         <div class="tarefa-list-control" fxLayout="row" fxLayoutAlign="start center">
+            <mat-form-field class="colunas mr-8" aria-label="campos" matTooltip="Campos">
+                <mat-select [formControl]="campos" multiple>
+                    <div *ngFor="let campo of allCampos">
+                        <mat-option *ngIf="!campo.fixed" [value]="campo.id">{{ campo.label }}</mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
@@ -157,7 +177,7 @@
                 <button mat-menu-item (click)="doSort({'dataHoraFinalPrazo': 'DESC'})">Final do
                     Prazo
                 </button>
-                <button mat-menu-item (click)="doSort({'id': 'DESC'})">Mais Recente</button>
+                <button mat-menu-item (click)="doSort({'dataHoraDistribuicao': 'DESC'})">Data da Distribuição</button>
             </mat-menu>
 
             <div class="toolbar-separator"></div>
@@ -193,11 +213,15 @@
                 <cdk-tarefa-list-item
                     matRipple
                     [tarefa]="tarefa"
+                    [usuarioAtual]="usuarioAtual"
+                    [displayedCampos]="displayedCampos"
                     (click)="selectTarefa(tarefa);"
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
+                    [undeleting]="unDeletingIds.length > 0 && unDeletingIds.indexOf(tarefa.id) > -1"
                     (toggleInSelectedTarefas)="toggleInSelected($event)"
                     (delete)="doDeleteTarefa($event)"
+                    (restauraTarefa)="doRestauraTarefa($event)"
                     (removeTarefa)="doRemoveTarefa($event)"
                     (movimentar)="doMovimentar($event)"
                     (compartilhar)="doCompartilhar($event)"

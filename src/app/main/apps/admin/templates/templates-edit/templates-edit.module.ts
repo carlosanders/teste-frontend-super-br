@@ -25,6 +25,7 @@ import * as fromGuards from './store/guards';
 import {TemplateService} from '../../../../../../@cdk/services/template.service';
 import {CdkTemplateFormModule} from '../../../../../../@cdk/components/template/cdk-template-form/cdk-template-form.module';
 import {TemplatesEditStoreModule} from './store/store.module';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -62,7 +63,8 @@ const routes: Routes = [
         CdkSidebarModule,
         MatStepperModule,
         CdkTemplateFormModule,
-        TemplatesEditStoreModule
+        TemplatesEditStoreModule,
+        PathModule
     ],
     providers: [
         TemplateService,

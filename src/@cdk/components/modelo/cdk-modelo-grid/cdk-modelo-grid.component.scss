@@ -21,6 +21,7 @@ cdk-modelo-grid {
 
             .colunas {
                 width: 20px !important;
+
                 .mat-select-value {
                     display: none !important;
                 }
@@ -38,9 +39,9 @@ cdk-modelo-grid {
 
             flex: 1 1 auto;
             display: flex;
-            height: 0;
             overflow-y: auto;
             padding: 8px;
+            height: 0;
 
             .mat-column-select {
                 overflow: initial;

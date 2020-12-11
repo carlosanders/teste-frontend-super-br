@@ -27,6 +27,7 @@ import * as fromGuards from './store/guards';
 
 import {CdkAfastamentoFormModule} from '@cdk/components/afastamento/cdk-afastamento-form/cdk-afastamento-form.module';
 import { LoginService } from '../../../../../auth/login/login.service';
+import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -65,6 +66,7 @@ const routes: Routes = [
         CdkSharedModule,
         CdkSidebarModule,
         CdkAfastamentoFormModule,
+        PathModule,
     ],
     providers: [
         AfastamentoService,

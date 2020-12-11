@@ -1,15 +1,17 @@
-<cdk-documento-avulso-form
-        [documentoAvulso]="documentoAvulso"
-        [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
-        [especieDocumentoAvulsoPagination]="especieDocumentoAvulsoPagination"
-        [setorDestinoPagination]="setorDestinoPagination"
-        [modeloPagination]="modeloPagination"
-        (gerirPessoaDestino)="gerirPessoaDestino()"
-        (editPessoaDestino)="editPessoaDestino($event)"
-        [pessoaDestino]="pessoaDestino"
-        (save)="submit($event)"
-        (abort)="doAbort()">
-</cdk-documento-avulso-form>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-documento-avulso-form
+            [documentoAvulso]="documentoAvulso"
+            [saving]="(isSaving$ | async)"
+            [errors]="(errors$ | async)"
+            [especieDocumentoAvulsoPagination]="especieDocumentoAvulsoPagination"
+            [setorDestinoPagination]="setorDestinoPagination"
+            [modeloPagination]="modeloPagination"
+            (gerirPessoaDestino)="gerirPessoaDestino()"
+            (editPessoaDestino)="editPessoaDestino($event)"
+            [pessoaDestino]="pessoaDestino"
+            (save)="submit($event)"
+            (abort)="doAbort()">
+    </cdk-documento-avulso-form>
+</div>
 
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

@@ -29,9 +29,19 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
+                nome: 'Modalidade Órgão Central',
+                icon: 'business',
+                link: 'modalidade-orgao-central'
+            },
+            {
                 nome: 'Espécie Tarefas',
                 icon: 'check_box',
                 link: 'especie-tarefas'
+            },
+            {
+                nome: 'Espécie Setor',
+                icon: 'place',
+                link: 'especie-setor'
             },
             {
                 nome: 'Espécie Atividades',
@@ -111,8 +121,9 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
             if (module.sidebars.hasOwnProperty(path)) {
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
-            this.links = CdkUtils.sortArraySideBar(this.links);
         });
+
+        this.links = CdkUtils.sortArraySideBar(this.links);
     }
 
     // -----------------------------------------------------------------------------------------------------

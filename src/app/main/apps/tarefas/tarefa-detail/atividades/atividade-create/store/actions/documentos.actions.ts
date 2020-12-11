@@ -33,6 +33,10 @@ export const CONVERTE_DOCUMENTO_ATIVIDADE = '[ATIVIDADE CREATE] CONVERTE DOCUMEN
 export const CONVERTE_DOCUMENTO_SUCESS = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE SUCCESS';
 export const CONVERTE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE FAILED';
 
+export const UNDELETE_DOCUMENTO = '[ATIVIDADE CREATE] UNDELETE DOCUMENTO';
+export const UNDELETE_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] UNDELETE DOCUMENTO SUCCESS';
+export const UNDELETE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] UNDELETE DOCUMENTO FAILED';
+
 export const CHANGE_SELECTED_DOCUMENTOS = '[ATIVIDADE CREATE] CHANGE SELECTED DOCUMENTOS';
 
 /**
@@ -54,7 +58,7 @@ export class GetDocumentos implements Action
 {
     readonly type = GET_DOCUMENTOS;
 
-    constructor()
+    constructor(public payload = {})
     {
     }
 }
@@ -327,6 +331,37 @@ export class ConverteToPdfFailed implements Action
     }
 }
 
+
+/**
+ * Undelete Documento
+ */
+export class UndeleteDocumento implements Action {
+    readonly type = UNDELETE_DOCUMENTO;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Undelete Documento Success
+ */
+export class UndeleteDocumentoSuccess implements Action {
+    readonly type = UNDELETE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Undelete Documento Failed
+ */
+export class UndeleteDocumentoFailed implements Action {
+    readonly type = UNDELETE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type AtividadeCreateDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -352,4 +387,7 @@ export type AtividadeCreateDocumentosActionsAll
     | ConverteToPdf
     | ConverteToPdfSucess
     | ConverteToPdfFailed
-    | UnloadDocumentos;
+    | UnloadDocumentos
+    | UndeleteDocumento
+    | UndeleteDocumentoSuccess
+    | UndeleteDocumentoFailed;

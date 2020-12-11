@@ -11,7 +11,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Assinatura, Atividade, Pagination} from '@cdk/models';
+import {Assinatura, Atividade, Pagination, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -29,7 +29,9 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {Back} from '../../../../../../store/actions';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../../modules/dynamic.service';
-
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'atividade-create',
@@ -49,6 +51,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     atividade: Atividade;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+    errorEditor$: Observable<any>;
+    loading$: Observable<boolean>;
 
     private _profile: Colaborador;
 
@@ -58,17 +62,22 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
-    oficios: Documento[] = [];
     selectedDocumentos$: Observable<Documento[]>;
     selectedMinutas: Documento[] = [];
-    selectedOficios: Documento[] = [];
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    loadDocumentosExcluidos$: Observable<boolean>;
+    lixeiraMinutas$: Observable<boolean>;
+    undeletingDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
+
+    formEditor: FormGroup;
+
+    modeloPagination: Pagination;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
@@ -76,24 +85,35 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
+
+    routeAtividadeDocumento = 'atividade';
+
+    mensagemErro = null;
+
     /**
+     *
      * @param _store
      * @param _loginService
      * @param _router
      * @param _changeDetectorRef
      * @param _dynamicService
+     * @param _formBuilder
      */
     constructor(
         private _store: Store<fromStore.AtividadeCreateAppState>,
         public _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _formBuilder: FormBuilder
     ) {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+        this.errorEditor$ = this._store.pipe(select(fromStore.getComponentesDigitaisErrors));
 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
@@ -104,8 +124,21 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
 
+        this.loadDocumentosExcluidos$ = this._store.pipe(select(fromStore.getDocumentosExcluidos));
+        this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
+        this.undeletingDocumentosId$ = this._store.pipe(select(fromStore.getUnDeletingDocumentosId));
+
         this.especieAtividadePagination = new Pagination();
         this.especieAtividadePagination.populate = ['generoAtividade'];
+
+        this.formEditor = this._formBuilder.group({
+            modelo: [null]
+        });
+
+        this.modeloPagination = new Pagination();
+        this.modeloPagination.filter = {
+            'modalidadeModelo.valor': 'eq:EM BRANCO'
+        };
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -191,7 +224,6 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedDocumentos => {
             this.selectedMinutas = selectedDocumentos.filter(documento => documento.minuta && !documento.documentoAvulsoRemessa);
-            this.selectedOficios = selectedDocumentos.filter(documento => documento.documentoAvulsoRemessa);
         });
 
         this.documentos$.pipe(
@@ -199,9 +231,15 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             takeUntil(this._unsubscribeAll)
         ).subscribe(
             documentos => {
-                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa && !documento.juntadaAtual));
-                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
+                this.minutas = documentos.filter(documento =>
+                    (!documento.documentoAvulsoRemessa && documento.minuta && !documento.apagadoEm));
                 this._changeDetectorRef.markForCheck();
+
+                this.lixeiraMinutas$.subscribe(lixeira => {
+                    if (lixeira) {
+                        this.minutas = documentos.filter(documento => (documento.apagadoEm));
+                    }
+                } )
             }
         );
 
@@ -228,6 +266,14 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
+            }
+        });
+        const pathDocumento = 'app/main/apps/documento/documento-edit';
+        modulesConfig.forEach((module) => {
+            if (module.routerLinks.hasOwnProperty(pathDocumento) &&
+                module.routerLinks[pathDocumento].hasOwnProperty('atividade') &&
+                module.routerLinks[pathDocumento]['atividade'].hasOwnProperty(this.routerState.params.generoHandle)) {
+                this.routeAtividadeDocumento = module.routerLinks[pathDocumento]['atividade'][this.routerState.params.generoHandle];
             }
         });
     }
@@ -263,16 +309,36 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.SaveAtividade(atividade));
     }
 
+    checkModelo(): void {
+        const value = this.formEditor.get('modelo').value;
+        if (!value || typeof value !== 'object') {
+            this.formEditor.get('modelo').setValue(null);
+        }
+    }
+
+    erroUpload(mensagemErro) {
+        this.mensagemErro = mensagemErro;
+    }
+
     upload(): void {
         this.cdkUpload.upload();
     }
 
-    modelo(): void {
-        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/modelo']).then();
+    doEditor(): void {
+        const modelo = this.formEditor.get('modelo').value;
+
+        //this.loading$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+        this._store.dispatch(new fromStore.CreateComponenteDigital({
+            modelo: modelo,
+            tarefaOrigem: this.tarefa,
+            routeAtividadeDocumento: this.routeAtividadeDocumento
+        }));
+        this.formEditor.get('modelo').setValue(null);
+        this.menuTriggerList.closeMenu();
     }
 
-    oficio(): void {
-        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/oficio']).then();
+    modelo(): void {
+        this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/modelo']).then();
     }
 
     changedSelectedIds(selectedIds): void {
@@ -324,11 +390,48 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     doConverte(documentoId): void {
-
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doRestaurar(documentoId): void {
+        const operacaoId = CdkUtils.makeId();
+        const documento = new Documento();
+        documento.id = documentoId
+        this._store.dispatch(new fromStore.UndeleteDocumento({
+            documento: documento,
+            operacaoId: operacaoId,
+            redo: null,
+            undo: null
+        }));
+    }
+
+    doSairLixeiraMinutas(sair): void {
+        if (sair) {
+            this._store.dispatch(new fromStore.GetDocumentos());
+        }
     }
 
     doAbort(): void {
         this._store.dispatch(new Back());
+    }
+
+    minutasExcluidas(): void {
+        this.minutas = [];
+        const params = {
+            filter: {'tarefaOrigem.id':'eq:' + this.tarefa.id},
+            sort: {criadoEm: 'DESC'},
+            populate: [
+                'tipoDocumento',
+                'documentoAvulsoRemessa',
+                'documentoAvulsoRemessa.documentoResposta',
+                'componentesDigitais',
+                'juntadaAtual'
+            ],
+            context: {
+                mostrarApagadas: true
+            }
+        };
+        this._store.dispatch(new fromStore.GetDocumentos(params));
+        this._store.dispatch(new fromStore.ChangeSelectedDocumentos([]));
     }
 }

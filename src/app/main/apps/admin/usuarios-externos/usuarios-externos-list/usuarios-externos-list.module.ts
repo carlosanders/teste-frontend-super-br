@@ -27,6 +27,7 @@ import {UsuariosExternosStoreModule} from './store/store.module';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkUsuarioGridModule} from '../../../../../../@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -68,7 +69,8 @@ modulesConfig.forEach((module) => {
         MatMomentDatetimeModule,
         MatDatepickerModule,
         MatDialogModule,
-        CdkUsuarioGridModule
+        CdkUsuarioGridModule,
+        PathModule
     ],
     providers: [
         LoginService,

@@ -48,7 +48,7 @@ export class SetorMainSidebarComponent implements OnInit {
                 link: 'modelos'
             },
             {
-                nome: 'Repositórios do Setor',
+                nome: 'Teses do Setor',
                 icon: 'add_comment',
                 link: 'repositorios'
             },

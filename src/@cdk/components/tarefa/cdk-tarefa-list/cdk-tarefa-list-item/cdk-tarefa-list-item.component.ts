@@ -11,6 +11,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
+import {Usuario} from "../../../../models";
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -28,7 +29,13 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     selected: boolean;
 
     @Input()
+    usuarioAtual: Usuario;
+
+    @Input()
     deleting: boolean;
+
+    @Input()
+    undeleting: boolean;
 
     @Output()
     toggleInSelectedTarefas = new EventEmitter();
@@ -64,6 +71,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
+    restauraTarefa = new EventEmitter<Tarefa>();
+
+    @Output()
     removeTarefa = new EventEmitter<Tarefa>();
 
     @Output()
@@ -86,6 +96,14 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    @Input()
+    displayedCampos: string[] = [
+        'especieTarefa.nome',
+        'setorResponsavel.nome',
+        'dataHoraDistribuicao',
+        'dataHoraPrazo'
+    ];
+
     constructor(
         private _dynamicService: DynamicService,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -96,6 +114,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.deleting = false;
         this.ciencia = false;
         this.selected = false;
+        this.undeleting = false;
     }
 
     /**
@@ -186,6 +205,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     doToggleUrgente(): void {
         this.toggleUrgente.emit(this.tarefa);
+    }
+
+    doRestauraTarefa(): void {
+        this.restauraTarefa.emit(this.tarefa);
     }
 
     doTogglePanel(): void {

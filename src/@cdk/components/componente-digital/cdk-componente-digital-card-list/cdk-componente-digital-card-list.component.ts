@@ -17,6 +17,7 @@ import {Processo} from '@cdk/models';
 import {Tarefa} from '@cdk/models';
 import {Documento} from '@cdk/models';
 import {DocumentoAvulso} from '@cdk/models';
+import {ObjectAssignBuiltinFn} from '@angular/compiler-cli/src/ngtsc/partial_evaluator/src/builtin';
 
 @Component({
     selector: 'cdk-componente-digital-card-list',
@@ -26,7 +27,7 @@ import {DocumentoAvulso} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkComponenteDigitalCardListComponent implements OnInit {
+export class CdkComponenteDigitalCardListComponent {
 
     @Input()
     componentesDigitais: ComponenteDigital[] = [];
@@ -64,6 +65,10 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
     @Output()
     changedSelectedIds = new EventEmitter<number[]>();
 
+    @Output()
+    erroUpload = new EventEmitter<string>();
+
+
     selectedIds: number[] = [];
 
     hasSelected = false;
@@ -88,6 +93,8 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
 
     private files: Array<FileUploadModel> = [];
 
+    private arquivoSubscription: Subscription;
+
     /**
      * @param _http
      * @param _changeDetectorRef
@@ -96,9 +103,6 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
         private _http: HttpClient,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
-    }
-
-    ngOnInit(): void {
     }
 
     toggleInSelected(componenteDigitalId): void {
@@ -125,12 +129,11 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
     }
 
     onRetry(componenteDigital): void {
-        this.retryFile(componenteDigital.file);
+        const file = new FileUploadModel();
+        this.componentesDigitais = this.componentesDigitais.filter(el => el.fileName != componenteDigital.fileName);
+        componenteDigital.file.sub.unsubscribe();
+        this.uploadFile(componenteDigital.file);
     }
-
-    /**
-     * Upload
-     */
 
     upload(): void {
         const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
@@ -155,17 +158,9 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
         fileUpload.click();
     }
 
-    cancelFile(file: FileUploadModel): void {
-        file.sub.unsubscribe();
-        file.inProgress = false;
-        file.canRetry = true;
-        file.canCancel = false;
-        // this.removeFileFromArray(file);
-    }
-
-    retryFile(file: FileUploadModel): void {
-        this.uploadFile(file);
-        file.canRetry = false;
+    cancelFile(componenteDigital: ComponenteDigital): void {
+        // @ts-ignore
+        this.componentesDigitais = this.componentesDigitais.filter(el => el.fileName !== componenteDigital.data.name);
     }
 
     private getBase64(file): any {
@@ -178,18 +173,17 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
     }
 
     private uploadFile(file: FileUploadModel): void {
-
         /**
          * multipart formdata
          * const params = new FormData();
          * fd.append('conteudo', file.data);
          */
-
         file.canCancel = true;
 
         this.getBase64(file.data).then(
             conteudo => {
                 const componenteDigital = new ComponenteDigital();
+                componenteDigital.file = file;
                 componenteDigital.conteudo = conteudo;
                 componenteDigital.mimetype = 'application/pdf';
                 componenteDigital.fileName = file.data.name;
@@ -212,7 +206,7 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
                 });
 
                 componenteDigital.inProgress = true;
-                file.sub = this._http.request(req).pipe(
+                this.arquivoSubscription = file.sub = this._http.request(req).pipe(
                     map(event => {
                         switch (event.type) {
                             case HttpEventType.UploadProgress:
@@ -230,7 +224,9 @@ export class CdkComponenteDigitalCardListComponent implements OnInit {
                     catchError((error: HttpErrorResponse) => {
                         componenteDigital.inProgress = false;
                         componenteDigital.canRetry = true;
+                        this.removeFileFromArray(file);
                         this._changeDetectorRef.markForCheck();
+                        this.erroUpload.emit("Ocorreu um erro ao realizar o upload, clique no menu do arquivo e em seguida em repetir para tentar novamente!")
                         return of(`${file.data.name} upload falhou.`);
                     })
                 ).subscribe(

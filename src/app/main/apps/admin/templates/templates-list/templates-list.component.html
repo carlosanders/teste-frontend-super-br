@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="view_array"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="templates">
+    </path>
+</div>
 <cdk-template-grid
     [loading]="(loading$ | async)"
     [templates]="(templates$ | async)"

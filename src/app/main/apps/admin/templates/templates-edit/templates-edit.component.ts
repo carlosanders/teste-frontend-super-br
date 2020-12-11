@@ -6,6 +6,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Back} from '../../../../../store/actions';
+import {getRouterState} from '../../../../../store/reducers';
 
 @Component({
     selector: 'templates-edit',
@@ -17,6 +18,7 @@ import {Back} from '../../../../../store/actions';
 })
 export class TemplatesEditComponent implements OnInit {
 
+    routerState: any;
     template$: Observable<Template>;
     template: Template;
     isSaving$: Observable<boolean>;
@@ -32,6 +34,14 @@ export class TemplatesEditComponent implements OnInit {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.template$ = this._store.pipe(select(fromStore.getTemplates));
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
 
         this.tipoDocumentoPagination = new Pagination();
         this.modalidadeTemplatePagination = new Pagination();

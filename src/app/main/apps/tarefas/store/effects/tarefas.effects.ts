@@ -20,7 +20,7 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Tarefa} from '@cdk/models';
+import {Processo, Tarefa} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
@@ -29,6 +29,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Assunto} from '@cdk/models/assunto.model';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {getBufferingDelete, getDeletingTarefaIds} from '../selectors';
+import * as fromStore from '../index';
 
 @Injectable()
 export class TarefasEffect {
@@ -188,6 +189,7 @@ export class TarefasEffect {
                                 redo: 'inherent',
                                 undo: 'inherent'
                             }));
+                            new UpdateData<Tarefa>({id: response.id, schema: tarefaSchema, changes: {apagadoEm: response.apagadoEm}});
                             return new TarefasActions.DeleteTarefaSuccess(response.id);
                         }),
                         catchError((err) => {
@@ -258,6 +260,21 @@ export class TarefasEffect {
                         })
                     );
                 }, 25)
+            );
+
+    /**
+     * Undelete Tarefa Success
+     */
+    @Effect({ dispatch: false })
+    UndeleteTarefaSuccess: any =
+        this._actions
+            .pipe(
+                ofType<TarefasActions.UndeleteTarefaSuccess>(TarefasActions.UNDELETE_TAREFA_SUCCESS),
+                tap((action) => {
+                    if (this.routerState.params['targetHandle'] === 'lixeira') {
+                        this._store.dispatch(new fromStore.RemoveTarefa(action.payload.id));
+                    }
+                })
             );
 
     /**

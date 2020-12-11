@@ -1,9 +1,10 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component, EventEmitter, Input, OnChanges,
     OnDestroy, OnInit,
-    Output, SimpleChange,
+    Output, SimpleChange, ViewChild, ViewContainerRef,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -14,6 +15,10 @@ import {Pagination} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {Setor} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
+import {DynamicService} from '../../../../modules/dynamic.service';
+import {modulesConfig} from '../../../../modules/modules-config';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-remessa-form',
@@ -23,7 +28,7 @@ import {Pessoa} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
+export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, AfterViewInit {
 
     @Input()
     tramitacao: Tramitacao;
@@ -70,18 +75,25 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
     @Input()
     pessoaDestino: Pessoa;
 
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    extensoes: any[] = [];
+
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _dynamicService: DynamicService
     ) {
 
         this.form = this._formBuilder.group({
             id: [null],
             externa: [null],
             processo: [null],
+            mecanismoRemessa: ['manual'],
             urgente: [null],
             setorOrigem: [null, [Validators.required]],
             pessoaDestino: [null, [Validators.required]],
@@ -102,7 +114,32 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
      * On init
      */
     ngOnInit(): void {
+        this.form.get('mecanismoRemessa').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    this.form.get('pessoaDestino').reset();
+                    this.form.get('pessoaDestino').enable();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+    }
 
+    ngAfterViewInit(): void {
+        const path = '@cdk/components/remessa/cdk-remessa-form/cdk-remessa-form#radio';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => {
+                            this.extensoes.push(1);
+                            this._changeDetectorRef.markForCheck();
+                            this.container.createComponent(componentFactory);
+                        });
+                }));
+            }
+        });
     }
 
     /**
@@ -145,6 +182,7 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit {
      * On destroy
      */
     ngOnDestroy(): void {
+        this.extensoes = [];
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -1,19 +1,54 @@
 @import '../../../../scss/cdk';
 
 cdk-componente-digital-card {
-
-  border: 1px solid rgba(0, 0, 0, 0.12);
-
-  .more-vert {
+    display: flex;
+    flex: 1 1 auto;
     height: 44px;
-  }
+    min-height: 44px;
+    max-height: 44px;
 
-  .file {
-    cursor: pointer;
-    border-right: 1px solid rgba(0, 0, 0, 0.12);;
-  }
+    > .content {
+        display: flex;
+        flex: 1 1 auto;
+        align-items: center;
+        margin-right: 8px;
+        border-radius: 6px;
+        border: 1px solid rgba(0, 0, 0, 0.12);
 
-  .space {
-    height: 4px;
-  }
+        > .content-img {
+            display: flex;
+            flex: 1 1 auto;
+            align-items: center;
+            justify-content: center;
+        }
+
+        > .content-card {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+            border-right: 1px solid rgba(0, 0, 0, 0.12);
+            justify-content: center;
+
+            > .content-card-item {
+                display: flex;
+                flex: 1 1 auto;
+                align-items: center;
+                margin-left: 8px;
+                margin-right: 8px;
+            }
+        }
+
+        > .menu {
+            display: flex;
+            flex: 1 1 auto;
+            justify-content: center;
+            align-items: center;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 6px;
+        }
+    }
+
+    .borda-erro {
+        border: solid red 1px;
+    }
 }

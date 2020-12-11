@@ -29,7 +29,7 @@
             </div>
 
             <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-                <span>{{tarefa.processo?.modalidadeMeio?.valor }} {{tarefa.processo?.especieProcesso?.nome }}</span>
+                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }}</span>
             </div>
 
             <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
@@ -37,10 +37,12 @@
             </div>
 
             <div class="subtitle" *ngIf="tarefa.processo?.documentoAvulsoOrigem">
-                    <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                    >Ofício vinculado pendente de resposta</span>
-                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta"
-                >Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta?.toDate() | date: 'dd/MM/yyyy H:mm'}}</span>
+                <span *ngIf="!tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta">
+                    Ofício vinculado pendente de resposta
+                </span>
+                <span *ngIf="tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta">
+                    Ofício vinculado respondido em {{tarefa.processo?.documentoAvulsoOrigem?.dataHoraResposta?.toDate() | date: 'dd/MM/yyyy H:mm'}}
+                </span>
             </div>
 
             <div class="subtitle" *ngIf="isOpen">
@@ -48,28 +50,36 @@
                     <mat-spinner diameter=16></mat-spinner>
                 </div>
                 <div *ngIf="tarefa.processo?.assuntos?.length > 0">
-                    <span>ASSUNTO: {{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome}}</span>
+                    <span>{{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome | titleCasePipe}}</span>
                 </div>
             </div>
         </div>
 
         <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
-            <div>
-                {{tarefa.especieTarefa?.nome}}
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                {{tarefa.especieTarefa?.nome | titleCasePipe}}
             </div>
 
-            <div>
-                {{tarefa.setorResponsavel?.nome}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
+            <div *ngIf="displayedCampos.indexOf('setorResponsavel.nome') > -1">
+                {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
             </div>
 
-            <div *ngIf="tarefa.dataHoraFinalPrazo">
-                {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
-                ATÉ {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+            <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel.id !== usuarioAtual.id))">
+                {{tarefa.usuarioResponsavel.nome | titleCasePipe}}
             </div>
 
-            <div *ngIf="!tarefa.dataHoraFinalPrazo">
-                {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy')}}
-                ATÉ
+            <div *ngIf="tarefa.dataHoraDistribuicao && displayedCampos.indexOf('dataHoraDistribuicao') > -1">
+                Distribuída em {{tarefa.dataHoraDistribuicao?.toDate() | date: 'dd/MM/yyyy'}}
+            </div>
+
+            <div *ngIf="tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
+                Prazo de {{tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+                até {{tarefa.dataHoraFinalPrazo?.toDate() | date: 'dd/MM/yyyy'}}
+            </div>
+
+            <div *ngIf="!tarefa.dataHoraFinalPrazo && displayedCampos.indexOf('dataHoraPrazo') > -1">
+                Prazo de {{(tarefa.dataHoraInicioPrazo?.toDate() | date: 'dd/MM/yyyy')}}
+                até
                 <mat-icon class="secondary-text" matTooltip="Prazo fechado">
                     lock
                 </mat-icon>
@@ -89,17 +99,24 @@
 
     <div class="actions">
 
-        <button mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
+        <button *ngIf="!tarefa.apagadoEm" mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
                 aria-label="Toggle important" fxHide.xs>
             <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
             <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
         </button>
 
-        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading">
+        <button *ngIf="tarefa.apagadoEm" matTooltip="Restaurar tarefa"
+                mat-icon-button (click)="doRestauraTarefa(); $event.stopPropagation();"
+                aria-label="Restaurar tarefa" fxHide.xs>
+            <mat-icon class="secondary-text">undo</mat-icon>
+        </button>
+
+        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading || undeleting">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button *ngIf="!deleting && !ciencia && !pluginLoading" mat-icon-button [matMenuTriggerFor]="moreMenu"
+        <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm" mat-icon-button
+                [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas"
                 (click)="$event.stopPropagation()">
             <mat-icon class="secondary-text">more_vert</mat-icon>

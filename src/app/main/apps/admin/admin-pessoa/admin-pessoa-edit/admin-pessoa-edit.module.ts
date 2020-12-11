@@ -29,6 +29,7 @@ import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.se
 import {CdkPessoaFormModule} from '../../../../../../@cdk/components/pessoa/cdk-pessoa-form/cdk-pessoa-form.module';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkAdminPessoaFormModule} from '../../../../../../@cdk/components/pessoa/cdk-admin-pessoa-form/cdk-admin-pessoa-form.module';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -75,7 +76,8 @@ modulesConfig.forEach((module) => {
         PessoaEditStoreModule,
         CdkPessoaFormModule,
         CdkPessoaFormModule,
-        CdkAdminPessoaFormModule
+        CdkAdminPessoaFormModule,
+        PathModule
 
     ],
     providers: [

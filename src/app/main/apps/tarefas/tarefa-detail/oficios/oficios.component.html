@@ -1,0 +1,24 @@
+<div class="oficios">
+    <div class="upload">
+        <button mat-mini-fab aria-label="Criar Ofício"
+                class="m-4 active accent"
+                (click)="oficio()">
+            <mat-icon class="secondary-text">mail</mat-icon>
+        </button>
+
+        <cdk-documento-card-list [documentos]="oficios"
+                                 [deletingId]="(deletingDocumentosId$ | async)"
+                                 [assinandoId]="(assinandoDocumentosId$ | async)"
+                                 [convertendoId]="(convertendoDocumentosId$ | async)"
+                                 (delete)="doDelete($event)"
+                                 (verResposta)="doVerResposta($event)"
+                                 (assinatura)="doAssinatura($event)"
+                                 (converte)="doConverte($event)"
+                                 (clicked)="onClicked($event)"
+                                 (changedSelectedIds)="changedSelectedIds($event)">
+        </cdk-documento-card-list>
+    </div>
+</div>
+
+<router-outlet></router-outlet>
+

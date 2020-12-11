@@ -21,6 +21,7 @@ import {GetDocumentos} from '../../../../tarefas/tarefa-detail/atividades/ativid
 export class DocumentoAvulsoCreateEffect {
     routerState: any;
     componenteDigitalId: number;
+    routeOficio: string;
 
     constructor(
         private _actions: Actions,
@@ -49,20 +50,19 @@ export class DocumentoAvulsoCreateEffect {
             .pipe(
                 ofType<DocumentoAvulsoCreateActions.SaveDocumentoAvulso>(DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO),
                 mergeMap((action) => {
-                    return this._documentoAvulsoService.save(action.payload).pipe(
+                    return this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
                         tap((response) => {
+                            this.routeOficio = action.payload.routeOficio;
                             this._store.dispatch(new GetDocumentos());
-                            if (action.payload.blocoProcessos || action.payload.blocoDestinatarios)
+                            if (action.payload.documentoAvulso.blocoProcessos || action.payload.documentoAvulso.blocoDestinatarios)
                             {
                                 this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/'
                                 + this.routerState.params.typeHandle + '/' +
                                 this.routerState.params.targetHandle + '/tarefa/' + this.routerState.params.tarefaHandle +
-                                '/atividades/criar']).then();
+                                '/oficios']).then();
                             }
                             else {
-                                this._store.dispatch(new DocumentoAvulsoCreateActions.GetDocumento(
-                                    response.id
-                                ));
+                                this._store.dispatch(new DocumentoAvulsoCreateActions.GetDocumento(response.id));
                             }
                         }),
                         mergeMap((response: DocumentoAvulso) => [
@@ -103,7 +103,8 @@ export class DocumentoAvulsoCreateEffect {
                     // new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new DocumentoAvulsoCreateActions.GetDocumentoSuccess({
                         documentoId: response['entities'][0].id,
-                        componenteDigitalId: response['entities'][0].componentesDigitais[0].id
+                        componenteDigitalId: response['entities'][0].componentesDigitais[0].id,
+                        routeOficio: this.routeOficio
                     }),
                 ]),
                 catchError((err, caught) => {
@@ -120,9 +121,9 @@ export class DocumentoAvulsoCreateEffect {
                 ofType<DocumentoAvulsoCreateActions.GetDocumentoSuccess>(DocumentoAvulsoCreateActions.GET_DOCUMENTO_SUCCESS),
                 tap((action) => {
                     const primary = 'componente-digital/' + action.payload.componenteDigitalId;
-                    const sidebar = 'oficio/dados-basicos';
+                    const sidebar = action.payload.routeOficio + '/dados-basicos';
                     this._router.navigate([
-                            this.routerState.url.replace('oficio', '/atividades/criar/documento') + '/' + action.payload.documentoId,
+                            this.routerState.url.replace('oficio', 'documento') + '/' + action.payload.documentoId,
                             {
                                 outlets: {
                                     primary: primary,

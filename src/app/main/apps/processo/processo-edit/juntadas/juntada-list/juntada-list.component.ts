@@ -9,8 +9,8 @@ import {
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Assinatura, Juntada, Processo} from '@cdk/models';
-import {Router} from '@angular/router';
+import {Assinatura, Documento, Juntada, Processo} from '@cdk/models';
+import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
@@ -42,14 +42,17 @@ export class JuntadaListComponent implements OnInit {
     cdkUpload;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _activatedRoute
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.JuntadaListAppState>,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadaList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -148,12 +151,44 @@ export class JuntadaListComponent implements OnInit {
         }
     }
 
-    editar(documentoId: number): void {
-        this._router.navigate([this.routerState.url + '/documento/' + documentoId + '/editar']).then();
+    editar(documento: Documento): void {
+        let primary: string;
+        primary = 'componente-digital/';
+        if (documento.componentesDigitais[0]) {
+            primary += documento.componentesDigitais[0].id;
+        } else {
+            primary += '0';
+        }
+        const sidebar = 'editar/dados-basicos';
+
+        this._router.navigate([
+                this.routerState.url +
+                '/documento/' + documento.id,
+                {
+                    outlets: {
+                        primary: primary,
+                        sidebar: sidebar
+                    }
+                }],
+            {
+                relativeTo: this._activatedRoute.parent
+            }).then();
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
+    }
+
+    removeVinculacao(vinculacaoDocumentoId: number): void {
+        this._store.dispatch(new fromStore.RemoveVinculacaoDocumento(vinculacaoDocumentoId));
+    }
+
+    removerVinculacoes(juntada: Juntada): void {
+        juntada.documento.vinculacoesDocumentos.forEach(vinculacao => this.removeVinculacao(vinculacao.id));
+    }
+
+    adicionarVinculacao(juntadaId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'vincular/' + juntadaId)]).then();
     }
 
     removeAssinatura(documentoId): void {

@@ -1,7 +1,14 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
 import {Observable, Subject} from 'rxjs';
-import {Lembrete, Processo} from '../../../../../@cdk/models';
+import {Lembrete, Pagination, Processo} from '../../../../../@cdk/models';
 import {getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -16,7 +23,7 @@ import {cdkAnimations} from '../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class LembretesComponent implements OnInit {
+export class LembretesComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
     loading: boolean;
@@ -30,6 +37,8 @@ export class LembretesComponent implements OnInit {
     processos: Processo[] = [];
     processos$: Observable<Processo[]>;
 
+    lembretesPagination: Pagination;
+
     private routerState: RouterStateUrl;
 
     constructor(
@@ -41,7 +50,14 @@ export class LembretesComponent implements OnInit {
         this.initObservales();
         this.initRouteState();
         this.setProcessoId();
-
+        this.lembretesPagination = new Pagination();
+        this.lembretesPagination.filter = {};
+        this.lembretesPagination.filter = {
+            'processo.id':'eq:' + this.processoId
+        };
+        this.lembretesPagination.sort = {
+            'criadoEm':'DESC'
+        };
     }
 
     ngOnInit(): void {
@@ -53,7 +69,13 @@ export class LembretesComponent implements OnInit {
         });
     }
 
-    initObservales(): void{
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    initObservales(): void {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processos$ = this._store.pipe(select(fromStore.getProcessos));
@@ -70,7 +92,25 @@ export class LembretesComponent implements OnInit {
             });
     }
 
-    setProcessoId(): void{
+    doReload(params): void {
+        this._store.dispatch(new fromStore.GetLembrete({
+            ...this.lembretesPagination,
+            filter: {
+                ...this.lembretesPagination.filter,
+            },
+            gridFilter: {
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: [
+                ...this.lembretesPagination.populate
+            ]
+        }));
+    }
+
+    setProcessoId(): void {
         this.processoId = this.routerState.params.processoHandle;
     }
 
@@ -83,7 +123,6 @@ export class LembretesComponent implements OnInit {
             }
         );
         this._store.dispatch(new fromStore.SaveLembrete(lembrete));
-
     }
 
 }

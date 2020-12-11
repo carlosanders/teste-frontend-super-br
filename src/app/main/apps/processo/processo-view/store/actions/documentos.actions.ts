@@ -26,6 +26,14 @@ export const REMOVE_ASSINATURA_DOCUMENTO = '[PROCESSO VIEW] REMOVE ASSINATURA DO
 export const REMOVE_ASSINATURA_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] REMOVE ASSINATURA DOCUMENTO SUCCESS';
 export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[PROCESSO VIEW] REMOVE ASSINATURA DOCUMENTO FAILED';
 
+export const ASSINA_JUNTADA = '[PROCESSO VIEW] ASSINA JUNTADA';
+export const ASSINA_JUNTADA_SUCCESS = '[PROCESSO VIEW] ASSINA JUNTADA SUCCESS';
+export const ASSINA_JUNTADA_FAILED = '[PROCESSO VIEW] ASSINA JUNTADA FAILED';
+
+export const ASSINA_JUNTADA_ELETRONICAMENTE = '[PROCESSO VIEW] ASSINA JUNTADA ELETRONICAMENTE';
+export const ASSINA_JUNTADA_ELETRONICAMENTE_SUCCESS = '[PROCESSO VIEW] ASSINA JUNTADA ELETRONICAMENTE SUCCESS';
+export const ASSINA_JUNTADA_ELETRONICAMENTE_FAILED = '[PROCESSO VIEW] ASSINA JUNTADA ELETRONICAMENTE FAILED';
+
 export const CLICKED_DOCUMENTO = '[PROCESSO VIEW] CLICKED DOCUMENTO';
 export const COMPLETE_DOCUMENTO = '[PROCESSO VIEW] COMPLETE DOCUMENTO';
 
@@ -34,6 +42,10 @@ export const CONVERTE_DOCUMENTO_SUCESS = '[PROCESSO VIEW] CONVERTE DOCUMENTO SUC
 export const CONVERTE_DOCUMENTO_FAILED = '[PROCESSO VIEW] CONVERTE DOCUMENTO FAILED';
 
 export const CHANGE_SELECTED_DOCUMENTOS = '[PROCESSO VIEW] CHANGE SELECTED DOCUMENTOS';
+
+export const REMOVE_VINCULACAO_DOCUMENTO = '[PROCESSO VIEW] REMOVE VINCULACAO DOCUMENTO';
+export const REMOVE_VINCULACAO_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] REMOVE VINCULACAO DOCUMENTO SUCCESS';
+export const REMOVE_VINCULACAO_DOCUMENTO_FAILED = '[PROCESSO VIEW] REMOVE VINCULACAO DOCUMENTO FAILED';
 
 /**
  * Unload Documentos
@@ -263,6 +275,79 @@ export class RemoveAssinaturaDocumentoFailed implements Action
     }
 }
 
+
+/**
+ * Assina Juntada
+ */
+export class AssinaJuntada implements Action
+{
+    readonly type = ASSINA_JUNTADA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Juntada Success
+ */
+export class AssinaJuntadaSuccess implements Action
+{
+    readonly type = ASSINA_JUNTADA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Juntada Failed
+ */
+export class AssinaJuntadaFailed implements Action
+{
+    readonly type = ASSINA_JUNTADA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Juntada Eletronicamente
+ */
+export class AssinaJuntadaEletronicamente implements Action
+{
+    readonly type = ASSINA_JUNTADA_ELETRONICAMENTE;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Juntada Eletronicamente Success
+ */
+export class AssinaJuntadaEletronicamenteSuccess implements Action
+{
+    readonly type = ASSINA_JUNTADA_ELETRONICAMENTE_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Assina Juntada Eletronicamente Failed
+ */
+export class AssinaJuntadaEletronicamenteFailed implements Action
+{
+    readonly type = ASSINA_JUNTADA_ELETRONICAMENTE_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 /**
  * Change Selected Documentos
  */
@@ -327,6 +412,42 @@ export class ConverteToPdfFailed implements Action
     }
 }
 
+/**
+ * Remove Vinculacao Documento
+ */
+export class RemoveVinculacaoDocumento implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Vinculacao Documento Success
+ */
+export class RemoveVinculacaoDocumentoSuccess implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Remove Vinculacao Documento Failed
+ */
+export class RemoveVinculacaoDocumentoFailed implements Action
+{
+    readonly type = REMOVE_VINCULACAO_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProcessoViewDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -342,6 +463,12 @@ export type ProcessoViewDocumentosActionsAll
     | RemoveAssinaturaDocumento
     | RemoveAssinaturaDocumentoSuccess
     | RemoveAssinaturaDocumentoFailed
+    | AssinaJuntada
+    | AssinaJuntadaSuccess
+    | AssinaJuntadaFailed
+    | AssinaJuntadaEletronicamente
+    | AssinaJuntadaEletronicamenteSuccess
+    | AssinaJuntadaEletronicamenteFailed
     | UpdateDocumento
     | UpdateDocumentoSuccess
     | UpdateDocumentoFailed
@@ -352,4 +479,7 @@ export type ProcessoViewDocumentosActionsAll
     | ConverteToPdf
     | ConverteToPdfSucess
     | ConverteToPdfFailed
-    | UnloadDocumentos;
+    | UnloadDocumentos
+    | RemoveVinculacaoDocumento
+    | RemoveVinculacaoDocumentoSuccess
+    | RemoveVinculacaoDocumentoFailed;

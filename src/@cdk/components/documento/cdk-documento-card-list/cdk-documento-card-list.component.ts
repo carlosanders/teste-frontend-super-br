@@ -37,6 +37,12 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     converte = new EventEmitter<number>();
 
     @Output()
+    restaurar = new EventEmitter<number>();
+
+    @Output()
+    sairLixeira = new EventEmitter<boolean>();
+
+    @Output()
     clicked = new EventEmitter<number>();
 
     @Output()
@@ -49,6 +55,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     deletingId: number[] = [];
 
     @Input()
+    undeletingId: number[] = [];
+
+    @Input()
     assinandoId: number[] = [];
 
     @Input()
@@ -59,6 +68,12 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
     convertendoId: number[] = [];
+
+    @Input()
+    loadingDocumentosExcluidos = false;
+
+    @Input()
+    lixeiraMinutas = false;
 
     @Output()
     changedSelectedIds = new EventEmitter<number[]>();
@@ -215,8 +230,22 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
         this.converte.emit(documentoId);
     }
 
+    doRestaurar(documentoId): void {
+        this.restaurar.emit(documentoId);
+    }
+
+    doSairLixeiraMinutas(): void {
+        this.deselectAll();
+        this.sairLixeira.emit(true);
+    }
+
     doConverteDocumentoBloco(): void {
         this.selectedIds.forEach(documentoId => this.doConverte(documentoId));
+        this.deselectAll();
+    }
+
+    doRestaurarBloco(): void {
+        this.selectedIds.forEach(documentoId => this.doRestaurar(documentoId));
         this.deselectAll();
     }
 

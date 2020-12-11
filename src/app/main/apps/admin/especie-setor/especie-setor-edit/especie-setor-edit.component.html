@@ -1,0 +1,17 @@
+<div class="header">
+    <path icone="place"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="especie-setor">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-especie-setor-form
+        [especieSetor]="(especieSetor$ | async)"
+        [form]="formEspecieSetor"
+        [generoSetorPagination]="generoSetorPagination"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitEspecieSetor($event)"
+        (abort)="doAbort()">
+    </cdk-especie-setor-form>
+</div>

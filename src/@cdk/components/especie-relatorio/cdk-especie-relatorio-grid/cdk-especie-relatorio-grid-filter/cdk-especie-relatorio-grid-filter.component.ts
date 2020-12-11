@@ -42,7 +42,7 @@ export class CdkEspecieRelatorioGridFilterComponent implements OnInit {
             atualizadoEm: [null],
             apagadoPor: [null],
             apagadoEm: [null],
-            generoTarefa: [null],
+            generoRelatorio: [null],
         });
 
     }
@@ -85,17 +85,17 @@ export class CdkEspecieRelatorioGridFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('generoTarefa').valueChanges.subscribe(value => {
+        this.form.get('generoRelatorio').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'generoTarefa.id': `eq:${value.id}`
+                        'generoRelatorio.id': `eq:${value.id}`
                     };
                     this.selected.emit(this.filters);
                 } else {
-                    if (this.filters.hasOwnProperty('generoTarefa.id')) {
-                        delete this.filters['generoTarefa.id'];
+                    if (this.filters.hasOwnProperty('generoRelatorio.id')) {
+                        delete this.filters['generoRelatorio.id'];
                     }
                 }
                 if (!value) {

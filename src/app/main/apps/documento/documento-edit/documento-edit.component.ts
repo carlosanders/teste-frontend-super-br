@@ -8,14 +8,14 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import * as fromStore from '../store';
-import {Documento, Etiqueta, VinculacaoEtiqueta} from '@cdk/models';
+import {ComponenteDigital, Documento, Etiqueta, VinculacaoEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {getRouterState} from 'app/store/reducers';
 import {ActivatedRoute, Router} from '@angular/router';
-import {filter} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {DomSanitizer} from '@angular/platform-browser';
 import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../tarefas/tarefa-detail/store/selectors';
@@ -37,12 +37,17 @@ import {ClickedDocumentoVinculado} from './anexos/store/actions';
 })
 export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit {
 
+    private _unsubscribeAll: Subject<any> = new Subject();
+
     documento$: Observable<Documento>;
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
 
     documentoPrincipal: Documento;
+
+    currentComponenteDigital$: Observable<ComponenteDigital>;
+    currentComponenteDigital: ComponenteDigital;
 
     documento: Documento;
 
@@ -91,6 +96,7 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
         private _activatedRoute: ActivatedRoute
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
+        this.currentComponenteDigital$ = this._store.pipe(select(fromStore.getCurrentComponenteDigital));
 
         if (this._router.url.indexOf('/juntadas') === -1) {
             this.tarefa$ = this._store.pipe(select(getTarefa));
@@ -149,6 +155,11 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
                 this.tarefa = tarefa;
             });
         }
+        this.currentComponenteDigital$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            componenteDigital => this.currentComponenteDigital = componenteDigital
+        );
 
         this._store
             .pipe(
@@ -204,6 +215,8 @@ export class DocumentoEditComponent implements OnInit, OnDestroy, AfterViewInit 
      * On destroy
      */
     ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     // -----------------------------------------------------------------------------------------------------

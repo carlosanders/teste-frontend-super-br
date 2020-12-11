@@ -58,6 +58,10 @@ const routes: Routes = [
                 loadChildren: () => import('./modelos/documento-edit-modelos.module').then(m => m.DocumentoEditModelosModule)
             },
             {
+                path: 'restaurar',
+                loadChildren: () => import('./restaurar/restaurar.module').then(m => m.RestaurarModule)
+            },
+            {
                 path: 'versoes',
                 loadChildren: () => import('./versoes/documento-edit-versoes.module').then(m => m.DocumentoEditVersoesModule)
             }

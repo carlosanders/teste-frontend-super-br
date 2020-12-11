@@ -68,7 +68,7 @@
                 [rowspan]="2">
                 <span class="subtitle">Classificação:</span>
             </mat-grid-tile>
-            <mat-grid-tile
+            <mat-grid-tile [matTooltip]="processo.classificacao.nomeCompleto"
                 [colspan]="3"
                 [rowspan]="2">
                 {{ processo.classificacao.nome }}

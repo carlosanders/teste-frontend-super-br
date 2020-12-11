@@ -59,8 +59,10 @@
                                      [error]="(error$ | async)"
                                      [errorDelete]="(errorDelete$ | async)"
                                      [deletingIds]="(deletingIds$ | async)"
+                                     [unDeletingIds]="(undeletingTarefaIds$ | async)"
                                      [deletedIds]="(deletedIds$ | async)"
                                      [folders]="(folders$ | async)"
+                                     [usuarioAtual]="usuarioAtual"
                                      [currentTarefaId]="currentTarefaId"
                                      [pagination]="pagination"
                                      [novaTarefa]="novaTarefa"
@@ -89,8 +91,10 @@
                                      (editorBloco)="doEditorBloco()"
                                      (editTarefaBloco)="doEditTarefaBloco()"
                                      (editRedistribuirBloco)="doRedistribuiTarefaBloco()"
+                                     (restauraTarefa)="doRestauraTarefa($event)"
                                      (loadAssuntos)="doLoadAssuntos($event)"
                                      [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)"
+                                     [targetHandle]="targetHandle"
                                      [cienciaIds]="(cienciaIds$ | async)">
                     </cdk-tarefa-list>
                 </div>

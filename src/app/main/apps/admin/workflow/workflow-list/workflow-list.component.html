@@ -1,6 +1,8 @@
 <div class="header">
-    <mat-icon class="mr-8 s-16">low_priority</mat-icon>
-    <span>workflows</span>
+    <path icone="low_priority"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="workflows">
+    </path>
 </div>
 <div class="content">
     <cdk-workflow-grid
@@ -10,8 +12,9 @@
         [deletedIds]="(deletedIds$ | async)"
         [total]="(pagination$ | async)?.total"
         [displayedColumns]="['id', 'especieTarefaInicial.nome', 'especieProcesso.nome', 'actions']"
-        [actions]="['transicoes', 'edit', 'create', 'delete']"
+        [actions]="['view', 'transicoes', 'edit', 'create', 'delete']"
         (editTransicoesWorflow)="editTransicoesWorkflow($event)"
+        (view)="view($event)"
         (reload)="reload($event)"
         (edit)="edit($event)"
         (create)="create()"

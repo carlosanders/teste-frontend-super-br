@@ -4,31 +4,36 @@ atividade-create {
     flex-direction: column;
     padding: 8px;
 
-    > mat-tab-group {
+    > .atividade {
         flex: 1 1 auto;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
 
-        .upload {
-            padding-bottom: 16px;
+        > .mensagem-erro {
+            color: red;
+            font-size: 16px;
+            margin-bottom: 8px;
         }
 
-        .mat-tab-body-wrapper {
+        > .titulo {
             display: flex;
-            flex: 1 1 auto;
-            flex-direction: column;
+            flex-direction: row;
+            flex: 0 0 auto;
+            justify-content: flex-start;
+            align-items: center;
+            margin-top: 16px;
+        }
 
-            .mat-tab-body {
-                display: flex;
-                flex: 1 1 auto;
-                flex-direction: column;
-                padding-top: 16px;
+        > .upload {
+            padding-bottom: 16px;
+            display: flex;
+            flex: 0 1 auto;
+            flex-direction: row;
+            flex-wrap: wrap;
 
-                > .mat-tab-body-content {
-                    display: flex;
-                    flex-direction: column;
-                    flex: 1 1 auto;
-                }
+            >.componente-digital-card {
+                padding-left: 10px;
+                padding-bottom: 16px;
             }
         }
     }

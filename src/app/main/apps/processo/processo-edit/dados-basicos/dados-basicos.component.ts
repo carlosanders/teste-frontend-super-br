@@ -19,6 +19,7 @@ import {getProcesso} from './store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {MercureService} from '../../../../../../@cdk/services/mercure.service';
+import {Back} from '../../../../../store';
 
 @Component({
     selector: 'dados-basicos',
@@ -122,7 +123,9 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
-        this._mercureService.unsubscribe(this.processo.origemDados['@id']);
+        if (this.processo?.origemDados) {
+            this._mercureService.unsubscribe(this.processo.origemDados['@id']);
+        }
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
@@ -149,6 +152,10 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
 
+    }
+
+    abort(): void {
+        this._store.dispatch(new Back());
     }
 
     post(values): void {

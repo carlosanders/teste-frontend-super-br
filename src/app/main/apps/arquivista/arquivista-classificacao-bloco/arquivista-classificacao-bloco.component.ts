@@ -10,7 +10,7 @@ import {getSelectedProcessos} from '../arquivista-list/store/selectors';
 import {cdkAnimations} from '../../../../../@cdk/animations';
 
 @Component({
-    selector: '<span class="mr-4 ml-4">/</span>arquivista-classificacao-bloco',
+    selector: 'arquivista-classificacao-bloco',
     templateUrl: './arquivista-classificacao-bloco.component.html',
     styleUrls: ['./arquivista-classificacao-bloco.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

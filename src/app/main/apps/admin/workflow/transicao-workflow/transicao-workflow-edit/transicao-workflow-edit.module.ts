@@ -27,6 +27,7 @@ import {TransicaoWorkflowEditStoreModule} from './store/store.module';
 import {TransicaoWorkflowService} from '../../../../../../../@cdk/services/transicao-workflow.service';
 import {CdkTransicaoWorkflowFormModule} from '../../../../../../../@cdk/components/transicao-workflow/cdk-transicao-workflow-form/cdk-transicao-workflow-form.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -71,7 +72,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
         MatStepperModule,
         TransicaoWorkflowEditStoreModule,
-        CdkTransicaoWorkflowFormModule
+        CdkTransicaoWorkflowFormModule,
+        PathModule
 
     ],
     providers: [

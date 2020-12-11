@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="business"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="modalidade-orgao-central">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-modalidade-orgao-central-form
+        [modalidadeOrgaoCentral]="(modalidadeOrgaoCentral$ | async)"
+        [form]="formModalidadeOrgaoCentral"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitModalidadeOrgaoCentral($event)"
+        (abort)="doAbort()">
+    </cdk-modalidade-orgao-central-form>
+</div>

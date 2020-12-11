@@ -25,6 +25,7 @@ import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {modulesConfig} from 'modules/modules-config';
 import {AssinaturaService} from '../../../../../../../@cdk/services/assinatura.service';
+import {VinculacaoDocumentoService} from '../../../../../../../@cdk/services/vinculacao-documento.service';
 
 const routes: Routes = [
     {
@@ -80,6 +81,7 @@ modulesConfig.forEach((module) => {
     providers: [
         JuntadaService,
         AssinaturaService,
+        VinculacaoDocumentoService,
         fromGuards.ResolveGuard
     ],
     exports: [

@@ -101,7 +101,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Nome
                     </th>
-                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Nome: '
+                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Nome: ' [matTooltip]="classificacao.nomeCompleto"
                         [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.nome}}
                     </td>
                 </ng-container>
@@ -245,6 +245,15 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}">
                         <mat-checkbox [disabled]="true" [checked]="classificacao.permissaoUso"></mat-checkbox>
                     </td>
+                </ng-container>
+
+                <!-- TipoSigilo Column -->
+                <ng-container matColumnDef="tipoSigilo.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Sigilo
+                    </th>
+                    <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Tipo: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.tipoSigilo?.nome}} </td>
                 </ng-container>
 
                 <!-- Observacao Column -->

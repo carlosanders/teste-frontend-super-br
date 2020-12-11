@@ -116,7 +116,7 @@ export class ArquivistaClassificacaoEditEffects {
                         etiquetaFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
+                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC'},
                         populate: [
                             'especieProcesso',
                             'especieProcesso.generoProcesso',
@@ -145,7 +145,7 @@ export class ArquivistaClassificacaoEditEffects {
                             processoFilter = {
                                 'dataHoraProximaTransicao': 'lt:' + this.currentDate,
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
 
                             };
                         }
@@ -154,7 +154,7 @@ export class ArquivistaClassificacaoEditEffects {
                             processoFilter = {
                                 'dataHoraProximaTransicao': 'gte:' + this.currentDate,
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
                             };
                         }
 
@@ -162,7 +162,7 @@ export class ArquivistaClassificacaoEditEffects {
                             processoFilter = {
                                 'dataHoraProximaTransicao': 'isNull',
                                 'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual': 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
                             };
 
                         }

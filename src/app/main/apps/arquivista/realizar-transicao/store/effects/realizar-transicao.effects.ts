@@ -14,7 +14,7 @@ import {AddData, RemoveData} from '@cdk/ngrx-normalizr';
 import {transicao as transicaoSchema} from '@cdk/normalizr';
 import {processo as processoSchema} from '@cdk/normalizr';
 
-import {getRouterState, State} from '../../../../../../store/reducers';
+import {getRouterState, State} from '../../../../../../store';
 import * as RealizarTransicaoActions from '../actions/realizar-transicao.actions';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../store';
@@ -32,8 +32,14 @@ export class RealizarTransicaoEffects {
         private _router: Router
 
     ) {
-        this.initRouterState();
         this.setorAtual = this._loginService.getUserProfile().colaborador.lotacoes[0].setor.id;
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
     routerState: any;
     private currentDate: any;
@@ -53,17 +59,13 @@ export class RealizarTransicaoEffects {
                         mergeMap((response: Transicao) => [
                             new RealizarTransicaoActions.SaveRealizarTransicaoSuccess(),
                             new AddData<Transicao>({data: [response], schema: transicaoSchema})
-                        ]),
-                        catchError((err) => {
-                            this._store.dispatch(new OperacoesActions.Resultado({
-                                type: 'realizar-transicao',
-                                content: `Houve um erro ao realizar a transição para o processo id ${action.payload.processo.id}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
-                            }));
-                            return of(new RealizarTransicaoActions.SaveRealizarTransicaoFailed(err));
-                        })
+                        ])
                     );
+                }),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new RealizarTransicaoActions.SaveRealizarTransicaoFailed(err));
+                    return caught;
                 })
             );
 
@@ -76,13 +78,8 @@ export class RealizarTransicaoEffects {
             .pipe(
                 ofType<RealizarTransicaoActions.SaveRealizarTransicaoSuccess>(RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO_SUCCESS),
                 tap(() => {
-                    // Foi autorizado pelo Leo para ser refatorado esse codigo posteriormente.
-                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
-                    + '/aguardando-decurso']).then();
-                    setTimeout(() => {
-                        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
-                        + '/pronto-transicao']).then();
-                    }, 1000);
+                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
+                    + this.routerState.params.typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
                 })
             );
 
@@ -125,15 +122,4 @@ export class RealizarTransicaoEffects {
                     return caught;
                 })
             );
-
-
-    initRouterState(): void{
-        this._store
-            .pipe(select(getRouterState))
-            .subscribe(routerState => {
-                if (routerState) {
-                    this.routerState = routerState.state;
-                }
-            });
-    }
 }

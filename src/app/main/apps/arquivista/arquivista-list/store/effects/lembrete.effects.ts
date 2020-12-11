@@ -43,7 +43,7 @@ export class LembreteEffects {
 
     /**
      * Save Lembrete
-     * @type {Observable<any>}
+     * @type {any}
      */
     @Effect()
     saveLembrete: any =
@@ -82,7 +82,7 @@ export class LembreteEffects {
                         etiquetaFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC', lembretes: 'DESC'},
+                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC'},
                         populate: [
                             'especieProcesso',
                             'especieProcesso.generoProcesso',
@@ -110,7 +110,7 @@ export class LembreteEffects {
                             processoFilter = {
                                 dataHoraProximaTransicao: 'lt:' + this.currentDate,
                                 modalidadeFase: 'in:1,2',
-                                setorAtual: 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
 
                             };
                         }
@@ -119,7 +119,7 @@ export class LembreteEffects {
                             processoFilter = {
                                 dataHoraProximaTransicao: 'gte:' + this.currentDate,
                                 modalidadeFase: 'in:1,2',
-                                setorAtual: 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
                             };
                         }
 
@@ -127,7 +127,7 @@ export class LembreteEffects {
                             processoFilter = {
                                 dataHoraProximaTransicao: 'isNull',
                                 modalidadeFase: 'in:1,2',
-                                setorAtual: 'in:' + this.setorAtual
+                                'setorAtual.id': 'eq:' + this.setorAtual
                             };
 
                         }

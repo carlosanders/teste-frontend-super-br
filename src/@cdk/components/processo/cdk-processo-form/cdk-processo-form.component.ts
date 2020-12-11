@@ -163,6 +163,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     setorAtualListIsLoading: boolean;
 
+    mostraDataHoraDesarquivamento: boolean = false;
+
     /**
      * Constructor
      */
@@ -192,7 +194,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             setorAtual: [null, [Validators.required]],
             modalidadeMeio: [null, [Validators.required]],
             modalidadeFase: [null],
-            dataHoraAbertura: [null, [Validators.required]]
+            dataHoraAbertura: [null, [Validators.required]],
+            dataHoraDesarquivamento: [null]
         });
 
         this.especieProcessoPagination = new Pagination();
@@ -257,7 +260,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     this.form.get('NUP').setValue(null);
                     this.form.get('NUP').disable();
-
+   
                     // this.form.get('procedencia').setValue(null);
                     // this.form.get('procedencia').disable();
                 }
@@ -284,6 +287,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('processoOrigem').disable();
             }
         }
+        console.log(this.mostraDataHoraDesarquivamento);
+        this.mostraDataHoraDesarquivamento = (this.processo.setorAtual.especieSetor.nome === 'ARQUIVO') && (this._profile.colaborador.lotacoes.filter(lotacao => lotacao.setor.especieSetor.nome === 'ARQUIVO').length > 0); 
 
         this.form.get('temProcessoOrigem').valueChanges.subscribe(value => {
             if (value) {

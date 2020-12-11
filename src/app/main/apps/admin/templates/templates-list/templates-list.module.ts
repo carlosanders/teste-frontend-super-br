@@ -19,6 +19,7 @@ import {TemplatesListStoreModule} from './store/store.module';
 import {TemplateService} from '../../../../../../@cdk/services/template.service';
 import * as fromGuards from './store/guards';
 import {CdkTemplateGridModule} from '../../../../../../@cdk/components/template/cdk-template-grid/cdk-template-grid.module';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -60,6 +61,7 @@ const routes: Routes = [
 
         TemplatesListStoreModule,
         CdkTemplateGridModule,
+        PathModule,
     ],
     providers: [
         TemplateService,

@@ -62,6 +62,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
+    undeletingTarefaIds$: Observable<number[]>;
 
     error$: Observable<any>;
     errorDelete$: Observable<any>;
@@ -101,6 +102,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     changingFolderIds$: Observable<number[]>;
 
+    targetHandle: string;
+
     @ViewChild('tarefaListElement', {read: ElementRef, static: true}) tarefaListElement: ElementRef;
 
     routeAtividade = 'atividades/criar';
@@ -110,6 +113,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
     lote: string;
+
+    usuarioAtual: Usuario
 
     /**
      * @param _changeDetectorRef
@@ -148,6 +153,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingTarefaIds));
+        this.undeletingTarefaIds$ = this._store.pipe(select(fromStore.getUnDeletingTarefaIds));
         this.changingFolderIds$ = this._store.pipe(select(fromStore.getChangingFolderTarefaIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedTarefaIds));
         this.screen$ = this._store.pipe(select(getScreenState));
@@ -181,6 +187,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.loadingAssuntosProcessosId$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
         this.cienciaIds$ = this._store.pipe(select(fromStore.getCienciaTarefaIds));
+        this.usuarioAtual = this._loginService.getUserProfile();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -220,6 +227,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
             this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
+            this.targetHandle = routerState.state.params['targetHandle'];
+
+            //caso estiver snack aberto esperando alguma confirmacao se sair da url faz o flush
+            if (this.snackSubscription) {
+                this._store.dispatch(new fromStore.DeleteTarefaFlush());
+            }
         });
 
         this.tarefas$.pipe(
@@ -360,14 +373,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     setCurrentTarefa(tarefa: Tarefa): void {
-        if (!tarefa.dataHoraLeitura) {
-            this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
+        if (!tarefa.apagadoEm) {
+            if (!tarefa.dataHoraLeitura) {
+                this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
+            }
+            this._store.dispatch(new fromStore.SetCurrentTarefa({
+                tarefaId: tarefa.id,
+                processoId: tarefa.processo.id,
+                acessoNegado: tarefa.processo.acessoNegado
+            }));
         }
-        this._store.dispatch(new fromStore.SetCurrentTarefa({
-            tarefaId: tarefa.id,
-            processoId: tarefa.processo.id,
-            acessoNegado: tarefa.processo.acessoNegado
-        }));
     }
 
     deleteTarefa(tarefa: Tarefa, loteId: string = null): void {
@@ -425,6 +440,16 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         tarefas.forEach((tarefa: Tarefa) => this.deleteTarefa(tarefa, this.lote));
     }
 
+    doRestauraTarefa(tarefa: Tarefa): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.UndeleteTarefa({
+            tarefa: tarefa,
+            operacaoId: operacaoId,
+            redo: null,
+            undo: null
+        }));
+    }
+
     doToggleUrgente(tarefa: Tarefa): void {
         this._store.dispatch(new fromStore.ToggleUrgenteTarefa(tarefa));
     }
@@ -451,6 +476,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     setFolderOnSelectedTarefas(folder): void {
         this.selectedTarefas.forEach((tarefa) => {
+
+            if (this.targetHandle === 'lixeira') {
+                this.doRestauraTarefa(tarefa);
+            }
+
             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: tarefa, folder: folder}));
         });
     }

@@ -185,6 +185,7 @@ cargo.define({
 
 classificacao.define({
     modalidadeDestinacao: modalidadeDestinacao,
+    tipoSigilo: tipoSigilo,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
