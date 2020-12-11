@@ -1,5 +1,6 @@
 ajuda-processo-edit {
-    p {
+
+	p {
         text-align: left;
     }
     img {
@@ -17,5 +18,9 @@ ajuda-processo-edit {
 		content: "";
 		display: table;
 		clear: both;
+	}
+	.atencao{
+		$atencao: #607d8b;
+		background-color: $atencao;
 	}
 }

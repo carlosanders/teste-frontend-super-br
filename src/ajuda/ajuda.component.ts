@@ -30,7 +30,9 @@ export class AjudaComponent implements OnInit {
 
     card = 'form';
     titulo = '';
-
+    email = 'sapiens.agu.gov.br'; //INDICAR AQUI O EMAIL UTILIZADO PELO SUPORTE DO SISTEMA
+    wiki = "http://sapienswiki.agu.gov.br/index.php/P%C3%A1gina_principal"; //INDICAR AQUI O WIKI UTILIZADO PELO SUPORTE DO SISTEMA
+    
     isSubmited = false;
 
     context: any;
