@@ -19,6 +19,7 @@ import {getCopiandoJuntadas} from '../juntada-list/store/selectors';
 import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
+import {Back} from '../../../../../../store';
 
 @Component({
     selector: 'documento-copia-create',
@@ -127,5 +128,9 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
 
             this._store.dispatch(new fromStore.SaveDocumentoCopia({juntadaId: juntada.id, documento: documento}));
         });
+    }
+
+    abort(): void {
+        this._store.dispatch(new Back());
     }
 }

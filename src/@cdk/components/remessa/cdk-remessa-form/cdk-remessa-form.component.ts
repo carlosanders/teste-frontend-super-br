@@ -189,8 +189,6 @@ export class CdkRemessaFormComponent implements OnChanges, OnDestroy, OnInit, Af
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
-        console.log(this.form.value);
-        return;
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
