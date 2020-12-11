@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="person"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="usuarios">
+    </path>
+</div>
 <mat-horizontal-stepper linear #stepper>
     <mat-step [completed]="formUsuario.value.id">
         <ng-template matStepLabel>Usuário</ng-template>

@@ -16,6 +16,8 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../../store/selectors';
 import {Usuario} from '../../../../../../../../@cdk/models';
 import {Back} from '../../../../../../../store/actions';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../../../../store/reducers';
 
 @Component({
     selector: 'acao-edit',
@@ -26,7 +28,7 @@ import {Back} from '../../../../../../../store/actions';
     animations: cdkAnimations
 })
 export class AcaoEditComponent implements OnInit, OnDestroy {
-
+    routerState: any;
     acao$: Observable<Acao>;
     acao: Acao;
     isSaving$: Observable<boolean>;
@@ -47,6 +49,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.AcaoEditAppState>,
+        private _router: Router,
         public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -65,6 +68,14 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
 
         this.usuarioPagination = new Pagination();
         this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------

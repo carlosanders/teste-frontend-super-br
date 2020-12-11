@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="domain"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="setor">
+    </path>
+</div>
 <cdk-setor-grid
         [loading]="(loading$ | async)"
         [setores]="(setores$ | async)"

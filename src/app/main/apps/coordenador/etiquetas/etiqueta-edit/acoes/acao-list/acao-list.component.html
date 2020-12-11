@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="label"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="etiquetas">
+    </path>
+</div>
 <cdk-acao-list
         [loading]="(loading$ | async)"
         [acoes]="acoes"

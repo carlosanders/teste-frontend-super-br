@@ -24,6 +24,7 @@ import {CdkSegurancaFormModule} from '@cdk/components/usuario/cdk-seguranca-form
 import {SegurancaStoreModule} from './store/store.module';
 import {LoginService} from '../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -70,6 +71,7 @@ modulesConfig.forEach((module) => {
 
         CdkSharedModule,
         CdkSidebarModule,
+        PathModule,
     ],
     providers: [
         LoginService

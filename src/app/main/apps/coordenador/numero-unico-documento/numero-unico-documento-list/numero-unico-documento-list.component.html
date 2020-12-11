@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="subject"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="assuntos">
+    </path>
+</div>
 <cdk-numero-unico-documento-grid
         [loading]="(loading$ | async)"
         [numerosUnicosDocumento]="(numerosUnicosDocumentos$ | async)"

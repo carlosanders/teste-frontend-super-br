@@ -67,6 +67,7 @@ export class PathComponent implements OnInit {
     }
 
     carregarNomes() { //Adicionar nomes que tenha acento e ç
+        this.mapaNome.set('acoes', 'ações');
         this.mapaNome.set('arvore', 'árvore');
         this.mapaNome.set('classificacoes', 'classificações');
         this.mapaNome.set('especie-atividades', 'espécie atividades');
@@ -77,8 +78,11 @@ export class PathComponent implements OnInit {
         this.mapaNome.set('lotacoes', 'lotações');
         this.mapaNome.set('modalidade-orgao-central', 'modalidade orgãos centrais');
         this.mapaNome.set('municipios', 'municípios');
+        this.mapaNome.set('notificacoes', 'notificações');
         this.mapaNome.set('tipos-relatorios', 'tipos de relatórios');
         this.mapaNome.set('transicoes', 'transições');
+        this.mapaNome.set('repositorios', 'repositórios');
+        this.mapaNome.set('seguranca', 'seguranças');
         this.mapaNome.set('usuarios', 'usuários');
     }
 

@@ -18,6 +18,8 @@ import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../store/selectors';
 import {Back} from '../../../../../../store/actions';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../../../store/reducers';
 
 @Component({
     selector: 'dados-basicos',
@@ -28,7 +30,7 @@ import {Back} from '../../../../../../store/actions';
     animations: cdkAnimations
 })
 export class DadosBasicosComponent implements OnInit, OnDestroy {
-
+    routerState: any;
     etiqueta$: Observable<Etiqueta>;
     etiqueta: Etiqueta;
     isSaving$: Observable<boolean>;
@@ -45,12 +47,21 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.EtiquetaEditAppState>,
+        private _router: Router,
         public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.etiqueta$ = this._store.pipe(select(getEtiqueta));
         this.usuario = this._loginService.getUserProfile();
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
 
         this.modalidadeEtiquetaPagination = new Pagination();
     }
