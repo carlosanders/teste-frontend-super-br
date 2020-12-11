@@ -232,7 +232,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         ).subscribe(
             documentos => {
                 this.minutas = documentos.filter(documento =>
-                    (!documento.documentoAvulsoRemessa && !documento.juntadaAtual && !documento.apagadoEm));
+                    (!documento.documentoAvulsoRemessa && documento.minuta && !documento.apagadoEm));
                 this._changeDetectorRef.markForCheck();
 
                 this.lixeiraMinutas$.subscribe(lixeira => {
