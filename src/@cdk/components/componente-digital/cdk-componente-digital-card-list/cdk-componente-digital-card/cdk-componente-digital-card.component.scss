@@ -4,30 +4,22 @@ cdk-componente-digital-card {
     display: flex;
     flex: 1 1 auto;
     height: 44px;
+    min-height: 44px;
+    max-height: 44px;
 
     > .content {
         display: flex;
         flex: 1 1 auto;
         align-items: center;
-        height: 44px;
         margin-right: 8px;
         border-radius: 6px;
         border: 1px solid rgba(0, 0, 0, 0.12);
-
-        > .content-checkbox {
-            display: flex;
-            flex: 1 1 auto;
-            align-items: center;
-            justify-content: center;
-            height: 44px;
-        }
 
         > .content-img {
             display: flex;
             flex: 1 1 auto;
             align-items: center;
             justify-content: center;
-            height: 44px;
         }
 
         > .content-card {
@@ -35,7 +27,6 @@ cdk-componente-digital-card {
             flex: 1 1 auto;
             flex-direction: column;
             border-right: 1px solid rgba(0, 0, 0, 0.12);
-            height: 44px;
             justify-content: center;
 
             > .content-card-item {
@@ -50,7 +41,6 @@ cdk-componente-digital-card {
         > .menu {
             display: flex;
             flex: 1 1 auto;
-            height: 44px;
             justify-content: center;
             align-items: center;
             border-top-right-radius: 6px;
