@@ -4,4 +4,29 @@ cdk-relatorio-form {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+
+    .tipo-relatorio-filtros {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: row;
+
+        mat-form-field {
+            flex: 1 1 auto;
+            display: flex;
+
+            .mat-form-field-wrapper {
+                flex: 1 1 auto;
+            }
+        }
+
+        mat-form-field + mat-form-field {
+            margin-left: 8px;
+        }
+    }
+
+    .tipo-relatorio-formato {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+    }
 }
