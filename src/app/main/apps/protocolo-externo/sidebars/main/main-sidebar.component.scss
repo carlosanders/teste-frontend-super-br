@@ -31,11 +31,15 @@ processos-main-sidebar  {
     }
 
     > .content {
-        flex: 1 1 auto;
+        flex: 0 1 auto;
         display: flex;
         flex-direction: column;
         height: 0;
         overflow-y: auto;
         margin-top: 8px;
+
+        .nav .nav-subheader {
+            white-space: unset !important;
+        }
     }
 }
