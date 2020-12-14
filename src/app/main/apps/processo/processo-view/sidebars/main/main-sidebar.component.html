@@ -148,8 +148,8 @@
     </div>
 
     <div *ngIf="tarefa">
-        <mat-expansion-panel expanded="true" class="mb-4 mt-4" (closed)="onCloseMinutas()" (opened)="onOpenMinutas()">
-            <mat-expansion-panel-header [collapsedHeight]="'48px'" [expandedHeight]="'48px'">
+        <mat-expansion-panel class="mat-elevation-z0" expanded="true" (closed)="onCloseMinutas()" (opened)="onOpenMinutas()">
+            <mat-expansion-panel-header [collapsedHeight]="'48px'" [expandedHeight]="'48px'" style="background-color: whitesmoke;">
                 <mat-panel-title>
                     Minutas da Tarefa
                 </mat-panel-title>
@@ -160,6 +160,10 @@
                                                   [tarefaOrigem]="tarefaOrigem"
                                                   (completed)="onComplete()">
                 </cdk-componente-digital-card-list>
+
+                <div fxFlex fxLayoutAlign="center center" *ngIf="!minutas || !minutas.length">
+                    <div class="m-16" style="font-style: italic;">Não há minutas.</div>
+                </div>
 
                 <div class="minuta" matRipple
                      *ngFor="let minuta of (minutas); let i = index; let last = last; let first = first"
@@ -411,8 +415,9 @@
         </mat-expansion-panel>
     </div>
 
-    <div class="documentos-juntados-title">
-        Documentos Juntados
+    <div class="documentos-juntados-title" style="background-color: whitesmoke;" fxFlex="0 0 auto"
+         fxLayoutAlign="start center">
+        <div class="ml-24">Documentos Juntados</div>
     </div>
 
     <div class="loading" *ngIf="(isLoading$ | async)">
