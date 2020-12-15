@@ -3,7 +3,7 @@ cdk-acao-list {
     display: flex;
     flex-direction: column;
 
-    > .header {
+    > .header-a {
         flex: 0 1 auto;
         display: flex;
         flex-direction: row;
@@ -12,7 +12,7 @@ cdk-acao-list {
         padding: 8px;
     }
 
-    > .content {
+    > .content-a {
 
         flex: 1 1 auto;
         display: flex;

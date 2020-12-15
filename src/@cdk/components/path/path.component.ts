@@ -81,7 +81,7 @@ export class PathComponent implements OnInit {
         this.mapaNome.set('notificacoes', 'notificações');
         this.mapaNome.set('tipos-relatorios', 'tipos de relatórios');
         this.mapaNome.set('transicoes', 'transições');
-        this.mapaNome.set('repositorios', 'repositórios');
+        this.mapaNome.set('repositorios', 'teses');
         this.mapaNome.set('seguranca', 'seguranças');
         this.mapaNome.set('usuarios', 'usuários');
     }
