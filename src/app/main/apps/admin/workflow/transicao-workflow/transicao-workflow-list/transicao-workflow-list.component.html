@@ -12,11 +12,12 @@
         [deletedIds]="(deletedIds$ | async)"
         [total]="(pagination$ | async)?.total"
         [displayedColumns]="['id', 'especieAtividade.nome', 'especieTarefaFrom.nome', 'especieTarefaTo.nome', 'actions']"
-        [actions]="['cancel', 'edit', 'create', 'delete']"
+        [actions]="['cancel', 'edit', 'create', 'delete', 'actions']"
         (cancel)="cancel()"
         (reload)="reload($event)"
         (edit)="edit($event)"
         (create)="create()"
+        (acoes)="acoes()"
         (delete)="delete($event)">
     </cdk-transicao-workflow-grid>
 </div>

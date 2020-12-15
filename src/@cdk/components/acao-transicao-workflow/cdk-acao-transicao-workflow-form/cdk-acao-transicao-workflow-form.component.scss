@@ -1,0 +1,25 @@
+@import "../../../scss/partials/cdk-form";
+
+cdk-acao-transicao-workflow-form {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+
+    mat-radio-group {
+        padding: 16px;
+        display: flex;
+        flex-wrap: wrap;
+
+        &.horizontal {
+            flex-direction: row;
+        }
+
+        &.vertical {
+            flex-direction: column;
+        }
+    }
+
+    mat-radio-button {
+        margin-right: 10px;
+    }
+}

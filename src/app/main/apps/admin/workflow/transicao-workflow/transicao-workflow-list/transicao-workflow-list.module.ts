@@ -32,6 +32,13 @@ const routes: Routes = [
     {
         path: '',
         component: TransicaoWorkflowListComponent,
+        children: [
+            {
+                path       : 'acoes',
+                loadChildren: () => import('./acao-transicao-workflow/acao-transicao-workflow.module')
+                    .then(m => m.AcaoTransicaoWorkflowModule)
+            }
+        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
