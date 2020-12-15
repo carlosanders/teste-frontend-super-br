@@ -182,7 +182,7 @@
             [control]="form.get('tipoSigilo')"
             [pagination]="tipoSigiloPagination">
         </cdk-tipo-sigilo-autocomplete>
-        <button *ngIf="form.get('tipoSigilo').enabled" matSuffix mat-button mat-icon-button
+        <button *ngIf="form.get('tipoSigilo')?.enabled" matSuffix mat-button mat-icon-button
                 (click)="showTipoSigiloGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
