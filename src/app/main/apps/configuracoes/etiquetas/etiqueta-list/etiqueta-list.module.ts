@@ -24,6 +24,7 @@ import * as fromGuards from './store/guards';
 import {CdkEtiquetaGridModule} from '@cdk/components/etiqueta/cdk-etiqueta-grid/cdk-etiqueta-grid.module';
 import {LoginService} from '../../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -67,6 +68,7 @@ modulesConfig.forEach((module) => {
         CdkEtiquetaGridModule,
 
         EtiquetaListStoreModule,
+        PathModule,
     ],
     providers: [
         EtiquetaService,

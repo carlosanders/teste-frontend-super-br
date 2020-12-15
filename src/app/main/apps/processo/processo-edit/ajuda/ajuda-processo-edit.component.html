@@ -60,19 +60,21 @@
                 UNIDADE ARQUIVÍSTICA
               </mat-panel-title>
             </mat-expansion-panel-header>
-           <p>
+            <p>
                Existem três tipos de unidade arquivística:
+            </p>
+            <ul>
                 <li>Processo: Conjunto das peças apresentadas para servir à instrução e ao julgamento de uma questão</li>
                 <li>Documento Avulso: Um ofício, utilizado para comunicação externa</li>
                 <li>Pasta/Dossiê: Nem tudo é um processo administrativo. Pode ser apenas uma pasta, um depósito de documentos</li>
-           </p>
+            </ul>
         </mat-expansion-panel>
         <p style="text-align: justify;text-indent: 20px">
             Após a escolha da Unidade Arquivística mais apropriada, é necessário informar os Dados do Protocolo
             O sistema precisa saber se o usuário deseja <strong>Atribuir Novo Protocolo</strong> ou <strong>Informar Protocolo Existente</strong>.
             Essa escolha é importante porque o processo em questão pode já existir no Sapiens.
         </p>
-        <div style="background-color: #d3d3d3;">
+        <div class="atencao">
             <p>
                 <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
             </p>
@@ -91,19 +93,24 @@
         <h3><strong>Preenchendo os dados do processo</strong></h3>
         <p style="text-align: justify;margin-left: 40px">
             1. No campo <strong>Processo de Trabalho</strong>, preenche-se a informação relacionada ao "tipo" do processo, sendo possível escolher entre as opções:
-                <li>Administrativo</li>
-                <li>Consultivo</li>
-                <li>Correicional</li>
         </p>
+        <ul style="text-align: justify;margin-left: 40px">  
+            <li>Administrativo</li>
+            <li>Consultivo</li>
+            <li>Correicional</li>
+        </ul>  
+        
         <p style="background-color: #d3d3d3;margin-left: 40px">
             É possível preencher o campo e escolher a espécie relacionada ou escolher a opção desejada na <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii"> e selecionar por meio do botão <img src="assets/images/ajuda/escolheropcao.png" class="fr-fic fr-dii">.
         </p>
         <p style="text-align: justify;margin-left: 40px">
             2. No campo <strong>Meio</strong>, é preenchido o formato do processo, sendo possível escolher entre as opções:
-                <li>Físico</li>
-                <li>Eletrônico</li>
-                <li>Híbrido</li>
         </p>
+        <ul style="text-align: justify;margin-left: 40px">        
+            <li>Físico</li>
+            <li>Eletrônico</li>
+            <li>Híbrido</li>
+        </ul>
         <p style="text-align: justify;margin-left: 40px">
             3. O campo <strong>Classificação</strong> deve ser atribuído de acordo com o <strong>Plano de Classificação da AGU</strong>, o qual é relacionado
             aos assuntos do CONARQ - Conselho Nacional de Arquivologia. Existem várias opções, aparecendo uma opção de paginação na parte inferior, sendo possível navegar entre os intervalos
@@ -123,16 +130,22 @@
             A classificação determina o agrupamento de documentos em unidades menores e o agrupamento destas em unidades maiores, formando o arquivo do órgão ou entidade. Para tanto, deve tomar por base o conteúdo do documento, que reflete a atividade que o gerou e determina o uso da informação nele contida. <br><br>
             A classificação também define a organização física dos documentos, constituindo-se em referencial básico para sua recuperação. <br><br>
             Os objetivos da classificação são:
+            </p>
+            <ul>
                 <li>Estabelecer a relação orgânica dos documentos arquivísticos;</li>
                 <li>Assegurar que os documentos sejam identificados de forma consistente ao longo do tempo;</li>
                 <li>Auxiliar a recuperação de todos os documentos arquivísticos relacionados a uma determinada função ou atividade;</li>
                 <li>Possibilitar a avaliação de um grupo de documentos de forma que os documentos associados sejam transferidos, recolhidos ou eliminados em conjunto.</li><br><br>
-            A classificação deve se basear no plano de classificação e envolve os seguintes passos:
+            </ul>
+            <p style="text-align: justify;"> 
+                A classificação deve se basear no plano de classificação e envolve os seguintes passos:
+            </p>
+            <ul>
                 <li>Identificar a ação que o documento registra;</li>
                 <li>Localizar a ação ou atividade no plano de classificação;</li>
                 <li>Comparar a atividade com a estrutura organizacional para verificar se é apropriada à unidade que gerou o documento;</li>
                 <li>Aplicar a classificação ao documento.</li>   
-           </p>
+            </ul>
         </mat-expansion-panel>
         <p style="text-align: justify;margin-left: 40px">
             4. É também necessário colocar um <strong>Título</strong> e um <strong>Setor Responsável</strong> pelo processo.
@@ -192,23 +205,166 @@
         <div class="row" style="background-color: #d3d3d3;">
             <strong>Para maiores informações:</strong><br><br>
             <div class="column">
-                <li><a href="javascript:void(0)" (click)="carregar('assuntos')">Assuntos</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('interessados')">Interessados</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('tarefas')">Tarefas</a></li>
-                <li><a href="javascript:void(0)" (click)="carregar('juntadas')">Juntadas</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('vinculacoes')">Vinculações</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('oficios')">Ofícios</a></li>
+                <ul>
+                    <li><a href="javascript:void(0)" (click)="carregar('assuntos')">Assuntos</a></li> 
+                    <li><a href="javascript:void(0)" (click)="carregar('interessados')">Interessados</a></li> 
+                    <li><a href="javascript:void(0)" (click)="carregar('tarefas')">Tarefas</a></li>
+                    <li><a href="javascript:void(0)" (click)="carregar('juntadas')">Juntadas</a></li> 
+                    <li><a href="javascript:void(0)" (click)="carregar('vinculacoes')">Vinculações</a></li> 
+                    <li><a href="javascript:void(0)" (click)="carregar('oficios')">Ofícios</a></li>
+                </ul>
             </div>
             <div class="column">
-                <li><a href="javascript:void(0)" (click)="carregar('tramitacoes')">Tramitações</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('remessas')">Remessas</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('transicoes')">Transições</a></li>
-                <li><a href="javascript:void(0)" (click)="carregar('sigilos')">Sigilos</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('visibilidades')">Restrições de Acesso</a></li> 
+                <ul>
+                    <li><a href="javascript:void(0)" (click)="carregar('tramitacoes')">Tramitações</a></li> 
+                    <li><a href="javascript:void(0)" (click)="carregar('remessas')">Remessas</a></li> 
+                    <li><a href="javascript:void(0)" (click)="carregar('transicoes')">Transições</a></li>
+                    <li><a href="javascript:void(0)" (click)="carregar('sigilos')">Sigilos</a></li> 
+                    <li><a href="javascript:void(0)" (click)="carregar('visibilidades')">Restrições de Acesso</a></li>
+                </ul>
             </div>
         </div>        
         <hr>
         <p><br></p>
+        <h3><strong>VÍDEOS COMPLEMENTARES</strong></h3>
+
+        <h4>Dados Básicos - Parte 1 </h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/XcUrT1FnZB4" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Dados Básicos - Parte 2</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/fFGGVQyBbQo" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Dados Básicos - Parte 3</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/u3Pnx6MGfrQ" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Editando Dados Básicos</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/Yu47Tn4-gow" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+
+
+        <h4>Cadastrar documento avulso</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/CusNyCxbLJI" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Cadastrar pasta/dossiê </h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/Ijl1eA4qOZM" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Informar protocolo existente</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/_XGVs0gQaZ0" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Importando dados de processo existente no sistema</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/2RjuixFyPeU" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+
+        <h4>Distribuição - Parte 1</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/NtM1AF4wQPA" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Distribuição - Parte 2</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/VFU8zpzZpXc" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Favoritos e Histórico</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/sDm4tz9JjMI" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Como utilizar o filtro</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/pXx6ohg91ko" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Download: como fazer o download integral ou parcial de um processo?</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/xdg3MwX3iLE" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Preenchimento de campos de Data e Hora</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/oLY4Qy68pms" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Listas e Tabelas: Navegação</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/t8iBf_ESqB8" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Listas e Tabelas: Colunas</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/RpxLk1bQZzw" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Navegando pelos documentos do processo</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/aJ4qUS7dAr8" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
     </div>
     <div *ngIf="titulo === 'assuntos'">
         <ajuda-assuntos></ajuda-assuntos>

@@ -16,6 +16,8 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../../store/selectors';
 import {Criteria, Usuario} from '@cdk/models';
 import {Back} from 'app/store/actions';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../../../../store/reducers';
 
 @Component({
     selector: 'regra-edit',
@@ -26,7 +28,7 @@ import {Back} from 'app/store/actions';
     animations: cdkAnimations
 })
 export class RegraEditComponent implements OnInit, OnDestroy {
-
+    routerState: any;
     regra$: Observable<Regra>;
     regra: Regra;
     isSaving$: Observable<boolean>;
@@ -72,6 +74,7 @@ export class RegraEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.RegraEditAppState>,
+        private _router: Router,
         public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -98,6 +101,14 @@ export class RegraEditComponent implements OnInit, OnDestroy {
             newCriteria.mapeamento = criteria.mapeamento;
             this.especieCriteriaList.push(newCriteria);
         });
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------

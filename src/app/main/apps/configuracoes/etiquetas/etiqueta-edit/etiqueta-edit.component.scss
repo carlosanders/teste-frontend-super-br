@@ -1,28 +1,21 @@
 etiqueta-edit {
-    display: flex;
     flex: 1 1 auto;
-
-    .page-layout {
-        flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    > .header {
+        flex: 0 1 auto;
         display: flex;
         flex-direction: row;
-
-        .locked-open {
-            box-shadow: none !important;
-            border-right: 1px solid rgba(0, 0, 0, 0.12);
-        }
-
-        > .center {
-            flex: 1 1 auto;
-            display: flex;
-            flex-direction: column;
-
-            > .content {
-                flex: 1 1 auto;
-                display: flex;
-                height: 0;
-                padding: 16px;
-            }
-        }
+        justify-content: flex-start;
+        align-items: center;
+        padding: 24px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        overflow-y: auto;
+        height: 0;
+        padding: 16px
     }
 }

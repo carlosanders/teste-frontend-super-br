@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="people"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="pessoas">
+    </path>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-admin-pessoa-form
         [pessoa]="(pessoa$ | async)"

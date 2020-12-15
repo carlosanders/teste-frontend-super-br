@@ -22,6 +22,7 @@ import * as fromGuards from './store/guards';
 import {RegraService} from '@cdk/services/regra.service';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkRegraGridModule} from '@cdk/components/regra/cdk-regra-grid/cdk-regra-grid.module';
+import {PathModule} from '../../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -65,6 +66,7 @@ modulesConfig.forEach((module) => {
         RegraListStoreModule,
 
         CdkRegraGridModule,
+        PathModule,
     ],
     providers: [
         RegraService,

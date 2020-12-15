@@ -23,6 +23,7 @@ import * as fromGuards from './store/guards';
 import {CdkSetorGridModule} from '@cdk/components/setor/cdk-setor-grid/cdk-setor-grid.module';
 import {LoginService} from '../../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -61,7 +62,8 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
         CdkSetorGridModule,
-        UnidadesOrgaoCentralListStoreModule
+        UnidadesOrgaoCentralListStoreModule,
+        PathModule
     ],
     providers: [
         SetorService,

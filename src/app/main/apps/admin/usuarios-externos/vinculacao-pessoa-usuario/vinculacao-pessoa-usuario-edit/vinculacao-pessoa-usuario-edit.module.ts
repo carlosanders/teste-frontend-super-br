@@ -7,6 +7,7 @@ import * as fromGuards from './store/guards';
 import {VinculacaoPessoaUsuarioService} from '@cdk/services/vinculacao-pessoa-usuario.service';
 import {CdkVinculacaoPessoaUsuarioFormModule} from '../../../../../../../@cdk/components/vinculacao-pessoa-usuario/cdk-vinculacao-pessoa-usuario-form/cdk-vinculacao-pessoa-usuario-form.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -30,7 +31,8 @@ modulesConfig.forEach((module) => {
         CommonModule,
         RouterModule.forChild(routes),
         VinculacaoPessoaUsuarioEditStoreModule,
-        CdkVinculacaoPessoaUsuarioFormModule
+        CdkVinculacaoPessoaUsuarioFormModule,
+        PathModule
     ],
     providers: [
         fromGuards.ResolveGuard,

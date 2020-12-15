@@ -28,6 +28,7 @@ import {EspecieTarefaService} from '../../../../../../@cdk/services/especie-tare
 import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.service';
 import {CdkEspecieTarefaFormModule} from '../../../../../../@cdk/components/especie-tarefa/cdk-especie-tarefa-form/cdk-especie-tarefa-form.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -72,7 +73,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
         MatStepperModule,
         EspecieTarefaEditStoreModule,
-        CdkEspecieTarefaFormModule
+        CdkEspecieTarefaFormModule,
+        PathModule
 
     ],
     providers: [

@@ -25,6 +25,7 @@ import * as fromGuards from './store/guards';
 import {ClassificacaoEditStoreModule} from './store/store.module';
 import {ClassificacaoService} from '../../../../../../@cdk/services/classificacao.service';
 import {CdkClassificacaoFormModule} from '@cdk/components/classificacao/cdk-classificacao-form/cdk-classificacao-form.module';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 
 const routes: Routes = [
@@ -63,7 +64,8 @@ const routes: Routes = [
         CdkSidebarModule,
         MatStepperModule,
         ClassificacaoEditStoreModule,
-        CdkClassificacaoFormModule
+        CdkClassificacaoFormModule,
+        PathModule
 
     ],
     providers: [

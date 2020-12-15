@@ -14,6 +14,8 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from '../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../store/reducers';
 
 @Component({
     selector: 'perfil',
@@ -24,7 +26,7 @@ import {Usuario} from '@cdk/models';
     animations: cdkAnimations
 })
 export class PerfilComponent implements OnInit, OnDestroy {
-
+    routerState: any;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
@@ -35,11 +37,19 @@ export class PerfilComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.ProfileAppState>,
+        private _router: Router,
         public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.usuario = this._loginService.getUserProfile();
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------

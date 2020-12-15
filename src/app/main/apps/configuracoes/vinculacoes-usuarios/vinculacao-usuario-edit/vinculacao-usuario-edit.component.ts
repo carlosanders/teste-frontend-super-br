@@ -17,6 +17,8 @@ import {Usuario} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Back} from '../../../../../store/actions';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../../store/reducers';
 
 @Component({
     selector: 'vinculacao-usuario-edit',
@@ -27,6 +29,7 @@ import {Back} from '../../../../../store/actions';
     animations: cdkAnimations
 })
 export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
+    routerState: any;
     vinculacaoUsuario$: Observable<VinculacaoUsuario>;
     vinculacaoUsuario: VinculacaoUsuario;
     isSaving$: Observable<boolean>;
@@ -44,6 +47,7 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.VinculacaoUsuarioEditAppState>,
+        private _router: Router,
         public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -53,6 +57,14 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
 
         this.usuarioVinculadoPagination = new Pagination();
         this.logEntryPagination = new Pagination();
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------

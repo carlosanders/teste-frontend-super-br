@@ -5,7 +5,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import { modulesConfig } from '../../../modules/modules-config';
 import {RoleGuard} from './role.guard';
 
-const routes = [ 
+const routes = [
     {
         path        : 'painel',
         loadChildren: () => import('./painel/painel.module').then(m => m.PainelModule),

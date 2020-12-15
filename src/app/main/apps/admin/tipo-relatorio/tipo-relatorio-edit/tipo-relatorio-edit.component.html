@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="assessment"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="tipos-relatorios">
+    </path>
+</div>
 <div class="content" cdkPerfectScrollbar>
     <cdk-tipo-relatorio-form
         [tipoRelatorio]="(tipoRelatorio$ | async)"

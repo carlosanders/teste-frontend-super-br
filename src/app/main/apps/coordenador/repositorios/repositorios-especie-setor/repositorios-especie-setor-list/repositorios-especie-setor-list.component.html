@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="add_comment"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="repositorios">
+    </path>
+</div>
 <cdk-vinculacao-repositorio-grid
     [loading]="(loading$ | async)"
     [vinculacaoRepositorios]="(vinculacoesRepositorios$ | async)"

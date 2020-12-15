@@ -28,6 +28,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {CdkNumeroUnicoDocumentoFormModule} from '@cdk/components/numero-unico-documento/cdk-numero-unico-documento-form/cdk-numero-unico-documento-form.module';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -74,6 +75,7 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
         CdkNumeroUnicoDocumentoFormModule,
+        PathModule,
     ],
     providers: [
         NumeroUnicoDocumentoService,

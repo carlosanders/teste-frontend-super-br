@@ -37,12 +37,14 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
     usuario$: Observable<Usuario>;
     modalidadeAfastamentoPagination: Pagination;
+    linkCaminhos: [object] = [{}];
 
     /**
      *
      * @param _store
      * @param _router
      * @param _loginService
+     * @param sanitized
      */
     constructor(
         private _store: Store<fromStore.AfastamentoEditAppState>,
@@ -95,6 +97,37 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    // carregarCaminho(caminho: string, inicioPath: string) {
+    //     let caminhoAux = '';
+    //     let caminhoAnterior = '';
+    //     let chave = '';
+    //     let valor = '';
+    //     const posicao = caminho.search(inicioPath);
+    //     const raiz = caminho.slice(0, posicao-1);
+    //     caminho = caminho.slice(posicao, caminho.length);
+    //     const arrayCaminho = caminho.split("/");
+    //     console.log("arrayCaminho", arrayCaminho);
+    //     arrayCaminho.forEach((c:string) => {
+    //         if(c) {
+    //             // caminhoAux += '/' + c;
+    //             if (!Number(c) && c!=='editar') {
+    //                 caminhoAux += '/' + c;
+    //                 chave = `${raiz}${caminhoAux}/listar`;
+    //                 valor = c;
+    //                 caminhoAnterior = c;
+    //                 this.linkCaminhos.push({link: chave, label: valor});
+    //             } else if(c!=='editar') {
+    //                 chave = `${raiz}${caminhoAux}/editar/${c}`;
+    //                 caminhoAux += '/' + c;
+    //                 valor = `${caminhoAnterior} ${c}`;
+    //                 this.linkCaminhos.push({link: chave, label: valor});
+    //             }
+    //         }
+    //     });
+    //     this.linkCaminhos.shift();
+    //     console.log("this.linkCaminhos", this.linkCaminhos);
+    // }
 
     doAbort(): void {
         this._store.dispatch(new Back());
