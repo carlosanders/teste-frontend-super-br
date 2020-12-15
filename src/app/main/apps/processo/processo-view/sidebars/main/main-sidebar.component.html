@@ -231,8 +231,7 @@
                                 <span>Apagar Minuta</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura(minuta)"
-                                    mat-menu-item
-                                    *ngIf="!minuta.assinado">
+                                    mat-menu-item>
                                 <mat-icon color="accent">lock</mat-icon>
                                 <span>Assinar</span>
                             </button>
@@ -354,8 +353,7 @@
                                 <span>Apagar Minuta</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura(oficio)"
-                                    mat-menu-item
-                                    *ngIf="!oficio.assinado">
+                                    mat-menu-item>
                                 <mat-icon color="accent">lock</mat-icon>
                                 <span>Assinar</span>
                             </button>
@@ -544,8 +542,7 @@
                     </button>
 
                     <button mat-menu-item aria-label="assinar juntada"
-                            (click)="doAssinaturaJuntada(juntada.documento)"
-                            *ngIf="!juntada.documento.assinado">
+                            (click)="doAssinaturaJuntada(juntada.documento)">
                         <ng-container>
                             <mat-icon>lock</mat-icon>
                             <span>Assinar</span>
