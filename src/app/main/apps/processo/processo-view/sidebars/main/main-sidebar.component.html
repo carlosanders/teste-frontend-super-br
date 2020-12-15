@@ -486,7 +486,7 @@
                          class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                         <mat-icon class="s-14">picture_as_pdf</mat-icon>
                         <span class="ml-4"
-                              [ngClass]="{'current-tipo-documento': index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{juntada.documento.tipoDocumento.nome}}</span>
+                              [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{juntada.documento.tipoDocumento.nome}}</span>
                         <div *ngIf="j>0">{{j + 1}}</div>
                         <mat-icon class="ml-4 s-24"
                                   *ngIf="index[currentStep.step][currentStep.subStep] === componenteDigital.id">

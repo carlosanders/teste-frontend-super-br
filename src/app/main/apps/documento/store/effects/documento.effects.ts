@@ -260,7 +260,7 @@ export class DocumentoEffect {
                     if (this.routerState.url.indexOf('/assinaturas') > -1) {
                         type = '/assinaturas';
                     }
-                    let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1].split('?')[0];
+                    let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
                     if (componenteDigital.apagadoEm) {
                         sidebar = 'editar/restaurar';
                     }

@@ -41,7 +41,7 @@
         <!-- CONTENT -->
         <div class="content">
 
-            <div *ngIf="!capa && !vinculacao && !documentoAvulso" class="processo-view-juntada">
+            <div *ngIf="!capa && !vinculacao && !documentoAvulso && !loading" class="processo-view-juntada">
 
                 <div class="loading" *ngIf="loading">
                     <mat-spinner diameter="24"></mat-spinner>

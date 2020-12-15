@@ -2,7 +2,7 @@
     <div class="title">{{processo?.especieProcesso?.nome}} ({{processo?.especieProcesso?.generoProcesso?.nome}})</div>
 </div>
 
-<div class="content" cdkPerfectScrollbar>
+<div class="content" cdkPerfectScrollbar *ngIf="(processo$ | async)">
     <mat-card>
         <mat-grid-list cols="4" rowHeight="20px">
             <mat-grid-tile
@@ -168,6 +168,55 @@
                 [colspan]="3"
                 [rowspan]="1">
                 {{ processo.localizador }}
+            </mat-grid-tile>
+        </mat-grid-list>
+    </mat-card>
+
+    <mat-card>
+        <mat-card-subtitle>Informações Gerenciais</mat-card-subtitle>
+        <mat-grid-list cols="4" rowHeight="20px">
+            <mat-grid-tile
+                [colspan]="1"
+                [rowspan]="1">
+                <span class="subtitle">Id:</span>
+            </mat-grid-tile>
+            <mat-grid-tile
+                [colspan]="3"
+                [rowspan]="1">
+                {{ processo.id }}
+            </mat-grid-tile>
+
+            <mat-grid-tile
+                [colspan]="1"
+                [rowspan]="1">
+                <span class="subtitle">Chave Acesso:</span>
+            </mat-grid-tile>
+            <mat-grid-tile
+                [colspan]="3"
+                [rowspan]="1">
+                {{ processo.chaveAcesso }}
+            </mat-grid-tile>
+
+            <mat-grid-tile
+                [colspan]="1"
+                [rowspan]="1">
+                <span class="subtitle">Criado Por:</span>
+            </mat-grid-tile>
+            <mat-grid-tile
+                [colspan]="3"
+                [rowspan]="1">
+                {{ processo.criadoPor.nome }}
+            </mat-grid-tile>
+
+            <mat-grid-tile *ngIf="processo.atualizadoPor"
+                           [colspan]="1"
+                           [rowspan]="1">
+                <span class="subtitle">Atualizador Por:</span>
+            </mat-grid-tile>
+            <mat-grid-tile
+                [colspan]="3"
+                [rowspan]="1">
+                {{ processo.atualizadoPor.nome }}
             </mat-grid-tile>
         </mat-grid-list>
     </mat-card>
