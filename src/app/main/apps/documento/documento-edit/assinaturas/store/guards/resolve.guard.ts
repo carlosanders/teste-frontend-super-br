@@ -60,7 +60,8 @@ export class ResolveGuard implements CanActivate {
                     const params = {
                         filter: {
                             'componenteDigital.id': 'eq:' + this.routerState.params.componenteDigitalHandle
-                        }
+                        },
+                        populate: ['populateAll']
                     };
                     this._store.dispatch(new fromStore.GetAssinaturas(params));
                 }

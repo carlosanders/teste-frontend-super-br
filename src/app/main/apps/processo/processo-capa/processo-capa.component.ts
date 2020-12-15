@@ -112,7 +112,8 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         });
 
         this.processo$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter(processo => !!processo)
         ).subscribe(processo => {
             this.processo = processo;
         });

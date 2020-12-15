@@ -55,7 +55,7 @@ const routes: Routes = [
     },
     {
         path: '**',
-        redirectTo: 'capa/mostrar'
+        redirectTo: 'default'
     }
 ];
 
