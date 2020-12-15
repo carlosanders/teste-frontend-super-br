@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
 
 import {select, Store} from '@ngrx/store';
 
@@ -10,7 +10,7 @@ import {ProcessoViewAppState} from 'app/main/apps/processo/processo-view/store/r
 import * as fromStore from 'app/main/apps/processo/processo-view/store';
 import {getJuntadasLoaded} from 'app/main/apps/processo/processo-view/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getCurrentStep, getCurrentStepLoaded, getDocumentosHasLoaded} from 'app/main/apps/processo/processo-view/store';
+import {getDocumentosHasLoaded} from 'app/main/apps/processo/processo-view/store';
 
 
 @Injectable()
@@ -21,10 +21,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<ProcessoViewAppState>} _store
+     * @param _store
+     * @param _router
+     * @param _activatedRoute
      */
     constructor(
-        private _store: Store<ProcessoViewAppState>
+        private _store: Store<ProcessoViewAppState>,
+        private _router: Router,
+        private _activatedRoute: ActivatedRoute
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -55,10 +59,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkStore(): Observable<any> {
-        return forkJoin(
-            this.getJuntadas(),
-            this.getCurrentStep()
-        ).pipe(
+        return forkJoin([this.getJuntadas()]).pipe(
             filter(([juntadasLoaded]) => !!(juntadasLoaded)),
             take(1),
             switchMap(() => this.getDocumentos())
@@ -112,29 +113,6 @@ export class ResolveGuard implements CanActivate {
             }),
             filter((loaded: any) => {
                 return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
-            take(1)
-        );
-    }
-
-    /**
-     * Get Componente Digital
-     *
-     * @returns {Observable<any>}
-     */
-    getCurrentStep(): any {
-        return this._store.pipe(
-            select(getCurrentStepLoaded),
-            tap((loaded: any) => {
-                if (this.routerState.params['stepHandle'] && (this.routerState.params['stepHandle'] !== 'capa')
-                    && (this.routerState.params['stepHandle'] !== loaded)) {
-                    const steps = this.routerState.params['stepHandle'].split('-');
-                    this._store.dispatch(new fromStore.SetCurrentStep({step: steps[0], subStep: steps[1]}));
-                }
-            }),
-            filter((loaded: any) => {
-                return (!this.routerState.params['stepHandle'] || this.routerState.params['stepHandle'] === 'capa')
-                    || (this.routerState.params['stepHandle'] === loaded);
             }),
             take(1)
         );
