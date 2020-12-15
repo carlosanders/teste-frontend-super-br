@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="subject"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="lotacoes">
+    </path>
+</div>
 <cdk-lotacao-grid
         [loading]="(loading$ | async)"
         [lotacoes]="(lotacoes$ | async)"

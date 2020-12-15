@@ -27,6 +27,7 @@ import {ModeloService} from '@cdk/services/modelo.service';
 import * as fromGuards from './store/guards';
 import {LoginService} from '../../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -69,6 +70,7 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
         CdkSidebarModule,
+        PathModule,
     ],
     providers: [
         ModeloService,

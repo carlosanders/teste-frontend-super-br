@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="security"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="seguranca">
+    </path>
+</div>
 <div class="content">
     <cdk-seguranca-form
         [saving]="(isSaving$ | async)"

@@ -23,6 +23,7 @@ import * as fromGuards from './store/guards';
 import {CdkVinculacaoUsuarioGridModule} from '@cdk/components/vinculacao-usuario/cdk-vinculacao-usuario-grid/cdk-vinculacao-usuario-grid.module';
 import {LoginService} from '../../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -66,6 +67,7 @@ modulesConfig.forEach((module) => {
         CdkVinculacaoUsuarioGridModule,
 
         VinculacaoUsuarioListStoreModule,
+        PathModule,
     ],
     providers: [
         VinculacaoUsuarioService,
