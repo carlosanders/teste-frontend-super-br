@@ -279,7 +279,6 @@ export class ProcessoViewEffect {
                             }
                         ).then();
                     } else {
-                        console.log(this.routerState.url);
                         this._router.navigateByUrl(this.routerState.url.split('/processo/' +
                             this.routerState.params.processoHandle +
                             '/visualizar')[0] + '/processo/' +
