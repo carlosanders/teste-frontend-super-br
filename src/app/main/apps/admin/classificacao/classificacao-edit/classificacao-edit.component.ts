@@ -71,7 +71,8 @@ export class ClassificacaoEditComponent implements OnInit {
             prazoGuardaFaseIntermediariaMes: [null],
             prazoGuardaFaseIntermediariaAno: [null],
             prazoGuardaFaseIntermediariaEvento: [null],
-            observacao: [null, [Validators.maxLength(255)]]
+            observacao: [null, [Validators.maxLength(255)]],
+            tipoSigilo: [null]
         });
     }
 
