@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="file_copy"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="modelos">
+    </path>
+</div>
 <cdk-modelo-grid
         [loading]="(loading$ | async)"
         [modelos]="(modelos$ | async)"

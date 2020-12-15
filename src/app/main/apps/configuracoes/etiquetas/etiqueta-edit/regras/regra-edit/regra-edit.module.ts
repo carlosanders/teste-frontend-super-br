@@ -27,6 +27,7 @@ import * as fromGuards from './store/guards';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {RegraService} from '@cdk/services/regra.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -75,6 +76,7 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
         CdkRegraFormModule,
+        PathModule,
     ],
     providers: [
         RegraService,

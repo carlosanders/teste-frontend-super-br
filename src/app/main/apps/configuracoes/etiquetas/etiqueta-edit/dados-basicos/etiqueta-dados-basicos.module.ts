@@ -26,6 +26,7 @@ import {EtiquetaService} from '@cdk/services/etiqueta.service';
 
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -72,6 +73,7 @@ modulesConfig.forEach((module) => {
 
         CdkSharedModule,
         CdkSidebarModule,
+        PathModule,
     ],
     providers: [
         EtiquetaService,

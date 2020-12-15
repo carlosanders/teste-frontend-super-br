@@ -23,6 +23,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {CdkNumeroUnicoDocumentoGridModule} from '@cdk/components/numero-unico-documento/cdk-numero-unico-documento-grid/cdk-numero-unico-documento-grid.module';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -65,6 +66,7 @@ modulesConfig.forEach((module) => {
 
         NumeroUnicoDocumentoListStoreModule,
         CdkNumeroUnicoDocumentoGridModule,
+        PathModule,
     ],
     providers: [
         NumeroUnicoDocumentoService,

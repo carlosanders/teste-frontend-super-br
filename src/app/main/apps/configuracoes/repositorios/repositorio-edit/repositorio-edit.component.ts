@@ -17,6 +17,8 @@ import {Pagination} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Back} from '../../../../../store/actions';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../../store/reducers';
 
 @Component({
     selector: 'repositorio-edit',
@@ -27,7 +29,7 @@ import {Back} from '../../../../../store/actions';
     animations: cdkAnimations
 })
 export class RepositorioEditComponent implements OnInit, OnDestroy {
-
+    routerState: any;
     repositorio$: Observable<Repositorio>;
     repositorio: Repositorio;
     isSaving$: Observable<boolean>;
@@ -45,6 +47,7 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.RepositorioEditAppState>,
+        private _router: Router,
         public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -54,6 +57,14 @@ export class RepositorioEditComponent implements OnInit, OnDestroy {
 
         this.modalidadeRepositorioPagination = new Pagination();
         this.logEntryPagination = new Pagination();
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------

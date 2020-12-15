@@ -23,6 +23,7 @@ import * as fromGuards from './store/guards';
 import {CdkAcaoListModule} from '@cdk/components/acao/cdk-acao-list/cdk-acao-list.module';
 import {AcaoService} from '../../../../../../../../@cdk/services/acao.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -66,6 +67,7 @@ modulesConfig.forEach((module) => {
         CdkAcaoListModule,
 
         AcaoListStoreModule,
+        PathModule,
     ],
     providers: [
         EtiquetaService,

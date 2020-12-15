@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="assignment"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="etiquetas">
+    </path>
+</div>
 <cdk-regra-grid
         [loading]="(loading$ | async)"
         [regras]="regras"

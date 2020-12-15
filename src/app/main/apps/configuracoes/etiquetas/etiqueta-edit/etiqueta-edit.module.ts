@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 import * as fromGuards from './store/guards';
 import {EtiquetaStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -53,7 +54,7 @@ modulesConfig.forEach((module) => {
     declarations   : [
         EtiquetaEditComponent,
     ],
-    imports        : [
+    imports: [
         CommonModule,
         RouterModule.forChild(routes),
 
@@ -66,7 +67,8 @@ modulesConfig.forEach((module) => {
         EtiquetaStoreModule,
 
         CdkSharedModule,
-        CdkSidebarModule
+        CdkSidebarModule,
+        PathModule
     ],
     providers      : [
         fromGuards.ResolveGuard

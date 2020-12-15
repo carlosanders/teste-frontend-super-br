@@ -1,4 +1,4 @@
-<div class="header">
+<div class="header-a">
     <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
             (click)="doCreate()"
             aria-label="novo"
@@ -7,7 +7,7 @@
     </button>
 </div>
 
-<div class="content" cdkPerfectScrollbar>
+<div class="content-a" cdkPerfectScrollbar>
     <div class="loading" *ngIf="loading">
         <mat-spinner class="visibilidade-list-loading" diameter="32"></mat-spinner>
     </div>

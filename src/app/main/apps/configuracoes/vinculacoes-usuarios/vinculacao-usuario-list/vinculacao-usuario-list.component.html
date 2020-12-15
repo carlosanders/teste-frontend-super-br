@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="group"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="assessores">
+    </path>
+</div>
 <cdk-vinculacao-usuario-grid
         [loading]="(loading$ | async)"
         [vinculacoesUsuarios]="(vinculacoesUsuarios$ | async)"

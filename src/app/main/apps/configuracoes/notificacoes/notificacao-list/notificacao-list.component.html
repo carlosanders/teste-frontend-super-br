@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="notifications"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="notificacoes">
+    </path>
+</div>
 <cdk-notificacao-grid
         [loading]="(loading$ | async)"
         [notificacoes]="(notificacoes$ | async)"
