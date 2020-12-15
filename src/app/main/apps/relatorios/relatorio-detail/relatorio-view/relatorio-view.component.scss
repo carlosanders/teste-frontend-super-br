@@ -1,6 +1,9 @@
 @import "../../../../../../@cdk/scss/cdk";
 
 relatorio-view {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
 
     > .header {
         flex: 0 1 auto;

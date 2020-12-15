@@ -44,10 +44,8 @@ processo-view-main-sidebar {
         flex-direction: column;
 
         > .documentos-juntados-title {
-            padding-left: 24px;
-            padding-top: 15px;
             font-size: 15px;
-            height: 55px;
+            height: 48px;
         }
 
         > .juntadas {
@@ -83,15 +81,12 @@ processo-view-main-sidebar {
         }
 
         .minuta {
-            flex: 0 0 auto;
+            flex: 1 0 auto;
             display: flex;
             justify-content: flex-start;
             align-items: center;
             padding: 16px;
             cursor: pointer;
-            background: whitesmoke;
-            margin-top: 2px;
-            box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
 
             .index {
 
@@ -236,7 +231,6 @@ processo-view-main-sidebar {
             align-items: center;
             padding: 16px;
             cursor: pointer;
-            background: whitesmoke;
             margin-top: 2px;
             box-shadow: 0 2px 1px -1px rgba(0, 0, 0, .2), 0 1px 1px 0 rgba(0, 0, 0, .14), 0 1px 3px 0 rgba(0, 0, 0, .12);
 

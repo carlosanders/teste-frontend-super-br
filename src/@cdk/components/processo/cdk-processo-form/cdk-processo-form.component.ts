@@ -287,8 +287,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('processoOrigem').disable();
             }
         }
-        console.log(this.mostraDataHoraDesarquivamento);
-        this.mostraDataHoraDesarquivamento = (this.processo.setorAtual.especieSetor.nome === 'ARQUIVO') && (this._profile.colaborador.lotacoes.filter(lotacao => lotacao.setor.especieSetor.nome === 'ARQUIVO').length > 0); 
+
+        this.mostraDataHoraDesarquivamento = (this.processo?.setorAtual?.especieSetor?.nome === 'ARQUIVO') &&
+            (this._profile.colaborador.lotacoes.filter(lotacao => lotacao.setor.especieSetor.nome === 'ARQUIVO').length > 0);
 
         this.form.get('temProcessoOrigem').valueChanges.subscribe(value => {
             if (value) {

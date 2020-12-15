@@ -44,11 +44,11 @@
               </mat-panel-title>
             </mat-expansion-panel-header>
            <p> 
-            ANEXAÇÃO é a união <strong>definitiva e irreversível</strong> de um ou mais processos/documentos avulsos a outro processo/documento avulso considerado principal, <strong>desde que pertencentes ao um mesmo interessado que contenham o mesmo assunto</strong>.<br><br>
-            Após a anexação, os documentos que estavam juntados no processo/documento avulso vinculado são migrados de forma definitiva para o processo principal. Todos os andamentos passam a ocorrer apenas no processo principal, sendo o vinculado encerrado.<br><br>
-            APENSAMENTO é a união provisória de um ou mais processos/documentos avulsos a um processo/documento avulso mais antigo, mantendo cada um a sua numeração específica, destinada ao estudo e à uniformidade de tratamento em matéria semelhante, com o mesmo interessado ou não.<br><br>
-            Para realizar o apensamento é necessário que ambos os NUPs estejam no mesmo setor atual e, após isso, passam a tramitar conjuntamente. Ou seja, ao tramitar o NUP principal para outro setor, o NUP apensado será tramitado conjuntamente.<br><br>
-            REMISSÃO é a mera referência a outro NUP, por necessidade gerencial, sem qualquer consequência para os documentos ou tramitações. Podem estar em setores e até em unidades diferentes. Em suma, é apenas um apontamento no sentido de que o outro NUP, de alguma forma, se correlaciona com o principal.<br><br>
+                ANEXAÇÃO é a união <strong>definitiva e irreversível</strong> de um ou mais processos/documentos avulsos a outro processo/documento avulso considerado principal, <strong>desde que pertencentes ao um mesmo interessado que contenham o mesmo assunto</strong>.<br><br>
+                Após a anexação, os documentos que estavam juntados no processo/documento avulso vinculado são migrados de forma definitiva para o processo principal. Todos os andamentos passam a ocorrer apenas no processo principal, sendo o vinculado encerrado.<br><br>
+                APENSAMENTO é a união provisória de um ou mais processos/documentos avulsos a um processo/documento avulso mais antigo, mantendo cada um a sua numeração específica, destinada ao estudo e à uniformidade de tratamento em matéria semelhante, com o mesmo interessado ou não.<br><br>
+                Para realizar o apensamento é necessário que ambos os NUPs estejam no mesmo setor atual e, após isso, passam a tramitar conjuntamente. Ou seja, ao tramitar o NUP principal para outro setor, o NUP apensado será tramitado conjuntamente.<br><br>
+                REMISSÃO é a mera referência a outro NUP, por necessidade gerencial, sem qualquer consequência para os documentos ou tramitações. Podem estar em setores e até em unidades diferentes. Em suma, é apenas um apontamento no sentido de que o outro NUP, de alguma forma, se correlaciona com o principal.<br><br>
           </p>
         </mat-expansion-panel>
         <hr>
@@ -94,16 +94,47 @@
         <div class="row" style="background-color: #d3d3d3;">
             <strong>Para maiores informações:</strong><br><br>
             <div class="column">
-                <li><a href="javascript:void(0)" (click)="carregar('assuntos')">Assuntos</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('interessados')">Interessados</a></li>
-                <li><a href="javascript:void(0)" (click)="carregar('tramitacoes')">Tramitações</a></li> 
+                <ul>
+                    <li><a href="javascript:void(0)" (click)="carregar('assuntos')">Assuntos</a></li> 
+                    <li><a href="javascript:void(0)" (click)="carregar('interessados')">Interessados</a></li>
+                    <li><a href="javascript:void(0)" (click)="carregar('tramitacoes')">Tramitações</a></li> 
+                </ul>
             </div>
             <div class="column">
-                <li><a href="javascript:void(0)" (click)="carregar('sigilos')">Sigilos</a></li> 
-                <li><a href="javascript:void(0)" (click)="carregar('visibilidades')">Restrições de Acesso</a></li> 
+                <ul>
+                    <li><a href="javascript:void(0)" (click)="carregar('sigilos')">Sigilos</a></li> 
+                    <li><a href="javascript:void(0)" (click)="carregar('visibilidades')">Restrições de Acesso</a></li>
+                </ul> 
             </div>
         </div>
         <p><br></p>
+        <h3><strong>VÍDEOS COMPLEMENTARES</strong></h3>
+
+        <h4>Vinculações</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/wv3QD5O_9k0" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Como vincular processos?</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/urwT9nWpSlk" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Como alterar a vinculação ou desvincular processos?</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/jcbdfVrl9zM" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+
     </div>
     <div *ngIf="titulo === 'assuntos'">
         <ajuda-assuntos></ajuda-assuntos>
