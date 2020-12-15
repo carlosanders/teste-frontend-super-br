@@ -28,6 +28,7 @@ import {EspecieSetorService} from '../../../../../../@cdk/services/especie-setor
 import {ColaboradorService} from '../../../../../../@cdk/services/colaborador.service';
 import {CdkEspecieSetorFormModule} from '../../../../../../@cdk/components/especie-setor/cdk-especie-setor-form/cdk-especie-setor-form.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -72,7 +73,8 @@ modulesConfig.forEach((module) => {
         CdkSidebarModule,
         MatStepperModule,
         EspecieSetorEditStoreModule,
-        CdkEspecieSetorFormModule
+        CdkEspecieSetorFormModule,
+        PathModule
 
     ],
     providers: [

@@ -23,6 +23,7 @@ import * as fromGuards from './store/guards';
 import {CdkLotacaoGridModule} from '@cdk/components/lotacao/cdk-lotacao-grid/cdk-lotacao-grid.module';
 import {LoginService} from '../../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -66,6 +67,7 @@ modulesConfig.forEach((module) => {
         CdkLotacaoGridModule,
 
         RootLotacaoListStoreModule,
+        PathModule,
     ],
     providers: [
         LotacaoService,

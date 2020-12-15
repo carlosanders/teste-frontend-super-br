@@ -85,7 +85,7 @@
         </h3>
         <p style="text-align: justify;margin-left: 40px">
             1. No menu lateral esquerdo, clique em
-            <strong>Tarefas&nbsp;</strong>&gt;
+            <strong>Tarefas</strong>>
             <strong>Administrativas</strong>:
         </p>
         <p style="text-align: center;">
@@ -128,25 +128,89 @@
                 <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
             </p>
             <p>    
-                Caso o processo esteja com alguma <strong>Tramita&ccedil;&atilde;o Externa</strong> em andamento, a abertura da Atividade <strong>n&atilde;o</strong> ser&aacute; realizada        </p>
+                Caso o processo esteja com alguma <strong>Tramitação Externa</strong> em andamento, a abertura da Atividade <strong>não</strong> será realizada        
+            </p>
 
         </div>
         <div class="row" style="background-color: #d3d3d3;">
             <strong>Para maiores informações:</strong><br><br>
             <div class="column">
-                <li><a href="javascript:void(0)" (click)="carregar('oficios')">Ofícios</a></li> 
+                <ul>
+                    <li><a href="javascript:void(0)" (click)="carregar('oficios')">Ofícios</a></li>
+                </ul>
             </div>
             <div class="column">
-                <li><a href="javascript:void(0)" (click)="carregar('atividadesbloco')">Lançando atividades em bloco</a></li>  
+                <ul>
+                    <li><a href="javascript:void(0)" (click)="carregar('atividadesbloco')">Lançando atividades em bloco</a></li>  
+                </ul>
             </div>
         </div>
         <hr>
+        <p><br></p>
+
+        <h3><strong>VÍDEOS COMPLEMENTARES</strong></h3>
+
+        <h4>Como lançar ciência em uma tarefa?</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/k_csLGRteCM" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Como lançar uma atividade em uma tarefa?</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/HBrn0A46lkw" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+
+        <h4>Como criar uma tarefa?</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/MuK5GgSPQ20" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Como lançar uma atividade juntando documentos ao processo? </h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/u7mWaZczmDs" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Como editar tarefas em lote</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/C-T4qcBDa8I" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Editor de minuta</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/khZ9cIPoWd4" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><br></p>
+
+        <h4>Como submeter uma minuta de documento à aprovação?</h4>
+        <iframe width="400" height="225" 
+            src="https://www.youtube.com/embed/Rt6uoJQ2ri0" frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
         <p><br></p>
     </div>
     <!-- LINK FUTURO DE COMUNICAÇÃO  -->
     <div *ngIf="titulo === 'oficios'">
         <ajuda-oficios></ajuda-oficios>
-        <a href="javascript:void(0)" (click)="carregar('atividades')">Voltar ao <strong>Criar Tarefas</strong></a>
+        <a href="javascript:void(0)" (click)="carregar('atividades')">Voltar ao <strong>Lançando atividades</strong></a>
     </div>
     <div *ngIf="titulo === 'atividadesbloco'">
         <ajuda-atividade-create-bloco></ajuda-atividade-create-bloco>

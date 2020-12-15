@@ -26,6 +26,7 @@ import {TransicaoWorkflowStoreModule} from './store/store.module';
 import {CdkTransicaoWorkflowGridModule} from '../../../../../../../@cdk/components/transicao-workflow/cdk-transicao-workflow-grid/cdk-transicao-workflow-grid.module';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
+import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -67,7 +68,8 @@ modulesConfig.forEach((module) => {
         MatDatepickerModule,
         MatDialogModule,
         TransicaoWorkflowStoreModule,
-        CdkTransicaoWorkflowGridModule
+        CdkTransicaoWorkflowGridModule,
+        PathModule
     ],
     providers: [
         ResolveGuard

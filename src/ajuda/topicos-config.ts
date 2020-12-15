@@ -33,6 +33,9 @@ import {topicosConfig as pesquisaTopicosConfig} from '../app/main/apps/pesquisa/
 
 
 
+
+
+
 export let topicosConfig = [
     ...tarefaCreateTopicosConfig,
     ...tarefaCompartilhamentoCreateTopicosConfig,

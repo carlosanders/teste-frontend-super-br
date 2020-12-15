@@ -26,6 +26,7 @@ import {EspecieRelevanciaStoreModule} from './store/store.module';
 import {CdkEspecieRelevanciaGridModule} from '../../../../../../@cdk/components/especie-relevancia/cdk-especie-relevancia-grid/cdk-especie-relevancia-grid.module';
 import {ResolveGuard} from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -67,7 +68,8 @@ modulesConfig.forEach((module) => {
         MatDatepickerModule,
         MatDialogModule,
         EspecieRelevanciaStoreModule,
-        CdkEspecieRelevanciaGridModule
+        CdkEspecieRelevanciaGridModule,
+        PathModule
     ],
     providers: [
         ResolveGuard

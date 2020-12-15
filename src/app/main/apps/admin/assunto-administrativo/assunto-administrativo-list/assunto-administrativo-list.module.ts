@@ -25,6 +25,7 @@ import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -59,7 +60,8 @@ const routes: Routes = [
         MatNativeDatetimeModule,
         MatMomentDatetimeModule,
         MatDatepickerModule,
-        MatDialogModule
+        MatDialogModule,
+        PathModule
     ],
     providers: [
         fromGuards.ResolveGuard,

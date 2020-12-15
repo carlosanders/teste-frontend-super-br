@@ -26,6 +26,7 @@ import {EspecieAtividadeStoreModule} from './store/store.module';
 import {CdkEspecieAtividadeGridModule} from '../../../../../../@cdk/components/especie-atividade/cdk-especie-atividade-grid/cdk-especie-atividade-grid.module';
 import {ResolveGuard} from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -67,7 +68,8 @@ modulesConfig.forEach((module) => {
         MatDatepickerModule,
         MatDialogModule,
         EspecieAtividadeStoreModule,
-        CdkEspecieAtividadeGridModule
+        CdkEspecieAtividadeGridModule,
+        PathModule
     ],
     providers: [
         ResolveGuard

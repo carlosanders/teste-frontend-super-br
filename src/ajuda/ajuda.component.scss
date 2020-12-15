@@ -1,7 +1,44 @@
-@import "src/@cdk/scss/cdk";
-
 ajuda {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
 
+    > .header{
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
+        align-self: stretch;
+    }
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        padding: 16px;
+        align-self: stretch;
+        > .form {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: column;
+        }
+        > .campo {
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: column;
+            align-self: stretch;
+        }
+    }
+    > .footer {
+        display: flex;
+        flex: 0 1 auto;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 16px;
+        .options {
+            margin: 0 8px 0 8px;
+        }
+    }
     .topico-titulo {
         cursor: pointer;
         color: #1d75b3;
