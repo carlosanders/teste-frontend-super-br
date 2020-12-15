@@ -73,6 +73,10 @@ cdk-assinatura-grid {
             display: flex;
             flex-direction: column;
             padding: 8px;
+
+            > .content {
+                height: 0;
+            }
         }
 
         .responsive-grid[max-width~="600px"] {
