@@ -160,7 +160,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa';
+                this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa' ||
+                    routerState.state.params.stepHandle === 'default';
                 this.vinculacao = routerState.state.url.indexOf('/vincular') !== -1;
                 this.documentoAvulso = routerState.state.url.indexOf('visualizar/' + routerState.state.params.stepHandle + '/oficio') !== -1;
                 this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
@@ -175,7 +176,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
-        if (this.capa && this.routerState.url.indexOf('mostrar') === -1) {
+        if (this.capa && (this.routerState.url.indexOf('default') === -1 && this.routerState.url.indexOf('mostrar') === -1)) {
             if (this.routerState.url.indexOf('/documento/') !== -1 &&
                 (this.routerState.url.indexOf('anexar-copia') !== -1 || this.routerState.url.indexOf('visualizar-processo') !== -1)) {
                 // Navegação do processo deve ocorrer por outlet
@@ -213,7 +214,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-        if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+        if (this.routerState.url.indexOf('anexar-copia') === -1) {
             this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
         }
         if (this.tarefa) {

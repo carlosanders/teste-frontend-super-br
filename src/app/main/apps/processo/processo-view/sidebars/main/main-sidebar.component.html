@@ -487,7 +487,7 @@
                               [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{juntada.documento.tipoDocumento.nome}}</span>
                         <div *ngIf="j>0">{{j + 1}}</div>
                         <mat-icon class="ml-4 s-24"
-                                  *ngIf="index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                                  *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
                             arrow_left
                         </mat-icon>
                     </div>
@@ -503,7 +503,7 @@
                                   [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}</span>
                             <div *ngIf="z>0">{{z + 1}}</div>
                             <mat-icon class="ml-4 s-24"
-                                      *ngIf="index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                                      *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
                                 arrow_left
                             </mat-icon>
                         </div>

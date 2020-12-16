@@ -89,7 +89,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     capaProcesso: boolean;
 
     @Input()
-    capa: boolean;
+    capa: boolean = true;
 
     tarefa: boolean = false;
 
