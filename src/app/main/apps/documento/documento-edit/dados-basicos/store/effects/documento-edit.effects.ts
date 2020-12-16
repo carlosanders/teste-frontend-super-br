@@ -15,6 +15,8 @@ import {Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as DocumentoActions from '../../../../store/actions/documento.actions';
+import * as fromStore from '../../../../componente-digital/store';
+import {DownloadComponenteDigital} from '../../../../componente-digital/store';
 
 @Injectable()
 export class DocumentoEditEffects {
@@ -56,7 +58,6 @@ export class DocumentoEditEffects {
                         mergeMap((response: Documento) => [
                             new DocumentoEditActions.SaveDocumentoSuccess(),
                             new AddData<Documento>({data: [response], schema: documentoSchema}),
-                            new DocumentoActions.GetDocumento(),
                             new OperacoesActions.Resultado({
                                 type: 'documento',
                                 content: `Documento id ${response.id} editado com sucesso!`,
