@@ -136,7 +136,6 @@ areaTrabalho.define({
 });
 
 assinatura.define({
-    componenteDigital: componenteDigital,
     origemDados: origemDados,
     usuario: usuario,
     criadoPor: usuario,

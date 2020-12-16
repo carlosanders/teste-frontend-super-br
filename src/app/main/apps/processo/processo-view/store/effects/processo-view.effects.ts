@@ -226,17 +226,47 @@ export class ProcessoViewEffect {
                         }
                     } else if (pagination.offset === 0 && this.routerState.params['stepHandle'] &&
                         this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
-                        this._router.navigateByUrl(this.routerState.url.replace('/processo/' +
-                            this.routerState.params.processoHandle +
-                            '/visualizar', '/processo/' +
-                            this.routerState.params.processoHandle + '/visualizar/' + this.routerState.params['stepHandle']))
-                            .then(() => {
+                        if (this.routerState.url.indexOf('/documento/') !== -1) {
+                            // Navegação do processo deve ocorrer por outlet
+                            this._router.navigate(
+                                [
+                                    this.routerState.url.split('/documento/')[0] + '/documento/' +
+                                    this.routerState.params.documentoHandle,
+                                    {
+                                        outlets: {
+                                            primary: [
+                                                this.routerState.url.indexOf('anexar-copia') === -1 ?
+                                                    'visualizar-processo' : 'anexar-copia',
+                                                this.routerState.params.processoHandle,
+                                                'visualizar',
+                                                this.routerState.params['stepHandle']
+                                            ]
+                                        }
+                                    }
+                                ],
+                                {
+                                    relativeTo: this._activatedRoute.parent
+                                }
+                            ).then(() => {
                                 const steps = this.routerState.params['stepHandle'].split('-');
                                 this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                                     step: steps[0],
                                     subStep: steps[1]
                                 }));
                             });
+                        } else {
+                            this._router.navigateByUrl(this.routerState.url.split('/processo/' +
+                                this.routerState.params.processoHandle +
+                                '/visualizar')[0] + '/processo/' +
+                                this.routerState.params.processoHandle + '/visualizar/' + this.routerState.params['stepHandle'])
+                                .then(() => {
+                                    const steps = this.routerState.params['stepHandle'].split('-');
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: steps[0],
+                                        subStep: steps[1]
+                                    }));
+                                });
+                        }
                     }
                 }),
                 catchError((err, caught) => {

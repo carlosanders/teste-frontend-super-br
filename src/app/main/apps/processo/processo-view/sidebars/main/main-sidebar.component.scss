@@ -80,6 +80,13 @@ processo-view-main-sidebar {
             }
         }
 
+        .sem-minutas {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
         .minuta {
             flex: 1 0 auto;
             display: flex;

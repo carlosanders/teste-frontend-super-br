@@ -30,6 +30,7 @@ import {Assunto} from '@cdk/models/assunto.model';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {getBufferingDelete, getDeletingTarefaIds} from '../selectors';
 import * as fromStore from '../index';
+import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
 
 @Injectable()
 export class TarefasEffect {
@@ -113,6 +114,8 @@ export class TarefasEffect {
                             '/processo/' + action.payload.processoId + '/acesso-negado']
                         ).then();
                     } else {
+                        this._store.dispatch(new UnloadJuntadas({reset: true}));
+                        this._store.dispatch(new UnloadDocumentos());
                         this._router.navigate([
                             'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
                             this.routerState.params.typeHandle + '/' +
