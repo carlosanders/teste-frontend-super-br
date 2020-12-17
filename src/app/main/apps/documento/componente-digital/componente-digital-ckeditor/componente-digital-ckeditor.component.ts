@@ -77,15 +77,15 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                     this.mode = 'documento';
                 }
 
-                if (this.routerState.url.indexOf('/modelo/') > -1) {
+                if (this.routerState.url.indexOf('sidebar:modelo/') > -1) {
                     this.mode = 'modelo';
                 }
 
-                if (this.routerState.url.indexOf('/repositorio/') > -1) {
+                if (this.routerState.url.indexOf('sidebar:repositorio/') > -1) {
                     this.mode = 'repositorio';
                 }
 
-                if (this.routerState.url.indexOf('/template/') > -1) {
+                if (this.routerState.url.indexOf('sidebar:template/') > -1) {
                     this.mode = 'template';
                 }
             }
