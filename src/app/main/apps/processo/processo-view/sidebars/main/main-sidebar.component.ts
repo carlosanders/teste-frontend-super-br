@@ -19,15 +19,16 @@ import {Observable, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getMercureState, getRouterState} from '../../../../../../store/reducers';
-import {getProcesso} from '../../../store/selectors';
+import {getMercureState, getRouterState} from '../../../../../../store';
+import {getProcesso} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {getTarefa} from '../../../../tarefas/tarefa-detail/store/selectors';
+import {getTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {MatDialog} from '@cdk/angular/material';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -136,6 +137,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      * @param _formBuilder
      * @param _router
      * @param _activatedRoute
+     * @param _loginService
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -145,7 +147,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         private _store: Store<fromStore.ProcessoViewAppState>,
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _loginService: LoginService
     ) {
         this.form = this._formBuilder.group({
             volume: [null],
@@ -232,7 +235,37 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
         this.modeloPagination = new Pagination();
         this.modeloPagination.filter = {
-            'modalidadeModelo.valor': 'eq:EM BRANCO'
+            orX: [
+                {
+                    'modalidadeModelo.valor': 'eq:EM BRANCO'
+                },
+                {
+                    // Modelos individuais
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                },
+                {
+                    // Modelos do setor
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.setor.id': 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')
+                },
+                {
+                    // Modelos da unidade por especie de setor
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.unidade.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                },
+                {
+                    // Modelos nacionais
+                    'modalidadeModelo.valor': 'eq:NACIONAL',
+                    'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                }
+            ]
         };
     }
 
