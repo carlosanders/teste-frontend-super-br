@@ -134,7 +134,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     }
                     const byteArray = new Uint8Array(byteNumbers);
                     const blob = new Blob([byteArray], {type: binary.src.mimetype});
-                    const   URL = window.URL;
+                    const URL = window.URL;
                     this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                     this.fileName = binary.src.fileName;
                     this.select.emit(binary.src);
@@ -234,6 +234,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
      * Go to next step
      */
     gotoNextStep(): void {
+        console.log(this.currentStep);
         if (this.currentStep.step === this.totalSteps - 1 && this.currentStep.subStep === this.index[this.currentStep.step].length - 1) {
             return;
         }
@@ -290,6 +291,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     navigateToStep(step: string): void {
+        let newSteps = step.split('-');
         if (this.routerState.url.indexOf('/documento/') !== -1) {
             // Navegação do processo deve ocorrer por outlet
             this._router.navigate(
@@ -311,11 +313,16 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 {
                     relativeTo: this._activatedRoute.parent
                 }
-            ).then();
+            ).then(() => {
+                this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+            });
         } else {
             this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
                 '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + step).then();
+                this.routerState.params.processoHandle + '/visualizar/' + step)
+                .then(() => {
+                    this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                });
         }
     }
 
