@@ -244,6 +244,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                     'modalidadeModelo.valor': 'eq:INDIVIDUAL',
                     'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
                 },
+            ]
+        };
+        if (this._loginService.isGranted('ROLE_COLABORADOR')) {
+            this.modeloPagination.filter.orX = [
+                ...this.modeloPagination.filter.orX,
                 {
                     // Modelos do setor
                     'modalidadeModelo.valor': 'eq:LOCAL',
@@ -260,13 +265,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 {
                     // Modelos nacionais
                     'modalidadeModelo.valor': 'eq:NACIONAL',
-                    'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
+                    'vinculacoesModelos.orgaoCentral.id': 'in:'
                         + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'vinculacoesModelos.especieSetor.id': 'in:'
                         + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
                 }
-            ]
-        };
+
+            ];
+        }
     }
 
     /**
