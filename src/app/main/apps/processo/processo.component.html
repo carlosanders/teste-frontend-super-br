@@ -58,13 +58,17 @@
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
-                    <button mat-menu-item aria-label="imprimir etiqueta" (click)="arquivarProcesso()">
+                    <button mat-menu-item aria-label="arquivar processo"
+                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                            (click)="arquivarProcesso()">
                         <ng-container>
                             <mat-icon>archive</mat-icon>
                             <span>Arquivar</span>
                         </ng-container>
                     </button>
-                    <button mat-menu-item aria-label="imprimir etiqueta" (click)="imprimirEtiqueta()">
+                    <button mat-menu-item aria-label="imprimir etiqueta"
+                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                            (click)="imprimirEtiqueta()">
                         <ng-container>
                             <mat-icon>video_label</mat-icon>
                             <span>Imprimir Etiqueta</span>
