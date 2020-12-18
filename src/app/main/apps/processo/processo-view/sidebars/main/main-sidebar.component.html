@@ -534,7 +534,9 @@
                         </ng-container>
                     </button>
 
-                    <button mat-menu-item aria-label="editar" (click)="onClickedMinuta(juntada.documento)">
+                    <button mat-menu-item aria-label="editar"
+                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                            (click)="onClickedMinuta(juntada.documento)">
                         <ng-container>
                             <mat-icon>edit</mat-icon>
                             <span>Editar</span>
@@ -550,6 +552,7 @@
                     </button>
 
                     <button mat-menu-item aria-label="adicionar vinculação"
+                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
                             (click)="doAdicionarVinculacao(juntada.id)">
                         <ng-container>
                             <mat-icon>link</mat-icon>
@@ -558,7 +561,7 @@
                     </button>
 
                     <button mat-menu-item aria-label="remover vinculações" (click)="doRemoverVinculacoes(juntada)"
-                            *ngIf="juntada.documento.vinculacoesDocumentos.length > 0">
+                            *ngIf="juntada.documento.vinculacoesDocumentos.length > 0 && this._loginService.isGranted('ROLE_COLABORADOR')">
                         <ng-container>
                             <mat-icon>lock</mat-icon>
                             <span>Desvincular</span>

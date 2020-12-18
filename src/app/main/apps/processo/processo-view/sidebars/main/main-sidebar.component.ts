@@ -413,11 +413,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 {
                     relativeTo: this._activatedRoute.parent
                 }
-            ).then();
+            ).then(() => {
+                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
+            });
         } else {
             this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
                 '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + step + '-0').then();
+                this.routerState.params.processoHandle + '/visualizar/' + step + '-0').then(() => {
+                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
+            });
         }
     }
 
