@@ -527,6 +527,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         ]).then();
     }
 
+    showModelosGrid(): void {
+        this.formEditor.get('modelo').setValue(null);
+        this.menuTriggerList.closeMenu();
+        this._router.navigate([
+            this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
+            '/visualizar/' + this.routerState.params.stepHandle + '/modelos'
+        ]).then();
+    }
+
     doAssinatura(documento: Documento): void {
         const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'

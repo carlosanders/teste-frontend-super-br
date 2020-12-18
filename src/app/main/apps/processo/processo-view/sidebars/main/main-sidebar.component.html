@@ -53,6 +53,10 @@
                         [control]="formEditor.get('modelo')"
                         [pagination]="modeloPagination">
                     </cdk-modelo-autocomplete>
+                    <button matSuffix mat-button mat-icon-button
+                            (click)="showModelosGrid()">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
                 </mat-form-field>
                 <button mat-raised-button color="accent" [disabled]="!formEditor.valid" (click)="doEditor()">
                     EDITAR

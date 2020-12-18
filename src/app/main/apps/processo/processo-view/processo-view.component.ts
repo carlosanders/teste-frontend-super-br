@@ -78,6 +78,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     documentoAvulso = false;
 
+    modelos = false;
+
     @Output()
     select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
@@ -164,6 +166,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     routerState.state.params.stepHandle === 'default';
                 this.vinculacao = routerState.state.url.indexOf('/vincular') !== -1;
                 this.documentoAvulso = routerState.state.url.indexOf('visualizar/' + routerState.state.params.stepHandle + '/oficio') !== -1;
+                this.modelos = routerState.state.url.indexOf('/modelos') !== -1;
                 this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
             }
         });
