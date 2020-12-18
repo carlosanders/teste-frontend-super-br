@@ -367,7 +367,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.menuTriggerList.closeMenu();
     }
 
-    modelo(): void {
+    goToModelo(): void {
+        this.formEditor.get('modelo').setValue(null);
+        this.menuTriggerList.closeMenu();
         this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/modelo']).then();
     }
 

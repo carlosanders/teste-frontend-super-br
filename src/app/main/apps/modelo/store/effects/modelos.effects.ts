@@ -56,8 +56,8 @@ export class ModelosEffect {
                     new ModelosActions.GetModelosSuccess({
                         entitiesId: response['entities'].map(modelo => modelo.id),
                         loaded: {
-                            id: this.routerState.params.processoHandle ? 'processoHandle' : 'tarefaHandle',
-                            value: this.routerState.params.processoHandle ? this.routerState.params.processoHandle : this.routerState.params.tarefaHandle
+                            id: this.routerState.params.tarefaHandle ? 'tarefaHandle' : 'processoHandle',
+                            value: this.routerState.params.tarefaHandle ? this.routerState.params.tarefaHandle : this.routerState.params.processoHandle
                         },
                         total: response['total']
                     })
