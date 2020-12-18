@@ -561,7 +561,7 @@
                     </button>
 
                     <button mat-menu-item aria-label="remover vinculações" (click)="doRemoverVinculacoes(juntada)"
-                            *ngIf="juntada.documento.vinculacoesDocumentos.length > 0 && this._loginService.isGranted('ROLE_COLABORADOR')">
+                            *ngIf="juntada.documento.vinculacoesDocumentos.length > 0 && _loginService.isGranted('ROLE_COLABORADOR')">
                         <ng-container>
                             <mat-icon>lock</mat-icon>
                             <span>Desvincular</span>
