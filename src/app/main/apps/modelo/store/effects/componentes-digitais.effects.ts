@@ -157,19 +157,34 @@ export class ComponenteDigitalEffect {
                     const primary = 'componente-digital/' + action.payload.componenteDigitalId;
                     let sidebar = 'editar/' + action.payload.routeDocumento;
 
-                    this._router.navigate([
-                            this.routerState.url.replace('modelo', action.payload.routeTarefa + '/documento') + '/' + action.payload.documentoId,
-                            {
-                                outlets: {
-                                    primary: primary,
-                                    sidebar: sidebar
+                    if (this.routerState.url.indexOf('processo') !== -1) {
+                        this._router.navigate([
+                                this.routerState.url.split('processo/')[0] + 'processo/' + this.routerState.params.processoHandle
+                                + '/visualizar/' + this.routerState.params.stepHandle + '/documento/' + action.payload.documentoId,
+                                {
+                                    outlets: {
+                                        primary: primary,
+                                        sidebar: sidebar
+                                    }
                                 }
-                            }
-                        ],
-                        {
-                            relativeTo: this._activatedRoute.parent
-                        }).then();
+                            ],
+                            {
+                                relativeTo: this._activatedRoute.parent
+                            }).then();
+                    } else {
+                        this._router.navigate([
+                                this.routerState.url.replace('modelo', action.payload.routeTarefa + '/documento') + '/' + action.payload.documentoId,
+                                {
+                                    outlets: {
+                                        primary: primary,
+                                        sidebar: sidebar
+                                    }
+                                }
+                            ],
+                            {
+                                relativeTo: this._activatedRoute.parent
+                            }).then();
+                    }
                 })
             );
-
 }

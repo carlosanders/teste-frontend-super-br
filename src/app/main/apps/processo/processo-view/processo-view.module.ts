@@ -47,6 +47,10 @@ const routes: Routes = [
                     .then(m => m.DocumentoAvulsoCreateModule)
             },
             {
+                path       : 'modelos',
+                loadChildren: () => import('app/main/apps/modelo/modelo.module').then(m => m.ModeloModule)
+            },
+            {
                 path       : 'vincular',
                 loadChildren: () => import('app/main/apps/processo/processo-edit/juntadas/vinculacao-documento-create/vinculacao-documento-create.module')
                     .then(m => m.VinculacaoDocumentoCreateModule)
