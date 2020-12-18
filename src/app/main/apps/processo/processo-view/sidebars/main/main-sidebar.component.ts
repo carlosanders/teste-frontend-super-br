@@ -148,7 +148,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        private _loginService: LoginService
+        public _loginService: LoginService
     ) {
         this.form = this._formBuilder.group({
             volume: [null],
