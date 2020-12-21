@@ -97,7 +97,6 @@ export class CdkAcaoTransicaoWorkflowFilterComponent implements OnInit {
             }
         });
 
-        //o-- verificar se precisa desta injeção
         this.form.get('criadoEm').valueChanges.subscribe(value => {
             if (value !== null) {
                 this.filters = {

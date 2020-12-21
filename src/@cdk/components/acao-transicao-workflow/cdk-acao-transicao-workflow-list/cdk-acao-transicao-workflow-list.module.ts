@@ -13,7 +13,6 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkAcaoTransicaoWorkflowListComponent} from './cdk-acao-transicao-workflow-list.component';
 import {CdkAcaoTransicaoWorkflowListItemComponent} from './cdk-acao-transicao-workflow-list-item/cdk-acao-transicao-workflow-list-item.component';
 import {TranslateModule} from '@ngx-translate/core';
-import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 
 @NgModule({
@@ -38,8 +37,6 @@ import {LoginService} from 'app/main/auth/login/login.service';
         CdkSharedModule,
     ],
     providers: [
-        //o-- verificar esta service
-        ProcessoService,
         LoginService
     ],
     exports: [

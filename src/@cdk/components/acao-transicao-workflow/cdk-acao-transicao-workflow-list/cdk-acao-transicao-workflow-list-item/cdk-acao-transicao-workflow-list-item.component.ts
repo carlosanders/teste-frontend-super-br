@@ -6,13 +6,10 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {Acao} from '@cdk/models';
-//o-- rever model
-import {LoginService} from 'app/main/auth/login/login.service';
-import {Colaborador} from '@cdk/models';
+import {AcaoTransicaoWorkflow} from '@cdk/models/acao-transicao-workflow.model';
 
 @Component({
-    selector: 'cdk-acao-list-item',
+    selector: 'cdk-acao-transicao-workflow-list-item',
     templateUrl: './cdk-acao-transicao-workflow-list-item.component.html',
     styleUrls: ['./cdk-acao-transicao-workflow-list-item.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,7 +18,7 @@ import {Colaborador} from '@cdk/models';
 export class CdkAcaoTransicaoWorkflowListItemComponent implements OnInit {
 
     @Input()
-    acao: Acao;
+    acao: AcaoTransicaoWorkflow;
 
     @Input()
     deleting: boolean;
@@ -32,10 +29,7 @@ export class CdkAcaoTransicaoWorkflowListItemComponent implements OnInit {
     @Output()
     delete = new EventEmitter<number>();
 
-    colaborador: Colaborador;
-
-    constructor(public _loginService: LoginService) {
-        this.colaborador = _loginService.getUserProfile().colaborador;
+    constructor() {
         this.deleting = false;
     }
 

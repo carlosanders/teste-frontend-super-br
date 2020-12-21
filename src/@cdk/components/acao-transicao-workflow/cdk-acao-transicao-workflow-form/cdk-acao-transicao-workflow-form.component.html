@@ -2,7 +2,6 @@
 
     <label id="acoes-rg">Selecione a ação</label>
     <mat-radio-group class="poderes-rg"
-                     *ngIf="this.form.get('etiqueta').value.modalidadeEtiqueta?.valor === 'TAREFA'"
                      formControlName="trigger" aria-labelledby="acoes-rg" required>
         <mat-radio-button
             [value]="'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001'">
@@ -29,15 +28,6 @@
             {{form.get('modelo').errors.formError}}
         </mat-error>
     </mat-form-field>
-
-    <mat-radio-group class="poderes-rg"
-                     *ngIf="this.form.get('etiqueta').value.modalidadeEtiqueta?.valor === 'PROCESSO'"
-                     formControlName="trigger" aria-labelledby="acoes-rg" required>
-        <mat-radio-button
-            [value]="'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0002'">
-            Gera uma notificação sempre que o processo tiver uma juntada
-        </mat-radio-button>
-    </mat-radio-group>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 

@@ -3,21 +3,16 @@ cdk-acao-transicao-workflow-list {
     display: flex;
     flex-direction: column;
 
-    > .header {
-        flex: 0 1 auto;
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: center;
+    > .actions {
         padding: 8px;
     }
 
     > .content {
-
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
         overflow-y: auto;
+        padding: 8px;
 
         > .loading {
             flex: 1 1 auto;
@@ -26,17 +21,17 @@ cdk-acao-transicao-workflow-list {
             align-items: center;
         }
 
-        > .items {
-            display: flex;
-            flex-direction: column;
-            flex: 1 1 auto;
-        }
-
         > .no-acoes-text {
             display: flex;
             flex: 1 1 auto;
             justify-content: center;
             align-items: center;
+        }
+
+        > .items {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
         }
 
     }

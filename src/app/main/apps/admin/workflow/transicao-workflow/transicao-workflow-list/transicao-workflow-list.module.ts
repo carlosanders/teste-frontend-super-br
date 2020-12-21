@@ -32,18 +32,11 @@ const routes: Routes = [
     {
         path: '',
         component: TransicaoWorkflowListComponent,
-        children: [
-            {
-                path       : 'acoes',
-                loadChildren: () => import('./acao-transicao-workflow/acao-transicao-workflow.module')
-                    .then(m => m.AcaoTransicaoWorkflowModule)
-            }
-        ],
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
-const path = 'app/main/apps/admin/transicao-workflow/transicao-workflow-list';
+const path = 'app/main/apps/admin/workflow/transicao-workflow/transicao-workflow-list';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {

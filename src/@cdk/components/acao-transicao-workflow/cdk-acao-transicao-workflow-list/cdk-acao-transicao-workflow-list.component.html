@@ -1,4 +1,4 @@
-<div class="header">
+<div class="actions">
     <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
             (click)="doCreate()"
             aria-label="novo"
@@ -13,12 +13,12 @@
     </div>
 
     <div class="items" *ngIf="acoes.length > 0 && !loading">
-        <cdk-acao-list-item matRipple *ngFor="let acao of acoes" [acao]="acao"
+        <cdk-acao-transicao-workflow-list-item matRipple *ngFor="let acao of acoes" [acao]="acao"
                             [deleting]="deletingIds.length > 0 && deletingIds.indexOf(acao.id) > -1"
                             [total]="acoes.length"
                             (delete)="doDeleteacao($event)"
                             [@animate]="{value:'*',params:{y:'100%'}}">
-        </cdk-acao-list-item>
+        </cdk-acao-transicao-workflow-list-item>
     </div>
 
     <div class="no-acoes-text" *ngIf="acoes.length === 0 && !loading">

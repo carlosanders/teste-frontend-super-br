@@ -1,22 +1,22 @@
-import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Acao} from '@cdk/models';
+import {AcaoTransicaoWorkflow} from '@cdk/models/acao-transicao-workflow.model';
 
 @Component({
-    selector: 'cdk-acao-list',
+    selector: 'cdk-acao-transicao-workflow-list',
     templateUrl: './cdk-acao-transicao-workflow-list.component.html',
     styleUrls: ['./cdk-acao-transicao-workflow-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkAcaoTransicaoWorkflowListComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkAcaoTransicaoWorkflowListComponent {
 
     @Input()
     loading: boolean;
 
     @Input()
-    acoes: Acao[] = [];
+    acoes: AcaoTransicaoWorkflow[] = [];
 
     @Input()
     deletingIds: number[] = [];
@@ -51,21 +51,12 @@ export class CdkAcaoTransicaoWorkflowListComponent implements AfterViewInit, OnI
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    ngOnChanges(): void {
-    }
-
-    ngOnInit(): void {
-    }
-
-    ngAfterViewInit(): void {
-    }
-
     loadPage(): void {
         this.reload.emit();
     }
 
-    doDeleteacao(acaoId): void {
-        this.delete.emit(acaoId);
+    doDeleteacao(acaoTransicaoWorkflowId): void {
+        this.delete.emit(acaoTransicaoWorkflowId);
     }
 
     doCreate(): void {

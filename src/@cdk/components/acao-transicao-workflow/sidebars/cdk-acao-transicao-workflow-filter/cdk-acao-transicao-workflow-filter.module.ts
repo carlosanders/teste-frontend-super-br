@@ -10,8 +10,6 @@ import {
 } from '@cdk/angular/material';
 
 import {CdkSharedModule} from '@cdk/shared.module';
-//o--
-import {AcaoService} from '@cdk/services/acao.service';
 import {CdkAcaoTransicaoWorkflowFilterComponent} from './cdk-acao-transicao-workflow-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
@@ -40,7 +38,6 @@ import {CdkEtiquetaAutocompleteModule} from '../../../etiqueta/cdk-etiqueta-auto
         CdkEtiquetaAutocompleteModule,
     ],
     providers: [
-        AcaoService,
     ],
     exports: [
         CdkAcaoTransicaoWorkflowFilterComponent

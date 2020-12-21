@@ -10,10 +10,9 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AcaoTransicaoWorkflow} from '@cdk/models/acao-transicao-workflow.model';
-import {Pagination} from '@cdk/models';
+import {Pagination, Modelo} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {Modelo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-acao-transicao-workflow-form',
@@ -78,9 +77,8 @@ export class CdkAcaoTransicaoWorkflowFormComponent implements OnInit, OnChanges,
             distinctUntilChanged(),
             switchMap((value) => {
                 this.form.get('modelo').disable();
-                //o-- verificar logica
                 switch (value) {
-                        case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\AcaoTransicaoWorkflow\\Trigger0001':
+                        case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':
                             this.form.get('modelo').enable();
                             break;
                     }
