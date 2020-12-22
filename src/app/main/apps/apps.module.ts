@@ -70,7 +70,7 @@ const routes = [
         path        : 'oficios',
         loadChildren: () => import('./oficios/oficios.module').then(m => m.OficiosModule),
         canActivate: [RoleGuard],
-        data: {roles: ['ROLE_USER']}
+        data: {roles: ['ROLE_CONVENIADO']}
     },
     {
         path        : 'protocolo-externo',
@@ -112,3 +112,4 @@ modulesConfig.forEach((module) => {
 export class AppsModule
 {
 }
+

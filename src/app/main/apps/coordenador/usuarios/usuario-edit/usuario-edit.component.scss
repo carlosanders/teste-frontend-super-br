@@ -1,6 +1,7 @@
 usuario-edit {
     display: flex;
     flex: 1 1 auto;
+    flex-direction: column;
     > mat-horizontal-stepper {
         flex: 1 1 auto;
         display: flex !important;
