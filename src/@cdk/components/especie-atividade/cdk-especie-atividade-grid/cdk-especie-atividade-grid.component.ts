@@ -122,7 +122,7 @@ export class CdkEspecieAtividadeGridComponent implements AfterViewInit, OnInit, 
     deletedIds: number[] = [];
 
     @Input()
-    pageSize = 10;
+    pageSize = 5;
 
     @Input()
     actions: string[] = ['edit', 'delete', 'select', 'tipo-documento-list'];
