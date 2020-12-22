@@ -59,7 +59,6 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
-                    console.log(this.routerState.url);
                     if(this.routerState.url.includes('unidades')) {
                         this.modulo = "unidades";
                     }
