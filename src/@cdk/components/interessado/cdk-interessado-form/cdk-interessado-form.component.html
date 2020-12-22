@@ -61,5 +61,6 @@
 <cdk-modalidade-interessado-gridsearch
     *ngIf="activeCard === 'modalidade-interessado-gridsearch'"
     (selected)="selectModalidadeInteressado($event)"
+    [pagination]="modalidadeInteressadoPagination"
     (cancel)="cancel()">
 </cdk-modalidade-interessado-gridsearch>
