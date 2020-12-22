@@ -4,13 +4,13 @@
     <mat-radio-group class="poderes-rg"
                      formControlName="trigger" aria-labelledby="acoes-rg" required>
         <mat-radio-button
-            [value]="'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001'">
+            [value]="'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\AcaoTransicaoWorkflow\\Trigger0001'">
             Gera automaticamente uma minuta na tarefa da transição de acordo com o modelo pré-selecionado
         </mat-radio-button>
     </mat-radio-group>
 
     <mat-form-field
-        *ngIf="this.form.get('trigger').value === 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001'">
+        *ngIf="this.form.get('trigger').value === 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\AcaoTransicaoWorkflow\\Trigger0001'">
         <input matInput placeholder="Modelo"
                formControlName="modelo"
                [matAutocomplete]="modelo.autocomplete" required
