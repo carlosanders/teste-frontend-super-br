@@ -71,7 +71,6 @@ const routes = [
         loadChildren: () => import('./oficios/oficios.module').then(m => m.OficiosModule),
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_CONVENIADO']}
-        data: {roles: ['ROLE_USER']}
     },
     {
         path        : 'protocolo-externo',
