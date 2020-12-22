@@ -13,6 +13,7 @@ desentranhamento-create {
             > .mat-horizontal-stepper-content[aria-expanded=true] {
                 flex: 1 1 auto;
                 display: flex;
+                flex-direction: column;
             }
             > .mat-horizontal-stepper-content[aria-expanded=false] {
                 display: none !important;
