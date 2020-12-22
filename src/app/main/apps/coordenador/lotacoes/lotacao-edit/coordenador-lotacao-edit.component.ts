@@ -40,6 +40,7 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
     setor: Setor;
     setorPagination: Pagination;
     colaboradorPagination: Pagination;
+    modulo: string;
 
     /**
      *
@@ -64,6 +65,15 @@ export class CoordenadorLotacaoEditComponent implements OnInit, OnDestroy {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    if(this.routerState.url.includes('unidades')) {
+                        this.modulo = "unidades";
+                    }
+                    else if(this.routerState.url.includes('usuarios')) {
+                        this.modulo = "usuarios";
+                    }
+                    else {
+                        this.modulo = "lotacoes";
+                    }
                 }
             });
 
