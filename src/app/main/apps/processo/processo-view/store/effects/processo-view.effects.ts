@@ -152,8 +152,11 @@ export class ProcessoViewEffect {
                 ofType<ProcessoViewActions.GetJuntadasSuccess>(ProcessoViewActions.GET_JUNTADAS_SUCCESS),
                 withLatestFrom(this._store.pipe(select(getPagination))),
                 tap(([action, pagination]) => {
+                    console.log(action.payload);
+                    console.log(action.payload.index.length);
+                    console.log(action.payload.index[0].length);
                     if (this.routerState.params['stepHandle'] === 'default') {
-                        if (!action.payload.index.length) {
+                        if (!action.payload.index.length || !action.payload.index[0].length) {
                             if (this.routerState.url.indexOf('/documento/') !== -1) {
                                 // Navegação do processo deve ocorrer por outlet
                                 this._router.navigate(
