@@ -386,7 +386,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      * @param ativo
      */
     gotoStep(step, ativo): void {
-        if (this.juntadas[this.currentStep.step] === undefined || !ativo) {
+        if (this.juntadas[step] === undefined || !ativo) {
             this._store.dispatch(new fromStore.GetCapaProcesso());
             return;
         }
