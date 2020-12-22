@@ -11,8 +11,6 @@ import {cdkAnimations} from '../../animations';
 })
 export class PathComponent implements OnInit {
 
-    linkCaminhos: [object] = [{}];
-
     @Input()
     icone: string;
 
@@ -21,6 +19,8 @@ export class PathComponent implements OnInit {
 
     @Input()
     inicioCaminho: string;
+
+    linkCaminhos: [object] = [{}];
 
     mapaNome = new Map();
 
@@ -42,12 +42,13 @@ export class PathComponent implements OnInit {
         this.caminhoAbsoluto = this.caminhoAbsoluto.slice(posicao, this.caminhoAbsoluto.length);
         const arrayCaminho = this.caminhoAbsoluto.split("/");
         arrayCaminho.forEach((c:string) => {
-            if(c==='arvore') { //Entra se for arvore
+            if(c==='dados-basicos' || c==='default') { } //Não adiciona no link, para resolver despadronizacoes
+            else if(c==='arvore') { //Entra se for arvore
                 chave = `${raiz}${caminhoAux}/${c}`;
                 valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
                 this.linkCaminhos.push({link: chave, label: valor});
             }
-            else if (!Number(c) && c!=='editar' && c!=='listar' && c!=='criar') { //Entra se for para listar
+            else if(!Number(c) && c!=='editar' && c!=='listar' && c!=='criar') { //Entra se for para listar
                 caminhoAux += '/' + c;
                 chave = `${raiz}${caminhoAux}/listar`;
                 valor = this.mapaNome.has(c) ? this.mapaNome.get(c) : c;
@@ -66,7 +67,7 @@ export class PathComponent implements OnInit {
         this.linkCaminhos.shift();
     }
 
-    carregarNomes() { //Adicionar nomes que tenha acento e ç
+    carregarNomes() { //Adicionar nomes compostos, que tenha acento e ç
         this.mapaNome.set('acoes', 'ações');
         this.mapaNome.set('arvore', 'árvore');
         this.mapaNome.set('classificacoes', 'classificações');
