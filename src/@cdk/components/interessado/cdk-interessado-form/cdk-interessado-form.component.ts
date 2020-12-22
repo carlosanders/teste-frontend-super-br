@@ -75,6 +75,7 @@ export class CdkInteressadoFormComponent implements OnChanges, OnDestroy {
         });
         this.pessoaPagination = new Pagination();
         this.modalidadeInteressadoPagination = new Pagination();
+        this.modalidadeInteressadoPagination.limit = 10;
     }
 
     // -----------------------------------------------------------------------------------------------------
