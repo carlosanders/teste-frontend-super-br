@@ -106,7 +106,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
         this.modalidadeQualificacaoPessoaPagination = new Pagination();
         this.modalidadeGeneroPessoaPagination = new Pagination();
         this.paisPagination = new Pagination();
+        this.paisPagination.limit = 10;
         this.municipioPagination = new Pagination();
+        this.municipioPagination.limit = 10;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -228,9 +230,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     }
 
     checkPais(): void {
-        const value = this.form.get('pais').value;
+        const value = this.form.get('nacionalidade').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('pais').setValue(null);
+            this.form.get('nacionalidade').setValue(null);
         }
     }
 
