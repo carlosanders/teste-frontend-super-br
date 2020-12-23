@@ -35,6 +35,7 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
     setorPagination: Pagination;
     colaboradorPagination: Pagination;
     modulo: string;
+    logEntryPagination: Pagination;
 
     /**
      *
@@ -73,6 +74,7 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
 
         this.setorPagination = new Pagination();
         this.colaboradorPagination = new Pagination();
+        this.logEntryPagination = new Pagination();
 
         this.setorPagination.populate = ['populateAll'];
         this.colaboradorPagination.populate = ['populateAll'];
@@ -103,6 +105,8 @@ export class AdminLotacaoEditComponent implements OnInit, OnDestroy {
             this.lotacao.setor = this.setor;
             this.lotacao.peso = 100;
         }
+
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Lotacao', id: + this.lotacao.id};
     }
 
     /**

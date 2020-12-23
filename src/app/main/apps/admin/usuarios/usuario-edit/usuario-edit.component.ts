@@ -19,7 +19,6 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Back} from 'app/store/actions';
-import {MatStepper} from '@angular/material/stepper';
 
 @Component({
     selector: 'usuario-edit',
@@ -41,6 +40,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
     modalidadeColaboradorPagination: Pagination;
     formUsuario: FormGroup;
     formColaborador: FormGroup;
+    logEntryPagination: Pagination;
 
     /**
      *
@@ -71,6 +71,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         this.cargoPagination.populate = ['populateAll'];
         this.modalidadeColaboradorPagination = new Pagination();
         this.modalidadeColaboradorPagination.populate = ['populateAll'];
+        this.logEntryPagination = new Pagination();
 
         this.formUsuario = this._formBuilder.group({
             id: [null],
@@ -106,13 +107,13 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
                 }
             }
         );
-
         if (!this.usuario) {
             this.usuario = new Usuario();
         }
         if (!this.colaborador) {
             this.colaborador = new Colaborador();
         }
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Colaborador', id: + this.colaborador.id};
     }
 
     /**
