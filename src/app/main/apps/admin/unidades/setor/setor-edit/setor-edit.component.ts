@@ -33,6 +33,7 @@ export class SetorEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
     setorPagination: Pagination;
     especieSetorPagination: Pagination;
+    logEntryPagination: Pagination;
 
     /**
      *
@@ -63,8 +64,8 @@ export class SetorEditComponent implements OnInit, OnDestroy {
             'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
         };
         this.especieSetorPagination = new Pagination();
+        this.logEntryPagination = new Pagination();
         this.especieSetorPagination.populate = ['populateAll'];
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -79,6 +80,8 @@ export class SetorEditComponent implements OnInit, OnDestroy {
         this.setor$.subscribe(
             setor => this.setor = setor
         );
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Setor', id: + this.setor.id};
+
 
         if (!this.setor) {
             this.setor = new Setor();

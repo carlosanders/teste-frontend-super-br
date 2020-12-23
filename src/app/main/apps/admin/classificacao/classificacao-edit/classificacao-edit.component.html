@@ -8,6 +8,7 @@
     <cdk-classificacao-form
         [classificacao]="(classificacao$ | async)"
         [form]="formClassificacao"
+        [logEntryPagination]="logEntryPagination"
         [classificacaoPagination]="classificacaoPagination"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
