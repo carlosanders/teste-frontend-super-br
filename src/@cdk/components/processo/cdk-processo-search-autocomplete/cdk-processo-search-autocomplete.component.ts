@@ -53,46 +53,56 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             debounceTime(300),
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
-            switchMap((value) => {
-                let termFilterNUP = {};
-                let termFilterInteressadoNome = {};
-                let termFilterInteressadoNumeroDocumentoPrincipal = {};
-                let termFilterTitulo = {};
-                let termFilterDescricao = {};
-                let termFilterOutroNumero = {};
+            switchMap((value: string) => {
+                    let termFilterNUP = [];
+                    let termFilterInteressadoNome = [];
+                    let termFilterInteressadoNumeroDocumentoPrincipal = [];
+                    let termFilterTitulo = [];
+                    let termFilterDescricao = [];
+                    let termFilterOutroNumero = [];
+                    value = value.split('.').join('').split('/').join('').replace('-', '');
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilterNUP = {
+                        termFilterNUP.push({
                             NUP: `like:%${bit}%`
-                        };
-                        termFilterInteressadoNome = {
+                        });
+                        termFilterInteressadoNome.push({
                             'interessados.pessoa.nome': `like:%${bit}%`
-                        };
-                        termFilterInteressadoNumeroDocumentoPrincipal = {
+                        });
+                        termFilterInteressadoNumeroDocumentoPrincipal.push({
                             'interessados.pessoa.numeroDocumentoPrincipal': `like:%${bit}%`
-                        };
-                        termFilterTitulo = {
+                        });
+                        termFilterTitulo.push({
                             titulo: `like:%${bit}%`
-                        };
-                        termFilterDescricao = {
+                        });
+                        termFilterDescricao.push({
                             descricao: `like:%${bit}%`
-                        };
-                        termFilterOutroNumero = {
+                        });
+                        termFilterOutroNumero.push({
                             outroNumero: `like:%${bit}%`
-                        };
+                        });
                     });
                     const termFilter = {
-                        orX: [
-                            termFilterNUP,
-                            termFilterInteressadoNome,
-                            termFilterInteressadoNumeroDocumentoPrincipal,
-                            termFilterTitulo,
-                            termFilterDescricao,
-                            termFilterOutroNumero
-                        ]
+                        orX: []
                     };
-                    if (typeof value === 'string' && (termFilterNUP['NUP'] ||  termFilterInteressadoNome['interessados.pessoa.nome'] ||
-                        termFilterInteressadoNumeroDocumentoPrincipal['interessados.pessoa.numeroDocumentoPrincipal'] > 0 ||
-                        termFilterTitulo['titulo'] > 0 || termFilterDescricao['descricao'] > 0 || termFilterOutroNumero['outroNumero'] > 0)) {
+                    termFilterNUP.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    termFilterInteressadoNome.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    termFilterInteressadoNumeroDocumentoPrincipal.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    termFilterTitulo.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    termFilterDescricao.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    termFilterOutroNumero.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    if (typeof value === 'string' && (termFilter.orX.length > 0)) {
                         this.processoSearchListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
