@@ -64,6 +64,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     isSavingProcesso$: Observable<boolean>;
     errors$: Observable<any>;
     errorsTarefa$: Observable<any>;
+    errorsVinculacoes$: Observable<any>;
 
     especieProcessoPagination: Pagination;
     setorAtualPagination: Pagination;
@@ -153,6 +154,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.isSavingProcesso$ = this._store.pipe(select(fromStore.getProcessoIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getProcessoErrors));
         this.errorsTarefa$ = this._store.pipe(select(fromStore.getTarefaErrors));
+        this.errorsVinculacoes$ = this._store.pipe(select(fromStore.getVinculacaoProcessoErrors));
         this.processo$ = this._store.pipe(select(getProcesso));
         this._profile = this._loginService.getUserProfile();
         this.screen$ = this._store.pipe(select(getScreenState));
