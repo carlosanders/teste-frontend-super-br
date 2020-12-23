@@ -106,9 +106,7 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
         this.modalidadeQualificacaoPessoaPagination = new Pagination();
         this.modalidadeGeneroPessoaPagination = new Pagination();
         this.paisPagination = new Pagination();
-        this.paisPagination.limit = 10;
         this.municipioPagination = new Pagination();
-        this.municipioPagination.limit = 10;
     }
 
     // -----------------------------------------------------------------------------------------------------
