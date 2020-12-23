@@ -155,7 +155,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoProcesso" class='has_label_on_mobile'
-                        data-label='Criado Em: ' || vinculacaoProcesso.apagadoEm
+                        data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoProcesso.id) > -1 || vinculacaoProcesso.apagadoEm}"> {{vinculacaoProcesso.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
