@@ -2,36 +2,39 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    OnInit,
+    ViewChild,
+    AfterViewInit,
+    ViewEncapsulation,
+    Input,
+    OnChanges,
+    Output,
+    EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-
-import {TransicaoWorkflow} from '@cdk/models';
-import {TransicaoWorkflowDataSource} from '@cdk/data-sources/transicao-workflow-data-source';
-import {Favorito} from '@cdk/models';
+import {AcaoTransicaoWorkflow} from '@cdk/models/acao-transicao-workflow.model';
+import {AcaoTransicaoWorkflowDataSource} from '@cdk/data-sources/acao-transicao-workflow-data-source';
 import {FormControl} from '@angular/forms';
 
 @Component({
-    selector: 'cdk-transicao-workflow-grid',
-    templateUrl: './cdk-transicao-workflow-grid.component.html',
-    styleUrls: ['./cdk-transicao-workflow-grid.component.scss'],
+    selector: 'cdk-acao-transicao-workflow-grid',
+    templateUrl: './cdk-acao-transicao-workflow-grid.component.html',
+    styleUrls: ['./cdk-acao-transicao-workflow-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkAcaoTransicaoWorkflowGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
 
     @Input()
-    transicoesWorkflows: TransicaoWorkflow[];
+    acoes: AcaoTransicaoWorkflow[];
 
     @Input()
     total = 0;
@@ -39,11 +42,11 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     @Input()
     mode = 'list';
 
+    @Input()
+    displayedColumns: string[] = ['select', 'id', 'contexto', 'trigger', 'etiqueta.nome', 'actions'];
+
     @Output()
     create = new EventEmitter<any>();
-
-    @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieAtividade.nome', 'especieTarefaFrom.nome', 'especieTarefaTo.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -57,19 +60,14 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
             fixed: true
         },
         {
-            id: 'especieAtividade.nome',
-            label: 'Espécie Atividade',
-            fixed: false
+            id: 'contexto',
+            label: 'Contexto',
+            fixed: true
         },
         {
-            id: 'especieTarefaFrom.nome',
-            label: 'Espécie Tarefa From',
-            fixed: false
-        },
-        {
-            id: 'especieTarefaTo.nome',
-            label: 'Espécie Tarefa To',
-            fixed: false
+            id: 'trigger',
+            label: 'Trigger',
+            fixed: true
         },
         {
             id: 'criadoPor.nome',
@@ -120,7 +118,7 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'actions'];
+    actions: string[] = ['edit', 'delete', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -144,20 +142,13 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     delete = new EventEmitter<number>();
 
     @Output()
-    acoes = new EventEmitter<number>();
-
-    @Output()
-    toggleFavorito = new EventEmitter<Favorito>();
-
-    @Output()
-    selected = new EventEmitter<TransicaoWorkflow>();
+    selected = new EventEmitter<AcaoTransicaoWorkflow>();
 
     @Output()
     selectedIds: number[] = [];
 
-    dataSource: TransicaoWorkflowDataSource;
+    dataSource: AcaoTransicaoWorkflowDataSource;
 
-    @Input()
     showFilter = false;
 
     gridFilter: any;
@@ -175,11 +166,11 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
         private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
-        this.transicoesWorkflows = [];
+        this.acoes = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new TransicaoWorkflowDataSource(of(this.transicoesWorkflows));
+        this.dataSource = new AcaoTransicaoWorkflowDataSource(of(this.acoes));
         this.paginator.length = this.total;
     }
 
@@ -194,7 +185,7 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new TransicaoWorkflowDataSource(of(this.transicoesWorkflows));
+        this.dataSource = new AcaoTransicaoWorkflowDataSource(of(this.acoes));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -227,7 +218,7 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-transicao-workflow-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-acao-transicao-workflow-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -261,28 +252,20 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
         }
     }
 
-    editTransicaoWorkflow(transicaoWorkflowId): void {
-        this.edit.emit(transicaoWorkflowId);
+    editAcao(acaoId): void {
+        this.edit.emit(acaoId);
     }
 
-    selectTransicaoWorkflow(transicaoWorkflow: TransicaoWorkflow): void {
-        this.selected.emit(transicaoWorkflow);
+    selectAcao(acao: AcaoTransicaoWorkflow): void {
+        this.selected.emit(acao);
     }
 
-    deleteTransicaoWorkflow(transicaoWorkflowId): void {
-        this.delete.emit(transicaoWorkflowId);
+    deleteAcao(acaoId): void {
+        this.delete.emit(acaoId);
     }
 
-    deleteTransicoesWorkflows(transicoesWorkflowsId): void {
-        transicoesWorkflowsId.forEach(workflowId => this.deleteTransicaoWorkflow(workflowId));
-    }
-
-    acaoTransicaoWorkflowList(transicaoWorkflowId): void {
-        this.acoes.emit(transicaoWorkflowId);
-    }
-
-    salvarFavorito(favorito): void {
-       this.toggleFavorito.emit(favorito);
+    deleteAcoes(acoesId): void {
+        acoesId.forEach(acaoId => this.deleteAcao(acaoId));
     }
 
     /**
@@ -304,8 +287,8 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.transicoesWorkflows).map(k => this.transicoesWorkflows[k]);
-        this.selectedIds = arr.map(workflow => workflow.id);
+        const arr = Object.keys(this.acoes).map(k => this.acoes[k]);
+        this.selectedIds = arr.map(acao => acao.id);
         this.recompute();
     }
 
@@ -317,20 +300,20 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
         this.recompute();
     }
 
-    toggleInSelected(workflowId): void {
-        const selectedWorkflowIds = [...this.selectedIds];
+    toggleInSelected(acaoId): void {
+        const selectedAcaoIds = [...this.selectedIds];
 
-        if (selectedWorkflowIds.find(id => id === workflowId) !== undefined) {
-            this.selectedIds = selectedWorkflowIds.filter(id => id !== workflowId);
+        if (selectedAcaoIds.find(id => id === acaoId) !== undefined) {
+            this.selectedIds = selectedAcaoIds.filter(id => id !== acaoId);
         } else {
-            this.selectedIds = [...selectedWorkflowIds, workflowId];
+            this.selectedIds = [...selectedAcaoIds, acaoId];
         }
         this.recompute();
     }
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.transicoesWorkflows.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.acoes.length && this.selectedIds.length > 0);
     }
 
     setFilter(gridFilter): void {
