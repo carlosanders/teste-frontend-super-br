@@ -386,7 +386,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      * @param ativo
      */
     gotoStep(step, ativo): void {
-        if (this.juntadas[this.currentStep.step] === undefined || !ativo) {
+        if (this.juntadas[step] === undefined || !ativo) {
             this._store.dispatch(new fromStore.GetCapaProcesso());
             return;
         }
@@ -524,6 +524,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._router.navigate([
             this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
             '/visualizar/' + this.routerState.params.stepHandle + '/oficio'
+        ]).then();
+    }
+
+    showModelosGrid(): void {
+        this.formEditor.get('modelo').setValue(null);
+        this.menuTriggerList.closeMenu();
+        this._router.navigate([
+            this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
+            '/visualizar/' + this.routerState.params.stepHandle + '/modelos'
         ]).then();
     }
 

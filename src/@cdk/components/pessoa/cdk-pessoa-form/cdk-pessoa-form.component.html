@@ -76,7 +76,6 @@
             <mat-datepicker-toggle matSuffix [for]="dataObito"></mat-datepicker-toggle>
             <mat-datepicker #dataObito></mat-datepicker>
         </mat-form-field>
-
     </div>
 
     <div class="responsive-group">
@@ -167,24 +166,28 @@
 <cdk-modalidade-qualificacao-pessoa-gridsearch
     *ngIf="activeCard === 'modalidade-qualificacao-pessoa-gridsearch'"
     (selected)="selectModalidadeQualificacaoPessoa($event)"
+    [pagination]="modalidadeQualificacaoPessoaPagination"
     (cancel)="cancel()">
 </cdk-modalidade-qualificacao-pessoa-gridsearch>
 
 <cdk-modalidade-genero-pessoa-gridsearch
     *ngIf="activeCard === 'modalidade-genero-pessoa-gridsearch'"
     (selected)="selectModalidadeGeneroPessoa($event)"
+    [pagination]="modalidadeGeneroPessoaPagination"
     (cancel)="cancel()">
 </cdk-modalidade-genero-pessoa-gridsearch>
 
 <cdk-pais-gridsearch
     *ngIf="activeCard === 'pais-gridsearch'"
     (selected)="selectPais($event)"
+    [pagination]="paisPagination"
     (cancel)="cancel()">
 </cdk-pais-gridsearch>
 
 <cdk-municipio-gridsearch
     *ngIf="activeCard === 'municipio-gridsearch'"
     (selected)="selectMunicipio($event)"
+    [pagination]="municipioPagination"
     (cancel)="cancel()">
 </cdk-municipio-gridsearch>
 

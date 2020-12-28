@@ -4,7 +4,7 @@ cdk-modalidade-genero-pessoa-grid {
     display: flex;
     flex: 1 1 auto;
 
-    .cdk-modalidade-genero-pessoa-grid {
+    > .page-layout {
         display: flex;
         flex: 1 1 auto;
 
