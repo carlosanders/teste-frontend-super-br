@@ -312,8 +312,7 @@ export class AtividadeCreateDocumentosEffect {
                             ;
                     }
                 )
-            )
-    ;
+            );
 
     /**
      * Undelete Documento

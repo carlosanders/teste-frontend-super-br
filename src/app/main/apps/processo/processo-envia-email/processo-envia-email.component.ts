@@ -14,6 +14,7 @@ import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
 import {Juntada} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
+import {Back} from '../../../../store';
 
 @Component({
     selector: 'processo-envia-email',
@@ -93,6 +94,6 @@ export class ProcessoEnviaEmailComponent implements OnInit, OnDestroy {
     }
 
     cancel(): void {
-        this._router.navigate(['apps/juntadas/' + this.routerState.url.split('/')[3] + '/' + this.routerState.url.split('/')[4] + '/entrada']).then();
+        this._store.dispatch(new Back());
     }
 }
