@@ -29,6 +29,7 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {MatDialog} from '@cdk/angular/material';
 import {LoginService} from '../../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -85,6 +86,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
     javaWebStartOK = false;
+    lixeiraMinutas$: Observable<boolean>;
+    loadingDocumentosExcluidos$: Observable<boolean>;
+
+    lixeiraMinutas: boolean;
 
     @Input()
     capaProcesso: boolean;
@@ -176,6 +181,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
+        this.loadingDocumentosExcluidos$ = this._store.pipe(select(fromStore.getLoadingDocumentosExcluidos));
 
         this.tipoDocumentoPagination = new Pagination();
 
@@ -280,13 +287,22 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      */
     ngOnInit(): void {
         if (this.tarefa) {
+            this.lixeiraMinutas$.subscribe(lixeira => {
+                this.lixeiraMinutas = lixeira;
+            });
             this.documentos$.pipe(
                 filter(cd => !!cd),
                 takeUntil(this._unsubscribeAll)
             ).subscribe(
                 documentos => {
-                    this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa));
-                    this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
+                    this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && !documento.apagadoEm);
+                    this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && !documento.apagadoEm);
+
+                    if (this.lixeiraMinutas) {
+                        this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && documento.apagadoEm);
+                        this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && documento.apagadoEm);
+                    }
+
                     this._changeDetectorRef.markForCheck();
                 }
             );
@@ -647,9 +663,29 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     }
 
     enviarDocumentoEmail(juntadaId): void {
-        this._router.navigateByUrl(this.routerState.url.replace('/processo/' +
+        this._router.navigateByUrl(this.routerState.url.split('/processo/' +
             this.routerState.params.processoHandle +
-            '/visualizar', '/processo/' +
-            this.routerState.params.processoHandle + '/envia-email/' + juntadaId)).then();
+            '/visualizar')[0] + '/processo/' +
+            this.routerState.params.processoHandle + '/envia-email/' + juntadaId).then();
+    }
+
+    doRestaurar(documentoId): void {
+        const operacaoId = CdkUtils.makeId();
+        const documento = new Documento();
+        documento.id = documentoId
+        this._store.dispatch(new fromStore.UndeleteDocumento({
+            documento: documento,
+            operacaoId: operacaoId,
+            redo: null,
+            undo: null
+        }));
+    }
+
+    minutasExcluidas(): void {
+        this._store.dispatch(new fromStore.GetDocumentosExcluidos());
+    }
+
+    doSairLixeiraMinutas(): void {
+        this._store.dispatch(new fromStore.GetDocumentos());
     }
 }

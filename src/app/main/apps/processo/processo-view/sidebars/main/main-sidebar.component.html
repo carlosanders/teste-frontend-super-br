@@ -34,6 +34,14 @@
                 </ng-container>
             </button>
 
+            <button mat-menu-item aria-label="upload"
+                    (click)="minutasExcluidas()">
+                <ng-container>
+                    <mat-icon>delete</mat-icon>
+                    <span>Lixeira</span>
+                </ng-container>
+            </button>
+
             <ng-template #dynamicComponent></ng-template>
         </mat-menu>
 
@@ -63,6 +71,12 @@
                 </button>
             </form>
         </mat-menu>
+
+        <button mat-mini-fab *ngIf="!(loadingDocumentosExcluidos$ | async) && (lixeiraMinutas$ | async)"
+                class="m-4 active accent" aria-label="Sair da lixeira"
+                (click)="doSairLixeiraMinutas()" matTooltip="Sair da lixeira">
+            <mat-icon class="secondary-text">exit_to_app</mat-icon>
+        </button>
 
         <button class="toggle-filter" [ngClass]="{'warn': (listFilter | json) != '{}'}" mat-icon-button
                 (click)="toggleFilter()"
@@ -147,7 +161,7 @@
 
 <div class="content">
 
-    <div class="loading-minutas" *ngIf="((minutasLoading$ | async) || (minutasSaving$ | async)) && tarefa">
+    <div class="loading-minutas" *ngIf="((minutasSaving$ | async)) && tarefa">
         <mat-progress-bar [mode]="'indeterminate'"></mat-progress-bar>
     </div>
 
@@ -158,15 +172,15 @@
                     Minutas da Tarefa
                 </mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="minutas" *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async)) && tarefa">
+            <div class="minutas" *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async) && !(loadingDocumentosExcluidos$ | async)) && tarefa">
 
                 <cdk-componente-digital-card-list #ckdUpload
                                                   [tarefaOrigem]="tarefaOrigem"
                                                   (completed)="onComplete()">
                 </cdk-componente-digital-card-list>
 
-                <div class="sem-minutas" *ngIf="!minutas || !minutas.length">
-                    <div class="m-16" style="font-style: italic;">Não há minutas.</div>
+                <div class="sem-minutas" *ngIf="(!minutas || !minutas.length) && (!oficios || !oficios.length)">
+                    <div class="m-16" style="font-style: italic;">Não há minutas<span *ngIf="(lixeiraMinutas$ | async)"> na lixeira</span>.</div>
                 </div>
 
                 <div class="minuta" matRipple
@@ -174,7 +188,7 @@
                      (click)="onClickedMinuta(minuta)">
                     <div class="index">
                     <span>
-                        <mat-icon>edit</mat-icon>
+                        <mat-icon>{{minuta.apagadoEm ? 'delete' : 'edit'}}</mat-icon>
                     </span>
                     </div>
                     <div fxFlex fxLayout="column">
@@ -229,36 +243,46 @@
                         <mat-menu #moreMenu="matMenu">
 
                             <button
-                                *ngIf="(!minuta.documentoAvulsoRemessa || !minuta.documentoAvulsoRemessa.dataHoraRemessa)"
+                                *ngIf="(!minuta.documentoAvulsoRemessa || !minuta.documentoAvulsoRemessa.dataHoraRemessa) && !minuta.apagadoEm"
                                 fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(minuta.id)" mat-menu-item>
                                 <mat-icon color="accent">delete</mat-icon>
                                 <span>Apagar Minuta</span>
                             </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura(minuta)"
+                            <button
+                                *ngIf="minuta.apagadoEm"
+                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(minuta.id)" mat-menu-item>
+                                <mat-icon color="accent">undo</mat-icon>
+                                <span>Restaurar</span>
+                            </button>
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    *ngIf="!minuta.apagadoEm"
+                                    (click)="doAssinatura(minuta)"
                                     mat-menu-item>
                                 <mat-icon color="accent">lock</mat-icon>
                                 <span>Assinar</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(minuta.id)"
                                     mat-menu-item
-                                    *ngIf="minuta.assinado">
+                                    *ngIf="minuta.assinado && !minuta.apagadoEm">
                                 <mat-icon color="accent">lock_open</mat-icon>
                                 <span>Remover Assinatura</span>
                             </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(minuta.id)"
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    *ngIf="!minuta.apagadoEm"
+                                    (click)="doConverte(minuta.id)"
                                     mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Converter em PDF</span>
                             </button>
                             <button
-                                *ngIf="minuta.documentoAvulsoRemessa && minuta.documentoAvulsoRemessa.dataHoraResposta"
+                                *ngIf="minuta.documentoAvulsoRemessa && minuta.documentoAvulsoRemessa.dataHoraResposta && !minuta.apagadoEm"
                                 fxLayout="row" fxLayoutAlign="start center"
                                 (click)="doVerResposta(minuta.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Ver Resposta</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
-                                    *showIfRole="'ROLE_COLABORADOR'"
+                                    *ngIf="!minuta.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
                                     [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
                                 <mat-icon color="accent">edit</mat-icon>
                                 <span>Alterar Tipo de Documento</span>
@@ -297,7 +321,7 @@
                      (click)="onClickedMinuta(oficio)">
                     <div class="index">
                     <span>
-                        <mat-icon>edit</mat-icon>
+                        <mat-icon>{{oficio.apagadoEm ? 'delete' : 'edit'}}</mat-icon>
                     </span>
                     </div>
                     <div fxFlex fxLayout="column">
@@ -351,19 +375,28 @@
 
                         <mat-menu #moreMenu="matMenu">
                             <button
-                                *ngIf="(!oficio.documentoAvulsoRemessa || !oficio.documentoAvulsoRemessa.dataHoraRemessa)"
+                                *ngIf="(!oficio.documentoAvulsoRemessa || !oficio.documentoAvulsoRemessa.dataHoraRemessa) && !oficio.apagadoEm"
                                 fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(oficio.id)" mat-menu-item>
                                 <mat-icon color="accent">delete</mat-icon>
-                                <span>Apagar Minuta</span>
+                                <span>Apagar Ofício</span>
                             </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura(oficio)"
+                            <button
+                                *ngIf="oficio.apagadoEm"
+                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(oficio.id)" mat-menu-item>
+                                <mat-icon color="accent">undo</mat-icon>
+                                <span>Restaurar</span>
+                            </button>
+
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    *ngIf="!oficio.apagadoEm"
+                                    (click)="doAssinatura(oficio)"
                                     mat-menu-item>
                                 <mat-icon color="accent">lock</mat-icon>
                                 <span>Assinar</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(oficio.id)"
                                     mat-menu-item
-                                    *ngIf="oficio.assinado">
+                                    *ngIf="oficio.assinado && !oficio.apagadoEm">
                                 <mat-icon color="accent">lock_open</mat-icon>
                                 <span>Remover Assinatura</span>
                             </button>
@@ -373,14 +406,14 @@
                                 <span>Converter em PDF</span>
                             </button>
                             <button
-                                *ngIf="oficio.documentoAvulsoRemessa && oficio.documentoAvulsoRemessa.dataHoraResposta"
+                                *ngIf="oficio.documentoAvulsoRemessa && oficio.documentoAvulsoRemessa.dataHoraResposta && !oficio.apagadoEm"
                                 fxLayout="row" fxLayoutAlign="start center"
                                 (click)="doVerResposta(oficio.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Ver Resposta</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
-                                    *showIfRole="'ROLE_COLABORADOR'"
+                                    *ngIf="!oficio.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
                                     [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
                                 <mat-icon color="accent">edit</mat-icon>
                                 <span>Alterar Tipo de Documento</span>
@@ -412,6 +445,11 @@
                             </button>
                         </form>
                     </mat-menu>
+                </div>
+            </div>
+            <div class="minutas" *ngIf="(minutasLoading$ | async) || (loadingDocumentosExcluidos$ | async)">
+                <div class="loading">
+                    <mat-spinner class="minuta-list-loading" diameter="24"></mat-spinner>
                 </div>
             </div>
         </mat-expansion-panel>
