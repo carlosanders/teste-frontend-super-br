@@ -316,6 +316,55 @@ export class AtividadeCreateDocumentosEffect {
     ;
 
     /**
+     * Download P7S
+     * @type {Observable<any>}
+     *
+     * */
+    @Effect()
+    downloadP7S: any =
+        this._actions
+            .pipe(
+                ofType<AtividadeCreateDocumentosActions.DownloadP7S>(AtividadeCreateDocumentosActions.DOWNLOAD_DOCUMENTO_P7S),
+                mergeMap((action) => {
+                        return this._documentoService.downloadP7S(action.payload, {hash: action.payload.hash})
+                            .pipe(
+                                map((response) => {
+                                    if (response) {
+                                        const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                                        const byteNumbers = new Array(byteCharacters.length);
+                                        for (let i = 0; i < byteCharacters.length; i++) {
+                                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                        }
+                                        const byteArray = new Uint8Array(byteNumbers);
+                                        const blob = new Blob([byteArray], {type: response.mimetype}),
+                                            URL = window.URL;
+                                        const data = URL.createObjectURL(blob);
+                                        const link = document.createElement('a');
+                                        link.href = data;
+                                        link.download = response.fileName;
+                                        link.dispatchEvent(new MouseEvent('click', {
+                                            bubbles: true,
+                                            cancelable: true,
+                                            view: window
+                                        }));
+                                        setTimeout(() => {
+                                            window.URL.revokeObjectURL(data);
+                                            link.remove();
+                                        }, 100);
+                                    }
+                                    return new AtividadeCreateDocumentosActions.DownloadP7SSuccess(action.payload);
+                                }),
+                                catchError((err) => {
+                                    console.log(err);
+                                    return of(new AtividadeCreateDocumentosActions.DownloadP7SFailed(action.payload));
+                                })
+                            )
+                            ;
+                    }
+                )
+            );
+
+    /**
      * Undelete Documento
      * @type {Observable<any>}
      */

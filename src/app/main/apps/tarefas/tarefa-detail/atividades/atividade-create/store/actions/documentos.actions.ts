@@ -33,6 +33,10 @@ export const CONVERTE_DOCUMENTO_ATIVIDADE = '[ATIVIDADE CREATE] CONVERTE DOCUMEN
 export const CONVERTE_DOCUMENTO_SUCESS = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE SUCCESS';
 export const CONVERTE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE FAILED';
 
+export const DOWNLOAD_DOCUMENTO_P7S = '[ATIVIDADE CREATE] DOWNLOAD DOCUMENTOP7S ATIVIDADE';
+export const DOWNLOAD_DOCUMENTO_P7S_SUCCESS = '[ATIVIDADE CREATE] DOWNLOAD DOCUMENTOP7S ATIVIDADE SUCCESS';
+export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[ATIVIDADE CREATE] DOWNLOAD DOCUMENTOP7S FAILED';
+
 export const UNDELETE_DOCUMENTO = '[ATIVIDADE CREATE] UNDELETE DOCUMENTO';
 export const UNDELETE_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] UNDELETE DOCUMENTO SUCCESS';
 export const UNDELETE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] UNDELETE DOCUMENTO FAILED';
@@ -331,6 +335,36 @@ export class ConverteToPdfFailed implements Action
     }
 }
 
+/**
+ * Download Documento P7S
+ */
+export class DownloadP7S implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SSuccess implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadP7SFailed implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 
 /**
  * Undelete Documento
@@ -387,6 +421,9 @@ export type AtividadeCreateDocumentosActionsAll
     | ConverteToPdf
     | ConverteToPdfSucess
     | ConverteToPdfFailed
+    | DownloadP7S
+    | DownloadP7SFailed
+    | DownloadP7SSuccess
     | UnloadDocumentos
     | UndeleteDocumento
     | UndeleteDocumentoSuccess

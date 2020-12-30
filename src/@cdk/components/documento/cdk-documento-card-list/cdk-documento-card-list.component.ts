@@ -37,6 +37,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     converte = new EventEmitter<number>();
 
     @Output()
+    downloadP7S = new EventEmitter<number>();
+
+    @Output()
     restaurar = new EventEmitter<number>();
 
     @Output()
@@ -68,6 +71,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
     convertendoId: number[] = [];
+
+    @Input()
+    downloadId: number[] = [];
 
     @Input()
     loadingDocumentosExcluidos = false;
@@ -228,6 +234,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     // **********************************MUDANÇA CONVERTE
     doConverte(documentoId): void {
         this.converte.emit(documentoId);
+    }
+
+    doDownloadP7S(documentoId): void {
+        this.downloadP7S.emit(documentoId);
     }
 
     doRestaurar(documentoId): void {

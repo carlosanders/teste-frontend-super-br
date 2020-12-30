@@ -111,6 +111,7 @@
                     [undeleting]="undeletingId !== undefined && undeletingId.indexOf(documento.id) > -1"
                     [removendoAssinatura]="removendoAssinaturaId !== undefined && removendoAssinaturaId.indexOf(documento.id) > -1"
                     [convertendo]="convertendoId != undefined && convertendoId.indexOf(documento.id) > -1"
+                    [download]="downloadId != undefined && downloadId.indexOf(documento.id) > -1"
                     [maisDeUmItemSelecionado]="selectedIds?.length > 1"
                     (delete)="doDelete($event)"
                     (verResposta)="doVerResposta($event)"
@@ -118,6 +119,7 @@
                     (assinatura)="doAssinatura($event)"
                     (removeAssinatura)="doRemoveAssinatura($event)"
                     (converte)="doConverte($event)"
+                    (downloadP7s)="doDownloadP7S($event)"
                     (restaurar)="doRestaurar($event)"
                     (clicked)="onClick($event)"
                     (changedSelected)="toggleInSelected($event)">

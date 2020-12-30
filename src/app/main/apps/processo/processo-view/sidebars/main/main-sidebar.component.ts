@@ -83,6 +83,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentoIds$: Observable<number[]>;
     javaWebStartOK = false;
 
     @Input()
@@ -173,6 +174,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.downloadP7SDocumentoIds$ = this._store.pipe(select(fromStore.getDownloadDocumentoP7SId));
 
         this.tipoDocumentoPagination = new Pagination();
 
@@ -584,6 +586,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     doConverte(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doDownloadP7S(documentoId): void {
+        this._store.dispatch(new fromStore.DownloadToP7S(documentoId));
     }
 
     onComplete(): void {
