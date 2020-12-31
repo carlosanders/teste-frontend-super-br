@@ -41,7 +41,9 @@ export class ResolveGuard implements CanActivate {
             });
 
         this._profile = _loginService.getUserProfile();
-        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios;
+        this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios.filter((vinculacao) => {
+            return !!vinculacao.pessoa.pessoaConveniada;
+        });
     }
 
     /**
