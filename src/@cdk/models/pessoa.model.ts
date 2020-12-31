@@ -24,7 +24,7 @@ export class Pessoa {
 
     pessoaValidada?: boolean;
 
-    pessoaRepresentada?: boolean;
+    pessoaConveniada?: boolean;
 
     @Transform(value => value ? value.format('YYYY-MM-DD') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
@@ -99,6 +99,7 @@ export class Pessoa {
         this.profissao = null;
         this.contato = null;
         this.pessoaValidada = null;
+        this.pessoaConveniada = null;
         this.dataNascimento = null;
         this.dataObito = null;
         this.nacionalidade = null;
