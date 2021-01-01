@@ -57,13 +57,13 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
             fixed: true
         },
         {
-            id: 'especieAtividade.nome',
-            label: 'Espécie Atividade',
+            id: 'especieTarefaFrom.nome',
+            label: 'Espécie Tarefa From',
             fixed: false
         },
         {
-            id: 'especieTarefaFrom.nome',
-            label: 'Espécie Tarefa From',
+            id: 'especieAtividade.nome',
+            label: 'Espécie Atividade',
             fixed: false
         },
         {
