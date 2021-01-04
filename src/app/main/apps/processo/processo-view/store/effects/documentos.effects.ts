@@ -104,6 +104,73 @@ export class ProcessoViewDocumentosEffects {
                 })
             );
 
+
+    /**
+     * Get Documentos Excluídos with router parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getDocumentosExcluidos: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.GetDocumentosExcluidos>(ProcessoViewDocumentosActions.GET_DOCUMENTOS_EXCLUIDOS),
+                switchMap(() => {
+
+                    let tarefaId = null;
+
+                    const routeParams = of('tarefaHandle');
+                    routeParams.subscribe(param => {
+                        tarefaId = `eq:${this.routerState.params[param]}`;
+                    });
+
+                    const params = {
+                        filter: {
+                            'tarefaOrigem.id': tarefaId,
+                            'juntadaAtual': 'isNull'
+                        },
+                        limit: 10,
+                        offset: 0,
+                        sort: {
+                            criadoEm: 'DESC'
+                        },
+                        populate: [
+                            'tipoDocumento',
+                            'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.documentoResposta',
+                            'componentesDigitais'
+                        ],
+                        context: {
+                            'mostrarApagadas': true
+                        }
+                    };
+
+                    return this._documentoService.query(
+                        JSON.stringify({
+                            ...params.filter
+                        }),
+                        params.limit,
+                        params.offset,
+                        JSON.stringify(params.sort),
+                        JSON.stringify(params.populate),
+                        JSON.stringify(params.context));
+                }),
+                mergeMap(response => [
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new ProcessoViewDocumentosActions.GetDocumentosExcluidosSuccess({
+                        loaded: {
+                            id: 'tarefaHandle',
+                            value: this.routerState.params.tarefaHandle
+                        },
+                        entitiesId: response['entities'].map(documento => documento.id),
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessoViewDocumentosActions.GetDocumentosExcluidosFailed(err));
+                    return caught;
+                })
+            );
+
     /**
      * Update Documento
      * @type {Observable<any>}
@@ -337,6 +404,9 @@ export class ProcessoViewDocumentosEffects {
                     } else {
                         primary += '0';
                     }
+                    if (action.payload.documento.apagadoEm) {
+                        primary += '/visualizar';
+                    }
                     let sidebar = action.payload.routeOficio + '/dados-basicos';
                     if (!action.payload.documento.documentoAvulsoRemessa && !action.payload.documento.juntadaAtual) {
                         sidebar = 'editar/' + action.payload.routeAtividade;
@@ -355,7 +425,8 @@ export class ProcessoViewDocumentosEffects {
                                 }
                             }],
                         {
-                            relativeTo: this.activatedRoute.parent // <--- PARENT activated route.
+                            relativeTo: this.activatedRoute.parent,
+                            queryParams: {lixeira: action.payload.documento.apagadoEm ? true : null}
                         }).then();
 
                 })
@@ -407,4 +478,53 @@ export class ProcessoViewDocumentosEffects {
                     }
                 ));
 
+
+    /**
+     * Undelete Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    undeleteDocumento: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.UndeleteDocumento>(ProcessoViewDocumentosActions.UNDELETE_DOCUMENTO),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documento',
+                        content: 'Restaurando a documento id ' + action.payload.documento.id + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._documentoService.undelete(action.payload.documento).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Documento id ' + action.payload.documento.id + ' restaurada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            return new ProcessoViewDocumentosActions.UndeleteDocumentoSuccess(response);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.documento.id,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Erro ao restaurar a documento id ' + action.payload.documento.id + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new ProcessoViewDocumentosActions.UndeleteDocumentoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 }
