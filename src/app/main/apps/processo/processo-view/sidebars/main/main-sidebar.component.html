@@ -244,13 +244,13 @@
 
                             <button
                                 *ngIf="(!minuta.documentoAvulsoRemessa || !minuta.documentoAvulsoRemessa.dataHoraRemessa) && !minuta.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(minuta.id)" mat-menu-item>
+                                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(minuta)" mat-menu-item>
                                 <mat-icon color="accent">delete</mat-icon>
                                 <span>Apagar Minuta</span>
                             </button>
                             <button
                                 *ngIf="minuta.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(minuta.id)" mat-menu-item>
+                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(minuta)" mat-menu-item>
                                 <mat-icon color="accent">undo</mat-icon>
                                 <span>Restaurar</span>
                             </button>
@@ -376,13 +376,13 @@
                         <mat-menu #moreMenu="matMenu">
                             <button
                                 *ngIf="(!oficio.documentoAvulsoRemessa || !oficio.documentoAvulsoRemessa.dataHoraRemessa) && !oficio.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(oficio.id)" mat-menu-item>
+                                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(oficio)" mat-menu-item>
                                 <mat-icon color="accent">delete</mat-icon>
                                 <span>Apagar Ofício</span>
                             </button>
                             <button
                                 *ngIf="oficio.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(oficio.id)" mat-menu-item>
+                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(oficio)" mat-menu-item>
                                 <mat-icon color="accent">undo</mat-icon>
                                 <span>Restaurar</span>
                             </button>
