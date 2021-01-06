@@ -115,6 +115,7 @@
                     [removendoAssinatura]="removendoAssinaturaId !== undefined && removendoAssinaturaId.indexOf(documento.id) > -1"
                     [convertendo]="convertendoId != undefined && convertendoId.indexOf(documento.id) > -1"
                     [actions]="actions"
+                    [tipoDocumentoPagination]="tipoDocumentoPagination"
                     [tiposDocumentosNaoEditaveis]="tiposDocumentosNaoEditaveis"
                     [maisDeUmItemSelecionado]="selectedIds?.length > 1"
                     (delete)="doDelete($event)"
