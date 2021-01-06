@@ -2,34 +2,39 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    OnInit,
+    ViewChild,
+    AfterViewInit,
+    ViewEncapsulation,
+    Input,
+    OnChanges,
+    Output,
+    EventEmitter
 } from '@angular/core';
 import {merge, of} from 'rxjs';
-
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
-import {EtiquetaDataSource} from '@cdk/data-sources/etiqueta-data-source';
-import {Etiqueta} from '@cdk/models';
+import {RegraEtiqueta} from '@cdk/models';
+import {RegraEtiquetaDataSource} from '@cdk/data-sources/regra-etiqueta-data-source';
 import {FormControl} from '@angular/forms';
 
 @Component({
-    selector: 'cdk-etiqueta-grid',
-    templateUrl: './cdk-etiqueta-grid.component.html',
-    styleUrls: ['./cdk-etiqueta-grid.component.scss'],
+    selector: 'cdk-regra-etiqueta-grid',
+    templateUrl: './cdk-regra-etiqueta-grid.component.html',
+    styleUrls: ['./cdk-regra-etiqueta-grid.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChanges {
+export class CdkRegraEtiquetaGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     loading = false;
 
     @Input()
-    etiquetas: Etiqueta[];
+    regrasEtiqueta: RegraEtiqueta[];
 
     @Input()
     total = 0;
@@ -37,11 +42,11 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     mode = 'list';
 
+    @Input()
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'etiqueta.nome', 'actions'];
+
     @Output()
     create = new EventEmitter<any>();
-
-    @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'modalidadeEtiqueta.valor', 'privada', 'ativo', 'corHexadecimal', 'actions'];
 
     allColumns: any[] = [
         {
@@ -65,24 +70,9 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },
         {
-            id: 'privada',
-            label: 'Privada',
-            fixed: false
-        },
-        {
-            id: 'ativo',
-            label: 'Ativo',
-            fixed: false
-        },
-        {
-            id: 'corHexadecimal',
-            label: 'Cor Hexadecimal',
-            fixed: false
-        },
-        {
-            id: 'modalidadeEtiqueta.valor',
-            label: 'Modalidade da Etiqueta',
-            fixed: false
+            id: 'etiqueta.nome',
+            label: 'Etiqueta',
+            fixed: true
         },
         {
             id: 'criadoPor.nome',
@@ -133,7 +123,7 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'regras', 'acoes'];
+    actions: string[] = ['delete', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -148,27 +138,21 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
     excluded = new EventEmitter<any>();
 
     @Output()
-    edit = new EventEmitter<number>();
+    cancel = new EventEmitter<any>();
 
     @Output()
     delete = new EventEmitter<number>();
 
     @Output()
-    regras = new EventEmitter<number>();
+    edit = new EventEmitter<number>();
 
     @Output()
-    acoes = new EventEmitter<number>();
-
-    @Output()
-    selected = new EventEmitter<Etiqueta>();
-
-    @Output()
-    cancel = new EventEmitter<any>();
+    selected = new EventEmitter<RegraEtiqueta>();
 
     @Output()
     selectedIds: number[] = [];
 
-    dataSource: EtiquetaDataSource;
+    dataSource: RegraEtiquetaDataSource;
 
     showFilter = false;
 
@@ -187,10 +171,11 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
         private _cdkSidebarService: CdkSidebarService
     ) {
         this.gridFilter = {};
+        this.regrasEtiqueta = [];
     }
 
     ngOnChanges(): void {
-        this.dataSource = new EtiquetaDataSource(of(this.etiquetas));
+        this.dataSource = new RegraEtiquetaDataSource(of(this.regrasEtiqueta));
         this.paginator.length = this.total;
     }
 
@@ -205,7 +190,7 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
 
         this.paginator.pageSize = this.pageSize;
 
-        this.dataSource = new EtiquetaDataSource(of(this.etiquetas));
+        this.dataSource = new RegraEtiquetaDataSource(of(this.regrasEtiqueta));
 
         this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
@@ -238,7 +223,7 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-etiqueta-filter').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-regra-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -272,28 +257,20 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
         }
     }
 
-    editEtiqueta(etiquetaId): void {
-        this.edit.emit(etiquetaId);
+    editRegra(regraId): void {
+        this.edit.emit(regraId);
     }
 
-    selectEtiqueta(etiqueta: Etiqueta): void {
-        this.selected.emit(etiqueta);
+    selectRegra(regraEtiqueta: RegraEtiqueta): void {
+        this.selected.emit(regraEtiqueta);
     }
 
-    deleteEtiqueta(etiquetaId): void {
-        this.delete.emit(etiquetaId);
+    deleteRegra(regraEtiquetaId): void {
+        this.delete.emit(regraEtiquetaId);
     }
 
-    deleteEtiquetas(etiquetasId): void {
-        etiquetasId.forEach(etiquetaId => this.deleteEtiqueta(etiquetaId));
-    }
-
-    acoesEtiqueta(etiquetaId): void {
-        this.acoes.emit(etiquetaId);
-    }
-
-    goToRegrasEtiqueta(etiquetaId): void {
-        this.regras.emit(etiquetaId);
+    deleteRegrasEtiqueta(regrasEtiquetaId): void {
+        regrasEtiquetaId.forEach(regraEtiquetaId => this.deleteRegrasEtiqueta(regraEtiquetaId));
     }
 
     /**
@@ -315,33 +292,33 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.etiquetas).map(k => this.etiquetas[k]);
-        this.selectedIds = arr.map(etiqueta => etiqueta.id);
+        const arr = Object.keys(this.regrasEtiqueta).map(k => this.regrasEtiqueta[k]);
+        this.selectedIds = arr.map(regraEtiqueta => regraEtiqueta.id);
         this.recompute();
     }
 
     /**
-     * Deselect all tarefas
+     * Deselect all regras
      */
     deselectAll(): void {
         this.selectedIds = [];
         this.recompute();
     }
 
-    toggleInSelected(etiquetaId): void {
-        const selectedEtiquetaIds = [...this.selectedIds];
+    toggleInSelected(regraId): void {
+        const selectedRegraIds = [...this.selectedIds];
 
-        if (selectedEtiquetaIds.find(id => id === etiquetaId) !== undefined) {
-            this.selectedIds = selectedEtiquetaIds.filter(id => id !== etiquetaId);
+        if (selectedRegraIds.find(id => id === regraId) !== undefined) {
+            this.selectedIds = selectedRegraIds.filter(id => id !== regraId);
         } else {
-            this.selectedIds = [...selectedEtiquetaIds, etiquetaId];
+            this.selectedIds = [...selectedRegraIds, regraId];
         }
         this.recompute();
     }
 
     recompute(): void {
         this.hasSelected = this.selectedIds.length > 0;
-        this.isIndeterminate = (this.selectedIds.length !== this.etiquetas.length && this.selectedIds.length > 0);
+        this.isIndeterminate = (this.selectedIds.length !== this.regrasEtiqueta.length && this.selectedIds.length > 0);
     }
 
     setFilter(gridFilter): void {
