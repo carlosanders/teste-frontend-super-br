@@ -1,4 +1,5 @@
 import * as ProcessoActions from '../actions/processo.actions';
+import * as ProcessoViewActions from '../../processo-view/store/actions/processo-view.actions';
 
 export interface ProcessoState {
     processoId: number;
@@ -7,6 +8,7 @@ export interface ProcessoState {
     errors: any;
     savingVinculacaoEtiquetaId: number;
     steps: boolean;
+    expandir: boolean;
 }
 
 export const ProcessoInitialState: ProcessoState = {
@@ -15,7 +17,8 @@ export const ProcessoInitialState: ProcessoState = {
     loaded: false,
     errors: false,
     savingVinculacaoEtiquetaId: null,
-    steps: false
+    steps: false,
+    expandir: false
 };
 
 export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoActions.ProcessoActionsAll): ProcessoState {
@@ -23,6 +26,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
 
         case ProcessoActions.CREATE_PROCESSO: {
             return {
+                ...state,
                 processoId: null,
                 loaded: {
                     id: 'processoHandle',
@@ -36,8 +40,16 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             };
         }
 
+        case ProcessoActions.EXPANDIR_PROCESSO: {
+            return {
+                ...state,
+                expandir: action.payload
+            };
+        }
+
         case ProcessoActions.UNLOAD_PROCESSO: {
             return {
+                ...state,
                 processoId: null,                
 //                loaded: undefined,
                 loaded: {
@@ -55,6 +67,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
 
         case ProcessoActions.GET_PROCESSO: {
             return {
+                ...state,
                 processoId: null,
                 loaded: false,
                 loading: true,
@@ -65,8 +78,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
         }
 
         case ProcessoActions.GET_PROCESSO_SUCCESS: {
-
             return {
+                ...state,
                 processoId: action.payload.processoId,
                 loading: false,
                 loaded: action.payload.loaded,
@@ -78,6 +91,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
 
         case ProcessoActions.GET_PROCESSO_FAILED: {
             return {
+                ...state,
                 processoId: null,
                 loading: false,
                 loaded: false,

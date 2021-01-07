@@ -272,7 +272,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
                 if (this.maximizado) {
-                    this._store.dispatch(new ToggleMaximizado());
+                    this._store.dispatch(new ToggleMaximizado(false));
                 }
             } else {
                 this.mobileMode = false;

@@ -298,7 +298,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.TOGGLE_MAXIMIZADO: {
             return {
                 ...state,
-                maximizado: !state.maximizado
+                maximizado: action.payload
             };
         }
 

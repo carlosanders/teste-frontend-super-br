@@ -32,6 +32,7 @@ import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
+import {expandirTela} from './store/selectors/processo.selectors';
 
 @Component({
     selector: 'tarefa-detail',
@@ -55,10 +56,12 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     showEtiqueta = false;
     habilitarOpcaoBtnAddEtiqueta = true;
 
-    placeholderEtiq = 'Coloque etiquetas para a tarefa';
+    placeholderEtiq = 'Adicionar etiquetas na tarefa';
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
+
+    expandir$: Observable<boolean>;
 
     screen$: Observable<any>;
 
@@ -105,6 +108,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.etiqueta$ = this._store.pipe(select(getEtiqueta));
+        this.expandir$ = this._store.pipe(select(expandirTela));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
@@ -178,7 +182,13 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe(
             maximizado => this.maximizado = maximizado
         );
-
+        this.expandir$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            expandir => {
+                this.doToggleMaximizado(expandir);
+            }
+        );
         this.pluginLoading$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
@@ -260,7 +270,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.cdkUpload.onClick();
     }
 
-    doToggleMaximizado(): void {
-        this._store.dispatch(new ToggleMaximizado());
+    doToggleMaximizado(valor: boolean): void {
+        this._store.dispatch(new ToggleMaximizado(valor));
     }
 }
