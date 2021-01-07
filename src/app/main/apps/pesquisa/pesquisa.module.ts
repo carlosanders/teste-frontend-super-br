@@ -45,9 +45,10 @@ const path = 'app/main/apps/pesquisa';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
-        module.routes[path].forEach((r => routes[0].children.push(r)));
+        module.routes[path].forEach((r => routes[0].children.unshift(r)));
     }
 });
+
 
 @NgModule({
     declarations: [

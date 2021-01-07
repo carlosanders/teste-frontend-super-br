@@ -2,7 +2,8 @@
 
     <mat-checkbox class="mr-8 ml-8 select" [checked]="selected"
                   (change)="toggleInSelected(documento.id)"
-                  (click)="$event.stopPropagation();">
+                  (click)="$event.stopPropagation();"
+                  *ngIf="actions.indexOf('select') > -1">
     </mat-checkbox>
 
     <div class="p-8 file" fxLayout="column" (click)="onClick(documento)"
@@ -45,7 +46,9 @@
         <mat-menu #menuDocumento="matMenu">
             <ng-template [ngIf]="!documento.apagadoEm">
                 <button
-                    *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa) && this._loginService.isGranted('ROLE_COLABORADOR')"
+                    [disabled]="!podeDeletar"
+                    *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa) 
+                    && this._loginService.isGranted('ROLE_COLABORADOR') && actions.indexOf('delete') > -1"
                     fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
                     <mat-icon color="accent">delete</mat-icon>
                     <span>Apagar Minuta</span>
@@ -70,6 +73,7 @@
                     <span>Ver Resposta</span>
                 </button>
                 <button fxLayout="row" fxLayoutAlign="start center"
+                        [disabled]="!podeAlterarTipoDocumento"
                         *showIfRole="'ROLE_COLABORADOR'"
                         [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
                     <mat-icon color="accent">edit</mat-icon>
@@ -121,4 +125,3 @@
     </div>
 
 </div>
-
