@@ -18,6 +18,10 @@ export const UNDELETE_DOCUMENTO = '[PROCESSO VIEW] UNDELETE DOCUMENTO';
 export const UNDELETE_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] UNDELETE DOCUMENTO SUCCESS';
 export const UNDELETE_DOCUMENTO_FAILED = '[PROCESSO VIEW] UNDELETE DOCUMENTO FAILED';
 
+export const DELETE_DOCUMENTO_FLUSH = '[PROCESSO VIEW] DELETE DOCUMENTO FLUSH';
+export const DELETE_DOCUMENTO_CANCEL = '[PROCESSO VIEW] DELETE DOCUMENTO CANCEL';
+export const DELETE_DOCUMENTO_CANCEL_SUCCESS = '[PROCESSO VIEW] DELETE DOCUMENTO CANCEL SUCCESS';
+
 export const UPDATE_DOCUMENTO = '[PROCESSO VIEW] UPDATE DOCUMENTO';
 export const UPDATE_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] UPDATE DOCUMENTO SUCCESS';
 export const UPDATE_DOCUMENTO_FAILED = '[PROCESSO VIEW] UPDATE DOCUMENTO FAILED';
@@ -200,6 +204,36 @@ export class UndeleteDocumentoSuccess implements Action {
  */
 export class UndeleteDocumentoFailed implements Action {
     readonly type = UNDELETE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Delete Documento Flush
+ */
+export class DeleteDocumentoFlush implements Action {
+    readonly type = DELETE_DOCUMENTO_FLUSH;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Documento Cancel
+ */
+export class DeleteDocumentoCancel implements Action {
+    readonly type = DELETE_DOCUMENTO_CANCEL;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Documento Cancel Success
+ */
+export class DeleteDocumentoCancelSuccess implements Action {
+    readonly type = DELETE_DOCUMENTO_CANCEL_SUCCESS;
 
     constructor(public payload: any) {
     }
@@ -555,6 +589,9 @@ export type ProcessoViewDocumentosActionsAll
     | UndeleteDocumento
     | UndeleteDocumentoSuccess
     | UndeleteDocumentoFailed
+    | DeleteDocumentoFlush
+    | DeleteDocumentoCancel
+    | DeleteDocumentoCancelSuccess
     | ChangeSelectedDocumentos
     | ConverteToPdf
     | ConverteToPdfSucess
