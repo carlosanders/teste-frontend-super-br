@@ -81,3 +81,8 @@ export const getLixeiraMinutas = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.lixeiraMinutas
 );
+
+export const getBufferingDelete = createSelector(
+    getProcessoViewDocumentosState,
+    (state: ProcessoViewDocumentosState) => state.bufferingDelete
+);

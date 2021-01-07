@@ -77,3 +77,8 @@ export const getUnDeletingDocumentosId = createSelector(
     getAtividadeCreateDocumentosState,
     (state: AtividadeCreateDocumentosState) => state.undeletingDocumentoIds
 );
+
+export const getBufferingDelete = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.bufferingDelete
+);
