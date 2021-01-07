@@ -8,18 +8,17 @@ processo {
 
     > .page-layout {
 
+        padding-top: 10px;
+
         > .center {
 
             > .header {
-
                 flex: 0 1 auto;
                 display: flex;
                 flex-direction: row;
-                align-items: center;
-
-                height: 72px !important;
-                min-height: 72px !important;
-                max-height: 72px !important;
+                height: 58px !important;
+                min-height: 58px !important;
+                max-height: 58px !important;
 
                 > .search-wrapper {
                     flex: 1 1 auto;
@@ -63,5 +62,6 @@ processo {
             }
         }
     }
+
 }
 

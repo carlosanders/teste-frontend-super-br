@@ -58,6 +58,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     container: ViewContainerRef;
 
     private _profile: Usuario;
+    private expandir$: Observable<boolean>;
 
     /**
      *
@@ -112,6 +113,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.steps$ = this._store.pipe(select(fromStore.getSteps));
+        this.expandir$ = this._store.pipe(select(fromStore.getExpandirTela));
     }
 
     // -----------------------------------------------------------------------------------------------------

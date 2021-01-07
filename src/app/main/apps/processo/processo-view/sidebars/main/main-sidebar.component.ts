@@ -49,6 +49,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     processo$: Observable<Processo>;
     processo: Processo;
 
+    expandir$: Observable<boolean>;
+
     tarefaOrigem: Tarefa;
 
     documentos$: Observable<Documento[]>;
@@ -168,6 +170,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.animationDirection = 'none';
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
+        this.expandir$ = this._store.pipe(select(fromStore.expandirTela));
         this.isLoading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.index$ = this._store.pipe(select(fromStore.getIndex));
@@ -687,5 +690,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     doSairLixeiraMinutas(): void {
         this._store.dispatch(new fromStore.GetDocumentos());
+    }
+
+    expandirTela(valor: boolean): void {
+        this._store.dispatch(new fromStore.ExpandirProcesso(valor));
     }
 }

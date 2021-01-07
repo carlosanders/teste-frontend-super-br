@@ -11,6 +11,20 @@
             <mat-icon class="secondary-text">attach_file</mat-icon>
         </button>
 
+        <button class="toggle-filter" mat-icon-button *ngIf="!(expandir$ | async)"
+                aria-label="Expandir Tela"
+                matTooltip="Expandir Tela"
+                (click)="expandirTela(true)">
+            <mat-icon>fullscreen</mat-icon>
+        </button>
+
+        <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
+                aria-label="Minimizar Tela"
+                matTooltip="Minimizar Tela"
+                (click)="expandirTela(false)">
+            <mat-icon>fullscreen_exit</mat-icon>
+        </button>
+
         <mat-menu #moreMenu="matMenu">
             <button mat-menu-item aria-label="upload"
                     (click)="upload()">
