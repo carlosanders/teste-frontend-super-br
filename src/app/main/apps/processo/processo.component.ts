@@ -58,7 +58,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     container: ViewContainerRef;
 
     private _profile: Usuario;
-    private expandir$: Observable<boolean>;
+    expandir$: Observable<boolean>;
 
     /**
      *

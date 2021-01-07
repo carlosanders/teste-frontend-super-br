@@ -436,7 +436,7 @@ export class CreateVinculacaoEtiquetaFailed implements Action {
 export class ToggleMaximizado implements Action {
     readonly type = TOGGLE_MAXIMIZADO;
 
-    constructor(public payload: boolean) {
+    constructor(public payload: boolean = false) {
     }
 }
 
