@@ -3,17 +3,33 @@
     <!-- CENTER -->
     <div class="center" fxFlex fxLayout="column">
 
+
         <!-- CONTENT HEADER -->
         <div class="header" fxLayout="row" fxLayoutAlign="start center">
             <button mat-icon-button
-                    (click)="back()"
+                    (click)="doBack()"
                     aria-label="voltar"
                     matTooltip="Voltar">
                 <mat-icon>arrow_back</mat-icon>
             </button>
         </div>
         <!-- / CONTENT HEADER -->
-
+        <div class="header" fxLayout="row" fxLayoutAlign="center center">
+            <button mat-icon-button
+                    [disabled]="isFirst"
+                    (click)="doPrevious()"
+                    aria-label="Anterior"
+                    matTooltip="Documento Anterior">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <button mat-icon-button
+                    [disabled]="isLast"
+                    (click)="doNext()"
+                    aria-label="Próximo"
+                    matTooltip="Próximo Documento">
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+        </div>
         <!-- CONTENT -->
         <div fxFlex class="content">
 
