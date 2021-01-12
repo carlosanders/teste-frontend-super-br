@@ -30,7 +30,7 @@ import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {SnackBarDesfazerComponent} from '../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {CdkUtils} from '@cdk/utils';
 
 @Component({
@@ -52,6 +52,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     folders$: Observable<Folder[]>;
     currentTarefaId: number;
     tarefas: Tarefa[] = [];
+
+    loaded: any;
 
     tarefaListSize = 30;
     tarefaListOriginalSize: number;
@@ -145,6 +147,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
         this.error$ = this._store.pipe(select(fromStore.getError));
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
+
+        this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
+            this.loaded = loaded;
+        })
 
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.selectedTarefas$ = this._store.pipe(select(fromStore.getSelectedTarefas));
@@ -405,6 +411,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             undo: new fromStore.UndeleteTarefa({
                 tarefa: tarefa,
                 operacaoId: operacaoId,
+                loaded: this.loaded,
                 redo: null,
                 undo: null
             })
@@ -445,6 +452,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.UndeleteTarefa({
             tarefa: tarefa,
             operacaoId: operacaoId,
+            loaded: this.loaded,
             redo: null,
             undo: null
         }));
@@ -529,10 +537,50 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
     }
 
-    doCienciaTarefa(tarefaId): void {
+    doCienciaTarefa(tarefaId, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
         const tarefa = new Tarefa();
         tarefa.id = tarefaId;
-        this._store.dispatch(new fromStore.DarCienciaTarefa(tarefa));
+        this._store.dispatch(new fromStore.DarCienciaTarefa({
+            tarefa: tarefa,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStore.DarCienciaTarefa({
+                    tarefa: tarefa,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DarCienciaTarefaFlush()
+            ],
+            undo: null
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['fuse-white-bg'],
+            data: {
+                icon: 'check',
+                text: 'Ciência'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStore.DarCienciaTarefaCancel());
+            } else {
+                this._store.dispatch(new fromStore.DarCienciaTarefaFlush());
+            }
+        });
     }
 
     doRemoveTarefa(tarefa: Tarefa): void {

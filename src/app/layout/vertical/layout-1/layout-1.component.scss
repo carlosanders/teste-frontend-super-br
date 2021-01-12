@@ -10,6 +10,11 @@ vertical-layout-1 {
         min-width: 500px !important;
     }
 
+    .quick-panel.folded:not(.unfolded) {
+        max-height: 50px;
+        z-index: -1;
+    }
+
     #main {
         position: relative;
         display: flex;

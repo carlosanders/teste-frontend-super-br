@@ -1,8 +1,21 @@
 <div class="header accent">
-    <h1>Últimas Operações</h1>
+    <div class="buttons">
+        <button mat-icon-button class="toggle-sidebar-folded"
+                (click)="toggleSidebarLock()" fxHide.lt-lg>
+            <mat-icon>format_list_bulleted</mat-icon>
+        </button>
+        <button mat-icon-button class="toggle-sidebar-opened"
+                (click)="toggleSidebarOpen()" fxHide.gt-md>
+            <mat-icon>arrow_forward</mat-icon>
+        </button>
+    </div>
+    <div class="logo">
+        <span class="logo-text">Últimas Operações</span>
+    </div>
 </div>
 
-<mat-progress-bar *ngIf="operacoesPendentes > 0" mode="determinate" [value]="(operacoesProcessando * 100) / operacoesPendentes"></mat-progress-bar>
+<mat-progress-bar *ngIf="operacoesPendentes > 0" mode="determinate"
+                  [value]="(operacoesProcessando * 100) / operacoesPendentes"></mat-progress-bar>
 
 <div class="content" cdkPerfectScrollbar>
 
@@ -19,19 +32,21 @@
         <mat-card-content>
             <div class="card-content">
                 <span class="secondary-text">{{operacao.content}}</span>
-                <span class="mt-8 card-date secondary-text">{{operacao.dateTime?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+                <span
+                    class="mt-8 card-date secondary-text">{{operacao.dateTime?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
             </div>
         </mat-card-content>
         <mat-card-actions>
             <button *ngIf="operacao.status >= 2 && operacao.redo" mat-icon-button
                     class="secondary-text" matTooltip="Refazer" (click)="refazer(operacao)">
-                <mat-icon>redo</mat-icon> Refazer
+                <mat-icon>redo</mat-icon>
+                Refazer
             </button>
             <button *ngIf="operacao.status === 1 && operacao.undo" mat-icon-button
                     class="secondary-text" matTooltip="Desfazer" (click)="desfazer(operacao)">
-                <mat-icon>undo</mat-icon> Desfazer
+                <mat-icon>undo</mat-icon>
+                Desfazer
             </button>
         </mat-card-actions>
     </mat-card>
-
 </div>
