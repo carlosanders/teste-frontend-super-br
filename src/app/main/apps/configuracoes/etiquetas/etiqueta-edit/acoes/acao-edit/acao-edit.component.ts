@@ -7,15 +7,11 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {Acao} from '@cdk/models';
+import {Acao, ModalidadeEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Etiqueta} from '@cdk/models';
-import {Pagination} from '@cdk/models';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {getEtiqueta} from '../../store/selectors';
-import {Usuario} from '../../../../../../../../@cdk/models';
-import {Back} from '../../../../../../../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../../store/reducers';
 
@@ -29,51 +25,54 @@ import {getRouterState} from '../../../../../../../store/reducers';
 })
 export class AcaoEditComponent implements OnInit, OnDestroy {
     routerState: any;
+    action: string;
+    componentUrl:string;
     acao$: Observable<Acao>;
     acao: Acao;
+    formIsValid: boolean = false;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
     etiqueta$: Observable<Etiqueta>;
     etiqueta: Etiqueta;
 
-    unidadePagination: Pagination;
-    setorPagination: Pagination;
-    usuarioPagination: Pagination;
-
-    _profile: Usuario;
+    triggerAcaoList: { id:number, valor:string, descricao:string, modalidadeEtiqueta:ModalidadeEtiqueta}[] = [];
+    triggerAcaoDefaultValues: {id:number, valor:string, descricao:string, modalidadeEtiqueta:ModalidadeEtiqueta}[] = [
+        {
+            id: 1,
+            valor: 'Minuta',
+            descricao: 'Gera automaticamente uma minuta na tarefa etiquetada de acordo com o modelo pré-selecionado',
+            modalidadeEtiqueta: {valor: 'TAREFA'}
+        },
+    ];
 
     /**
      * @param _store
-     * @param _loginService
+     * @param _router
      */
     constructor(
         private _store: Store<fromStore.AcaoEditAppState>,
-        private _router: Router,
-        public _loginService: LoginService
+        private _router: Router
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.acao$ = this._store.pipe(select(fromStore.getAcao));
         this.etiqueta$ = this._store.pipe(select(getEtiqueta));
 
-        this._profile = _loginService.getUserProfile();
-
-        this.unidadePagination = new Pagination();
-        this.unidadePagination.filter = {parent: 'isNull'};
-
-        this.setorPagination = new Pagination();
-        this.setorPagination.populate = ['unidade', 'parent'];
-        this.setorPagination.filter = {parent: 'isNotNull'};
-
-        this.usuarioPagination = new Pagination();
-        this.usuarioPagination.filter = {id: `neq:${this._profile.id}`};
-
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
+                this.action = '';
                 if (routerState) {
                     this.routerState = routerState.state;
+                    this.componentUrl = 'acoes/editar/'+this.routerState.params.acaoHandle;
+                    const currentUrl = this.routerState.url;
+                    if (
+                        currentUrl.substr(currentUrl.length-this.componentUrl.length, this.componentUrl.length)
+                        == this.componentUrl
+                    ) {
+                        this.action = 'form-cadastro';
+                    }
                 }
             });
     }
@@ -88,17 +87,21 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.etiqueta$.subscribe(
-            etiqueta => this.etiqueta = etiqueta
+            etiqueta => {
+                this.etiqueta = etiqueta;
+            }
         );
 
         this.acao$.subscribe(
             acao => this.acao = acao
-        );
+        )
 
         if (!this.acao) {
             this.acao = new Acao();
             this.acao.etiqueta = this.etiqueta;
         }
+
+        this.loadTriggers();
     }
 
     /**
@@ -111,30 +114,22 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submit(values): void {
-
-        switch (values.trigger) {
-            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':
-                values.contexto = JSON.stringify({modeloId: values.modelo.id});
-                delete values.modelo;
-                break;
-            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0002':
-                break;
-
-        }
-
-        const acao = new Acao();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                acao[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.SaveAcao(acao));
+    goBack(): void {
+        this._router.navigate([this.routerState.url.replace(this.componentUrl, 'acoes/listar')]);
     }
 
-    doAbort(): void {
-        this._store.dispatch(new Back());
+    loadTriggers(): void {
+        this.triggerAcaoDefaultValues.forEach((trigger: any) => {
+            if (this.etiqueta.modalidadeEtiqueta.valor == trigger.modalidadeEtiqueta.valor) {
+                this.triggerAcaoList.push(trigger);
+            }
+        })
+    }
+
+    /**
+     * @param triggerAcao
+     */
+    selectTrigger(triggerAcao): void {
+        this._router.navigate([this.routerState.url+'/'+triggerAcao.id+'/trigger']);
     }
 }
