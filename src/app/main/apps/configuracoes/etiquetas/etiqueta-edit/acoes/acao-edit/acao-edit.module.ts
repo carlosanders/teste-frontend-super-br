@@ -16,7 +16,6 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 import {AcaoEditComponent} from './acao-edit.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkAcaoFormModule} from '@cdk/components/acao/cdk-acao-form/cdk-acao-form.module';
 import {AcaoEditStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {AcaoService} from '@cdk/services/acao.service';
@@ -66,7 +65,6 @@ modulesConfig.forEach((module) => {
         MatTooltipModule,
         CommonModule,
         MatRadioModule,
-        CdkAcaoFormModule,
         AcaoEditStoreModule,
         TranslateModule,
         CdkSharedModule,

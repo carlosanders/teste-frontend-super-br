@@ -9,7 +9,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from "@angular/router";
-import {Acao, Modelo, Pagination} from "../../../../../models";
+import {Acao, Modelo, Pagination} from "../../../../models";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({

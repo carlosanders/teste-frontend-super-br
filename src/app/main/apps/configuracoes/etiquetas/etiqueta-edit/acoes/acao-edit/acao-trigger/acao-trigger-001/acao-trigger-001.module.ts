@@ -19,7 +19,7 @@ import {AcaoTrigger001Component} from './acao-trigger-001.component';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
 import {CommonModule} from "@angular/common";
-import {CdkAcaoTrigger001Module} from "@cdk/components/acao/cdk-acao-form/cdk-acao-trigger/cdk-acao-trigger-001/cdk-acao-trigger-001.module";
+import {CdkAcaoTrigger001Module} from "@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-001/cdk-acao-trigger-001.module";
 
 const routes: Routes = [
     {
