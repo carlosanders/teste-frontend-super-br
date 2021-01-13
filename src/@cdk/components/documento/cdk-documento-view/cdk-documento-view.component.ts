@@ -1,9 +1,20 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    DoCheck,
+    EventEmitter,
+    Input,
+    OnInit,
+    Output,
+    ViewEncapsulation
+} from '@angular/core';
 import {Location} from '@angular/common';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {DomSanitizer} from '@angular/platform-browser';
 import {cdkAnimations} from '../../../animations';
+import {Documento} from '../../../models';
 
 @Component({
     selector: 'cdk-documento-view',
@@ -13,16 +24,39 @@ import {cdkAnimations} from '../../../animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class DocumentoViewComponent implements OnInit {
+export class DocumentoViewComponent implements OnInit, DoCheck {
 
     loading: boolean;
 
     @Input()
     binary$: Observable<any>;
 
+    @Input()
+    documentos: Documento[] = [];
+
+    @Input()
+    componenteDigitalAtualId: any;
+
     src: any;
 
     routerState: any;
+
+    @Output()
+    next = new EventEmitter<any>();
+
+    @Output()
+    back = new EventEmitter<any>();
+
+    @Output()
+    previous = new EventEmitter<any>();
+
+    controlDirection: any;
+
+    nextDocumento: Documento;
+    previousDocumento: Documento;
+
+    isLast: boolean;
+    isFirst: boolean;
 
     constructor(
         private _location: Location,
@@ -54,8 +88,27 @@ export class DocumentoViewComponent implements OnInit {
         );
     }
 
-    back(): void {
-        this._location.back();
+    doBack(): void {
+        this.back.emit();
+    }
+
+    doNext(): void {
+        this.next.emit(this.nextDocumento);
+    }
+
+    doPrevious(): void {
+        this.previous.emit(this.previousDocumento);
+    }
+
+    ngDoCheck(): void {
+        this.documentos.forEach((documento, key) => {
+            if (documento.componentesDigitais[0].id == this.componenteDigitalAtualId) {
+                this.nextDocumento = this.documentos[key + 1];
+                this.isLast =  key+ 1 === this.documentos.length;
+                this.previousDocumento = key === 0 ? this.documentos[key] : this.documentos[key - 1];
+                this.isFirst = key === 0;
+            }
+        })
     }
 
 }

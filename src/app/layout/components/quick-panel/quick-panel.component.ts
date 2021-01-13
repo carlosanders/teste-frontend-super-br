@@ -1,9 +1,12 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
-import {takeLast} from 'rxjs/operators';
+import {takeLast, takeUntil} from 'rxjs/operators';
 import {getOperacoes, getOperacoesEmProcessamento} from 'app/store';
 import {Observable} from 'rxjs';
+import {CdkNavigationService} from '../../../../@cdk/components/navigation/navigation.service';
+import {CdkSidebarService} from '../../../../@cdk/components/sidebar/sidebar.service';
+import {CdkConfigService} from '../../../../@cdk/services/config.service';
 
 @Component({
     selector: 'quick-panel',
@@ -16,15 +19,20 @@ export class QuickPanelComponent implements OnInit {
     resultados: any[] = [];
     settings: any;
 
+    lockedOpen = false;
+
     operacoesProcessando = 0;
     operacoesPendentes = 0;
     operacoes$: Observable<any>;
     operacoes = [];
 
     /**
-     * Constructor
+     *
+     * @param _store
+     * @param _cdkSidebarService
      */
-    constructor(private _store: Store<fromStore.State>) {
+    constructor(private _store: Store<fromStore.State>,
+                private _cdkSidebarService: CdkSidebarService) {
         // Set the defaults
         this.date = new Date();
         this.settings = {
@@ -75,5 +83,27 @@ export class QuickPanelComponent implements OnInit {
         } else {
             this._store.dispatch(operacao.undo);
         }
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    /**
+     * Toggle sidebar opened status
+     */
+    toggleSidebarOpen(): void {
+        this._cdkSidebarService.getSidebar('quickPanel').toggleOpen();
+    }
+
+    toggleSidebarUnfold(): void {
+        this._cdkSidebarService.getSidebar('quickPanel').unfold();
+    }
+
+    /**
+     * Toggle sidebar folded status
+     */
+    toggleSidebarLock(): void {
+        this._cdkSidebarService.getSidebar('quickPanel').toggleFold();
     }
 }

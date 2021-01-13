@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {buffer, catchError, map, mergeAll, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 
@@ -23,6 +23,13 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetDocumentos} from '../../atividades/atividade-create/store/actions';
 import {LoginService} from '../../../../../auth/login/login.service';
+import {getBufferingCiencia, getBufferingRedistribuir, getCienciaId, getRedistribuindoId} from '../selectors';
+import {
+    DarCienciaTarefa,
+    DarCienciaTarefaCancel,
+    RedistribuirTarefa,
+    RedistribuirTarefaCancelSuccess, RedistribuirTarefaFailed, RedistribuirTarefaSuccess
+} from '../../../store';
 
 @Injectable()
 export class TarefaDetailEffect {
@@ -179,6 +186,84 @@ export class TarefaDetailEffect {
             );
 
     /**
+     * Redistribuir Tarefa
+     * @type {Observable<any>}
+     */
+    @Effect()
+    redistribuirTarefa: any =
+        this._actions
+            .pipe(
+                ofType<TarefaDetailActions.RedistribuirTarefa>(TarefaDetailActions.REDISTRIBUIR_TAREFA),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Redistribuindo tarefa id ' + action.payload.tarefa.id + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId,
+                        redo: action.payload.redo
+                    }));
+                    this._store.dispatch(new RedistribuirTarefa({
+                        tarefa: action.payload.tarefa
+                    }));
+                }),
+                buffer(this._store.pipe(select(getBufferingRedistribuir))),
+                mergeAll(),
+                withLatestFrom(this._store.pipe(select(getRedistribuindoId))),
+                mergeMap(([action, redistribuindoId]) => {
+                    if (redistribuindoId === null) {
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'tarefa',
+                            content: 'Operação de redistribuição da tarefa id ' + action.payload.tarefa.id + ' foi cancelada!',
+                            status: 3, // cancelada
+                            lote: action.payload.loteId,
+                            redo: 'inherent'
+                        }));
+                        this._store.dispatch(new RedistribuirTarefaCancelSuccess(action.payload.tarefa.id));
+                        return of(new TarefaDetailActions.RedistribuirTarefaCancelSuccess({
+                            tarefa: action.payload.tarefa.id,
+                            url: action.payload.url
+                        }));
+                    }
+                    return this._tarefaService.save(action.payload.tarefa).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Tarefa id ' + action.payload.tarefa.id + ' redistribuída com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId,
+                                redo: 'inherent'
+                            }));
+                            new AddData<Tarefa>({
+                                data: [response],
+                                schema: tarefaSchema
+                            });
+                            return new TarefaDetailActions.RedistribuirTarefaSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.tarefa.id,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Erro ao redistribuir a tarefa id ' + action.payload.tarefa.id + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId,
+                                redo: 'inherent'
+                            }));
+                            console.log(err);
+                            this._store.dispatch(new RedistribuirTarefaFailed(payload));
+                            return of(new TarefaDetailActions.RedistribuirTarefaFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
+
+    /**
      * Dar Ciencia Tarefa
      * @type {Observable<any>}
      */
@@ -187,25 +272,26 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.DarCienciaTarefa>(TarefaDetailActions.DAR_CIENCIA_TAREFA),
-                switchMap((action) => {
-                    return this._tarefaService.ciencia(action.payload).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefaDetailActions.DarCienciaTarefaSuccess(action.payload),
-                            new AddData<Tarefa>({
-                                data: [response],
-                                schema: tarefaSchema
-                            }), new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} ciência com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            return of(new TarefaDetailActions.SaveTarefaFailed(err));
-                        })
-                    );
-                })
+                tap((action) => {
+                    this._store.dispatch(new DarCienciaTarefa({
+                        tarefa: action.payload.tarefa,
+                        operacaoId: action.payload.operacaoId,
+                        loteId: action.payload.loteId,
+                        redo: action.payload.redo,
+                        url: action.payload.url
+                    }));
+                }),
+                buffer(this._store.pipe(select(getBufferingCiencia))),
+                mergeAll(),
+                withLatestFrom(this._store.pipe(select(getCienciaId))),
+                mergeMap(([action, cienciaId]) => {
+                    if (cienciaId === null) {
+                        return of(new TarefaDetailActions.DarCienciaTarefaCancelSuccess({
+                            tarefa: action.payload.tarefa.id,
+                            url: action.payload.url
+                        }));
+                    }
+                }, 25)
             );
 
     /**
@@ -217,7 +303,53 @@ export class TarefaDetailEffect {
             .pipe(
                 ofType<TarefaDetailActions.DarCienciaTarefaSuccess>(TarefaDetailActions.DAR_CIENCIA_TAREFA_SUCCESS),
                 tap((action) => {
-                   this._router.navigate([this.routerState.url.split('/processo')[0] + '/encaminhamento']).then();
+                    this._router.navigate([
+                        this.routerState.url.split('/tarefa/')[0] + '/tarefa/' + this.routerState.params.tarefaHandle + '/encaminhamento'
+                    ]).then();
+                })
+            );
+
+    /**
+     * Dar Ciencia Tarefa Cancel Success
+     */
+    @Effect({dispatch: false})
+    darCienciaTarefaCancelSuccess: any =
+        this._actions
+            .pipe(
+                ofType<TarefaDetailActions.DarCienciaTarefaCancelSuccess>(TarefaDetailActions.DAR_CIENCIA_TAREFA_CANCEL_SUCCESS),
+                tap((action) => {
+                    this._router.navigate([action.payload.url]).then();
+                })
+            );
+
+    /**
+     * Redistribuir Tarefa Success
+     */
+    @Effect({dispatch: false})
+    redistribuirTarefaSuccess: any =
+        this._actions
+            .pipe(
+                ofType<TarefaDetailActions.RedistribuirTarefaSuccess>(TarefaDetailActions.REDISTRIBUIR_TAREFA_SUCCESS),
+                tap((action) => {
+                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                    this.routerState.params.typeHandle + '/' +
+                    '/' + this.routerState.params.targetHandle]).then(() => {
+                        this._store.dispatch(new RedistribuirTarefaSuccess(action.payload));
+                    });
+                })
+            );
+
+    /**
+     * Redistribuir Tarefa Cancel Success
+     */
+    @Effect({dispatch: false})
+    redistribuirTarefaCancelSuccess: any =
+        this._actions
+            .pipe(
+                ofType<TarefaDetailActions.RedistribuirTarefaCancelSuccess>(TarefaDetailActions.REDISTRIBUIR_TAREFA_CANCEL_SUCCESS),
+                tap((action) => {
+                    console.log(action.payload.url);
+                    this._router.navigate([action.payload.url]).then();
                 })
             );
 
@@ -258,7 +390,6 @@ export class TarefaDetailEffect {
                 })
             );
 
-
     /**
      * Save conteúdo vinculação etiqueta na tarefa
      * @type {Observable<any>}
@@ -270,7 +401,7 @@ export class TarefaDetailEffect {
                 ofType<TarefaDetailActions.SaveConteudoVinculacaoEtiqueta>(TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
                 mergeMap((action) => {
                     return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
-                       mergeMap((response) => [
+                        mergeMap((response) => [
                             new TarefaDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                             new UpdateData<VinculacaoEtiqueta>({
                                 id: response.id,
