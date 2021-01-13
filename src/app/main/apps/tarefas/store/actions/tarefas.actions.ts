@@ -70,6 +70,17 @@ export const DAR_CIENCIA_TAREFA = '[TAREFA] DAR CIENCIA TAREFA';
 export const DAR_CIENCIA_TAREFA_SUCCESS = '[TAREFA] DAR CIENCIA TAREFA SUCCESS';
 export const DAR_CIENCIA_TAREFA_FAILED = '[TAREFA] DAR CIENCIA TAREFA FAILED';
 
+export const DAR_CIENCIA_TAREFA_CANCEL = '[TAREFA] DAR CIENCIA TAREFA CANCEL';
+export const DAR_CIENCIA_TAREFA_CANCEL_SUCCESS = '[TAREFA] DAR CIENCIA TAREFA CANCEL SUCCESS';
+export const DAR_CIENCIA_TAREFA_FLUSH = '[TAREFA] DAR CIENCIA TAREFA FLUSH';
+
+export const REDISTRIBUIR_TAREFA = '[TAREFAS] REDISTRIBUIR TAREFA';
+export const REDISTRIBUIR_TAREFA_FAILED = '[TAREFAS] REDISTRIBUIR TAREFA FAILED';
+export const REDISTRIBUIR_TAREFA_SUCCESS = '[TAREFAS] REDISTRIBUIR TAREFA SUCCESS';
+
+export const REDISTRIBUIR_TAREFA_CANCEL = '[TAREFAS] REDISTRIBUIR TAREFA CANCEL';
+export const REDISTRIBUIR_TAREFA_CANCEL_SUCCESS = '[TAREFAS] REDISTRIBUIR TAREFA CANCEL SUCCESS';
+
 /**
  * Unload Tarefas
  */
@@ -535,7 +546,6 @@ export class SetAssuntosLoadedFailed implements Action {
     }
 }
 
-
 /**
  * Dar Ciencia Tarefa
  */
@@ -566,6 +576,102 @@ export class DarCienciaTarefaSuccess implements Action
 export class DarCienciaTarefaFailed implements Action
 {
     readonly type = DAR_CIENCIA_TAREFA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa Cancel
+ */
+export class DarCienciaTarefaCancel implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA_CANCEL;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa Cancel Success
+ */
+export class DarCienciaTarefaCancelSuccess implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA_CANCEL_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa Flush
+ */
+export class DarCienciaTarefaFlush implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA_FLUSH;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Redistribuir Tarefa
+ */
+export class RedistribuirTarefa implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Redistribuir Tarefa Failed
+ */
+export class RedistribuirTarefaFailed implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Redistribuir Tarefa Success
+ */
+export class RedistribuirTarefaSuccess implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Redistribuir Tarefa Cancel
+ */
+export class RedistribuirTarefaCancel implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA_CANCEL;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Redistribuir Tarefa Cancel Success
+ */
+export class RedistribuirTarefaCancelSuccess implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA_CANCEL_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -632,4 +738,12 @@ export type TarefasActionsAll
     | DarCienciaTarefa
     | DarCienciaTarefaSuccess
     | DarCienciaTarefaFailed
+    | DarCienciaTarefaCancel
+    | DarCienciaTarefaCancelSuccess
+    | DarCienciaTarefaFlush
+    | RedistribuirTarefa
+    | RedistribuirTarefaFailed
+    | RedistribuirTarefaSuccess
+    | RedistribuirTarefaCancel
+    | RedistribuirTarefaCancelSuccess
     | RemoveTarefa;

@@ -10,6 +10,11 @@ export const DELETE_COMPARTILHAMENTO = '[COMPARTILHAMENTO LIST] DELETE COMPARTIL
 export const DELETE_COMPARTILHAMENTO_SUCCESS = '[COMPARTILHAMENTO LIST] DELETE COMPARTILHAMENTO SUCCESS';
 export const DELETE_COMPARTILHAMENTO_FAILED = '[COMPARTILHAMENTO LIST] DELETE COMPARTILHAMENTO FAILED';
 
+export const DELETE_COMPARTILHAMENTO_FLUSH = '[COMPARTILHAMENTO LIST] DELETE COMPARTILHAMENTO FLUSH';
+export const DELETE_COMPARTILHAMENTO_CANCEL = '[COMPARTILHAMENTO LIST] DELETE COMPARTILHAMENTO CANCEL';
+export const DELETE_COMPARTILHAMENTO_CANCEL_SUCCESS = '[COMPARTILHAMENTO LIST] DELETE COMPARTILHAMENTO CANCEL SUCCESS';
+
+
 /**
  * Unload Compartilhamentos
  */
@@ -94,6 +99,36 @@ export class DeleteCompartilhamentoFailed implements Action
     }
 }
 
+/**
+ * Delete Compartilhamento Flush
+ */
+export class DeleteCompartilhamentoFlush implements Action {
+    readonly type = DELETE_COMPARTILHAMENTO_FLUSH;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Compartilhamento Cancel
+ */
+export class DeleteCompartilhamentoCancel implements Action {
+    readonly type = DELETE_COMPARTILHAMENTO_CANCEL;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Compartilhamento Cancel Success
+ */
+export class DeleteCompartilhamentoCancelSuccess implements Action {
+    readonly type = DELETE_COMPARTILHAMENTO_CANCEL_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
 export type CompartilhamentoListActionsAll
     = UnloadCompartilhamentos
     | GetCompartilhamentos
@@ -101,5 +136,8 @@ export type CompartilhamentoListActionsAll
     | GetCompartilhamentosFailed
     | DeleteCompartilhamento
     | DeleteCompartilhamentoSuccess
-    | DeleteCompartilhamentoFailed;
+    | DeleteCompartilhamentoFailed
+    | DeleteCompartilhamentoCancel
+    | DeleteCompartilhamentoCancelSuccess
+    | DeleteCompartilhamentoFlush;
 
