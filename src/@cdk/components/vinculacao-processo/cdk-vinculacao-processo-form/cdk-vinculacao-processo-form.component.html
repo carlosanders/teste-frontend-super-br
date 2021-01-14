@@ -38,6 +38,11 @@
         </mat-error>
     </mat-form-field>
 
+    <mat-slide-toggle formControlName="checkAnexacao" (change)="checaCiencia($event)"
+                      *ngIf="form.get('modalidadeVinculacaoProcesso').value && form.get('modalidadeVinculacaoProcesso').value.valor === 'ANEXAÇÃO'">
+        Estou ciente de que estes processos serão juntados para sempre e não poderão mais ser separados.
+    </mat-slide-toggle>
+
     <mat-form-field>
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255" upperCase></textarea>

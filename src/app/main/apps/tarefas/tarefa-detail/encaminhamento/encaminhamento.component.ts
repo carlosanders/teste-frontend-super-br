@@ -15,6 +15,8 @@ import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
 import {Tarefa} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
+import {CdkConfirmDialogComponent} from '../../../../../../@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector: 'encaminhamento',
@@ -27,6 +29,9 @@ import {takeUntil} from 'rxjs/operators';
 export class EncaminhamentoComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
+
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
 
     routerState: any;
 
@@ -41,11 +46,13 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      * @param _store
      * @param _router
+     * @param _matDialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _store: Store<fromStore.EncaminhamentoAppState>,
-        private _router: Router
+        private _router: Router,
+        private _matDialog: MatDialog,
     ) {
 
         this.tarefa$ = this._store.pipe(select(fromTarefaDetailStore.getTarefa));
@@ -93,7 +100,22 @@ export class EncaminhamentoComponent implements OnInit, OnDestroy {
 
         }
         if (values.options === 'arquivar') {
-            this._store.dispatch(new fromStore.SaveProcesso(this.tarefa.processo));
+            this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+                data: {
+                    title: 'Confirmação',
+                    confirmLabel: 'Sim',
+                    cancelLabel: 'Não',
+                },
+                disableClose: false
+            });
+
+            this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente arquivar o processo ' + this.tarefa.processo.NUPFormatado + '?';
+            this.confirmDialogRef.afterClosed().subscribe(result => {
+                if (result) {
+                    this._store.dispatch(new fromStore.SaveProcesso(this.tarefa.processo));
+                }
+                this.confirmDialogRef = null;
+            });
         }
         if (values.options === 'remeter') {
             this._router.navigate([
