@@ -28,11 +28,15 @@ const routes: Routes = [
         children: [
             {
                 path: 'listar',
-                loadChildren: () => import('./transicao-workflow-list/transicao-workflow-list.module').then(m => m.TransicaoWorkflowListModule),
-            },
+               loadChildren: () => import('./transicao-workflow-list/transicao-workflow-list.module').then(m => m.TransicaoWorkflowListModule),
+           },
             {
                 path: 'editar',
                 loadChildren: () => import('./transicao-workflow-edit/transicao-workflow-edit.module').then(m => m.TransicaoWorkflowEditModule),
+            },
+             {
+                path: ':transicaoWorkflowHandle/validacaoTransicaoWorkflow',
+                loadChildren: () => import('./validacao-transicao-workflow/validacao-transicao-workflow.module').then(m => m.ValidacaoTransicaoWorkflowModule),
             },
             {
                 path: '**',
@@ -41,7 +45,6 @@ const routes: Routes = [
         ]
     }
 ];
-
 const path = 'app/main/apps/admin/transicao-workflow';
 
 modulesConfig.forEach((module) => {

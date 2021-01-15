@@ -112,6 +112,7 @@ export const vinculacaoPessoaUsuario = new schema.Entity('vinculacao-pessoa-usua
 export const vinculacaoSetorMunicipio = new schema.Entity('vinculacao-setor-municipio');
 export const workflow = new schema.Entity('workflow');
 export const transicaoWorkflow = new schema.Entity('transicaoWorkflow');
+export const validacaoTransicaoWorkflow = new schema.Entity('validacaoTransicaoWorkflow');
 
 acao.define({
     criadoPor: usuario,
@@ -964,6 +965,13 @@ transicaoWorkflow.define({
     especieAtividade: especieAtividade,
     especieTarefaFrom: especieTarefa,
     especieTarefaTo: especieTarefa,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+validacaoTransicaoWorkflow.define({
+    transicaoWorkflow: transicaoWorkflow,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

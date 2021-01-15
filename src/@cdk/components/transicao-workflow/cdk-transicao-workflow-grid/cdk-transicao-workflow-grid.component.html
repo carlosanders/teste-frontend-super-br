@@ -217,6 +217,15 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+                        
+                        <button mat-icon-button
+                            *ngIf="actions.indexOf('regras') > -1 && !hasExcluded"
+                            [disabled]="deletedIds?.indexOf(transicaoWorkflow.id) > -1"
+                            (click)="regrasTransicaoWorkflow(transicaoWorkflow.id)"
+                            aria-label="regras"
+                            matTooltip="Regras">
+                            <mat-icon>assignment</mat-icon>
+                        </button>
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('favorito') > -1 && deletingIds?.indexOf(transicaoWorkflow.id) === -1 && !hasExcluded"
