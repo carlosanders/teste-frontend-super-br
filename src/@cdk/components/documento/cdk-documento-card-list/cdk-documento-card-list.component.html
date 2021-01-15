@@ -17,7 +17,7 @@
 
         <div *ngIf="!lixeiraMinutas">
             <button 
-                    [disabled]="!actions.indexOf('delete') > -1"
+                    [disabled]="actions.indexOf('delete') === -1"
                     mat-menu-item aria-label="remover" 
                     *showIfRole="'ROLE_COLABORADOR'"
                     (click)="doDeleteDocumentoBloco()">

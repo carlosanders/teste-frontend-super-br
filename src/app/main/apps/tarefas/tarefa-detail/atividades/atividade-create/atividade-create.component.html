@@ -73,6 +73,7 @@
                                  [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
                                  [convertendoId]="(convertendoDocumentosId$ | async)"
                                  (delete)="doDelete($event)"
+                                 (deleteBloco)="doDeleteBloco($event)"
                                  (removeAssinatura)="doRemoveAssinatura($event)"
                                  (assinatura)="doAssinatura($event)"
                                  (converte)="doConverte($event)"
