@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {buffer, catchError, map, mergeAll, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import * as AtividadeCreateDocumentosActions from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, Documento} from '@cdk/models';
@@ -14,6 +14,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {getBufferingDelete, getDeletingDocumentosId} from '../selectors';
 
 @Injectable()
 export class AtividadeCreateDocumentosEffect {
@@ -58,7 +59,8 @@ export class AtividadeCreateDocumentosEffect {
                     if (!action.payload['filter']) {
                         params = {
                             filter: {
-                                'tarefaOrigem.id': tarefaId
+                                'tarefaOrigem.id': tarefaId,
+                                'juntadaAtual': 'isNull'
                             },
                             limit: 10,
                             offset: 0,
@@ -144,16 +146,67 @@ export class AtividadeCreateDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.DeleteDocumento>(AtividadeCreateDocumentosActions.DELETE_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.destroy(action.payload).pipe(
-                            map((response) => new AtividadeCreateDocumentosActions.DeleteDocumentoSuccess(response.id)),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new AtividadeCreateDocumentosActions.DeleteDocumentoFailed(action.payload));
-                            })
-                        );
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documento',
+                        content: 'Apagando o documento id ' + action.payload.documentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId,
+                        redo: action.payload.redo,
+                        undo: action.payload.undo
+                    }));
+                }),
+                buffer(this._store.pipe(select(getBufferingDelete))),
+                mergeAll(),
+                withLatestFrom(this._store.pipe(select(getDeletingDocumentosId))),
+                mergeMap(([action, deletingDocumentosIds]) => {
+                    if (deletingDocumentosIds.indexOf(action.payload.documentoId) === -1) {
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'documento',
+                            content: 'Operação de apagar o documento id ' + action.payload.documentoId + ' foi cancelada!',
+                            status: 3, // cancelada
+                            lote: action.payload.loteId,
+                            redo: 'inherent',
+                            undo: 'inherent'
+                        }));
+                        return of(new AtividadeCreateDocumentosActions.DeleteDocumentoCancelSuccess(action.payload.documentoId));
                     }
-                ));
+                    return this._documentoService.destroy(action.payload.documentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Documento id ' + action.payload.documentoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId,
+                                redo: 'inherent',
+                                undo: 'inherent'
+                            }));
+                            new UpdateData<Documento>({id: response.id, schema: documentoSchema, changes: {apagadoEm: response.apagadoEm}});
+                            return new AtividadeCreateDocumentosActions.DeleteDocumentoSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.documentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Erro ao apagar o documento id ' + action.payload.documentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId,
+                                redo: 'inherent',
+                                undo: 'inherent'
+                            }));
+                            console.log(err);
+                            return of(new AtividadeCreateDocumentosActions.DeleteDocumentoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 
     /**
      * Assina Documento
@@ -312,8 +365,7 @@ export class AtividadeCreateDocumentosEffect {
                             ;
                     }
                 )
-            )
-    ;
+            );
 
     /**
      * Undelete Documento
@@ -343,7 +395,10 @@ export class AtividadeCreateDocumentosEffect {
                                 status: 1, // sucesso
                                 lote: action.payload.loteId
                             }));
-                            return new AtividadeCreateDocumentosActions.UndeleteDocumentoSuccess(response);
+                            return new AtividadeCreateDocumentosActions.UndeleteDocumentoSuccess({
+                                documento: response,
+                                loaded: action.payload.loaded
+                            });
                         }),
                         catchError((err) => {
                             const payload = {

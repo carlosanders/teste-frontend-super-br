@@ -14,6 +14,9 @@ export interface CompartilhamentoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    bufferingDelete: number;
+    error: any;
+    errorDelete: number[];
 }
 
 export const CompartilhamentoListInitialState: CompartilhamentoListState = {
@@ -29,7 +32,10 @@ export const CompartilhamentoListInitialState: CompartilhamentoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    bufferingDelete: 0,
+    error: null,
+    errorDelete: []
 };
 
 export function CompartilhamentoListReducer(state = CompartilhamentoListInitialState, action: CompartilhamentoListActions.CompartilhamentoListActionsAll): CompartilhamentoListState {
@@ -81,9 +87,15 @@ export function CompartilhamentoListReducer(state = CompartilhamentoListInitialS
         }
 
         case CompartilhamentoListActions.DELETE_COMPARTILHAMENTO: {
+            const entitiesId = state.entitiesId.filter(id => id !== action.payload.compartilhamentoId);
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                entitiesId: entitiesId,
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
+                },
+                deletingIds: [...state.deletingIds, action.payload.compartilhamentoId]
             };
         }
 
@@ -91,14 +103,46 @@ export function CompartilhamentoListReducer(state = CompartilhamentoListInitialS
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                errorDelete: [],
+                error: null
             };
         }
 
         case CompartilhamentoListActions.DELETE_COMPARTILHAMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                errorDelete: [...state.errorDelete, action.payload.id],
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id),
+                entitiesId: [...state.entitiesId, action.payload.id],
+                error: action.payload.error
+            };
+        }
+
+        case CompartilhamentoListActions.DELETE_COMPARTILHAMENTO_CANCEL: {
+            return {
+                ...state,
+                deletingIds: [],
+                bufferingDelete: state.bufferingDelete + 1,
+                errorDelete: [],
+                error: null
+            };
+        }
+
+        case CompartilhamentoListActions.DELETE_COMPARTILHAMENTO_FLUSH: {
+            return {
+                ...state,
+                bufferingDelete: state.bufferingDelete + 1
+            };
+        }
+
+        case CompartilhamentoListActions.DELETE_COMPARTILHAMENTO_CANCEL_SUCCESS: {
+            return {
+                ...state,
+                entitiesId: [...state.entitiesId, action.payload],
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total + 1
+                },
             };
         }
 

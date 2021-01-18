@@ -228,9 +228,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     }
 
     checkPais(): void {
-        const value = this.form.get('pais').value;
+        const value = this.form.get('nacionalidade').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('pais').setValue(null);
+            this.form.get('nacionalidade').setValue(null);
         }
     }
 

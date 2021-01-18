@@ -11,7 +11,7 @@ export class Pagination {
     sort: any;
 
     constructor() {
-        this.limit = 5;
+        this.limit = 10;
         this.offset = 0;
         this.filter = {};
         this.listFilter = {};

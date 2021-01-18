@@ -82,7 +82,7 @@ export const origemDados = new schema.Entity('origem-dados');
 export const pais = new schema.Entity('pais');
 export const pessoa = new schema.Entity('pessoa');
 export const processo = new schema.Entity('processo');
-export const regra = new schema.Entity('regra');
+export const regraEtiqueta = new schema.Entity('regra-etiqueta');
 export const relacionamentoPessoal = new schema.Entity('relacionamento-pessoal');
 export const relevancia = new schema.Entity('relevancia');
 export const relatorio = new schema.Entity('relatorio');
@@ -113,6 +113,7 @@ export const vinculacaoSetorMunicipio = new schema.Entity('vinculacao-setor-muni
 export const workflow = new schema.Entity('workflow');
 export const transicaoWorkflow = new schema.Entity('transicaoWorkflow');
 export const validacaoTransicaoWorkflow = new schema.Entity('validacaoTransicaoWorkflow');
+export const acaoTransicaoWorkflow = new schema.Entity('acaoTransicaoWorkflow');
 
 acao.define({
     criadoPor: usuario,
@@ -720,7 +721,7 @@ processo.define({
     interessados: [interessado]
 });
 
-regra.define({
+regraEtiqueta.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -971,6 +972,13 @@ transicaoWorkflow.define({
 });
 
 validacaoTransicaoWorkflow.define({
+    transicaoWorkflow: transicaoWorkflow,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+acaoTransicaoWorkflow.define({
     transicaoWorkflow: transicaoWorkflow,
     criadoPor: usuario,
     atualizadoPor: usuario,

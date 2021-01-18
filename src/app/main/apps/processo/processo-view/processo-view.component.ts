@@ -78,6 +78,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     documentoAvulso = false;
 
+    modelos = false;
+
     @Output()
     select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
@@ -134,7 +136,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     }
                     const byteArray = new Uint8Array(byteNumbers);
                     const blob = new Blob([byteArray], {type: binary.src.mimetype});
-                    const   URL = window.URL;
+                    const URL = window.URL;
                     this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                     this.fileName = binary.src.fileName;
                     this.select.emit(binary.src);
@@ -164,6 +166,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     routerState.state.params.stepHandle === 'default';
                 this.vinculacao = routerState.state.url.indexOf('/vincular') !== -1;
                 this.documentoAvulso = routerState.state.url.indexOf('visualizar/' + routerState.state.params.stepHandle + '/oficio') !== -1;
+                this.modelos = routerState.state.url.indexOf('/modelos') !== -1;
                 this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
             }
         });
@@ -290,32 +293,40 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     navigateToStep(step: string): void {
-        if (this.routerState.url.indexOf('/documento/') !== -1) {
-            // Navegação do processo deve ocorrer por outlet
-            this._router.navigate(
-                [
-                    this.routerState.url.split('/documento/')[0] + '/documento/' +
-                    this.routerState.params.documentoHandle,
-                    {
-                        outlets: {
-                            primary: [
-                                this.routerState.url.indexOf('anexar-copia') === -1 ?
-                                    'visualizar-processo' : 'anexar-copia',
-                                this.routerState.params.processoHandle,
-                                'visualizar',
-                                step
-                            ]
+        let newSteps = step.split('-');
+        if (this.index[newSteps[0]] && this.index[newSteps[0]][newSteps[1]]) {
+            if (this.routerState.url.indexOf('/documento/') !== -1) {
+                // Navegação do processo deve ocorrer por outlet
+                this._router.navigate(
+                    [
+                        this.routerState.url.split('/documento/')[0] + '/documento/' +
+                        this.routerState.params.documentoHandle,
+                        {
+                            outlets: {
+                                primary: [
+                                    this.routerState.url.indexOf('anexar-copia') === -1 ?
+                                        'visualizar-processo' : 'anexar-copia',
+                                    this.routerState.params.processoHandle,
+                                    'visualizar',
+                                    step
+                                ]
+                            }
                         }
+                    ],
+                    {
+                        relativeTo: this._activatedRoute.parent
                     }
-                ],
-                {
-                    relativeTo: this._activatedRoute.parent
-                }
-            ).then();
-        } else {
-            this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
-                '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + step).then();
+                ).then(() => {
+                    this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                });
+            } else {
+                this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
+                    '/processo/' +
+                    this.routerState.params.processoHandle + '/visualizar/' + step)
+                    .then(() => {
+                        this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                    });
+            }
         }
     }
 

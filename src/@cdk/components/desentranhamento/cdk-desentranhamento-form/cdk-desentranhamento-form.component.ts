@@ -63,6 +63,7 @@ export class CdkDesentranhamentoFormComponent implements OnInit, OnChanges, OnDe
             tipo: ['processo_existente'],
             observacao: [null, [Validators.required]],
             processoDestino: [null, [Validators.required]],
+            checkCiencia: [null, [Validators.required]]
         });
 
         this.processoDestinoPagination = new Pagination();
@@ -157,4 +158,11 @@ export class CdkDesentranhamentoFormComponent implements OnInit, OnChanges, OnDe
     showProcessoDestinoGrid(): void {
         this.activeCard = 'processo-destino-gridsearch';
     }
+
+    checaCiencia(event): void {
+        if (event.checked === false) {
+            this.form.get('checkCiencia').setValue(null);
+        }
+    }
+
 }

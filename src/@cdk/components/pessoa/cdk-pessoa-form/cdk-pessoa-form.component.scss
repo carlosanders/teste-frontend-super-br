@@ -4,4 +4,47 @@ cdk-pessoa-form {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+
+    form {
+        flex: 0 1 auto;
+        display: flex;
+        flex-direction: column;
+
+        mat-form-field {
+            flex: 1 1 auto;
+        }
+
+        .responsive-group {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: row;
+
+            mat-form-field + mat-form-field {
+                margin-left: 24px;
+            }
+
+            mat-radio-group {
+                margin-bottom: 8px;
+
+                mat-radio-button {
+                    margin-right: 24px;
+                }
+            }
+        }
+
+        .responsive-group[max-width~="600px"] {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+
+            mat-form-field + mat-form-field {
+                margin-left: 24px;
+            }
+
+            mat-radio-button {
+                margin-right: 0;
+            }
+        }
+    }
+
 }

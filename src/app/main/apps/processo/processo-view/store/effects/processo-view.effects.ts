@@ -153,7 +153,7 @@ export class ProcessoViewEffect {
                 withLatestFrom(this._store.pipe(select(getPagination))),
                 tap(([action, pagination]) => {
                     if (this.routerState.params['stepHandle'] === 'default') {
-                        if (!action.payload.index.length) {
+                        if (!action.payload.index.length || !action.payload.index[0].length) {
                             if (this.routerState.url.indexOf('/documento/') !== -1) {
                                 // Navegação do processo deve ocorrer por outlet
                                 this._router.navigate(

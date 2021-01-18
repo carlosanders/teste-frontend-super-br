@@ -37,6 +37,7 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
     usuario$: Observable<Usuario>;
     modalidadeAfastamentoPagination: Pagination;
+    modulo: string;
 
     /**
      *
@@ -60,6 +61,15 @@ export class AfastamentoEditComponent implements OnInit, OnDestroy {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    if(this.routerState.url.includes('unidades')) {
+                        this.modulo = "unidades";
+                    }
+                    else if(this.routerState.url.includes('usuarios')) {
+                        this.modulo = "usuarios";
+                    }
+                    else {
+                        this.modulo = "lotacoes";
+                    }
                 }
             });
 

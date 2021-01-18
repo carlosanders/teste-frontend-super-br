@@ -6,7 +6,7 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Modelo} from '@cdk/models';
@@ -18,6 +18,7 @@ import {Processo} from '@cdk/models';
 import {Tarefa} from '@cdk/models';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
+import {filter, takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'modelo',
@@ -28,6 +29,8 @@ import {modulesConfig} from 'modules/modules-config';
     animations: cdkAnimations
 })
 export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     modelos$: Observable<Modelo[]>;
     loading$: Observable<boolean>;
@@ -62,7 +65,6 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
         private _store: Store<fromStore.ModelosAppState>,
         private _dynamicService: DynamicService
     ) {
-
         this.modelos$ = this._store.pipe(select(fromStore.getModelos));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
@@ -105,7 +107,10 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
         this.processo$.subscribe(processo => {
             this.processo = processo;
         });
-        this.tarefa$.subscribe(tarefa => {
+        this.tarefa$.pipe(
+            filter(tarefa => !!tarefa),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(tarefa => {
             this.tarefa = tarefa;
         });
         this.error$.subscribe(erro => {
@@ -117,6 +122,9 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
 
     ngOnDestroy(): void {
         this._store.dispatch(new fromStore.UnloadModelos());
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {

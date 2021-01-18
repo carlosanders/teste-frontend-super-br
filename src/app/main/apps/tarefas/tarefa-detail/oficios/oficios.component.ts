@@ -30,6 +30,10 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {FormBuilder} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {getDocumentosHasLoaded} from './store';
+import {CdkUtils} from '../../../../../../@cdk/utils';
 
 @Component({
     selector: 'tarefa-detail-oficios',
@@ -45,6 +49,8 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     tarefa$: Observable<Tarefa>;
     tarefa: Tarefa;
+
+    loadedOficios: any;
 
     errorEditor$: Observable<any>;
     loading$: Observable<boolean>;
@@ -72,6 +78,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routeOficioDocumento = 'oficio';
 
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
+    lote: string;
+
     /**
      *
      * @param _store
@@ -80,6 +90,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _changeDetectorRef
      * @param _dynamicService
      * @param _formBuilder
+     * @param _snackBar
      */
     constructor(
         private _store: Store<fromStore.TarefaOficiosAppState>,
@@ -87,7 +98,8 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef,
         private _dynamicService: DynamicService,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _snackBar: MatSnackBar
     ) {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this._profile = _loginService.getUserProfile().colaborador;
@@ -102,6 +114,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+
+        this._store.pipe(select(getDocumentosHasLoaded)).subscribe(
+            loaded => this.loadedOficios = loaded
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -234,8 +250,69 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
-    doDelete(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    doDelete(documentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        const documento = new Documento();
+        documento.id = documentoId
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documento.id,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStore.DeleteDocumento({
+                    documentoId: documento.id,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DeleteDocumentoFlush()
+            ],
+            undo: new fromStore.UndeleteDocumento({
+                documento: documento,
+                operacaoId: operacaoId,
+                loaded: this.loadedOficios,
+                redo: null,
+                undo: null
+            })
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['fuse-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Deletado(a)'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStore.DeleteDocumentoCancel());
+            } else {
+                this._store.dispatch(new fromStore.DeleteDocumentoFlush());
+            }
+        });
+    }
+
+    doRestaurar(documentoId): void {
+        const operacaoId = CdkUtils.makeId();
+        const documento = new Documento();
+        documento.id = documentoId
+        this._store.dispatch(new fromStore.UndeleteDocumento({
+            documento: documento,
+            operacaoId: operacaoId,
+            redo: null,
+            undo: null
+        }));
     }
 
     doVerResposta(documento): void {

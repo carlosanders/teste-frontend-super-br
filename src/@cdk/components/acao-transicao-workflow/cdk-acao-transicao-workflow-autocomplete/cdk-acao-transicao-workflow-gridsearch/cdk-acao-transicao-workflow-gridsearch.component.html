@@ -1,0 +1,10 @@
+<cdk-acao-transicao-workflow-grid
+        [loading]="loading"
+        [acoes]="acoes"
+        [displayedColumns]="['id', 'contexto', 'trigger', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (select)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-acao-transicao-workflow-grid>

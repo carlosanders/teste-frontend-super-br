@@ -13,9 +13,9 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {modulesConfig} from 'modules/modules-config';
 import {LoginService} from '../../../../auth/login/login.service';
 import {TransicaoWorkflowComponent} from './transicao-workflow.component';
@@ -37,6 +37,10 @@ const routes: Routes = [
              {
                 path: ':transicaoWorkflowHandle/validacaoTransicaoWorkflow',
                 loadChildren: () => import('./validacao-transicao-workflow/validacao-transicao-workflow.module').then(m => m.ValidacaoTransicaoWorkflowModule),
+            },
+            {
+                path: ':transicaoWorkflowHandle/acoes',
+                loadChildren: () => import('./acao-transicao-workflow/acao-transicao-workflow.module').then(m => m.AcaoTransicaoWorkflowModule)
             },
             {
                 path: '**',

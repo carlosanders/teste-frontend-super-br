@@ -103,7 +103,7 @@
                                       [vinculacaoProcesso]="vinculacaoProcesso"
                                       [form]="formVinculacaoProcesso"
                                       [saving]="(isSavingVinculacao$ | async)"
-                                      [errors]="(errors$ | async)"
+                                      [errors]="(errorsVinculacoes$ | async)"
                                       (save)="submitVinculacaoProcesso($event)"
                                       (abort)="doAbort()">
         </cdk-vinculacao-processo-form>
