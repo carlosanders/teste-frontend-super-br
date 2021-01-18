@@ -79,11 +79,27 @@ cdk-usuario-grid {
             }
         }
 
+        .responsive-grid[max-width~="770px"] {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            padding: 8px;
+
+            > .content {
+                height: 100%;
+            }
+        }
+
+
         .responsive-grid[max-width~="600px"] {
 
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+
+            > .content {
+                height: 100%;
+            }
 
             .mat-elevation-z8 {
                 box-shadow: none;

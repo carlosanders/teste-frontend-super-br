@@ -3,6 +3,7 @@
         [processos]="(processos$ | async)"
         [total]="(pagination$ | async)?.total"
         [mode]="NUPHandle ? 'list' : 'search'"
+        [mobileMode]="mobileMode"
         [actions]="['edit', 'view']"
         [displayedColumns]="colunas"
         (reload)="reload($event)"
