@@ -20,6 +20,8 @@ export interface TarefasState {
     deletingTarefaIds: number[];
     undeletingTarefaIds: number[];
     bufferingDelete: number;
+    bufferingCiencia: number;
+    bufferingRedistribuir: number;
     changingFolderTarefaIds: number[];
     togglingLidaTarefaIds: number[];
     currentTarefaId: number;
@@ -28,8 +30,11 @@ export interface TarefasState {
     maximizado: boolean;
     loadingAssuntosProcessosId: number[];
     cienciaTarefaIds: number[];
+    redistribuindoTarefaIds: number[];
     error: any;
     errorDelete: number[];
+    errorCiencia: number[];
+    errorRedistribuir: number[];
 }
 
 export const TarefasInitialState: TarefasState = {
@@ -53,14 +58,19 @@ export const TarefasInitialState: TarefasState = {
     changingFolderTarefaIds: [],
     togglingLidaTarefaIds: [],
     bufferingDelete: 0,
+    bufferingCiencia: 0,
+    bufferingRedistribuir: 0,
     deletedTarefaIds: [],
     selectedTarefaIds: [],
     currentTarefaId: null,
     maximizado: false,
     loadingAssuntosProcessosId: [],
     cienciaTarefaIds: [],
+    redistribuindoTarefaIds: [],
     error: null,
-    errorDelete: []
+    errorDelete: [],
+    errorCiencia: [],
+    errorRedistribuir: []
 };
 
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
@@ -214,7 +224,8 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.id),
-                entitiesId: [...state.entitiesId, action.payload.id],
+                entitiesId: !action.payload.loaded || action.payload.loaded === state.loaded ?
+                    [...state.entitiesId, action.payload.tarefa.id] : state.entitiesId
             };
         }
 
@@ -327,31 +338,118 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         }
 
         case TarefasActions.DAR_CIENCIA_TAREFA: {
-            return {
-                ...state,
-                cienciaTarefaIds: [...state.cienciaTarefaIds, action.payload.id]
-            };
-        }
-
-        case TarefasActions.DAR_CIENCIA_TAREFA_SUCCESS: {
-            const entitiesId = state.entitiesId.filter(id => id !== action.payload);
-            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload);
+            const entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
+            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id);
             return {
                 ...state,
                 entitiesId: entitiesId,
+                selectedTarefaIds: selectedTarefaIds,
                 pagination: {
                     ...state.pagination,
                     total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
                 },
-                selectedTarefaIds: selectedTarefaIds,
-                cienciaTarefaIds: [...state.cienciaTarefaIds, action.payload]
+                cienciaTarefaIds: [...state.cienciaTarefaIds, action.payload.tarefa.id]
+            };
+        }
+
+        case TarefasActions.DAR_CIENCIA_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                cienciaTarefaIds: state.cienciaTarefaIds.filter(id => id !== action.payload),
+                errorCiencia: [],
+                error: null
             };
         }
 
         case TarefasActions.DAR_CIENCIA_TAREFA_FAILED: {
             return {
                 ...state,
-                cienciaTarefaIds: state.cienciaTarefaIds.filter(id => id !== action.payload)
+                errorCiencia: [...state.errorCiencia, action.payload.id],
+                cienciaTarefaIds: state.cienciaTarefaIds.filter(id => id !== action.payload.id),
+                entitiesId: [...state.entitiesId, action.payload.id],
+                error: action.payload.error
+            };
+        }
+
+        case TarefasActions.DAR_CIENCIA_TAREFA_CANCEL: {
+            return {
+                ...state,
+                cienciaTarefaIds: [],
+                bufferingCiencia: state.bufferingCiencia + 1,
+                errorCiencia: [],
+                error: null
+            };
+        }
+
+        case TarefasActions.DAR_CIENCIA_TAREFA_FLUSH: {
+            return {
+                ...state,
+                bufferingCiencia: state.bufferingCiencia + 1,
+            };
+        }
+
+        case TarefasActions.DAR_CIENCIA_TAREFA_CANCEL_SUCCESS: {
+            return {
+                ...state,
+                entitiesId: [...state.entitiesId, action.payload],
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total + 1
+                },
+            };
+        }
+
+        case TarefasActions.REDISTRIBUIR_TAREFA: {
+            const entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
+            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id);
+            return {
+                ...state,
+                entitiesId: entitiesId,
+                selectedTarefaIds: selectedTarefaIds,
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total > 0 ? state.pagination.total - 1 : 0
+                },
+                redistribuindoTarefaIds: [...state.redistribuindoTarefaIds, action.payload.tarefa.id]
+            };
+        }
+
+        case TarefasActions.REDISTRIBUIR_TAREFA_FAILED: {
+            return {
+                ...state,
+                redistribuindoTarefaIds: state.redistribuindoTarefaIds.filter(id => id !== action.payload),
+                entitiesId: [...state.entitiesId, action.payload.id],
+                errorRedistribuir: [...state.errorRedistribuir, action.payload.id],
+                error: action.payload.error
+            }
+        }
+
+        case TarefasActions.REDISTRIBUIR_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                redistribuindoTarefaIds: state.redistribuindoTarefaIds.filter(id => id !== action.payload),
+                errorRedistribuir: [],
+                error: null
+            };
+        }
+
+        case TarefasActions.REDISTRIBUIR_TAREFA_CANCEL: {
+            return {
+                ...state,
+                redistribuindoTarefaIds: [],
+                errorRedistribuir: [],
+                error: null
+            };
+        }
+
+        case TarefasActions.REDISTRIBUIR_TAREFA_CANCEL_SUCCESS: {
+            return {
+                ...state,
+                entitiesId: [...state.entitiesId, action.payload],
+                pagination: {
+                    ...state.pagination,
+                    total: state.pagination.total + 1
+                },
             };
         }
 

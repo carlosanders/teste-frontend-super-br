@@ -26,6 +26,8 @@ import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
+import {CdkConfirmDialogComponent} from '../../../../@cdk/components/confirm-dialog/confirm-dialog.component';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({
     selector: 'processo',
@@ -38,6 +40,9 @@ import {DynamicService} from '../../../../modules/dynamic.service';
 export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
+
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -69,6 +74,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _loginService
      * @param _router
      * @param _dynamicService
+     * @param _matDialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -78,6 +84,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         public _loginService: LoginService,
         private _router: Router,
         private _dynamicService: DynamicService,
+        private _matDialog: MatDialog,
     ) {
         // Set the defaults
         this._profile = _loginService.getUserProfile();
@@ -222,6 +229,22 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     arquivarProcesso(): void {
-        this._store.dispatch(new fromStore.ArquivarProcesso(this.processo));
+        this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+            },
+            disableClose: false
+        });
+
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente arquivar o processo ' + this.processo.NUPFormatado + '?';
+
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this._store.dispatch(new fromStore.ArquivarProcesso(this.processo));
+            }
+            this.confirmDialogRef = null;
+        });
     }
 }

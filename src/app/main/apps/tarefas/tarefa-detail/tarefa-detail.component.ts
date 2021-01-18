@@ -24,7 +24,7 @@ import {
     SaveEtiqueta
 } from './store';
 import {getMaximizado} from '../store/selectors';
-import {ToggleMaximizado} from '../store/actions';
+import {DarCienciaTarefaCancel, DarCienciaTarefaFlush, ToggleMaximizado} from '../store/actions';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
@@ -33,6 +33,9 @@ import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {expandirTela} from './store/selectors/processo.selectors';
+import {CdkUtils} from '../../../../../@cdk/utils';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
 @Component({
     selector: 'tarefa-detail',
@@ -87,6 +90,10 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     routeAtividade = 'atividades/criar';
 
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
+    lote: string;
+
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     /**
@@ -95,13 +102,15 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _store
      * @param _loginService
      * @param _dynamicService
+     * @param _snackBar
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.TarefaDetailAppState>,
         public _loginService: LoginService,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _snackBar: MatSnackBar
     ) {
         this._profile = _loginService.getUserProfile();
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa)); 
@@ -259,7 +268,52 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCiencia(): void {
-        this._store.dispatch(new fromStore.DarCienciaTarefa(this.tarefa));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DarCienciaTarefa({
+            tarefa: this.tarefa,
+            operacaoId: operacaoId,
+            loteId: null,
+            redo: [
+                new fromStore.DarCienciaTarefa({
+                    tarefa: this.tarefa,
+                    operacaoId: operacaoId,
+                    loteId: null,
+                    redo: 'inherent',
+                    // redo e undo são herdados da ação original
+                    url: this._router.url
+                }),
+                new fromStore.DarCienciaTarefaFlush(),
+                new DarCienciaTarefaFlush()
+            ],
+            url: this._router.url,
+            undo: null
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['fuse-white-bg'],
+            data: {
+                icon: 'check',
+                text: 'Ciência'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStore.DarCienciaTarefaCancel());
+                this._store.dispatch(new DarCienciaTarefaCancel());
+            } else {
+                this._store.dispatch(new fromStore.DarCienciaTarefaFlush());
+                this._store.dispatch(new DarCienciaTarefaFlush());
+            }
+        });
     }
 
     doCreateTarefa(): void {

@@ -14,9 +14,21 @@ export const SAVE_TAREFA = '[TAREFA DETAIL] SAVE TAREFA';
 export const SAVE_TAREFA_SUCCESS = '[TAREFA DETAIL] SAVE TAREFA SUCCESS';
 export const SAVE_TAREFA_FAILED = '[TAREFA DETAIL] SAVE TAREFA FAILED';
 
+export const REDISTRIBUIR_TAREFA = '[TAREFA DETAIL] REDISTRIBUIR TAREFA';
+export const REDISTRIBUIR_TAREFA_SUCCESS = '[TAREFA DETAIL] REDISTRIBUIR TAREFA SUCCESS';
+export const REDISTRIBUIR_TAREFA_FAILED = '[TAREFA DETAIL] REDISTRIBUIR TAREFA FAILED';
+
+export const REDISTRIBUIR_TAREFA_CANCEL = '[TAREFA DETAIL] REDISTRIBUIR TAREFA CANCEL';
+export const REDISTRIBUIR_TAREFA_CANCEL_SUCCESS = '[TAREFA DETAIL] REDISTRIBUIR TAREFA CANCEL SUCCESS';
+export const REDISTRIBUIR_TAREFA_FLUSH = '[TAREFA DETAIL] REDISTRIBUIR TAREFA FLUSH';
+
 export const DAR_CIENCIA_TAREFA = '[TAREFA DETAIL] DAR CIENCIA TAREFA';
 export const DAR_CIENCIA_TAREFA_SUCCESS = '[TAREFA DETAIL] DAR CIENCIA TAREFA SUCCESS';
 export const DAR_CIENCIA_TAREFA_FAILED = '[TAREFA DETAIL] DAR CIENCIA TAREFA FAILED';
+
+export const DAR_CIENCIA_TAREFA_CANCEL = '[TAREFA DETAIL] DAR CIENCIA TAREFA CANCEL';
+export const DAR_CIENCIA_TAREFA_CANCEL_SUCCESS = '[TAREFA DETAIL] DAR CIENCIA TAREFA CANCEL SUCCESS';
+export const DAR_CIENCIA_TAREFA_FLUSH = '[TAREFA DETAIL] DAR CIENCIA TAREFA FLUSH';
 
 export const DELETE_TAREFA = '[TAREFA DETAIL] DELETE TAREFA';
 export const DELETE_TAREFA_SUCCESS = '[TAREFA DETAIL] DELETE TAREFA SUCCESS';
@@ -140,6 +152,78 @@ export class SaveTarefaFailed implements Action
 }
 
 /**
+ * Redistribuir Tarefa
+ */
+export class RedistribuirTarefa implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Redistribuir Tarefa Success
+ */
+export class RedistribuirTarefaSuccess implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Redistribuir Tarefa Failed
+ */
+export class RedistribuirTarefaFailed implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Redistribuir Tarefa Cancel
+ */
+export class RedistribuirTarefaCancel implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA_CANCEL;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Redistribuir Tarefa Cancel Success
+ */
+export class RedistribuirTarefaCancelSuccess implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA_CANCEL_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Redistribuir Tarefa Flush
+ */
+export class RedistribuirTarefaFlush implements Action
+{
+    readonly type = REDISTRIBUIR_TAREFA_FLUSH;
+
+    constructor()
+    {
+    }
+}
+
+/**
  * Dar Ciencia Tarefa
  */
 export class DarCienciaTarefa implements Action
@@ -171,6 +255,42 @@ export class DarCienciaTarefaFailed implements Action
     readonly type = DAR_CIENCIA_TAREFA_FAILED;
 
     constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa Cancel
+ */
+export class DarCienciaTarefaCancel implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA_CANCEL;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa Cancel Success
+ */
+export class DarCienciaTarefaCancelSuccess implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA_CANCEL_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Dar Ciencia Tarefa Flush
+ */
+export class DarCienciaTarefaFlush implements Action
+{
+    readonly type = DAR_CIENCIA_TAREFA_FLUSH;
+
+    constructor()
     {
     }
 }
@@ -247,9 +367,6 @@ export class CreateVinculacaoEtiquetaFailed implements Action
     }
 }
 
-
-
-
 /**
  * Save Conteudo Vinculacao Etiqueta
  */
@@ -285,8 +402,6 @@ export class SaveConteudoVinculacaoEtiquetaFailed implements Action
     {
     }
 }
-
-
 
 
 /**
@@ -432,9 +547,18 @@ export type TarefaDetailActionsAll
     | SaveTarefa
     | SaveTarefaSuccess
     | SaveTarefaFailed
+    | RedistribuirTarefa
+    | RedistribuirTarefaSuccess
+    | RedistribuirTarefaFailed
+    | RedistribuirTarefaCancel
+    | RedistribuirTarefaCancelSuccess
+    | RedistribuirTarefaFlush
     | DarCienciaTarefa
     | DarCienciaTarefaSuccess
     | DarCienciaTarefaFailed
+    | DarCienciaTarefaCancel
+    | DarCienciaTarefaCancelSuccess
+    | DarCienciaTarefaFlush
     | DeleteTarefa
     | DeleteTarefaSuccess
     | DeleteTarefaFailed

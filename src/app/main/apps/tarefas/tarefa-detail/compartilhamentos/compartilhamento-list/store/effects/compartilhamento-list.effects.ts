@@ -3,15 +3,17 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, exhaustMap, map, mergeMap} from 'rxjs/operators';
+import {buffer, catchError, exhaustMap, map, mergeAll, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as CompartilhamentoListActions from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/actions';
 
 import {CompartilhamentoService} from '@cdk/services/compartilhamento.service';
-import {AddData} from '@cdk/ngrx-normalizr';
-import {Compartilhamento} from '@cdk/models';
-import {compartilhamento as compartilhamentoSchema} from '@cdk/normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {Compartilhamento, Tarefa} from '@cdk/models';
+import {compartilhamento as compartilhamentoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
+import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
+import {getBufferingDelete, getDeletingIds} from '../selectors';
 
 @Injectable()
 export class CompartilhamentoListEffect {
@@ -81,14 +83,61 @@ export class CompartilhamentoListEffect {
         this._actions
             .pipe(
                 ofType<CompartilhamentoListActions.DeleteCompartilhamento>(CompartilhamentoListActions.DELETE_COMPARTILHAMENTO),
-                mergeMap((action) => {
-                    return this._compartilhamentoService.destroy(action.payload).pipe(
-                        map((response) => new CompartilhamentoListActions.DeleteCompartilhamentoSuccess(response.id)),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'compartilhamento',
+                        content: 'Apagando o compartilhamento id ' + action.payload.compartilhamentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId,
+                        redo: action.payload.redo
+                    }));
+                }),
+                buffer(this._store.pipe(select(getBufferingDelete))),
+                mergeAll(),
+                withLatestFrom(this._store.pipe(select(getDeletingIds))),
+                mergeMap(([action, deletingIds]) => {
+                    if (deletingIds.indexOf(action.payload.compartilhamentoId) === -1) {
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'compartilhamento',
+                            content: 'Operação de apagar o compartilhamento id ' + action.payload.compartilhamentoId + ' foi cancelada!',
+                            status: 3, // cancelada
+                            lote: action.payload.loteId,
+                            redo: 'inherent'
+                        }));
+                        return of(new CompartilhamentoListActions.DeleteCompartilhamentoCancelSuccess(action.payload.compartilhamentoId));
+                    }
+                    return this._compartilhamentoService.destroy(action.payload.compartilhamentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'compartilhamento',
+                                content: 'Compartilhamento id ' + action.payload.compartilhamentoId + ' deletado com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId,
+                                redo: 'inherent'
+                            }));
+                            new UpdateData<Compartilhamento>({id: response.id, schema: compartilhamentoSchema, changes: {apagadoEm: response.apagadoEm}});
+                            return new CompartilhamentoListActions.DeleteCompartilhamentoSuccess(response.id);
+                        }),
                         catchError((err) => {
-                            console.log (err);
-                            return of(new CompartilhamentoListActions.DeleteCompartilhamentoFailed(action.payload));
+                            const payload = {
+                                id: action.payload.compartilhamentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'compartilhamento',
+                                content: 'Erro ao apagar o compartilhamento id ' + action.payload.compartilhamentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId,
+                                redo: 'inherent'
+                            }));
+                            console.log(err);
+                            return of(new CompartilhamentoListActions.DeleteCompartilhamentoFailed(payload));
                         })
                     );
-                })
+                }, 25)
             );
 }
