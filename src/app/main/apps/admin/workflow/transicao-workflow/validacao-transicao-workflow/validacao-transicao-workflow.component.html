@@ -1,0 +1,18 @@
+<div class="header">
+    <path icone="low_priority"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="workflows">
+    </path>
+</div>
+<div class="content">
+    <div class="actions m-8">
+        <button mat-icon-button
+                (click)="goBack()"
+                *ngIf="this.action === 'listar'"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
+    <router-outlet></router-outlet>
+</div>
