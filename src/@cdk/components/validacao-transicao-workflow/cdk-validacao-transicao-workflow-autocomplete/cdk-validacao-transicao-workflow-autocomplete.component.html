@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayValidacaoFn">
+    <mat-option *ngFor="let validacao of validacaoList"
+                [value]="validacao">
+        <span [innerHTML]="displayValidacaoFn(validacao) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="validacaoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

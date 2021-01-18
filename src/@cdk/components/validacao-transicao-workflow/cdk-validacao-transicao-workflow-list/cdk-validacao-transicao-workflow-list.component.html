@@ -1,0 +1,38 @@
+<div class="actions">
+    <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
+            (click)="doCreate()"
+            aria-label="novo"
+            matTooltip="Novo">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+     
+
+
+
+
+
+
+
+     
+<div class="content" cdkPerfectScrollbar>
+    <div class="loading" *ngIf="loading">
+        <mat-spinner class="visibilidade-list-loading" diameter="32"></mat-spinner>
+    </div>
+
+    <div class="items" *ngIf="validacoes.length > 0 && !loading">
+        <cdk-validacao-transicao-workflow-list-item matRipple *ngFor="let validacao of validacoes" [validacao]="validacao"
+                            [deleting]="deletingIds.length > 0 && deletingIds.indexOf(validacao.id) > -1"
+                            [total]="validacoes.length"
+                            (delete)="doDeletevalidacao($event)"
+                            [@animate]="{value:'*',params:{y:'100%'}}">
+        </cdk-validacao-transicao-workflow-list-item>
+    </div>
+
+    <div class="no-validacoes-text" *ngIf="validacoes.length === 0 && !loading">
+        <span class="hint-text">{{ 'Nenhuma regra foi criada ainda!' }}</span>
+    </div>
+</div>
+
+
+
