@@ -37,6 +37,15 @@ export class CdkDocumentoCardComponent implements OnInit {
     maisDeUmItemSelecionado = false;
 
     @Input()
+    actions = ['delete', 'alterarTipo', 'select'];
+
+    @Input()
+    tiposDocumentosNaoEditaveis = [];
+
+    podeAlterarTipoDocumento = true;
+    podeDeletar = true;
+
+    @Input()
     selected = true;
 
     @Input()
@@ -126,6 +135,12 @@ export class CdkDocumentoCardComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+        this.tiposDocumentosNaoEditaveis.forEach((value) => {
+            if (this.documento.tipoDocumento.nome === value) {
+                this.podeAlterarTipoDocumento = false;
+                this.podeDeletar = false;
+            }
+        });
     }
 
     toggleInSelected(documentoId): void {

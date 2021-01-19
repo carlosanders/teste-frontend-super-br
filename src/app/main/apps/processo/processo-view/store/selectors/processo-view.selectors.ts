@@ -21,6 +21,11 @@ export const getJuntadasIds = createSelector(
     (state: ProcessoViewState) => state.entitiesId
 );
 
+export const expandirTela = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.expandir
+);
+
 export const getJuntadas = createSelector(
     schemaSelectors.getNormalizedEntities,
     getJuntadasIds,

@@ -22,6 +22,12 @@ import {MatMenuTrigger} from '@angular/material/menu';
 export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
+    actions = ['delete', 'select', 'alterarTipo'];
+
+    @Input()
+    tiposDocumentosNaoEditaveis = [];
+
+    @Input()
     documentos: Documento[];
 
     @Output()

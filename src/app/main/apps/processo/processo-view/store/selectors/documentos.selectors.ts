@@ -72,7 +72,22 @@ export const getDownloadDocumentoP7SId = createSelector(
     (state: ProcessoViewDocumentosState) => state.downloadP7SDocumentoIds
 );
 
+export const getLoadingDocumentosExcluidos = createSelector(
+    getProcessoViewDocumentosState,
+    (state: ProcessoViewDocumentosState) => state.loadingDocumentosExcluidos
+);
+
 export const getMinutasLoading = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.loading
+);
+
+export const getLixeiraMinutas = createSelector(
+    getProcessoViewDocumentosState,
+    (state: ProcessoViewDocumentosState) => state.lixeiraMinutas
+);
+
+export const getBufferingDelete = createSelector(
+    getProcessoViewDocumentosState,
+    (state: ProcessoViewDocumentosState) => state.bufferingDelete
 );

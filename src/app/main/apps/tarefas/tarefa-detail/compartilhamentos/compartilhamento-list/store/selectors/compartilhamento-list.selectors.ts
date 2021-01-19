@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.deletedIds
 );
+
+export const getBufferingDelete = createSelector(
+    getCompartilhamentoListState,
+    (state: CompartilhamentoListState) => state.bufferingDelete
+);

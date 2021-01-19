@@ -43,7 +43,7 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieTarefaInicial.nome', 'especieProcesso.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'especieProcesso.nome', 'especieTarefaInicial.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -57,14 +57,14 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: true
         },
         {
-            id: 'especieTarefaInicial.nome',
-            label: 'Espécie Tarefa',
-            fixed: true
-        },
-        {
             id: 'especieProcesso.nome',
             label: 'Espécie Processo',
             fixed: false
+        },
+        {
+            id: 'especieTarefaInicial.nome',
+            label: 'Espécie Tarefa',
+            fixed: true
         },
         {
             id: 'criadoPor.nome',

@@ -2,21 +2,21 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {buffer, catchError, map, mergeAll, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import * as ProcessoViewDocumentosActions from '../actions/documentos.actions';
-import {AddData} from '@cdk/ngrx-normalizr';
+import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, Documento} from '@cdk/models';
+import {Assinatura, Documento, Tarefa} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {assinatura as assinaturaSchema, documento as documentoSchema} from '@cdk/normalizr';
+import {assinatura as assinaturaSchema, documento as documentoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetJuntadas} from '../actions';
-import {getPagination} from '../selectors';
+import {getBufferingDelete, getDeletingDocumentosId, getPagination} from '../selectors';
 
 @Injectable()
 export class ProcessoViewDocumentosEffects {
@@ -104,6 +104,73 @@ export class ProcessoViewDocumentosEffects {
                 })
             );
 
+
+    /**
+     * Get Documentos Excluídos with router parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getDocumentosExcluidos: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.GetDocumentosExcluidos>(ProcessoViewDocumentosActions.GET_DOCUMENTOS_EXCLUIDOS),
+                switchMap(() => {
+
+                    let tarefaId = null;
+
+                    const routeParams = of('tarefaHandle');
+                    routeParams.subscribe(param => {
+                        tarefaId = `eq:${this.routerState.params[param]}`;
+                    });
+
+                    const params = {
+                        filter: {
+                            'tarefaOrigem.id': tarefaId,
+                            'juntadaAtual': 'isNull'
+                        },
+                        limit: 10,
+                        offset: 0,
+                        sort: {
+                            criadoEm: 'DESC'
+                        },
+                        populate: [
+                            'tipoDocumento',
+                            'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.documentoResposta',
+                            'componentesDigitais'
+                        ],
+                        context: {
+                            'mostrarApagadas': true
+                        }
+                    };
+
+                    return this._documentoService.query(
+                        JSON.stringify({
+                            ...params.filter
+                        }),
+                        params.limit,
+                        params.offset,
+                        JSON.stringify(params.sort),
+                        JSON.stringify(params.populate),
+                        JSON.stringify(params.context));
+                }),
+                mergeMap(response => [
+                    new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
+                    new ProcessoViewDocumentosActions.GetDocumentosExcluidosSuccess({
+                        loaded: {
+                            id: 'tarefaHandle',
+                            value: this.routerState.params.tarefaHandle
+                        },
+                        entitiesId: response['entities'].map(documento => documento.id),
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessoViewDocumentosActions.GetDocumentosExcluidosFailed(err));
+                    return caught;
+                })
+            );
+
     /**
      * Update Documento
      * @type {Observable<any>}
@@ -137,16 +204,67 @@ export class ProcessoViewDocumentosEffects {
         this._actions
             .pipe(
                 ofType<ProcessoViewDocumentosActions.DeleteDocumento>(ProcessoViewDocumentosActions.DELETE_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.destroy(action.payload).pipe(
-                            map((response) => new ProcessoViewDocumentosActions.DeleteDocumentoSuccess(response.id)),
-                            catchError((err) => {
-                                console.log(err);
-                                return of(new ProcessoViewDocumentosActions.DeleteDocumentoFailed(action.payload));
-                            })
-                        );
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documento',
+                        content: 'Apagando o documento id ' + action.payload.documentoId + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId,
+                        redo: action.payload.redo,
+                        undo: action.payload.undo
+                    }));
+                }),
+                buffer(this._store.pipe(select(getBufferingDelete))),
+                mergeAll(),
+                withLatestFrom(this._store.pipe(select(getDeletingDocumentosId))),
+                mergeMap(([action, deletingDocumentosIds]) => {
+                    if (deletingDocumentosIds.indexOf(action.payload.documentoId) === -1) {
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'documento',
+                            content: 'Operação de apagar o documento id ' + action.payload.documentoId + ' foi cancelada!',
+                            status: 3, // cancelada
+                            lote: action.payload.loteId,
+                            redo: 'inherent',
+                            undo: 'inherent'
+                        }));
+                        return of(new ProcessoViewDocumentosActions.DeleteDocumentoCancelSuccess(action.payload.documentoId));
                     }
-                ));
+                    return this._documentoService.destroy(action.payload.documentoId).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Documento id ' + action.payload.documentoId + ' deletada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId,
+                                redo: 'inherent',
+                                undo: 'inherent'
+                            }));
+                            new UpdateData<Documento>({id: response.id, schema: documentoSchema, changes: {apagadoEm: response.apagadoEm}});
+                            return new ProcessoViewDocumentosActions.DeleteDocumentoSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.documentoId,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Erro ao apagar o documento id ' + action.payload.documentoId + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId,
+                                redo: 'inherent',
+                                undo: 'inherent'
+                            }));
+                            console.log(err);
+                            return of(new ProcessoViewDocumentosActions.DeleteDocumentoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 
     /**
      * Assina Documento
@@ -337,6 +455,9 @@ export class ProcessoViewDocumentosEffects {
                     } else {
                         primary += '0';
                     }
+                    if (action.payload.documento.apagadoEm) {
+                        primary += '/visualizar';
+                    }
                     let sidebar = action.payload.routeOficio + '/dados-basicos';
                     if (!action.payload.documento.documentoAvulsoRemessa && !action.payload.documento.juntadaAtual) {
                         sidebar = 'editar/' + action.payload.routeAtividade;
@@ -355,7 +476,8 @@ export class ProcessoViewDocumentosEffects {
                                 }
                             }],
                         {
-                            relativeTo: this.activatedRoute.parent // <--- PARENT activated route.
+                            relativeTo: this.activatedRoute.parent,
+                            queryParams: {lixeira: action.payload.documento.apagadoEm ? true : null}
                         }).then();
 
                 })
@@ -452,4 +574,56 @@ export class ProcessoViewDocumentosEffects {
                     }
                 ));
 
+
+    /**
+     * Undelete Documento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    undeleteDocumento: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.UndeleteDocumento>(ProcessoViewDocumentosActions.UNDELETE_DOCUMENTO),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'documento',
+                        content: 'Restaurando a documento id ' + action.payload.documento.id + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId
+                    }));
+                }),
+                mergeMap((action) => {
+                    return this._documentoService.undelete(action.payload.documento).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Documento id ' + action.payload.documento.id + ' restaurada com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId
+                            }));
+                            return new ProcessoViewDocumentosActions.UndeleteDocumentoSuccess({
+                                documento: response,
+                                loaded: action.payload.loaded
+                            });
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.documento.id,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'documento',
+                                content: 'Erro ao restaurar a documento id ' + action.payload.documento.id + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId
+                            }));
+                            console.log(err);
+                            return of(new ProcessoViewDocumentosActions.UndeleteDocumentoFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
 }

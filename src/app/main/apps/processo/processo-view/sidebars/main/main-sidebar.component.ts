@@ -19,15 +19,21 @@ import {Observable, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getMercureState, getRouterState} from '../../../../../../store/reducers';
-import {getProcesso} from '../../../store/selectors';
+import {getMercureState, getRouterState} from '../../../../../../store';
+import {getProcesso} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {getTarefa} from '../../../../tarefas/tarefa-detail/store/selectors';
+import {getTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {MatDialog} from '@cdk/angular/material';
+import {LoginService} from '../../../../../auth/login/login.service';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {DynamicService} from '../../../../../../../modules/dynamic.service';
+import {getDocumentosHasLoaded} from '../../store';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -46,6 +52,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     processo$: Observable<Processo>;
     processo: Processo;
+
+    expandir$: Observable<boolean>;
 
     tarefaOrigem: Tarefa;
 
@@ -85,6 +93,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     convertendoDocumentosId$: Observable<number[]>;
     downloadP7SDocumentoIds$: Observable<number[]>;
     javaWebStartOK = false;
+    lixeiraMinutas$: Observable<boolean>;
+    loadingDocumentosExcluidos$: Observable<boolean>;
+
+    lixeiraMinutas: boolean;
 
     @Input()
     capaProcesso: boolean;
@@ -113,6 +125,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     tipoDocumentoPagination: Pagination;
 
+    loadedMinutas: any;
+
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
@@ -127,6 +141,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     minutasOpen = true;
 
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
+    lote: string;
+
     /**
      *
      * @param _juntadaService
@@ -137,6 +155,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      * @param _formBuilder
      * @param _router
      * @param _activatedRoute
+     * @param _loginService
+     * @param _snackBar
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -146,7 +166,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         private _store: Store<fromStore.ProcessoViewAppState>,
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        public _loginService: LoginService,
+        private _snackBar: MatSnackBar
     ) {
         this.form = this._formBuilder.group({
             volume: [null],
@@ -161,6 +183,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.animationDirection = 'none';
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
+        this.expandir$ = this._store.pipe(select(fromStore.expandirTela));
         this.isLoading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.index$ = this._store.pipe(select(fromStore.getIndex));
@@ -174,6 +197,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
+        this.loadingDocumentosExcluidos$ = this._store.pipe(select(fromStore.getLoadingDocumentosExcluidos));
         this.downloadP7SDocumentoIds$ = this._store.pipe(select(fromStore.getDownloadDocumentoP7SId));
 
         this.tipoDocumentoPagination = new Pagination();
@@ -221,6 +246,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                     this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
                     this.minutasLoading$ = this._store.pipe(select(fromStore.getMinutasLoading));
                     this.minutasSaving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+                    this._store.pipe(select(getDocumentosHasLoaded)).subscribe(
+                        loaded => this.loadedMinutas = loaded
+                    );
                 }
             }
         });
@@ -234,8 +262,44 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
         this.modeloPagination = new Pagination();
         this.modeloPagination.filter = {
-            'modalidadeModelo.valor': 'eq:EM BRANCO'
+            orX: [
+                {
+                    'modalidadeModelo.valor': 'eq:EM BRANCO'
+                },
+                {
+                    // Modelos individuais
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                },
+            ]
         };
+        if (this._loginService.isGranted('ROLE_COLABORADOR')) {
+            this.modeloPagination.filter.orX = [
+                ...this.modeloPagination.filter.orX,
+                {
+                    // Modelos do setor
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.setor.id': 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')
+                },
+                {
+                    // Modelos da unidade por especie de setor
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.unidade.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                },
+                {
+                    // Modelos nacionais
+                    'modalidadeModelo.valor': 'eq:NACIONAL',
+                    'vinculacoesModelos.orgaoCentral.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                }
+
+            ];
+        }
     }
 
     /**
@@ -243,13 +307,22 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      */
     ngOnInit(): void {
         if (this.tarefa) {
+            this.lixeiraMinutas$.subscribe(lixeira => {
+                this.lixeiraMinutas = lixeira;
+            });
             this.documentos$.pipe(
                 filter(cd => !!cd),
                 takeUntil(this._unsubscribeAll)
             ).subscribe(
                 documentos => {
-                    this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa));
-                    this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa);
+                    this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && !documento.apagadoEm);
+                    this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && !documento.apagadoEm);
+
+                    if (this.lixeiraMinutas) {
+                        this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && documento.apagadoEm);
+                        this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && documento.apagadoEm);
+                    }
+
                     this._changeDetectorRef.markForCheck();
                 }
             );
@@ -349,7 +422,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      * @param ativo
      */
     gotoStep(step, ativo): void {
-        if (this.juntadas[this.currentStep.step] === undefined || !ativo) {
+        if (this.juntadas[step] === undefined || !ativo) {
             this._store.dispatch(new fromStore.GetCapaProcesso());
             return;
         }
@@ -382,11 +455,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 {
                     relativeTo: this._activatedRoute.parent
                 }
-            ).then();
+            ).then(() => {
+                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
+            });
         } else {
             this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
                 '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + step + '-0').then();
+                this.routerState.params.processoHandle + '/visualizar/' + step + '-0').then(() => {
+                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
+            });
         }
     }
 
@@ -486,6 +563,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         ]).then();
     }
 
+    showModelosGrid(): void {
+        this.formEditor.get('modelo').setValue(null);
+        this.menuTriggerList.closeMenu();
+        this._router.navigate([
+            this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
+            '/visualizar/' + this.routerState.params.stepHandle + '/modelos'
+        ]).then();
+    }
+
     doAssinatura(documento: Documento): void {
         const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
@@ -576,8 +662,55 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
-    doDelete(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    doDelete(documento: Documento, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documento.id,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStore.DeleteDocumento({
+                    documentoId: documento.id,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DeleteDocumentoFlush()
+            ],
+            undo: new fromStore.UndeleteDocumento({
+                documento: documento,
+                operacaoId: operacaoId,
+                loaded: this.loadedMinutas,
+                redo: null,
+                undo: null
+            })
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['fuse-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Deletado(a)'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStore.DeleteDocumentoCancel());
+            } else {
+                this._store.dispatch(new fromStore.DeleteDocumentoFlush());
+            }
+        });
     }
 
     doRemoveAssinatura(documentoId): void {
@@ -601,9 +734,31 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     }
 
     enviarDocumentoEmail(juntadaId): void {
-        this._router.navigateByUrl(this.routerState.url.replace('/processo/' +
+        this._router.navigateByUrl(this.routerState.url.split('/processo/' +
             this.routerState.params.processoHandle +
-            '/visualizar', '/processo/' +
-            this.routerState.params.processoHandle + '/envia-email/' + juntadaId)).then();
+            '/visualizar')[0] + '/processo/' +
+            this.routerState.params.processoHandle + '/envia-email/' + juntadaId).then();
+    }
+
+    doRestaurar(documento: Documento): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.UndeleteDocumento({
+            documento: documento,
+            operacaoId: operacaoId,
+            redo: null,
+            undo: null
+        }));
+    }
+
+    minutasExcluidas(): void {
+        this._store.dispatch(new fromStore.GetDocumentosExcluidos());
+    }
+
+    doSairLixeiraMinutas(): void {
+        this._store.dispatch(new fromStore.GetDocumentos());
+    }
+
+    expandirTela(valor: boolean): void {
+        this._store.dispatch(new fromStore.ExpandirProcesso(valor));
     }
 }

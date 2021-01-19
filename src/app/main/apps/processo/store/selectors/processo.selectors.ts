@@ -16,6 +16,11 @@ export const getSavingVinculacaoEtiquetaId = createSelector(
     (state: ProcessoState) => state.savingVinculacaoEtiquetaId
 );
 
+export const getExpandirTela = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.expandir
+);
+
 export const getErrors = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.errors

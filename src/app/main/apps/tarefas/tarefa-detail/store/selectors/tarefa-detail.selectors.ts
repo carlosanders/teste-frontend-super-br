@@ -70,3 +70,23 @@ export const getDocumentosHasLoaded = createSelector(
     getTarefaState,
     (state: TarefaDetailState) => state.documentosLoaded
 );
+
+export const getBufferingCiencia = createSelector(
+    getTarefaState,
+    (state: TarefaDetailState) => state.bufferingCiencia
+);
+
+export const getBufferingRedistribuir = createSelector(
+    getTarefaState,
+    (state: TarefaDetailState) => state.bufferingRedistribuir
+);
+
+export const getRedistribuindoId = createSelector(
+    getTarefaState,
+    (state: TarefaDetailState) => state.redistribuindoId
+);
+
+export const getCienciaId = createSelector(
+    getTarefaState,
+    (state: TarefaDetailState) => state.cienciaId
+);

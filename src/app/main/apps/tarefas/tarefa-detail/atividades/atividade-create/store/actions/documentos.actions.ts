@@ -10,6 +10,10 @@ export const DELETE_DOCUMENTO = '[ATIVIDADE CREATE] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] DELETE DOCUMENTO SUCCESS';
 export const DELETE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] DELETE DOCUMENTO FAILED';
 
+export const DELETE_DOCUMENTO_FLUSH = '[ATIVIDADE CREATE] DELETE DOCUMENTO FLUSH';
+export const DELETE_DOCUMENTO_CANCEL = '[ATIVIDADE CREATE] DELETE DOCUMENTO CANCEL';
+export const DELETE_DOCUMENTO_CANCEL_SUCCESS = '[ATIVIDADE CREATE] DELETE DOCUMENTO CANCEL SUCCESS';
+
 export const UPDATE_DOCUMENTO = '[ATIVIDADE CREATE] UPDATE DOCUMENTO';
 export const UPDATE_DOCUMENTO_SUCCESS = '[ATIVIDADE CREATE] UPDATE DOCUMENTO SUCCESS';
 export const UPDATE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] UPDATE DOCUMENTO FAILED';
@@ -124,6 +128,36 @@ export class DeleteDocumentoFailed implements Action
 
     constructor(public payload: any)
     {
+    }
+}
+
+/**
+ * Delete Documento Flush
+ */
+export class DeleteDocumentoFlush implements Action {
+    readonly type = DELETE_DOCUMENTO_FLUSH;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Documento Cancel
+ */
+export class DeleteDocumentoCancel implements Action {
+    readonly type = DELETE_DOCUMENTO_CANCEL;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Documento Cancel Success
+ */
+export class DeleteDocumentoCancelSuccess implements Action {
+    readonly type = DELETE_DOCUMENTO_CANCEL_SUCCESS;
+
+    constructor(public payload: any) {
     }
 }
 
@@ -417,6 +451,9 @@ export type AtividadeCreateDocumentosActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
+    | DeleteDocumentoFlush
+    | DeleteDocumentoCancel
+    | DeleteDocumentoCancelSuccess
     | ChangeSelectedDocumentos
     | ConverteToPdf
     | ConverteToPdfSucess

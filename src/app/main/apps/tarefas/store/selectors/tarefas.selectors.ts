@@ -89,6 +89,16 @@ export const getBufferingDelete = createSelector(
     (state: TarefasState) => state.bufferingDelete
 );
 
+export const getBufferingCiencia = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.bufferingCiencia
+);
+
+export const getBufferingRedistribuir = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.bufferingRedistribuir
+);
+
 export const getIsAssuntoLoading = createSelector(
     getTarefasState,
     (state: TarefasState) => state.loadingAssuntosProcessosId
@@ -97,4 +107,9 @@ export const getIsAssuntoLoading = createSelector(
 export const getCienciaTarefaIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.cienciaTarefaIds
+);
+
+export const getRedistribuindoTarefaIds = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.redistribuindoTarefaIds
 );

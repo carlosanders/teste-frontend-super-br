@@ -292,7 +292,7 @@ export class CdkEtiquetaGridComponent implements AfterViewInit, OnInit, OnChange
         this.acoes.emit(etiquetaId);
     }
 
-    regrasEtiqueta(etiquetaId): void {
+    goToRegrasEtiqueta(etiquetaId): void {
         this.regras.emit(etiquetaId);
     }
 

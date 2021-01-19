@@ -6,6 +6,7 @@ export interface AtividadeCreateDocumentosState {
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
     undeletingDocumentoIds: number[];
+    bufferingDelete: number;
     alterandoDocumentoIds: number[];
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
@@ -15,6 +16,8 @@ export interface AtividadeCreateDocumentosState {
     lixeiraMinutas: boolean;
     loading: boolean;
     loaded: boolean;
+    error: any;
+    errorDelete: number[];
 }
 
 export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosState = {
@@ -28,10 +31,13 @@ export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosSta
     convertendoDocumentoIds: [],
     downloadDocumentosP7SIds: [],
     undeletingDocumentoIds: [],
+    bufferingDelete: 0,
     loadDocumentosExcluidos: false,
     loading: false,
     loaded: false,
-    lixeiraMinutas: false
+    lixeiraMinutas: false,
+    error: null,
+    errorDelete: []
 };
 
 export function AtividadeCreateDocumentosReducer(
@@ -85,9 +91,13 @@ export function AtividadeCreateDocumentosReducer(
         }
 
         case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO: {
+            const entitiesId = state.documentosId.filter(id => id !== action.payload.documentoId);
             return {
                 ...state,
-                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+                documentosId: entitiesId,
+                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoId],
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload.documentoId),
+                error: null
             };
         }
 
@@ -95,9 +105,43 @@ export function AtividadeCreateDocumentosReducer(
             return {
                 ...state,
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
-                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload)
+                errorDelete: [],
+                error: null
             };
+        }
+
+        case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                errorDelete: [...state.errorDelete, action.payload.id],
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
+                documentosId: [...state.documentosId, action.payload.id],
+                error: action.payload.error
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO_CANCEL: {
+            return {
+                ...state,
+                deletingDocumentoIds: [],
+                bufferingDelete: state.bufferingDelete + 1,
+                errorDelete: [],
+                error: null
+            }
+        }
+
+        case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO_FLUSH: {
+            return {
+                ...state,
+                bufferingDelete: state.bufferingDelete + 1
+            }
+        }
+
+        case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO_CANCEL_SUCCESS: {
+            return {
+                ...state,
+                documentosId: [...state.documentosId, action.payload],
+            }
         }
 
         case AtividadeCreateDocumentosActions.UPDATE_DOCUMENTO: {
@@ -223,10 +267,13 @@ export function AtividadeCreateDocumentosReducer(
         }
 
         case AtividadeCreateDocumentosActions.UNDELETE_DOCUMENTO_SUCCESS: {
+            let entitiesId = [];
+            entitiesId = state.lixeiraMinutas ?
+                state.documentosId.filter(id => id !== action.payload.documento.id) : [...state.documentosId, action.payload.documento.id];
             return {
                 ...state,
-                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id),
-                documentosId: state.documentosId.filter(id => id !== action.payload.id)
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.documento.id),
+                documentosId: !action.payload.loaded || action.payload.loaded === state.documentosLoaded ? entitiesId : state.documentosId
             };
         }
 
