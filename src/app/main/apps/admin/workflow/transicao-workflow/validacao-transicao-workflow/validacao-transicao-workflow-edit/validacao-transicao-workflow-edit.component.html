@@ -1,0 +1,9 @@
+<div class="content" cdkPerfectScrollbar>
+    <cdk-validacao-transicao-workflow-form
+        [validacao]="validacao"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-validacao-transicao-workflow-form>
+</div>

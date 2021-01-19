@@ -394,6 +394,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
+    doDeleteBloco(documentos: Documento[]): void {
+        this.lote = CdkUtils.makeId();
+        documentos.forEach((documento: Documento) => this.doDelete(documento.id, this.lote));
+    }
+
     doDelete(documentoId: number, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         const documento = new Documento();

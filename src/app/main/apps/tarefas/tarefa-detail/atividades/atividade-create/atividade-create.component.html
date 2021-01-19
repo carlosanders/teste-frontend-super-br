@@ -74,6 +74,7 @@
                                  [convertendoId]="(convertendoDocumentosId$ | async)"
                                  [downloadId] ="(downloadP7SDocumentosId$ | async)"
                                  (delete)="doDelete($event)"
+                                 (deleteBloco)="doDeleteBloco($event)"
                                  (removeAssinatura)="doRemoveAssinatura($event)"
                                  (assinatura)="doAssinatura($event)"
                                  (converte)="doConverte($event)"
