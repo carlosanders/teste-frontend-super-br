@@ -2,23 +2,23 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncap
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
+import {EspecieProcesso} from '@cdk/models';
 import * as fromStore from './store';
-import {Workflow} from '../../../../../../@cdk/models';
-import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {getRouterState} from '../../../../../../store/reducers';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
-    selector: 'workflow-list',
-    templateUrl: './workflow-list.component.html',
-    styleUrls: ['./workflow-list.component.scss'],
+    selector: 'workflow-especies-processo-list',
+    templateUrl: './especies-processo-list.component.html',
+    styleUrls: ['./especies-processo-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class WorkflowListComponent implements OnInit {
+export class EspeciesProcessoListComponent implements OnInit {
 
     routerState: any;
-    workflows$: Observable<Workflow[]>;
+    especieProcessos$: Observable<EspecieProcesso[]>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
@@ -28,12 +28,11 @@ export class WorkflowListComponent implements OnInit {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _store: Store<fromStore.WorkflowListAppState>,
+        private _store: Store<fromStore.WorkflowEspecieProcessoListAppState>,
     ) {
-        this.workflows$ = this._store.pipe(select(fromStore.getWorkflowList));
+        this.especieProcessos$ = this._store.pipe(select(fromStore.getEspecieProcessoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
-
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
@@ -53,10 +52,12 @@ export class WorkflowListComponent implements OnInit {
     }
 
     reload(params): void {
-        this._store.dispatch(new fromStore.GetWorkflow({
+        this._store.dispatch(new fromStore.GetEspecieProcesso({
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
@@ -67,27 +68,18 @@ export class WorkflowListComponent implements OnInit {
         }));
     }
 
-    editTransicoesWorkflow(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${workflowId}/transicoes`)]);
-    }
-
-    edit(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + workflowId]);
-    }
-
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
-    delete(workflowId: number): void {
-        this._store.dispatch(new fromStore.DeleteWorkflow(workflowId));
-    }
-
-    view(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'visualizar/') + workflowId]);
-    }
-
-    especies(workflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', `${workflowId}/especies-processo/listar`)]);
+    delete(especieProcessoId): void {
+        const especieProcesso = new EspecieProcesso();
+        especieProcesso.id = especieProcessoId;
+        this._store.dispatch(new fromStore.UpdateEspecieProcesso(
+            {
+                ...this.pagination,
+                especieProcesso: especieProcesso,
+            }
+        ));
     }
 }

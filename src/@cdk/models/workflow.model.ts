@@ -12,9 +12,9 @@ export class Workflow {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Type(() => EspecieProcesso)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    especieProcesso?: EspecieProcesso;
+    nome?: string;
+
+    descricao?: string;
 
     @Type(() => EspecieTarefa)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -53,7 +53,8 @@ export class Workflow {
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.especieProcesso = null;
+        this.nome = null;
+        this.descricao = null;
         this.especieTarefaInicial = null;
         this.criadoPor = null;
         this.criadoEm = null;

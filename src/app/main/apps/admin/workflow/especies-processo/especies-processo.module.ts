@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {WorkflowComponent} from './workflow.component';
+import {EspeciesProcessoComponent} from './especies-processo.component';
 import {RouterModule, Routes} from '@angular/router';
 import {
     MatAutocompleteModule,
@@ -14,37 +14,26 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {modulesConfig} from 'modules/modules-config';
-import {LoginService} from '../../../auth/login/login.service';
+import {LoginService} from '../../../../auth/login/login.service';
 
 const routes: Routes = [
     {
         path: '',
-        component: WorkflowComponent,
+        component: EspeciesProcessoComponent,
         children: [
             {
                 path: 'listar',
-                loadChildren: () => import('./workflow-list/workflow-list.module').then(m => m.WorkflowListModule),
+                loadChildren: () => import('./especies-processo-list/especies-processo-list.module')
+                    .then(m => m.EspeciesProcessoListModule),
             },
             {
                 path: 'editar',
-                loadChildren: () => import('./workflow-edit/workflow-edit.module').then(m => m.WorkflowEditModule),
-            },
-            {
-                path: ':workflowHandle/transicoes',
-                loadChildren: () => import('./transicao-workflow/transicao-workflow.module').then(m => m.TransicaoWorkflowModule)
-            },
-            {
-                path: ':workflowHandle/especies-processo',
-                loadChildren: () => import('./especies-processo/especies-processo.module')
-                    .then(m => m.EspeciesProcessoModule)
-            },
-            {
-                path: 'visualizar/:workflowViewHandle',
-                loadChildren: () => import('./workflow-view/workflow-view.module').then(m => m.WorkflowViewModule),
+                loadChildren: () => import('./especies-processo-edit/especies-processo-edit.module')
+                    .then(m => m.EspeciesProcessoEditModule),
             },
             {
                 path: '**',
@@ -54,7 +43,7 @@ const routes: Routes = [
     }
 ];
 
-const path = 'app/main/apps/admin/workflow';
+const path = 'app/main/apps/admin/workflow/especies-processo';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -63,7 +52,7 @@ modulesConfig.forEach((module) => {
 });
 
 @NgModule({
-    declarations: [WorkflowComponent],
+    declarations: [EspeciesProcessoComponent],
     imports: [
         CommonModule,
         RouterModule.forChild(routes),
@@ -85,5 +74,5 @@ modulesConfig.forEach((module) => {
         LoginService
     ]
 })
-export class WorkflowModule {
+export class EspeciesProcessoModule {
 }
