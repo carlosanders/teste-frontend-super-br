@@ -9,7 +9,7 @@ import {
     Output,
     SimpleChange, ViewEncapsulation
 } from '@angular/core';
-import {EspecieProcesso, EspecieTarefa, Pagination, Workflow} from '../../../models';
+import {EspecieTarefa, Pagination, Workflow} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {cdkAnimations} from '../../../animations';
 
@@ -42,9 +42,6 @@ export class CdkWorkflowFormComponent implements OnChanges, OnDestroy {
     especieTarefaPagination: Pagination;
 
     @Input()
-    especieProcessoPagination: Pagination;
-
-    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -60,7 +57,8 @@ export class CdkWorkflowFormComponent implements OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             id: [null],
             especieTarefaInicial: [null, [Validators.required]],
-            especieProcesso: [null, [Validators.required]],
+            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            descricao: [null, [Validators.required, Validators.maxLength(255)]],
         });
     }
 
@@ -130,17 +128,5 @@ export class CdkWorkflowFormComponent implements OnChanges, OnDestroy {
             this.form.get('especieTarefaInicial').setValue(especieTarefaInicial);
         }
         this.activeCard = 'form';
-    }
-
-    showEspecieProcessoGrid(): void {
-        this.activeCard = 'especie-processo-gridsearch';
-    }
-
-    selectEspecieProcesso(especieProcesso: EspecieProcesso): void {
-        if (especieProcesso) {
-            this.form.get('especieProcesso').setValue(especieProcesso);
-        }
-        this.activeCard = 'form';
-        
     }
 }
