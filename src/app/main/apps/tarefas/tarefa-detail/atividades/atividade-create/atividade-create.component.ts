@@ -75,6 +75,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentosId$: Observable<number[]>;
     loadDocumentosExcluidos$: Observable<boolean>;
     lixeiraMinutas$: Observable<boolean>;
     undeletingDocumentosId$: Observable<number[]>;
@@ -134,6 +135,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
 
         this.loadDocumentosExcluidos$ = this._store.pipe(select(fromStore.getDocumentosExcluidos));
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
@@ -492,6 +494,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     doConverte(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doDownloadP7S(documentoId): void {
+         this._store.dispatch(new fromStore.DownloadP7S(documentoId));
     }
 
     doRestaurar(documentoId): void {

@@ -508,6 +508,51 @@ export class ProcessoViewDocumentosEffects {
                 )
             );
 
+    /**
+     * Download P7S
+     * @type {Observable<any>}
+     *
+     * */
+    @Effect()
+    downloadP7S: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.DownloadToP7S>(ProcessoViewDocumentosActions.DOWNLOAD_DOCUMENTO_P7S),
+                mergeMap((action) => {
+                        return this._documentoService.downloadP7S(action.payload, {hash: action.payload.hash})
+                            .pipe(
+                                map((response) => {
+                                    if (response && response.conteudo) {
+                                        const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                                        const byteNumbers = new Array(byteCharacters.length);
+                                        for (let i = 0; i < byteCharacters.length; i++) {
+                                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                        }
+                                        const byteArray = new Uint8Array(byteNumbers);
+                                        const blob = new Blob([byteArray], {type: response.mimetype}),
+                                            URL = window.URL;
+                                        const data = URL.createObjectURL(blob);
+                                        const link = document.createElement('a');
+                                        link.href = data;
+                                        link.download = response.fileName;
+                                        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+                                        setTimeout( () => {
+                                            window.URL.revokeObjectURL(data);
+                                            link.remove();
+                                        }, 100);
+                                    }
+                                    return new ProcessoViewDocumentosActions.DownloadToP7SSuccess(action.payload);
+                                }),
+                                catchError((err) => {
+                                    console.log(err);
+                                    return of(new ProcessoViewDocumentosActions.DownloadToP7SFailed(action.payload));
+                                })
+                            )
+                            ;
+                    }
+                )
+            );
+
     @Effect()
     removeVinculacaoDocumento: any =
         this._actions
