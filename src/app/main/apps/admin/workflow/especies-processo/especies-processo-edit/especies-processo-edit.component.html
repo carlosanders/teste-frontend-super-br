@@ -1,0 +1,38 @@
+<div class="content" cdkPerfectScrollbar>
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+        <mat-form-field>
+            <input matInput placeholder="Espécie Processo"
+                   formControlName="especieProcesso"
+                   [matAutocomplete]="especieProcesso.autocomplete">
+            <cdk-especie-processo-autocomplete
+                #especieProcesso="especieProcessoAutocomplete"
+                [pagination]="especieProcessoAutocompletePagination"
+                [control]="form.get('especieProcesso')">
+            </cdk-especie-processo-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showEspecieProcessoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+        </mat-form-field>
+
+        <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+        <div class="actions">
+            <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+                SALVAR
+            </button>
+            <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+                CANCELAR
+            </button>
+            <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+        </div>
+    </form>
+
+    <cdk-especie-processo-gridsearch
+        *ngIf="activeCard === 'especie-processo-gridsearch'"
+        [pagination]="especieProcessoGridPagination"
+        (selected)="selectEspecieProcesso($event)"
+        (cancel)="closeGridSearch()">
+    </cdk-especie-processo-gridsearch>
+</div>
