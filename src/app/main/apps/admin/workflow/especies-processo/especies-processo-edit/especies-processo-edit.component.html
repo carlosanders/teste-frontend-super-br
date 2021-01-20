@@ -19,13 +19,13 @@
         <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
         <div class="actions">
-            <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!isSaving">
                 SALVAR
             </button>
-            <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!isSaving">
                 CANCELAR
             </button>
-            <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+            <mat-spinner color="accent" diameter="24" *ngIf="isSaving"></mat-spinner>
         </div>
     </form>
 
