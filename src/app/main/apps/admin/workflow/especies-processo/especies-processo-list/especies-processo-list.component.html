@@ -13,7 +13,8 @@
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="['select', 'id', 'nome', 'descricao', 'actions']"
         [actions]="['create', 'delete']"
-        (create)="create($event)"
+        (create)="create()"
+
         (reload)="reload($event)"
         (delete)="delete($event)">
     </cdk-especie-processo-grid>
