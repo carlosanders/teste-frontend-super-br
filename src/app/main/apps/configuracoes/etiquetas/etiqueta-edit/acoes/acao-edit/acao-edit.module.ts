@@ -33,6 +33,16 @@ const routes: Routes = [
                 path: '1',
                 loadChildren: () => import('./acao-trigger/acao-trigger-001/acao-trigger-001.module')
                     .then(m => m.AcaoTrigger001Module),
+            },
+            {
+                path: '2',
+                loadChildren: () => import('./acao-trigger/acao-trigger-002/acao-trigger-002.module')
+                    .then(m => m.AcaoTrigger002Module),
+            },
+            {
+                path: '3',
+                loadChildren: () => import('./acao-trigger/acao-trigger-003/acao-trigger-003.module')
+                    .then(m => m.AcaoTrigger003Module),
             }
         ]
     }

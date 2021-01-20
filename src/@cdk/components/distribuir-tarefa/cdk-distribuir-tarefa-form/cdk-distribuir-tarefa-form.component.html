@@ -1,4 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+    <h2>
+        Distribuição de Tarefa
+    </h2>
     <mat-card>
         <mat-card-subtitle>Responsável</mat-card-subtitle>
         <mat-slide-toggle formControlName="distribuicaoAutomatica">Distribuição Automática</mat-slide-toggle>
@@ -89,18 +92,6 @@
         </mat-form-field>
     </mat-card>
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
-
-    <div class="actions">
-        <button type="submit" mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid || !valid" *ngIf="!saving">
-            SALVAR
-        </button>
-        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
-            CANCELAR
-        </button>
-        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
-    </div>
-
 </form>
 
 <cdk-setor-gridsearch

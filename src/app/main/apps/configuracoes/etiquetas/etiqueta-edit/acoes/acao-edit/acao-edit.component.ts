@@ -44,6 +44,24 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
             descricao: 'Gera automaticamente uma minuta na tarefa etiquetada de acordo com o modelo pré-selecionado',
             modalidadeEtiqueta: {valor: 'TAREFA'}
         },
+        {
+            id: 2,
+            valor: 'Distribuição automática',
+            descricao: 'Distribuir as tarefas de forma automática ou por responsável.',
+            modalidadeEtiqueta: {valor: 'TAREFA'}
+        },
+        {
+            id: 3,
+            valor: 'Compartilhamento',
+            descricao: 'Compartilha a tarefa entre usuários.',
+            modalidadeEtiqueta: {valor: 'TAREFA'}
+        },
+        {
+            id: 4,
+            valor: 'Ofício',
+            descricao: 'Gera automaticamente um oficio na tarefa etiquetada',
+            modalidadeEtiqueta: {valor: 'TAREFA'}
+        },
     ];
 
     /**
@@ -130,6 +148,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
      * @param triggerAcao
      */
     selectTrigger(triggerAcao): void {
+        console.log(triggerAcao);
         this._router.navigate([this.routerState.url+'/'+triggerAcao.id+'/trigger']);
     }
 }

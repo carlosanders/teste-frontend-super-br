@@ -15,16 +15,17 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {AcaoTrigger002Component} from './acao-trigger-002.component';
+import {AcaoTrigger003Component} from './acao-trigger-003.component';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
 import {CommonModule} from "@angular/common";
-import {CdkAcaoTrigger002Module} from "@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-002/cdk-acao-trigger-002.module";
+
+import {CdkAcaoTrigger003Module} from "@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-003/cdk-acao-trigger-003.module";
 
 const routes: Routes = [
     {
         path: 'trigger',
-        component: AcaoTrigger002Component
+        component: AcaoTrigger003Component
     }
 ];
 
@@ -39,7 +40,7 @@ modulesConfig.forEach((module) => {
 // @ts-ignore
 @NgModule({
     declarations: [
-        AcaoTrigger002Component
+        AcaoTrigger003Component
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -60,10 +61,11 @@ modulesConfig.forEach((module) => {
         CommonModule,
         TranslateModule,
         CdkSharedModule,
-        CdkAcaoTrigger002Module
+
+        CdkAcaoTrigger003Module
     ],
     providers: [
     ]
 })
-export class AcaoTrigger002Module {
+export class AcaoTrigger003Module {
 }

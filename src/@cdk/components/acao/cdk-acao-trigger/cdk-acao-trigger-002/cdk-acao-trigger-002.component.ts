@@ -9,7 +9,7 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from "@angular/router";
-import {Acao, Modelo, Pagination} from "../../../../models";
+import {Acao, Modelo, Pagination, Tarefa} from "../../../../models";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 // @ts-ignore
@@ -35,6 +35,7 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
     @Output()
     abort = new EventEmitter<any>();
 
+    tarefa: Tarefa;
     form: FormGroup;
     formState: string = 'form';
 
@@ -107,6 +108,7 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
     }
 
     doAbort(): void {
+        console.log('aqui13');
         this.abort.emit();
     }
 

@@ -9,7 +9,6 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Colaborador, Tarefa} from '@cdk/models';
-import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
@@ -92,6 +91,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
     evento = false;
 
     editable = true;
+
 
     _profile: Colaborador;
 
@@ -358,16 +358,6 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
     clearValidators(): void {
             this.form.get('setorOrigem').clearValidators();
         }
-
-    submit(): void {
-        if (this.form.valid) {
-                this.save.emit(this.form.value);
-        }
-    }
-
-    doAbort(): void {
-        this.abort.emit();
-    }
 
     checkUsuarioResponsavel(): void {
         const value = this.form.get('usuarioResponsavel').value;
