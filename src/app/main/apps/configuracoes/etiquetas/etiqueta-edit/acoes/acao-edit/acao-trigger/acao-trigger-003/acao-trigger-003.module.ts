@@ -20,7 +20,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
 import {CommonModule} from "@angular/common";
 
-import {CdkAcaoTrigger003Module} from "@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-003/cdk-acao-trigger-003.module";
+// import {CdkAcaoTrigger003Module} from "@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-003/cdk-acao-trigger-003.module";
 
 const routes: Routes = [
     {
@@ -62,7 +62,7 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
 
-        CdkAcaoTrigger003Module
+        // CdkAcaoTrigger003Module
     ],
     providers: [
     ]

@@ -22,6 +22,7 @@ import {AcaoService} from '@cdk/services/acao.service';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
 import {CommonModule} from "@angular/common";
+import {TriggerAcaoProvider} from "../providers/trigger-acao-provider";
 
 const routes: Routes = [
     {
@@ -83,7 +84,8 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         AcaoService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        TriggerAcaoProvider
     ]
 })
 

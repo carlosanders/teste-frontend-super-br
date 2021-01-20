@@ -9,6 +9,7 @@ import {
 import {Acao} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Colaborador} from '@cdk/models';
+import {TriggerAcao} from "../../../../models/trigger-acao";
 
 @Component({
     selector: 'cdk-acao-list-item',
@@ -21,6 +22,9 @@ export class CdkAcaoListItemComponent implements OnInit {
 
     @Input()
     acao: Acao;
+
+    @Input()
+    triggerAcao: TriggerAcao;
 
     @Input()
     deleting: boolean;

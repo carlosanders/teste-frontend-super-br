@@ -14,6 +14,8 @@ import {Etiqueta} from '@cdk/models';
 import {getEtiqueta} from '../../store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../../store/reducers';
+import {TriggerAcao} from "../../../../../../../../@cdk/models/trigger-acao";
+import {TriggerAcaoProvider} from "../providers/trigger-acao-provider";
 
 @Component({
     selector: 'acao-edit',
@@ -36,33 +38,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
     etiqueta$: Observable<Etiqueta>;
     etiqueta: Etiqueta;
 
-    triggerAcaoList: { id:number, valor:string, descricao:string, modalidadeEtiqueta:ModalidadeEtiqueta}[] = [];
-    triggerAcaoDefaultValues: {id:number, valor:string, descricao:string, modalidadeEtiqueta:ModalidadeEtiqueta}[] = [
-        {
-            id: 1,
-            valor: 'Minuta',
-            descricao: 'Gera automaticamente uma minuta na tarefa etiquetada de acordo com o modelo pré-selecionado',
-            modalidadeEtiqueta: {valor: 'TAREFA'}
-        },
-        {
-            id: 2,
-            valor: 'Distribuição automática',
-            descricao: 'Distribuir as tarefas de forma automática ou por responsável.',
-            modalidadeEtiqueta: {valor: 'TAREFA'}
-        },
-        {
-            id: 3,
-            valor: 'Compartilhamento',
-            descricao: 'Compartilha a tarefa entre usuários.',
-            modalidadeEtiqueta: {valor: 'TAREFA'}
-        },
-        {
-            id: 4,
-            valor: 'Ofício',
-            descricao: 'Gera automaticamente um oficio na tarefa etiquetada',
-            modalidadeEtiqueta: {valor: 'TAREFA'}
-        },
-    ];
+    triggerAcaoList: TriggerAcao[];
 
     /**
      * @param _store
@@ -70,7 +46,8 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.AcaoEditAppState>,
-        private _router: Router
+        private _router: Router,
+        private _triggerAcaoProvider: TriggerAcaoProvider
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -137,11 +114,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
     }
 
     loadTriggers(): void {
-        this.triggerAcaoDefaultValues.forEach((trigger: any) => {
-            if (this.etiqueta.modalidadeEtiqueta.valor == trigger.modalidadeEtiqueta.valor) {
-                this.triggerAcaoList.push(trigger);
-            }
-        })
+        this.triggerAcaoList = this._triggerAcaoProvider.getTriggers(this.etiqueta.modalidadeEtiqueta);
     }
 
     /**

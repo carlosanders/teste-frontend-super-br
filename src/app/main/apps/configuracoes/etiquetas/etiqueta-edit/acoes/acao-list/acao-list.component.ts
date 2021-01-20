@@ -8,12 +8,14 @@ import {
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Acao} from '@cdk/models';
+import {Acao, Etiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {filter} from 'rxjs/operators';
+import {TriggerAcaoProvider} from "../providers/trigger-acao-provider";
+import {TriggerAcao} from "../../../../../../../../@cdk/models/trigger-acao";
 
 @Component({
     selector: 'acao-list',
@@ -28,6 +30,9 @@ export class AcaoListComponent implements OnInit {
     routerState: any;
     acoes$: Observable<Acao[]>;
     acoes: Acao[] = [];
+    triggerAcaoList: TriggerAcao[] = [];
+    etiqueta$: Observable<Etiqueta>;
+    etiqueta: Etiqueta;
     loading$: Observable<boolean>;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
@@ -41,8 +46,10 @@ export class AcaoListComponent implements OnInit {
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.AcaoListAppState>,
+        private _triggerAcaoProvider: TriggerAcaoProvider
     ) {
         this.acoes$ = this._store.pipe(select(fromStore.getAcaoList));
+        this.etiqueta$ = this._store.pipe(select(fromStore.getEtiqueta))
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
@@ -57,10 +64,21 @@ export class AcaoListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.etiqueta$.pipe(
+            filter(acoes => !!acoes)
+        ).subscribe(
+            etiqueta => {
+                this.etiqueta = etiqueta;
+                this.loadTriggerAcao();
+            }
+        );
         this.acoes$.pipe(
             filter(acoes => !!acoes)
         ).subscribe(
-            acoes => this.acoes = acoes
+            acoes => {
+                this.acoes = acoes;
+                this.loadTriggerAcao();
+            }
         );
     }
 
@@ -86,5 +104,9 @@ export class AcaoListComponent implements OnInit {
 
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
+    loadTriggerAcao(): void {
+        this.triggerAcaoList = this._triggerAcaoProvider.getTriggers(this.etiqueta.modalidadeEtiqueta);
     }
 }
