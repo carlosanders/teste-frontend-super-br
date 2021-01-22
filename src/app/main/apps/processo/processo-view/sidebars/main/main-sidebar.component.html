@@ -11,6 +11,20 @@
             <mat-icon class="secondary-text">attach_file</mat-icon>
         </button>
 
+        <button class="toggle-filter" mat-icon-button *ngIf="!(expandir$ | async)"
+                aria-label="Expandir Tela"
+                matTooltip="Expandir Tela"
+                (click)="expandirTela(true)">
+            <mat-icon>fullscreen</mat-icon>
+        </button>
+
+        <button class="toggle-filter" mat-icon-button *ngIf="(expandir$ | async)"
+                aria-label="Minimizar Tela"
+                matTooltip="Minimizar Tela"
+                (click)="expandirTela(false)">
+            <mat-icon>fullscreen_exit</mat-icon>
+        </button>
+
         <mat-menu #moreMenu="matMenu">
             <button mat-menu-item aria-label="upload"
                     (click)="upload()">
@@ -226,6 +240,7 @@
                                 *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) &&
                             !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
                             !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(minuta.id) > -1) &&
                             !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) &&
                             !((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(minuta.id) > -1)">
                             <mat-icon class="secondary-text">more_vert</mat-icon>
@@ -234,6 +249,7 @@
                         <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) ||
                             ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
                             ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(minuta.id) > -1) ||
                             ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) ||
                             ((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(minuta.id) > -1)"
                              class="spinner-container m-8">
@@ -244,13 +260,13 @@
 
                             <button
                                 *ngIf="(!minuta.documentoAvulsoRemessa || !minuta.documentoAvulsoRemessa.dataHoraRemessa) && !minuta.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(minuta.id)" mat-menu-item>
+                                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(minuta)" mat-menu-item>
                                 <mat-icon color="accent">delete</mat-icon>
                                 <span>Apagar Minuta</span>
                             </button>
                             <button
                                 *ngIf="minuta.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(minuta.id)" mat-menu-item>
+                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(minuta)" mat-menu-item>
                                 <mat-icon color="accent">undo</mat-icon>
                                 <span>Restaurar</span>
                             </button>
@@ -273,6 +289,11 @@
                                     mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Converter em PDF</span>
+                            </button>
+                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7S(minuta.id)"
+                                    mat-menu-item>
+                                <mat-icon color="accent">get_app</mat-icon>
+                                <span>Converter em P7S</span>
                             </button>
                             <button
                                 *ngIf="minuta.documentoAvulsoRemessa && minuta.documentoAvulsoRemessa.dataHoraResposta && !minuta.apagadoEm"
@@ -359,6 +380,7 @@
                                 *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) &&
                             !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
                             !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(oficio.id) > -1) &&
                             !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
                             !((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(oficio.id) > -1)">
                             <mat-icon class="secondary-text">more_vert</mat-icon>
@@ -367,6 +389,7 @@
                         <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) ||
                             ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) ||
                             ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) ||
+                            ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(oficio.id) > -1) ||
                             ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) ||
                             ((alterandoDocumentosId$ | async) !== undefined && (alterandoDocumentosId$ | async).indexOf(oficio.id) > -1)"
                              class="spinner-container m-8">
@@ -376,13 +399,13 @@
                         <mat-menu #moreMenu="matMenu">
                             <button
                                 *ngIf="(!oficio.documentoAvulsoRemessa || !oficio.documentoAvulsoRemessa.dataHoraRemessa) && !oficio.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(oficio.id)" mat-menu-item>
+                                fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(oficio)" mat-menu-item>
                                 <mat-icon color="accent">delete</mat-icon>
                                 <span>Apagar Ofício</span>
                             </button>
                             <button
                                 *ngIf="oficio.apagadoEm"
-                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(oficio.id)" mat-menu-item>
+                                fxLayout="row" fxLayoutAlign="start center" (click)="doRestaurar(oficio)" mat-menu-item>
                                 <mat-icon color="accent">undo</mat-icon>
                                 <span>Restaurar</span>
                             </button>
@@ -404,6 +427,11 @@
                                     mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Converter em PDF</span>
+                            </button>
+                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7S(oficio.id)"
+                                    mat-menu-item>
+                                <mat-icon color="accent">get_app</mat-icon>
+                                <span>Converter em P7S</span>
                             </button>
                             <button
                                 *ngIf="oficio.documentoAvulsoRemessa && oficio.documentoAvulsoRemessa.dataHoraResposta && !oficio.apagadoEm"

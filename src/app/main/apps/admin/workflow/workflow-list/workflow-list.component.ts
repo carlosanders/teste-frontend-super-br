@@ -86,4 +86,8 @@ export class WorkflowListComponent implements OnInit {
     view(workflowId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'visualizar/') + workflowId]);
     }
+
+    especies(workflowId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', `${workflowId}/especies-processo/listar`)]);
+    }
 }

@@ -1,4 +1,5 @@
 import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
+import * as TarefasActions from '../../../store/actions/tarefas.actions';
 
 export interface TarefaDetailState {
     tarefaId: number;
@@ -11,6 +12,11 @@ export interface TarefaDetailState {
     documentosId: number[];
     documentosLoaded: any;
     savingVinculacaoEtiquetaId: number;
+    bufferingCiencia: number;
+    bufferingRedistribuir: number;
+    cienciaId: number;
+    redistribuindoId: number;
+    error: any;
 }
 
 export const TarefaDetailInitialState: TarefaDetailState = {
@@ -23,7 +29,12 @@ export const TarefaDetailInitialState: TarefaDetailState = {
     documentosId: [],
     pluginLoading: [],
     documentosLoaded: false,
-    savingVinculacaoEtiquetaId: null
+    savingVinculacaoEtiquetaId: null,
+    bufferingCiencia: 0,
+    bufferingRedistribuir: 0,
+    cienciaId: null,
+    redistribuindoId: null,
+    error: null
 };
 
 export function TarefaDetailReducer(state = TarefaDetailInitialState, action: TarefaDetailActions.TarefaDetailActionsAll): TarefaDetailState {
@@ -93,6 +104,103 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case TarefaDetailActions.REDISTRIBUIR_TAREFA: {
+            return {
+                ...state,
+                saving: true,
+                redistribuindoId: action.payload.tarefa.id
+            };
+        }
+
+        case TarefaDetailActions.REDISTRIBUIR_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false,
+                error: null,
+                redistribuindoId: null
+            };
+        }
+
+        case TarefaDetailActions.REDISTRIBUIR_TAREFA_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload,
+                error: action.payload.error,
+                redistribuindoId: null
+            };
+        }
+
+        case TarefaDetailActions.REDISTRIBUIR_TAREFA_CANCEL: {
+            return {
+                ...state,
+                saving: false,
+                redistribuindoId: null,
+                error: null,
+                bufferingRedistribuir: state.bufferingRedistribuir + 1
+            };
+        }
+
+        case TarefaDetailActions.REDISTRIBUIR_TAREFA_CANCEL_SUCCESS: {
+            return {
+                ...state,
+                error: null
+            };
+        }
+
+        case TarefaDetailActions.REDISTRIBUIR_TAREFA_FLUSH: {
+            return {
+                ...state,
+                bufferingRedistribuir: state.bufferingRedistribuir + 1
+            };
+        }
+
+        case TarefaDetailActions.DAR_CIENCIA_TAREFA: {
+            return {
+                ...state,
+                cienciaId: action.payload.tarefa.id
+            };
+        }
+
+        case TarefaDetailActions.DAR_CIENCIA_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                cienciaId: null,
+                error: null
+            };
+        }
+
+        case TarefaDetailActions.DAR_CIENCIA_TAREFA_FAILED: {
+            return {
+                ...state,
+                cienciaId: null,
+                error: action.payload.error
+            };
+        }
+
+        case TarefaDetailActions.DAR_CIENCIA_TAREFA_CANCEL: {
+            return {
+                ...state,
+                cienciaId: null,
+                bufferingCiencia: state.bufferingCiencia + 1,
+                error: null
+            };
+        }
+
+        case TarefaDetailActions.DAR_CIENCIA_TAREFA_FLUSH: {
+            return {
+                ...state,
+                bufferingCiencia: state.bufferingCiencia + 1,
+            };
+        }
+
+        case TarefaDetailActions.DAR_CIENCIA_TAREFA_CANCEL_SUCCESS: {
+            return {
+                ...state,
             };
         }
 

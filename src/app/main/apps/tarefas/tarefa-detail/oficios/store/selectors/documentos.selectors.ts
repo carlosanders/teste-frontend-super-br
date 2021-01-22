@@ -62,3 +62,13 @@ export const getConvertendoDocumentosId = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.convertendoDocumentoIds
 );
+
+export const getUnDeletingDocumentosId = createSelector(
+    getTarefaOficiosDocumentosState,
+    (state: DocumentosState) => state.undeletingDocumentoIds
+);
+
+export const getBufferingDelete = createSelector(
+    getTarefaOficiosDocumentosState,
+    (state: DocumentosState) => state.bufferingDelete
+);
