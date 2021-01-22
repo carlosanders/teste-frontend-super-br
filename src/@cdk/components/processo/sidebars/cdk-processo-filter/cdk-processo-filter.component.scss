@@ -24,12 +24,19 @@ cdk-processo-filter {
             display: flex;
             flex-direction: column;
 
-            mat-form-field {
-                flex: 1 1 auto;
+            > mat-expansion-panel {
+                padding: 8px;
                 display: flex;
+                flex-direction: column;
 
-                .mat-form-field-wrapper {
+                mat-form-field {
                     flex: 1 1 auto;
+                    display: flex;
+                    margin-right: 16px;
+
+                    .mat-form-field-wrapper {
+                        flex: 1 1 auto;
+                    }
                 }
             }
         }

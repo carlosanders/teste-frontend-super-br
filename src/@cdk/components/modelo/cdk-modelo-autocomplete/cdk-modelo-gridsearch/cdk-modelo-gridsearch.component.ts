@@ -32,6 +32,9 @@ export class CdkModeloGridsearchComponent implements OnInit {
     @Input()
     pagination: Pagination;
 
+    @Input()
+    andxFilter: any;
+
     @Output()
     selected = new EventEmitter();
 
@@ -55,6 +58,8 @@ export class CdkModeloGridsearchComponent implements OnInit {
     ) {
         this.loading = false;
         this.pagination = new Pagination();
+
+        this.andxFilter = [];
     }
 
     ngOnInit(): void {
@@ -65,8 +70,13 @@ export class CdkModeloGridsearchComponent implements OnInit {
 
         this.loading = true;
 
+        const filterParam = {
+            ...params.filter,
+            andX: this.andxFilter
+        };
+
         this._modeloService.query(
-            JSON.stringify(params.filter),
+            JSON.stringify(filterParam),
             params.limit,
             params.offset,
             JSON.stringify(params.sort),
