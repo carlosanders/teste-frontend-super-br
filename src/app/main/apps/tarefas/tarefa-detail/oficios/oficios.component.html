@@ -11,6 +11,7 @@
                                  [assinandoId]="(assinandoDocumentosId$ | async)"
                                  [convertendoId]="(convertendoDocumentosId$ | async)"
                                  (delete)="doDelete($event)"
+                                 (deleteBloco)="doDeleteBloco($event)"
                                  (verResposta)="doVerResposta($event)"
                                  (assinatura)="doAssinatura($event)"
                                  (converte)="doConverte($event)"

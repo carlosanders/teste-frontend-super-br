@@ -38,6 +38,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     carregandoNotificacao = true;
     cdkConfig: any;
 
+    quickPanelLockedOpen: boolean;
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -56,7 +58,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _cdkConfigService: CdkConfigService,
-        private _cdkSidebarService: CdkSidebarService,
+        public _cdkSidebarService: CdkSidebarService,
         private _translateService: TranslateService,
         public _loginService: LoginService,
         private _notificacaoService: NotificacaoService,
@@ -196,6 +198,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      */
     toggleSidebarOpen(key): void {
         this._cdkSidebarService.getSidebar(key).toggleOpen();
+    }
+
+    toggleQuickPanel(): void {
+        if (!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('quickPanel').toggleOpen();
+        } else {
+            this._cdkSidebarService.getSidebar('quickPanel').toggleFold();
+        }
     }
 
     /**

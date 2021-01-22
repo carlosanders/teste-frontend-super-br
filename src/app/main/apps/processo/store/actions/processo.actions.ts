@@ -29,6 +29,21 @@ export const ARQUIVAR_PROCESSO_FAILED = '[PROCESSO] ARQUIVAR PROCESSO FAILED';
 
 export const SET_STEPS = '[PROCESSO] SET STEPS';
 
+export const EXPANDIR_PROCESSO = '[PROCESSO VIEW] EXPANDIR PROCESSO';
+
+/**
+ * Expandir Processo
+ */
+export class ExpandirProcesso implements Action
+{
+    readonly type = EXPANDIR_PROCESSO;
+
+    constructor(public payload: boolean)
+    {
+    }
+}
+
+
 /**
  * Create Processo
  */
@@ -300,4 +315,5 @@ export type ProcessoActionsAll
     | SetSteps
     | ArquivarProcesso
     | ArquivarProcessoSuccess
-    | ArquivarProcessoFailed;
+    | ArquivarProcessoFailed
+    | ExpandirProcesso;

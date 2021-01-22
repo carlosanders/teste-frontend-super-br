@@ -29,7 +29,6 @@ export class WorkflowEditComponent implements OnInit {
     pagination: any;
 
     especieTarefaPagination: Pagination;
-    especieProcessoagination: Pagination;
 
 
     constructor(
@@ -43,7 +42,6 @@ export class WorkflowEditComponent implements OnInit {
         this.workflow$ = this._store.pipe(select(fromStore.getWorkflow));
 
         this.especieTarefaPagination = new Pagination();
-        this.especieProcessoagination = new Pagination();
 
         this._store
             .pipe(select(getRouterState))
@@ -63,7 +61,8 @@ export class WorkflowEditComponent implements OnInit {
         this.formWorkflow = this._formBuilder.group({
             id: [null],
             especieTarefaInicial: [null, [Validators.required]],
-            especieProcesso: [null, [Validators.required]],
+            nome: [null, [Validators.required, Validators.maxLength(255)]],
+            descricao: [null, [Validators.required, Validators.maxLength(255)]]
         });
     }
 

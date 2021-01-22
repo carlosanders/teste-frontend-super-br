@@ -1,0 +1,54 @@
+<div class="left-sidebar" fxFlex fxLayout="row">
+
+    <!-- CENTER -->
+    <div class="center" fxFlex fxLayout="column">
+
+
+        <!-- CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="start center">
+            <button mat-icon-button
+                    (click)="doBack()"
+                    aria-label="voltar"
+                    matTooltip="Voltar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+        <!-- / CONTENT HEADER -->
+        <div class="header" fxLayout="row" fxLayoutAlign="center center">
+            <button mat-icon-button
+                    [disabled]="isFirst"
+                    (click)="doPrevious()"
+                    aria-label="Anterior"
+                    matTooltip="Documento Anterior">
+                <mat-icon>chevron_left</mat-icon>
+            </button>
+            <button mat-icon-button
+                    [disabled]="isLast"
+                    (click)="doNext()"
+                    aria-label="Próximo"
+                    matTooltip="Próximo Documento">
+                <mat-icon>chevron_right</mat-icon>
+            </button>
+        </div>
+        <!-- CONTENT -->
+        <div fxFlex class="content">
+
+            <div class="documento-view" cdkPerfectScrollbar>
+                <div fxLayout="column" fxFlex
+                     fxLayoutAlign="center center">
+                    <mat-spinner *ngIf="loading" diameter="24"></mat-spinner>
+                </div>
+
+                <div *ngIf="!loading" class="documento-view-content">
+                    <iframe id="iframe-documento" [src]="src"></iframe>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- / CONTENT -->
+
+    </div>
+    <!-- / CENTER -->
+
+</div>

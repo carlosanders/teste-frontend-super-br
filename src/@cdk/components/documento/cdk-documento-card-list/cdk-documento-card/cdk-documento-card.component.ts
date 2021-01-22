@@ -37,6 +37,15 @@ export class CdkDocumentoCardComponent implements OnInit {
     maisDeUmItemSelecionado = false;
 
     @Input()
+    actions = ['delete', 'alterarTipo', 'select'];
+
+    @Input()
+    tiposDocumentosNaoEditaveis = [];
+
+    podeAlterarTipoDocumento = true;
+    podeDeletar = true;
+
+    @Input()
     selected = true;
 
     @Input()
@@ -57,6 +66,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     @Input()
     convertendo = false;
 
+    @Input()
+    download = false;
+
     @Output()
     delete = new EventEmitter<number>();
 
@@ -74,6 +86,9 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     @Output()
     converte = new EventEmitter<number>();
+
+    @Output()
+    downloadP7s = new EventEmitter<number>();
 
     @Output()
     clicked = new EventEmitter<number>();
@@ -120,6 +135,12 @@ export class CdkDocumentoCardComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+        this.tiposDocumentosNaoEditaveis.forEach((value) => {
+            if (this.documento.tipoDocumento.nome === value) {
+                this.podeAlterarTipoDocumento = false;
+                this.podeDeletar = false;
+            }
+        });
     }
 
     toggleInSelected(documentoId): void {
@@ -156,6 +177,10 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     doConverte(documentoId): void {
         this.converte.emit(documentoId);
+    }
+
+    doDownloadP7s(documentoId): void {
+        this.downloadP7s.emit(documentoId);
     }
 
     onClick(documento): void {

@@ -23,6 +23,7 @@ export interface ProcessoViewState {
         src: any;
         loading: boolean;
     };
+    expandir: boolean;
 }
 
 export const ProcessoViewInitialState: ProcessoViewState = {
@@ -47,11 +48,19 @@ export const ProcessoViewInitialState: ProcessoViewState = {
     binary: {
         src: null,
         loading: false
-    }
+    },
+    expandir: false
 };
 
 export function ProcessoViewReducer(state = ProcessoViewInitialState, action: ProcessoViewActions.ProcessoViewActionsAll): ProcessoViewState {
     switch (action.type) {
+
+        case ProcessoViewActions.EXPANDIR_PROCESSO: {
+            return {
+                ...state,
+                expandir: action.payload
+            };
+        }
 
         case ProcessoViewActions.GET_JUNTADAS: {
             return {

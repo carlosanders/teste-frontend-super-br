@@ -31,6 +31,10 @@ export class EspecieProcesso {
 
     titulo?: string;
 
+    @Type(() => Workflow)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    workflow?: Workflow;
+
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -61,10 +65,6 @@ export class EspecieProcesso {
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     apagadoEm?: moment.Moment;
 
-    @Exclude({ toPlainOnly: true })
-    @Type(() => Workflow)
-    @Transform(value => value ? value.id : null, {toPlainOnly: true})
-    workflow?: Workflow;
 
     constructor() {
         this.id = null;

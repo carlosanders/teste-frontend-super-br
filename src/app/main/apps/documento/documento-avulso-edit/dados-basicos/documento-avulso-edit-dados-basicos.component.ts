@@ -16,6 +16,8 @@ import {Location} from '@angular/common';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
     selector: 'documento-avulso-edit-dados-basicos',
@@ -26,6 +28,9 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
     animations: cdkAnimations
 })
 export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
 
     documento$: Observable<Documento>;
 
@@ -57,13 +62,15 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
      * @param _dynamicService
      * @param _componenteDigitalService
      * @param _ref
+     * @param _matDialog
      */
     constructor(
         private _store: Store<fromStore.DocumentoAvulsoEditDadosBasicosAppState>,
         private _location: Location,
         private _dynamicService: DynamicService,
         private _componenteDigitalService: ComponenteDigitalService,
-        private _ref: ChangeDetectorRef
+        private _ref: ChangeDetectorRef,
+        private _matDialog: MatDialog,
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -138,7 +145,23 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     // -----------------------------------------------------------------------------------------------------
 
     remeterDocumentoAvulso(): void {
-        this._componenteDigitalService.doEditorSave.next(this.documento.documentoAvulsoRemessa.id);
+        this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+            },
+            disableClose: false
+        });
+
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Esta operaçao nao pode ser desfeita. Deseja realmente remeter o oficio?';
+
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this._componenteDigitalService.doEditorSave.next(this.documento.documentoAvulsoRemessa.id);
+            }
+            this.confirmDialogRef = null;
+        });
     }
 
     toggleEncerramento(): void {
