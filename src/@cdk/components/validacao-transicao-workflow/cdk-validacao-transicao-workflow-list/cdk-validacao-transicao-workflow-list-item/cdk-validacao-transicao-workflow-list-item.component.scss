@@ -1,0 +1,53 @@
+@import '../../../../scss/cdk';
+
+cdk-validacao-transicao-workflow-list-item {
+
+    flex: 0 0 auto;
+    display: flex;
+    padding: 16px 16px 16px 24px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    text-transform: none;
+    cursor: pointer;
+
+    > div {
+        display: flex;
+        flex: 1 1 auto;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row;
+        align-content: flex-start;
+
+        > .actions {
+            display: flex;
+            flex-direction: row;
+            flex: 0 0 auto;
+            justify-content: center;
+            align-items: center;
+        }
+
+        > .info {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: column;
+            margin: 0 16px 0 8px;
+
+            &.nao-lido {
+                font-weight: bold;
+            }
+
+            .title {
+                font-size: 15px;
+                font-weight: 600;
+            }
+
+            .subtitle {
+                font-style: italic;
+                font-size: 12px;
+            }
+
+            .body {
+                margin-top: 6px;
+            }
+        }
+    }
+}

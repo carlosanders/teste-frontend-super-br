@@ -50,10 +50,6 @@ const routes: Routes = [
                 loadChildren: () => import('../repositorios/repositorios.module').then(m => m.RepositoriosModule)
             },
             {
-                path       : 'etiquetas',
-                loadChildren: () => import('../etiquetas/etiquetas.module').then(m => m.EtiquetasModule)
-            },
-            {
                 path       : 'usuarios',
                 loadChildren: () => import('../usuarios/usuarios.module').then(m => m.UsuariosModule)
             },

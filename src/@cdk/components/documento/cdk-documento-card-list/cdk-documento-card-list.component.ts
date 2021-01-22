@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Documento, Pagination} from '@cdk/models';
+import {Documento, Pagination, Tarefa} from '@cdk/models';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 
@@ -34,6 +34,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     delete = new EventEmitter<number>();
 
     @Output()
+    deleteBloco = new EventEmitter<Documento[]>();
+
+    @Output()
     assinatura = new EventEmitter<number>();
 
     @Output()
@@ -41,6 +44,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Output()
     converte = new EventEmitter<number>();
+
+    @Output()
+    downloadP7S = new EventEmitter<number>();
 
     @Output()
     restaurar = new EventEmitter<number>();
@@ -74,6 +80,9 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
 
     @Input()
     convertendoId: number[] = [];
+
+    @Input()
+    downloadId: number[] = [];
 
     @Input()
     loadingDocumentosExcluidos = false;
@@ -173,7 +182,13 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     }
 
     doDeleteDocumentoBloco(): void {
-        this.selectedIds.forEach(documentoId => this.doDelete(documentoId));
+        const documentosBloco = [];
+        this.documentos.forEach((documento: Documento) => {
+            if (this.selectedIds.indexOf(documento.id) > -1) {
+                documentosBloco.push(documento);
+            }
+        })
+        this.deleteBloco.emit(documentosBloco);
     }
 
     doAssinaturaDocumentoBloco(): void {
@@ -234,6 +249,10 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     // **********************************MUDANÇA CONVERTE
     doConverte(documentoId): void {
         this.converte.emit(documentoId);
+    }
+
+    doDownloadP7S(documentoId): void {
+        this.downloadP7S.emit(documentoId);
     }
 
     doRestaurar(documentoId): void {

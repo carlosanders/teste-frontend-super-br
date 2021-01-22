@@ -67,6 +67,11 @@ export const getConvertendoDocumentosId = createSelector(
     (state: ProcessoViewDocumentosState) => state.convertendoDocumentoIds
 );
 
+export const getDownloadDocumentoP7SId = createSelector(
+    getProcessoViewDocumentosState,
+    (state: ProcessoViewDocumentosState) => state.downloadP7SDocumentoIds
+);
+
 export const getLoadingDocumentosExcluidos = createSelector(
     getProcessoViewDocumentosState,
     (state: ProcessoViewDocumentosState) => state.loadingDocumentosExcluidos

@@ -1,17 +1,10 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+    <mat-form-field>
+        <input matInput placeholder="Nome" formControlName="nome" required maxlength="255" upperCase>
+    </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Espécie Processo"
-               formControlName="especieProcesso"
-               [matAutocomplete]="especieProcesso.autocomplete">
-        <cdk-especie-processo-autocomplete
-            #especieProcesso="especieProcessoAutocomplete"
-            [control]="form.get('especieProcesso')">
-        </cdk-especie-processo-autocomplete>
-        <button matSuffix mat-button mat-icon-button
-                (click)="showEspecieProcessoGrid()">
-            <mat-icon matTooltip="Procurar">search</mat-icon>
-        </button>
+        <input matInput placeholder="Descrição" formControlName="descricao" maxlength="255" required upperCase>
     </mat-form-field>
 
     <mat-form-field>
@@ -42,16 +35,9 @@
 
 </form>
 
-<cdk-especie-processo-gridsearch
-    *ngIf="activeCard === 'especie-processo-gridsearch'"
-    [pagination]="especieProcessoPagination"
-    (selected)="selectEspecieProcesso($event)"
-    (cancel)="cancel()">
-</cdk-especie-processo-gridsearch>
-
 <cdk-especie-tarefa-gridsearch
     *ngIf="activeCard === 'especie-tarefa-gridsearch'"
-    [pagination]="especieProcessoPagination"
+    [pagination]="especieTarefaPagination"
     (selected)="selectEspecieTarefa($event)"
     (cancel)="cancel()">
 </cdk-especie-tarefa-gridsearch>

@@ -38,6 +38,11 @@ const routes: Routes = [
                 loadChildren: () => import('./transicao-workflow/transicao-workflow.module').then(m => m.TransicaoWorkflowModule)
             },
             {
+                path: ':workflowHandle/especies-processo',
+                loadChildren: () => import('./especies-processo/especies-processo.module')
+                    .then(m => m.EspeciesProcessoModule)
+            },
+            {
                 path: 'visualizar/:workflowViewHandle',
                 loadChildren: () => import('./workflow-view/workflow-view.module').then(m => m.WorkflowViewModule),
             },
