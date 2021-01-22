@@ -223,7 +223,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         case TarefasActions.UNDELETE_TAREFA_SUCCESS: {
             return {
                 ...state,
-                undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.tarefa.id),
+                undeletingTarefaIds: state.undeletingTarefaIds.filter(id => id !== action.payload.id),
                 entitiesId: !action.payload.loaded || action.payload.loaded === state.loaded ?
                     [...state.entitiesId, action.payload.tarefa.id] : state.entitiesId
             };

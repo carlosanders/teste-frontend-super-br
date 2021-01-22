@@ -25,7 +25,6 @@
         <cdk-assunto-form *ngIf="assuntoActivated === 'form'"
                           [assunto]="assunto"
                           [form]="formAssunto"
-                          [assuntoAdministrativoPagination]="assuntoAdministrativoPagination"
                           [saving]="(isSavingAssunto$ | async)"
                           [errors]="(errors$ | async)"
                           (save)="submitAssunto($event)"

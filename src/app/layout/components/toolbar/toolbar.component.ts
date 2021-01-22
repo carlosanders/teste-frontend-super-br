@@ -197,13 +197,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param key
      */
     toggleSidebarOpen(key): void {
-        if (key === 'ajudaPanel') {
-            if (!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen) {
-                this._cdkSidebarService.getSidebar('quickPanel').close();
-            } else {
-                this._cdkSidebarService.getSidebar('quickPanel').fold();
-            }
-        }
         this._cdkSidebarService.getSidebar(key).toggleOpen();
     }
 

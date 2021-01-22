@@ -10,10 +10,6 @@ vertical-layout-1 {
         min-width: 500px !important;
     }
 
-    cdk-sidebar.ajuda-panel {
-        padding-right: 0 !important;
-    }
-
     .quick-panel.folded:not(.unfolded) {
         max-height: 50px;
         z-index: -1;

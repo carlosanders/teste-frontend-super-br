@@ -67,7 +67,6 @@
         <cdk-modelo-autocomplete
             #modelo="modeloAutocomplete"
             [control]="form.get('modelo')"
-            [andxFilter]="modeloPaginationAndx"
             [modeloList]="modeloList"
             [modeloListIsLoading]="modeloListIsLoading"
             [pagination]="modeloPagination">
@@ -234,7 +233,6 @@
 <cdk-modelo-gridsearch
     *ngIf="activeCard === 'modelo-gridsearch'"
     [pagination]="modeloPagination"
-    [andxFilter]="modeloPaginationAndx"
     (selected)="selectModelo($event)"
     (cancel)="cancel()">
 </cdk-modelo-gridsearch>

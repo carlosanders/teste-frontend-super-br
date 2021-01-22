@@ -68,7 +68,7 @@ export function OperacoesReducer(state = OperacoesInitialState, action: Operacoe
                     type: action.payload.type,
                     content: action.payload.content,
                     status: action.payload.status,
-                    lote: action.payload.lote ? action.payload.lote : state.operacoes[action.payload.id]?.lote,
+                    lote: action.payload.lote ? action.payload.lote : state.operacoes[action.payload.id].lote,
                     redo: redo,
                     undo: undo,
                     dateTime: (action.payload.dateTime ?? moment())
