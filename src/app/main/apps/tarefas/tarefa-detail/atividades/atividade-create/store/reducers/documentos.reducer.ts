@@ -11,6 +11,7 @@ export interface AtividadeCreateDocumentosState {
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    downloadDocumentosP7SIds: number[];
     loadDocumentosExcluidos: boolean;
     lixeiraMinutas: boolean;
     loading: boolean;
@@ -28,6 +29,7 @@ export const AtividadeCreateDocumentosInitialState: AtividadeCreateDocumentosSta
     alterandoDocumentoIds: [],
     removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
+    downloadDocumentosP7SIds: [],
     undeletingDocumentoIds: [],
     bufferingDelete: 0,
     loadDocumentosExcluidos: false,
@@ -235,6 +237,25 @@ export function AtividadeCreateDocumentosReducer(
             return {
                 ...state,
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case AtividadeCreateDocumentosActions.DOWNLOAD_DOCUMENTO_P7S: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: [...state.downloadDocumentosP7SIds, action.payload],
+            };
+        }
+        case AtividadeCreateDocumentosActions.DOWNLOAD_DOCUMENTO_P7S_SUCCESS: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
+            };
+        }
+        case AtividadeCreateDocumentosActions.DOWNLOAD_DOCUMENTO_P7S_FAILED: {
+            return {
+                ...state,
+                downloadDocumentosP7SIds: state.downloadDocumentosP7SIds.filter(id => id !== action.payload),
             };
         }
 

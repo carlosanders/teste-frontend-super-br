@@ -54,7 +54,11 @@ export class ProcessoEffect {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'populateAll'
+                            'populateAll',
+                            'especieProcesso', 'especieProcesso.generoProcesso',
+                            'especieProcesso.workflow', 'setorAtual', 'setorAtual.unidade', 'especieProcesso.workflow.especieTarefaInicial',
+                            'tarefaAtualWorkflow', 'tarefaAtualWorkflow.especieTarefa',
+
                         ]));
                 }),
                 switchMap(response => [

@@ -68,7 +68,10 @@ export class ProcessoEffect {
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
                             'especieProcesso',
-                            'especieProcesso.workflow'
+                            'especieProcesso.workflow',
+                            'especieProcesso.workflow.especieTarefaInicial',
+                            'tarefaAtualWorkflow',
+                            'tarefaAtualWorkflow.especieTarefa',
                         ]),
                         JSON.stringify(chaveAcesso));
                 }),

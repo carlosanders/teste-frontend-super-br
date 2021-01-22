@@ -15,9 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkWorkflowGridsearchModule} from '../cdk-workflow-autocomplete/cdk-workflow-gridsearch/cdk-workflow-gridsearch.module';
 import {CdkGeneroAtividadeGridsearchModule} from '../../genero-atividade/cdk-genero-atividade-autocomplete/cdk-genero-atividade-gridsearch/cdk-genero-atividade-gridsearch.module';
-import {CdkEspecieProcessoAutocompleteModule} from '../../especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
 import {CdkEspecieTarefaAutocompleteModule} from '../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
-import {CdkEspecieProcessoGridsearchModule} from '../../especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-gridsearch/cdk-especie-processo-gridsearch.module';
 import {CdkEspecieTarefaGridsearchModule} from '../../especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-gridsearch/cdk-especie-tarefa-gridsearch.module';
 
 
@@ -43,9 +41,7 @@ import {CdkEspecieTarefaGridsearchModule} from '../../especie-tarefa/cdk-especie
         MatTooltipModule,
         CdkWorkflowGridsearchModule,
         CdkGeneroAtividadeGridsearchModule,
-        CdkEspecieProcessoAutocompleteModule,
         CdkEspecieTarefaAutocompleteModule,
-        CdkEspecieProcessoGridsearchModule,
         CdkEspecieTarefaGridsearchModule
     ]
 })

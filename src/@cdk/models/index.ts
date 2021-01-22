@@ -113,4 +113,5 @@ export * from './vinculacao-pessoa-usuario.model';
 export * from './volume.model';
 export * from './workflow.model';
 export * from './transicao-workflow.model';
+export * from './validacao-transicao-workflow.model';
 export * from './acao-transicao-workflow.model';

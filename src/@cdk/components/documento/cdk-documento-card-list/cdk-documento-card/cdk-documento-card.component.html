@@ -34,12 +34,12 @@
 
     <div class="more-vert"
          [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
-        <button *ngIf="!deleting && !assinando && !convertendo && !removendoAssinatura && !alterando && !maisDeUmItemSelecionado && !undeleting" mat-icon-button
+        <button *ngIf="!deleting && !assinando && !convertendo && !download && !removendoAssinatura && !alterando && !maisDeUmItemSelecionado && !undeleting" mat-icon-button
                 [matMenuTriggerFor]="menuDocumento" #menuTrigger="matMenuTrigger" aria-label="more">
             <mat-icon>expand_more</mat-icon>
         </button>
 
-        <div *ngIf="deleting || assinando || convertendo || removendoAssinatura || alterando || undeleting" class="spinner-container m-8">
+        <div *ngIf="deleting || assinando || convertendo || download || removendoAssinatura || alterando || undeleting" class="spinner-container m-8">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
@@ -65,6 +65,10 @@
                 <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(documento.id)" mat-menu-item>
                     <mat-icon color="accent">picture_as_pdf</mat-icon>
                     <span>Converter em PDF</span>
+                </button>
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7s(documento.id)" mat-menu-item>
+                    <mat-icon color="accent">get_app</mat-icon>
+                    <span>Download em P7S</span>
                 </button>
                 <button *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta"
                         fxLayout="row" fxLayoutAlign="start center"
