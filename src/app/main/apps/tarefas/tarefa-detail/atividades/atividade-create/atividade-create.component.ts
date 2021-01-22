@@ -21,7 +21,7 @@ import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../store/selectors';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Documento} from '@cdk/models';
-import {getRouterState, getMercureState} from 'app/store/reducers';
+import {getRouterState, getMercureState, getScreenState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
@@ -78,6 +78,11 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     loadDocumentosExcluidos$: Observable<boolean>;
     lixeiraMinutas$: Observable<boolean>;
     undeletingDocumentosId$: Observable<number[]>;
+    screen$: Observable<any>;
+
+    mobileMode = false;
+    mode: string;
+
     javaWebStartOK = false;
 
     formEditor: FormGroup;
@@ -138,6 +143,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.loadDocumentosExcluidos$ = this._store.pipe(select(fromStore.getDocumentosExcluidos));
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
         this.undeletingDocumentosId$ = this._store.pipe(select(fromStore.getUnDeletingDocumentosId));
+        this.screen$ = this._store.pipe(select(getScreenState));
 
         this._store.pipe(select(getDocumentosHasLoaded)).subscribe(
             loaded => this.loadedMinutas = loaded
@@ -300,6 +306,13 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 }, 30000);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
+        });
+
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(screen => {
+            this.mobileMode = screen.size !== 'desktop';
+            this.mode = this.mobileMode ? 'vertical' : 'horizontal';
         });
     }
 

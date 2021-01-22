@@ -99,6 +99,7 @@
         [temMinutas]="!!minutas.length"
         [documentoAvulsoVinculado]="(tarefa$ | async)?.processo?.documentoAvulsoOrigem"
         [especieAtividadePagination]="especieAtividadePagination"
+        [mode]="mode"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"

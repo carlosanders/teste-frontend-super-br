@@ -12,18 +12,18 @@ const routes = [
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_USER']}
     },
-    {
-        path        : 'admin',
-        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-        canActivate: [RoleGuard],
-        data: {roles: ['ROLE_ADMIN']}
-    },
-    {
-        path        : 'arquivista',
-        loadChildren: () => import('./arquivista/arquivista.module').then(m => m.ArquivistaModule),
-        canActivate: [RoleGuard],
-        data: {roles: ['ROLE_ARQUIVISTA']}
-    },
+    // {
+    //     path        : 'admin',
+    //     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+    //     canActivate: [RoleGuard],
+    //     data: {roles: ['ROLE_ADMIN']}
+    // },
+    // {
+    //     path        : 'arquivista',
+    //     loadChildren: () => import('./arquivista/arquivista.module').then(m => m.ArquivistaModule),
+    //     canActivate: [RoleGuard],
+    //     data: {roles: ['ROLE_ARQUIVISTA']}
+    // },
     {
         path        : 'coordenador',
         loadChildren: () => import('./coordenador/coordenador.module').then(m => m.CoordenadorModule),
@@ -60,36 +60,36 @@ const routes = [
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_USER']}
     },
-    {
-        path        : 'configuracoes',
-        loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule),
-        canActivate: [RoleGuard],
-        data: {roles: ['ROLE_USER']}
-    },
+    // {
+    //     path        : 'configuracoes',
+    //     loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule),
+    //     canActivate: [RoleGuard],
+    //     data: {roles: ['ROLE_USER']}
+    // },
     {
         path        : 'oficios',
         loadChildren: () => import('./oficios/oficios.module').then(m => m.OficiosModule),
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_USER']}
     },
-    {
-        path        : 'protocolo-externo',
-        loadChildren: () => import('./protocolo-externo/protocolo-externo.module').then(m => m.ProtocoloExternoModule),
-        canActivate: [RoleGuard],
-        data: {roles: ['ROLE_USER']}
-    },
+    // {
+    //     path        : 'protocolo-externo',
+    //     loadChildren: () => import('./protocolo-externo/protocolo-externo.module').then(m => m.ProtocoloExternoModule),
+    //     canActivate: [RoleGuard],
+    //     data: {roles: ['ROLE_USER']}
+    // },
     {
         path        : 'calendario',
         loadChildren: () => import('./calendario/calendar.module').then(m => m.CalendarModule),
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_COLABORADOR']}
     },
-    {
-        path        : 'relatorios',
-        loadChildren: () => import('./relatorios/relatorios.module').then(m => m.RelatoriosModule),
-        canActivate: [RoleGuard],
-        data: {roles: ['ROLE_COLABORADOR']}
-    }
+    // {
+    //     path        : 'relatorios',
+    //     loadChildren: () => import('./relatorios/relatorios.module').then(m => m.RelatoriosModule),
+    //     canActivate: [RoleGuard],
+    //     data: {roles: ['ROLE_COLABORADOR']}
+    // }
 ];
 
 const path = 'app/main/apps';
