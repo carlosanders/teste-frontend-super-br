@@ -25,9 +25,6 @@ import {getRouterState} from '../../../../store/reducers';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Back} from '../../../../store/actions';
 import {modulesConfig} from '../../../../../modules/modules-config';
-import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../../processo/processo-view/store/actions';
-import {GetDocumentos as GetDocumentosAtividade} from '../../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
-import {GetDocumentos as GetDocumentosAvulsos} from '../../tarefas/tarefa-detail/oficios/store/actions';
 
 @Component({
     selector: 'documento-avulso-create',
@@ -56,6 +53,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     especieDocumentoAvulsoPagination: Pagination;
     setorDestinoPagination: Pagination;
     modeloPagination: Pagination;
+    modeloPaginationAndx: any;
 
     routerState: any;
 
@@ -85,7 +83,47 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
         this.setorDestinoPagination.filter = {parent: 'isNull'};
 
         this.modeloPagination = new Pagination();
-        // this.modeloPagination.filter = {'documento.tipoDocumento.nome': 'eq:OFÍCIO'};
+        this.modeloPagination.populate = ['modalidadeModelo'];
+        this.modeloPaginationAndx = [{'documento.tipoDocumento.nome': 'eq:OFÍCIO'}];
+        this.modeloPagination.filter = {
+            orX: [
+                {
+                    'modalidadeModelo.valor': 'eq:EM BRANCO',
+                },
+                {
+                    // Modelos individuais
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                },
+            ]
+        };
+        if (this._loginService.isGranted('ROLE_COLABORADOR')) {
+            this.modeloPagination.filter.orX = [
+                ...this.modeloPagination.filter.orX,
+                {
+                    // Modelos do setor
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.setor.id': 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')
+                },
+                {
+                    // Modelos da unidade por especie de setor
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.unidade.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                },
+                {
+                    // Modelos nacionais
+                    'modalidadeModelo.valor': 'eq:NACIONAL',
+                    'vinculacoesModelos.orgaoCentral.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                }
+
+            ];
+        }
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));

@@ -38,6 +38,9 @@ export class CdkModeloAutocompleteComponent implements OnInit {
     @Input()
     modeloListIsLoading: boolean;
 
+    @Input()
+    andxFilter: any;
+
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
@@ -48,6 +51,7 @@ export class CdkModeloAutocompleteComponent implements OnInit {
         this.modeloListIsLoading = false;
 
         this.pagination = new Pagination();
+        this.andxFilter = [];
     }
 
     ngOnInit(): void {
@@ -56,10 +60,11 @@ export class CdkModeloAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    const andxFilter = [];
+                    const andxFilter = [...this.andxFilter];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         andxFilter.push({
-                            nome: `like:%${bit}%`});
+                            nome: `like:%${bit}%`
+                        });
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.modeloListIsLoading = true;
