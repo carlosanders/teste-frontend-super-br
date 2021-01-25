@@ -1,44 +1,34 @@
 import {NgModule} from '@angular/core';
 import {
+    MatAutocompleteModule,
     MatButtonModule,
+    MatCheckboxModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatCheckboxModule,
-    MatProgressSpinnerModule,
-    MatAutocompleteModule,
+    MatMenuModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatToolbarModule,
     MatDatepickerModule,
-    MatRadioModule,
-    MatTooltipModule
+    MatProgressSpinnerModule, MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkSidebarModule} from '@cdk/components';
-import {AcaoEditComponent} from './acao-edit.component';
+import {AcaoTrigger001Component} from './acao-trigger-001.component';
 import {RouterModule, Routes} from '@angular/router';
-import {AcaoEditStoreModule} from './store/store.module';
-import * as fromGuards from './store/guards';
-import {AcaoService} from '@cdk/services/acao.service';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '@cdk/components/path/path.module';
 import {CommonModule} from "@angular/common";
+import {CdkAcaoTrigger001Module} from "@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-001/cdk-acao-trigger-001.module";
 
 const routes: Routes = [
     {
-        path: ':acaoHandle',
-        component: AcaoEditComponent,
-        canActivate: [fromGuards.ResolveGuard],
-        children: [
-            {
-                path: '1',
-                loadChildren: () => import('./acao-trigger/acao-trigger-001/acao-trigger-001.module')
-                    .then(m => m.AcaoTrigger001Module),
-            }
-        ]
+        path: 'trigger',
+        component: AcaoTrigger001Component
     }
 ];
 
-const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/acoes/acao-edit';
+const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/acoes/acao-edit/acao-trigger/acao-trigger-001';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -48,10 +38,9 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        AcaoEditComponent,
+        AcaoTrigger001Component
     ],
     imports: [
-
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -59,23 +48,21 @@ modulesConfig.forEach((module) => {
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
+        MatMenuModule,
+        MatRippleModule,
+        MatSelectModule,
+        MatToolbarModule,
         MatAutocompleteModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
         CommonModule,
-        MatRadioModule,
-        AcaoEditStoreModule,
         TranslateModule,
         CdkSharedModule,
-        CdkSidebarModule,
-        PathModule,
+        CdkAcaoTrigger001Module,
     ],
     providers: [
-        AcaoService,
-        fromGuards.ResolveGuard
     ]
 })
-
-export class AcaoEditModule {
+export class AcaoTrigger001Module {
 }

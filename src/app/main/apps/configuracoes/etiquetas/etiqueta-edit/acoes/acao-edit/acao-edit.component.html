@@ -1,15 +1,41 @@
-<div class="header">
-    <path icone="beenhere"
-          [caminhoAbsoluto]="routerState.url"
-          inicioCaminho="etiquetas">
-    </path>
+<div class="content" *ngIf="action == 'form-cadastro'">
+    <div class="header">
+        <div class="actions">
+            <button mat-icon-button
+                    (click)="goBack()"
+                    aria-label="voltar"
+                    matTooltip="Voltar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="header border-bottom">
+        <path icone="beenhere"
+              [caminhoAbsoluto]="routerState.url"
+              inicioCaminho="etiquetas">
+        </path>
+    </div>
+        <div class="items" *ngIf="triggerAcaoList.length > 0 && !loading">
+            <div class="trigger-acao-item" *ngFor="let triggerAcao of triggerAcaoList"
+                 (click)="selectTrigger(triggerAcao)">
+                <div class="info">
+                    <div class="title">
+                        <span>{{triggerAcao.valor}}</span>
+                    </div>
+                    <div class="body mt-4">
+                        <span>{{triggerAcao.descricao}}</span>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button mat-icon-button aria-label="selecionar">
+                        <mat-icon>send</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="no-acoes-text" *ngIf="triggerAcaoList.length === 0 && !loading">
+            <span class="hint-text">{{ 'Nenhuma ação disponível!' }}</span>
+        </div>
 </div>
-<div class="content" cdkPerfectScrollbar>
-    <cdk-acao-form
-        [acao]="acao"
-        [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
-        (save)="submit($event)"
-        (abort)="doAbort()">
-    </cdk-acao-form>
-</div>
+<router-outlet></router-outlet>
