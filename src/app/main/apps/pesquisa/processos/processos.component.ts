@@ -38,7 +38,7 @@ export class ProcessosComponent implements OnInit, OnDestroy {
 
     private _profile: any;
     private screen$: Observable<any>;
-    private mobileMode: boolean;
+    mobileMode: boolean;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
