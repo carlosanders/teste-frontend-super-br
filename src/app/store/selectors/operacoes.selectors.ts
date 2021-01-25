@@ -12,6 +12,11 @@ export const getLotes = createSelector(
     (state: OperacoesState) => state.lotes
 );
 
+export const getCurrentLote = createSelector(
+    getOperacoesState,
+    (state: OperacoesState) => state.currentLote
+);
+
 export const getOperacoesEmProcessamento = createSelector(
     getOperacoes,
     (operacoes) => {
@@ -22,6 +27,72 @@ export const getOperacoesEmProcessamento = createSelector(
             }
         });
         return operacoesEmProcessamento;
+    }
+);
+
+export const getOperacoesLoteAtual = createSelector(
+    getLotes,
+    getOperacoes,
+    getCurrentLote,
+    (lotes, operacoes, loteAtual) => {
+        const operacoesLoteAtual = {};
+        if (loteAtual) {
+            lotes[loteAtual].operacoesId.forEach((operacaoId) => {
+                operacoesLoteAtual[operacaoId] = (operacoes[operacaoId]);
+            });
+        }
+        return operacoesLoteAtual;
+    }
+);
+
+export const getOperacoesEmProcessamentoLoteAtual = createSelector(
+    getLotes,
+    getOperacoes,
+    getCurrentLote,
+    (lotes, operacoes, loteAtual) => {
+        const operacoesEmProcessamentoLoteAtual = {};
+        if (loteAtual) {
+            lotes[loteAtual].operacoesId.forEach((operacaoId) => {
+                if (operacoes[operacaoId]['status'] === 0) {
+                    operacoesEmProcessamentoLoteAtual[operacaoId] = (operacoes[operacaoId]);
+                }
+            });
+        }
+        return operacoesEmProcessamentoLoteAtual;
+    }
+);
+
+export const getOperacoesRefazerLoteAtual = createSelector(
+    getLotes,
+    getOperacoes,
+    getCurrentLote,
+    (lotes, operacoes, loteAtual) => {
+        const operacoesRefazerLoteAtual = {};
+        if (loteAtual) {
+            lotes[loteAtual].operacoesId.forEach((operacaoId) => {
+                if (operacoes[operacaoId]['status'] >= 2 && operacoes[operacaoId]['redo']) {
+                    operacoesRefazerLoteAtual[operacaoId] = (operacoes[operacaoId]);
+                }
+            });
+        }
+        return operacoesRefazerLoteAtual;
+    }
+);
+
+export const getOperacoesDesfazerLoteAtual = createSelector(
+    getLotes,
+    getOperacoes,
+    getCurrentLote,
+    (lotes, operacoes, loteAtual) => {
+        const operacoesDesfazerLoteAtual = {};
+        if (loteAtual) {
+            lotes[loteAtual].operacoesId.forEach((operacaoId) => {
+                if (operacoes[operacaoId]['status'] === 1 && operacoes[operacaoId]['undo']) {
+                    operacoesDesfazerLoteAtual[operacaoId] = (operacoes[operacaoId]);
+                }
+            });
+        }
+        return operacoesDesfazerLoteAtual;
     }
 );
 

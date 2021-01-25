@@ -231,7 +231,6 @@ export class TarefasEffect {
                         type: 'tarefa',
                         content: 'Restaurando a tarefa id ' + action.payload.tarefa.id + '...',
                         status: 0, // carregando
-                        lote: action.payload.loteId
                     }));
                 }),
                 mergeMap((action) => {
@@ -242,7 +241,6 @@ export class TarefasEffect {
                                 type: 'tarefa',
                                 content: 'Tarefa id ' + action.payload.tarefa.id + ' restaurada com sucesso.',
                                 status: 1, // sucesso
-                                lote: action.payload.loteId
                             }));
                             return new TarefasActions.UndeleteTarefaSuccess({
                                 tarefa: response,
@@ -259,7 +257,6 @@ export class TarefasEffect {
                                 type: 'tarefa',
                                 content: 'Erro ao restaurar a tarefa id ' + action.payload.tarefa.id + '!',
                                 status: 2, // erro
-                                lote: action.payload.loteId
                             }));
                             console.log(err);
                             return of(new TarefasActions.UndeleteTarefaFailed(payload));

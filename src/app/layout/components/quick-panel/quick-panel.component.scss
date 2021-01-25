@@ -65,21 +65,69 @@ quick-panel {
         flex-direction: column;
         flex: 1 1 auto;
         overflow-y: auto;
+        overflow-x: hidden;
         height: 0;
 
-        .card-header {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-content {
+        > .operacoes {
             display: flex;
             flex-direction: column;
+            flex: 1 1 auto;
 
-            .card-date {
-                margin-left: auto;
+            .header-lote {
+                display: flex;
+                flex-direction: column;
+                flex: 0 1 auto;
+                justify-content: center;
+
+                .lote-title {
+                    display: flex;
+                    flex-direction: row;
+                    flex: 1 1 auto;
+                    align-self: center;
+                }
+
+                .actions {
+                    display: flex;
+                    flex-direction: row;
+                    flex: 1 1 auto;
+                    justify-content: space-between;
+
+                    .button {
+                        display: flex;
+                        flex-direction: row;
+                        width: 130px;
+                    }
+                }
+            }
+
+            .card-header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .card-content {
+                display: flex;
+                flex-direction: column;
+
+                .card-date {
+                    margin-left: auto;
+                }
+            }
+
+            .card-actions {
+                display: flex;
+                flex-direction: row;
+                flex: 0 1 auto;
+                justify-content: space-between;
+                align-items: flex-start;
+
+                .button {
+                    display: flex;
+                    flex-direction: row;
+                    flex: 1 1 auto;
+                }
             }
         }
     }
