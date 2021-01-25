@@ -1,19 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/componentes-digitais/store';
-import {getRouterState} from 'app/store/reducers';
+import {getRouterState, getScreenState} from 'app/store/reducers';
 import {LoginService} from '../../../auth/login/login.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'componentes-digitais',
@@ -23,7 +24,7 @@ import {LoginService} from '../../../auth/login/login.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ComponentesDigitaisComponent implements OnInit {
+export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
 
     routerState: any;
     componentesDigitais$: Observable<ComponenteDigital[]>;
@@ -32,6 +33,9 @@ export class ComponentesDigitaisComponent implements OnInit {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    private screen$: Observable<any>;
+    private mobileMode: boolean;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     private _profile: any;
 
@@ -51,7 +55,7 @@ export class ComponentesDigitaisComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this._profile = _loginService.getUserProfile();
-
+        this.screen$ = this._store.pipe(select(getScreenState));
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -65,6 +69,22 @@ export class ComponentesDigitaisComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(screen => {
+            if (screen.size !== 'desktop') {
+                this.mobileMode = true;
+            } else {
+                this.mobileMode = false;
+            }
+        });
+    }
+
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 
     reload(params): void {
