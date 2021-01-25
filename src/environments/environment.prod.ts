@@ -1,10 +1,14 @@
+const protocol = location.protocol; // https:
+const basename = location.hostname.split('.')[0]; // supp
+const url = location.hostname.replace(basename, ''); // .agu.gov.br
+
 export const environment = {
     test: false,
     production: true,
-    base_url: 'https://supphombackend.agu.gov.br/',
-    base_url_x509: 'https://supphombackendsecure.agu.gov.br/',
-    jnlp: 'jnlps://supphombackend.agu.gov.br/',
-    api_url: 'https://supphombackend.agu.gov.br/v1/',
-    mercure_hub: 'https://supphommercure.agu.gov.br/.well-known/mercure',
+    base_url: protocol + '//' + basename + 'backend' + url + '/',
+    base_url_x509: protocol + '//' + basename + 'backendsecure' + url + '/',
+    jnlp: 'jnlps://' + basename + 'backend' + url + '/',
+    api_url: protocol + '//' + basename + 'backend' + url + '/v1/',
+    mercure_hub: protocol + '//' + basename + 'mercure' + url + '/.well-known/mercure',
     xdebug: ''
 };
