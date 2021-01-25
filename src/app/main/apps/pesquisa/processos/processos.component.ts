@@ -1,19 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Processo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/processos/store';
-import {getRouterState} from 'app/store/reducers';
+import {getRouterState, getScreenState} from 'app/store/reducers';
 import {LoginService} from '../../../auth/login/login.service';
+import {takeUntil} from 'rxjs/operators';
 
 @Component({
     selector: 'processos',
@@ -23,7 +24,7 @@ import {LoginService} from '../../../auth/login/login.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProcessosComponent implements OnInit {
+export class ProcessosComponent implements OnInit, OnDestroy {
 
     routerState: any;
     processos$: Observable<Processo[]>;
@@ -36,6 +37,9 @@ export class ProcessosComponent implements OnInit {
     colunas: any[] = ['id', 'NUP', 'actions'];
 
     private _profile: any;
+    private screen$: Observable<any>;
+    mobileMode: boolean;
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
      * @param _changeDetectorRef
@@ -53,6 +57,7 @@ export class ProcessosComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this._profile = _loginService.getUserProfile();
+        this.screen$ = this._store.pipe(select(getScreenState));
 
         if (_loginService.isGranted('ROLE_COLABORADOR')) {
             this.colunas = ['select', 'id', 'NUP', 'especieProcesso.nome', 'setorAtual.nome', 'unidade', 'actions'];
@@ -78,6 +83,16 @@ export class ProcessosComponent implements OnInit {
                     }
                 }
             });
+
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(screen => {
+            if (screen.size !== 'desktop') {
+                this.mobileMode = true;
+            } else {
+                this.mobileMode = false;
+            }
+        });
     }
 
     reload(params): void {
@@ -106,5 +121,15 @@ export class ProcessosComponent implements OnInit {
 
     edit(processoId: number): void {
         this._router.navigate(['apps/processo/' + processoId + '/editar']);
+    }
+
+    /**
+     * On destroy
+     */
+    ngOnDestroy(): void {
+        // this._changeDetectorRef.detach();
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 }

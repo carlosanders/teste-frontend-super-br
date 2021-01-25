@@ -84,7 +84,7 @@
 <!-- / SIDE PANEL -->
 
 <!-- AJUDA PANEL -->
-<cdk-sidebar name="ajudaPanel" position="right" class="ajuda-panel">
+<cdk-sidebar name="ajudaPanel" position="right" [ngClass]="{'ajuda-panel': !mobileMode, 'ajuda-panel-mobile': mobileMode}">
     <ajuda-panel></ajuda-panel>
 </cdk-sidebar>
 <!-- / AJUDA PANEL -->

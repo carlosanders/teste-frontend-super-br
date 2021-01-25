@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, Tarefa} from '@cdk/models';
+import {Colaborador, Lotacao, Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
@@ -277,7 +277,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
                         this.editable = true;
 
-                        if (value.apenasProtocolo && value.id !== this._profile.lotacoes[0].setor.unidade.id) {
+                        const unidadesId = [];
+                        this._profile.lotacoes.forEach(( lotacao: Lotacao) => {
+                            unidadesId.push(lotacao.setor.unidade.id);
+                        });
+
+                        if (value.apenasProtocolo && unidadesId.indexOf(value.id) === -1) {
                             this.form.get('distribuicaoAutomatica').setValue(true);
                             this.form.get('setorResponsavel').enable();
                             this.getSetorProtocolo();

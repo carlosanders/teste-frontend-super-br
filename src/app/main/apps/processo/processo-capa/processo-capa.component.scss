@@ -24,6 +24,24 @@ processo-capa {
         height: 0;
         overflow-y: auto;
 
+        .linha {
+            display: flex;
+            flex: 1 1 auto;
+            flex-direction: row;
+        }
+
+        .titulo {
+            display: flex;
+            flex: 1 1 30%;
+            font-weight: 600;
+        }
+
+        .valor {
+            display: flex;
+            flex: 1 1 70%;
+            padding-left: 2px;
+        }
+
         > mat-card {
             flex: 1 1 auto;
             display: flex !important;

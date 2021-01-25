@@ -8,6 +8,12 @@ vertical-layout-1 {
 
     .ajuda-panel {
         min-width: 500px !important;
+        padding-right: 0 !important;
+    }
+
+    .ajuda-panel-mobile {
+        min-width: 90% !important;
+        padding-right: 0 !important;
     }
 
     .quick-panel.folded:not(.unfolded) {

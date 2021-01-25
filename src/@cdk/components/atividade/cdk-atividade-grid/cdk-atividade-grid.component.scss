@@ -74,6 +74,7 @@ cdk-atividade-grid {
             display: flex;
             flex-direction: column;
             padding: 8px;
+            width: 10vw;
         }
 
         .responsive-grid[max-width~="600px"] {
@@ -81,6 +82,10 @@ cdk-atividade-grid {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+
+            > .content {
+                height: 100%;
+            }
 
             .mat-elevation-z8 {
                 box-shadow: none;

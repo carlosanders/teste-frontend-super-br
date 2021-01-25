@@ -17,12 +17,13 @@ import * as fromStore from 'app/main/apps/documento/store';
 import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getRouterState} from 'app/store/reducers';
+import {getRouterState, getScreenState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../processo/processo-view/store/actions';
 import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
+import {ToggleMaximizado} from '../oficios/store/actions';
 
 @Component({
     selector: 'documento',
@@ -39,6 +40,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     documento$: Observable<Documento>;
     loading$: Observable<boolean>;
     currentComponenteDigital$: Observable<ComponenteDigital>;
+    screen$: Observable<any>;
 
     documento: Documento;
     currentComponenteDigital: ComponenteDigital;
@@ -48,6 +50,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     modoProcesso = 1;
 
     destroying = false;
+    mobileMode: boolean;
 
     /**
      *
@@ -69,6 +72,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         // Set the defaults
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.currentComponenteDigital$ = this._store.pipe(select(fromStore.getCurrentComponenteDigital));
+        this.screen$ = this._store.pipe(select(getScreenState));
         this._store
             .pipe(
                 select(getRouterState),
@@ -100,6 +104,16 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         ).subscribe(
             componenteDigital => this.currentComponenteDigital = componenteDigital
         );
+
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(screen => {
+            if (screen.size !== 'desktop') {
+                this.mobileMode = true;
+            } else {
+                this.mobileMode = false;
+            }
+        });
     }
 
     /**
