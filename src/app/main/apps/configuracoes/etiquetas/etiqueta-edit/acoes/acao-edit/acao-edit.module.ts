@@ -1,39 +1,40 @@
 import {NgModule} from '@angular/core';
 import {
-    MatAutocompleteModule,
     MatButtonModule,
-    MatCheckboxModule,
     MatFormFieldModule,
     MatIconModule,
     MatInputModule,
-    MatMenuModule,
-    MatRippleModule,
-    MatSelectModule,
-    MatToolbarModule,
+    MatCheckboxModule,
+    MatProgressSpinnerModule,
+    MatAutocompleteModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatRadioModule,
+    MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-
 import {AcaoEditComponent} from './acao-edit.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkAcaoFormModule} from '@cdk/components/acao/cdk-acao-form/cdk-acao-form.module';
 import {AcaoEditStoreModule} from './store/store.module';
-
 import * as fromGuards from './store/guards';
-import {LoginService} from 'app/main/auth/login/login.service';
 import {AcaoService} from '@cdk/services/acao.service';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
+import {CommonModule} from "@angular/common";
 
 const routes: Routes = [
     {
         path: ':acaoHandle',
         component: AcaoEditComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        canActivate: [fromGuards.ResolveGuard],
+        children: [
+            {
+                path: '1',
+                loadChildren: () => import('./acao-trigger/acao-trigger-001/acao-trigger-001.module')
+                    .then(m => m.AcaoTrigger001Module),
+            }
+        ]
     }
 ];
 
@@ -47,7 +48,7 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        AcaoEditComponent
+        AcaoEditComponent,
     ],
     imports: [
 
@@ -58,30 +59,23 @@ modulesConfig.forEach((module) => {
         MatFormFieldModule,
         MatIconModule,
         MatInputModule,
-        MatMenuModule,
-        MatRippleModule,
-        MatSelectModule,
-        MatToolbarModule,
         MatAutocompleteModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
-
-        CdkAcaoFormModule,
-
+        CommonModule,
+        MatRadioModule,
         AcaoEditStoreModule,
-
         TranslateModule,
-
         CdkSharedModule,
         CdkSidebarModule,
         PathModule,
     ],
     providers: [
         AcaoService,
-        LoginService,
         fromGuards.ResolveGuard
     ]
 })
+
 export class AcaoEditModule {
 }

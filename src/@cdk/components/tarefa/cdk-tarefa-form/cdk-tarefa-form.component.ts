@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, Tarefa} from '@cdk/models';
+import {Colaborador, Lotacao, Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
@@ -178,7 +178,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.processoPagination = new Pagination();
         this.processoPagination.populate =
             ['especieProcesso', 'especieProcesso.generoProcesso',
-                'especieProcesso.workflow', 'setorAtual', 'setorAtual.unidade'];
+                'especieProcesso.workflow', 'setorAtual', 'setorAtual.unidade'
+                , 'especieProcesso.workflow.especieTarefaInicial',
+                'tarefaAtualWorkflow', 'tarefaAtualWorkflow.especieTarefa'];
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.unidadeResponsavelPagination = new Pagination();
@@ -275,7 +277,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
                         this.editable = true;
 
-                        if (value.apenasProtocolo && value.id !== this._profile.lotacoes[0].setor.unidade.id) {
+                        const unidadesId = [];
+                        this._profile.lotacoes.forEach(( lotacao: Lotacao) => {
+                            unidadesId.push(lotacao.setor.unidade.id);
+                        });
+
+                        if (value.apenasProtocolo && unidadesId.indexOf(value.id) === -1) {
                             this.form.get('distribuicaoAutomatica').setValue(true);
                             this.form.get('setorResponsavel').enable();
                             this.getSetorProtocolo();
@@ -544,7 +551,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     const dayOfWeek = curDate.day();
                     if ((dayOfWeek === 6) || (dayOfWeek === 0) || (this.feriados.indexOf(curDate.format('DD-MM')) > -1)) {
                         --diffDays;
-                        console.log('descontando: ' + curDate.format('DD-MM') + ' - ' + diffDays);
                     }
                     curDate.add(1, 'days');
                 }
@@ -1055,12 +1061,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         // caso processo seja de workflow verificar espécies permitidas
         this.especieTarefaPagination['context'] = {};
         if (this.form.get('processo').value.especieProcesso.workflow) {
-            this.especieTarefaPagination.filter = {
-                orX : [
-                    {'workflow.id': 'eq:' + this.form.get('processo').value.especieProcesso.workflow.id},
-                    {'transicoesWorkflowTo.id' : 'isNotNull'}
-                ]
-            };
+
+            if (!this.form.get('processo').value.tarefaAtualWorkflow) {
+                this.especieTarefaPagination.filter['workflow.id'] = 'eq:'
+                    + this.form.get('processo').value.especieProcesso.workflow.id;
+                this.especieTarefaPagination.filter['id'] = 'eq:'
+                    + this.form.get('processo').value.especieProcesso.workflow.especieTarefaInicial.id;
+            } else {
+                this.especieTarefaPagination.filter['transicoesWorkflowTo.workflow.id'] = 'eq:'
+                    + this.form.get('processo').value.especieProcesso.workflow.id;
+                this.especieTarefaPagination.filter['transicoesWorkflowTo.especieTarefaFrom.id'] = 'eq:'
+                    + this.form.get('processo').value.tarefaAtualWorkflow.especieTarefa.id;
+            }
+
             this.especieTarefaPagination['context'] = { processoId: this.form.get('processo').value.id };
         }
     }

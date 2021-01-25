@@ -30,9 +30,7 @@ import {CdkTipoDocumentoGridsearchModule} from '../../../tipo-documento/cdk-tipo
         MatDialogModule,
         MatInputModule,
         MatFormFieldModule,
-
         CdkAssinaturaEletronicaPluginModule,
-
         CdkSharedModule,
         CdkTipoDocumentoAutocompleteModule,
         CdkTipoDocumentoGridsearchModule,

@@ -43,7 +43,7 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieProcesso.nome', 'especieTarefaInicial.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'especieTarefaInicial.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -57,9 +57,14 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: true
         },
         {
-            id: 'especieProcesso.nome',
-            label: 'Espécie Processo',
-            fixed: false
+            id: 'nome',
+            label: 'Nome',
+            fixed: true
+        },
+        {
+            id: 'descricao',
+            label: 'Descrição',
+            fixed: true
         },
         {
             id: 'especieTarefaInicial.nome',
@@ -115,7 +120,7 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['view', 'transicoes', 'edit', 'delete', 'select'];
+    actions: string[] = ['especies', 'view', 'transicoes', 'edit', 'delete', 'select'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -143,6 +148,9 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Output()
     delete = new EventEmitter<number>();
+
+    @Output()
+    especies = new EventEmitter<number>();
 
     @Output()
     toggleFavorito = new EventEmitter<Favorito>();
@@ -285,6 +293,10 @@ export class CdkWorkflowGridComponent implements AfterViewInit, OnInit, OnChange
 
     salvarFavorito(favorito): void {
        this.toggleFavorito.emit(favorito);
+    }
+
+    formEspeciesProcesso(workflowId): void {
+        this.especies.emit(workflowId);
     }
 
     /**

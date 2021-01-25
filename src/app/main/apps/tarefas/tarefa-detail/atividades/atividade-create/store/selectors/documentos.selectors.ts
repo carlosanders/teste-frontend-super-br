@@ -63,6 +63,11 @@ export const getConvertendoDocumentosId = createSelector(
     (state: AtividadeCreateDocumentosState) => state.convertendoDocumentoIds
 );
 
+export const getDownloadDocumentosP7SId = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.downloadDocumentosP7SIds
+);
+
 export const getDocumentosExcluidos = createSelector(
     getAtividadeCreateDocumentosState,
     (state: AtividadeCreateDocumentosState) => state.loadDocumentosExcluidos
