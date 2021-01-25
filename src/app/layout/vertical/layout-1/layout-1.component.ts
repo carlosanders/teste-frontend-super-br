@@ -20,7 +20,7 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
     private _unsubscribeAll: Subject<any>;
 
     private innerWidth: any;
-    private mobileMode: boolean;
+    mobileMode: boolean;
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {

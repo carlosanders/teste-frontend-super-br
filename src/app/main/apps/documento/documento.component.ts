@@ -50,7 +50,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     modoProcesso = 1;
 
     destroying = false;
-    private mobileMode: boolean;
+    mobileMode: boolean;
 
     /**
      *
