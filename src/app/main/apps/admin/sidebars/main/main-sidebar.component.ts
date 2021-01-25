@@ -112,11 +112,16 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'WorkFlows',
                 icon: 'low_priority',
                 link: 'workflows'
+            },
+            {
+                nome: 'Modalidade Ação Etiqueta',
+                icon: 'label',
+                link: 'modalidade-acao-etiqueta'
             }
         ];
 
         const path = 'app/main/apps/admin/sidebars/main';
-
+ 
         modulesConfig.forEach((module) => {
             if (module.sidebars.hasOwnProperty(path)) {
                 module.sidebars[path].forEach((s => this.links.push(s)));

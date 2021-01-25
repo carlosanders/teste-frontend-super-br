@@ -84,6 +84,10 @@ const routes: Routes = [
             {
                 path: 'modalidade-orgao-central',
                 loadChildren: () => import('./modalidade-orgao-central/modalidade-orgao-central.module').then(m => m.ModalidadeOrgaoCentralModule)
+            },
+            {
+                path: 'modalidade-acao-etiqueta',
+                loadChildren: () => import('./modalidade-acao-etiqueta/modalidade-acao-etiqueta.module').then(m => m.ModalidadeAcaoEtiquetaModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

@@ -1,0 +1,72 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-form-field>
+        <mat-label>Valor</mat-label>
+        <input matInput #valor
+               name="valor"
+               formControlName="valor"
+               maxlength="255" upperCase>
+        <mat-hint align="end">{{valor.value.length}} / 255</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Descrição</mat-label>
+        <textarea formControlName="descricao"
+                  matInput #descricao
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="4"
+                  cdkAutosizeMaxRows="10"></textarea>
+        <mat-hint align="end">{{descricao.value.length}} / 1000</mat-hint>
+    </mat-form-field>
+    
+    <mat-form-field>
+        <mat-label>Trigger</mat-label>
+        <textarea formControlName="trigger"
+                  matInput #trigger
+                  cdkTextareaAutosize
+                  #autosize="cdkTextareaAutosize"
+                  cdkAutosizeMinRows="4"
+                  cdkAutosizeMaxRows="10"></textarea>
+        <mat-hint align="end">{{trigger.value.length}} / 300</mat-hint>
+    </mat-form-field>
+
+
+    <mat-form-field>
+        <input matInput placeholder="Modalidade"
+               formControlName="modalidadeEtiqueta"
+               [matAutocomplete]="modalidadeetiqueta.autocomplete"
+               (blur)="checkModalidadeEtiqueta()" required>
+        <cdk-modalidade-etiqueta-autocomplete
+            #modalidadeetiqueta="modalidadeEtiquetaAutocomplete"
+            [control]="form.get('modalidadeEtiqueta')"
+            [pagination]="modalidadeEtiquetaPagination">
+        </cdk-modalidade-etiqueta-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showModalidadeEtiquetaGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('modalidadeEtiqueta').hasError('formError')">
+            {{form.get('modalidadeEtiqueta').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+<mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>
+
+<cdk-modalidade-etiqueta-gridsearch
+    *ngIf="activeCard === 'modalidade-etiqueta-gridsearch'"
+    (selected)="selectModalidadeEtiqueta($event)"
+    (cancel)="cancel()">
+</cdk-modalidade-etiqueta-gridsearch>
