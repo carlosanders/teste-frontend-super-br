@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, HostListener, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -19,6 +19,19 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
     // Private
     private _unsubscribeAll: Subject<any>;
 
+    private innerWidth: any;
+    private mobileMode: boolean;
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.innerWidth = window.innerWidth;
+        if(innerWidth<=600) {
+            this.mobileMode = true;
+        }
+        else {
+            this.mobileMode = false;
+        }
+    }
     /**
      * Constructor
      *
@@ -50,6 +63,14 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
             .subscribe((config) => {
                 this.cdkConfig = config;
             });
+
+        this.innerWidth = window.innerWidth;
+        if(innerWidth<=600) {
+            this.mobileMode = true;
+        }
+        else {
+            this.mobileMode = false;
+        }
     }
 
     /**

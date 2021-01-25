@@ -37,14 +37,10 @@
 
     <h3>Cor da Etiqueta</h3>
 
-    <div class="selected-color mb-16" [ngStyle]="{background: this.form.get('corHexadecimal').value}"></div>
-
     <mcc-color-picker [overlay]="false" [hideUsedColors]="true"
                       [hideColorPickerSelector]="true" [hideButtons]="true" (selected)="selectColor($event)">
-
-        <mcc-color-picker-collection [colors]="colors" [hideEmpty]="true" [label]="'Cores'"
-                                     required></mcc-color-picker-collection>
-
+        <div class="selected-color mb-16" class="cor" [ngStyle]="{background: this.form.get('corHexadecimal').value}"></div>
+        <mcc-color-picker-collection [colors]="colors" [hideEmpty]="true" [label]="'Cores'" required></mcc-color-picker-collection>
     </mcc-color-picker>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
