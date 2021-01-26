@@ -25,7 +25,7 @@
                name="nome"
                formControlName="nome"
                required
-               maxlength="255">
+               maxlength="255" upperCase>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                 (click)="showLogEntryGrid('nome')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
@@ -125,7 +125,7 @@
         <input matInput #profissao
                name="profissao"
                formControlName="profissao"
-               maxlength="255">
+               maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
@@ -133,7 +133,7 @@
         <input matInput #nomeGenitor
                name="nomeGenitor"
                formControlName="nomeGenitor"
-               maxlength="255">
+               maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
@@ -141,7 +141,7 @@
         <input matInput #nomeGenitora
                name="nomeGenitora"
                formControlName="nomeGenitora"
-               maxlength="255">
+               maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>

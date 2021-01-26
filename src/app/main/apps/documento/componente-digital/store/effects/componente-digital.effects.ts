@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, SecurityContext} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
@@ -13,7 +13,7 @@ import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {DeleteTarefaSuccess} from '../../../../tarefas/store/actions';
+import {DomSanitizer} from '@angular/platform-browser';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -26,6 +26,7 @@ export class ComponenteDigitalEffect {
         private _store: Store<State>,
         private _router: Router,
         private _componenteDigitalService: ComponenteDigitalService,
+        private _sanitizer: DomSanitizer,
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -120,14 +121,28 @@ export class ComponenteDigitalEffect {
                         const byteArray = new Uint8Array(byteNumbers);
                         const blob = new Blob([byteArray], {type: response.mimetype});
                         const URL = window.URL;
-                        const data = URL.createObjectURL(blob);
-                        window.open(data, '_blank');
-
-                        setTimeout( () => {
-                            // For Firefox it is necessary to delay revoking the ObjectURL
-                            window.URL.revokeObjectURL(data);
-                        }, 100);
-
+                        if (response.mimetype === 'application/pdf' || response.mimetype === 'text/html') {
+                            const data = URL.createObjectURL(blob);
+                            window.open(data, '_blank');
+                            setTimeout( () => {
+                                // For Firefox it is necessary to delay revoking the ObjectURL
+                                window.URL.revokeObjectURL(data);
+                            }, 100);
+                        } else {
+                            const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
+                                downloadLink = document.createElement('a');
+                            const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
+                            downloadLink.target = '_blank';
+                            downloadLink.href = sanitizedUrl;
+                            downloadLink.download = response.fileName;
+                            document.body.appendChild(downloadLink);
+                            downloadLink.click();
+                            document.body.removeChild(downloadLink);
+                            setTimeout( () => {
+                                // For Firefox it is necessary to delay revoking the ObjectURL
+                                window.URL.revokeObjectURL(sanitizedUrl);
+                            }, 100);
+                        }
                     }
                 }),
                 catchError((err, caught) => {
@@ -168,9 +183,9 @@ export class ComponenteDigitalEffect {
                             byteNumbers[i] = byteCharacters.charCodeAt(i);
                         }
                         const byteArray = new Uint8Array(byteNumbers);
-                        const blob = new Blob([byteArray], {type: response.mimetype});
-                        const URL = window.URL;
-                        const data = URL.createObjectURL(blob);
+                        const blob = new Blob([byteArray], {type: response.mimetype}),
+                            URL = window.URL,
+                            data = URL.createObjectURL(blob);
                         window.open(data, '_blank');
 
                         setTimeout( () => {

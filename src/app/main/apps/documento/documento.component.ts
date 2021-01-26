@@ -24,6 +24,7 @@ import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../proce
 import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 import {ToggleMaximizado} from '../oficios/store/actions';
+import {UnloadComponenteDigital} from './componente-digital/store';
 
 @Component({
     selector: 'documento',
@@ -151,6 +152,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
 
     back(): void {
         this.destroying = true;
+        this._store.dispatch(new UnloadComponenteDigital());
         this._store.dispatch(new fromStore.UnloadDocumento());
         let url = this.routerState.url.split('/documento/')[0];
         if (url.indexOf('/processo') !== -1) {

@@ -18,10 +18,10 @@ import {cdkAnimations} from '@cdk/animations';
 import * as fromStore from 'app/main/apps/tarefas/store';
 import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -85,9 +85,12 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.router.events.subscribe(() => {
-            if(this.router.url && this.router.url.split("/").length>=3) {
-                this.modulo = (this.router.url.split("/")[3]);
+        this.router.events.pipe(
+            filter(event => event instanceof NavigationEnd),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe((event: NavigationEnd) => {
+            if (this.router.url && this.router.url.split('/').length >= 3) {
+                this.modulo = (this.router.url.split('/')[3]);
                 this.modulo = decodeURIComponent((this.modulo[0].toUpperCase() + this.modulo.substr(1).toLowerCase()));
             }
         });
@@ -130,8 +133,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this.usuariosAssessor.push(vinculacaoUsuario.usuario);
         });
 
-        if(this.router.url && this.router.url.split("/").length>=3) {
-            this.modulo = (this.router.url.split("/")[3]);
+        if (this.router.url && this.router.url.split('/').length >= 3) {
+            this.modulo = (this.router.url.split('/')[3]);
             this.modulo = decodeURIComponent((this.modulo[0].toUpperCase() + this.modulo.substr(1).toLowerCase()));
         }
     }

@@ -85,7 +85,7 @@ export class CdkComponenteDigitalCardListComponent {
     /** File extension that accepted, same as 'accept' of <input type="file" />.
      By the default, it's set to 'image/*'. */
     @Input()
-    accept = 'application/pdf';
+    accept = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/msword'];
 
     /** Allow you to add handler after its completion. Bubble up response text from remote. */
     @Output()
@@ -185,7 +185,7 @@ export class CdkComponenteDigitalCardListComponent {
                 const componenteDigital = new ComponenteDigital();
                 componenteDigital.file = file;
                 componenteDigital.conteudo = conteudo;
-                componenteDigital.mimetype = 'application/pdf';
+                componenteDigital.mimetype = file.data.type;
                 componenteDigital.fileName = file.data.name;
                 componenteDigital.tamanho = file.data.size;
                 componenteDigital.processoOrigem = this.processoOrigem;
