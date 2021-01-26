@@ -115,3 +115,4 @@ export * from './workflow.model';
 export * from './transicao-workflow.model';
 export * from './validacao-transicao-workflow.model';
 export * from './acao-transicao-workflow.model';
+export * from './modalidade-acao-etiqueta.model';
