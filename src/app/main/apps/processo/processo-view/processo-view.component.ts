@@ -159,7 +159,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     this.fileName = binary.src.fileName;
                     this.select.emit(binary.src);
                 } else {
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                    this.fileName = '';
+                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
                 }
                 this.loading = binary.loading;
                 this._changeDetectorRef.markForCheck();
@@ -312,7 +313,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     navigateToStep(step: string): void {
         let newSteps = step.split('-');
-        if (this.index[newSteps[0]] && this.index[newSteps[0]][newSteps[1]]) {
+        if (this.index[newSteps[0]]) {
             if (this.routerState.url.indexOf('/documento/') !== -1) {
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
