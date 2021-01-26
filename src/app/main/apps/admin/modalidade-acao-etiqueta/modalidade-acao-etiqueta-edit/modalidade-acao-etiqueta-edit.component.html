@@ -1,0 +1,17 @@
+<div class="header">
+    <path icone="insert_drive_file"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="modalidade-acao-etiqueta">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-modalidade-acao-etiqueta-form
+        [modalidadeAcaoEtiqueta]="(modalidadeAcaoEtiqueta$ | async)"
+        [form]="formModalidadeAcaoEtiqueta"
+        [modalidadeEtiquetaPagination]="modalidadeEtiquetaPagination"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitModalidadeAcaoEtiqueta($event)"
+        (abort)="doAbort()">
+    </cdk-modalidade-acao-etiqueta-form>
+</div>
