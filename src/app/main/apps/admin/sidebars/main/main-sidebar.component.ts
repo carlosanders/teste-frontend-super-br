@@ -134,7 +134,8 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
             {
                 nome: 'Modalidade Ação Etiqueta',
                 icon: 'label',
-                link: 'modalidade-acao-etiqueta'
+                link: 'modalidade-acao-etiqueta',
+                role: ['ROLE_ADMIN']
             }
         ];
 
