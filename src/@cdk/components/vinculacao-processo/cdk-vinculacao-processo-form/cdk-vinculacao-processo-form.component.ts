@@ -83,7 +83,7 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
      * On init
      */
     ngOnInit(): void {
-        this.form.get('checkAnexacao').disable();
+        this.form.get('checkAnexacao')?.disable();
     }
 
     /**

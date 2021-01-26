@@ -57,7 +57,7 @@ export class CdkUploadComponent implements OnInit {
     /** File extension that accepted, same as 'accept' of <input type="file" />.
      By the default, it's set to 'image/*'. */
     @Input()
-    accept = 'application/pdf';
+    accept = 'application/pdf,application/docx';
 
     /** Allow you to add handler after its completion. Bubble up response text from remote. */
     @Output()
@@ -148,7 +148,7 @@ export class CdkUploadComponent implements OnInit {
             conteudo => {
                 const componenteDigital = new ComponenteDigital();
                 componenteDigital.conteudo = conteudo;
-                componenteDigital.mimetype = 'application/pdf';
+                componenteDigital.mimetype = file.data.type;
                 componenteDigital.fileName = file.data.name;
                 componenteDigital.tamanho = file.data.size;
                 componenteDigital.processoOrigem = this.processoOrigem;

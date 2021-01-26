@@ -144,7 +144,6 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 this.links[module.name] = modulesLink;
             }
         });
-        console.log(this.links);
     }
 
     // -----------------------------------------------------------------------------------------------------
