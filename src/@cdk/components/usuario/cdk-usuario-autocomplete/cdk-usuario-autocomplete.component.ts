@@ -127,7 +127,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
                 return null;
             }
         } else {
-            return usuario ? usuario.nome : null;
+            return usuario ? usuario.nome + ' (' + usuario.username + ')' : null;
         }
     }
 }
