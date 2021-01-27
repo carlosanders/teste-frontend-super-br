@@ -12,7 +12,7 @@ import {select, Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import * as fromStore from '../../store';
 import {getRouterState} from "../../../../../../../../../store/reducers";
-import {Acao, Etiqueta, Pagination} from "../../../../../../../../../../@cdk/models";
+import {Acao, Etiqueta, Pagination} from "@cdk/models";
 
 // @ts-ignore
 @Component({
@@ -28,8 +28,8 @@ export class AcaoTrigger003Component implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     form: FormGroup;
-    formState: string = 'form';
     routerState: any;
+
     usuarioPagination: Pagination;
 
     /**
@@ -42,7 +42,6 @@ export class AcaoTrigger003Component implements OnInit, OnDestroy {
         private _formBuilder: FormBuilder,
         private _store: Store<fromStore.AcaoEditAppState>
     ) {
-        console.log('aqui1223');
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -50,14 +49,15 @@ export class AcaoTrigger003Component implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
-
         this.form = this._formBuilder.group({
             contexto: [null],
-            usuarioResponsavel: [null, [Validators.required]]
+            usuarioResponsavel: [null, [Validators.required]],
+            trigger: [
+                'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0004',
+                [Validators.required]
+            ]
         });
-
         this.usuarioPagination = new Pagination();
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,26 +82,21 @@ export class AcaoTrigger003Component implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-
         values.contexto = JSON.stringify({usuarioId: values.usuario.id});
         const acao = new Acao();
-
         Object.entries(values).forEach(
             ([key, value]) => {
                 acao[key] = value;
             }
         );
-
         const etiqueta = new Etiqueta();
         etiqueta.id = this.routerState.params.etiquetaHandle;
         acao.etiqueta = etiqueta;
-        console.log('ACAO:',acao);
+        acao.trigger = 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0004';
         this._store.dispatch(new fromStore.SaveAcao(acao));
     }
 
     doAbort(): void {
-        console.log('aqui123567');
-        console.log(this.routerState);
         this._router.navigate([this.routerState.url.replace('/3/trigger', '')]);
     }
 }

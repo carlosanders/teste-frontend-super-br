@@ -15,7 +15,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {filter} from 'rxjs/operators';
 import {TriggerAcaoProvider} from "../providers/trigger-acao-provider";
-import {TriggerAcao} from "../../../../../../../../@cdk/models/trigger-acao";
+import {TriggerAcao} from "@cdk/models/trigger-acao";
 
 @Component({
     selector: 'acao-list',

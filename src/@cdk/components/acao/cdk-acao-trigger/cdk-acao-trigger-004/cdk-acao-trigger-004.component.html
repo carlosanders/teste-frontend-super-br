@@ -1,0 +1,13 @@
+<h2>Ofício</h2>
+<cdk-documento-avulso-form
+    [documentoAvulso]="documentoAvulso"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    [especieDocumentoAvulsoPagination]="especieDocumentoAvulsoPagination"
+    [setorDestinoPagination]="setorDestinoPagination"
+    [modeloPagination]="modeloPagination"
+    [mode]="mode"
+    [prazoCriteriaList]="prazoCriteriaList"
+    (save)="submit($event)"
+    (abort)="doAbort()">
+</cdk-documento-avulso-form>

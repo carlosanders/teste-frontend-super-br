@@ -1,0 +1,7 @@
+<cdk-acao-trigger-004
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    [prazoCriteriaList]="prazoCriteriaList"
+    (save)="submit($event)"
+    (abort)="doAbort()">
+</cdk-acao-trigger-004>

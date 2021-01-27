@@ -7,24 +7,30 @@ import {
     OnChanges, SimpleChange, EventEmitter, Output
 } from '@angular/core';
 
+import {Observable} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from "@angular/router";
-import {Acao, Pagination, Setor, Tarefa, Usuario} from "../../../../models";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Observable} from "rxjs";
+import {Acao, Compartilhamento, Pagination, Usuario} from "../../../../models";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
+// @ts-ignore
 @Component({
-    selector: 'cdk-acao-trigger-002',
-    templateUrl: './cdk-acao-trigger-002.component.html',
-    styleUrls: ['./cdk-acao-trigger-002.component.scss'],
+    selector: 'cdk-acao-trigger-003',
+    templateUrl: './cdk-acao-trigger-003.component.html',
+    styleUrls: ['./cdk-acao-trigger-003.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
 
-export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges {
+export class CdkAcaoTrigger003Component implements OnInit, OnDestroy, OnChanges {
+
+    compartilhamento: Compartilhamento;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+
+    @Input()
+    usuarioPagination: Pagination;
 
     @Input()
     saving: boolean;
@@ -32,33 +38,14 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
     @Input()
     errors: any;
 
-    @Input()
-    unidadeResponsavel: Setor;
-
-    @Input()
-    setorResponsavel: Setor;
-
-    @Input()
-    usuarioResponsavel: Usuario;
-
-    @Input()
-    unidadePagination: Pagination;
-
-    @Input()
-    setorPagination: Pagination;
-
-    @Input()
-    usuarioPagination: Pagination;
-
     @Output()
     save = new EventEmitter<Acao>();
-
     @Output()
     abort = new EventEmitter<any>();
 
-    tarefa: Tarefa;
+    routerState: any;
     form: FormGroup;
-    formState: string = 'form';
+    activeCard: string = 'form';
 
     /**
      * Constructor
@@ -68,8 +55,6 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
         private _router: Router,
         private _formBuilder: FormBuilder
     ) {
-        this.unidadePagination = new Pagination();
-        this.setorPagination = new Pagination();
         this.usuarioPagination = new Pagination();
     }
 
@@ -87,6 +72,7 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+
     }
 
     /**
@@ -96,7 +82,7 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
     }
 
     cancel(): void {
-        this.formState = 'form';
+        this.activeCard = 'form';
     }
 
     doAbort(): void {
@@ -106,4 +92,5 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
     submit(values): void {
         this.save.emit(values);
     }
+
 }

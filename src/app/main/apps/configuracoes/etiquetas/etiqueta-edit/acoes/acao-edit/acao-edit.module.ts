@@ -44,6 +44,11 @@ const routes: Routes = [
                 path: '3',
                 loadChildren: () => import('./acao-trigger/acao-trigger-003/acao-trigger-003.module')
                     .then(m => m.AcaoTrigger003Module),
+            },
+            {
+                path: '4',
+                loadChildren: () => import('./acao-trigger/acao-trigger-004/acao-trigger-004.module')
+                    .then(m => m.AcaoTrigger004Module),
             }
         ]
     }

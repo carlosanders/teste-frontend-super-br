@@ -11,25 +11,24 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule,
-    MatTooltipModule
+    MatProgressSpinnerModule, MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {AcaoTrigger003Component} from './acao-trigger-003.component';
+import {AcaoTrigger004Component} from './acao-trigger-004.component';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
 import {CommonModule} from "@angular/common";
-import {CdkAcaoTrigger003Module} from "@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-003/cdk-acao-trigger-003.module";
+import {CdkAcaoTrigger004Module} from "@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-004/cdk-acao-trigger-004.module";
 
 const routes: Routes = [
     {
         path: 'trigger',
-        component: AcaoTrigger003Component
+        component: AcaoTrigger004Component
     }
 ];
 
-const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/acoes/acao-edit/acao-trigger/acao-trigger-003';
+const path = 'app/main/apps/configuracoes/etiquetas/etiqueta-edit/acoes/acao-edit/acao-trigger/acao-trigger-004';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -40,10 +39,11 @@ modulesConfig.forEach((module) => {
 // @ts-ignore
 @NgModule({
     declarations: [
-        AcaoTrigger003Component
+        AcaoTrigger004Component
     ],
     imports: [
         RouterModule.forChild(routes),
+
         MatButtonModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -61,10 +61,10 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
 
-        CdkAcaoTrigger003Module
+        CdkAcaoTrigger004Module
     ],
     providers: [
     ]
 })
-export class AcaoTrigger003Module {
+export class AcaoTrigger004Module {
 }

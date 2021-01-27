@@ -77,6 +77,8 @@ export class CdkAcaoListComponent implements AfterViewInit, OnInit, OnChanges {
     }
 
     getTriggerAcao(acao:Acao): TriggerAcao {
-        return this.triggerAcaoList.find(triggerAcao => triggerAcao.trigger = acao.trigger);
+        return this.triggerAcaoList.find(triggerAcao => {
+            return triggerAcao.trigger == acao.trigger
+        });
     }
 }

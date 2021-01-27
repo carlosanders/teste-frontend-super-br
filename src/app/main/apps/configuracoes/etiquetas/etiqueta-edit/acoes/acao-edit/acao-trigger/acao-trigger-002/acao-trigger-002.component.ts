@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Acao, Etiqueta} from '@cdk/models';
+import {Acao, Etiqueta, Pagination} from '@cdk/models';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {select, Store} from "@ngrx/store";
@@ -29,6 +29,11 @@ export class AcaoTrigger002Component implements OnInit, OnDestroy {
     form: FormGroup;
     formState: string = 'form';
     routerState: any;
+    trigger: any;
+
+    unidadePagination: Pagination;
+    setorPagination: Pagination;
+    usuarioPagination: Pagination;
 
     /**
      * @param _router
@@ -47,12 +52,19 @@ export class AcaoTrigger002Component implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
-
         this.form = this._formBuilder.group({
             contexto: [null],
-            modelo: [null, [Validators.required]]
+            unidadeResponsavel: [null, [Validators.required]],
+            setorReponsavel: [null, [Validators.required]],
+            usuarioResponsavel: [null, [Validators.required]],
+            trigger: [
+                'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0003',
+                [Validators.required]
+            ]
         });
-
+        this.unidadePagination = new Pagination();
+        this.setorPagination = new Pagination();
+        this.usuarioPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -77,10 +89,21 @@ export class AcaoTrigger002Component implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-        console.log(values);
-       /* values.contexto = JSON.stringify({modeloId: values.modelo.id});
+        if(!values.usuarioResponsavel){
+        values.contexto = JSON.stringify(
+            {
+                setorResponsavelId: values.setorResponsavel.id,
+                unidadeResponsavelId: values.unidadeResponsavel.id
+            });
+        }else{
+            values.contexto = JSON.stringify(
+                {
+                    setorResponsavelId: values.setorResponsavel.id,
+                    unidadeResponsavelId: values.unidadeResponsavel.id,
+                    usuarioId: values.usuarioResponsavel.id,
+                });
+        }
         const acao = new Acao();
-
         Object.entries(values).forEach(
             ([key, value]) => {
                 acao[key] = value;
@@ -90,13 +113,11 @@ export class AcaoTrigger002Component implements OnInit, OnDestroy {
         const etiqueta = new Etiqueta();
         etiqueta.id = this.routerState.params.etiquetaHandle;
         acao.etiqueta = etiqueta;
-
-        this._store.dispatch(new fromStore.SaveAcao(acao));*/
+        acao.trigger = 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0003';
+        
+        this._store.dispatch(new fromStore.SaveAcao(acao));
     }
-
     doAbort(): void {
-        console.log('aqui123567');
-        console.log(this.routerState);
         this._router.navigate([this.routerState.url.replace('/2/trigger', '')]);
     }
 }

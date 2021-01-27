@@ -16,21 +16,21 @@ export class TriggerAcaoProvider {
             valor: 'Distribuição automática',
             descricao: 'Distribuir as tarefas de forma automática ou por responsável.',
             modalidadeEtiqueta: {valor: 'TAREFA'},
-            trigger: ''
+            trigger: 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0003'
         },
         {
             id: 3,
             valor: 'Compartilhamento',
             descricao: 'Compartilha a tarefa entre usuários.',
             modalidadeEtiqueta: {valor: 'TAREFA'},
-            trigger: ''
+            trigger: 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0004'
         },
         {
             id: 4,
             valor: 'Ofício',
             descricao: 'Gera automaticamente um oficio na tarefa etiquetada',
             modalidadeEtiqueta: {valor: 'TAREFA'},
-            trigger: ''
+            trigger: 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0005'
         },
     ];
 

@@ -14,7 +14,7 @@ import {Etiqueta} from '@cdk/models';
 import {getEtiqueta} from '../../store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../../store/reducers';
-import {TriggerAcao} from "../../../../../../../../@cdk/models/trigger-acao";
+import {TriggerAcao} from "@cdk/models/trigger-acao";
 import {TriggerAcaoProvider} from "../providers/trigger-acao-provider";
 
 @Component({

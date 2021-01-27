@@ -62,7 +62,7 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field *ngIf="!form.get('distribuicaoAutomatica').value">
             <input matInput placeholder="Usuário Responsável"
                    formControlName="usuarioResponsavel"
                    [matAutocomplete]="usuario.autocomplete" required
@@ -74,24 +74,35 @@
                 [usuarioListIsLoading]="usuarioResponsavelListIsLoading"
                 [pagination]="usuarioResponsavelPagination">
             </cdk-usuario-autocomplete>
+
             <button [disabled]="!form.get('setorResponsavel').value" matSuffix mat-button mat-icon-button
                     (click)="getFavoritosUsuarioResponsavel()">
                 <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
-            <button matSuffix mat-button mat-icon-button
-                    (click)="showLogEntryGrid('usuarioResponsavel')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
+
             <button *ngIf="form.get('usuarioResponsavel').enabled" matSuffix mat-button mat-icon-button
                     (click)="showUsuarioGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
+
             <mat-error *ngIf="form.get('usuarioResponsavel').hasError('formError')">
                 {{form.get('usuarioResponsavel').errors.formError}}
             </mat-error>
         </mat-form-field>
     </mat-card>
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid || !valid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+    <div>{{form.errors}}</div>
 </form>
 
 <cdk-setor-gridsearch
@@ -114,12 +125,6 @@
     (selected)="selectUsuario($event)"
     (cancel)="cancel()">
 </cdk-usuario-gridsearch>
-
-<cdk-logentry-gridsearch
-    *ngIf="activeCard === 'logentry-gridsearch'"
-    [pagination]="logEntryPagination"
-    (cancel)="cancel()">
-</cdk-logentry-gridsearch>
 
 <cdk-setor-tree
     *ngIf="activeCard === 'setor-tree'"
