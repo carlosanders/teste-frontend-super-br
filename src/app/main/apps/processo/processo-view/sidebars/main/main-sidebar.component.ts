@@ -697,7 +697,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
             duration: 3000,
-            panelClass: ['fuse-white-bg'],
+            panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
                 text: 'Deletado(a)'
