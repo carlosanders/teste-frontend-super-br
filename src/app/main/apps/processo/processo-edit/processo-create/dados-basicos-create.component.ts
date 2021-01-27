@@ -241,6 +241,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             processo: [null],
             processoVinculado: [null, [Validators.required]],
             modalidadeVinculacaoProcesso: [null, [Validators.required]],
+            checkAnexacao: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]]
         });
 

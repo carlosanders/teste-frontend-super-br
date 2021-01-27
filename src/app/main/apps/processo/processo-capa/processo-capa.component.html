@@ -140,20 +140,20 @@
                 {{ processo.chaveAcesso }}
             </div>
         </div>
-        <div class="linha">
+        <div class="linha" *ngIf="processo.criadoPor">
             <div class="titulo">
                 Criado Por:
             </div>
             <div class="valor">
-                {{ processo.criadoPor.nome }}
+                {{ processo.criadoPor?.nome }}
             </div>
         </div>
-        <div class="linha">
+        <div class="linha" *ngIf="processo.atualizadoPor">
             <div class="titulo">
                 Atualizador Por:
             </div>
             <div class="valor">
-                {{ processo.atualizadoPor.nome }}
+                {{ processo.atualizadoPor?.nome }}
             </div>
         </div>
     </mat-card>
