@@ -150,9 +150,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                     } else {
                         this.form.get('usuarioResponsavel').enable();
                     }
-                    if (this.blocoResponsaveis) {
-                        this.blocoResponsaveis = [];
-                    }
+
                     this._changeDetectorRef.markForCheck();
                     return of([]);
                 }

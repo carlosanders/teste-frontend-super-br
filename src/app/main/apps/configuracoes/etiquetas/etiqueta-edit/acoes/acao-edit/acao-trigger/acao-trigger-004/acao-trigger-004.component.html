@@ -2,6 +2,12 @@
     [saving]="(isSaving$ | async)"
     [errors]="(errors$ | async)"
     [prazoCriteriaList]="prazoCriteriaList"
+    [destinatarios]="destinatarios"
+    (gerirPessoaDestino)="gerirPessoaDestino()"
+    (editPessoaDestino)="editPessoaDestino($event)"
+    [pessoaDestino]="pessoaDestino"
     (save)="submit($event)"
     (abort)="doAbort()">
 </cdk-acao-trigger-004>
+
+<router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

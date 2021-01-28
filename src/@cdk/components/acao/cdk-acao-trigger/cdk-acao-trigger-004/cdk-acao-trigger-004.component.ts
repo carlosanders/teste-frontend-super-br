@@ -10,7 +10,7 @@ import {
 import {Observable} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from "@angular/router";
-import {Acao, DocumentoAvulso, EspecieTarefa, Pagination, Processo} from "../../../../models";
+import {Acao, DocumentoAvulso, EspecieTarefa, Pagination, Pessoa, Processo} from "../../../../models";
 import {FormBuilder, FormGroup} from "@angular/forms";
 
 // @ts-ignore
@@ -37,6 +37,9 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
     mode = 'trigger-etiqueta';
 
     @Input()
+    pessoaDestino: Pessoa;
+
+    @Input()
     documentoAvulso: DocumentoAvulso;
 
     @Input()
@@ -56,6 +59,9 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
 
     @Input()
     valid = true;
+
+    @Input()
+    destinatarios = [];
 
     @Output()
     gerirPessoaDestino = new EventEmitter();
@@ -128,6 +134,15 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
 
     submit($values): void {
         this.save.emit($values);
+    }
+
+
+    doGerirPessoaDestino(): void {
+        this.gerirPessoaDestino.emit();
+    }
+
+    doEditPessoaDestino(pessoaId: number): void {
+        this.editPessoaDestino.emit(pessoaId);
     }
 
 }

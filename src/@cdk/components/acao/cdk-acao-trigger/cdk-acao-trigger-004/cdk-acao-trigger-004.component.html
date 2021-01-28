@@ -7,6 +7,10 @@
     [setorDestinoPagination]="setorDestinoPagination"
     [modeloPagination]="modeloPagination"
     [mode]="mode"
+    (gerirPessoaDestino)="doGerirPessoaDestino()"
+    (editPessoaDestino)="doEditPessoaDestino($event)"
+    [pessoaDestino]="pessoaDestino"
+    [destinatarios]="destinatarios"
     [prazoCriteriaList]="prazoCriteriaList"
     (save)="submit($event)"
     (abort)="doAbort()">

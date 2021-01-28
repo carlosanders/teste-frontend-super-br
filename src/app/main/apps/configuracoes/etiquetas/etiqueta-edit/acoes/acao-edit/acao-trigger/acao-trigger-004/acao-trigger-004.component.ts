@@ -12,7 +12,16 @@ import {select, Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import * as fromStore from '../../store';
 import {getRouterState} from "../../../../../../../../../store/reducers";
-import {Acao, Criteria, DocumentoAvulso, Etiqueta, Pagination} from "@cdk/models";
+import {
+    Acao,
+    Criteria,
+    DocumentoAvulso,
+    Etiqueta,
+    Pagination,
+    Pessoa,
+    Setor
+} from "@cdk/models";
+
 
 // @ts-ignore
 @Component({
@@ -34,6 +43,10 @@ export class AcaoTrigger004Component implements OnInit, OnDestroy {
     especieDocumentoAvulsoPagination: Pagination;
     setorDestinoPagination: Pagination;
     modeloPagination: Pagination;
+    destinatarios = [];
+    destinatariosSave = [];
+    destinos: any[] = [];
+    pessoaDestino: Pessoa;
 
     logEntryPagination: Pagination;
     saving: any;
@@ -64,6 +77,7 @@ export class AcaoTrigger004Component implements OnInit, OnDestroy {
         private _formBuilder: FormBuilder,
         private _store: Store<fromStore.AcaoEditAppState>
     ) {
+
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -115,41 +129,88 @@ export class AcaoTrigger004Component implements OnInit, OnDestroy {
 
     submit(values): void {
         let contexto = {};
+
         contexto["especieDocumentoAvulsoId"] = values.especieDocumentoAvulso.id
         contexto["prazoFinal"] = values.prazoFinal
         contexto["modeloId"] = values.modelo.id
         contexto["mecanismoRemessa"] = values.mecanismoRemessa
 
-        if(values.setorDestino)
-        {
+        if (values.setorDestino && !values.blocoDestinatarios) {
             contexto['setorDestinoId'] = values.setorDestino.id
         }
 
-        if(values.pessoaDestino)
-        {
-            contexto['pessoaDestinoId'] =  values.pessoaDestino.id
+        if (values.pessoaDestino && !values.blocoDestinatarios) {
+            contexto['pessoaDestinoId'] = values.pessoaDestino.id
         }
 
-        if(values.observacao)
-        {
+        if (values.observacao) {
             contexto['observacao'] = values.observacao;
         }
-        values.contexto = JSON.stringify(contexto);
-           const acao = new Acao();
-           Object.entries(values).forEach(
-               ([key, value]) => {
-                   acao[key] = value;
-               }
-           );
-           const etiqueta = new Etiqueta();
-           etiqueta.id = this.routerState.params.etiquetaHandle;
-           acao.etiqueta = etiqueta;
-           acao.trigger = 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0005';
+        if ((this.destinatariosSave.length < this.destinatarios.length) && (values.blocoDestinatarios)) {
+            this.destinatariosSave.push(values);
+        }
 
-          this._store.dispatch(new fromStore.SaveAcao(acao));
+        if (this.destinatariosSave.length == this.destinatarios.length && values.blocoDestinatarios) {
+            this.destinos = [];
+            this.destinatarios.forEach((destinatario) => {
+                let destino = {};
+                if (destinatario instanceof Setor) {
+                    destino['id'] = destinatario.id;
+                    destino['tipo'] = 'setor';
+                }
+                if (destinatario instanceof Pessoa) {
+                    destino['id'] = destinatario.id;
+                    destino['tipo'] = 'pessoa';
+                }
+                this.destinos.push(destino);
+            });
+            contexto['blocoResponsaveis'] = this.destinos;
+            this._store.dispatch(new fromStore.SaveAcao(this.tratarValores(contexto)));
+        } else if (!values.blocoDestinatarios) {
+            this._store.dispatch(new fromStore.SaveAcao(this.tratarValores(contexto)));
+        }
+    }
+
+    tratarValores(values): any {
+        const acao = new Acao();
+        const etiqueta = new Etiqueta();
+        etiqueta.id = this.routerState.params.etiquetaHandle;
+        acao.etiqueta = etiqueta;
+        acao.trigger = 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0005';
+        values.contexto = JSON.stringify(values);
+        Object.entries(values).forEach(
+            ([key, value]) => {
+                acao[key] = value;
+            }
+        );
+        return acao;
     }
 
     doAbort(): void {
         this._router.navigate([this.routerState.url.replace('/4/trigger', '')]);
+    }
+
+
+    onActivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.subscribe((pessoa: Pessoa) => {
+                this.pessoaDestino = pessoa;
+                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+            });
+        }
+    }
+
+    onDeactivate(componentReference): void  {
+        if (componentReference.select) {
+            componentReference.select.unsubscribe();
+        }
+    }
+
+    gerirPessoaDestino(): void {
+        this._router.navigate([this.routerState.url + '/pessoa']).then();
+    }
+
+    editPessoaDestino(pessoaId: number): void {
+        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
     }
 }

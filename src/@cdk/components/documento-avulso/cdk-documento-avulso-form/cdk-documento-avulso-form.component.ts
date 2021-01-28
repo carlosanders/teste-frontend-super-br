@@ -104,6 +104,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     processos: Processo[] = [];
 
+    @Input()
     destinatarios = [];
 
     @Output()
@@ -392,7 +393,6 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                             setorDestino: null
                         };
                     }
-
                     this.save.emit(docAvulso);
                 });
             }

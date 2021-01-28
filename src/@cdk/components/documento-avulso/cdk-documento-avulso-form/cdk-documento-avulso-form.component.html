@@ -45,7 +45,7 @@
             [especieDocumentoAvulsoListIsLoading]="especieDocumentoAvulsoListIsLoading"
             [pagination]="especieDocumentoAvulsoPagination">
         </cdk-especie-documento-avulso-autocomplete>
-        <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+        <button *ngIf="form.get('processo').value" matSuffix mat-button mat-icon-button
                 (click)="getFavoritosEspecieDocumentoAvulso()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
@@ -71,7 +71,7 @@
             [modeloListIsLoading]="modeloListIsLoading"
             [pagination]="modeloPagination">
         </cdk-modelo-autocomplete>
-        <button *ngIf="!inputModelo" [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+        <button *ngIf="!inputModelo && form.get('processo').value" matSuffix mat-button mat-icon-button
                 (click)="getFavoritosModelo()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
@@ -117,7 +117,7 @@
                 [setorListIsLoading]="setorDestinoListIsLoading"
                 [pagination]="setorDestinoPagination">
             </cdk-setor-autocomplete>
-            <button *ngIf="!inputModelo" [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+            <button *ngIf="!inputModelo  && form.get('processo').value"  matSuffix mat-button mat-icon-button
                     (click)="getFavoritosSetorDestino()">
                 <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
@@ -143,7 +143,7 @@
                 [pessoaListIsLoading]="pessoaDestinoListIsLoading"
                 [pagination]="pessoaDestinoPagination">
             </cdk-pessoa-autocomplete>
-            <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+            <button *ngIf="form.get('processo').value" matSuffix mat-button mat-icon-button
                     (click)="getFavoritosPessoaDestino()">
                 <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>

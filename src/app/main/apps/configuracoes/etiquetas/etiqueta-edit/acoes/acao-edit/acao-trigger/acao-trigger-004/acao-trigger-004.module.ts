@@ -24,7 +24,13 @@ import {CdkAcaoTrigger004Module} from "@cdk/components/acao/cdk-acao-trigger/cdk
 const routes: Routes = [
     {
         path: 'trigger',
-        component: AcaoTrigger004Component
+        component: AcaoTrigger004Component,
+        children: [
+            {
+                path       : 'pessoa',
+                loadChildren: () => import('app/main/apps/pessoa/pessoa.module').then(m => m.PessoaModule),
+            }
+        ]
     }
 ];
 
