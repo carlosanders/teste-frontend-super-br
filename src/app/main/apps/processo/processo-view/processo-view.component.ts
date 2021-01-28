@@ -149,7 +149,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         document.body.appendChild(downloadLink);
                         downloadLink.click();
                         document.body.removeChild(downloadLink);
-                        setTimeout( () => {
+                        setTimeout(() => {
                             // For Firefox it is necessary to delay revoking the ObjectURL
                             window.URL.revokeObjectURL(sanitizedUrl);
                         }, 100);
@@ -160,7 +160,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     this.select.emit(binary.src);
                 } else {
                     this.fileName = '';
-                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
                 }
                 this.loading = binary.loading;
                 this._changeDetectorRef.markForCheck();
@@ -315,6 +315,16 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         let newSteps = step.split('-');
         if (this.index[newSteps[0]]) {
             if (this.routerState.url.indexOf('/documento/') !== -1) {
+                let arrPrimary = [];
+                arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                    'visualizar-processo' : 'anexar-copia');
+                arrPrimary.push(this.routerState.params.processoHandle);
+                if (this.routerState.params.chaveAcessoHandle) {
+                    arrPrimary.push('chave');
+                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                }
+                arrPrimary.push('visualizar');
+                arrPrimary.push(step);
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
                     [
@@ -322,13 +332,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         this.routerState.params.documentoHandle,
                         {
                             outlets: {
-                                primary: [
-                                    this.routerState.url.indexOf('anexar-copia') === -1 ?
-                                        'visualizar-processo' : 'anexar-copia',
-                                    this.routerState.params.processoHandle,
-                                    'visualizar',
-                                    step
-                                ]
+                                primary: arrPrimary
                             }
                         }
                     ],
@@ -339,12 +343,16 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
                 });
             } else {
-                this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
+                let url = this.routerState.url.split('/processo/')[0] +
                     '/processo/' +
-                    this.routerState.params.processoHandle + '/visualizar/' + step)
-                    .then(() => {
-                        this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
-                    });
+                    this.routerState.params.processoHandle;
+                if (this.routerState.params.chaveAcessoHandle) {
+                    url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                }
+                url += '/visualizar/' + step;
+                this._router.navigateByUrl(url).then(() => {
+                    this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                });
             }
         }
     }

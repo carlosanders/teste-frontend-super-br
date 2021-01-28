@@ -105,7 +105,7 @@ export class OficiosEffects {
                         this._router.navigate([
                             'apps/oficios/' + this.routerState.params.oficioTargetHandle + '/' + this.routerState.params.pessoaHandle
                             + '/detalhe/' + action.payload.documentoAvulsoId + '/processo/' + action.payload.processoId
-                            + '/visualizar/' + action.payload.chaveAcesso]
+                            + '/chave/' + action.payload.chaveAcesso + '/visualizar']
                         ).then();
                     }
 
