@@ -152,7 +152,8 @@
                         Conteúdo
                     </th>
                     <td mat-cell *matCellDef="let notificacao" class='has_label_on_mobile' data-label='Conteúdo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"> {{notificacao.conteudo}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(notificacao.id) > -1}"
+                        [innerHTML]="notificacao.conteudo"></td>
                 </ng-container>
 
                 <!-- Urgente Column -->
