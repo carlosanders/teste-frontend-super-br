@@ -36,7 +36,7 @@ const routes: Routes = [
                 canActivate: [fromGuards.ResolveGuard]
             },
             {
-                path: 'visualizar/:chaveAcessoHandle',
+                path: 'chave/:chaveAcessoHandle/visualizar',
                 loadChildren: () => import('./processo-view/processo-view.module').then(m => m.ProcessoViewModule),
                 canActivate: [fromGuards.ResolveGuard]
             },

@@ -435,6 +435,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._changeDetectorRef.detectChanges();
 
         if (this.routerState.url.indexOf('/documento/') !== -1) {
+            let arrPrimary = [];
+            arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                'visualizar-processo' : 'anexar-copia');
+            arrPrimary.push(this.routerState.params.processoHandle);
+            if (this.routerState.params.chaveAcessoHandle) {
+                arrPrimary.push('chave');
+                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+            }
+            arrPrimary.push('visualizar');
+            arrPrimary.push(step + '-0');
             // Navegação do processo deve ocorrer por outlet
             this._router.navigate(
                 [
@@ -442,13 +452,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                     this.routerState.params.documentoHandle,
                     {
                         outlets: {
-                            primary: [
-                                this.routerState.url.indexOf('anexar-copia') === -1 ?
-                                    'visualizar-processo' : 'anexar-copia',
-                                this.routerState.params.processoHandle,
-                                'visualizar',
-                                step + '-0'
-                            ]
+                            primary: arrPrimary
                         }
                     }
                 ],
@@ -459,9 +463,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
             });
         } else {
-            this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
+            let url = this.routerState.url.split('/processo/')[0] +
                 '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + step + '-0').then(() => {
+                this.routerState.params.processoHandle;
+            if (this.routerState.params.chaveAcessoHandle) {
+                url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+            }
+            url += '/visualizar/' + step + '-0';
+            this._router.navigateByUrl(url).then(() => {
                 this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
             });
         }
