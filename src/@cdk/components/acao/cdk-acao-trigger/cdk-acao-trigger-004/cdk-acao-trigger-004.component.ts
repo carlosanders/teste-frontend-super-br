@@ -99,7 +99,7 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
         this.especieDocumentoAvulsoPagination = new Pagination();
         this.setorDestinoPagination = new Pagination();
         this.modeloPagination = new Pagination();
-        this.modeloPaginationAndx = [{'populate': 'eq:OFÍCIO'}];
+        this.modeloPaginationAndx = [{'documento.tipoDocumento.nome': 'eq:OFÍCIO'}];
     }
 
     // -----------------------------------------------------------------------------------------------------
