@@ -31,7 +31,7 @@ const routes: Routes = [
             },
             {
                 path       : 'regras',
-                loadChildren: () => import('./regras/regras.module').then(m => m.RegrasModule)
+                loadChildren: () => import('./regras-etiqueta/regras-etiqueta.module').then(m => m.RegrasEtiquetaModule)
             },
             {
                 path       : '**',

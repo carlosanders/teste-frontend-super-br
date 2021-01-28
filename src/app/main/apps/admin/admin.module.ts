@@ -11,6 +11,7 @@ import {MainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {modulesConfig} from 'modules/modules-config';
 import * as fromGuards from './store/guards';
 import {MatRippleModule} from '@angular/material/core';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 const routes: Routes = [
     {
@@ -84,6 +85,10 @@ const routes: Routes = [
             {
                 path: 'modalidade-orgao-central',
                 loadChildren: () => import('./modalidade-orgao-central/modalidade-orgao-central.module').then(m => m.ModalidadeOrgaoCentralModule)
+            },
+            {
+                path: 'modalidade-acao-etiqueta',
+                loadChildren: () => import('./modalidade-acao-etiqueta/modalidade-acao-etiqueta.module').then(m => m.ModalidadeAcaoEtiquetaModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
@@ -107,16 +112,17 @@ modulesConfig.forEach((module) => {
         AdminComponent,
         MainSidebarComponent
     ],
-    imports: [
-        CommonModule,
-        CdkSidebarModule,
-        RouterModule.forChild(routes),
-        MatIconModule,
-        RouterModule,
-        CdkSharedModule,
-        MatButtonModule,
-        MatRippleModule
-    ],
+	imports: [
+		CommonModule,
+		CdkSidebarModule,
+		RouterModule.forChild(routes),
+		MatIconModule,
+		RouterModule,
+		CdkSharedModule,
+		MatButtonModule,
+		MatRippleModule,
+		MatExpansionModule
+	],
     providers: [
         fromGuards.ResolveGuard
     ]

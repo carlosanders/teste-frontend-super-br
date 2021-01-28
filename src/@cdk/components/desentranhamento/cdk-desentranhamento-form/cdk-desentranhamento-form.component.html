@@ -41,6 +41,10 @@
         </mat-error>
     </mat-form-field>
 
+    <mat-slide-toggle formControlName="checkCiencia" (change)="checaCiencia($event)">
+        Estou ciente de que esta(s) juntada(s) serão desentranhadas do processo atual.
+    </mat-slide-toggle>
+
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">

@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
-    ViewEncapsulation, Input, OnChanges
+    ViewEncapsulation, Input, OnChanges, SecurityContext
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
@@ -61,7 +61,24 @@ export class CdkComponenteDigitalViewComponent implements OnInit, OnChanges {
             const byteArray = new Uint8Array(byteNumbers);
             const blob = new Blob([byteArray], {type: this.componenteDigital.mimetype}),
                 URL = window.URL;
-            this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+            if (this.componenteDigital.mimetype === 'application/pdf' || this.componenteDigital.mimetype === 'text/html') {
+                this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+            } else {
+                const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
+                    downloadLink = document.createElement('a');
+                const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
+                downloadLink.target = '_blank';
+                downloadLink.href = sanitizedUrl;
+                downloadLink.download = this.componenteDigital.fileName;
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+                setTimeout( () => {
+                    // For Firefox it is necessary to delay revoking the ObjectURL
+                    window.URL.revokeObjectURL(sanitizedUrl);
+                }, 100);
+                this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+            }
         } else {
             this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
         }

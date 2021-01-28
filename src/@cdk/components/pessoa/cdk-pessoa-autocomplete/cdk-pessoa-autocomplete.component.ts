@@ -114,6 +114,9 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
         if (pessoa && pessoa.numeroDocumentoPrincipal) {
             retorno += ' (' + pessoa.numeroDocumentoPrincipal + ')';
         }
+        if (pessoa && pessoa.pessoaValidada) {
+            retorno += ' - VALIDADA';
+        }
         return retorno;
     }
 

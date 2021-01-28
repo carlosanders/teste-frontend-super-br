@@ -6,7 +6,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    QueryList,
+    QueryList, SecurityContext,
     ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
@@ -137,10 +137,29 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     const byteArray = new Uint8Array(byteNumbers);
                     const blob = new Blob([byteArray], {type: binary.src.mimetype});
                     const URL = window.URL;
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                    if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
+                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                    } else {
+                        const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
+                            downloadLink = document.createElement('a');
+                        const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
+                        downloadLink.target = '_blank';
+                        downloadLink.href = sanitizedUrl;
+                        downloadLink.download = binary.src.fileName;
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+                        document.body.removeChild(downloadLink);
+                        setTimeout(() => {
+                            // For Firefox it is necessary to delay revoking the ObjectURL
+                            window.URL.revokeObjectURL(sanitizedUrl);
+                        }, 100);
+                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                    }
+
                     this.fileName = binary.src.fileName;
                     this.select.emit(binary.src);
                 } else {
+                    this.fileName = '';
                     this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
                 }
                 this.loading = binary.loading;
@@ -294,8 +313,18 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     navigateToStep(step: string): void {
         let newSteps = step.split('-');
-        if (this.index[newSteps[0]] && this.index[newSteps[0]][newSteps[1]]) {
+        if (this.index[newSteps[0]]) {
             if (this.routerState.url.indexOf('/documento/') !== -1) {
+                let arrPrimary = [];
+                arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                    'visualizar-processo' : 'anexar-copia');
+                arrPrimary.push(this.routerState.params.processoHandle);
+                if (this.routerState.params.chaveAcessoHandle) {
+                    arrPrimary.push('chave');
+                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                }
+                arrPrimary.push('visualizar');
+                arrPrimary.push(step);
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
                     [
@@ -303,13 +332,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                         this.routerState.params.documentoHandle,
                         {
                             outlets: {
-                                primary: [
-                                    this.routerState.url.indexOf('anexar-copia') === -1 ?
-                                        'visualizar-processo' : 'anexar-copia',
-                                    this.routerState.params.processoHandle,
-                                    'visualizar',
-                                    step
-                                ]
+                                primary: arrPrimary
                             }
                         }
                     ],
@@ -320,12 +343,16 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
                 });
             } else {
-                this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
+                let url = this.routerState.url.split('/processo/')[0] +
                     '/processo/' +
-                    this.routerState.params.processoHandle + '/visualizar/' + step)
-                    .then(() => {
-                        this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
-                    });
+                    this.routerState.params.processoHandle;
+                if (this.routerState.params.chaveAcessoHandle) {
+                    url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                }
+                url += '/visualizar/' + step;
+                this._router.navigateByUrl(url).then(() => {
+                    this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                });
             }
         }
     }

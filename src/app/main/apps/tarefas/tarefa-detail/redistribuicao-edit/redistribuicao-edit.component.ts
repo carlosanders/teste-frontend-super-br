@@ -13,13 +13,22 @@ import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
-import { SaveTarefa } from 'app/main/apps/tarefas/tarefa-detail/store';
+import {
+    RedistribuirTarefa,
+    RedistribuirTarefaCancel,
+    RedistribuirTarefaFlush,
+    SaveTarefa
+} from 'app/main/apps/tarefas/tarefa-detail/store';
 import {filter, skip, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
 import {getOperacoesState, getRouterState} from '../../../../../store/reducers';
 import {Router} from '@angular/router';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
+import {CdkUtils} from '../../../../../../@cdk/utils';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {DynamicService} from '../../../../../../modules/dynamic.service';
 
 @Component({
     selector: 'redistribuicao-edit',
@@ -46,15 +55,22 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
     operacoes: any[] = [];
     routerState: any;
 
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
+    lote: string;
+
     /**
+     *
      * @param _store
      * @param _loginService
      * @param _router
+     * @param _snackBar
      */
     constructor(
         private _store: Store<fromStore.TarefaDetailAppState>,
         public _loginService: LoginService,
-        private _router: Router
+        private _router: Router,
+        private _snackBar: MatSnackBar
     ) {
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -96,11 +112,11 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
             .subscribe(
                 operacao => {
 
-                    this.reloadTarefas();
-
-                    this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-                    this.routerState.params.typeHandle + '/' +
-                    '/' + this.routerState.params.targetHandle]).then();
+                    // this.reloadTarefas();
+                    //
+                    // this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
+                    // this.routerState.params.typeHandle + '/' +
+                    // '/' + this.routerState.params.targetHandle]).then();
                 }
             );
 
@@ -159,7 +175,48 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
 
         tarefa.vinculacoesEtiquetas = this.tarefa.vinculacoesEtiquetas;
 
-        this._store.dispatch(new SaveTarefa(tarefa));
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new RedistribuirTarefa({
+            tarefa: tarefa,
+            operacaoId: operacaoId,
+            loteId: null,
+            redo: [
+                new RedistribuirTarefa({
+                    tarefa: tarefa,
+                    operacaoId: operacaoId,
+                    loteId: null,
+                    redo: 'inherent',
+                    // redo e undo são herdados da ação original
+                    url: this._router.url
+                }),
+                new RedistribuirTarefaFlush()
+            ],
+            url: this._router.url,
+            undo: null
+        }));
 
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['cdk-white-bg'],
+            data: {
+                icon: 'forward',
+                text: 'Redistribuindo'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new RedistribuirTarefaCancel());
+            } else {
+                this._store.dispatch(new RedistribuirTarefaFlush());
+            }
+        });
     }
 }

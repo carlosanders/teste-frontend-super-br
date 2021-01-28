@@ -1,37 +1,132 @@
 <div class="header accent">
-    <h1>Últimas Operações</h1>
+    <div class="buttons">
+        <button mat-icon-button class="toggle-sidebar-folded"
+                (click)="toggleSidebarLock()" fxHide.lt-lg>
+            <mat-icon>format_list_bulleted</mat-icon>
+        </button>
+        <button mat-icon-button class="toggle-sidebar-opened"
+                (click)="toggleSidebarOpen()" fxHide.gt-md>
+            <mat-icon>arrow_forward</mat-icon>
+        </button>
+    </div>
+    <div class="logo">
+        <span class="logo-text">Últimas Operações</span>
+    </div>
 </div>
 
-<mat-progress-bar *ngIf="operacoesPendentes > 0" mode="determinate" [value]="(operacoesProcessando * 100) / operacoesPendentes"></mat-progress-bar>
+<mat-progress-bar *ngIf="operacoesPendentes > 0" mode="determinate"
+                  [value]="(operacoesProcessando * 100) / operacoesPendentes"></mat-progress-bar>
 
 <div class="content" cdkPerfectScrollbar>
+    <div *ngIf="!(loteAtual$ | async)" class="operacoes">
+        <mat-card class="mt-8 ml-8 mr-8" *ngFor="let operacao of operacoes">
+            <mat-card-title>
+                <div class="card-header">
+                    <span class="secondary-text">{{operacao.type | titlecase}}</span>
+                    <span *ngIf="operacao.status === 0"><mat-spinner [diameter]="16"></mat-spinner></span>
+                    <span *ngIf="operacao.status === 1"><mat-icon>check</mat-icon></span>
+                    <span *ngIf="operacao.status === 2"><mat-icon class="warn">clear</mat-icon></span>
+                    <span *ngIf="operacao.status === 3"><mat-icon>cancel</mat-icon></span>
+                </div>
+            </mat-card-title>
+            <mat-card-content>
+                <div class="card-content">
+                    <span class="secondary-text">{{operacao.content}}</span>
+                    <span
+                        class="mt-8 card-date secondary-text">{{operacao.dateTime?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <div class="card-actions">
+                    <div class="button" *ngIf="operacao.status >= 2 && operacao.redo">
+                        <button mat-icon-button class="secondary-text" matTooltip="Refazer" (click)="refazer(operacao)">
+                            <mat-icon>redo</mat-icon>
+                            Refazer
+                        </button>
+                    </div>
+                    <div class="button" *ngIf="operacao.status === 1 && operacao.undo">
+                        <button mat-icon-button class="secondary-text" matTooltip="Desfazer" (click)="desfazer(operacao)">
+                            <mat-icon>undo</mat-icon>
+                            Desfazer
+                        </button>
+                    </div>
+                    <div class="button" *ngIf="operacao.lote">
+                        <button mat-icon-button class="secondary-text" matTooltip="Ver Lote" (click)="verLote(operacao.lote)">
+                            <mat-icon>all_inbox</mat-icon>
+                            Ver Lote
+                        </button>
+                    </div>
+                </div>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    <div *ngIf="(loteAtual$ | async)" class="operacoes">
+        <mat-card class="mt-8 ml-8 mr-8">
+            <mat-card-title>
+                <div class="card-header">
+                    <span class="secondary-text">Exibindo Lote: {{loteAtual.id}}</span>
+                </div>
+            </mat-card-title>
+            <mat-card-actions>
+                <div class="card-actions">
+                    <div class="button">
+                        <button mat-icon-button class="secondary-text" matTooltip="Voltar" (click)="verOperacoes()">
+                            <mat-icon>arrow_left</mat-icon>
+                            Voltar
+                        </button>
+                    </div>
+                    <div class="button" *ngIf="operacoesRefazerLoteAtual.length > 0">
+                        <button mat-icon-button class="secondary-text" matTooltip="Refazer Lote" (click)="refazerLoteAtual()">
+                            <mat-icon>redo</mat-icon>
+                            Refazer Lote
+                        </button>
+                    </div>
+                    <div class="button" *ngIf="operacoesDesfazerLoteAtual.length > 0">
+                        <button mat-icon-button class="secondary-text" matTooltip="Desfazer Lote" (click)="desfazerLoteAtual()">
+                            <mat-icon>undo</mat-icon>
+                            Desfazer Lote
+                        </button>
+                    </div>
+                </div>
+            </mat-card-actions>
+        </mat-card>
 
-    <mat-card class="mt-8 ml-8 mr-8" *ngFor="let operacao of operacoes">
-        <mat-card-title>
-            <div class="card-header">
-                <span class="secondary-text">{{operacao.type | titlecase}}</span>
-                <span *ngIf="operacao.status === 0"><mat-spinner [diameter]="16"></mat-spinner></span>
-                <span *ngIf="operacao.status === 1"><mat-icon>check</mat-icon></span>
-                <span *ngIf="operacao.status === 2"><mat-icon class="warn">clear</mat-icon></span>
-                <span *ngIf="operacao.status === 3"><mat-icon>cancel</mat-icon></span>
-            </div>
-        </mat-card-title>
-        <mat-card-content>
-            <div class="card-content">
-                <span class="secondary-text">{{operacao.content}}</span>
-                <span class="mt-8 card-date secondary-text">{{operacao.dateTime?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}</span>
-            </div>
-        </mat-card-content>
-        <mat-card-actions>
-            <button *ngIf="operacao.status >= 2 && operacao.redo" mat-icon-button
-                    class="secondary-text" matTooltip="Refazer" (click)="refazer(operacao)">
-                <mat-icon>redo</mat-icon> Refazer
-            </button>
-            <button *ngIf="operacao.status === 1 && operacao.undo" mat-icon-button
-                    class="secondary-text" matTooltip="Desfazer" (click)="desfazer(operacao)">
-                <mat-icon>undo</mat-icon> Desfazer
-            </button>
-        </mat-card-actions>
-    </mat-card>
-
+        <mat-card class="mt-8 ml-8 mr-8" *ngFor="let operacao of operacoesLoteAtual">
+            <mat-card-title>
+                <div class="card-header">
+                    <span class="secondary-text">{{operacao.type | titlecase}}</span>
+                    <span *ngIf="operacao.status === 0"><mat-spinner [diameter]="16"></mat-spinner></span>
+                    <span *ngIf="operacao.status === 1"><mat-icon>check</mat-icon></span>
+                    <span *ngIf="operacao.status === 2"><mat-icon class="warn">clear</mat-icon></span>
+                    <span *ngIf="operacao.status === 3"><mat-icon>cancel</mat-icon></span>
+                </div>
+            </mat-card-title>
+            <mat-card-content>
+                <div class="card-content">
+                    <span class="secondary-text">
+                        {{operacao.content}}
+                    </span>
+                    <span class="mt-8 card-date secondary-text">
+                        {{operacao.dateTime?.toDate() | date: 'dd/MM/yyyy HH:mm:ss'}}
+                    </span>
+                </div>
+            </mat-card-content>
+            <mat-card-actions>
+                <div class="card-actions">
+                    <div class="button" *ngIf="operacao.status >= 2 && operacao.redo">
+                        <button mat-icon-button class="secondary-text" matTooltip="Refazer" (click)="refazer(operacao)">
+                            <mat-icon>redo</mat-icon>
+                            Refazer
+                        </button>
+                    </div>
+                    <div class="button" *ngIf="operacao.status === 1 && operacao.undo">
+                        <button mat-icon-button class="secondary-text" matTooltip="Desfazer" (click)="desfazer(operacao)">
+                            <mat-icon>undo</mat-icon>
+                            Desfazer
+                        </button>
+                    </div>
+                </div>
+            </mat-card-actions>
+        </mat-card>
+    </div>
 </div>

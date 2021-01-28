@@ -4,221 +4,158 @@
 
 <div class="content" cdkPerfectScrollbar *ngIf="(processo$ | async)">
     <mat-card>
-        <mat-grid-list cols="4" rowHeight="20px">
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">NUP:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+        <div class="linha">
+            <div class="titulo">
+                NUP:
+            </div>
+            <div class="valor">
                 {{ processo.NUP }}
-            </mat-grid-tile>
+            </div>
+        </div>
+        <div class="linha">
+            <div class="titulo">
+                Tipo:
+            </div>
+            <div class="valor">
+                {{ (processo.tipoProtocolo === 1) ? 'PROTOCOLO' : ((processo.tipoProtocolo === 2) ? 'DOCUMENTO AVULSO' : 'UA DOSSIE') }}}
+            </div>
+        </div>
 
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Tipo:</span>
-            </mat-grid-tile>
-            <mat-grid-tile *ngIf="processo.tipoProtocolo === 1"
-                           [colspan]="3"
-                           [rowspan]="1">
-                PROTOCOLO
-            </mat-grid-tile>
-            <mat-grid-tile *ngIf="processo.tipoProtocolo === 2"
-                           [colspan]="3"
-                           [rowspan]="1">
-                DOCUMENTO AVULSO
-            </mat-grid-tile>
-            <mat-grid-tile *ngIf="processo.tipoProtocolo === 3"
-                           [colspan]="3"
-                           [rowspan]="1">
-                UA DOSSIE
-            </mat-grid-tile>
-
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Abertura:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+        <div class="linha">
+            <div class="titulo">
+                Abertura:
+            </div>
+            <div class="valor">
                 {{ processo.dataHoraAbertura?.toDate() | date: 'dd/MM/yyyy' }}
-            </mat-grid-tile>
-
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Fase Atual:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+            </div>
+        </div>
+        <div class="linha">
+            <div class="titulo">
+                Fase Atual:
+            </div>
+            <div class="valor">
                 {{ processo.modalidadeFase.valor }}
-            </mat-grid-tile>
-        </mat-grid-list>
+            </div>
+        </div>
     </mat-card>
 
     <mat-card>
-        <mat-grid-list cols="4" rowHeight="20px">
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="2">
-                <span class="subtitle">Classificação:</span>
-            </mat-grid-tile>
-            <mat-grid-tile [matTooltip]="processo.classificacao.nomeCompleto"
-                [colspan]="3"
-                [rowspan]="2">
+        <div class="linha">
+            <div class="titulo">
+                Classificação:
+            </div>
+            <div class="valor">
                 {{ processo.classificacao.nome }}
-            </mat-grid-tile>
-
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Procedência:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+            </div>
+        </div>
+        <div class="linha">
+            <div class="titulo">
+                Procedência:
+            </div>
+            <div class="valor">
                 {{ processo.procedencia.nome }}
-            </mat-grid-tile>
-
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="2">
-                <span class="subtitle">Meio:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="2">
+            </div>
+        </div>
+        <div class="linha">
+            <div class="titulo">
+                Meio:
+            </div>
+            <div class="valor">
                 {{ processo.modalidadeMeio.descricao }}
-            </mat-grid-tile>
-
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Valor:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+            </div>
+        </div>
+        <div class="linha">
+            <div class="titulo">
+                Valor:
+            </div>
+            <div class="valor">
                 {{ processo.valorEconomico | number: 'pt-BR' }}
-            </mat-grid-tile>
-        </mat-grid-list>
+            </div>
+        </div>
     </mat-card>
 
     <mat-card>
-        <mat-grid-list cols="4" rowHeight="20px">
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Título:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+        <div class="linha">
+            <div class="titulo">
+                Título:
+            </div>
+            <div class="valor">
                 {{ processo.titulo }}
-            </mat-grid-tile>
-
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="3">
-                <span class="subtitle">Descrição:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="3">
+            </div>
+        </div>
+        <div class="linha">
+            <div class="titulo">
+                Descrição:
+            </div>
+            <div class="valor">
                 {{ processo.descricao }}
-            </mat-grid-tile>
-
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Outro Número:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+            </div>
+        </div>
+        <div class="linha">
+            <div class="titulo">
+                Outro Número:
+            </div>
+            <div class="valor">
                 {{ processo.outroNumero }}
-            </mat-grid-tile>
-        </mat-grid-list>
+            </div>
+        </div>
     </mat-card>
 
     <mat-card>
-        <mat-grid-list cols="4" rowHeight="20px">
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Setor Atual:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+        <div class="linha">
+            <div class="titulo">
+                Setor Atual:
+            </div>
+            <div class="valor">
                 {{ processo.setorAtual.nome }}
-            </mat-grid-tile>
-
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Localizador:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+            </div>
+        </div>
+        <div class="linha">
+            <div class="titulo">
+                Localizador:
+            </div>
+            <div class="valor">
                 {{ processo.localizador }}
-            </mat-grid-tile>
-        </mat-grid-list>
+            </div>
+        </div>
     </mat-card>
 
     <mat-card>
-        <mat-card-subtitle>Informações Gerenciais</mat-card-subtitle>
-        <mat-grid-list cols="4" rowHeight="20px">
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Id:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+        <div class="linha">
+            <mat-card-subtitle>Informações Gerenciais</mat-card-subtitle>
+        </div>
+        <div class="linha">
+            <div class="titulo">
+                Id:
+            </div>
+            <div class="valor">
                 {{ processo.id }}
-            </mat-grid-tile>
-
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Chave Acesso:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
+            </div>
+        </div>
+        <div class="linha">
+            <div class="titulo">
+                Chave Acesso:
+            </div>
+            <div class="valor">
                 {{ processo.chaveAcesso }}
-            </mat-grid-tile>
-
-            <mat-grid-tile
-                [colspan]="1"
-                [rowspan]="1">
-                <span class="subtitle">Criado Por:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
-                {{ processo.criadoPor.nome }}
-            </mat-grid-tile>
-
-            <mat-grid-tile *ngIf="processo.atualizadoPor"
-                           [colspan]="1"
-                           [rowspan]="1">
-                <span class="subtitle">Atualizador Por:</span>
-            </mat-grid-tile>
-            <mat-grid-tile
-                [colspan]="3"
-                [rowspan]="1">
-                {{ processo.atualizadoPor.nome }}
-            </mat-grid-tile>
-        </mat-grid-list>
+            </div>
+        </div>
+        <div class="linha" *ngIf="processo.criadoPor">
+            <div class="titulo">
+                Criado Por:
+            </div>
+            <div class="valor">
+                {{ processo.criadoPor?.nome }}
+            </div>
+        </div>
+        <div class="linha" *ngIf="processo.atualizadoPor">
+            <div class="titulo">
+                Atualizador Por:
+            </div>
+            <div class="valor">
+                {{ processo.atualizadoPor?.nome }}
+            </div>
+        </div>
     </mat-card>
 
     <mat-card>

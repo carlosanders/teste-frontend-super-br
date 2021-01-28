@@ -30,6 +30,10 @@ import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente
 import {MatDialog} from '@cdk/angular/material';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {DynamicService} from '../../../../../../../modules/dynamic.service';
+import {getDocumentosHasLoaded} from '../../store';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -48,6 +52,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     processo$: Observable<Processo>;
     processo: Processo;
+
+    expandir$: Observable<boolean>;
 
     tarefaOrigem: Tarefa;
 
@@ -85,6 +91,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentoIds$: Observable<number[]>;
     javaWebStartOK = false;
     lixeiraMinutas$: Observable<boolean>;
     loadingDocumentosExcluidos$: Observable<boolean>;
@@ -118,6 +125,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     tipoDocumentoPagination: Pagination;
 
+    loadedMinutas: any;
+
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
 
@@ -132,6 +141,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     minutasOpen = true;
 
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
+    lote: string;
+
     /**
      *
      * @param _juntadaService
@@ -143,6 +156,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      * @param _router
      * @param _activatedRoute
      * @param _loginService
+     * @param _snackBar
      */
     constructor(
         private _juntadaService: JuntadaService,
@@ -153,7 +167,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _router: Router,
         private _activatedRoute: ActivatedRoute,
-        public _loginService: LoginService
+        public _loginService: LoginService,
+        private _snackBar: MatSnackBar
     ) {
         this.form = this._formBuilder.group({
             volume: [null],
@@ -168,6 +183,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.animationDirection = 'none';
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
+        this.expandir$ = this._store.pipe(select(fromStore.expandirTela));
         this.isLoading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.index$ = this._store.pipe(select(fromStore.getIndex));
@@ -183,6 +199,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
         this.loadingDocumentosExcluidos$ = this._store.pipe(select(fromStore.getLoadingDocumentosExcluidos));
+        this.downloadP7SDocumentoIds$ = this._store.pipe(select(fromStore.getDownloadDocumentoP7SId));
 
         this.tipoDocumentoPagination = new Pagination();
 
@@ -229,6 +246,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                     this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
                     this.minutasLoading$ = this._store.pipe(select(fromStore.getMinutasLoading));
                     this.minutasSaving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+                    this._store.pipe(select(getDocumentosHasLoaded)).subscribe(
+                        loaded => this.loadedMinutas = loaded
+                    );
                 }
             }
         });
@@ -402,7 +422,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
      * @param ativo
      */
     gotoStep(step, ativo): void {
-        if (this.juntadas[step] === undefined || !ativo) {
+        if (this.juntadas[step] === undefined) {
             this._store.dispatch(new fromStore.GetCapaProcesso());
             return;
         }
@@ -415,6 +435,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._changeDetectorRef.detectChanges();
 
         if (this.routerState.url.indexOf('/documento/') !== -1) {
+            let arrPrimary = [];
+            arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                'visualizar-processo' : 'anexar-copia');
+            arrPrimary.push(this.routerState.params.processoHandle);
+            if (this.routerState.params.chaveAcessoHandle) {
+                arrPrimary.push('chave');
+                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+            }
+            arrPrimary.push('visualizar');
+            arrPrimary.push(step + '-0');
             // Navegação do processo deve ocorrer por outlet
             this._router.navigate(
                 [
@@ -422,13 +452,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                     this.routerState.params.documentoHandle,
                     {
                         outlets: {
-                            primary: [
-                                this.routerState.url.indexOf('anexar-copia') === -1 ?
-                                    'visualizar-processo' : 'anexar-copia',
-                                this.routerState.params.processoHandle,
-                                'visualizar',
-                                step + '-0'
-                            ]
+                            primary: arrPrimary
                         }
                     }
                 ],
@@ -439,9 +463,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
             });
         } else {
-            this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
+            let url = this.routerState.url.split('/processo/')[0] +
                 '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + step + '-0').then(() => {
+                this.routerState.params.processoHandle;
+            if (this.routerState.params.chaveAcessoHandle) {
+                url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+            }
+            url += '/visualizar/' + step + '-0';
+            this._router.navigateByUrl(url).then(() => {
                 this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
             });
         }
@@ -642,8 +671,55 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._store.dispatch(new fromStore.ClickedDocumento(documento));
     }
 
-    doDelete(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    doDelete(documento: Documento, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documento.id,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStore.DeleteDocumento({
+                    documentoId: documento.id,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DeleteDocumentoFlush()
+            ],
+            undo: new fromStore.UndeleteDocumento({
+                documento: documento,
+                operacaoId: operacaoId,
+                loaded: this.loadedMinutas,
+                redo: null,
+                undo: null
+            })
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['cdk-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Deletado(a)'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStore.DeleteDocumentoCancel());
+            } else {
+                this._store.dispatch(new fromStore.DeleteDocumentoFlush());
+            }
+        });
     }
 
     doRemoveAssinatura(documentoId): void {
@@ -652,6 +728,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     doConverte(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doDownloadP7S(documentoId): void {
+        this._store.dispatch(new fromStore.DownloadToP7S(documentoId));
     }
 
     onComplete(): void {
@@ -669,10 +749,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
             this.routerState.params.processoHandle + '/envia-email/' + juntadaId).then();
     }
 
-    doRestaurar(documentoId): void {
+    doRestaurar(documento: Documento): void {
         const operacaoId = CdkUtils.makeId();
-        const documento = new Documento();
-        documento.id = documentoId
         this._store.dispatch(new fromStore.UndeleteDocumento({
             documento: documento,
             operacaoId: operacaoId,
@@ -687,5 +765,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     doSairLixeiraMinutas(): void {
         this._store.dispatch(new fromStore.GetDocumentos());
+    }
+
+    expandirTela(valor: boolean): void {
+        this._store.dispatch(new fromStore.ExpandirProcesso(valor));
     }
 }

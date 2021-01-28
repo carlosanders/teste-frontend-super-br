@@ -16,6 +16,7 @@ import {CdkDesentranhamentoFormComponent} from './cdk-desentranhamento-form.comp
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
 import {CdkProcessoGridsearchModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-gridsearch/cdk-processo-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
         NgxUpperCaseDirectiveModule,
         CdkSharedModule,
+        MatSlideToggleModule,
     ],
     providers: [],
     exports: [

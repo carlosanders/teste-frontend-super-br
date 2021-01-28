@@ -1,16 +1,31 @@
 <div class="page-layout left-sidebar">
+
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''"
-                 name="cdk-processo-filter"
-                 position="left">
+    <cdk-sidebar id="sidebarId"
+                 [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''"
+                 [ngClass]="{
+                     'mobile-processo-pesquisa-off': (mobileMode && !!processos),
+                     'mobile-processo-pesquisa-on': (mobileMode && !processos)
+                 }"
+                 name="cdk-processo-filter">
         <cdk-processo-filter (selected)="setFilter($event)" [mode]="this.mode" fxLayout="column"></cdk-processo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
     <!-- CONTENT -->
-    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
-
+    <div id="responsiveGrid" class="responsive-grid" [ngClass]="{
+            'search': (this.mode == 'search'),
+            'mobile-processo-lista-off': (mobileMode && !processos),
+            'mobile-processo-lista-on': (mobileMode && !!processos)
+        }">
         <div class="actions" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="end center">
+
+            <button class="back" mat-icon-button *ngIf="mobileMode"
+                    (click)="cssPesquisaOn()"
+                    aria-label="pesquisar"
+                    matTooltip="Pesquisar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
 
             <button class="back accent" mat-icon-button *ngIf="actions.indexOf('create') > -1"
                     (click)="doCreate()"
@@ -162,7 +177,10 @@
                         Espécie Processo
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Espécie Processo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.especieProcesso?.nome}} <span *ngIf="processo.especieProcesso?.generoProcesso?.nome"> ({{processo.especieProcesso?.generoProcesso?.nome}})</span> </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.especieProcesso?.nome}}
+                        <span
+                            *ngIf="processo.especieProcesso?.generoProcesso?.nome"> ({{processo.especieProcesso?.generoProcesso?.nome}}
+                            )</span></td>
                 </ng-container>
 
                 <!-- VisibilidadeExterna Column -->

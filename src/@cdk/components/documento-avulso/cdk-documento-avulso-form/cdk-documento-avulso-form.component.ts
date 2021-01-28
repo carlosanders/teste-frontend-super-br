@@ -93,6 +93,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     modeloPagination: Pagination;
 
     @Input()
+    modeloPaginationAndx: any;
+
+    @Input()
     setorDestinoPagination: Pagination;
 
     @Input()
@@ -176,6 +179,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         this.modeloPagination = new Pagination();
         this.pessoaDestinoPagination = new Pagination();
         this.setorDestinoPagination = new Pagination();
+        this.modeloPaginationAndx = [];
     }
 
     // -----------------------------------------------------------------------------------------------------

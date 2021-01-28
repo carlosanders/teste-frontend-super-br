@@ -15,7 +15,10 @@ mwlResizable {
 }
 
 .mat-expansion-panel-body {
-    padding: 0 !important;
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    padding: 0 3px !important;
 }
 
 .danger-snackbar {

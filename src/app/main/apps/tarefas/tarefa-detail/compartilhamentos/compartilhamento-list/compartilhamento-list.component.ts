@@ -8,11 +8,16 @@ import {
 import {Observable} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Compartilhamento} from '@cdk/models';
+import {Compartilhamento, Documento} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store';
 import {getRouterState} from '../../../../../../store/reducers';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {LoginService} from '../../../../../auth/login/login.service';
+import {getCompartilhamentoListLoaded} from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store';
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Component({
     selector: 'compartilhamento-list',
@@ -32,21 +37,33 @@ export class CompartilhamentoListComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
 
+    loaded: any;
+
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
+    lote: string;
+
     /**
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _snackBar
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.CompartilhamentoListAppState>,
+        private _snackBar: MatSnackBar
     ) {
         this.compartilhamentos$ = this._store.pipe(select(fromStore.getCompartilhamentoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+
+        this._store.pipe(select(getCompartilhamentoListLoaded)).subscribe(
+            loaded => this.loaded = loaded
+        );
 
         this._store
             .pipe(select(getRouterState))
@@ -87,7 +104,47 @@ export class CompartilhamentoListComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
 
-    delete(compartilhamentoId: number): void {
-        this._store.dispatch(new fromStore.DeleteCompartilhamento(compartilhamentoId));
+    delete(compartilhamentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        this._store.dispatch(new fromStore.DeleteCompartilhamento({
+            compartilhamentoId: compartilhamentoId,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStore.DeleteCompartilhamento({
+                    compartilhamentoId: compartilhamentoId,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DeleteCompartilhamentoFlush()
+            ],
+            undo: null
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['cdk-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Deletado(a)'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStore.DeleteCompartilhamentoCancel());
+            } else {
+                this._store.dispatch(new fromStore.DeleteCompartilhamentoFlush());
+            }
+        });
     }
 }

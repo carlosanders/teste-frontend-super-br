@@ -16,7 +16,10 @@
     <mat-menu #moreMenu="matMenu">
 
         <div *ngIf="!lixeiraMinutas">
-            <button mat-menu-item aria-label="remover" *showIfRole="'ROLE_COLABORADOR'"
+            <button 
+                    [disabled]="actions.indexOf('delete') === -1"
+                    mat-menu-item aria-label="remover" 
+                    *showIfRole="'ROLE_COLABORADOR'"
                     (click)="doDeleteDocumentoBloco()">
                 <ng-container>
                     <mat-icon>delete</mat-icon>
@@ -111,6 +114,10 @@
                     [undeleting]="undeletingId !== undefined && undeletingId.indexOf(documento.id) > -1"
                     [removendoAssinatura]="removendoAssinaturaId !== undefined && removendoAssinaturaId.indexOf(documento.id) > -1"
                     [convertendo]="convertendoId != undefined && convertendoId.indexOf(documento.id) > -1"
+                    [download]="downloadId != undefined && downloadId.indexOf(documento.id) > -1"
+                    [actions]="actions"
+                    [tipoDocumentoPagination]="tipoDocumentoPagination"
+                    [tiposDocumentosNaoEditaveis]="tiposDocumentosNaoEditaveis"
                     [maisDeUmItemSelecionado]="selectedIds?.length > 1"
                     (delete)="doDelete($event)"
                     (verResposta)="doVerResposta($event)"
@@ -118,6 +125,7 @@
                     (assinatura)="doAssinatura($event)"
                     (removeAssinatura)="doRemoveAssinatura($event)"
                     (converte)="doConverte($event)"
+                    (downloadP7s)="doDownloadP7S($event)"
                     (restaurar)="doRestaurar($event)"
                     (clicked)="onClick($event)"
                     (changedSelected)="toggleInSelected($event)">

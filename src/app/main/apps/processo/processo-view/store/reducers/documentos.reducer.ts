@@ -1,6 +1,4 @@
 import * as ProcessoViewDocumentosActions from '../actions/documentos.actions';
-import * as AtividadeCreateDocumentosActions
-    from '../../../../tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
 
 export interface ProcessoViewDocumentosState {
     documentosId: number[];
@@ -11,11 +9,15 @@ export interface ProcessoViewDocumentosState {
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    downloadP7SDocumentoIds: number[];
     undeletingDocumentoIds: number[];
+    bufferingDelete: number;
     loading: boolean;
     loaded: boolean;
     loadingDocumentosExcluidos: boolean;
     lixeiraMinutas: boolean;
+    error: any;
+    errorDelete: number[];
 }
 
 export const ProcessoViewDocumentosInitialState: ProcessoViewDocumentosState = {
@@ -27,11 +29,15 @@ export const ProcessoViewDocumentosInitialState: ProcessoViewDocumentosState = {
     alterandoDocumentoIds: [],
     removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
+    downloadP7SDocumentoIds: [],
     undeletingDocumentoIds: [],
+    bufferingDelete: 0,
     loading: false,
     loaded: false,
     loadingDocumentosExcluidos: false,
-    lixeiraMinutas: false
+    lixeiraMinutas: false,
+    error: null,
+    errorDelete: []
 };
 
 export function ProcessoViewDocumentosReducer(
@@ -92,9 +98,13 @@ export function ProcessoViewDocumentosReducer(
         }
 
         case ProcessoViewDocumentosActions.DELETE_DOCUMENTO: {
+            const entitiesId = state.documentosId.filter(id => id !== action.payload.documentoId);
             return {
                 ...state,
-                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+                documentosId: entitiesId,
+                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoId],
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload.documentoId),
+                error: null
             };
         }
 
@@ -102,9 +112,43 @@ export function ProcessoViewDocumentosReducer(
             return {
                 ...state,
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
-                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload)
+                errorDelete: [],
+                error: null
             };
+        }
+
+        case ProcessoViewDocumentosActions.DELETE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                errorDelete: [...state.errorDelete, action.payload.id],
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
+                documentosId: [...state.documentosId, action.payload.id],
+                error: action.payload.error
+            };
+        }
+
+        case ProcessoViewDocumentosActions.DELETE_DOCUMENTO_CANCEL: {
+            return {
+                ...state,
+                deletingDocumentoIds: [],
+                bufferingDelete: state.bufferingDelete + 1,
+                errorDelete: [],
+                error: null
+            }
+        }
+
+        case ProcessoViewDocumentosActions.DELETE_DOCUMENTO_FLUSH: {
+            return {
+                ...state,
+                bufferingDelete: state.bufferingDelete + 1
+            }
+        }
+
+        case ProcessoViewDocumentosActions.DELETE_DOCUMENTO_CANCEL_SUCCESS: {
+            return {
+                ...state,
+                documentosId: [...state.documentosId, action.payload],
+            }
         }
 
         case ProcessoViewDocumentosActions.UPDATE_DOCUMENTO: {
@@ -234,10 +278,13 @@ export function ProcessoViewDocumentosReducer(
         }
 
         case ProcessoViewDocumentosActions.UNDELETE_DOCUMENTO_SUCCESS: {
+            let entitiesId = [];
+            entitiesId = state.lixeiraMinutas ?
+                state.documentosId.filter(id => id !== action.payload.documento.id) : [...state.documentosId, action.payload.documento.id];
             return {
                 ...state,
-                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id),
-                documentosId: state.documentosId.filter(id => id !== action.payload.id)
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.documento.id),
+                documentosId: !action.payload.loaded || action.payload.loaded === state.documentosLoaded ? entitiesId : state.documentosId
             };
         }
 
@@ -248,6 +295,24 @@ export function ProcessoViewDocumentosReducer(
             };
         }
 
+        case ProcessoViewDocumentosActions.DOWNLOAD_DOCUMENTO_P7S: {
+            return {
+                ...state,
+                downloadP7SDocumentoIds: [...state.downloadP7SDocumentoIds, action.payload],
+            };
+        }
+        case ProcessoViewDocumentosActions.DOWNLOAD_DOCUMENTO_SUCCESS: {
+            return {
+                ...state,
+                downloadP7SDocumentoIds: state.downloadP7SDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+        case ProcessoViewDocumentosActions.DOWNLOAD_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                downloadP7SDocumentoIds: state.downloadP7SDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
         default:
             return state;
     }

@@ -122,8 +122,9 @@ export class DocumentoAvulsoCreateEffect {
                 tap((action) => {
                     const primary = 'componente-digital/' + action.payload.componenteDigitalId;
                     const sidebar = action.payload.routeOficio + '/dados-basicos';
+                    const componente = this.routerState.url.indexOf('processo') !== -1 ? 'documento' : 'oficios/documento';
                     this._router.navigate([
-                            this.routerState.url.replace('oficio', 'documento') + '/' + action.payload.documentoId,
+                            this.routerState.url.replace('oficio', componente) + '/' + action.payload.documentoId,
                             {
                                 outlets: {
                                     primary: primary,

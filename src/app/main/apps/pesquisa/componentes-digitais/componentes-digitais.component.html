@@ -3,6 +3,7 @@
         [componentesDigitais]="(componentesDigitais$ | async)"
         [total]="(pagination$ | async)?.total"
         [mode]="'search'"
+        [mobileMode]="mobileMode"
         [isColaborador]="_loginService.isGranted('ROLE_COLABORADOR')"
         [actions]="['edit']"
         (reload)="reload($event)"

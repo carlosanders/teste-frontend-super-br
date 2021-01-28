@@ -10,6 +10,14 @@ export const DELETE_DOCUMENTO = '[TAREFA DETAIL OFICIOS] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_SUCCESS = '[TAREFA DETAIL OFICIOS] DELETE DOCUMENTO SUCCESS';
 export const DELETE_DOCUMENTO_FAILED = '[TAREFA DETAIL OFICIOS] DELETE DOCUMENTO FAILED';
 
+export const UNDELETE_DOCUMENTO = '[TAREFA DETAIL OFICIOS] UNDELETE DOCUMENTO';
+export const UNDELETE_DOCUMENTO_SUCCESS = '[TAREFA DETAIL OFICIOS] UNDELETE DOCUMENTO SUCCESS';
+export const UNDELETE_DOCUMENTO_FAILED = '[TAREFA DETAIL OFICIOS] UNDELETE DOCUMENTO FAILED';
+
+export const DELETE_DOCUMENTO_FLUSH = '[TAREFA DETAIL OFICIOS] DELETE DOCUMENTO FLUSH';
+export const DELETE_DOCUMENTO_CANCEL = '[TAREFA DETAIL OFICIOS] DELETE DOCUMENTO CANCEL';
+export const DELETE_DOCUMENTO_CANCEL_SUCCESS = '[TAREFA DETAIL OFICIOS] DELETE DOCUMENTO CANCEL SUCCESS';
+
 export const UPDATE_DOCUMENTO = '[TAREFA DETAIL OFICIOS] UPDATE DOCUMENTO';
 export const UPDATE_DOCUMENTO_SUCCESS = '[TAREFA DETAIL OFICIOS] UPDATE DOCUMENTO SUCCESS';
 export const UPDATE_DOCUMENTO_FAILED = '[TAREFA DETAIL OFICIOS] UPDATE DOCUMENTO FAILED';
@@ -116,6 +124,66 @@ export class DeleteDocumentoFailed implements Action
 
     constructor(public payload: any)
     {
+    }
+}
+
+/**
+ * Delete Documento Flush
+ */
+export class DeleteDocumentoFlush implements Action {
+    readonly type = DELETE_DOCUMENTO_FLUSH;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Documento Cancel
+ */
+export class DeleteDocumentoCancel implements Action {
+    readonly type = DELETE_DOCUMENTO_CANCEL;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Documento Cancel Success
+ */
+export class DeleteDocumentoCancelSuccess implements Action {
+    readonly type = DELETE_DOCUMENTO_CANCEL_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Undelete Documento
+ */
+export class UndeleteDocumento implements Action {
+    readonly type = UNDELETE_DOCUMENTO;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Undelete Documento Success
+ */
+export class UndeleteDocumentoSuccess implements Action {
+    readonly type = UNDELETE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Undelete Documento Failed
+ */
+export class UndeleteDocumentoFailed implements Action {
+    readonly type = UNDELETE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any) {
     }
 }
 
@@ -348,6 +416,12 @@ export type TarefaDetailDocumentosActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
+    | UndeleteDocumento
+    | UndeleteDocumentoSuccess
+    | UndeleteDocumentoFailed
+    | DeleteDocumentoFlush
+    | DeleteDocumentoCancel
+    | DeleteDocumentoCancelSuccess
     | ChangeSelectedDocumentos
     | ConverteToPdf
     | ConverteToPdfSucess
