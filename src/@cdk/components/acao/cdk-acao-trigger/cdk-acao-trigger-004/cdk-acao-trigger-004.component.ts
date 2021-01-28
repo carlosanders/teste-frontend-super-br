@@ -63,6 +63,9 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
     @Input()
     destinatarios = [];
 
+    @Input()
+    modeloPaginationAndx: any;
+
     @Output()
     gerirPessoaDestino = new EventEmitter();
 
@@ -96,6 +99,7 @@ export class CdkAcaoTrigger004Component implements OnInit, OnDestroy, OnChanges 
         this.especieDocumentoAvulsoPagination = new Pagination();
         this.setorDestinoPagination = new Pagination();
         this.modeloPagination = new Pagination();
+        this.modeloPaginationAndx = [{'populate': 'eq:OFÍCIO'}];
     }
 
     // -----------------------------------------------------------------------------------------------------
