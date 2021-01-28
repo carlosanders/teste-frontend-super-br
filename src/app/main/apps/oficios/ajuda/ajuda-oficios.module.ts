@@ -2,7 +2,7 @@ import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/cor
 
 import {AjudaOficiosComponent} from './ajuda-oficios.component';
 import {CdkSharedModule} from '../../../../../@cdk/shared.module';
-import { AjudaUploadBlocoModule } from '../../tarefas/upload-bloco/ajuda/ajuda-upload-bloco.module';
+import {AjudaUploadBlocoModule} from '../../tarefas/upload-bloco/ajuda/ajuda-upload-bloco.module';
 
 @NgModule({
     declarations: [

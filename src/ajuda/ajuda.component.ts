@@ -30,12 +30,16 @@ export class AjudaComponent implements OnInit {
 
     card = 'form';
     titulo = '';
-    email = 'sapiens.agu.gov.br'; //INDICAR AQUI O EMAIL UTILIZADO PELO SUPORTE DO SISTEMA
+    categoria= '';
+    email = 'sapiens@agu.gov.br'; //INDICAR AQUI O EMAIL UTILIZADO PELO SUPORTE DO SISTEMA
     wiki = "http://sapienswiki.agu.gov.br/index.php/P%C3%A1gina_principal"; //INDICAR AQUI O WIKI UTILIZADO PELO SUPORTE DO SISTEMA
     
     isSubmited = false;
 
+    CatPro: Topico;
     context: any;
+
+    
 
     /**
      * Constructor
@@ -74,13 +78,20 @@ export class AjudaComponent implements OnInit {
         this.resultado = CdkUtils.filterArrayByString(this.topicos, this.form.get('pesquisa').value);
     }
 
+    pesquisarCat(cat): void {
+        this.categoria = cat;
+        this.back();
+        this.isSubmited = true;
+        this.resultado = CdkUtils.filterArrayByString(this.topicos, this.categoria);
+    }
+
     carregar(topico: Topico): void {
         this.card = 'modulo';
         this.titulo = topico.titulo;
         this._dynamicService.loadComponent(topico.module)
             .then(componentFactory => this.container.createComponent(componentFactory));
     }
-
+    
     back(): void {
         this.card = 'form';
         this.container.clear();

@@ -1,5 +1,7 @@
 import {NgModule} from '@angular/core';
 import {AjudaComponent} from './ajuda.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 
 
 
@@ -25,6 +27,7 @@ import {
         MatButtonModule,
         MatIconModule,
         MatTooltipModule,
+        MatExpansionModule,
     ],
     exports: [
         AjudaComponent
