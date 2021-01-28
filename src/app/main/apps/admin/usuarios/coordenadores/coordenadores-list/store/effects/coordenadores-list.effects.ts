@@ -84,7 +84,7 @@ export class CoordenadoresListEffects {
                 ofType<CoordenadoresListActions.DeleteCoordenador>(CoordenadoresListActions.DELETE_COORDENADOR),
                 mergeMap((action) => {
                     return this._coordenadorService.destroy(action.payload).pipe(
-                        map((response) => new CoordenadoresListActions.DeleteCoordenadorSuccess(response.id)),
+                        map((response) => new CoordenadoresListActions.DeleteCoordenadorSuccess(action.payload)),
                         catchError((err) => {
                             console.log(err);
                             return of(new CoordenadoresListActions.DeleteCoordenadorFailed(action.payload));

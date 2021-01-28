@@ -82,7 +82,7 @@ export const origemDados = new schema.Entity('origem-dados');
 export const pais = new schema.Entity('pais');
 export const pessoa = new schema.Entity('pessoa');
 export const processo = new schema.Entity('processo');
-export const regra = new schema.Entity('regra');
+export const regraEtiqueta = new schema.Entity('regra-etiqueta');
 export const relacionamentoPessoal = new schema.Entity('relacionamento-pessoal');
 export const relevancia = new schema.Entity('relevancia');
 export const relatorio = new schema.Entity('relatorio');
@@ -112,6 +112,9 @@ export const vinculacaoPessoaUsuario = new schema.Entity('vinculacao-pessoa-usua
 export const vinculacaoSetorMunicipio = new schema.Entity('vinculacao-setor-municipio');
 export const workflow = new schema.Entity('workflow');
 export const transicaoWorkflow = new schema.Entity('transicaoWorkflow');
+export const validacaoTransicaoWorkflow = new schema.Entity('validacaoTransicaoWorkflow');
+export const acaoTransicaoWorkflow = new schema.Entity('acaoTransicaoWorkflow');
+export const modalidadeAcaoEtiqueta = new schema.Entity('modalidadeAcaoEtiqueta');
 
 acao.define({
     criadoPor: usuario,
@@ -136,7 +139,6 @@ areaTrabalho.define({
 });
 
 assinatura.define({
-    componenteDigital: componenteDigital,
     origemDados: origemDados,
     usuario: usuario,
     criadoPor: usuario,
@@ -720,7 +722,7 @@ processo.define({
     interessados: [interessado]
 });
 
-regra.define({
+regraEtiqueta.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -965,6 +967,29 @@ transicaoWorkflow.define({
     especieAtividade: especieAtividade,
     especieTarefaFrom: especieTarefa,
     especieTarefaTo: especieTarefa,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+validacaoTransicaoWorkflow.define({
+    transicaoWorkflow: transicaoWorkflow,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+acaoTransicaoWorkflow.define({
+    transicaoWorkflow: transicaoWorkflow,
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+modalidadeAcaoEtiqueta.define({
+    generoProcesso: generoProcesso,
+    classificacao: classificacao,
+    modalidadeMeio: modalidadeMeio,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

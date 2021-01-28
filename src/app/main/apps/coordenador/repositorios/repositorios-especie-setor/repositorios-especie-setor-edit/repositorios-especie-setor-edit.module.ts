@@ -26,6 +26,7 @@ import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio
 import * as fromGuards from './store/guards';
 import {CdkVinculacaoRepositorioEspecieSetorFormModule} from '@cdk/components/vinculacao-repositorio/cdk-vinculacao-repositorio-especie-setor-form/cdk-vinculacao-repositorio-especie-setor-form.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -72,6 +73,7 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
         CdkVinculacaoRepositorioEspecieSetorFormModule,
+        PathModule,
     ],
     providers: [
         VinculacaoRepositorioService,

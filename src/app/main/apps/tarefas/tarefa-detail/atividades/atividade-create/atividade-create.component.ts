@@ -11,7 +11,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Assinatura, Atividade, Pagination, Processo} from '@cdk/models';
+import {Assinatura, Atividade, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
@@ -21,7 +21,7 @@ import {Tarefa} from '@cdk/models';
 import {getTarefa} from '../../store/selectors';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Documento} from '@cdk/models';
-import {getRouterState, getMercureState} from 'app/store/reducers';
+import {getRouterState, getMercureState, getScreenState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
@@ -32,6 +32,9 @@ import {DynamicService} from '../../../../../../../modules/dynamic.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {SnackBarDesfazerComponent} from '../../../../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {getDocumentosHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
 
 @Component({
     selector: 'atividade-create',
@@ -56,6 +59,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     private _profile: Colaborador;
 
+    loadedMinutas: any;
+
     routerState: any;
 
     especieAtividadePagination: Pagination;
@@ -70,9 +75,15 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
     convertendoDocumentosId$: Observable<number[]>;
+    downloadP7SDocumentosId$: Observable<number[]>;
     loadDocumentosExcluidos$: Observable<boolean>;
     lixeiraMinutas$: Observable<boolean>;
     undeletingDocumentosId$: Observable<number[]>;
+    screen$: Observable<any>;
+
+    mobileMode = false;
+    mode: string;
+
     javaWebStartOK = false;
 
     formEditor: FormGroup;
@@ -91,6 +102,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     mensagemErro = null;
 
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
+    lote: string;
+
     /**
      *
      * @param _store
@@ -99,6 +114,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
      * @param _changeDetectorRef
      * @param _dynamicService
      * @param _formBuilder
+     * @param _snackBar
      */
     constructor(
         private _store: Store<fromStore.AtividadeCreateAppState>,
@@ -106,7 +122,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef,
         private _dynamicService: DynamicService,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private _snackBar: MatSnackBar
     ) {
         this.tarefa$ = this._store.pipe(select(getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -123,10 +140,16 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
 
         this.loadDocumentosExcluidos$ = this._store.pipe(select(fromStore.getDocumentosExcluidos));
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
         this.undeletingDocumentosId$ = this._store.pipe(select(fromStore.getUnDeletingDocumentosId));
+        this.screen$ = this._store.pipe(select(getScreenState));
+
+        this._store.pipe(select(getDocumentosHasLoaded)).subscribe(
+            loaded => this.loadedMinutas = loaded
+        );
 
         this.especieAtividadePagination = new Pagination();
         this.especieAtividadePagination.populate = ['generoAtividade'];
@@ -137,7 +160,37 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         this.modeloPagination = new Pagination();
         this.modeloPagination.filter = {
-            'modalidadeModelo.valor': 'eq:EM BRANCO'
+            orX: [
+                {
+                    'modalidadeModelo.valor': 'eq:EM BRANCO'
+                },
+                {
+                    // Modelos individuais
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                },
+                {
+                    // Modelos do setor
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.setor.id': 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')
+                },
+                {
+                    // Modelos da unidade por especie de setor
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.unidade.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                },
+                {
+                    // Modelos nacionais
+                    'modalidadeModelo.valor': 'eq:NACIONAL',
+                    'vinculacoesModelos.orgaoCentral.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                }
+            ]
         };
     }
 
@@ -256,6 +309,13 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
+
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(screen => {
+            this.mobileMode = screen.size !== 'desktop';
+            this.mode = this.mobileMode ? 'vertical' : 'horizontal';
+        });
     }
 
     ngAfterViewInit(): void {
@@ -337,7 +397,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.menuTriggerList.closeMenu();
     }
 
-    modelo(): void {
+    goToModelo(): void {
+        this.formEditor.get('modelo').setValue(null);
+        this.menuTriggerList.closeMenu();
         this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/modelo']).then();
     }
 
@@ -345,8 +407,62 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
 
-    doDelete(documentoId): void {
-        this._store.dispatch(new fromStore.DeleteDocumento(documentoId));
+    doDeleteBloco(documentos: Documento[]): void {
+        this.lote = CdkUtils.makeId();
+        documentos.forEach((documento: Documento) => this.doDelete(documento.id, this.lote));
+    }
+
+    doDelete(documentoId: number, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        const documento = new Documento();
+        documento.id = documentoId
+        this._store.dispatch(new fromStore.DeleteDocumento({
+            documentoId: documento.id,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStore.DeleteDocumento({
+                    documentoId: documento.id,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent',
+                    undo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStore.DeleteDocumentoFlush()
+            ],
+            undo: new fromStore.UndeleteDocumento({
+                documento: documento,
+                operacaoId: operacaoId,
+                loaded: this.loadedMinutas,
+                redo: null,
+                undo: null
+            })
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['cdk-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Deletado(a)'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStore.DeleteDocumentoCancel());
+            } else {
+                this._store.dispatch(new fromStore.DeleteDocumentoFlush());
+            }
+        });
     }
 
     doVerResposta(documento): void {
@@ -393,6 +509,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
     }
 
+    doDownloadP7S(documentoId): void {
+         this._store.dispatch(new fromStore.DownloadP7S(documentoId));
+    }
+
     doRestaurar(documentoId): void {
         const operacaoId = CdkUtils.makeId();
         const documento = new Documento();
@@ -418,7 +538,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     minutasExcluidas(): void {
         this.minutas = [];
         const params = {
-            filter: {'tarefaOrigem.id':'eq:' + this.tarefa.id},
+            filter: {'tarefaOrigem.id':'eq:' + this.tarefa.id, 'juntadaAtual':'isNull'},
             sort: {criadoEm: 'DESC'},
             populate: [
                 'tipoDocumento',

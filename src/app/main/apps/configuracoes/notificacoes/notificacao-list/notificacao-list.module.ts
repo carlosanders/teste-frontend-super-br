@@ -23,6 +23,7 @@ import * as fromGuards from './store/guards';
 import {CdkNotificacaoGridModule} from '@cdk/components/notificacao/cdk-notificacao-grid/cdk-notificacao-grid.module';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -66,6 +67,7 @@ modulesConfig.forEach((module) => {
         CdkNotificacaoGridModule,
 
         NotificacaoListStoreModule,
+        PathModule,
     ],
     providers: [
         NotificacaoService,

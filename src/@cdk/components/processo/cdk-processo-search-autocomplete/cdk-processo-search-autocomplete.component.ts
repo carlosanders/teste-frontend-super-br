@@ -53,13 +53,14 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             debounceTime(300),
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
-            switchMap((value) => {
+            switchMap((value: string) => {
                     let termFilterNUP = [];
                     let termFilterInteressadoNome = [];
                     let termFilterInteressadoNumeroDocumentoPrincipal = [];
                     let termFilterTitulo = [];
                     let termFilterDescricao = [];
                     let termFilterOutroNumero = [];
+                    value = value.split('.').join('').split('/').join('').replace('-', '');
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilterNUP.push({
                             NUP: `like:%${bit}%`
@@ -81,17 +82,27 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
                         });
                     });
                     const termFilter = {
-                        orX: [
-                            termFilterNUP,
-                            termFilterInteressadoNome,
-                            termFilterInteressadoNumeroDocumentoPrincipal,
-                            termFilterTitulo,
-                            termFilterDescricao,
-                            termFilterOutroNumero
-                        ]
+                        orX: []
                     };
-                    if (typeof value === 'string' && (termFilterNUP.length > 0 ||  termFilterInteressadoNome.length > 0 || termFilterInteressadoNumeroDocumentoPrincipal.length > 0 ||
-                        termFilterTitulo.length > 0 || termFilterDescricao.length > 0 || termFilterOutroNumero.length > 0)) {
+                    termFilterNUP.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    termFilterInteressadoNome.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    termFilterInteressadoNumeroDocumentoPrincipal.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    termFilterTitulo.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    termFilterDescricao.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    termFilterOutroNumero.forEach((termo) => {
+                        termFilter.orX.push(termo);
+                    });
+                    if (typeof value === 'string' && (termFilter.orX.length > 0)) {
                         this.processoSearchListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {

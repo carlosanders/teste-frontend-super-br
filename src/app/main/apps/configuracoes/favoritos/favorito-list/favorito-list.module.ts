@@ -21,6 +21,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {FavoritoListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {CdkFavoritoGridModule} from '@cdk/components/favorito/cdk-favorito-grid/cdk-favorito-grid.module';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -56,6 +57,7 @@ const routes: Routes = [
         CdkFavoritoGridModule,
 
         FavoritoListStoreModule,
+        PathModule,
     ],
     providers: [
         FavoritoService,

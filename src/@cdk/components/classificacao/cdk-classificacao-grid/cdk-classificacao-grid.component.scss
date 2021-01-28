@@ -1,6 +1,7 @@
 @import "../../../scss/cdk";
 
-cdk-classificacao-grid {    display: flex;
+cdk-classificacao-grid {
+    display: flex;
     flex: 1 1 auto;
 
     > .page-layout {
@@ -72,6 +73,7 @@ cdk-classificacao-grid {    display: flex;
             display: flex;
             flex-direction: column;
             padding: 8px;
+            width: 10vw;
         }
 
         .responsive-grid[max-width~="600px"] {

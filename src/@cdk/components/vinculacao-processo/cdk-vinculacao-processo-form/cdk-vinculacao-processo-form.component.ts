@@ -66,6 +66,7 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
             processo: [null, [Validators.required]],
             processoVinculado: [null, [Validators.required]],
             modalidadeVinculacaoProcesso: [null, [Validators.required]],
+            checkAnexacao: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]]
         });
 
@@ -82,6 +83,7 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
      * On init
      */
     ngOnInit(): void {
+        this.form.get('checkAnexacao')?.disable();
     }
 
     /**
@@ -180,10 +182,20 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
     }
 
     selectModalidadeVinculacaoProcesso(modalidadeVinculacaoProcesso: ModalidadeVinculacaoProcesso): void {
+        this.form.get('checkAnexacao').disable();
         if (modalidadeVinculacaoProcesso) {
             this.form.get('modalidadeVinculacaoProcesso').setValue(modalidadeVinculacaoProcesso);
+            if (modalidadeVinculacaoProcesso.valor === 'ANEXAÇÃO') {
+                this.form.get('checkAnexacao').enable();
+            }
         }
         this.activeCard = 'form';
+    }
+
+    checaCiencia(event): void {
+        if (event.checked === false) {
+            this.form.get('checkAnexacao').setValue(null);
+        }
     }
 
     showModalidadeVinculacaoProcessoGrid(): void {

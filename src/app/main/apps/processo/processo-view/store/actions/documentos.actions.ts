@@ -4,11 +4,23 @@ export const GET_DOCUMENTOS = '[PROCESSO VIEW] GET DOCUMENTOS';
 export const GET_DOCUMENTOS_SUCCESS = '[PROCESSO VIEW] GET DOCUMENTOS SUCCESS';
 export const GET_DOCUMENTOS_FAILED = '[PROCESSO VIEW] GET DOCUMENTOS FAILED';
 
+export const GET_DOCUMENTOS_EXCLUIDOS = '[PROCESSO VIEW] GET DOCUMENTOS EXCLUIDOS';
+export const GET_DOCUMENTOS_EXCLUIDOS_SUCCESS = '[PROCESSO VIEW] GET DOCUMENTOS EXCLUIDOS SUCCESS';
+export const GET_DOCUMENTOS_EXCLUIDOS_FAILED = '[PROCESSO VIEW] GET DOCUMENTOS EXCLUIDOS FAILED';
+
 export const UNLOAD_DOCUMENTOS = '[PROCESSO VIEW] UNLOAD DOCUMENTOS';
 
 export const DELETE_DOCUMENTO = '[PROCESSO VIEW] DELETE DOCUMENTO';
 export const DELETE_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] DELETE DOCUMENTO SUCCESS';
 export const DELETE_DOCUMENTO_FAILED = '[PROCESSO VIEW] DELETE DOCUMENTO FAILED';
+
+export const UNDELETE_DOCUMENTO = '[PROCESSO VIEW] UNDELETE DOCUMENTO';
+export const UNDELETE_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] UNDELETE DOCUMENTO SUCCESS';
+export const UNDELETE_DOCUMENTO_FAILED = '[PROCESSO VIEW] UNDELETE DOCUMENTO FAILED';
+
+export const DELETE_DOCUMENTO_FLUSH = '[PROCESSO VIEW] DELETE DOCUMENTO FLUSH';
+export const DELETE_DOCUMENTO_CANCEL = '[PROCESSO VIEW] DELETE DOCUMENTO CANCEL';
+export const DELETE_DOCUMENTO_CANCEL_SUCCESS = '[PROCESSO VIEW] DELETE DOCUMENTO CANCEL SUCCESS';
 
 export const UPDATE_DOCUMENTO = '[PROCESSO VIEW] UPDATE DOCUMENTO';
 export const UPDATE_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] UPDATE DOCUMENTO SUCCESS';
@@ -40,6 +52,10 @@ export const COMPLETE_DOCUMENTO = '[PROCESSO VIEW] COMPLETE DOCUMENTO';
 export const CONVERTE_DOCUMENTO = '[PROCESSO VIEW] CONVERTE DOCUMENTO';
 export const CONVERTE_DOCUMENTO_SUCESS = '[PROCESSO VIEW] CONVERTE DOCUMENTO SUCCESS';
 export const CONVERTE_DOCUMENTO_FAILED = '[PROCESSO VIEW] CONVERTE DOCUMENTO FAILED';
+
+export const DOWNLOAD_DOCUMENTO_P7S = '[PROCESSO VIEW] DOWNLOAD DOCUMENTO P7S';
+export const DOWNLOAD_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] DOWNLOAD DOCUMENTO P7S SUCESS';
+export const DOWNLOAD_DOCUMENTO_FAILED = '[PROCESSO VIEW] DOWNLOAD DOCUMENTO P7S FAILED';
 
 export const CHANGE_SELECTED_DOCUMENTOS = '[PROCESSO VIEW] CHANGE SELECTED DOCUMENTOS';
 
@@ -96,6 +112,42 @@ export class GetDocumentosFailed implements Action
 }
 
 /**
+ * Get Documentos Excluídos
+ */
+export class GetDocumentosExcluidos implements Action
+{
+    readonly type = GET_DOCUMENTOS_EXCLUIDOS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Get Documentos Excluídos Success
+ */
+export class GetDocumentosExcluidosSuccess implements Action
+{
+    readonly type = GET_DOCUMENTOS_EXCLUIDOS_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get Documentos Excluídos Failed
+ */
+export class GetDocumentosExcluidosFailed implements Action
+{
+    readonly type = GET_DOCUMENTOS_EXCLUIDOS_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
  * Delete Documento
  */
 export class DeleteDocumento implements Action
@@ -128,6 +180,66 @@ export class DeleteDocumentoFailed implements Action
 
     constructor(public payload: any)
     {
+    }
+}
+
+/**
+ * Undelete Documento
+ */
+export class UndeleteDocumento implements Action {
+    readonly type = UNDELETE_DOCUMENTO;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Undelete Documento Success
+ */
+export class UndeleteDocumentoSuccess implements Action {
+    readonly type = UNDELETE_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Undelete Documento Failed
+ */
+export class UndeleteDocumentoFailed implements Action {
+    readonly type = UNDELETE_DOCUMENTO_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Delete Documento Flush
+ */
+export class DeleteDocumentoFlush implements Action {
+    readonly type = DELETE_DOCUMENTO_FLUSH;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Documento Cancel
+ */
+export class DeleteDocumentoCancel implements Action {
+    readonly type = DELETE_DOCUMENTO_CANCEL;
+
+    constructor() {
+    }
+}
+
+/**
+ * Delete Documento Cancel Success
+ */
+export class DeleteDocumentoCancelSuccess implements Action {
+    readonly type = DELETE_DOCUMENTO_CANCEL_SUCCESS;
+
+    constructor(public payload: any) {
     }
 }
 
@@ -383,8 +495,39 @@ export class CompleteDocumento implements Action
 }
 
 /**
+ * Download P7S
+ */
+export class DownloadToP7S implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadToP7SSuccess implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadToP7SFailed implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Converte Documento
  */
+
 export class ConverteToPdf implements Action
 {
     readonly type = CONVERTE_DOCUMENTO;
@@ -452,6 +595,9 @@ export type ProcessoViewDocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
     | GetDocumentosFailed
+    | GetDocumentosExcluidos
+    | GetDocumentosExcluidosSuccess
+    | GetDocumentosExcluidosFailed
     | ClickedDocumento
     | CompleteDocumento
     | AssinaDocumento
@@ -475,7 +621,16 @@ export type ProcessoViewDocumentosActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
+    | UndeleteDocumento
+    | UndeleteDocumentoSuccess
+    | UndeleteDocumentoFailed
+    | DeleteDocumentoFlush
+    | DeleteDocumentoCancel
+    | DeleteDocumentoCancelSuccess
     | ChangeSelectedDocumentos
+    | DownloadToP7S
+    | DownloadToP7SSuccess
+    | DownloadToP7SFailed
     | ConverteToPdf
     | ConverteToPdfSucess
     | ConverteToPdfFailed

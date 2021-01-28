@@ -1,14 +1,14 @@
 import {NgModule} from '@angular/core';
 
 import {AjudaDocumentosAvulsosComponent} from './ajuda-documentos-avulsos.component';
-import {FuseSharedModule} from '../../../../../../../@fuse/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 @NgModule({
     declarations: [
         AjudaDocumentosAvulsosComponent
     ],
     imports: [
-        FuseSharedModule,
+        CdkSharedModule,
         
     ],
     providers: [

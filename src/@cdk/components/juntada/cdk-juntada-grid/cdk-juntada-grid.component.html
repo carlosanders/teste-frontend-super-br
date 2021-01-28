@@ -328,15 +328,15 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('assinar') > -1 || deletingIds?.indexOf(juntada.id) === -1 ||
-                                     juntada.documento.assinado || removendoAssinaturaId?.indexOf(juntada.documento.id) === -1"
+                                *ngIf="actions.indexOf('assinar') > -1 && deletingIds?.indexOf(juntada.id) === -1 &&
+                                     juntada.documento.assinado && removendoAssinaturaId?.indexOf(juntada.documento.id) === -1"
                                 [disabled]="deletedIds?.indexOf(juntada.id) > -1 || !juntada.documento.assinado"
                                 (click)="doRemoveAssinatura(juntada.documento.id)" aria-label="Assinar" matTooltip="Assinar">
                             <mat-icon>lock_open</mat-icon>
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="(actions.indexOf('adicionarVinculacao') > -1 || deletingIds?.indexOf(juntada.id) === -1) &&
+                                *ngIf="actions.indexOf('adicionarVinculacao') > -1 && deletingIds?.indexOf(juntada.id) === -1 &&
                                      !juntada.documento.vinculacaoDocumentoPrincipal"
                                 [disabled]="deletedIds?.indexOf(juntada.id) > -1"
                                 (click)="doAdicionarVinculacao(juntada.id)" aria-label="Adicionar Vinculação" matTooltip="Adicionar Vinculação">
@@ -344,7 +344,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="(actions.indexOf('removerVinculacoes') > -1 || deletingIds?.indexOf(juntada.id) === -1) &&
+                                *ngIf="(actions.indexOf('removerVinculacoes') > -1 && deletingIds?.indexOf(juntada.id) === -1) &&
                                      juntada.documento.vinculacoesDocumentos.length > 0"
                                 [disabled]="deletedIds?.indexOf(juntada.id) > -1"
                                 (click)="doRemoverVinculacoes(juntada)" aria-label="Remover Vinculações" matTooltip="Remover Vinculações">

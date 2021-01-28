@@ -86,7 +86,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
-        this.vinculacaoEtiquetaPagination.filter = {
+        this.vinculacaoEtiquetaPagination.filter = this._profile.colaborador ? {
             orX: [
                 {
                     'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
@@ -105,7 +105,7 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
                     'modalidadeEtiqueta.valor': 'eq:OFICIO'
                 }
             ]
-        };
+        } : {};
     }
 
     ngAfterViewInit(): void {

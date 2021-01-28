@@ -73,6 +73,7 @@ cdk-estado-grid {
             display: flex;
             flex-direction: column;
             padding: 8px;
+            width: 10vw;
         }
 
         .responsive-grid[max-width~="600px"] {

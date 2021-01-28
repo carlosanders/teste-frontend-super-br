@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {Interessado, Lembrete} from '@cdk/models';
+import {Interessado, Lembrete, Tarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {EspecieProcesso} from '@cdk/models';
 import {Setor} from '@cdk/models';
@@ -181,6 +181,11 @@ export class Processo {
     @Type(() => Interessado)
     interessados: Interessado[];
 
+    @Exclude({toPlainOnly: true})
+    @Type(() => Tarefa)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    tarefaAtualWorkflow?: Tarefa;
+
     @Exclude({ toPlainOnly: true })
     any: any;
 
@@ -229,5 +234,6 @@ export class Processo {
         this.requerimento = null;
         this.protocoloEletronico = null;
         this.any = null;
+        this.tarefaAtualWorkflow = null;
     }
 }

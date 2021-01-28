@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
@@ -12,10 +12,10 @@ import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
 import {getCounterState} from 'app/store';
-import {Logout} from '../../../main/auth/login/store/actions';
+import {Logout} from '../../../main/auth/login/store';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
-import {getIsLoading, getNormalizedNotificacaoEntities, getOperacoesEmProcessamento} from '../../../store/selectors';
+import {getIsLoading, getNormalizedNotificacaoEntities, getOperacoesEmProcessamento} from '../../../store';
 
 @Component({
     selector: 'toolbar',
@@ -38,6 +38,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     carregandoNotificacao = true;
     cdkConfig: any;
 
+    quickPanelLockedOpen: boolean;
+
     // Private
     private _unsubscribeAll: Subject<any>;
 
@@ -56,7 +58,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _cdkConfigService: CdkConfigService,
-        private _cdkSidebarService: CdkSidebarService,
+        public _cdkSidebarService: CdkSidebarService,
         private _translateService: TranslateService,
         public _loginService: LoginService,
         private _notificacaoService: NotificacaoService,
@@ -156,7 +158,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 takeUntil(this._unsubscribeAll)
             ).subscribe(value => {
                 if (value && value['notificacoes_pendentes'] !== undefined) {
-                    this.notificacoesCount = value['notificacoes_pendentes'];
+                    if (parseInt(value['notificacoes_pendentes']) > 99) {
+                        this.notificacoesCount = '99+';
+                    } else {
+                        this.notificacoesCount = value['notificacoes_pendentes'];
+                    }
                 }
             }
         );
@@ -195,7 +201,22 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param key
      */
     toggleSidebarOpen(key): void {
+        if (key === 'ajudaPanel') {
+            if (!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen) {
+                this._cdkSidebarService.getSidebar('quickPanel').close();
+            } else {
+                this._cdkSidebarService.getSidebar('quickPanel').fold();
+            }
+        }
         this._cdkSidebarService.getSidebar(key).toggleOpen();
+    }
+
+    toggleQuickPanel(): void {
+        if (!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('quickPanel').toggleOpen();
+        } else {
+            this._cdkSidebarService.getSidebar('quickPanel').toggleFold();
+        }
     }
 
     /**

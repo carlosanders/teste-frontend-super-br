@@ -83,6 +83,10 @@ export class DocumentoService extends ParentGenericService<Documento> {
         ;
     }
 
+    downloadP7S(id: number, changes: any, context: any = '{}'): Observable<any> {
+        return this.http.get(`${environment.api_url}administrativo/componente_digital/${id}/download_p7s` + environment.xdebug);
+    }
+
     undelete(documento: Documento, context: any = '{}'): Observable<Documento> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;

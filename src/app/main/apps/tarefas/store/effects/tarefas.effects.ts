@@ -20,7 +20,7 @@ import {
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefasActions from '../actions/tarefas.actions';
 
-import {Processo, Tarefa} from '@cdk/models';
+import {Tarefa} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
@@ -28,8 +28,9 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 import {Assunto} from '@cdk/models/assunto.model';
 import {AssuntoService} from '@cdk/services/assunto.service';
-import {getBufferingDelete, getDeletingTarefaIds} from '../selectors';
+import {getBufferingCiencia, getBufferingDelete, getCienciaTarefaIds, getDeletingTarefaIds} from '../selectors';
 import * as fromStore from '../index';
+import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
 
 @Injectable()
 export class TarefasEffect {
@@ -113,6 +114,8 @@ export class TarefasEffect {
                             '/processo/' + action.payload.processoId + '/acesso-negado']
                         ).then();
                     } else {
+                        this._store.dispatch(new UnloadJuntadas({reset: true}));
+                        this._store.dispatch(new UnloadDocumentos());
                         this._router.navigate([
                             'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
                             this.routerState.params.typeHandle + '/' +
@@ -228,7 +231,6 @@ export class TarefasEffect {
                         type: 'tarefa',
                         content: 'Restaurando a tarefa id ' + action.payload.tarefa.id + '...',
                         status: 0, // carregando
-                        lote: action.payload.loteId
                     }));
                 }),
                 mergeMap((action) => {
@@ -239,9 +241,11 @@ export class TarefasEffect {
                                 type: 'tarefa',
                                 content: 'Tarefa id ' + action.payload.tarefa.id + ' restaurada com sucesso.',
                                 status: 1, // sucesso
-                                lote: action.payload.loteId
                             }));
-                            return new TarefasActions.UndeleteTarefaSuccess(response);
+                            return new TarefasActions.UndeleteTarefaSuccess({
+                                tarefa: response,
+                                loaded: action.payload.loaded
+                            });
                         }),
                         catchError((err) => {
                             const payload = {
@@ -253,7 +257,6 @@ export class TarefasEffect {
                                 type: 'tarefa',
                                 content: 'Erro ao restaurar a tarefa id ' + action.payload.tarefa.id + '!',
                                 status: 2, // erro
-                                lote: action.payload.loteId
                             }));
                             console.log(err);
                             return of(new TarefasActions.UndeleteTarefaFailed(payload));
@@ -266,7 +269,7 @@ export class TarefasEffect {
      * Undelete Tarefa Success
      */
     @Effect({ dispatch: false })
-    UndeleteTarefaSuccess: any =
+    undeleteTarefaSuccess: any =
         this._actions
             .pipe(
                 ofType<TarefasActions.UndeleteTarefaSuccess>(TarefasActions.UNDELETE_TAREFA_SUCCESS),
@@ -408,25 +411,65 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.DarCienciaTarefa>(TarefasActions.DAR_CIENCIA_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.ciencia(action.payload).pipe(
-                        mergeMap((response: Tarefa) => [
-                            new TarefasActions.DarCienciaTarefaSuccess(response.id),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Dando ciência na tarefa id ' + action.payload.tarefa.id + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId,
+                        redo: action.payload.redo
+                    }));
+                }),
+                buffer(this._store.pipe(select(getBufferingCiencia))),
+                mergeAll(),
+                withLatestFrom(this._store.pipe(select(getCienciaTarefaIds))),
+                mergeMap(([action, cienciaTarefasIds]) => {
+                    if (cienciaTarefasIds.indexOf(action.payload.tarefa.id) === -1) {
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'tarefa',
+                            content: 'Operação de dar ciência na tarefa id ' + action.payload.tarefa.id + ' foi cancelada!',
+                            status: 3, // cancelada
+                            lote: action.payload.loteId,
+                            redo: 'inherent'
+                        }));
+                        return of(new TarefasActions.DarCienciaTarefaCancelSuccess(action.payload.tarefa.id));
+                    }
+                    return this._tarefaService.ciencia(action.payload.tarefa).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Tarefa id ' + action.payload.tarefa.id + ' ciência com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId,
+                                redo: 'inherent'
+                            }));
                             new AddData<Tarefa>({
                                 data: [response],
                                 schema: tarefaSchema
-                            }), new OperacoesActions.Resultado({
-                                type: 'tarefa',
-                                content: `Tarefa id ${response.id} ciência com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
+                            });
+                            return new TarefasActions.DarCienciaTarefaSuccess(response.id);
+                        }),
                         catchError((err) => {
+                            const payload = {
+                                id: action.payload.tarefa.id,
+                                error: err
+                            };
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Erro ao dar ciência na tarefa id ' + action.payload.tarefa.id + '!',
+                                status: 2, // erro
+                                lote: action.payload.loteId,
+                                redo: 'inherent'
+                            }));
                             console.log(err);
-                            return of(new TarefasActions.SaveTarefaFailed(err));
+                            return of(new TarefasActions.DarCienciaTarefaFailed(payload));
                         })
                     );
-                })
+                }, 25)
             );
 
     /**

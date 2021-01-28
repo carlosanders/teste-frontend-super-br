@@ -15,7 +15,10 @@ mwlResizable {
 }
 
 .mat-expansion-panel-body {
-    padding: 0 !important;
+    display: flex !important;
+    flex: 1 1 auto !important;
+    flex-direction: column !important;
+    padding: 0 3px !important;
 }
 
 .danger-snackbar {
@@ -42,7 +45,7 @@ mwlResizable {
 }
 
 .mat-menu-panel {
-    max-width: 300px !important;
+    max-width: 400px !important;
 }
 
 mat-cell, .mat-cell,
@@ -53,13 +56,13 @@ mat-header-cell, .mat-header-cell {
 
 div.menuNotificacao {
     max-width:880px !important;
-    padding-bottom: 0px !important;
-    padding-top:  0px !important;
+    padding-bottom: 0 !important;
+    padding-top:  0 !important;
     top: 64px !important;
 }
 
 div.menuTipoDocumento {
-    width: 300px;
+    width: 400px;
 }
 
 .mat-list-base .mat-list-item {

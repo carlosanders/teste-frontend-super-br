@@ -56,7 +56,6 @@ export class DocumentoAvulsoEditEffects {
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoEditActions.SaveDocumentoAvulsoSuccess(),
                             new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
-                            new DocumentoActions.GetDocumento(),
                             new OperacoesActions.Resultado({
                                 type: 'documentoAvulso',
                                 content: `Documento Avulso id ${response.id} editado com sucesso!`,
@@ -90,7 +89,6 @@ export class DocumentoAvulsoEditEffects {
                                     usuarioRemessa: response.usuarioRemessa
                                 }
                             }),
-                            new DocumentoActions.GetDocumento(),
                             new DocumentoAvulsoEditActions.RemeterDocumentoAvulsoSuccess()
                         ])
                     );

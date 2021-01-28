@@ -15,6 +15,8 @@ import * as fromStore from './store';
 import {Usuario} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {Back} from 'app/store/actions';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../store/reducers';
 
 @Component({
     selector: 'seguranca',
@@ -25,7 +27,7 @@ import {Back} from 'app/store/actions';
     animations: cdkAnimations
 })
 export class SegurancaComponent implements OnInit, OnDestroy {
-
+    routerState: any;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     usuario: Usuario;
@@ -36,11 +38,19 @@ export class SegurancaComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.SegurancaAppState>,
+        private _router: Router,
         public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.usuario = this._loginService.getUserProfile();
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------

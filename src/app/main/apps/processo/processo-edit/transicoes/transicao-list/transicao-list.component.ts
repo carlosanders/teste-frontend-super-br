@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {LoginService} from '../../../../../auth/login/login.service';
 
 @Component({
     selector: 'transicao-list',
@@ -31,22 +32,29 @@ export class TransicaoListComponent implements OnInit {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    btViewTransicao = [];
 
     /**
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param _loginService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.TransicaoListAppState>,
+        public _loginService: LoginService,
     ) {
         this.transicoes$ = this._store.pipe(select(fromStore.getTransicaoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+        this.btViewTransicao.push('showDeleted');
+        if (_loginService.isGranted('ROLE_ARQUIVISTA')) {
+            this.btViewTransicao.push('create');
+        }
 
         this._store
             .pipe(select(getRouterState))

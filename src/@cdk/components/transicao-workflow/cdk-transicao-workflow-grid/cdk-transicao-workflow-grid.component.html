@@ -205,6 +205,15 @@
                             <mat-icon>edit</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('actions') > -1"
+                                [disabled]="deletedIds?.indexOf(transicaoWorkflow.id) > -1 && !hasExcluded"
+                                (click)="acaoTransicaoWorkflowList(transicaoWorkflow.id)"
+                                aria-label="actions"
+                                matTooltip="Ações">
+                            <mat-icon>beenhere</mat-icon>
+                        </button>
+
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(transicaoWorkflow.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
@@ -216,6 +225,15 @@
                                 aria-label="remover"
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
+                        </button>
+                        
+                        <button mat-icon-button
+                            *ngIf="actions.indexOf('regras') > -1 && !hasExcluded"
+                            [disabled]="deletedIds?.indexOf(transicaoWorkflow.id) > -1"
+                            (click)="regrasTransicaoWorkflow(transicaoWorkflow.id)"
+                            aria-label="regras"
+                            matTooltip="Regras">
+                            <mat-icon>assignment</mat-icon>
                         </button>
 
                         <button mat-icon-button

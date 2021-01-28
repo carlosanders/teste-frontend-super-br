@@ -25,6 +25,7 @@
         <cdk-assunto-form *ngIf="assuntoActivated === 'form'"
                           [assunto]="assunto"
                           [form]="formAssunto"
+                          [assuntoAdministrativoPagination]="assuntoAdministrativoPagination"
                           [saving]="(isSavingAssunto$ | async)"
                           [errors]="(errors$ | async)"
                           (save)="submitAssunto($event)"
@@ -103,7 +104,7 @@
                                       [vinculacaoProcesso]="vinculacaoProcesso"
                                       [form]="formVinculacaoProcesso"
                                       [saving]="(isSavingVinculacao$ | async)"
-                                      [errors]="(errors$ | async)"
+                                      [errors]="(errorsVinculacoes$ | async)"
                                       (save)="submitVinculacaoProcesso($event)"
                                       (abort)="doAbort()">
         </cdk-vinculacao-processo-form>

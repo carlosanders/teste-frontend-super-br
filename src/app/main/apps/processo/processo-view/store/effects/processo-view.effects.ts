@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable, of, throwError} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, withLatestFrom, switchMap, tap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
@@ -114,7 +114,7 @@ export class ProcessoViewEffect {
                 ofType<ProcessoViewActions.SetCurrentStep>(ProcessoViewActions.SET_CURRENT_STEP),
                 withLatestFrom(this._store.pipe(select(getIndex)), this._store.pipe(select(getCurrentStep))),
                 switchMap(([action, index, currentStep]) => {
-                    if (index[currentStep.step] === undefined) {
+                    if (this.routerState.params.stepHandle !== 'capa' && index[currentStep.step] === undefined) {
                         // não tem documentos, vamos para capa
                         this._store.dispatch(new ProcessoViewActions.GetCapaProcesso());
                         return of(null);
@@ -143,7 +143,7 @@ export class ProcessoViewEffect {
             );
 
     /**
-     * Set Current Step
+     * Get Juntadas Success
      */
     @Effect({dispatch: false})
     getJuntadasSuccess: any =
@@ -152,11 +152,147 @@ export class ProcessoViewEffect {
                 ofType<ProcessoViewActions.GetJuntadasSuccess>(ProcessoViewActions.GET_JUNTADAS_SUCCESS),
                 withLatestFrom(this._store.pipe(select(getPagination))),
                 tap(([action, pagination]) => {
-                    if (pagination.offset === 0 && this.routerState.params['stepHandle'] && this.routerState.params['stepHandle'] !== 'capa') {
-                        this._router.navigateByUrl(this.routerState.url.replace('/processo/' +
-                            this.routerState.params.processoHandle +
-                            '/visualizar', '/processo/' +
-                            this.routerState.params.processoHandle + '/visualizar/' + this.routerState.params['stepHandle'])).then();
+                    if (this.routerState.params['stepHandle'] === 'default') {
+                        if (!action.payload.index.length || !action.payload.index[0].length) {
+                            if (this.routerState.url.indexOf('/documento/') !== -1) {
+                                let arrPrimary = [];
+                                arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                                    'visualizar-processo' : 'anexar-copia');
+                                arrPrimary.push(this.routerState.params.processoHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push('capa');
+                                arrPrimary.push('mostrar');
+
+                                // Navegação do processo deve ocorrer por outlet
+                                this._router.navigate(
+                                    [
+                                        this.routerState.url.split('/documento/')[0] + '/documento/' +
+                                        this.routerState.params.documentoHandle,
+                                        {
+                                            outlets: {
+                                                primary: arrPrimary
+                                            }
+                                        }
+                                    ],
+                                    {
+                                        relativeTo: this._activatedRoute.parent
+                                    }
+                                ).then();
+                            } else {
+                                let url = this.routerState.url.split('/processo/' +
+                                    this.routerState.params.processoHandle)[0] + '/processo/' +
+                                    this.routerState.params.processoHandle;
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                                }
+                                url += '/visualizar/capa/mostrar';
+                                this._router.navigateByUrl(url).then();
+                            }
+                        } else {
+                            if (this.routerState.url.indexOf('/documento/') !== -1) {
+                                let arrPrimary = [];
+                                arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                                    'visualizar-processo' : 'anexar-copia');
+                                arrPrimary.push(this.routerState.params.processoHandle);
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    arrPrimary.push('chave');
+                                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                                }
+                                arrPrimary.push('visualizar');
+                                arrPrimary.push('0-0');
+                                // Navegação do processo deve ocorrer por outlet
+                                this._router.navigate(
+                                    [
+                                        this.routerState.url.split('/documento/')[0] + '/documento/' +
+                                        this.routerState.params.documentoHandle,
+                                        {
+                                            outlets: {
+                                                primary: arrPrimary
+                                            }
+                                        }
+                                    ],
+                                    {
+                                        relativeTo: this._activatedRoute.parent
+                                    }
+                                ).then(() => {
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: 0,
+                                        subStep: 0
+                                    }));
+                                });
+                            } else {
+                                let url = this.routerState.url.split('/processo/' +
+                                    this.routerState.params.processoHandle)[0] + '/processo/' +
+                                    this.routerState.params.processoHandle;
+                                if (this.routerState.params.chaveAcessoHandle) {
+                                    url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                                }
+                                url += '/visualizar/0-0';
+                                this._router.navigateByUrl(url)
+                                    .then(() => {
+                                        this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                            step: 0,
+                                            subStep: 0
+                                        }));
+                                    });
+                            }
+                        }
+                    } else if (pagination.offset === 0 && this.routerState.params['stepHandle'] &&
+                        this.routerState.params['stepHandle'] !== 'capa' && this.routerState.params['stepHandle'] !== 'default') {
+                        if (this.routerState.url.indexOf('/documento/') !== -1) {
+                            let arrPrimary = [];
+                            arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                                'visualizar-processo' : 'anexar-copia');
+                            arrPrimary.push(this.routerState.params.processoHandle);
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                arrPrimary.push('chave');
+                                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                            }
+                            arrPrimary.push('visualizar');
+                            arrPrimary.push(this.routerState.params['stepHandle']);
+
+                            // Navegação do processo deve ocorrer por outlet
+                            this._router.navigate(
+                                [
+                                    this.routerState.url.split('/documento/')[0] + '/documento/' +
+                                    this.routerState.params.documentoHandle,
+                                    {
+                                        outlets: {
+                                            primary: arrPrimary
+                                        }
+                                    }
+                                ],
+                                {
+                                    relativeTo: this._activatedRoute.parent
+                                }
+                            ).then(() => {
+                                const steps = this.routerState.params['stepHandle'].split('-');
+                                this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                    step: steps[0],
+                                    subStep: steps[1]
+                                }));
+                            });
+                        } else {
+                            let url = this.routerState.url.split('/processo/' + this.routerState.params.processoHandle)[0]
+                                + '/processo/' + this.routerState.params.processoHandle;
+                            if (this.routerState.params.chaveAcessoHandle) {
+                                url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                            }
+                            url += '/visualizar/' + this.routerState.params['stepHandle'];
+
+                            this._router.navigateByUrl(url)
+                                .then(() => {
+                                    const steps = this.routerState.params['stepHandle'].split('-');
+                                    this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                        step: steps[0],
+                                        subStep: steps[1]
+                                    }));
+                                });
+                        }
                     }
                 }),
                 catchError((err, caught) => {
@@ -164,7 +300,6 @@ export class ProcessoViewEffect {
                     return caught;
                 })
             );
-
 
     /**
      * Get Capa Processo
@@ -177,6 +312,18 @@ export class ProcessoViewEffect {
                 ofType<ProcessoViewActions.GetCapaProcesso>(ProcessoViewActions.GET_CAPA_PROCESSO),
                 map(() => {
                     if (this.routerState.url.indexOf('/documento/') !== -1) {
+                        let arrPrimary = [];
+                        arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                            'visualizar-processo' : 'anexar-copia');
+                        arrPrimary.push(this.routerState.params.processoHandle);
+                        if (this.routerState.params.chaveAcessoHandle) {
+                            arrPrimary.push('chave');
+                            arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+                        }
+                        arrPrimary.push('visualizar');
+                        arrPrimary.push('capa');
+                        arrPrimary.push('mostrar');
+
                         // Navegação do processo deve ocorrer por outlet
                         this._router.navigate(
                             [
@@ -184,14 +331,7 @@ export class ProcessoViewEffect {
                                 this.routerState.params.documentoHandle,
                                 {
                                     outlets: {
-                                        primary: [
-                                            this.routerState.url.indexOf('anexar-copia') === -1 ?
-                                                'visualizar-processo' : 'anexar-copia',
-                                            this.routerState.params.processoHandle,
-                                            'visualizar',
-                                            'capa',
-                                            'mostrar'
-                                        ]
+                                        primary: arrPrimary
                                     }
                                 }
                             ],
@@ -200,10 +340,15 @@ export class ProcessoViewEffect {
                             }
                         ).then();
                     } else {
-                        this._router.navigateByUrl(this.routerState.url.replace('/processo/' +
-                            this.routerState.params.processoHandle +
-                            '/visualizar', '/processo/' +
-                            this.routerState.params.processoHandle + '/visualizar/capa/mostrar')).then();
+                        let url = this.routerState.url.split('/processo/' +
+                            this.routerState.params.processoHandle)[0] + '/processo/' +
+                            this.routerState.params.processoHandle;
+                        if (this.routerState.params.chaveAcessoHandle) {
+                            url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                        }
+                        url += '/visualizar/capa/mostrar';
+
+                        this._router.navigateByUrl(url).then();
                     }
                 })
             );

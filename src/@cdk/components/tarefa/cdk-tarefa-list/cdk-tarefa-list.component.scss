@@ -19,7 +19,8 @@ cdk-tarefa-list {
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
-            padding: 8px;
+            padding-left: 8px;
+            padding-right: 8px;
 
             border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
@@ -84,7 +85,7 @@ cdk-tarefa-list {
     }
 }
 
-.fuse-white-bg {
+.cdk-white-bg {
     background: white !important;
     color: black !important;
 }

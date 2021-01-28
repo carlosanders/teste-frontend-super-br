@@ -61,7 +61,7 @@
         </mat-error>
     </mat-form-field>
 
-    <div *ngIf="form.get('tipoRelatorio').value">
+    <div *ngIf="form.get('tipoRelatorio').value" class="tipo-relatorio-filtros">
 
         <mat-form-field>
             <input matInput placeholder="Unidade"
@@ -146,7 +146,7 @@
 
     </div>
 
-    <div *ngIf="form.get('tipoRelatorio').value">
+    <div *ngIf="form.get('tipoRelatorio').value" class="tipo-relatorio-formato">
 
         <mat-form-field
             *ngIf="mode === 'regular' || mode === 'bloco-create'">

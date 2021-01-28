@@ -1,16 +1,34 @@
 <div class="page-layout left-sidebar">
-
     <!-- SIDEBAR -->
-    <cdk-sidebar [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''" class="sidebar" name="cdk-componente-digital-filter"
-                 position="left">
+    <cdk-sidebar
+        [lockedOpen]="(mode === 'search') ? 'gt-xs' : ''"
+        [ngClass]="{
+            'mobile-componente-pesquisa-off': (mobileMode && !!componentesDigitais),
+            'mobile-componente-pesquisa-on': (mobileMode && !componentesDigitais)
+        }"
+        class="sidebar"
+        name="cdk-componente-digital-filter"
+        position="left">
         <cdk-componente-digital-filter (selected)="setFilter($event)"
                                        [mode]="this.mode"></cdk-componente-digital-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
+    <div class="responsive-grid"
+         [ngClass]="{
+            'search': (this.mode == 'search'),
+            'mobile-componente-lista-off': (mobileMode && !componentesDigitais),
+            'mobile-componente-lista-on': (mobileMode && !!componentesDigitais)
+         }">
 
         <div class="actions">
+
+            <button class="back" mat-icon-button *ngIf="mobileMode"
+                    (click)="cssPesquisaOn()"
+                    aria-label="pesquisar"
+                    matTooltip="Pesquisar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
 
             <div class="back">
                 <button mat-icon-button *ngIf="actions.indexOf('cancel') > -1"

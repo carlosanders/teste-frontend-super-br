@@ -96,6 +96,24 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.id}} </td>
                 </ng-container>
 
+                <!-- Nome Column -->
+                <ng-container matColumnDef="nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Nome
+                    </th>
+                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile' data-label='Nome: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.nome}} </td>
+                </ng-container>
+
+                <!-- Descrição Column -->
+                <ng-container matColumnDef="descricao">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Descrição
+                    </th>
+                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile' data-label='Descrição: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.descricao}} </td>
+                </ng-container>
+
                 <!-- Especie Tarefa Inicial Column -->
                 <ng-container matColumnDef="especieTarefaInicial.nome">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -104,15 +122,6 @@
                     <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile'
                         data-label='Espécie Tarefa Inicial: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.especieTarefaInicial?.nome}} </td>
-                </ng-container>
-
-                <!-- Espécie Processo Column -->
-                <ng-container matColumnDef="especieProcesso.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Espécie Processo
-                    </th>
-                    <td mat-cell *matCellDef="let workflow" class='has_label_on_mobile' data-label='Espécie Processo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(workflow.id) > -1}"> {{workflow.especieProcesso?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -179,6 +188,14 @@
                 <ng-container matColumnDef="actions">
                     <th mat-header-cell *matHeaderCellDef></th>
                     <td mat-cell *matCellDef="let workflow">
+
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('especies') > -1 && !hasExcluded"
+                                (click)="formEspeciesProcesso(workflow.id)"
+                                aria-label="Visualizar Espécies de Processo"
+                                matTooltip="Visualizar Espécies de Processo">
+                            <mat-icon>insert_drive_file</mat-icon>
+                        </button>
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('view') > -1 && !hasExcluded"

@@ -17,6 +17,8 @@ import {Pagination} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Back} from '../../../../../store/actions';
+import {Router} from '@angular/router';
+import {getRouterState} from '../../../../../store/reducers';
 
 @Component({
     selector: 'modelo-edit',
@@ -27,7 +29,7 @@ import {Back} from '../../../../../store/actions';
     animations: cdkAnimations
 })
 export class ModeloEditComponent implements OnInit, OnDestroy {
-
+    routerState: any;
     modelo$: Observable<Modelo>;
     modelo: Modelo;
     isSaving$: Observable<boolean>;
@@ -44,6 +46,7 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.ModeloEditAppState>,
+        private _router: Router,
         public _loginService: LoginService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -53,6 +56,14 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
 
         this.templatePagination = new Pagination();
         this.templatePagination.populate = ['documento', 'documento.tipoDocumento'];
+
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
     }
 
     // -----------------------------------------------------------------------------------------------------

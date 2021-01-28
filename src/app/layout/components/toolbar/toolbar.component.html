@@ -68,8 +68,8 @@
                 <mat-list *ngIf="notificacoes?.length>0; else vazio">
                     <ng-container *ngFor="let notificacao of notificacoes; let i = index; let len = count">
                         <mat-list-item *ngIf="!notificacao.dataHoraLeitura" (click)="toggleLida(notificacao)">
-                            <p style="cursor: pointer; margin: 15px 0 15px 10px; text-align: justify;">
-                                {{notificacao.conteudo}}
+                            <p style="cursor: pointer; margin: 15px 0 15px 10px; text-align: justify;"
+                               [innerHTML]="notificacao.conteudo">
                             </p>
                         </mat-list-item>
                         <mat-divider *ngIf="i != len-1 && !notificacao.dataHoraLeitura"></mat-divider>
@@ -97,16 +97,18 @@
 
             <button mat-icon-button
                     class="quick-panel-toggle-button"
-                    *ngIf="operacoesProcessando === 0"
-                    (click)="toggleSidebarOpen('quickPanel')"
+                    *ngIf="(!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen || this._cdkSidebarService.getSidebar('quickPanel').folded)
+                     && operacoesProcessando === 0"
+                    (click)="toggleQuickPanel()"
                     aria-label="Operações">
                 <mat-icon class="secondary-text">format_list_bulleted</mat-icon>
             </button>
 
             <div fxLayoutAlign="center center" class="quick-panel-toggle-button"
                  matTooltip="Processando {{operacoesPendentes}}/{{operacoesProcessando}} item(s)..."
-                 *ngIf="operacoesProcessando > 0"
-                 (click)="toggleSidebarOpen('quickPanel')">
+                 *ngIf="(!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen || this._cdkSidebarService.getSidebar('quickPanel').folded)
+                  && operacoesProcessando > 0"
+                 (click)="toggleQuickPanel()">
                 <mat-spinner diameter="24"></mat-spinner>
             </div>
 

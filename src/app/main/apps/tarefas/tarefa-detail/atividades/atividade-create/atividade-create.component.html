@@ -40,7 +40,7 @@
         </mat-menu>
 
         <mat-menu #modeloMenu="matMenu">
-            <form class="p-8 mb-8" style="width: 300px !important" fxLayoutGap="16px" fxLayout="column"
+            <form class="p-8 mb-8" style="width: 400px !important" fxLayoutGap="16px" fxLayout="column"
                   fxLayoutAlign="start"
                   fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">
                 <mat-form-field fxFlex="100">
@@ -55,6 +55,10 @@
                         [control]="formEditor.get('modelo')"
                         [pagination]="modeloPagination">
                     </cdk-modelo-autocomplete>
+                    <button matSuffix mat-button mat-icon-button
+                            (click)="goToModelo()">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
                 </mat-form-field>
                 <button mat-raised-button color="accent" [disabled]="!formEditor.valid" (click)="doEditor()">
                     EDITAR
@@ -68,10 +72,13 @@
                                  [alterandoId]="(alterandoDocumentosId$ | async)"
                                  [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)"
                                  [convertendoId]="(convertendoDocumentosId$ | async)"
+                                 [downloadId] ="(downloadP7SDocumentosId$ | async)"
                                  (delete)="doDelete($event)"
+                                 (deleteBloco)="doDeleteBloco($event)"
                                  (removeAssinatura)="doRemoveAssinatura($event)"
                                  (assinatura)="doAssinatura($event)"
                                  (converte)="doConverte($event)"
+                                 (downloadP7S)="doDownloadP7S($event)"
                                  (restaurar)="doRestaurar($event)"
                                  (alterarTipoDocumento)="doAlterarTipoDocumento($event)"
                                  (clicked)="onClicked($event)"
@@ -95,6 +102,7 @@
         [temMinutas]="!!minutas.length"
         [documentoAvulsoVinculado]="(tarefa$ | async)?.processo?.documentoAvulsoOrigem"
         [especieAtividadePagination]="especieAtividadePagination"
+        [mode]="mode"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"

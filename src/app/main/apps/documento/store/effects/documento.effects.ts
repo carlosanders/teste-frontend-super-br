@@ -26,6 +26,9 @@ import * as AssinaturaActions from '../actions/assinaturas.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
+import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../../../processo/processo-view/store';
+import {GetDocumentos as GetDocumentosAtividade} from '../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {GetDocumentos as GetDocumentosAvulsos} from '../../../tarefas/tarefa-detail/oficios/store';
 
 @Injectable()
 export class DocumentoEffect {
@@ -116,16 +119,6 @@ export class DocumentoEffect {
                             'modelo.modalidadeModelo',
                             'processoOrigem',
                             'tarefaOrigem',
-                            'tarefaOrigem.processo',
-                            'tarefaOrigem.processo.especieProcesso',
-                            'tarefaOrigem.processo.especieProcesso.generoProcesso',
-                            'tarefaOrigem.processo.modalidadeMeio',
-                            'tarefaOrigem.especieTarefa',
-                            'tarefaOrigem.especieTarefa.generoTarefa',
-                            'tarefaOrigem.setorOrigem',
-                            'tarefaOrigem.setorOrigem.unidade',
-                            'tarefaOrigem.setorResponsavel',
-                            'tarefaOrigem.setorResponsavel.unidade',
                             'tarefaOrigem.usuarioResponsavel',
                             'tarefaOrigem.vinculacoesEtiquetas',
                             'tarefaOrigem.vinculacoesEtiquetas.etiqueta',
@@ -136,21 +129,10 @@ export class DocumentoEffect {
                             'documentoAvulsoRemessa.processo',
                             'documentoAvulsoRemessa.processo.especieProcesso',
                             'documentoAvulsoRemessa.processo.especieProcesso.generoProcesso',
-                            'documentoAvulsoRemessa.especieDocumentoAvulso',
                             'documentoAvulsoRemessa.modelo',
                             'documentoAvulsoRemessa.setorDestino',
                             'documentoAvulsoRemessa.pessoaDestino',
                             'documentoAvulsoRemessa.usuarioRemessa',
-                            'vinculacaoDocumentoPrincipal',
-                            'vinculacaoDocumentoPrincipal.documento',
-                            'vinculacaoDocumentoPrincipal.documento.componentesDigitais',
-                            'vinculacaoDocumentoPrincipal.documento.documentoAvulsoRemessa',
-                            'vinculacoesDocumentos',
-                            'vinculacoesDocumentos.documentoVinculado',
-                            'vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-                            'vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-                            'sigilos',
-                            'sigilos.tipoSigilo',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
                         ]),
@@ -281,7 +263,7 @@ export class DocumentoEffect {
                     if (this.routerState.url.indexOf('/assinaturas') > -1) {
                         type = '/assinaturas';
                     }
-                    let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1].split('?')[0];
+                    let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
                     if (componenteDigital.apagadoEm) {
                         sidebar = 'editar/restaurar';
                     }
@@ -344,10 +326,22 @@ export class DocumentoEffect {
                 ofType<DocumentoActions.AssinaDocumentoSuccess>(DocumentoActions.ASSINA_DOCUMENTO_SUCCESS),
                 tap((action) => {
                     this._store.dispatch(new UnloadDocumento());
-                    this._router.navigate([
-                            this.routerState.url.split('/documento/')[0]
-                        ]
-                    ).then();
+                    let url = this.routerState.url.split('/documento/')[0];
+                    if (url.indexOf('/processo') !== -1) {
+                        this._store.dispatch(new UnloadDocumentos());
+                    }
+                    if (url.indexOf('/capa') !== -1) {
+                        url += '/mostrar';
+                    }
+                    this._router.navigate([url]).then(() => {
+                        if (url.indexOf('/atividades') !== -1) {
+                            this._store.dispatch(new GetDocumentosAtividade());
+                        } else if (url.indexOf('/oficios') !== -1) {
+                            this._store.dispatch(new GetDocumentosAvulsos());
+                        } else if (url.indexOf('/processo') !== -1) {
+                            this._store.dispatch(new GetDocumentosProcesso());
+                        }
+                    });
                 }));
 
     /**
@@ -389,10 +383,22 @@ export class DocumentoEffect {
                 ofType<DocumentoActions.AssinaDocumentoEletronicamenteSuccess>(DocumentoActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS),
                 tap((action) => {
                     this._store.dispatch(new UnloadDocumento());
-                    this._router.navigate([
-                            this.routerState.url.split('/documento/')[0]
-                        ]
-                    ).then();
+                    let url = this.routerState.url.split('/documento/')[0];
+                    if (url.indexOf('/processo') !== -1) {
+                        this._store.dispatch(new UnloadDocumentos());
+                    }
+                    if (url.indexOf('/capa') !== -1) {
+                        url += '/mostrar';
+                    }
+                    this._router.navigate([url]).then(() => {
+                        if (url.indexOf('/atividades') !== -1) {
+                            this._store.dispatch(new GetDocumentosAtividade());
+                        } else if (url.indexOf('/oficios') !== -1) {
+                            this._store.dispatch(new GetDocumentosAvulsos());
+                        } else if (url.indexOf('/processo') !== -1) {
+                            this._store.dispatch(new GetDocumentosProcesso());
+                        }
+                    });
                 }));
 
     /**

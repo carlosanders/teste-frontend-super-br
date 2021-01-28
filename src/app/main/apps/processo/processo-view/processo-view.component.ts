@@ -6,7 +6,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    QueryList,
+    QueryList, SecurityContext,
     ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
@@ -78,6 +78,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     documentoAvulso = false;
 
+    modelos = false;
+
     @Output()
     select: EventEmitter<ComponenteDigital> = new EventEmitter();
 
@@ -134,11 +136,30 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     }
                     const byteArray = new Uint8Array(byteNumbers);
                     const blob = new Blob([byteArray], {type: binary.src.mimetype});
-                    const   URL = window.URL;
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                    const URL = window.URL;
+                    if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
+                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                    } else {
+                        const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
+                            downloadLink = document.createElement('a');
+                        const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
+                        downloadLink.target = '_blank';
+                        downloadLink.href = sanitizedUrl;
+                        downloadLink.download = binary.src.fileName;
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+                        document.body.removeChild(downloadLink);
+                        setTimeout(() => {
+                            // For Firefox it is necessary to delay revoking the ObjectURL
+                            window.URL.revokeObjectURL(sanitizedUrl);
+                        }, 100);
+                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                    }
+
                     this.fileName = binary.src.fileName;
                     this.select.emit(binary.src);
                 } else {
+                    this.fileName = '';
                     this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
                 }
                 this.loading = binary.loading;
@@ -160,9 +181,11 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa';
+                this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa' ||
+                    routerState.state.params.stepHandle === 'default';
                 this.vinculacao = routerState.state.url.indexOf('/vincular') !== -1;
                 this.documentoAvulso = routerState.state.url.indexOf('visualizar/' + routerState.state.params.stepHandle + '/oficio') !== -1;
+                this.modelos = routerState.state.url.indexOf('/modelos') !== -1;
                 this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
             }
         });
@@ -175,7 +198,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.capaProcesso = this.routerState.url.split('/').indexOf('oficios') === -1;
 
-        if (this.capa && this.routerState.url.indexOf('mostrar') === -1) {
+        if (this.capa && (this.routerState.url.indexOf('default') === -1 && this.routerState.url.indexOf('mostrar') === -1)) {
             if (this.routerState.url.indexOf('/documento/') !== -1 &&
                 (this.routerState.url.indexOf('anexar-copia') !== -1 || this.routerState.url.indexOf('visualizar-processo') !== -1)) {
                 // Navegação do processo deve ocorrer por outlet
@@ -213,7 +236,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-        if (this.routerState.url.indexOf('anexar-copia') !== -1) {
+        if (this.routerState.url.indexOf('anexar-copia') === -1) {
             this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
         }
         if (this.tarefa) {
@@ -289,32 +312,48 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     navigateToStep(step: string): void {
-        if (this.routerState.url.indexOf('/documento/') !== -1) {
-            // Navegação do processo deve ocorrer por outlet
-            this._router.navigate(
-                [
-                    this.routerState.url.split('/documento/')[0] + '/documento/' +
-                    this.routerState.params.documentoHandle,
-                    {
-                        outlets: {
-                            primary: [
-                                this.routerState.url.indexOf('anexar-copia') === -1 ?
-                                    'visualizar-processo' : 'anexar-copia',
-                                this.routerState.params.processoHandle,
-                                'visualizar',
-                                step
-                            ]
-                        }
-                    }
-                ],
-                {
-                    relativeTo: this._activatedRoute.parent
+        let newSteps = step.split('-');
+        if (this.index[newSteps[0]]) {
+            if (this.routerState.url.indexOf('/documento/') !== -1) {
+                let arrPrimary = [];
+                arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                    'visualizar-processo' : 'anexar-copia');
+                arrPrimary.push(this.routerState.params.processoHandle);
+                if (this.routerState.params.chaveAcessoHandle) {
+                    arrPrimary.push('chave');
+                    arrPrimary.push(this.routerState.params.chaveAcessoHandle);
                 }
-            ).then();
-        } else {
-            this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
-                '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + step).then();
+                arrPrimary.push('visualizar');
+                arrPrimary.push(step);
+                // Navegação do processo deve ocorrer por outlet
+                this._router.navigate(
+                    [
+                        this.routerState.url.split('/documento/')[0] + '/documento/' +
+                        this.routerState.params.documentoHandle,
+                        {
+                            outlets: {
+                                primary: arrPrimary
+                            }
+                        }
+                    ],
+                    {
+                        relativeTo: this._activatedRoute.parent
+                    }
+                ).then(() => {
+                    this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                });
+            } else {
+                let url = this.routerState.url.split('/processo/')[0] +
+                    '/processo/' +
+                    this.routerState.params.processoHandle;
+                if (this.routerState.params.chaveAcessoHandle) {
+                    url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+                }
+                url += '/visualizar/' + step;
+                this._router.navigateByUrl(url).then(() => {
+                    this._store.dispatch(new fromStore.SetCurrentStep({step: newSteps[0], subStep: newSteps[1]}));
+                });
+            }
         }
     }
 

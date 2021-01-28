@@ -75,6 +75,18 @@ export class TransicaoWorkflowListComponent implements OnInit {
     edit(transicaoWorkflowId: number): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + transicaoWorkflowId]);
     }
+    
+    regras(transicaoWorkflowId: number): void {
+        this._router.navigate(
+            [this.routerState.url.replace('listar', '') + transicaoWorkflowId + '/validacaoTransicaoWorkflow'])
+        ;
+    }
+
+    acoes(transicaoWorkflowId: number): void {
+        this._router.navigate(
+            [this.routerState.url.replace('listar', '') + transicaoWorkflowId + '/acoes'])
+        ;
+    }
 
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);

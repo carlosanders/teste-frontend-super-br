@@ -89,7 +89,7 @@ export class AssinaturasEffects {
                         limit: action.payload.limit ? action.payload.limit : 5,
                         offset: action.payload.offset ? action.payload.offset : 0,
                         sort: action.payload.sort ? action.payload.sort : {criadoEm: 'DESC'},
-                        populate: ['populateAll']
+                        populate: action.payload.populate ? action.payload.populate : ['populateAll']
                     };
 
                     return this._assinaturaService.query(

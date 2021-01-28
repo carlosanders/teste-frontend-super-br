@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
-import {Subject} from 'rxjs';
-import {filter, takeUntil} from 'rxjs/operators';
+import {of, Subject} from 'rxjs';
+import {debounceTime, distinctUntilChanged, filter, switchMap, takeUntil} from 'rxjs/operators';
 import {CdkConfigService} from '@cdk/services/config.service';
 import {Pagination, Processo} from '../../models';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -78,7 +78,37 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
                     this.cdkConfig = config;
                 }
             );
-    }
+
+        if (this.form.get('processo')) {
+            this.form.get('processo').valueChanges.pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap((value) => {
+                        if (value && typeof value === 'object') {
+                            this.inputText.emit(value.NUP);
+
+                            if (value.visibilidadeExterna || this._loginService.isGranted('ROLE_COLABORADOR')) {
+                                this.inputText.emit({id: value.id});
+                                return of([]);
+                            }
+
+                            const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
+                                width: '600px'
+                            });
+
+                            dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+                                this.inputText.emit({id: value.id, chaveAcesso: result});
+                                return of([]);
+                            });
+                        }
+
+                        return of([]);
+                    }
+                )
+            ).subscribe();
+        }
+
+     }
 
     /**
      * On destroy
@@ -111,26 +141,9 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
     }
 
     checkProcesso(): void {
-        const processo: Processo = this.form.get('processo').value;
+        const processo = this.form.get('processo').value;
         if (!processo || typeof processo !== 'object') {
             this.form.get('processo').setValue(null);
-        }
-        else {
-            this.inputText.emit(processo.NUP);
-
-            if (processo.visibilidadeExterna || this._loginService.isGranted('ROLE_COLABORADOR')) {
-                this.inputText.emit({id: processo.id});
-                return;
-            }
-
-            const dialogRef = this._dialog.open(CdkChaveAcessoPluginComponent, {
-                width: '600px'
-            });
-
-            dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
-                this.inputText.emit({id: processo.id, chaveAcesso: result});
-                return;
-            });
         }
     }
 }

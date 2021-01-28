@@ -13,9 +13,9 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {modulesConfig} from 'modules/modules-config';
 import {LoginService} from '../../../../auth/login/login.service';
 import {TransicaoWorkflowComponent} from './transicao-workflow.component';
@@ -28,11 +28,19 @@ const routes: Routes = [
         children: [
             {
                 path: 'listar',
-                loadChildren: () => import('./transicao-workflow-list/transicao-workflow-list.module').then(m => m.TransicaoWorkflowListModule),
-            },
+               loadChildren: () => import('./transicao-workflow-list/transicao-workflow-list.module').then(m => m.TransicaoWorkflowListModule),
+           },
             {
                 path: 'editar',
                 loadChildren: () => import('./transicao-workflow-edit/transicao-workflow-edit.module').then(m => m.TransicaoWorkflowEditModule),
+            },
+             {
+                path: ':transicaoWorkflowHandle/validacaoTransicaoWorkflow',
+                loadChildren: () => import('./validacao-transicao-workflow/validacao-transicao-workflow.module').then(m => m.ValidacaoTransicaoWorkflowModule),
+            },
+            {
+                path: ':transicaoWorkflowHandle/acoes',
+                loadChildren: () => import('./acao-transicao-workflow/acao-transicao-workflow.module').then(m => m.AcaoTransicaoWorkflowModule)
             },
             {
                 path: '**',
@@ -41,7 +49,6 @@ const routes: Routes = [
         ]
     }
 ];
-
 const path = 'app/main/apps/admin/transicao-workflow';
 
 modulesConfig.forEach((module) => {

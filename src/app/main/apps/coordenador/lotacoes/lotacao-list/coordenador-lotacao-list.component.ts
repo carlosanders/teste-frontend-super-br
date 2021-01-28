@@ -34,6 +34,7 @@ export class CoordenadorLotacaoListComponent implements OnInit {
     deletedIds$: Observable<any>;
     setorPagination: Pagination = new Pagination();
     colaboradorPagination: Pagination = new Pagination();
+    modulo: string;
 
     /**
      * @param _changeDetectorRef
@@ -56,6 +57,15 @@ export class CoordenadorLotacaoListComponent implements OnInit {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    if(this.routerState.url.includes('unidades')) {
+                        this.modulo = "unidades";
+                    }
+                    else if(this.routerState.url.includes('usuarios')) {
+                        this.modulo = "usuarios";
+                    }
+                    else {
+                        this.modulo = "lotacoes";
+                    }
                 }
             });
 

@@ -27,6 +27,10 @@ admin-main-sidebar {
         overflow-y: auto;
         padding-top: 8px;
 
+        .title-module {
+            border-bottom: 1px solid #dcdcdc;
+        }
+
     }
 }
 

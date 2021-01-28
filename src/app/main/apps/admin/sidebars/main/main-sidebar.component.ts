@@ -17,8 +17,9 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 })
 export class MainSidebarComponent implements OnInit, OnDestroy {
 
-    links: any;
+    links: any = [];
     colaborador: Colaborador;
+
     /**
      * Constructor
      */
@@ -27,103 +28,128 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
     ) {
         this.colaborador = this._loginService.getUserProfile().colaborador;
 
-        this.links = [
+        const links = [
             {
                 nome: 'Modalidade Órgão Central',
                 icon: 'business',
-                link: 'modalidade-orgao-central'
+                link: 'modalidade-orgao-central',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Espécie Tarefas',
                 icon: 'check_box',
-                link: 'especie-tarefas'
+                link: 'especie-tarefas',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Espécie Setor',
                 icon: 'place',
-                link: 'especie-setor'
+                link: 'especie-setor',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Espécie Atividades',
                 icon: 'local_activity',
-                link: 'especie-atividades'
+                link: 'especie-atividades',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Espécie Processo',
                 icon: 'insert_drive_file',
-                link: 'especie-processo'
+                link: 'especie-processo',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Unidades',
                 icon: 'location_city',
-                link: 'unidades'
+                link: 'unidades',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Usuários',
                 icon: 'person',
-                link: 'usuarios'
+                link: 'usuarios',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Usuários Externos',
                 icon: 'person',
-                link: 'externos'
+                link: 'externos',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Espécie Relevâncias',
                 icon: 'new_releases',
-                link: 'especie-relevancias'
+                link: 'especie-relevancias',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Tipos de Documentos',
                 icon: 'class',
-                link: 'tipos-documentos'
+                link: 'tipos-documentos',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Tipos de Relatórios',
                 icon: 'assessment',
-                link: 'tipos-relatorios'
+                link: 'tipos-relatorios',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Assuntos',
                 icon: 'subject',
-                link: 'assuntos'
+                link: 'assuntos',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Templates',
                 icon: 'view_array',
-                link: 'templates'
+                link: 'templates',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Classificações',
                 icon: 'low_priority',
-                link: 'classificacoes'
+                link: 'classificacoes',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Pessoas',
                 icon: 'people',
-                link: 'pessoas'
+                link: 'pessoas',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'Municípios',
                 icon: 'location_on',
-                link: 'municipios'
+                link: 'municipios',
+                role: ['ROLE_ADMIN']
             },
             {
                 nome: 'WorkFlows',
                 icon: 'low_priority',
-                link: 'workflows'
+                link: 'workflows',
+                role: ['ROLE_ADMIN']
+            },
+            {
+                nome: 'Modalidade Ação Etiqueta',
+                icon: 'label',
+                link: 'modalidade-acao-etiqueta',
+                role: ['ROLE_ADMIN']
             }
         ];
 
+        this.links['administrativo'] = CdkUtils.sortArraySideBar(links);
         const path = 'app/main/apps/admin/sidebars/main';
-
+ 
         modulesConfig.forEach((module) => {
             if (module.sidebars.hasOwnProperty(path)) {
-                module.sidebars[path].forEach((s => this.links.push(s)));
+                let modulesLink = [];
+                module.sidebars[path].forEach((s => modulesLink.push(s)));
+                modulesLink = CdkUtils.sortArraySideBar(modulesLink);
+                this.links[module.name] = modulesLink;
             }
         });
-
-        this.links = CdkUtils.sortArraySideBar(this.links);
     }
 
     // -----------------------------------------------------------------------------------------------------

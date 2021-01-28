@@ -9,7 +9,7 @@ import {
     Input,
     OnChanges,
     Output,
-    EventEmitter
+    EventEmitter, ElementRef, ContentChild
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -37,7 +37,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     loading = false;
 
     @Input()
-    processos: Processo[];
+    processos: Processo[] = [];
 
     showFilter = false;
 
@@ -46,6 +46,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Input()
     mode = 'list';
+
+    @Input()
+    mobileMode = false;
 
     @Output()
     create = new EventEmitter<any>();
@@ -439,6 +442,12 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     }
 
     setFilter(gridFilter): void {
+        if(this.mobileMode && this.processos) {
+            (<HTMLInputElement>document.getElementById("sidebarId")).classList.remove('mobile-processo-pesquisa-on');
+            (<HTMLInputElement>document.getElementById("sidebarId")).classList.add('mobile-processo-pesquisa-off');
+            (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.remove('mobile-processo-lista-off');
+            (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.add('mobile-processo-lista-on');
+        }
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();
@@ -450,5 +459,12 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    cssPesquisaOn() {
+        (<HTMLInputElement>document.getElementById("sidebarId")).classList.remove('mobile-processo-pesquisa-off');
+        (<HTMLInputElement>document.getElementById("sidebarId")).classList.add('mobile-processo-pesquisa-on');
+        (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.remove('mobile-processo-lista-on');
+        (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.add('mobile-processo-lista-off');
     }
 }

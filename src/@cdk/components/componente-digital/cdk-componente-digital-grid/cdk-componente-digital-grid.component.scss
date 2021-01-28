@@ -8,6 +8,28 @@ cdk-componente-digital-grid {
         display: flex;
         flex: 1 1 auto;
 
+        > .mobile-componente-pesquisa-off {
+            display: none !important;
+        }
+
+        > .mobile-componente-pesquisa-on {
+            flex: 1 1 auto;
+            display: flex;
+            width: 100% !important;
+            max-width: none !important;
+            transform: translateX(0%) !important;
+        }
+
+        > .mobile-componente-lista-off {
+            display: none !important;
+        }
+
+        > .mobile-componente-lista-on {
+            flex: 1 1 auto;
+            display: flex;
+            width: 100% !important;
+        }
+
         .actions {
             flex: 0 1 auto;
             display: flex;
@@ -73,6 +95,11 @@ cdk-componente-digital-grid {
             display: flex;
             flex-direction: column;
             padding: 8px;
+            width: 10vw;
+
+            > .content {
+                height: 0;
+            }
         }
 
         .responsive-grid[max-width~="600px"] {

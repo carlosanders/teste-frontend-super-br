@@ -2,14 +2,15 @@
 
     <mat-checkbox class="mr-8 ml-8 select" [checked]="selected"
                   (change)="toggleInSelected(documento.id)"
-                  (click)="$event.stopPropagation();">
+                  (click)="$event.stopPropagation();"
+                  *ngIf="actions.indexOf('select') > -1">
     </mat-checkbox>
 
     <div class="p-8 file" fxLayout="column" (click)="onClick(documento)"
          [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
 
         <div fxLayout="row" fxLayoutAlign="start center">
-            <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">picture_as_pdf</mat-icon>
+            <mat-icon *ngIf="!documento.documentoAvulsoRemessa" class="ml-8 mr-8">insert_drive_file</mat-icon>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa" class="ml-8 mr-8">mail</mat-icon>
             <div class="mr-8">{{documento.tipoDocumento?.sigla || 'OUT'}}</div>
             <mat-icon *ngIf="documento.documentoAvulsoRemessa && !documento.documentoAvulsoRemessa.dataHoraRemessa"
@@ -33,19 +34,21 @@
 
     <div class="more-vert"
          [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
-        <button *ngIf="!deleting && !assinando && !convertendo && !removendoAssinatura && !alterando && !maisDeUmItemSelecionado && !undeleting" mat-icon-button
+        <button *ngIf="!deleting && !assinando && !convertendo && !download && !removendoAssinatura && !alterando && !maisDeUmItemSelecionado && !undeleting" mat-icon-button
                 [matMenuTriggerFor]="menuDocumento" #menuTrigger="matMenuTrigger" aria-label="more">
             <mat-icon>expand_more</mat-icon>
         </button>
 
-        <div *ngIf="deleting || assinando || convertendo || removendoAssinatura || alterando || undeleting" class="spinner-container m-8">
+        <div *ngIf="deleting || assinando || convertendo || download || removendoAssinatura || alterando || undeleting" class="spinner-container m-8">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
         <mat-menu #menuDocumento="matMenu">
             <ng-template [ngIf]="!documento.apagadoEm">
                 <button
-                    *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa) && this._loginService.isGranted('ROLE_COLABORADOR')"
+                    [disabled]="!podeDeletar"
+                    *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa) 
+                    && this._loginService.isGranted('ROLE_COLABORADOR') && actions.indexOf('delete') > -1"
                     fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
                     <mat-icon color="accent">delete</mat-icon>
                     <span>Apagar Minuta</span>
@@ -63,6 +66,10 @@
                     <mat-icon color="accent">picture_as_pdf</mat-icon>
                     <span>Converter em PDF</span>
                 </button>
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7s(documento.id)" mat-menu-item>
+                    <mat-icon color="accent">get_app</mat-icon>
+                    <span>Download em P7S</span>
+                </button>
                 <button *ngIf="documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.dataHoraResposta"
                         fxLayout="row" fxLayoutAlign="start center"
                         (click)="doVerResposta(documento.documentoAvulsoRemessa.documentoResposta)" mat-menu-item>
@@ -70,6 +77,7 @@
                     <span>Ver Resposta</span>
                 </button>
                 <button fxLayout="row" fxLayoutAlign="start center"
+                        [disabled]="!podeAlterarTipoDocumento"
                         *showIfRole="'ROLE_COLABORADOR'"
                         [matMenuTriggerFor]="tipoDocumentoMenu" mat-menu-item>
                     <mat-icon color="accent">edit</mat-icon>
@@ -121,4 +129,3 @@
     </div>
 
 </div>
-

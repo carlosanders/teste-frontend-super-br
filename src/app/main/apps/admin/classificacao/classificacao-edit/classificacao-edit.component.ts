@@ -27,8 +27,7 @@ export class ClassificacaoEditComponent implements OnInit {
     classificacao$: Observable<Classificacao>;
     formClassificacao: FormGroup;
     classificacaoPagination: Pagination;
-
-
+    logEntryPagination: Pagination;
 
     constructor(
         private _store: Store<fromStore.ClassificacaoEditAppState>,
@@ -48,10 +47,17 @@ export class ClassificacaoEditComponent implements OnInit {
                 }
             });
         this.classificacaoPagination = new Pagination();
+        this.logEntryPagination = new Pagination();
         this.loadForm();
     }
 
     ngOnInit(): void {
+        this.classificacao$.subscribe(
+            classificacao => {
+                this.classificacao = classificacao;
+            }
+        );
+        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Classificacao', id: + this.classificacao.id};
     }
 
     loadForm(): void {
@@ -71,7 +77,8 @@ export class ClassificacaoEditComponent implements OnInit {
             prazoGuardaFaseIntermediariaMes: [null],
             prazoGuardaFaseIntermediariaAno: [null],
             prazoGuardaFaseIntermediariaEvento: [null],
-            observacao: [null, [Validators.maxLength(255)]]
+            observacao: [null, [Validators.maxLength(255)]],
+            tipoSigilo: [null]
         });
     }
 

@@ -5,12 +5,16 @@ export interface DocumentosState {
     documentosLoaded: any;
     selectedDocumentosId: number[];
     deletingDocumentoIds: number[];
+    undeletingDocumentoIds: number[];
+    bufferingDelete: number;
     alterandoDocumentoIds: number[];
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
     loading: boolean;
     loaded: boolean;
+    error: any;
+    errorDelete: number[];
 }
 
 export const AtividadeCreateDocumentosInitialState: DocumentosState = {
@@ -18,12 +22,16 @@ export const AtividadeCreateDocumentosInitialState: DocumentosState = {
     documentosLoaded: false,
     selectedDocumentosId: [],
     deletingDocumentoIds: [],
+    undeletingDocumentoIds: [],
+    bufferingDelete: 0,
     assinandoDocumentoIds: [],
     alterandoDocumentoIds: [],
     removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
     loading: false,
     loaded: false,
+    error: null,
+    errorDelete: []
 };
 
 export function DocumentosReducer(
@@ -54,9 +62,13 @@ export function DocumentosReducer(
         }
 
         case TarefaDetailDocumentosActions.DELETE_DOCUMENTO: {
+            const entitiesId = state.documentosId.filter(id => id !== action.payload.documentoId);
             return {
                 ...state,
-                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload]
+                documentosId: entitiesId,
+                deletingDocumentoIds: [...state.deletingDocumentoIds, action.payload.documentoId],
+                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload.documentoId),
+                error: null
             };
         }
 
@@ -64,8 +76,66 @@ export function DocumentosReducer(
             return {
                 ...state,
                 deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload),
-                selectedDocumentosId: state.selectedDocumentosId.filter(id => id !== action.payload),
-                documentosId: state.documentosId.filter(id => id !== action.payload)
+                errorDelete: [],
+                error: null
+            };
+        }
+
+        case TarefaDetailDocumentosActions.DELETE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                errorDelete: [...state.errorDelete, action.payload.id],
+                deletingDocumentoIds: state.deletingDocumentoIds.filter(id => id !== action.payload.id),
+                documentosId: [...state.documentosId, action.payload.id],
+                error: action.payload.error
+            };
+        }
+
+        case TarefaDetailDocumentosActions.DELETE_DOCUMENTO_CANCEL: {
+            return {
+                ...state,
+                deletingDocumentoIds: [],
+                bufferingDelete: state.bufferingDelete + 1,
+                errorDelete: [],
+                error: null
+            }
+        }
+
+        case TarefaDetailDocumentosActions.DELETE_DOCUMENTO_FLUSH: {
+            return {
+                ...state,
+                bufferingDelete: state.bufferingDelete + 1
+            }
+        }
+
+        case TarefaDetailDocumentosActions.DELETE_DOCUMENTO_CANCEL_SUCCESS: {
+            return {
+                ...state,
+                documentosId: [...state.documentosId, action.payload],
+            }
+        }
+
+        case TarefaDetailDocumentosActions.UNDELETE_DOCUMENTO: {
+            return {
+                ...state,
+                undeletingDocumentoIds: [...state.undeletingDocumentoIds, action.payload.documento.id],
+            };
+        }
+
+        case TarefaDetailDocumentosActions.UNDELETE_DOCUMENTO_SUCCESS: {
+            let entitiesId = [];
+            entitiesId = [...state.documentosId, action.payload.documento.id];
+            return {
+                ...state,
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.documento.id),
+                documentosId: !action.payload.loaded || action.payload.loaded === state.documentosLoaded ? entitiesId : state.documentosId
+            };
+        }
+
+        case TarefaDetailDocumentosActions.UNDELETE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                undeletingDocumentoIds: state.undeletingDocumentoIds.filter(id => id !== action.payload.id)
             };
         }
 

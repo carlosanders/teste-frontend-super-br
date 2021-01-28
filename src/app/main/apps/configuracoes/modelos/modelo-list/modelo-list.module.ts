@@ -23,6 +23,7 @@ import {TemplateService} from '@cdk/services/template.service';
 import * as fromGuards from './store/guards';
 import {CdkModeloGridModule} from '@cdk/components/modelo/cdk-modelo-grid/cdk-modelo-grid.module';
 import {modulesConfig} from 'modules/modules-config';
+import {PathModule} from '../../../../../../@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
@@ -72,6 +73,7 @@ modulesConfig.forEach((module) => {
         CdkModeloGridModule,
 
         ModeloListStoreModule,
+        PathModule,
     ],
     providers: [
         ModeloService,

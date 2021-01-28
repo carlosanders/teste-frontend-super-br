@@ -1,3 +1,9 @@
+<div class="header">
+    <path icone="star_border"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="favoritos">
+    </path>
+</div>
 <cdk-favorito-grid
         [loading]="(loading$ | async)"
         [favoritos]="(favoritos$ | async)"

@@ -43,7 +43,7 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'especieAtividade.nome', 'especieTarefaFrom.nome', 'especieTarefaTo.nome', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'especieTarefaFrom.nome', 'especieAtividade.nome', 'especieTarefaTo.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -57,13 +57,13 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
             fixed: true
         },
         {
-            id: 'especieAtividade.nome',
-            label: 'Espécie Atividade',
+            id: 'especieTarefaFrom.nome',
+            label: 'Espécie Tarefa From',
             fixed: false
         },
         {
-            id: 'especieTarefaFrom.nome',
-            label: 'Espécie Tarefa From',
+            id: 'especieAtividade.nome',
+            label: 'Espécie Atividade',
             fixed: false
         },
         {
@@ -120,7 +120,7 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select'];
+    actions: string[] = ['edit', 'delete', 'select', 'regras', 'actions'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -141,7 +141,13 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
     edit = new EventEmitter<number>();
 
     @Output()
+    regras = new EventEmitter<number>();
+
+    @Output()
     delete = new EventEmitter<number>();
+
+    @Output()
+    acoes = new EventEmitter<number>();
 
     @Output()
     toggleFavorito = new EventEmitter<Favorito>();
@@ -262,6 +268,10 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
         this.edit.emit(transicaoWorkflowId);
     }
 
+    regrasTransicaoWorkflow(transicaoWorkflowId): void {
+        this.regras.emit(transicaoWorkflowId);
+    }
+    
     selectTransicaoWorkflow(transicaoWorkflow: TransicaoWorkflow): void {
         this.selected.emit(transicaoWorkflow);
     }
@@ -272,6 +282,10 @@ export class CdkTransicaoWorkflowGridComponent implements AfterViewInit, OnInit,
 
     deleteTransicoesWorkflows(transicoesWorkflowsId): void {
         transicoesWorkflowsId.forEach(workflowId => this.deleteTransicaoWorkflow(workflowId));
+    }
+
+    acaoTransicaoWorkflowList(transicaoWorkflowId): void {
+        this.acoes.emit(transicaoWorkflowId);
     }
 
     salvarFavorito(favorito): void {

@@ -24,7 +24,7 @@
     </div>
 
     <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-            [routerLink]="['processo/' + (documentoAvulso$ | async)?.processo?.id + '/visualizar/' + chaveAcesso]"
+            [routerLink]="['processo/' + (documentoAvulso$ | async)?.processo?.id + '/chave/' + chaveAcesso + '/visualizar']"
             [routerLinkActive]="['active', 'accent']">
         <mat-icon class="black-fg">book</mat-icon>
     </button>

@@ -25,7 +25,7 @@
                name="nome"
                formControlName="nome"
                required
-               maxlength="255">
+               maxlength="255" upperCase>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                 (click)="showLogEntryGrid('nome')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
@@ -76,7 +76,6 @@
             <mat-datepicker-toggle matSuffix [for]="dataObito"></mat-datepicker-toggle>
             <mat-datepicker #dataObito></mat-datepicker>
         </mat-form-field>
-
     </div>
 
     <div class="responsive-group">
@@ -126,7 +125,7 @@
         <input matInput #profissao
                name="profissao"
                formControlName="profissao"
-               maxlength="255">
+               maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
@@ -134,7 +133,7 @@
         <input matInput #nomeGenitor
                name="nomeGenitor"
                formControlName="nomeGenitor"
-               maxlength="255">
+               maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
@@ -142,7 +141,7 @@
         <input matInput #nomeGenitora
                name="nomeGenitora"
                formControlName="nomeGenitora"
-               maxlength="255">
+               maxlength="255" upperCase>
     </mat-form-field>
 
     <mat-form-field>
@@ -167,24 +166,28 @@
 <cdk-modalidade-qualificacao-pessoa-gridsearch
     *ngIf="activeCard === 'modalidade-qualificacao-pessoa-gridsearch'"
     (selected)="selectModalidadeQualificacaoPessoa($event)"
+    [pagination]="modalidadeQualificacaoPessoaPagination"
     (cancel)="cancel()">
 </cdk-modalidade-qualificacao-pessoa-gridsearch>
 
 <cdk-modalidade-genero-pessoa-gridsearch
     *ngIf="activeCard === 'modalidade-genero-pessoa-gridsearch'"
     (selected)="selectModalidadeGeneroPessoa($event)"
+    [pagination]="modalidadeGeneroPessoaPagination"
     (cancel)="cancel()">
 </cdk-modalidade-genero-pessoa-gridsearch>
 
 <cdk-pais-gridsearch
     *ngIf="activeCard === 'pais-gridsearch'"
     (selected)="selectPais($event)"
+    [pagination]="paisPagination"
     (cancel)="cancel()">
 </cdk-pais-gridsearch>
 
 <cdk-municipio-gridsearch
     *ngIf="activeCard === 'municipio-gridsearch'"
     (selected)="selectMunicipio($event)"
+    [pagination]="municipioPagination"
     (cancel)="cancel()">
 </cdk-municipio-gridsearch>
 

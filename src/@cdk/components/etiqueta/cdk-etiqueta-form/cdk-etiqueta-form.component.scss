@@ -4,4 +4,12 @@ cdk-etiqueta-form {
     flex: 1 1 auto;
     display: flex;
     flex-direction: column;
+
+    .cor {
+        height: 20px;
+    }
+
+    .actions {
+        padding-top: 18px;
+    }
 }

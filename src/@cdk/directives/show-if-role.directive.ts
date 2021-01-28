@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import {Directive, Input, TemplateRef, ViewContainerRef} from '@angular/core';
 import {LoginService} from '../../app/main/auth/login/login.service';
 
 /**
@@ -19,22 +19,26 @@ import {LoginService} from '../../app/main/auth/login/login.service';
  * - `<ng-template [showIfRole]="'ROLE_COLABORADOR'"><div>...</div></ng-template>`
  *
  */
-@Directive({ selector: '[showIfRole]'})
+@Directive({selector: '[showIfRole]'})
 export class ShowIfRoleDirective {
     constructor(
         private templateRef: TemplateRef<any>,
         private viewContainer: ViewContainerRef,
-        public _loginService: LoginService) {}
+        public _loginService: LoginService) {
+    }
 
-    @Input() set showIfRole(role: string) {
+    @Input() set showIfRole(roles: string | string[]) {
+        const linkRoles = Array.isArray(roles) ? roles : [roles];
         const userProfile = this._loginService.getUserProfile();
-        if (userProfile && userProfile.roles && userProfile.roles.length > 0) {
-            const hasRole = userProfile.roles.findIndex((papel: string) => {
-                return papel.includes(role);
-            });
-            if (hasRole !== -1) {
-                this.viewContainer.createEmbeddedView(this.templateRef);
-                return;
+        for (let role of linkRoles) {
+            if (userProfile && userProfile.roles && userProfile.roles.length > 0) {
+                const hasRole = userProfile.roles.findIndex((papel: string) => {
+                    return papel.includes(role);
+                });
+                if (hasRole !== -1) {
+                    this.viewContainer.createEmbeddedView(this.templateRef);
+                    return;
+                }
             }
         }
         this.viewContainer.clear();
