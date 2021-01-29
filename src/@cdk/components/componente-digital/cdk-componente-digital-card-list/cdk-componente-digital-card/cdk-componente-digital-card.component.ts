@@ -25,6 +25,9 @@ export class CdkComponenteDigitalCardComponent implements DoCheck {
     @Input()
     selected = true;
 
+    @Input()
+    mode: string;
+
     @Output()
     retry = new EventEmitter<any>();
 
@@ -47,6 +50,7 @@ export class CdkComponenteDigitalCardComponent implements DoCheck {
         differs: KeyValueDiffers
     ) {
         this.differ = differs.find([]).create();
+        this.mode = 'tarefa';
     }
 
     // -----------------------------------------------------------------------------------------------------
