@@ -12,10 +12,10 @@ import {
     MatTooltipModule
 } from '@cdk/angular/material';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {EspecieDocumentoAvulsoService} from '@cdk/services/especie-documento-avulso.service';
-import {CdkDocumentoAvulsoFormComponent} from './cdk-documento-avulso-form.component';
-import {CdkEspecieDocumentoAvulsoAutocompleteModule} from '@cdk/components/especie-documento-avulso/cdk-especie-documento-avulso-autocomplete/cdk-especie-documento-avulso-autocomplete.module';
-import {CdkEspecieDocumentoAvulsoGridsearchModule} from '@cdk/components/especie-documento-avulso/cdk-especie-documento-avulso-autocomplete/cdk-especie-documento-avulso-gridsearch/cdk-especie-documento-avulso-gridsearch.module';
+import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
+import {CdkDistribuirTarefaFormComponent} from './cdk-distribuir-tarefa-form.component';
+import {CdkEspecieTarefaAutocompleteModule} from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-autocomplete.module';
+import {CdkEspecieTarefaGridsearchModule} from '@cdk/components/especie-tarefa/cdk-especie-tarefa-autocomplete/cdk-especie-tarefa-gridsearch/cdk-especie-tarefa-gridsearch.module';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkUsuarioGridsearchModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-gridsearch/cdk-usuario-gridsearch.module';
 import {CdkProcessoAutocompleteModule} from '../../processo/cdk-processo-autocomplete/cdk-processo-autocomplete.module';
@@ -27,20 +27,19 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {CdkSetorAutocompleteModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {CdkSetorGridsearchModule} from '../../setor/cdk-setor-autocomplete/cdk-setor-gridsearch/cdk-setor-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
-import {CdkModeloAutocompleteModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
-import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-gridsearch/cdk-modelo-gridsearch.module';
-import {CdkPessoaAutocompleteModule} from '../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-processo-grid.module';
-import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
-import {CdkBlocoDestinatarioGridModule} from '../cdk-bloco-destinatario-grid/cdk-bloco-destinatario-grid.module';
-import {FavoritoService} from '../../../services/favorito.service';
-import {MatCardModule} from "@angular/material/card";
-import {MatRadioModule} from "@angular/material/radio";
-import {MatSelectModule} from "@angular/material/select";
+import {FavoritoService} from '@cdk/services/favorito.service';
+import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {CdkLogentryGridModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-grid.module';
+import {CdkLogentryGridsearchModule} from '@cdk/components/logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
+import {MatSliderModule} from '@angular/material/slider';
+import {CdkSetorTreeModule} from '../../setor/cdk-setor-tree/cdk-setor-tree.module';
+import {CdkSetorTreeService} from '../../setor/cdk-setor-tree/services/cdk-setor-tree.service';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
     declarations: [
-        CdkDocumentoAvulsoFormComponent,
+        CdkDistribuirTarefaFormComponent,
     ],
     imports: [
         MatAutocompleteModule,
@@ -59,35 +58,35 @@ import {MatSelectModule} from "@angular/material/select";
 
         NgxUpperCaseDirectiveModule,
 
-        CdkEspecieDocumentoAvulsoAutocompleteModule,
-        CdkEspecieDocumentoAvulsoGridsearchModule,
+        CdkEspecieTarefaAutocompleteModule,
+        CdkEspecieTarefaGridsearchModule,
         CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
         CdkProcessoAutocompleteModule,
         CdkProcessoGridsearchModule,
         CdkSetorAutocompleteModule,
         CdkSetorGridsearchModule,
-        CdkModeloAutocompleteModule,
-        CdkModeloGridsearchModule,
-        CdkPessoaAutocompleteModule,
         CdkProcessoGridModule,
 
-        CdkSharedModule,
+        CdkLogentryGridModule,
         CdkLogentryGridsearchModule,
-        CdkBlocoDestinatarioGridModule,
+
+        CdkSharedModule,
+        MatSliderModule,
+        CdkSetorTreeModule,
         MatCardModule,
-        MatRadioModule,
-        MatSelectModule,
     ],
     providers: [
-        EspecieDocumentoAvulsoService,
-        FavoritoService,
+        EspecieTarefaService,
         UsuarioService,
-        ProcessoService
+        ProcessoService,
+        FavoritoService,
+        LoginService,
+        CdkSetorTreeService
     ],
     exports: [
-        CdkDocumentoAvulsoFormComponent
+        CdkDistribuirTarefaFormComponent
     ]
 })
-export class CdkDocumentoAvulsoFormModule {
+export class CdkDistribuirTarefaFormModule {
 }

@@ -9,34 +9,54 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from "@angular/router";
-import {Acao, Modelo, Pagination} from "../../../../models";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Acao, Pagination, Setor, Tarefa, Usuario} from "../../../../models";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {Observable} from "rxjs";
 
 @Component({
-    selector: 'cdk-acao-trigger-001',
-    templateUrl: './cdk-acao-trigger-001.component.html',
-    styleUrls: ['./cdk-acao-trigger-001.component.scss'],
+    selector: 'cdk-acao-trigger-002',
+    templateUrl: './cdk-acao-trigger-002.component.html',
+    styleUrls: ['./cdk-acao-trigger-002.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
 
-export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges {
+export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges {
+    isSaving$: Observable<boolean>;
+    errors$: Observable<any>;
 
     @Input()
-    modeloPagination: Pagination;
-    @Input()
     saving: boolean;
+
     @Input()
     errors: any;
+
     @Input()
-    modeloPaginationAndx: any;
+    unidadeResponsavel: Setor;
+
+    @Input()
+    setorResponsavel: Setor;
+
+    @Input()
+    usuarioResponsavel: Usuario;
+
+    @Input()
+    unidadePagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    usuarioPagination: Pagination;
 
     @Output()
     save = new EventEmitter<Acao>();
+
     @Output()
     abort = new EventEmitter<any>();
 
+    tarefa: Tarefa;
     form: FormGroup;
     formState: string = 'form';
 
@@ -48,19 +68,9 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
         private _router: Router,
         private _formBuilder: FormBuilder
     ) {
-
-        this.form = this._formBuilder.group({
-            id: [null],
-            etiqueta: [null],
-            trigger: [
-                'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001',
-                [Validators.required]
-            ],
-            contexto: [null],
-            modelo: [null, [Validators.required]]
-        });
-        this.modeloPaginationAndx = null;
-        this.modeloPagination = new Pagination();
+        this.unidadePagination = new Pagination();
+        this.setorPagination = new Pagination();
+        this.usuarioPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -77,31 +87,12 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
-    }
-
-    checkModelo(): void {
-        const value = this.form.get('modelo').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('modelo').setValue(null);
-        }
-    }
-
-    selectModelo(modelo?: Modelo): void {
-        if (modelo) {
-            this.form.get('modelo').setValue(modelo)
-        }
-        this.formState = 'form';
-    }
-
-    showModeloGrid(): void {
-        this.formState = 'modelo-gridsearch';
     }
 
     cancel(): void {
@@ -112,10 +103,7 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
         this.abort.emit();
     }
 
-    submit(): void {
-        if (this.form.valid) {
-            this.save.emit(this.form.value);
-        }
+    submit(values): void {
+        this.save.emit(values);
     }
-
 }

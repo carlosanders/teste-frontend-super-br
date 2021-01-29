@@ -24,6 +24,7 @@ import {CdkAcaoListModule} from '@cdk/components/acao/cdk-acao-list/cdk-acao-lis
 import {AcaoService} from '../../../../../../../../@cdk/services/acao.service';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '../../../../../../../../@cdk/components/path/path.module';
+import {TriggerAcaoProvider} from "../providers/trigger-acao-provider";
 
 const routes: Routes = [
     {
@@ -72,7 +73,8 @@ modulesConfig.forEach((module) => {
     providers: [
         EtiquetaService,
         AcaoService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        TriggerAcaoProvider
     ],
     exports: [
         AcaoListComponent
