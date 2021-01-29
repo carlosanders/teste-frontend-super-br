@@ -1,0 +1,9 @@
+<h2>Compartilhamento de Tarefa</h2>
+    <cdk-compartilhamento-form
+        [compartilhamento]="compartilhamento"
+        [usuarioPagination]="usuarioPagination"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-compartilhamento-form>

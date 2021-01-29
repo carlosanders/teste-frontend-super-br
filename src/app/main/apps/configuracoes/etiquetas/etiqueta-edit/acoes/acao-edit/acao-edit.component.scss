@@ -22,7 +22,8 @@ acao-edit {
         }
 
         > .items {
-            flex: 0 0 auto;
+            flex: 0 1 auto;
+            flex-direction: column;
             display: flex;
 
             > .trigger-acao-item {

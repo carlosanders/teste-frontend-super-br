@@ -1,6 +1,7 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Acao} from '@cdk/models';
+import {TriggerAcao} from "../../../models/trigger-acao";
 
 @Component({
     selector: 'cdk-acao-list',
@@ -26,6 +27,9 @@ export class CdkAcaoListComponent implements AfterViewInit, OnInit, OnChanges {
 
     @Input()
     actions: string[] = ['delete'];
+
+    @Input()
+    triggerAcaoList: TriggerAcao[];
 
     @Output()
     reload = new EventEmitter<any>();
@@ -70,5 +74,11 @@ export class CdkAcaoListComponent implements AfterViewInit, OnInit, OnChanges {
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getTriggerAcao(acao:Acao): TriggerAcao {
+        return this.triggerAcaoList.find(triggerAcao => {
+            return triggerAcao.trigger == acao.trigger
+        });
     }
 }

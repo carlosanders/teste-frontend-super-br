@@ -8,8 +8,8 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {DocumentoAvulso} from '@cdk/models';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Criteria, DocumentoAvulso} from '@cdk/models';
 import {EspecieDocumentoAvulso} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
@@ -46,6 +46,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     @Input()
     documentoAvulso: DocumentoAvulso;
+
+    @Input()
+    prazoCriteriaList: Criteria[];
 
     @Input()
     saving: boolean;
@@ -104,6 +107,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
     processos: Processo[] = [];
 
+    @Input()
     destinatarios = [];
 
     @Output()
@@ -147,7 +151,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
         private _favoritoService: FavoritoService
     ) {
 
-        this.form = this._formBuilder.group({
+        const controlConfig = {
             id: [null],
             blocoProcessos: [null],
             processos: [null],
@@ -157,6 +161,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             blocoDestinatarios: [null],
             destinatarios: [null],
             urgente: [null],
+            prazoFinal: [null],
             especieDocumentoAvulso: [null, [Validators.required]],
             modelo: [null, [Validators.required]],
             dataHoraInicioPrazo: [null, [Validators.required]],
@@ -164,8 +169,10 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             setorDestino: [null, [Validators.required]],
             pessoaDestino: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]]
-        });
+        }
 
+        this.form = this._formBuilder.group(controlConfig);
+        this.prazoCriteriaList = [];
         this.processoPagination = new Pagination();
         this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'setorAtual', 'setorAtual.unidade'];
         this.especieDocumentoAvulsoPagination = new Pagination();
@@ -183,6 +190,12 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
      * On init
      */
     ngOnInit(): void {
+
+        if (this.mode === 'trigger-etiqueta'){
+            this.form.get('dataHoraInicioPrazo').setValidators(null);
+            this.form.get('dataHoraFinalPrazo').setValidators(null);
+            this.form.controls['prazoFinal'].setValidators(Validators.required);
+        }
 
         this.form.get('pessoaDestino').reset();
         this.form.get('pessoaDestino').disable();
@@ -316,7 +329,6 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-
             if (this.form.get('blocoProcessos').value && this.processos) {
 
                 // percorrendo o bloco de processos
@@ -385,7 +397,6 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                             setorDestino: null
                         };
                     }
-
                     this.save.emit(docAvulso);
                 });
             }

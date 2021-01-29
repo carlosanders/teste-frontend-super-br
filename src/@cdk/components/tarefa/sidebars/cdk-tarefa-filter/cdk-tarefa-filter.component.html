@@ -32,6 +32,25 @@
             </mat-form-field>
 
             <mat-form-field>
+                <input matInput placeholder="Interessado"
+                       formControlName="interessado"
+                       [matAutocomplete]="interessado.autocomplete">
+                <cdk-pessoa-autocomplete #interessado="pessoaAutocomplete"
+                                          [control]="form.get('interessado')">
+                </cdk-pessoa-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Assunto"
+                       formControlName="assunto"
+                       [matAutocomplete]="assunto.autocomplete">
+                <cdk-assunto-administrativo-autocomplete #assunto="assuntoAdministrativoAutocomplete"
+                                          [pagination]="assuntoAdministrativoPagination"
+                                         [control]="form.get('assunto')">
+                </cdk-assunto-administrativo-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
                 <input matInput placeholder="Usuário Responsável"
                        formControlName="usuarioResponsavel"
                        [matAutocomplete]="usuario.autocomplete">
@@ -43,8 +62,8 @@
             <mat-form-field>
                 <input matInput placeholder="Usuário da Conclusão do Prazo"
                        formControlName="usuarioConclusaoPrazo"
-                       [matAutocomplete]="usuario.autocomplete">
-                <cdk-usuario-autocomplete #usuario="usuarioAutocomplete"
+                       [matAutocomplete]="usuarioConclusao.autocomplete">
+                <cdk-usuario-autocomplete #usuarioConclusao="usuarioAutocomplete"
                                           [control]="form.get('usuarioResponsavel')">
                 </cdk-usuario-autocomplete>
             </mat-form-field>
@@ -60,8 +79,8 @@
             <mat-form-field>
                 <input matInput placeholder="Unidade Responsável"
                        formControlName="unidadeResponsavel"
-                       [matAutocomplete]="setor.autocomplete">
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidadeResponsavel')">
+                       [matAutocomplete]="unidade.autocomplete">
+                <cdk-setor-autocomplete #unidade="setorAutocomplete" [control]="form.get('unidadeResponsavel')">
                 </cdk-setor-autocomplete>
             </mat-form-field>
 
