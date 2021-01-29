@@ -56,6 +56,9 @@ export class CdkComponenteDigitalCardListComponent {
     @Input()
     deletingId: number[];
 
+    @Input()
+    mode: string = 'tarefa';
+
     @Output()
     cancel = new EventEmitter<number>();
 
