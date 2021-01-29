@@ -22,6 +22,7 @@ import {AcaoService} from '@cdk/services/acao.service';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
 import {CommonModule} from "@angular/common";
+import {TriggerAcaoProvider} from "../providers/trigger-acao-provider";
 
 const routes: Routes = [
     {
@@ -33,6 +34,21 @@ const routes: Routes = [
                 path: '1',
                 loadChildren: () => import('./acao-trigger/acao-trigger-001/acao-trigger-001.module')
                     .then(m => m.AcaoTrigger001Module),
+            },
+            {
+                path: '2',
+                loadChildren: () => import('./acao-trigger/acao-trigger-002/acao-trigger-002.module')
+                    .then(m => m.AcaoTrigger002Module),
+            },
+            {
+                path: '3',
+                loadChildren: () => import('./acao-trigger/acao-trigger-003/acao-trigger-003.module')
+                    .then(m => m.AcaoTrigger003Module),
+            },
+            {
+                path: '4',
+                loadChildren: () => import('./acao-trigger/acao-trigger-004/acao-trigger-004.module')
+                    .then(m => m.AcaoTrigger004Module),
             }
         ]
     }
@@ -73,7 +89,8 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         AcaoService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        TriggerAcaoProvider
     ]
 })
 

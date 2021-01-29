@@ -45,7 +45,7 @@
             [especieDocumentoAvulsoListIsLoading]="especieDocumentoAvulsoListIsLoading"
             [pagination]="especieDocumentoAvulsoPagination">
         </cdk-especie-documento-avulso-autocomplete>
-        <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+        <button *ngIf="form.get('processo').value" matSuffix mat-button mat-icon-button
                 (click)="getFavoritosEspecieDocumentoAvulso()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
@@ -72,7 +72,7 @@
             [modeloListIsLoading]="modeloListIsLoading"
             [pagination]="modeloPagination">
         </cdk-modelo-autocomplete>
-        <button *ngIf="!inputModelo" [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+        <button *ngIf="!inputModelo && form.get('processo').value" matSuffix mat-button mat-icon-button
                 (click)="getFavoritosModelo()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
@@ -118,7 +118,7 @@
                 [setorListIsLoading]="setorDestinoListIsLoading"
                 [pagination]="setorDestinoPagination">
             </cdk-setor-autocomplete>
-            <button *ngIf="!inputModelo" [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+            <button *ngIf="!inputModelo  && form.get('processo').value"  matSuffix mat-button mat-icon-button
                     (click)="getFavoritosSetorDestino()">
                 <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
@@ -144,7 +144,7 @@
                 [pessoaListIsLoading]="pessoaDestinoListIsLoading"
                 [pagination]="pessoaDestinoPagination">
             </cdk-pessoa-autocomplete>
-            <button [disabled]="!form.get('processo').value" matSuffix mat-button mat-icon-button
+            <button *ngIf="form.get('processo').value" matSuffix mat-button mat-icon-button
                     (click)="getFavoritosPessoaDestino()">
                 <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
@@ -175,7 +175,7 @@
         Urgente
     </mat-slide-toggle>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="mode !== 'trigger-etiqueta'">
         <mat-label>Início do Prazo</mat-label>
         <input matInput formControlName="dataHoraInicioPrazo" [matDatetimepicker]="dataHoraInicioPrazo"
                required>
@@ -188,7 +188,7 @@
                             timeInterval="5"></mat-datetimepicker>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="mode !== 'trigger-etiqueta'">
         <mat-label>Final do Prazo</mat-label>
         <input matInput formControlName="dataHoraFinalPrazo" [matDatetimepicker]="dataHoraFinalPrazo"
                required>
@@ -199,6 +199,14 @@
         <mat-datetimepicker-toggle matSuffix [for]="dataHoraFinalPrazo"></mat-datetimepicker-toggle>
         <mat-datetimepicker #dataHoraFinalPrazo type="datetime" openOnFocus="true"
                             timeInterval="5"></mat-datetimepicker>
+    </mat-form-field>
+
+    <mat-form-field class="mr-8" *ngIf="mode == 'trigger-etiqueta'">
+        <mat-select formControlName="prazoFinal" placeholder="Prazo Final">
+            <div *ngFor="let criteria of prazoCriteriaList">
+                <mat-option [value]="criteria.valor">{{ criteria.descricao }}</mat-option>
+            </div>
+        </mat-select>
     </mat-form-field>
 
     <mat-form-field>
