@@ -14,6 +14,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
+import {Pagination} from '../../../../models';
 
 @Component({
     selector: 'cdk-tarefa-filter',
@@ -38,6 +39,8 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
 
     filters: any = {};
 
+    assuntoAdministrativoPagination: Pagination;
+
     /**
      * Constructor
      */
@@ -60,6 +63,8 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
             especieTarefa: [null],
             usuarioResponsavel: [null],
             unidadeResponsavel: [null],
+            interessado: [null],
+            assunto: [null],
             setorOrigem: [null],
             setorResponsavel: [null],
             usuarioConclusaoPrazo: [null],
@@ -75,6 +80,8 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
             apagadoPor: [null],
             apagadoEm: [null],
         });
+
+        this.assuntoAdministrativoPagination =  new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -85,6 +92,8 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
+        this.assuntoAdministrativoPagination.populate = ['parent'];
+
         this.form.get('postIt').valueChanges.subscribe(value => {
             if (value !== null) {
                 const andxFilter = [];
@@ -220,6 +229,38 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
                     if (this._cdkTarefaFilterService.filters.hasOwnProperty('usuarioResponsavel.id')) {
                         this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
                         delete this._cdkTarefaFilterService.filters['usuarioResponsavel.id'];
+                    }
+                }
+            }
+        });
+
+        this.form.get('interessado').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
+                        'processo.interessados.pessoa.id': `eq:${value.id}`
+                    };
+                } else {
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('processo.interessados.pessoa.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['processo.interessados.pessoa.id'];
+                    }
+                }
+            }
+        });
+
+        this.form.get('assunto').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
+                        'processo.assuntos.assuntoAdministrativo.id': `eq:${value.id}`
+                    };
+                } else {
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('processo.assuntos.assuntoAdministrativo.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['processo.assuntos.assuntoAdministrativo.id'];
                     }
                 }
             }
