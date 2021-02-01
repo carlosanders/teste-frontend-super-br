@@ -9,6 +9,7 @@ cdk-relatorio-form {
         display: flex;
         flex: 1 1 auto;
         flex-direction: row;
+        flex-wrap: wrap;
 
         mat-form-field {
             flex: 1 1 auto;

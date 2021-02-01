@@ -96,6 +96,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     mobileMode = false;
 
+    mostraCriar = false;
+
     loadingAssuntosProcessosId$: Observable<number[]>;
 
     cienciaIds$: Observable<number[]>;
@@ -656,4 +658,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     }
 
+    criarRelatorio() {
+        this._store.dispatch(new fromStore.CreateTarefa());
+        this.mostraCriar = true;
+    }
+
+    retornar() {
+        this.mostraCriar = false;
+        this.currentTarefaId = null;
+    }
 }

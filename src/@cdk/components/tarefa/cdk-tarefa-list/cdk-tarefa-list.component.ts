@@ -155,6 +155,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Output()
     loadAssuntos = new EventEmitter<any>();
 
+    @Output()
+    criaRelatorio = new EventEmitter<boolean>();
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -185,6 +188,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         'dataHoraDistribuicao',
         'dataHoraPrazo'
     ];
+
+    @Input()
+    mobileMode: boolean = false;
 
     allCampos: any[] = [
         {
@@ -473,5 +479,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doLoadAssuntos(processoId): void {
         this.loadAssuntos.emit(processoId);
+    }
+
+    criarRelatorio() {
+        this.criaRelatorio.emit(true);
     }
 }

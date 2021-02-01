@@ -22,4 +22,8 @@ cdk-acao-transicao-workflow-form {
     mat-radio-button {
         margin-right: 10px;
     }
+
+    .mat-radio-label-content {
+        white-space: normal;
+    }
 }

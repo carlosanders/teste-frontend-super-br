@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input,
+    Input, OnDestroy,
     OnInit,
     Output, ViewChild,
     ViewEncapsulation
@@ -43,7 +43,7 @@ import {getDocumentosHasLoaded} from '../../store';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProcessoViewMainSidebarComponent implements OnInit {
+export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -409,7 +409,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
             }
         });
+    }
 
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.ExpandirProcesso(false));
     }
 
     onScroll(): void {
