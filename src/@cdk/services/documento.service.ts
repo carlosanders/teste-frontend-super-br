@@ -7,7 +7,7 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
 import {Visibilidade} from '@cdk/models';
-import { ComponenteDigital } from '@cdk/models';
+import {ComponenteDigital} from '@cdk/models';
 
 import {ParentGenericService} from './parent-generic.service';
 
@@ -68,23 +68,24 @@ export class DocumentoService extends ParentGenericService<Documento> {
     /**
      * SERVICE DE COMPONENTE DIGITAL NO LUGAR ERRADO. VER SE CONSEGUE MUDAR.
      */
-    preparaConverter(documentoId: number, changes: any, context: any = '{}'): Observable<any> {
+    preparaConverter(id: number, changes: any, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.patch(
-            `${environment.api_url}${'administrativo/componente_digital'}/${documentoId}/${'convertToPdf'}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/componente_digital'}/${id}/${'convertToPdf'}` + environment.xdebug,
             JSON.stringify(changes),
             {params}
         )
-        .pipe(
-            map(response =>  
-                plainToClass(ComponenteDigital, response)[0])            
-                )
-        ;
+            .pipe(
+                map(response =>
+                    plainToClass(ComponenteDigital, response)[0])
+            )
+            ;
     }
 
     downloadP7S(id: number, changes: any, context: any = '{}'): Observable<any> {
-        return this.http.get(`${environment.api_url}administrativo/componente_digital/${id}/download_p7s` + environment.xdebug);
+        const params: HttpParams = new HttpParams().set('context', context);
+        return this.http.get(`${environment.api_url}administrativo/componente_digital/${id}/download_p7s` + environment.xdebug, {params});
     }
 
     undelete(documento: Documento, context: any = '{}'): Observable<Documento> {

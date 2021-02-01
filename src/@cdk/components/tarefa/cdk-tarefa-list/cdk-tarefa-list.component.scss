@@ -40,6 +40,10 @@ cdk-tarefa-list {
                     }
                 }
             }
+
+            > .botao-novo {
+                margin-left: 15px;
+            }
         }
 
         > .content {
@@ -51,7 +55,7 @@ cdk-tarefa-list {
             overflow-y: auto;
 
             > .loading-wrapper {
-                flex: 1 1 auto;
+                flex: 0 1 auto;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
@@ -59,7 +63,7 @@ cdk-tarefa-list {
 
                 > .loading {
                     z-index: 9999;
-                    margin-top: 48px;
+                    margin-top: 355px;
                     display: flex;
                     position: fixed;
                     transform: translate(-50%, -50%);

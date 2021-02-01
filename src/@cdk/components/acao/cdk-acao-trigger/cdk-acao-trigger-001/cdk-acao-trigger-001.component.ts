@@ -29,6 +29,9 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
     saving: boolean;
     @Input()
     errors: any;
+    @Input()
+    modeloPaginationAndx: any;
+
     @Output()
     save = new EventEmitter<Acao>();
     @Output()
@@ -56,7 +59,7 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
             contexto: [null],
             modelo: [null, [Validators.required]]
         });
-
+        this.modeloPaginationAndx = null;
         this.modeloPagination = new Pagination();
     }
 

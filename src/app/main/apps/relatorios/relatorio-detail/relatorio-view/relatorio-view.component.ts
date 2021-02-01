@@ -1,4 +1,15 @@
-import {ChangeDetectorRef, Component, EventEmitter, OnDestroy, OnInit, Output, QueryList, ViewChildren, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    EventEmitter,
+    OnDestroy,
+    OnInit,
+    Output,
+    QueryList,
+    SecurityContext,
+    ViewChildren,
+    ViewEncapsulation
+} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
@@ -84,8 +95,25 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
                     }
                     const byteArray = new Uint8Array(byteNumbers);
                     const blob = new Blob([byteArray], {type: binary.src.mimetype});
-                    const   URL = window.URL;
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                    const URL = window.URL;
+                    if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
+                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                    } else {
+                        const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
+                            downloadLink = document.createElement('a');
+                        const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
+                        downloadLink.target = '_blank';
+                        downloadLink.href = sanitizedUrl;
+                        downloadLink.download = binary.src.fileName;
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+                        document.body.removeChild(downloadLink);
+                        setTimeout(() => {
+                            // For Firefox it is necessary to delay revoking the ObjectURL
+                            window.URL.revokeObjectURL(sanitizedUrl);
+                        }, 100);
+                        this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                    }
                     this.fileName = binary.src.fileName;
                     this.select.emit(binary.src);
                 } else {

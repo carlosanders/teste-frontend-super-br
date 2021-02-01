@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input,
+    Input, OnDestroy,
     OnInit,
     Output, ViewChild,
     ViewEncapsulation
@@ -26,14 +26,14 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {getTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {MatDialog} from '@cdk/angular/material';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {DynamicService} from '../../../../../../../modules/dynamic.service';
 import {getDocumentosHasLoaded} from '../../store';
+import {MatDialog} from '@angular/material/dialog';
+import {CdkAssinaturaEletronicaPluginComponent} from '../../../../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -43,7 +43,7 @@ import {getDocumentosHasLoaded} from '../../store';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProcessoViewMainSidebarComponent implements OnInit {
+export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -409,7 +409,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
             }
         });
+    }
 
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.ExpandirProcesso(false));
     }
 
     onScroll(): void {
@@ -435,6 +438,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._changeDetectorRef.detectChanges();
 
         if (this.routerState.url.indexOf('/documento/') !== -1) {
+            let arrPrimary = [];
+            arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
+                'visualizar-processo' : 'anexar-copia');
+            arrPrimary.push(this.routerState.params.processoHandle);
+            if (this.routerState.params.chaveAcessoHandle) {
+                arrPrimary.push('chave');
+                arrPrimary.push(this.routerState.params.chaveAcessoHandle);
+            }
+            arrPrimary.push('visualizar');
+            arrPrimary.push(step + '-0');
             // Navegação do processo deve ocorrer por outlet
             this._router.navigate(
                 [
@@ -442,13 +455,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                     this.routerState.params.documentoHandle,
                     {
                         outlets: {
-                            primary: [
-                                this.routerState.url.indexOf('anexar-copia') === -1 ?
-                                    'visualizar-processo' : 'anexar-copia',
-                                this.routerState.params.processoHandle,
-                                'visualizar',
-                                step + '-0'
-                            ]
+                            primary: arrPrimary
                         }
                     }
                 ],
@@ -459,9 +466,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
             });
         } else {
-            this._router.navigateByUrl(this.routerState.url.split('/processo/')[0] +
+            let url = this.routerState.url.split('/processo/')[0] +
                 '/processo/' +
-                this.routerState.params.processoHandle + '/visualizar/' + step + '-0').then(() => {
+                this.routerState.params.processoHandle;
+            if (this.routerState.params.chaveAcessoHandle) {
+                url += '/chave/' + this.routerState.params.chaveAcessoHandle;
+            }
+            url += '/visualizar/' + step + '-0';
+            this._router.navigateByUrl(url).then(() => {
                 this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
             });
         }
@@ -717,8 +729,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
     }
 
-    doConverte(documentoId): void {
-        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    doConverte(componenteDigitalId): void {
+        this._store.dispatch(new fromStore.ConverteToPdf(componenteDigitalId));
     }
 
     doDownloadP7S(documentoId): void {

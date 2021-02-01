@@ -36,6 +36,7 @@ import {CdkBlocoDestinatarioGridModule} from '../cdk-bloco-destinatario-grid/cdk
 import {FavoritoService} from '../../../services/favorito.service';
 import {MatCardModule} from "@angular/material/card";
 import {MatRadioModule} from "@angular/material/radio";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
     declarations: [
@@ -76,6 +77,7 @@ import {MatRadioModule} from "@angular/material/radio";
         CdkBlocoDestinatarioGridModule,
         MatCardModule,
         MatRadioModule,
+        MatSelectModule,
     ],
     providers: [
         EspecieDocumentoAvulsoService,
