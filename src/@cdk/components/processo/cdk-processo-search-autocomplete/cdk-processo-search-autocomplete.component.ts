@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
+    Component, HostListener, Input,
     OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -36,6 +36,18 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
     processoSearchListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
+    private mobileMode: boolean;
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        let innerWidth = window.innerWidth;
+        if(innerWidth<=600) {
+            this.mobileMode = true;
+        }
+        else {
+            this.mobileMode = false;
+        }
+    }
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -87,6 +99,14 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             this.processoSearchList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });
+
+        let innerWidth = window.innerWidth;
+        if(innerWidth<=600) {
+            this.mobileMode = true;
+        }
+        else {
+            this.mobileMode = false;
+        }
     }
 
     displayProcessoFn(processoSearch: Processo): string {
