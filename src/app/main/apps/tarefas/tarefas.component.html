@@ -38,6 +38,10 @@
         <div class="content-card"
              [ngClass]="{'current-tarefa-selected':currentTarefaId || (loading$ | async)}">
 
+            <button mat-icon-button (click)="retornar()" *ngIf="mobileMode && mostraCriar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
             <!-- CONTENT -->
             <div class="content">
                 <div class="tarefa-list" #tarefaListElement mwlResizable [enableGhostResize]="true"
@@ -46,8 +50,8 @@
                      [fxFlex]="tarefaListSize"
                      [ngClass]="{
                         'mobile-mode': mobileMode,
-                        'current-tarefa': currentTarefaId,
-                        'no-current-tarefa': !currentTarefaId,
+                        'current-tarefa': currentTarefaId  || mostraCriar,
+                        'no-current-tarefa': !currentTarefaId && !mostraCriar,
                         'maximizado': (maximizado$ | async)
                      }">
                     <div class="loading" *ngIf="(changingFolderIds$ | async)?.length">
@@ -95,7 +99,9 @@
                                      (loadAssuntos)="doLoadAssuntos($event)"
                                      [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)"
                                      [targetHandle]="targetHandle"
-                                     [cienciaIds]="(cienciaIds$ | async)">
+                                     [cienciaIds]="(cienciaIds$ | async)"
+                                     [mobileMode]="mobileMode"
+                                     (criaRelatorio)="criarRelatorio()">
                     </cdk-tarefa-list>
                 </div>
 
@@ -104,8 +110,8 @@
                      [resizeEdges]="{bottom: false, right: true, top: false, left: true}"
                      [ngClass]="{
                         'mobile-mode': mobileMode,
-                        'current-tarefa': currentTarefaId,
-                        'no-current-tarefa': !currentTarefaId
+                        'current-tarefa': currentTarefaId || mostraCriar,
+                        'no-current-tarefa': !currentTarefaId && !mostraCriar
                      }">
                     <router-outlet></router-outlet>
                 </div>

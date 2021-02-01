@@ -38,6 +38,10 @@
         <div class="content-card"
              [ngClass]="{'current-relatorio-selected':currentRelatorioId || (loading$ | async)}">
 
+            <button mat-icon-button (click)="retornar()" *ngIf="mobileMode && mostraCriar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+
             <!-- CONTENT -->
             <div class="content">
                 <div class="relatorio-list" #relatorioListElement mwlResizable [enableGhostResize]="true"
@@ -46,9 +50,8 @@
                      [fxFlex]="relatorioListSize"
                      [ngClass]="{
                         'mobile-mode': mobileMode,
-                        'current-relatorio': currentRelatorioId,
-                        'no-current-relatorio': !currentRelatorioId,
-                        'maximizado': (maximizado$ | async)
+                        'mostra-lista': !currentRelatorioId && !mostraCriar,
+                        'esconde-lista': currentRelatorioId || mostraCriar
                      }">
                     <cdk-relatorio-list
                                      (scrolled)="onScroll()"
@@ -66,7 +69,9 @@
                                      (selected)="setCurrentRelatorio($event)"
                                      (folder)="setFolderOnSelectedRelatorios($event)"
                                      (delete)="deleteRelatorio($event)"
-                                     (etiquetarBloco)="doEtiquetarBloco()">
+                                     (etiquetarBloco)="doEtiquetarBloco()"
+                                     [mobileMode]="mobileMode"
+                                     (criaRelatorio)="criarRelatorio()">
                     </cdk-relatorio-list>
 
                 </div>
@@ -76,8 +81,9 @@
                      [fxFlex]="100"
                      [ngClass]="{
                         'mobile-mode': mobileMode,
-                        'current-relatorio': currentRelatorioId,
-                        'no-current-relatorio': !currentRelatorioId
+                        'mostra-detalhe': currentRelatorioId || mostraCriar,
+                        'esconde-detalhe': !currentRelatorioId && !mostraCriar
+
                      }">
                     <router-outlet></router-outlet>
                 </div>

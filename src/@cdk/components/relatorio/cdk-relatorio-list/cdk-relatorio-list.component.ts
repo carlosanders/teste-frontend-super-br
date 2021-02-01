@@ -43,6 +43,9 @@ export class CdkRelatorioListComponent {
     @Input()
     selectedIds: number[] = [];
 
+    @Input()
+    mobileMode: boolean = false;
+
     @Output()
     changeSelectedIds = new EventEmitter();
 
@@ -75,6 +78,9 @@ export class CdkRelatorioListComponent {
 
     @Output()
     etiquetarBloco = new EventEmitter<any>();
+
+    @Output()
+    criaRelatorio = new EventEmitter<boolean>();
 
     listFilter: any;
     listSort: {} = {};
@@ -194,4 +200,7 @@ export class CdkRelatorioListComponent {
         this._cdkSidebarService.getSidebar('cdk-relatorio-filter').toggleOpen();
     }
 
+    criarRelatorio() {
+        this.criaRelatorio.emit(true);
+    }
 }
