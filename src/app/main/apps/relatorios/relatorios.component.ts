@@ -92,6 +92,8 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     mobileMode = false;
 
+    mostraCriar = false;
+
     PesquisaRelatorio: string;
 
     @ViewChild('relatorioListElement', {read: ElementRef, static: true}) relatorioListElement: ElementRef;
@@ -387,4 +389,13 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/relatorios/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
+    criarRelatorio() {
+        this._store.dispatch(new fromStore.CreateRelatorio());
+        this.mostraCriar = true;
+    }
+
+    retornar() {
+        this.mostraCriar = false;
+        this.currentRelatorioId = null;
+    }
 }
