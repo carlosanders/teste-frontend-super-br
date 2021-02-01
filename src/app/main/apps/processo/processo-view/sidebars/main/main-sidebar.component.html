@@ -189,6 +189,7 @@
             <div class="minutas" *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async) && !(loadingDocumentosExcluidos$ | async)) && tarefa">
 
                 <cdk-componente-digital-card-list #ckdUpload
+                                                  [mode]="'processo'"
                                                   [tarefaOrigem]="tarefaOrigem"
                                                   (completed)="onComplete()">
                 </cdk-componente-digital-card-list>

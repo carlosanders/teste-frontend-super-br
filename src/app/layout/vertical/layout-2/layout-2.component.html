@@ -84,13 +84,18 @@
 <!-- / SIDE PANEL -->
 
 <!-- AJUDA PANEL -->
-<cdk-sidebar name="ajudaPanel" position="right" class="ajuda-panel">
+<cdk-sidebar name="ajudaPanel" position="right" [ngClass]="{'ajuda-panel': !mobileMode, 'ajuda-panel-mobile': mobileMode}">
     <ajuda-panel></ajuda-panel>
 </cdk-sidebar>
 <!-- / AJUDA PANEL -->
 
 <!-- QUICK PANEL -->
-<cdk-sidebar name="quickPanel" position="right" class="quick-panel">
+<cdk-sidebar name="quickPanel" position="right" class="quick-panel"
+             [folded]="true"
+             lockedOpen="gt-md"
+             [foldedWidth]="56"
+             [foldedAutoTriggerOnHover]="false"
+             [hidden]="false">
     <quick-panel></quick-panel>
 </cdk-sidebar>
 <!-- / QUICK PANEL -->

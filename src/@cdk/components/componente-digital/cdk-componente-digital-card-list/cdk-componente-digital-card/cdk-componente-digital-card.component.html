@@ -1,6 +1,7 @@
-<div [ngClass]="!componenteDigital.canRetry ? 'content' : 'content borda-erro'">
+<div [ngClass]="{'borda-erro': componenteDigital.canRetry, 'processo': mode === 'processo', 'content': mode === 'tarefa'}">
 
-    <mat-checkbox class="mr-8 ml-8 select" [checked]="selected"
+    <mat-checkbox class="mr-8 ml-8 select" *ngIf="mode === 'tarefa'"
+                  [checked]="selected"
                   (change)="toggleInSelected(componenteDigital.id)"
                   (click)="$event.stopPropagation();">
     </mat-checkbox>

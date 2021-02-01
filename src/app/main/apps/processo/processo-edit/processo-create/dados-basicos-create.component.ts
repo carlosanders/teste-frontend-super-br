@@ -78,6 +78,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     isSavingAssunto$: Observable<boolean>;
     assunto: Assunto;
     formAssunto: FormGroup;
+    assuntoAdministrativoPagination: Pagination;
     assuntosDeletingIds$: Observable<any>;
     assuntosDeletedIds$: Observable<any>;
     assuntosLoading$: Observable<boolean>;
@@ -165,6 +166,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.assuntosDeletedIds$ = this._store.pipe(select(fromStore.getAssuntosDeletedIds));
         this.assuntosLoading$ = this._store.pipe(select(fromStore.getAssuntosIsLoading));
         this.assuntosPagination$ = this._store.pipe(select(fromStore.getAssuntosPagination));
+        this.assuntoAdministrativoPagination = new Pagination();
 
         this.isSavingInteressado$ = this._store.pipe(select(getIsSavingInteressado));
         this.interessados$ = this._store.pipe(select(fromStore.getInteressados));
@@ -239,6 +241,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             processo: [null],
             processoVinculado: [null, [Validators.required]],
             modalidadeVinculacaoProcesso: [null, [Validators.required]],
+            checkAnexacao: [null, [Validators.required]],
             observacao: [null, [Validators.maxLength(255)]]
         });
 
@@ -345,6 +348,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         if (this.processo.id) {
             this.assunto.processo = this.processo;
         }
+        this.assuntoAdministrativoPagination.populate = ['parent'];
 
         this.assuntos$.pipe(
             takeUntil(this._unsubscribeAll),

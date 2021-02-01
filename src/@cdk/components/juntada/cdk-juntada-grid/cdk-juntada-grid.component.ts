@@ -433,6 +433,7 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
                             downloadLink = document.createElement('a');
                         downloadLink.target = '_blank';
                         downloadLink.href = downloadUrl;
+                        downloadLink.download = componenteDigital.fileName;
                         document.body.appendChild(downloadLink);
                         downloadLink.click();
                         document.body.removeChild(downloadLink);

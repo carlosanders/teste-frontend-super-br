@@ -19,6 +19,7 @@ import {CdkModalidadeVinculacaoProcessoGridsearchModule} from '../../modalidade-
 import {CdkModalidadeVinculacaoProcessoAutocompleteModule} from '../../modalidade-vinculacao-processo/cdk-modalidade-vinculacao-processo-autocomplete/cdk-modalidade-vinculacao-processo-autocomplete.module';
 import {CdkVinculacaoProcessoFormComponent} from './cdk-vinculacao-processo-form.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [
@@ -42,6 +43,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
         CdkSharedModule,
         MatSlideToggleModule,
+        NgxUpperCaseDirectiveModule,
     ],
     providers: [
         ProcessoService,

@@ -204,7 +204,7 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
             duration: 3000,
-            panelClass: ['fuse-white-bg'],
+            panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'forward',
                 text: 'Redistribuindo'

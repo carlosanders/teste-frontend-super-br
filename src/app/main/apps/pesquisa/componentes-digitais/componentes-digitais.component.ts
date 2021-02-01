@@ -34,7 +34,7 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
     private screen$: Observable<any>;
-    private mobileMode: boolean;
+    mobileMode: boolean;
     private _unsubscribeAll: Subject<any> = new Subject();
 
     private _profile: any;

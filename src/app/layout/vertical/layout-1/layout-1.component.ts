@@ -20,18 +20,14 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
     private _unsubscribeAll: Subject<any>;
 
     private innerWidth: any;
-    private mobileMode: boolean;
+    mobileMode: boolean;
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
         this.innerWidth = window.innerWidth;
-        if(innerWidth<=600) {
-            this.mobileMode = true;
-        }
-        else {
-            this.mobileMode = false;
-        }
+        this.mobileMode = innerWidth <= 600;
     }
+
     /**
      * Constructor
      *
@@ -65,12 +61,7 @@ export class VerticalLayout1Component implements OnInit, OnDestroy
             });
 
         this.innerWidth = window.innerWidth;
-        if(innerWidth<=600) {
-            this.mobileMode = true;
-        }
-        else {
-            this.mobileMode = false;
-        }
+        this.mobileMode = innerWidth <= 600;
     }
 
     /**

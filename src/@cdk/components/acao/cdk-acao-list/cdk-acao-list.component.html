@@ -13,7 +13,9 @@
     </div>
 
     <div class="items" *ngIf="acoes.length > 0 && !loading">
-        <cdk-acao-list-item matRipple *ngFor="let acao of acoes" [acao]="acao"
+        <cdk-acao-list-item matRipple *ngFor="let acao of acoes"
+                            [acao]="acao"
+                            [triggerAcao]="getTriggerAcao(acao)"
                             [deleting]="deletingIds.length > 0 && deletingIds.indexOf(acao.id) > -1"
                             [total]="acoes.length"
                             (delete)="doDeleteacao($event)"

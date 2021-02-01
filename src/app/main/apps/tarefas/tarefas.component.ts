@@ -428,7 +428,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
             duration: 3000,
-            panelClass: ['fuse-white-bg'],
+            panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
                 text: 'Deletado(a)'
@@ -569,7 +569,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
             duration: 3000,
-            panelClass: ['fuse-white-bg'],
+            panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'check',
                 text: 'Ciência'

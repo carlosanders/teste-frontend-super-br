@@ -130,12 +130,18 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'low_priority',
                 link: 'workflows',
                 role: ['ROLE_ADMIN']
+            },
+            {
+                nome: 'Modalidade Ação Etiqueta',
+                icon: 'label',
+                link: 'modalidade-acao-etiqueta',
+                role: ['ROLE_ADMIN']
             }
         ];
 
         this.links['administrativo'] = CdkUtils.sortArraySideBar(links);
         const path = 'app/main/apps/admin/sidebars/main';
-
+ 
         modulesConfig.forEach((module) => {
             if (module.sidebars.hasOwnProperty(path)) {
                 let modulesLink = [];
@@ -144,7 +150,6 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 this.links[module.name] = modulesLink;
             }
         });
-        console.log(this.links);
     }
 
     // -----------------------------------------------------------------------------------------------------

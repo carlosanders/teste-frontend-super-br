@@ -1,0 +1,10 @@
+<cdk-modalidade-acao-etiqueta-grid
+        [loading]="loading"
+        [modalidadeAcaoEtiquetas]="modalidadeAcaoEtiquetas"
+        [displayedColumns]="['id', 'valor', 'descricao', 'modalidadeEtiqueta.valor', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-modalidade-acao-etiqueta-grid>

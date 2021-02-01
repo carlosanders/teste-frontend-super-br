@@ -1,62 +1,62 @@
-       <div class="accent"> 
-        <div class="header">
-            <h1 class="m-16">Ajuda</h1>
-        </div>
+<div class="accent">
+    <div class="header">
+        <h1 class="m-16">Ajuda</h1>
     </div>
-    
+</div>
 
-    
-    <div class="content">
 
-        <div class="form">
-            <form name="form" [formGroup]="form"
-                    (submit)="pesquisar()">
+<div class="content">
 
-                <div>
-                    <mat-form-field fxFlex="100">
-                        <div >
-                            <input matInput placeholder="Pesquisa" formControlName="pesquisa" maxlength="255" required autocomplete="off">
-                        </div>
-                    </mat-form-field>
-                </div>
-            </form>
-        </div>
-        
-        <div class="mt-16" *ngIf="card === 'form'">
-            <table *ngIf="resultado.length > 0">
-                <tr *ngFor="let topico of resultado">
-                    <td>
-                        <div class="topico-titulo mb-4" (click)="carregar(topico)">
-                            {{topico.titulo}}
-                        </div>
-                        <div class="topico-descricao mb-16">
-                            {{topico.descricao}}
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-            </table>
-        </div>
+    <div class="form">
+        <form name="form" [formGroup]="form"
+              (submit)="pesquisar()">
 
-        <div *ngIf="isSubmited && resultado.length === 0">
-            <p>Nenhum resultado encontrado</p>
-        </div>
-
-        <div *ngIf="card === 'modulo'">
-            <button class="back" mat-icon-button
-                    (click)="back()"
-                    aria-label="voltar"
-                    matTooltip="Voltar">
-                <mat-icon>arrow_back</mat-icon>
-            </button>
-        </div>
-
-        <div #container></div>
+            <div>
+                <mat-form-field fxFlex="100">
+                    <div>
+                        <input matInput placeholder="Pesquisa" formControlName="pesquisa" maxlength="255" required
+                               autocomplete="off">
+                    </div>
+                </mat-form-field>
+            </div>
+        </form>
     </div>
-    <div class="footer">
-        <div class="options">      
-            <p style="text-align: center">
-                {{email}} | <a href={{wiki}} target="_blank">SapiensWiki</a>
-            </p>
-        </div>
+
+    <div class="mt-16" *ngIf="card === 'form'">
+        <table *ngIf="resultado.length > 0">
+            <tr *ngFor="let topico of resultado">
+                <td>
+                    <div class="topico-titulo mb-4" (click)="carregar(topico)">
+                        {{topico.titulo}}
+                    </div>
+                    <div class="topico-descricao mb-16">
+                        {{topico.descricao}}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+        </table>
     </div>
+
+    <div *ngIf="isSubmited && resultado.length === 0">
+        <p>Nenhum resultado encontrado</p>
+    </div>
+
+    <div *ngIf="card === 'modulo'">
+        <button class="back" mat-icon-button
+                (click)="back()"
+                aria-label="voltar"
+                matTooltip="Voltar">
+            <mat-icon>arrow_back</mat-icon>
+        </button>
+    </div>
+
+    <div #container></div>
+</div>
+<div class="footer">
+    <div class="options">
+        <p style="text-align: center">
+            {{email}} | <a href={{wiki}} target="_blank">SapiensWiki</a>
+        </p>
+    </div>
+</div>
