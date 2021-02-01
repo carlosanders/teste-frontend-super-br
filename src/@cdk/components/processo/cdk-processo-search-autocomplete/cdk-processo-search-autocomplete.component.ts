@@ -36,7 +36,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
     processoSearchListIsLoading: boolean;
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
-    private mobileMode: boolean;
+    mobileMode: boolean;
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
