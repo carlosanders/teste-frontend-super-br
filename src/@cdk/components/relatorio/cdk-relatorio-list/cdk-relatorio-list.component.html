@@ -13,6 +13,13 @@
                       [indeterminate]="isIndeterminate">
         </mat-checkbox>
 
+        <button class="accent botao-novo" mat-icon-button *ngIf="mobileMode"
+                (click)="criarRelatorio()"
+                aria-label="novo"
+                matTooltip="Novo">
+            <mat-icon>add</mat-icon>
+        </button>
+
         <div class="toolbar-separator" *ngIf="selectedIds.length"></div>
 
         <div *ngIf="selectedIds?.length">

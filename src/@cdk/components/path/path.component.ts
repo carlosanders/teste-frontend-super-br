@@ -72,7 +72,7 @@ export class PathComponent implements OnInit {
         this.mapaNome.set('arvore', 'árvore');
         this.mapaNome.set('classificacoes', 'classificações');
         this.mapaNome.set('especie-atividades', 'espécie atividades');
-        this.mapaNome.set('especie-processo', 'espécie processos');
+        this.mapaNome.set('especies-processo', 'espécie processos');
         this.mapaNome.set('especie-relevancias', 'espécie relevâncias');
         this.mapaNome.set('especie-setor', 'espécie setores');
         this.mapaNome.set('especie-tarefas', 'espécie tarefas');
@@ -85,6 +85,7 @@ export class PathComponent implements OnInit {
         this.mapaNome.set('repositorios', 'teses');
         this.mapaNome.set('seguranca', 'seguranças');
         this.mapaNome.set('usuarios', 'usuários');
+        this.mapaNome.set('vinculacao-pessoa-usuario', 'usuários externos');
     }
 
     pluralParaSigular(palavra): string {

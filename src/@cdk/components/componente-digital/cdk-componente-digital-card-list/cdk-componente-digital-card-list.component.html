@@ -4,6 +4,8 @@
                                  [componenteDigital]="componenteDigital"
                                  [selected]="selectedIds.indexOf(componenteDigital.id) > -1"
                                  (cancel)="onCancel($event)"
+                                 [ngClass]="{'processo': mode === 'processo'}"
+                                 [mode]="mode"
                                  (retry)="onRetry($event)"
                                  (clicked)="onClick($event)"
                                  (changedSelected)="toggleInSelected($event)">

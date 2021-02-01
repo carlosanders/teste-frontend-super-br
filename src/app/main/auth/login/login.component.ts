@@ -7,7 +7,7 @@ import { cdkAnimations } from '@cdk/animations';
 import * as fromStore from 'app/main/auth/login/store';
 import { getLoginAppState } from 'app/main/auth/login/store';
 import {environment} from "../../../../environments/environment";
-import {getRouterState} from "../../../store/reducers";
+import {getRouterState} from "../../../store";
 
 @Component({
     selector     : 'login',
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit
     getLoginState: Observable<any>;
     errorMessage: string | null;
     loading: boolean;
-    certificadoDigital = false;
+    certificadoDigital = '';
     routerState: any;
 
     /**
@@ -91,7 +91,7 @@ export class LoginComponent implements OnInit
         });
 
         if (environment.base_url_x509) {
-            this.certificadoDigital = true;
+            this.certificadoDigital = environment.base_url_x509;
         }
 
         if (this.routerState.params['token'] &&
@@ -107,7 +107,7 @@ export class LoginComponent implements OnInit
 
     onSubmit(): void {
         const payload = {
-            username: this.loginForm.controls.username.value,
+            username: this.loginForm.controls.username.value.replace(/\D/g,''),
             password: this.loginForm.controls.password.value
         };
         this.loading = true;

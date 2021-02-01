@@ -12,7 +12,7 @@ export class EsqueciSenhaService {
     }
 
     esqueciSenha(username: string, email: string): Observable<any> {
-        const url = `${environment.base_url}auth/recoverPassword` + environment.xdebug;
+        const url = `${environment.base_url}auth/recover_password` + environment.xdebug;
         return this.http.post(url, {username, email});
     }
 }
