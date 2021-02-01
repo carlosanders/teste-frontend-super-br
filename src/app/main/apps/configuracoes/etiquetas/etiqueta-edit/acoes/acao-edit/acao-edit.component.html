@@ -15,15 +15,15 @@
               inicioCaminho="etiquetas">
         </path>
     </div>
-        <div class="items" *ngIf="triggerAcaoList.length > 0">
-            <div class="trigger-acao-item" *ngFor="let triggerAcao of triggerAcaoList"
-                 (click)="selectTrigger(triggerAcao)">
+        <div class="items" *ngIf="modalidadeAcaoEtiquetaList.length > 0">
+            <div class="trigger-acao-item" *ngFor="let modalidadeAcaoEtiqueta of modalidadeAcaoEtiquetaList"
+                 (click)="selectTrigger(modalidadeAcaoEtiqueta)">
                 <div class="info">
                     <div class="title">
-                        <span>{{triggerAcao.valor}}</span>
+                        <span>{{modalidadeAcaoEtiqueta.valor}}</span>
                     </div>
                     <div class="body mt-4">
-                        <span>{{triggerAcao.descricao}}</span>
+                        <span>{{modalidadeAcaoEtiqueta.descricao}}</span>
                     </div>
                 </div>
 
@@ -34,7 +34,7 @@
                 </div>
             </div>
         </div>
-        <div class="no-acoes-text" *ngIf="triggerAcaoList.length === 0">
+        <div class="no-acoes-text" *ngIf="modalidadeAcaoEtiquetaList.length === 0">
             <span class="hint-text">{{ 'Nenhuma ação disponível!' }}</span>
         </div>
 </div>

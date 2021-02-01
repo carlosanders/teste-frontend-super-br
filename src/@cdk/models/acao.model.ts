@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import { Usuario } from '@cdk/models';
+import {ModalidadeAcaoEtiqueta, Usuario} from '@cdk/models';
 import { Etiqueta } from '@cdk/models';
 
 export class Acao {
@@ -14,11 +14,13 @@ export class Acao {
 
     contexto?: string;
 
-    trigger?: string;
-
     @Type(() => Etiqueta)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
     etiqueta?: Etiqueta;
+
+    @Type(() => ModalidadeAcaoEtiqueta)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    modalidadeAcaoEtiqueta?: ModalidadeAcaoEtiqueta;c
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -55,12 +57,12 @@ export class Acao {
         this.uuid = null;
         this.etiqueta = null;
         this.contexto = null;
-        this.trigger = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.modalidadeAcaoEtiqueta = null;
     }
 }
