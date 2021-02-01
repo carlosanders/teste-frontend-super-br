@@ -286,15 +286,15 @@
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
                                     *ngIf="!minuta.apagadoEm"
-                                    (click)="doConverte(minuta.id)"
+                                    (click)="doConverte(minuta.componentesDigitais[0]?.id)"
                                     mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Converter em PDF</span>
                             </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7S(minuta.id)"
+                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7S(minuta.componentesDigitais[0]?.id)"
                                     mat-menu-item>
                                 <mat-icon color="accent">get_app</mat-icon>
-                                <span>Converter em P7S</span>
+                                <span>Exportar como P7S</span>
                             </button>
                             <button
                                 *ngIf="minuta.documentoAvulsoRemessa && minuta.documentoAvulsoRemessa.dataHoraResposta && !minuta.apagadoEm"
