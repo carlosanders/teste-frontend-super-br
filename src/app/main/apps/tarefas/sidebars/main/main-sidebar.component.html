@@ -121,7 +121,7 @@
         <div *ngIf="setoresCoordenacao.length > 0" class="nav-subheader">COORDENAÇÃO</div>
 
         <div class="nav-item" *ngFor="let setor of setoresCoordenacao">
-            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
+            <a class="nav-link-setor" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ 'group' }}</mat-icon>
                 <span>{{setor.nome | titlecase}}</span>

@@ -7,6 +7,7 @@
 <cdk-acao-list
         [loading]="(loading$ | async)"
         [acoes]="acoes"
+        [triggerAcaoList]="triggerAcaoList"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'delete']"

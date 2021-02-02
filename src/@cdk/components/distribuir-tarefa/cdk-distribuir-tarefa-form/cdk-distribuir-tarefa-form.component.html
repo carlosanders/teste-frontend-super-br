@@ -1,0 +1,133 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+    <h2>
+        Distribuição de Tarefa
+    </h2>
+    <mat-card>
+        <mat-card-subtitle>Responsável</mat-card-subtitle>
+        <mat-slide-toggle formControlName="distribuicaoAutomatica">Distribuição Automática</mat-slide-toggle>
+
+        <mat-form-field>
+            <input matInput placeholder="Unidade Responsável"
+                   formControlName="unidadeResponsavel"
+                   [matAutocomplete]="unidadeResponsavel.autocomplete" required
+                   (blur)="checkUnidadeResponsavel()">
+            <cdk-setor-autocomplete
+                #unidadeResponsavel="setorAutocomplete"
+                [control]="form.get('unidadeResponsavel')"
+                [setorList]="unidadeResponsavelList"
+                [setorListIsLoading]="unidadeResponsavelListIsLoading"
+                [pagination]="unidadeResponsavelPagination">
+            </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button (click)="getFavoritosUnidadeResponsavel()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showUnidadeResponsavelGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('unidadeResponsavel').hasError('formError')">
+                {{form.get('unidadeResponsavel').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field
+            *ngIf="!form.get('setorResponsavel').disabled">
+            <input matInput placeholder="Setor Responsável"
+                   formControlName="setorResponsavel"
+                   [matAutocomplete]="setor.autocomplete" required
+                   [readonly]="!editable"
+                   (blur)="checkSetorResponsavel()">
+            <cdk-setor-autocomplete
+                #setor="setorAutocomplete"
+                [setorList]="setorResponsavelList"
+                [setorListIsLoading]="setorResponsavelListIsLoading"
+                [control]="form.get('setorResponsavel')"
+                [pagination]="setorResponsavelPagination">
+            </cdk-setor-autocomplete>
+            <button [disabled]="!form.get('unidadeResponsavel').value || !editable" matSuffix mat-button mat-icon-button
+                    (click)="getFavoritosSetorResponsavel()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
+            <button matSuffix mat-button mat-icon-button [disabled]="!editable"
+                    (click)="showSetorTree()">
+                <mat-icon matTooltip="Árvore de Setores">subdirectory_arrow_right</mat-icon>
+            </button>
+            <button *ngIf="form.get('setorResponsavel').enabled" [disabled]="!editable"
+                    matSuffix mat-button mat-icon-button
+                    (click)="showSetorResponsavelGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('setorResponsavel').hasError('formError')">
+                {{form.get('setorResponsavel').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="!form.get('distribuicaoAutomatica').value">
+            <input matInput placeholder="Usuário Responsável"
+                   formControlName="usuarioResponsavel"
+                   [matAutocomplete]="usuario.autocomplete" required
+                   (blur)="checkUsuarioResponsavel()">
+            <cdk-usuario-autocomplete
+                #usuario="usuarioAutocomplete"
+                [control]="form.get('usuarioResponsavel')"
+                [usuarioList]="usuarioResponsavelList"
+                [usuarioListIsLoading]="usuarioResponsavelListIsLoading"
+                [pagination]="usuarioResponsavelPagination">
+            </cdk-usuario-autocomplete>
+
+            <button [disabled]="!form.get('setorResponsavel').value" matSuffix mat-button mat-icon-button
+                    (click)="getFavoritosUsuarioResponsavel()">
+                <mat-icon matTooltip="Favoritos">star</mat-icon>
+            </button>
+
+            <button *ngIf="form.get('usuarioResponsavel').enabled" matSuffix mat-button mat-icon-button
+                    (click)="showUsuarioGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+
+            <mat-error *ngIf="form.get('usuarioResponsavel').hasError('formError')">
+                {{form.get('usuarioResponsavel').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+    </mat-card>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid || !valid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+    <div>{{form.errors}}</div>
+</form>
+
+<cdk-setor-gridsearch
+    *ngIf="activeCard === 'unidade-gridsearch'"
+    [pagination]="unidadeResponsavelPagination"
+    (selected)="selectUnidadeResponsavel($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-setor-gridsearch
+    *ngIf="activeCard === 'setor-gridsearch'"
+    [pagination]="setorResponsavelPagination"
+    (selected)="selectSetorResponsavel($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-usuario-gridsearch
+    *ngIf="activeCard === 'usuario-gridsearch'"
+    [pagination]="usuarioResponsavelPagination"
+    (selected)="selectUsuario($event)"
+    (cancel)="cancel()">
+</cdk-usuario-gridsearch>
+
+<cdk-setor-tree
+    *ngIf="activeCard === 'setor-tree'"
+    (selected)="selectSetorResponsavel($event)"
+    (cancel)="cancel()">
+</cdk-setor-tree>

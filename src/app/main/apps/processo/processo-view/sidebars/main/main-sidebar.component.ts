@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input,
+    Input, OnDestroy,
     OnInit,
     Output, ViewChild,
     ViewEncapsulation
@@ -26,14 +26,14 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {getTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {MatDialog} from '@cdk/angular/material';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {DynamicService} from '../../../../../../../modules/dynamic.service';
 import {getDocumentosHasLoaded} from '../../store';
+import {MatDialog} from '@angular/material/dialog';
+import {CdkAssinaturaEletronicaPluginComponent} from '../../../../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -43,7 +43,7 @@ import {getDocumentosHasLoaded} from '../../store';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ProcessoViewMainSidebarComponent implements OnInit {
+export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -135,6 +135,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
 
     @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
+    @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
+
     minutasLoading$: Observable<boolean>;
 
     minutasSaving$: Observable<boolean>;
@@ -172,7 +174,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     ) {
         this.form = this._formBuilder.group({
             volume: [null],
-            tipoDocumento: [null]
+            tipoDocumento: [null],
+            tipoDocumentoMinutas: [null]
         });
 
         this.formEditor = this._formBuilder.group({
@@ -409,7 +412,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
                 this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
             }
         });
+    }
 
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.ExpandirProcesso(false));
     }
 
     onScroll(): void {
@@ -651,20 +657,20 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
     }
 
     checkTipoDocumento(): void {
-        const value = this.form.get('tipoDocumento').value;
+        const value = this.form.get('tipoDocumentoMinutas').value;
         if (!value || typeof value !== 'object') {
             this.habilitarTipoDocumentoSalvar = false;
-            this.form.get('tipoDocumento').setValue(null);
+            this.form.get('tipoDocumentoMinutas').setValue(null);
         } else {
             this.habilitarTipoDocumentoSalvar = true;
         }
     }
 
     salvarTipoDocumento(documento: Documento): void {
-        const tipoDocumento = this.form.get('tipoDocumento').value;
+        const tipoDocumento = this.form.get('tipoDocumentoMinutas').value;
         this.menuTrigger.closeMenu();
-        // @ts-ignore
-        this.alterarTipoDocumento.emit({documento: documento, tipoDocumento: tipoDocumento});
+        this.doAlterarTipoDocumento({documento: documento, tipoDocumento: tipoDocumento});
+        this.form.get('tipoDocumentoMinutas').setValue(null);
     }
 
     doVerResposta(documento): void {
@@ -726,8 +732,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit {
         this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
     }
 
-    doConverte(documentoId): void {
-        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    doConverte(componenteDigitalId): void {
+        this._store.dispatch(new fromStore.ConverteToPdf(componenteDigitalId));
     }
 
     doDownloadP7S(documentoId): void {

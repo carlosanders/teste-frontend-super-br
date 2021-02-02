@@ -74,7 +74,7 @@ processo-view-main-sidebar {
         }
 
         > .loading {
-            flex: 1 1 auto;
+            flex: 0 1 auto;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -82,7 +82,7 @@ processo-view-main-sidebar {
 
             > .juntada-list-loading {
                 z-index: 9999;
-                margin-top: 48px;
+                margin-top: 225px;
                 display: flex;
                 position: fixed;
                 transform: translate(-50%, -50%);

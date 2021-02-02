@@ -9,7 +9,6 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         CdkAssinaturaEletronicaPluginComponent
     ],
     imports: [
-
         MatDialogModule,
         MatButtonModule,
         MatFormFieldModule,

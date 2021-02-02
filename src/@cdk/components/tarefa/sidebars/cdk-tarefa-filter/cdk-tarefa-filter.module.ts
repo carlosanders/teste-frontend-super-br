@@ -20,6 +20,9 @@ import {CdkEspecieTarefaAutocompleteModule} from '../../../especie-tarefa/cdk-es
 import {CdkSetorAutocompleteModule} from '../../../setor/cdk-setor-autocomplete/cdk-setor-autocomplete.module';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
+import {CdkPessoaAutocompleteModule} from '../../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
+import {CdkAssuntoAutocompleteModule} from '../../../assunto/cdk-assunto-autocomplete/cdk-assunto-autocomplete.module';
+import {CdkAssuntoAdministrativoAutocompleteModule} from '../../../assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
 
 @NgModule({
     declarations: [
@@ -45,6 +48,9 @@ import {MatDividerModule} from '@angular/material/divider';
         CdkSetorAutocompleteModule,
         MatExpansionModule,
         MatDividerModule,
+        CdkPessoaAutocompleteModule,
+        CdkAssuntoAutocompleteModule,
+        CdkAssuntoAdministrativoAutocompleteModule,
     ],
     providers: [
         EspecieTarefaService

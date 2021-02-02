@@ -7,7 +7,7 @@
         <mat-slide-toggle class="mb-16" formControlName="certificadoDigital">
             Usar Certificado Digital
         </mat-slide-toggle>
-        <mat-form-field fxFlex="100" *ngIf="!form.get('certificadoDigital').value">
+        <mat-form-field fxFlex="100" [hidden]="form.get('certificadoDigital').value">
             <mat-label>Senha</mat-label>
             <input tabindex="-1" type="password"
                    matInput #password
@@ -15,10 +15,10 @@
                    formControlName="password"
                    minlength="8"
                    maxlength="16">
-            <mat-error *ngIf="form.get('password').hasError('required')">Campo obrigatório!</mat-error>
-            <mat-error *ngIf="form.get('password').hasError('minlength')">Campo deve ter no mínimo 8 dígitos!
+            <mat-error [hidden]="!form.get('password').hasError('required')">Campo obrigatório!</mat-error>
+            <mat-error [hidden]="!form.get('password').hasError('minlength')">Campo deve ter no mínimo 8 dígitos!
             </mat-error>
-            <mat-error *ngIf="form.get('password').hasError('maxlength')">Campo deve ter no máximo 16 dígitos!
+            <mat-error [hidden]="!form.get('password').hasError('maxlength')">Campo deve ter no máximo 16 dígitos!
             </mat-error>
         </mat-form-field>
     </div>

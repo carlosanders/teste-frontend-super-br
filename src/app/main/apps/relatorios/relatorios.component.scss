@@ -112,8 +112,12 @@ relatorios {
                         }
 
                         &.mobile-mode {
+                            max-width: 100% !important;
 
-                            &.current-relatorio {
+                            &.mostra-lista {
+                                display: flex;
+                            }
+                            &.esconde-lista {
                                 display: none !important;
                             }
                         }
@@ -124,13 +128,16 @@ relatorios {
                         display: flex;
 
                         &.mobile-mode {
+                            max-width: 100% !important;
 
-                            &.no-current-relatorio {
+                            &.mostra-detalhe {
+                                display: flex;
+                            }
+                            &.esconde-detalhe {
                                 display: none !important;
                             }
                         }
                     }
-
                 }
             }
         }
