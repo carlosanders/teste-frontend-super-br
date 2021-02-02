@@ -3,13 +3,14 @@ import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular
 
 import {select, Store} from '@ngrx/store';
 
-import {Observable, of} from 'rxjs';
+import {forkJoin, Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {AcaoEditAppState} from '../reducers';
 import * as fromStore from '../index';
 import {getHasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
+import {getModalidadeAcaoEtiquetaListLoaded} from "../selectors/modalidade-acao-etiqueta.selectors";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -41,7 +42,10 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<boolean>}
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-        return this.getAcao().pipe(
+        return forkJoin([
+            this.getAcao(),
+            this.getModalidadeAcaoEtiqueta(),
+        ]).pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
@@ -65,6 +69,35 @@ export class ResolveGuard implements CanActivate {
                         }));
                     }
 
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * @returns {Observable<any>}
+     */
+    getModalidadeAcaoEtiqueta(): any {
+        return this._store.pipe(
+            select(getModalidadeAcaoEtiquetaListLoaded),
+            tap((loaded: any) => {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    const params = {
+                        gridFilter: {},
+                        limit: 10,
+                        offset: 0,
+                        sort: {criadoEm: 'DESC'},
+                        populate: [
+                            'populateAll',
+                            'modalidadeEtiqueta'
+                        ]
+                    };
+
+                    this._store.dispatch(new fromStore.GetModalidadesAcaoEtiqueta(params));
                 }
             }),
             filter((loaded: any) => {
