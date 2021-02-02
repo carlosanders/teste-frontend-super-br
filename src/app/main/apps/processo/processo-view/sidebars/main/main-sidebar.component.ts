@@ -135,6 +135,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
 
+    @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
+
     minutasLoading$: Observable<boolean>;
 
     minutasSaving$: Observable<boolean>;
@@ -172,7 +174,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     ) {
         this.form = this._formBuilder.group({
             volume: [null],
-            tipoDocumento: [null]
+            tipoDocumento: [null],
+            tipoDocumentoMinutas: [null]
         });
 
         this.formEditor = this._formBuilder.group({
@@ -654,20 +657,20 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     checkTipoDocumento(): void {
-        const value = this.form.get('tipoDocumento').value;
+        const value = this.form.get('tipoDocumentoMinutas').value;
         if (!value || typeof value !== 'object') {
             this.habilitarTipoDocumentoSalvar = false;
-            this.form.get('tipoDocumento').setValue(null);
+            this.form.get('tipoDocumentoMinutas').setValue(null);
         } else {
             this.habilitarTipoDocumentoSalvar = true;
         }
     }
 
     salvarTipoDocumento(documento: Documento): void {
-        const tipoDocumento = this.form.get('tipoDocumento').value;
+        const tipoDocumento = this.form.get('tipoDocumentoMinutas').value;
         this.menuTrigger.closeMenu();
-        // @ts-ignore
-        this.alterarTipoDocumento.emit({documento: documento, tipoDocumento: tipoDocumento});
+        this.doAlterarTipoDocumento({documento: documento, tipoDocumento: tipoDocumento});
+        this.form.get('tipoDocumentoMinutas').setValue(null);
     }
 
     doVerResposta(documento): void {

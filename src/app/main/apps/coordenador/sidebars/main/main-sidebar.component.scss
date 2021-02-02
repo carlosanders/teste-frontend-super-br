@@ -27,5 +27,9 @@ coordenador-main-sidebar {
         overflow-y: auto;
         padding-top: 8px;
 
+        .nav .nav-subheader {
+            white-space: pre-wrap;
+        }
+
     }
 }
