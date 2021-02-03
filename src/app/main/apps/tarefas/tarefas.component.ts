@@ -61,6 +61,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     tarefas$: Observable<Tarefa[]>;
 
     loading$: Observable<boolean>;
+    togglingUrgenteIds$: Observable<number[]>;
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
@@ -146,6 +147,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.searchInput = new FormControl('');
         this._cdkTranslationLoaderService.loadTranslations(english);
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.togglingUrgenteIds$ = this._store.pipe(select(fromStore.getIsTogglingUrgenteIds));
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
         this.error$ = this._store.pipe(select(fromStore.getError));
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));

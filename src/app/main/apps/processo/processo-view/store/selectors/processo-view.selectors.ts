@@ -66,3 +66,8 @@ export const getCurrentStepLoaded = createSelector(
     getProcessoViewState,
     (state: ProcessoViewState) => state.currentStepLoaded
 );
+
+export const getIsLoadingBinary = createSelector(
+    getProcessoViewState,
+    (state: ProcessoViewState) => state.binary.loading
+);
