@@ -17,6 +17,7 @@ export interface TarefasState {
     };
     loading: boolean;
     loaded: any;
+    togglingUrgenteIds: number[];
     deletingTarefaIds: number[];
     undeletingTarefaIds: number[];
     bufferingDelete: number;
@@ -53,6 +54,7 @@ export const TarefasInitialState: TarefasState = {
     },
     loading: false,
     loaded: false,
+    togglingUrgenteIds: [],
     deletingTarefaIds: [],
     undeletingTarefaIds: [],
     changingFolderTarefaIds: [],
@@ -451,6 +453,27 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                     total: state.pagination.total + 1
                 },
             };
+        }
+
+        case TarefasActions.TOGGLE_URGENTE_TAREFA: {
+            return {
+                ...state,
+                togglingUrgenteIds: [...state.togglingUrgenteIds, action.payload.id],
+            }
+        }
+
+        case TarefasActions.TOGGLE_URGENTE_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                togglingUrgenteIds: state.togglingUrgenteIds.filter(id => id !== action.payload)
+            }
+        }
+
+        case TarefasActions.TOGGLE_URGENTE_TAREFA_FAILED: {
+            return {
+                ...state,
+                togglingUrgenteIds: state.togglingUrgenteIds.filter(id => id !== action.payload.id)
+            }
         }
 
         default:

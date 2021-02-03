@@ -203,6 +203,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.evento = false;
 
+        this.clearValidators();
+
         if (this.form.get('processo').value && this.form.get('processo').value.NUP) {
             this.form.get('especieTarefa').enable();
             if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
@@ -278,7 +280,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.editable = true;
 
                         const unidadesId = [];
-                        this._profile.lotacoes.forEach(( lotacao: Lotacao) => {
+                        this._profile.lotacoes.forEach((lotacao: Lotacao) => {
                             unidadesId.push(lotacao.setor.unidade.id);
                         });
 
@@ -329,7 +331,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                     if (typeof value === 'object' && value && value.apenasDistribuidor && value.id !== this._profile.lotacoes[0].setor.id) {
-                        this.usuarioResponsavelPagination['context'] = { setorApenasDistribuidor: value.id };
+                        this.usuarioResponsavelPagination['context'] = {setorApenasDistribuidor: value.id};
                     }
 
                     this._changeDetectorRef.markForCheck();
@@ -499,30 +501,30 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             debounceTime(500),
             distinctUntilChanged(),
             switchMap((value) => {
-                this.especieTarefaPagination['context'] = {};
-                if (this.form.get('processo').value?.especieProcesso?.workflow) {
-                    if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
-                        this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
-                    } else {
-                        this.especieTarefaPagination.filter = {
-                            'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
-                                this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
-                        };
-                    }
-                    this.especieTarefaPagination['context'] = { processoId: this.form.get('processo').value.id };
-                    this._changeDetectorRef.detectChanges();
-                }
-
-                if (value) {
-                    this.clearValidators();
-                    this.evento = value.evento;
-                    if (!this.evento) {
-                        this.form.get('localEvento').reset();
+                    this.especieTarefaPagination['context'] = {};
+                    if (this.form.get('processo').value?.especieProcesso?.workflow) {
+                        if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
+                            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
+                        } else {
+                            this.especieTarefaPagination.filter = {
+                                'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
+                                    this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
+                            };
+                        }
+                        this.especieTarefaPagination['context'] = {processoId: this.form.get('processo').value.id};
+                        this._changeDetectorRef.detectChanges();
                     }
 
-                    this._changeDetectorRef.markForCheck();
-                }
-                return of([]);
+                    if (value) {
+                        this.clearValidators();
+                        this.evento = value.evento;
+                        if (!this.evento) {
+                            this.form.get('localEvento').reset();
+                        }
+
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
                 }
             )
         ).subscribe();
@@ -1074,7 +1076,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     + this.form.get('processo').value.tarefaAtualWorkflow.especieTarefa.id;
             }
 
-            this.especieTarefaPagination['context'] = { processoId: this.form.get('processo').value.id };
+            this.especieTarefaPagination['context'] = {processoId: this.form.get('processo').value.id};
         }
     }
 }

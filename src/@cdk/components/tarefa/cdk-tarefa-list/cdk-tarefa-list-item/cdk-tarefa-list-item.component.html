@@ -99,11 +99,15 @@
 
     <div class="actions">
 
-        <button *ngIf="!tarefa.apagadoEm" mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
+        <button *ngIf="!togglingUrgente && !tarefa.apagadoEm" mat-icon-button (click)="doToggleUrgente(); $event.stopPropagation();"
                 aria-label="Toggle important" fxHide.xs>
             <mat-icon class="red-fg" *ngIf="tarefa.urgente">error</mat-icon>
             <mat-icon class="secondary-text" *ngIf="!tarefa.urgente">error_outline</mat-icon>
         </button>
+
+        <div class="spinner-container m-8" *ngIf="togglingUrgente">
+            <mat-spinner diameter="24"></mat-spinner>
+        </div>
 
         <button *ngIf="tarefa.apagadoEm" matTooltip="Restaurar tarefa"
                 mat-icon-button (click)="doRestauraTarefa(); $event.stopPropagation();"

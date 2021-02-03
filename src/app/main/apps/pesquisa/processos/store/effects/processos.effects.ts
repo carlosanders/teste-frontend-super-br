@@ -42,7 +42,7 @@ export class ProcessosEffect {
             .pipe(
                 ofType<ProcessosActions.GetProcessos>(ProcessosActions.GET_PROCESSOS),
                 switchMap((action) => {
-                    return this._processoService.query(
+                    return this._processoService.search(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
