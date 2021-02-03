@@ -37,6 +37,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Input()
     undeleting: boolean;
 
+    @Input()
+    togglingUrgente: boolean;
+
     @Output()
     toggleInSelectedTarefas = new EventEmitter();
 
