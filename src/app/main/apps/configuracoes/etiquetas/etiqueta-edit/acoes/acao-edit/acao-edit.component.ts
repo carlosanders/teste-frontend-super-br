@@ -7,15 +7,14 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {Acao, ModalidadeEtiqueta} from '@cdk/models';
+import {Acao, ModalidadeAcaoEtiqueta, ModalidadeEtiqueta} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Etiqueta} from '@cdk/models';
 import {getEtiqueta} from '../../store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../../store/reducers';
-import {TriggerAcao} from "@cdk/models/trigger-acao";
-import {TriggerAcaoProvider} from "../providers/trigger-acao-provider";
+import {getModalidadeAcaoEtiquetaList} from "./store/selectors/modalidade-acao-etiqueta.selectors";
 
 @Component({
     selector: 'acao-edit',
@@ -31,14 +30,13 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
     componentUrl:string;
     acao$: Observable<Acao>;
     acao: Acao;
-    formIsValid: boolean = false;
+    modalidadeAcaoEtiquetaList: ModalidadeAcaoEtiqueta[] = [];
+    modalidadeAcaoEtiquetaList$: Observable<ModalidadeAcaoEtiqueta[]>;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
     etiqueta$: Observable<Etiqueta>;
     etiqueta: Etiqueta;
-
-    triggerAcaoList: TriggerAcao[];
 
     /**
      * @param _store
@@ -46,13 +44,13 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _store: Store<fromStore.AcaoEditAppState>,
-        private _router: Router,
-        private _triggerAcaoProvider: TriggerAcaoProvider
+        private _router: Router
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.acao$ = this._store.pipe(select(fromStore.getAcao));
         this.etiqueta$ = this._store.pipe(select(getEtiqueta));
+        this.modalidadeAcaoEtiquetaList$ = this._store.pipe(select(getModalidadeAcaoEtiquetaList));
 
         this._store
             .pipe(select(getRouterState))
@@ -91,12 +89,14 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
             acao => this.acao = acao
         )
 
+        this.modalidadeAcaoEtiquetaList$.subscribe(
+            modalidadeAcaoEtiquetaList => this.modalidadeAcaoEtiquetaList = modalidadeAcaoEtiquetaList
+        )
+
         if (!this.acao) {
             this.acao = new Acao();
             this.acao.etiqueta = this.etiqueta;
         }
-
-        this.loadTriggers();
     }
 
     /**
@@ -113,15 +113,24 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace(this.componentUrl, 'acoes/listar')]);
     }
 
-    loadTriggers(): void {
-        this.triggerAcaoList = this._triggerAcaoProvider.getTriggers(this.etiqueta.modalidadeEtiqueta);
-    }
-
-    /**
-     * @param triggerAcao
-     */
-    selectTrigger(triggerAcao): void {
-        console.log(triggerAcao);
-        this._router.navigate([this.routerState.url+'/'+triggerAcao.id+'/trigger']);
+    selectTrigger(modalidadeAcaoEtiqueta:ModalidadeAcaoEtiqueta): void {
+        let routeId = null;
+        switch (modalidadeAcaoEtiqueta.trigger){
+            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':
+                routeId = 1;
+                break;
+            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0003':
+                routeId = 2;
+                break;
+            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0004':
+                routeId = 3;
+                break;
+            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0005':
+                routeId = 4;
+                break;
+            default:
+                routeId = 0;
+        }
+        this._router.navigate([this.routerState.url+'/'+routeId+'/trigger']);
     }
 }

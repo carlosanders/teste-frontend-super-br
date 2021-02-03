@@ -8,7 +8,7 @@
         <cdk-modelo-autocomplete
             #modelo="modeloAutocomplete"
             [control]="form.get('modelo')"
-            [andxFilter]="modeloPaginationAndx"
+            [andxFilter]="modeloAndx"
             [pagination]="modeloPagination">
         </cdk-modelo-autocomplete>
         <button *ngIf="form.get('modelo').enabled" matSuffix mat-button mat-icon-button

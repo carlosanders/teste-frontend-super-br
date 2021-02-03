@@ -49,6 +49,9 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
 
     @Input()
     usuarioPagination: Pagination;
+    
+    @Input()
+    modalidadeAcaoEtiqueta;
 
     @Output()
     save = new EventEmitter<Acao>();
@@ -87,6 +90,13 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (
+            changes['modalidadeAcaoEtiqueta']
+            && this.modalidadeAcaoEtiqueta
+            && this.modalidadeAcaoEtiqueta.id !== this.form.get('modalidadeAcaoEtiqueta').value
+        ) {
+            this.form.get('modalidadeAcaoEtiqueta').setValue(this.modalidadeAcaoEtiqueta);
+        }
     }
 
     /**
