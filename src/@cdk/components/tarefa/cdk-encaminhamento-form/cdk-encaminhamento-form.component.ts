@@ -88,6 +88,7 @@ export class CdkEncaminhamentoFormComponent implements OnChanges, OnDestroy {
                 module.components[path].forEach((c => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
+                    this._changeDetectorRef.markForCheck();
                 }));
             }
         });
