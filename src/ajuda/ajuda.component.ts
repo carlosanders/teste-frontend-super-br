@@ -59,11 +59,12 @@ export class AjudaComponent implements OnInit {
             (next) => {
                 this.context = next;
                 if (this.context.url){
-                    this.resultado = this.topicos.filter(topico => topico.path && topico.path.match(this.context.url));
-                    this.resultado = [
-                        ...this.resultado,
-                        CdkUtils.filterArrayByString(this.topicos, this.context.url.split('/', 3)[2])
-                    ];
+                    if(CdkUtils.filterArrayByString(this.topicos, this.context.url.split('/', 3)[2])){
+                        this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split('/', 3)[2]);                  
+                    }
+                    else{
+                        this.resultado = this.topicos.filter(topico => topico.path && topico.path.match(this.context.url));
+                    }
                 }
             }
         );
