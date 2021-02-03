@@ -20,11 +20,16 @@ import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
 import {CommonModule} from "@angular/common";
 import {CdkAcaoTrigger004Module} from "@cdk/components/acao/cdk-acao-trigger/cdk-acao-trigger-004/cdk-acao-trigger-004.module";
+import * as fromGuards from "./store/guards";
+import {ModalidadeAcaoEtiquetaService} from "@cdk/services/modalidade-acao-etiqueta.service";
+import {AcaoTriggerStoreModule} from "../store/store.module";
+import {AcaoTrigger003Component} from "../acao-trigger-003/acao-trigger-003.component";
 
 const routes: Routes = [
     {
         path: 'trigger',
         component: AcaoTrigger004Component,
+        canActivate: [fromGuards.ResolveGuard],
         children: [
             {
                 path       : 'pessoa',
@@ -66,10 +71,12 @@ modulesConfig.forEach((module) => {
         CommonModule,
         TranslateModule,
         CdkSharedModule,
-
+        AcaoTriggerStoreModule,
         CdkAcaoTrigger004Module
     ],
     providers: [
+        fromGuards.ResolveGuard,
+        ModalidadeAcaoEtiquetaService
     ]
 })
 export class AcaoTrigger004Module {
