@@ -1,0 +1,26 @@
+ajuda-relevancias {
+
+	p {
+        text-align: left;
+    }
+    img {
+        max-width: 256px;
+	}
+
+	/*Coluna Dupla*/
+	.column {
+		float: left;
+		width: 50%;
+	}
+	
+	/* Clear floats after the columns */
+	.row:after {
+		content: "";
+		display: table;
+		clear: both;
+	}
+	.atencao{
+		$atencao: #607d8b;
+		background-color: $atencao;
+	}
+}
