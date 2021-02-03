@@ -35,7 +35,7 @@
 
 <cdk-modelo-gridsearch
     *ngIf="formState === 'modelo-gridsearch'"
-    [andxFilter]="modeloPaginationAndx"
+    [andxFilter]="modeloAndx"
     [pagination]="modeloPagination"
     (selected)="selectModelo($event)"
     (cancel)="cancel()">
