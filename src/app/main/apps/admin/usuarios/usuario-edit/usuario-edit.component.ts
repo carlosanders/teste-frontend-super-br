@@ -109,6 +109,8 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         );
         if (!this.usuario) {
             this.usuario = new Usuario();
+            this.usuario.enabled = true;
+            this.usuario.nivelAcesso = 0;
         }
         if (!this.colaborador) {
             this.colaborador = new Colaborador();
