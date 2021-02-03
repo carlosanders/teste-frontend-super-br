@@ -12,9 +12,9 @@ import {select, Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import * as fromStore from '../../store';
 import {getRouterState} from "../../../../../../../../../store/reducers";
-import {Acao, Etiqueta, Pagination} from "@cdk/models";
+import {Acao, Etiqueta, ModalidadeAcaoEtiqueta, Pagination} from "@cdk/models";
+import {getModalidadeAcaoEtiqueta} from "../store/selectors";
 
-// @ts-ignore
 @Component({
     selector: 'acao-trigger-003',
     templateUrl: './acao-trigger-003.component.html',
@@ -29,6 +29,8 @@ export class AcaoTrigger003Component implements OnInit, OnDestroy {
     errors$: Observable<any>;
     form: FormGroup;
     routerState: any;
+    modalidadeAcaoEtiqueta: ModalidadeAcaoEtiqueta;
+    modalidadeAcaoEtiqueta$: Observable<ModalidadeAcaoEtiqueta>;
 
     usuarioPagination: Pagination;
 
@@ -49,14 +51,7 @@ export class AcaoTrigger003Component implements OnInit, OnDestroy {
                     this.routerState = routerState.state;
                 }
             });
-        this.form = this._formBuilder.group({
-            contexto: [null],
-            usuarioResponsavel: [null, [Validators.required]],
-            trigger: [
-                'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0004',
-                [Validators.required]
-            ]
-        });
+        this.modalidadeAcaoEtiqueta$ = this._store.pipe(select(getModalidadeAcaoEtiqueta));
         this.usuarioPagination = new Pagination();
     }
 
@@ -69,6 +64,9 @@ export class AcaoTrigger003Component implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.modalidadeAcaoEtiqueta$.subscribe(
+            modalidadeAcaoEtiqueta => this.modalidadeAcaoEtiqueta = modalidadeAcaoEtiqueta
+        );
     }
 
     /**
@@ -92,7 +90,8 @@ export class AcaoTrigger003Component implements OnInit, OnDestroy {
         const etiqueta = new Etiqueta();
         etiqueta.id = this.routerState.params.etiquetaHandle;
         acao.etiqueta = etiqueta;
-        acao.trigger = 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0004';
+        acao.modalidadeAcaoEtiqueta = this.modalidadeAcaoEtiqueta;
+
         this._store.dispatch(new fromStore.SaveAcao(acao));
     }
 

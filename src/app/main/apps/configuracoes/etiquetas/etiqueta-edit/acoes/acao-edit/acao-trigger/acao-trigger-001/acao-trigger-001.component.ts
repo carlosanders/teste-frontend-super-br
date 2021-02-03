@@ -6,12 +6,13 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Acao, Etiqueta} from '@cdk/models';
+import {Acao, Etiqueta, ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {select, Store} from "@ngrx/store";
 import {Observable} from "rxjs";
 import * as fromStore from '../../store';
+import {getModalidadeAcaoEtiqueta} from '../store/selectors';
 import {getRouterState} from "../../../../../../../../../store/reducers";
 
 @Component({
@@ -29,6 +30,8 @@ export class AcaoTrigger001Component implements OnInit, OnDestroy {
     form: FormGroup;
     formState: string = 'form';
     routerState: any;
+    modalidadeAcaoEtiqueta: ModalidadeAcaoEtiqueta;
+    modalidadeAcaoEtiqueta$: Observable<ModalidadeAcaoEtiqueta>;
 
     /**
      * @param _router
@@ -48,10 +51,7 @@ export class AcaoTrigger001Component implements OnInit, OnDestroy {
                 }
             });
 
-        this.form = this._formBuilder.group({
-            contexto: [null],
-            modelo: [null, [Validators.required]]
-        });
+        this.modalidadeAcaoEtiqueta$ = this._store.pipe(select(getModalidadeAcaoEtiqueta));
 
     }
 
@@ -64,6 +64,11 @@ export class AcaoTrigger001Component implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.modalidadeAcaoEtiqueta$.subscribe(
+            modalidadeAcaoEtiqueta => {
+                this.modalidadeAcaoEtiqueta = modalidadeAcaoEtiqueta
+            }
+        );
     }
 
     /**

@@ -30,7 +30,9 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
     @Input()
     errors: any;
     @Input()
-    modeloPaginationAndx: any;
+    modeloAndx: any = [];
+    @Input()
+    modalidadeAcaoEtiqueta;
 
     @Output()
     save = new EventEmitter<Acao>();
@@ -52,14 +54,13 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
         this.form = this._formBuilder.group({
             id: [null],
             etiqueta: [null],
-            trigger: [
-                'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001',
+            modalidadeAcaoEtiqueta: [
+                this.modalidadeAcaoEtiqueta,
                 [Validators.required]
             ],
             contexto: [null],
             modelo: [null, [Validators.required]]
         });
-        this.modeloPaginationAndx = null;
         this.modeloPagination = new Pagination();
     }
 
@@ -77,7 +78,13 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-
+        if (
+            changes['modalidadeAcaoEtiqueta']
+            && this.modalidadeAcaoEtiqueta
+            && this.modalidadeAcaoEtiqueta.id !== this.form.get('modalidadeAcaoEtiqueta').value
+        ) {
+            this.form.get('modalidadeAcaoEtiqueta').setValue(this.modalidadeAcaoEtiqueta);
+        }
     }
 
     /**

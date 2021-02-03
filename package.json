@@ -73,7 +73,7 @@
         "rxjs": "6.6.3",
         "text-mask-addons": "3.8.0",
         "web-animations-js": "2.3.2",
-        "zone.js": "0.11.2",
+        "zone.js": "0.11.3",
         "safe-pipe": "1.0.3"
     },
     "devDependencies": {
