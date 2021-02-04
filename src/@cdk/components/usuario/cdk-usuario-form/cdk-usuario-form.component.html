@@ -44,7 +44,7 @@
             <mat-hint align="end">{{email.value.length}} / 255</mat-hint>
         </mat-form-field>
 
-        <mat-form-field>
+        <mat-form-field *ngIf="usuario && usuario.id">
             <mat-label>Nível de Acesso</mat-label>
             <input matInput #nivelAcesso
                    name="nivelAcesso"
@@ -68,7 +68,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <ng-template [ngIf]="(isCarregadoAutocomplete && isCpfValido) || (usuario && usuario.id)">
-        <div *ngIf="!saving" class="actions">
+        <div class="actions">
             <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid"
                     *ngIf="!saving">
                 SALVAR

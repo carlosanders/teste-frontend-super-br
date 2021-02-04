@@ -25,6 +25,14 @@ import {topicosConfig as administradorTopicosConfig} from '../app/main/apps/admi
 import {topicosConfig as coordenadorTopicosConfig} from '../app/main/apps/coordenador/ajuda/topicos-config';
 import {topicosConfig as configuracoesTopicosConfig} from '../app/main/apps/configuracoes/ajuda/topicos-config';
 import {topicosConfig as pesquisaTopicosConfig} from '../app/main/apps/pesquisa/ajuda/topicos-config';
+import {topicosConfig as relatoriosTopicosConfig} from '../app/main/apps/relatorios/ajuda/topicos-config';
+import {topicosConfig as relevanciasTopicosConfig} from '../app/main/apps/processo/processo-edit/relevancias/ajuda/topicos-config';
+import {topicosConfig as volumesTopicosConfig} from '../app/main/apps/processo/processo-edit/volumes/ajuda/topicos-config';
+import {topicosConfig as painelTopicosConfig} from '../app/main/apps/painel//ajuda/topicos-config';
+
+
+
+
 
 
 
@@ -62,6 +70,10 @@ export let topicosConfig = [
     ...coordenadorTopicosConfig,
     ...configuracoesTopicosConfig,
     ...pesquisaTopicosConfig,
+    ...relatoriosTopicosConfig,
+    ...relevanciasTopicosConfig,
+    ...volumesTopicosConfig,
+    ...painelTopicosConfig,
 ];
 
 modulesConfig.forEach((modulo) => {

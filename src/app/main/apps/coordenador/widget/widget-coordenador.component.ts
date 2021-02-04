@@ -48,7 +48,7 @@ export class WidgetCoordenadorComponent implements OnInit {
     ngOnInit(): void {
 
         this._tarefaService.count(
-            `{"setorResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull"}`)
+            `{"setorResponsavel.id": "in:${this._profile.coordenadores.map(coordenador => coordenador.setor.id).join(',')}", "dataHoraConclusaoPrazo": "isNull"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
@@ -58,7 +58,7 @@ export class WidgetCoordenadorComponent implements OnInit {
             }
         );
         this._tarefaService.count(
-            `{"setorResponsavel.id": "eq:${this._profile.id}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+            `{"setorResponsavel.id": "in:${this._profile.coordenadores.map(coordenador => coordenador.setor.id).join(',')}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
             .pipe(
                 catchError(() => of([]))
             ).subscribe(

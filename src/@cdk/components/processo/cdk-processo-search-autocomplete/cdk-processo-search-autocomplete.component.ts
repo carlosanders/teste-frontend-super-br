@@ -68,7 +68,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             switchMap((value: string) => {
                     let termFilterNUP = {};
                     value = value.split('.').join('').split('/').join('').replace('-', '');
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         termFilterNUP = {
                             NUP: `like:%${bit}%`
                         };

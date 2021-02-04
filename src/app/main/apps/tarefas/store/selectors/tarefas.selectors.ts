@@ -113,3 +113,8 @@ export const getRedistribuindoTarefaIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.redistribuindoTarefaIds
 );
+
+export const getIsTogglingUrgenteIds = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.togglingUrgenteIds
+);

@@ -63,6 +63,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     src: any;
     loading = false;
 
+    loading$: Observable<boolean>;
+
     pagination$: any;
     pagination: any;
 
@@ -105,6 +107,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private _activatedRoute: ActivatedRoute
     ) {
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingBinary));
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
@@ -160,7 +163,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     this.select.emit(binary.src);
                 } else {
                     this.fileName = '';
-                    this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
+                    this.src = false;
                 }
                 this.loading = binary.loading;
                 this._changeDetectorRef.markForCheck();
@@ -304,7 +307,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         } else {
             if (this.currentStep.step > 0) {
                 step = this.currentStep.step - 1;
-                subStep = this.index[step].length - 1;
+                subStep = (this.index[step].length - 1) >= 0 ? this.index[step].length - 1 : 0;
             }
         }
 

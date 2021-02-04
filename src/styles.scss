@@ -4,6 +4,10 @@
 // Import app.theme.scss
 @import "app/app.theme";
 
+html {
+    zoom: 85%;
+}
+
 content {
   &.full-screen {
     z-index: 1001 !important;

@@ -70,6 +70,16 @@ processo-view {
                             border: none;
                             margin-left: 10px;
                         }
+
+                        > .div-about-blank {
+                            flex: 1 1 auto;
+                            display: flex;
+                            border: none;
+                            margin-left: 10px;
+                            justify-content: center;
+                            align-items: center;
+                            flex-direction: column;
+                        }
                     }
                 }
             }

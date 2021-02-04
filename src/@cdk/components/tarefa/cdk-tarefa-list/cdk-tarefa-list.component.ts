@@ -39,6 +39,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     loading: boolean;
 
     @Input()
+    togglingUrgenteIds: number[] = [];
+
+    @Input()
     tarefas: Tarefa[] = [];
 
     @Input()

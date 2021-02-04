@@ -66,8 +66,8 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
             nome: [null, [Validators.required, Validators.maxLength(255), Validators.minLength(5)]],
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2), Validators.max(4)]],
-            enabled: [null],
-            validado: [null],
+            enabled: [true],
+            validado: [false],
         });
 
         this.usuarioPagination = new Pagination();
@@ -155,12 +155,16 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
                 if (this.isCpfValido) {
                     this.usuario = new Usuario();
                     this.usuario.username = value.trim();
+                    this.usuario.enabled = true;
+                    this.usuario.nivelAcesso = 0;
                     this.carregarForm(this.usuario);
+                    this._changeDetectorRef.markForCheck();
                 }
             } else {
                 this.usuarioCarregado.emit(value);
                 this.carregarForm(value);
                 this.isCpfValido = true;
+                this._changeDetectorRef.markForCheck();
             }
         }
     }
@@ -192,6 +196,7 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
 
     usuarioAutocompleteLoading(isCarregandoAutocomplete: boolean) {
         this.isCarregadoAutocomplete = !isCarregandoAutocomplete;
+        this.checkUsuario();
     }
 }
 
