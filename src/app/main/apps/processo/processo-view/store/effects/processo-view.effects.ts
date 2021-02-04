@@ -153,7 +153,15 @@ export class ProcessoViewEffect {
                 withLatestFrom(this._store.pipe(select(getPagination))),
                 tap(([action, pagination]) => {
                     if (this.routerState.params['stepHandle'] === 'default') {
-                        if (!action.payload.index.length || !action.payload.index[0].length) {
+                        let capa = true;
+                        let firstJuntada = 0;
+                        if (action.payload.index) {
+                            firstJuntada = action.payload.index.findIndex((indice) => {
+                                return indice.length > 0;
+                            });
+                            capa = firstJuntada === -1;
+                        }
+                        if (capa) {
                             if (this.routerState.url.indexOf('/documento/') !== -1) {
                                 let arrPrimary = [];
                                 arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
@@ -203,7 +211,7 @@ export class ProcessoViewEffect {
                                     arrPrimary.push(this.routerState.params.chaveAcessoHandle);
                                 }
                                 arrPrimary.push('visualizar');
-                                arrPrimary.push('0-0');
+                                arrPrimary.push(firstJuntada + '-0');
                                 // Navegação do processo deve ocorrer por outlet
                                 this._router.navigate(
                                     [
@@ -220,7 +228,7 @@ export class ProcessoViewEffect {
                                     }
                                 ).then(() => {
                                     this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                                        step: 0,
+                                        step: firstJuntada,
                                         subStep: 0
                                     }));
                                 });
@@ -231,11 +239,11 @@ export class ProcessoViewEffect {
                                 if (this.routerState.params.chaveAcessoHandle) {
                                     url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                                 }
-                                url += '/visualizar/0-0';
+                                url += '/visualizar/' + firstJuntada + '-0';
                                 this._router.navigateByUrl(url)
                                     .then(() => {
                                         this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                                            step: 0,
+                                            step: firstJuntada,
                                             subStep: 0
                                         }));
                                     });
