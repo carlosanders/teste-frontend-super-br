@@ -94,7 +94,7 @@ export class CdkPessoaFilterComponent implements OnInit {
         this.form.get('numeroDocumentoPrincipal').valueChanges.subscribe(value => {
             if (value !== null) {
                 const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                     andxFilter.push({numeroDocumentoPrincipal: `like:%${bit}%`});
                 });
                 if (andxFilter.length > 0) {
