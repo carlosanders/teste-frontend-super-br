@@ -86,7 +86,7 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         this.form.get('NUP').valueChanges.subscribe(value => {
             if (value !== null) {
                 const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                     andxFilter.push({NUP: `like:%${bit}%`});
                 });
                 if (andxFilter.length > 0) {

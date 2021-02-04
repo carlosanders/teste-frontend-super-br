@@ -77,7 +77,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2)]],
-            enabled: [null]
+            enabled: [true, [Validators.required]]
         });
 
         this.formColaborador = this._formBuilder.group({
@@ -85,7 +85,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             modalidadeColaborador: [null, [Validators.required]],
             usuario: [null],
             cargo: [null, [Validators.required]],
-            ativo: [null]
+            ativo: [true, [Validators.required]]
         });
     }
 
@@ -113,6 +113,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         }
         if (!this.colaborador) {
             this.colaborador = new Colaborador();
+            this.colaborador.ativo = true;
         }
     }
 
