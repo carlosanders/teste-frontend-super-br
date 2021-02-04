@@ -155,7 +155,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         this._store.dispatch(new UnloadComponenteDigital());
         this._store.dispatch(new fromStore.UnloadDocumento());
         let url = this.routerState.url.split('/documento/')[0];
-        if (url.indexOf('/processo') !== -1) {
+        if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
             this._store.dispatch(new UnloadDocumentos());
         }
         if (url.indexOf('/capa') !== -1) {
@@ -166,7 +166,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                 this._store.dispatch(new GetDocumentosAtividade());
             } else if (url.indexOf('/oficios') !== -1) {
                 this._store.dispatch(new GetDocumentosAvulsos());
-            } else if (url.indexOf('/processo') !== -1) {
+            } else if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
                 this._store.dispatch(new GetDocumentosProcesso());
             }
         });
