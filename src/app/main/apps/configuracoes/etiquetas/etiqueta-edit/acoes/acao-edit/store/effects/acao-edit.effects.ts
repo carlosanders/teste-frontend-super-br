@@ -58,7 +58,6 @@ export class AcaoEditEffect {
                             })
                         ]),
                         catchError((err) => {
-                            console.log (err);
                             return of(new AcaoEditActions.SaveAcaoFailed(err));
                         })
                     );

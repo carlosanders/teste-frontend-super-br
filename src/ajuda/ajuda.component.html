@@ -1,62 +1,225 @@
-<div class="accent">
-    <div class="header">
-        <h1 class="m-16">Ajuda</h1>
+    <div class="accent"> 
+        <div class="header">
+            <h1 class="m-16">Ajuda</h1>
+        </div>
     </div>
-</div>
+    
+
+    
+    <div class="content">
+
+        <div class="form">
+            <form name="form" [formGroup]="form"
+                    (submit)="pesquisar()">
+
+                <div>
+                    <mat-form-field fxFlex="100">
+                        <div >
+                            <input matInput placeholder="Pesquisa" formControlName="pesquisa" maxlength="255" required autocomplete="off">
+                        </div>
+                    </mat-form-field>
+                </div>
+            </form>
+        </div>
+        
+        
+
+        <div *ngIf="isSubmited && resultado.length === 0">
+            <p>Nenhum resultado encontrado</p>
+        </div>
+
+        <div *ngIf="card === 'modulo'">
+            <button class="back" mat-icon-button
+                    (click)="back()"
+                    aria-label="voltar"
+                    matTooltip="Voltar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+
+        <div #container></div>
 
 
-<div class="content">
-
-    <div class="form">
-        <form name="form" [formGroup]="form"
-              (submit)="pesquisar()">
-
-            <div>
-                <mat-form-field fxFlex="100">
-                    <div>
-                        <input matInput placeholder="Pesquisa" formControlName="pesquisa" maxlength="255" required
-                               autocomplete="off">
+        <div>
+            <p>Utilize o campo de busca acima ou selecione uma categoria</p>
+            <div class="menuFAQ">
+                <div>
+                    <div class = "menu">
+                        <div>
+                            <div class="menuItem"> 
+                                <div class="menuLabel" (click)="pesquisarCat('processo')" >Processos</div>
+                            </div>
+                            <div id="CatProcessos" class="menuItemOver"></div>
+                        </div>
+                        <div>
+                            <div class="menuItem"> 
+                                <div class="menuLabel" (click)="pesquisarCat('tarefas')" >Tarefas</div>
+                            </div>
+                            <div id="Tarefa" class="menuItemOver"></div>
+                        </div>
+                        <div>
+                            <div class="menuItem"> 
+                                <div class="menuLabel" (click)="pesquisarCat('atividade')" >Atividades</div>
+                            </div>
+                            <div id="Atividade" class="MenuItemOver"></div>
+                        </div>
                     </div>
-                </mat-form-field>
+                </div>
             </div>
-        </form>
+
+            <div class="mt-16" *ngIf="card === 'form'">
+                <table *ngIf="resultado.length > 0">
+                    <tr *ngFor="let topico of resultado">
+                        <td>
+                            <div class="topico-titulo mb-4" (click)="carregar(topico)">
+                                {{topico.titulo}}
+                            </div>
+                            <div class="topico-descricao mb-16">
+                                {{topico.descricao}}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                </table>
+            </div>
+            
+
+            <p>Dúvidas mais frequentes:</p>
+              <mat-accordion multi=false collapsedHeight='5px'>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        COMO TRATAR PROCESSOS COM RESTRIÇÃO DE ACESSO?
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li>Quando temos um processo com restrição de acesso, somente a pessoa que colocou a restrição poderá retira-la.</li>
+                        <li>Para colocar sigilo em documentos já juntados/prontos: Basta dar um duplo click na linha do documento no grid de juntadas do “Editar NUP”. 
+                            Será aberta uma janela que terá a opção “restrição de acesso”, basta marcá-la e clicar em salvar. 
+                            Para designar quem pode acessar o documento basta clicar no ícone de engrenagem que irá aparecer ao lado da restrição de acesso. 
+                            Se for caso de sigilo previsto na Lei de Acesso à Informação também deve ser preenchido o formulário na aba “sigilo” da mesma janela.</li>
+                        <li>Atualmente, para mandar tarefa para alguém, se o processo tem restrição de acesso, e o usuário destinatário não tem permissão para ver, 
+                            o sistema não permite completar a ação de mandar a tarefa. O sistema manda primeiro o usuário ir na restrição de acesso, conceder permissão e depois abrir a tarefa.</li>
+                        <li>No caso de o processo ter vindo do limbo, então tem que mandar o NUP para o e-mail do suporte do sistema, solicitando a indicação de que quem colocou o acesso restrito. </li><br><br>
+                    </ul>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        COMO ENTENDER APENSAMENTO X ANEXAÇÃO?
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li>As duas modalidades formais de vinculação de processos - anexação e apensamento - efetivamente travam o andamento dos processos secundários, até por uma questão de lógica. No primeiro os documentos inclusive são "transportados" para o principal e o secundário fica encerrado (por isso é um procedimento definitivo).</li>
+                        <li>O apensamento é para que os apensados sejam considerados na análise do principal (por isso eles não andam mais). </li>
+                    </ul>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        QUAIS SÃO OS FORMATOS ADMITIDOS PARA COMPONENTE DIGITAL NAS JUNTADAS?
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li>Os formatos atualmente aceitos para componente digital são html, htm, pdf, jpg, jpeg, ogg e mp4, com um tamanho máximo de 10 MB. A partir da versão 1.2.6 do SAPIENS, componentes de vídeo com até 50 MB também são aceitos. </li>
+                </ul>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        EXISTE ALGUMA FORMA DE CANCELAR UMA JUNTADA DE DOCUMENTO INDEVIDA?
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li><strong>Não</strong>. Se você por algum motivo fez uma juntada em um processo de forma equivocada, você deverá necessariamente desentranhar a juntada, informando a justificativa (nesse caso, juntada indevida). </li>
+                </ul>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        COMO TRATAR PROCESSOS QUE SE ENCONTRAM NO LIMBO - "DAR ANDAMENTO A PROCESSO"?
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li>Em complemento ao COMUNICADO Nº 63/SGAGU, DE 28 DE OUTUBRO DE 2015, informa-se que em razão da existência de processos que estavam sem tarefa no SAPIENS, os quais ficaram paralisados, o Sistema passou a criar automaticamente a tarefa “DAR ANDAMENTO A PROCESSO”, com intuito de que os Usuários deem o devido andamento aos processos sob sua responsabilidade. </li>
+                        <li>Isto posto, existem três medidas possíveis para que os processos com a referida tarefa saiam desta situação:                    </li>
+                        <ol>
+                            <li>O processo deve seguir para o arquivo corrente, via tarefa “MANTER SOB GUARDA TEMPORÁRIA NO ARQUIVO CORRENTE”, com trâmite, e a referida tramitação, necessariamente deve ser recebida pelo usuário deste arquivo; </li>
+                            <li> O processo deve ser encaminhado por tarefa para algum usuário; </li>
+                            <li> O processo deve ser tramitado para outro Órgão, via tramite externo, quando este for expedido para um Órgão que não utiliza o Sistema. </li>
+                        </ol>
+                        <li>Caso não sejam tomadas nenhuma das medidas acima, os processos permanecerão na mesma situação e, mesmo sendo encerrada com a atividade, a tarefa “DAR ANDAMENTO A PROCESSO” irá retornar ao Usuário. </li>
+                </ul>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        COMO TRATAR UM NUP CRIADO INDEVIDAMENTE?
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li>Uma vez criada a NUP não poderá mais ser excluída. </li>
+                        <li>O que pode ser feito é transpor os documentos por desentranhamento e realocação deles direto para o NUP certo. </li>
+                        <li>Quanto ao processo criado indevidamente, é necessário realizar o arquivamento. </li>
+                    </ul>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        FÉRIAS OU FICAREI DE LICENÇA. COMO NÃO RECEBER TAREFAS DURANTE O PERÍODO?
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li>Registre o afastamento e seu período na opção Configurações, no canto superior direito do Sapiens, e em seguida, na opção Afastamentos, registre o afastamento correspondente e seu período. Atenção: durante esse período você não receberá tarefas cujo prazo inicial coincida com seu afastamento! </li>
+                    </ul>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        QUAL É O LIMITE DE COMPONENTES DIGITAIS POR DOCUMENTO?
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li>O limite atualmente existente é de 25 componentes digitais por documento. Caso seu arquivo seja superior a 250 MB, você deverá providenciar um novo documento com as demais partes. </li>
+                    </ul>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        COMO GERAR MANUALMENTE UMA FOLHA DE REGISTRO DE ATIVIDADES?
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li>Sim, no módulo de relatórios do SAPIENS, em Gerencial - Recursos Humanos - Folha de Registro de Atividades, é possível gerar uma folha manualmente.  </li>
+                    </ul>
+                </mat-expansion-panel>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        NÃO CONSIGO ENVIAR O PROCESSO AO ARQUIVO. COMO PROCEDER?
+                    </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <ul>
+                        <li>
+                            Certifique-se de que o processo está em seu setor, pois como somente um 
+                            Arquivista pode arquivar um processo, as tarefas de arquivamento relacionadas só 
+                            podem ser tramitadas para o Arquivo. Caso o processo não esteja em seu setor, 
+                            peça a um usuário naquele setor que efetue o trâmite ou para seu setor ou para o 
+                            arquivo correspondente. Utilize a opção Editar NUP ou o pesquise para verificar 
+                            qual o setor atualmente responsável pelo processo.
+                        </li>
+                    </ul>
+                </mat-expansion-panel>
+              </mat-accordion>
+        </div>
     </div>
 
-    <div class="mt-16" *ngIf="card === 'form'">
-        <table *ngIf="resultado.length > 0">
-            <tr *ngFor="let topico of resultado">
-                <td>
-                    <div class="topico-titulo mb-4" (click)="carregar(topico)">
-                        {{topico.titulo}}
-                    </div>
-                    <div class="topico-descricao mb-16">
-                        {{topico.descricao}}
-                    </div>
-                </td>
-            </tr>
-            <tr>
-        </table>
-    </div>
 
-    <div *ngIf="isSubmited && resultado.length === 0">
-        <p>Nenhum resultado encontrado</p>
-    </div>
 
-    <div *ngIf="card === 'modulo'">
-        <button class="back" mat-icon-button
-                (click)="back()"
-                aria-label="voltar"
-                matTooltip="Voltar">
-            <mat-icon>arrow_back</mat-icon>
-        </button>
+    <div class="footer">
+        <div class="options">      
+            <p style="text-align: center">
+                {{email}} | <a href={{wiki}} target="_blank">SapiensWiki</a>
+            </p>
+        </div>
     </div>
-
-    <div #container></div>
-</div>
-<div class="footer">
-    <div class="options">
-        <p style="text-align: center">
-            {{email}} | <a href={{wiki}} target="_blank">SapiensWiki</a>
-        </p>
-    </div>
-</div>

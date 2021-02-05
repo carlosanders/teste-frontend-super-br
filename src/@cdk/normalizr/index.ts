@@ -989,9 +989,7 @@ acaoTransicaoWorkflow.define({
 });
 
 modalidadeAcaoEtiqueta.define({
-    generoProcesso: generoProcesso,
-    classificacao: classificacao,
-    modalidadeMeio: modalidadeMeio,
+    modalidadeEtiqueta: modalidadeEtiqueta,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

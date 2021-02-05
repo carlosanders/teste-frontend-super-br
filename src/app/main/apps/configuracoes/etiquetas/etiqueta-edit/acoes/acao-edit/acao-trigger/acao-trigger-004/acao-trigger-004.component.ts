@@ -16,11 +16,12 @@ import {
     Acao,
     Criteria,
     DocumentoAvulso,
-    Etiqueta,
+    Etiqueta, ModalidadeAcaoEtiqueta,
     Pagination,
     Pessoa,
     Setor
 } from "@cdk/models";
+import {getModalidadeAcaoEtiqueta} from "../store/selectors";
 
 
 // @ts-ignore
@@ -47,6 +48,8 @@ export class AcaoTrigger004Component implements OnInit, OnDestroy {
     destinatariosSave = [];
     destinos: any[] = [];
     pessoaDestino: Pessoa;
+    modalidadeAcaoEtiqueta: ModalidadeAcaoEtiqueta;
+    modalidadeAcaoEtiqueta$: Observable<ModalidadeAcaoEtiqueta>;
 
     logEntryPagination: Pagination;
     saving: any;
@@ -86,10 +89,7 @@ export class AcaoTrigger004Component implements OnInit, OnDestroy {
                 }
             });
 
-        this.form = this._formBuilder.group({
-            contexto: [null],
-            especieDocumentoAvulso: [null, [Validators.required]]
-        });
+        this.modalidadeAcaoEtiqueta$ = this._store.pipe(select(getModalidadeAcaoEtiqueta));
         this.especieDocumentoAvulsoPagination = new Pagination();
         this.especieDocumentoAvulsoPagination.populate = ['generoDocumentoAvulso'];
 
@@ -115,6 +115,9 @@ export class AcaoTrigger004Component implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.modalidadeAcaoEtiqueta$.subscribe(
+            modalidadeAcaoEtiqueta => this.modalidadeAcaoEtiqueta = modalidadeAcaoEtiqueta
+        );
     }
 
     /**
@@ -176,7 +179,7 @@ export class AcaoTrigger004Component implements OnInit, OnDestroy {
         const etiqueta = new Etiqueta();
         etiqueta.id = this.routerState.params.etiquetaHandle;
         acao.etiqueta = etiqueta;
-        acao.trigger = 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0005';
+        acao.modalidadeAcaoEtiqueta = this.modalidadeAcaoEtiqueta;
         values.contexto = JSON.stringify(values);
         Object.entries(values).forEach(
             ([key, value]) => {

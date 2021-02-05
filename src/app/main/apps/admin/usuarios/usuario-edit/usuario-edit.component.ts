@@ -43,13 +43,14 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
     logEntryPagination: Pagination;
 
     /**
-     *
+     * @param _changeDetectorRef
      * @param _store
      * @param _router
      * @param _loginService
      * @param _formBuilder
      */
     constructor(
+        private _changeDetectorRef: ChangeDetectorRef,
         private _store: Store<fromStore.UsuarioEditAppState>,
         private _router: Router,
         private _loginService: LoginService,
@@ -79,7 +80,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             email: [null, [Validators.required, Validators.email, Validators.maxLength(255)]],
             nivelAcesso: [0, [Validators.required, Validators.maxLength(2)]],
-            enabled: [null]
+            enabled: [true, [Validators.required]]
         });
 
         this.formColaborador = this._formBuilder.group({
@@ -87,7 +88,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
             modalidadeColaborador: [null, [Validators.required]],
             usuario: [null],
             cargo: [null, [Validators.required]],
-            ativo: [null]
+            ativo: [true, [Validators.required]]
         });
     }
 
@@ -109,9 +110,12 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         );
         if (!this.usuario) {
             this.usuario = new Usuario();
+            this.usuario.enabled = true;
+            this.usuario.nivelAcesso = 0;
         }
         if (!this.colaborador) {
             this.colaborador = new Colaborador();
+            this.colaborador.ativo = true;
         }
         this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Colaborador', id: + this.colaborador.id};
     }
@@ -161,5 +165,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
         if (usuario && usuario.colaborador) {
             this.colaborador = usuario.colaborador;
         }
+
+        this._changeDetectorRef.detectChanges();
     }
 }

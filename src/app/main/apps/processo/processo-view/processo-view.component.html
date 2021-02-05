@@ -26,7 +26,7 @@
                 </button>
 
                 <div>
-                    <h3 *ngIf="!loading">{{fileName}}</h3>
+                    <h3 *ngIf="!(loading$ | async)">{{fileName}}</h3>
                 </div>
 
                 <button mat-mini-fab class="next accent cdk-white-fg"
@@ -41,20 +41,23 @@
         <!-- CONTENT -->
         <div class="content">
 
-            <div *ngIf="!capa && !vinculacao && !documentoAvulso && !modelos && !loading" class="processo-view-juntada">
+            <div *ngIf="!capa && !vinculacao && !documentoAvulso && !modelos" class="processo-view-juntada">
 
-                <div class="loading" *ngIf="loading">
+                <div class="loading" *ngIf="(loading$ | async)">
                     <mat-spinner diameter="24"></mat-spinner>
                 </div>
 
-                <div class="sem-juntadas" *ngIf="!loading && (juntadas)?.length === 0">
+                <div class="sem-juntadas" *ngIf="!(loading$ | async) && (juntadas)?.length === 0">
                     <span class="no-juntadas-text hint-text"> Não há documentos juntados</span>
                 </div>
 
-                <div *ngIf="!loading && (juntadas)?.length > 0" class="processo-view-juntada-content">
-                    <iframe id="iframe-juntadas"
+                <div *ngIf="!(loading$ | async) && (juntadas)?.length > 0" class="processo-view-juntada-content">
+                    <iframe id="iframe-juntadas" *ngIf="src"
                             [src]="src">
                     </iframe>
+                    <div class="div-about-blank" *ngIf="!src">
+                        <span class="no-juntadas-text hint-text"> Não há documentos</span>
+                    </div>
                 </div>
             </div>
 
