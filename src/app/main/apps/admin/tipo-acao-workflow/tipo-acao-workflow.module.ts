@@ -26,18 +26,18 @@ const routes: Routes = [
         path: '',
         component: TipoAcaoWorkflowComponent,
         children: [
-            {
-                path       : 'listar',
-                loadChildren: () => import('./tipo-acao-workflow-list/tipo-acao-workflow-list.module').then(m => m.TipoAcaoWorkflowListModule),
-            },
-            {
-                path       : 'editar',
-                loadChildren: () => import('./tipo-acao-workflow-edit/tipo-acao-workflow-edit.module').then(m => m.TipoAcaoWorkflowEditModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'listar'
-            }
+            // {
+            //     path       : 'listar',
+            //     loadChildren: () => import('./tipo-acao-workflow-list/tipo-acao-workflow-list.module').then(m => m.TipoAcaoWorkflowListModule),
+            // },
+            // {
+            //     path       : 'editar',
+            //     loadChildren: () => import('./tipo-acao-workflow-edit/tipo-acao-workflow-edit.module').then(m => m.TipoAcaoWorkflowEditModule),
+            // },
+            // {
+            //     path: '**',
+            //     redirectTo: 'listar'
+            // }
         ],
     }
 ];

@@ -15,31 +15,24 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkSidebarModule} from '@cdk/components';
-import {AcaoTransicaoWorkflowEditComponent} from './acao-transicao-workflow-edit.component';
+import {TipoAcaoWorkflowTrigger001Component} from './tipo-acao-workflow-trigger-001.component';
 import {RouterModule, Routes} from '@angular/router';
-import {AcaoTransicaoWorkflowEditStoreModule} from './store/store.module';
-import * as fromGuards from './store/guards';
-import {AcaoTransicaoWorkflowService} from '@cdk/services/acao-transicao-workflow.service';
 import {modulesConfig} from 'modules/modules-config';
-import {TipoAcaoWorkflowService} from "../../../../../../../../@cdk/services/tipo-acao-workflow.service";
+import {CommonModule} from "@angular/common";
+import * as fromGuards from "./store/guards";
+import {AcaoTriggerStoreModule} from "../store/store.module";
+import {TipoAcaoWorkflowService} from "@cdk/services/tipo-acao-workflow.service";
+import {CdkTipoAcaoWorkflowTrigger001Module} from "@cdk/components/acao-transicao-workflow/cdk-tipo-acao-workflow-trigger/cdk-tipo-acao-workflow-trigger-001/cdk-tipo-acao-workflow-trigger-001.module";
 
 const routes: Routes = [
     {
-        path: ':acaoTransicaoWorkflowHandle',
-        component: AcaoTransicaoWorkflowEditComponent,
-        canActivate: [fromGuards.ResolveGuard],
-        children: [
-            {
-                path: '1',
-                loadChildren: () => import('./tipo-acao-workflow-trigger/tipo-acao-workflow-trigger-001/tipo-acao-workflow-trigger-001.module')
-                    .then(m => m.TipoAcaoWorkflowTrigger001Module),
-            }
-        ]
+        path: 'trigger',
+        component: TipoAcaoWorkflowTrigger001Component,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
-const path = 'app/main/apps/admin/workflow/transicao-workflow/acao-transicao-workflow/acao-transicao-workflow-edit';
+const path = 'app/main/apps/admin/workflows/transicao-workflow/acao-transicao-workflow/acao-transicao-workflow-edit/tipo-acao-workflow-trigger/tipo-acao-workflow-trigger-001';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -49,10 +42,9 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        AcaoTransicaoWorkflowEditComponent
+        TipoAcaoWorkflowTrigger001Component
     ],
     imports: [
-
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -68,17 +60,16 @@ modulesConfig.forEach((module) => {
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatTooltipModule,
+        CommonModule,
         TranslateModule,
         CdkSharedModule,
-        CdkSidebarModule,
-
-        AcaoTransicaoWorkflowEditStoreModule,
+        AcaoTriggerStoreModule,
+        CdkTipoAcaoWorkflowTrigger001Module
     ],
     providers: [
-        AcaoTransicaoWorkflowService,
-        TipoAcaoWorkflowService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        TipoAcaoWorkflowService
     ]
 })
-export class AcaoTransicaoWorkflowEditModule {
+export class TipoAcaoWorkflowTrigger001Module {
 }

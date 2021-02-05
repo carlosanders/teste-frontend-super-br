@@ -1,0 +1,9 @@
+<div class="content" cdkPerfectScrollbar>
+    <cdk-tipo-acao-workflow-trigger-001
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [tipoAcaoWorkflow]="tipoAcaoWorkflow"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-tipo-acao-workflow-trigger-001>
+</div>

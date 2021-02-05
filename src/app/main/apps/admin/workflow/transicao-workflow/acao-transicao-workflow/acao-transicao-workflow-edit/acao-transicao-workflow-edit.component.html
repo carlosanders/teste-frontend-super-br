@@ -1,9 +1,35 @@
-<div class="content" cdkPerfectScrollbar>
-    <cdk-acao-transicao-workflow-form
-        [acao]="acao"
-        [saving]="(isSaving$ | async)"
-        [errors]="(errors$ | async)"
-        (save)="submit($event)"
-        (abort)="doAbort()">
-    </cdk-acao-transicao-workflow-form>
+<div class="content" *ngIf="action == 'form-cadastro'">
+  <div class="header">
+    <div class="actions">
+      <button mat-icon-button
+              (click)="goBack()"
+              aria-label="voltar"
+              matTooltip="Voltar">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div class="items" *ngIf="tipoAcaoWorkflowList.length > 0">
+    <div class="trigger-acao-item" *ngFor="let tipoAcaoWorkflow of tipoAcaoWorkflowList"
+         (click)="selectAcaoWorkflow(tipoAcaoWorkflow)">
+      <div class="info">
+        <div class="title">
+          <span>{{tipoAcaoWorkflow.valor}}</span>
+        </div>
+        <div class="body mt-4">
+          <span>{{tipoAcaoWorkflow.descricao}}</span>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button mat-icon-button aria-label="selecionar">
+          <mat-icon>send</mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="no-acoes-text" *ngIf="tipoAcaoWorkflowList.length === 0">
+    <span class="hint-text">{{ 'Nenhuma ação disponível!' }}</span>
+  </div>
 </div>
+<router-outlet></router-outlet>

@@ -11,14 +11,16 @@ import {
     MatRadioModule,
     MatTooltipModule
 } from '@cdk/angular/material';
+import { CommonModule } from '@angular/common';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkAcaoTransicaoWorkflowFormComponent} from './cdk-acao-transicao-workflow-form.component';
-import {CdkModeloAutocompleteModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
-import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cdk-modelo-gridsearch/cdk-modelo-gridsearch.module';
+import {CdkModeloAutocompleteModule} from '../../../modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.module';
+import {CdkModeloGridsearchModule} from '../../../modelo/cdk-modelo-autocomplete/cdk-modelo-gridsearch/cdk-modelo-gridsearch.module';
+import {RouterModule} from '@angular/router';
+import {CdkTipoAcaoWorkflowTrigger001Component} from "./cdk-tipo-acao-workflow-trigger-001.component";
 
 @NgModule({
     declarations: [
-        CdkAcaoTransicaoWorkflowFormComponent,
+        CdkTipoAcaoWorkflowTrigger001Component,
     ],
     imports: [
         MatAutocompleteModule,
@@ -31,17 +33,17 @@ import {CdkModeloGridsearchModule} from '../../modelo/cdk-modelo-autocomplete/cd
         MatDatepickerModule,
         MatRadioModule,
         MatTooltipModule,
+        RouterModule,
+        CommonModule,
 
         CdkModeloAutocompleteModule,
         CdkModeloGridsearchModule,
 
         CdkSharedModule,
     ],
-    providers: [
-    ],
     exports: [
-        CdkAcaoTransicaoWorkflowFormComponent
+        CdkTipoAcaoWorkflowTrigger001Component
     ]
 })
-export class CdkAcaoTransicaoWorkflowFormModule {
+export class CdkTipoAcaoWorkflowTrigger001Module {
 }
