@@ -19,7 +19,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
 export class TipoValidacaoWorkflowListComponent implements OnInit {
 
     routerState: any;
-    tipoValidvalidacaoWorkflows$: Observable<TipoValidacaoWorkflow[]>;
+    tipoValidacaoWorkflows$: Observable<TipoValidacaoWorkflow[]>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
@@ -31,7 +31,7 @@ export class TipoValidacaoWorkflowListComponent implements OnInit {
         private _router: Router,
         private _store: Store<fromStore.TipoValidacaoWorkflowListAppState>,
     ) {
-        this.tipoValidvalidacaoWorkflows$ = this._store.pipe(select(fromStore.getTipoValidacaoWorkflowList));
+        this.tipoValidacaoWorkflows$ = this._store.pipe(select(fromStore.getTipoValidacaoWorkflowList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
@@ -69,8 +69,8 @@ export class TipoValidacaoWorkflowListComponent implements OnInit {
         }));
     }
 
-    edit(tipoValidvalidacaoWorkflowId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + tipoValidvalidacaoWorkflowId]);
+    edit(tipoValidacaoWorkflowId: number): void {
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + tipoValidacaoWorkflowId]);
     }
 
     create(): void {
