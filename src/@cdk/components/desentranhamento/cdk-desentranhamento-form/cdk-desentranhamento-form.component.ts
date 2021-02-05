@@ -32,7 +32,7 @@ export class CdkDesentranhamentoFormComponent implements OnInit, OnChanges, OnDe
     saving: boolean;
 
     @Input()
-    valid = true;
+    selecionadas: any[] = [];
 
     @Input()
     errors: any;
@@ -49,6 +49,8 @@ export class CdkDesentranhamentoFormComponent implements OnInit, OnChanges, OnDe
 
     @Input()
     processoDestinoPagination: Pagination;
+
+    valid: boolean = false;
 
     /**
      * Constructor
@@ -101,6 +103,10 @@ export class CdkDesentranhamentoFormComponent implements OnInit, OnChanges, OnDe
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['desentranhamento'] && this.desentranhamento && (!this.desentranhamento.id || (this.desentranhamento.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.desentranhamento});
+        }
+
+        if (changes['selecionadas']) {
+            this.valid = this.selecionadas.length > 0;
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {

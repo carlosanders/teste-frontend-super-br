@@ -4,11 +4,12 @@ export const GET_JUNTADAS = '[JUNTADA LIST] GET JUNTADAS';
 export const GET_JUNTADAS_SUCCESS = '[JUNTADA LIST] GET JUNTADAS SUCCESS';
 export const GET_JUNTADAS_FAILED = '[JUNTADA LIST] GET JUNTADAS FAILED';
 
+export const DESENTRANHA_JUNTADA = '[JUNTADA LIST] DESENTRANHA JUNTADA';
+export const DESENTRANHA_JUNTADA_CANCEL = '[JUNTADA LIST] DESENTRANHA JUNTADA CANCEL';
+
 export const RELOAD_JUNTADAS = '[JUNTADA LIST] RELOAD JUNTADAS';
 
-export const DESENTRANHAMENTO_JUNTADA = '[JUNTADA LIST] DESENTRANHAMENTO JUNTADA';
-export const DESENTRANHAMENTO_JUNTADA_SUCCESS = '[JUNTADA LIST] DESENTRANHAMENTO JUNTADA SUCCESS';
-export const DESENTRANHAMENTO_JUNTADA_FAILED = '[JUNTADA LIST] DESENTRANHAMENTO JUNTADA FAILED';
+export const UNLOAD_JUNTADAS = '[JUNTADA LIST] UNLOAD JUNTADAS';
 
 export const COPIA_DOCUMENTO_JUNTADA = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA';
 export const COPIA_DOCUMENTO_JUNTADA_SUCCESS = '[JUNTADA LIST] COPIA DOCUMENTO JUNTADA SUCCESS';
@@ -80,11 +81,11 @@ export class ReloadJuntadas implements Action
 }
 
 /**
- * Desentranhar Juntada
+ * Desentranha Juntada
  */
-export class DesentranharJuntada implements Action
+export class DesentranhaJuntada implements Action
 {
-    readonly type = DESENTRANHAMENTO_JUNTADA;
+    readonly type = DESENTRANHA_JUNTADA;
 
     constructor(public payload: any)
     {
@@ -92,11 +93,11 @@ export class DesentranharJuntada implements Action
 }
 
 /**
- * Desentranhar Juntada Success
+ * Desentranha Juntada Cancel
  */
-export class DesentranharJuntadaSuccess implements Action
+export class DesentranhaJuntadaCancel implements Action
 {
-    readonly type = DESENTRANHAMENTO_JUNTADA_SUCCESS;
+    readonly type = DESENTRANHA_JUNTADA_CANCEL;
 
     constructor(public payload: any)
     {
@@ -104,17 +105,16 @@ export class DesentranharJuntadaSuccess implements Action
 }
 
 /**
- * Desentranhar Juntada Failed
+ * Unload Juntadas
  */
-export class DesentranharJuntadaFailed implements Action
+export class UnloadJuntadas implements Action
 {
-    readonly type = DESENTRANHAMENTO_JUNTADA_FAILED;
+    readonly type = UNLOAD_JUNTADAS;
 
-    constructor(public payload: any)
+    constructor()
     {
     }
 }
-
 
 /**
  * Copiar Documento Juntada
@@ -302,12 +302,12 @@ export type JuntadaListActionsAll
     | GetJuntadasSuccess
     | GetJuntadasFailed
     | ReloadJuntadas
+    | UnloadJuntadas
+    | DesentranhaJuntada
+    | DesentranhaJuntadaCancel
     | CopiarDocumentoJuntada
     | CopiarDocumentoJuntadaSuccess
     | CopiarDocumentoJuntadaFailed
-    | DesentranharJuntada
-    | DesentranharJuntadaSuccess
-    | DesentranharJuntadaFailed
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed

@@ -39,13 +39,16 @@ export class CdkJuntadaGridSelectComponent implements OnInit, OnChanges {
     total = 0;
 
     @Input()
-    actions: string[] = [];
+    actions: string[] = ['desentranharBloco'];
 
     @Input()
     displayedColumns: string[] = ['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions'];
 
     @Output()
     juntadasSelecionadas = new EventEmitter<Juntada[]>();
+
+    @Output()
+    reload = new EventEmitter<any>();
 
     dataSourceJuntadasAdicionadas: JuntadaDataSource;
 
@@ -79,6 +82,7 @@ export class CdkJuntadaGridSelectComponent implements OnInit, OnChanges {
         });
         this.juntadasAdicionadas.push(juntada);
         this.dataSourceJuntadasAdicionadas = new JuntadaDataSource(of(this.juntadasAdicionadas));
+        this.total = (this.total-1 < 0)? 0 : this.total-1;
         this.juntadasSelecionadas.emit(this.juntadasAdicionadas);
     }
 
@@ -87,6 +91,7 @@ export class CdkJuntadaGridSelectComponent implements OnInit, OnChanges {
         this.juntadas.push(juntada);
         this.juntadas = [...this.juntadas];
         this.dataSourceJuntadasAdicionadas = new JuntadaDataSource(of(this.juntadasAdicionadas));
+        this.total++;
         this.juntadasSelecionadas.emit(this.juntadasAdicionadas);
     }
 
@@ -94,6 +99,10 @@ export class CdkJuntadaGridSelectComponent implements OnInit, OnChanges {
         let posicaoInicial = this.juntadasAdicionadas.indexOf(juntada);
         this.alterarItemArray(this.juntadasAdicionadas, posicaoInicial, --posicaoInicial);
         this.dataSourceJuntadasAdicionadas = new JuntadaDataSource(of(this.juntadasAdicionadas));
+    }
+
+    doReload(params): void {
+        this.reload.emit(params);
     }
 
     descerJuntada(juntada: Juntada): void {

@@ -451,6 +451,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         tarefas.forEach((tarefa: Tarefa) => this.deleteTarefa(tarefa, this.lote));
     }
 
+    cienciaBlocoTarefa(tarefas: Tarefa[]): void {
+        this.lote = CdkUtils.makeId();
+        tarefas.forEach((tarefa: Tarefa) => this.doCienciaTarefa(tarefa.id, this.lote));
+    }
+
     doRestauraTarefa(tarefa: Tarefa): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.UndeleteTarefa({
@@ -613,10 +618,6 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doRedistribuiTarefaBloco(): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco']).then();
-    }
-
-    doCienciaBloco(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco']).then();
     }
 

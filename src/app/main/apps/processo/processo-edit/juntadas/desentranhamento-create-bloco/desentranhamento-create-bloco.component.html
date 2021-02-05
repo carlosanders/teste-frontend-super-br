@@ -1,11 +1,20 @@
+<div class="header">
+    <button mat-icon-button
+            (click)="back()"
+            matTooltip="Voltar às Juntadas">
+        <mat-icon class="secondary-text">arrow_back</mat-icon>
+    </button>
+</div>
+
 <mat-horizontal-stepper linear *ngIf="!mobileMode">
     <mat-step>
         <ng-template matStepLabel class="secondary-text">Selecione as juntadas que serão desentranhadas</ng-template>
         <cdk-juntada-grid-select [loading]="(loading$ | async)"
                                  [juntadas]="juntadas"
+                                 (reload)="reload($event)"
                                  [juntadasAdicionadas]="juntadasSelecionadas"
                                  (juntadasSelecionadas)="juntadasAdicionadas($event)"
-                                 [total]="(pagination$ | async)?.total">
+                                 [total]="juntadas.length">
         </cdk-juntada-grid-select>
         <div>
             <button matStepperNext mat-raised-button color="accent" class="mr-sm-12"
@@ -17,18 +26,8 @@
     <mat-step>
         <ng-template matStepLabel class="secondary-text">Selecione o destino das juntada</ng-template>
         <div fxLayout="column">
-            <mat-list *ngIf="operacoes.length > 0">
-                <h3 matSubheader>
-                    <span>Resultado do Bloco</span>
-                </h3>
-                <div *ngFor="let operacao of operacoes">
-                    <p matLine class="mb-4 p-8 secondary-text"
-                       [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
-                </div>
-            </mat-list>
             <cdk-desentranhamento-form [desentranhamento]="desentranhamento"
-                                       [valid]="(juntadas$ | async)?.length > 0"
-                                       [saving]="(isSaving$ | async)"
+                                       [selecionadas]="(juntadasSelecionadas$ | async)"
                                        (save)="submit($event)">
             </cdk-desentranhamento-form>
             <div>
@@ -45,7 +44,7 @@
                                  [juntadas]="juntadas"
                                  [juntadasAdicionadas]="juntadasSelecionadas"
                                  (juntadasSelecionadas)="juntadasAdicionadas($event)"
-                                 [total]="(pagination$ | async)?.total">
+                                 [total]="juntadas.length">
         </cdk-juntada-grid-select>
         <div>
             <button matStepperNext mat-raised-button color="accent" class="mr-sm-12"
@@ -57,18 +56,8 @@
     <mat-step>
         <ng-template matStepLabel class="secondary-text">Selecione o destino das juntada</ng-template>
         <div fxLayout="column">
-            <mat-list *ngIf="operacoes.length > 0">
-                <h3 matSubheader>
-                    <span>Resultado do Bloco</span>
-                </h3>
-                <div *ngFor="let operacao of operacoes">
-                    <p matLine class="mb-4 p-8 secondary-text"
-                       [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
-                </div>
-            </mat-list>
             <cdk-desentranhamento-form [desentranhamento]="desentranhamento"
-                                       [valid]="(juntadas$ | async)?.length > 0"
-                                       [saving]="(isSaving$ | async)"
+                                       [selecionadas]="(juntadasSelecionadas$ | async)"
                                        (save)="submit($event)">
             </cdk-desentranhamento-form>
             <div>

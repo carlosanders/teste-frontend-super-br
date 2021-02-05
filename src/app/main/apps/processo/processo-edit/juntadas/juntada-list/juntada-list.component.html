@@ -34,6 +34,7 @@
         (adicionarVinculacao)="adicionarVinculacao($event)"
         (removerVinculacoes)="removerVinculacoes($event)"
         [assinandoId]="(assinandoDocumentosId$ | async)"
+        [desentranhadoId]="(desentranhadoIds$ | async)"
         (removeAssinatura)="removeAssinatura($event)"
         [removendoAssinaturaId]="(removendoAssinaturaDocumentosId$ | async)">
     </cdk-juntada-grid>
