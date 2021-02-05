@@ -1,4 +1,4 @@
-/*import {
+import {
     ChangeDetectionStrategy,
     EventEmitter,
     OnInit,
@@ -20,7 +20,7 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     animations: cdkAnimations
 })
 export class CdkTipoValidacaoWorkflowFilterComponent implements OnInit {
-/*
+
     @Output()
     selected = new EventEmitter<any>();
 
@@ -34,14 +34,13 @@ export class CdkTipoValidacaoWorkflowFilterComponent implements OnInit {
     /**
      * Constructor
      */
- /*   constructor(
+    constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
             valor: [null],
             descricao: [null],
-            tipoWorkflow: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -58,7 +57,7 @@ export class CdkTipoValidacaoWorkflowFilterComponent implements OnInit {
     /**
      * On init
      */
- /*   ngOnInit(): void {
+    ngOnInit(): void {
         this.form.get('valor').valueChanges.subscribe(value => {
             const andxFilter = [];
             value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
@@ -188,4 +187,3 @@ export class CdkTipoValidacaoWorkflowFilterComponent implements OnInit {
     }
 }
 
-*/

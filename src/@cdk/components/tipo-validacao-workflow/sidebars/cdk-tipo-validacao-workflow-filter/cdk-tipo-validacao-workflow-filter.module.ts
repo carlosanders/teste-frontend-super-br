@@ -11,14 +11,14 @@ import {
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflow.service';
-//import {CdkTipoValidacaoWorkflowFilterComponent} from './cdk-tipo-validacao-workflow-filter.component';
+import {CdkTipoValidacaoWorkflowFilterComponent} from './cdk-tipo-validacao-workflow-filter.component';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 
 @NgModule({
     declarations: [
-        //CdkTipoValidacaoWorkflowFilterComponent,
+        CdkTipoValidacaoWorkflowFilterComponent,
     ],
     imports: [
         MatButtonModule,
@@ -40,7 +40,7 @@ import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-
         TipoValidacaoWorkflowService,
     ],
     exports: [
-    //    CdkTipoValidacaoWorkflowFilterComponent
+        CdkTipoValidacaoWorkflowFilterComponent
     ]
 })
 export class CdkTipoValidacaoWorkflowFilterModule {
