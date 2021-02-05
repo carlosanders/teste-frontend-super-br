@@ -25,7 +25,7 @@ const routes: Routes = [
     {
         path: '',
         component: TipoAcaoWorkflowComponent,
-        children: [ 
+        children: [
             {
                 path       : 'listar',
                 loadChildren: () => import('./tipo-acao-workflow-list/tipo-acao-workflow-list.module').then(m => m.TipoAcaoWorkflowListModule),
