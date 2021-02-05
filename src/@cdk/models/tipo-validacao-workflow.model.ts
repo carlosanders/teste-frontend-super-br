@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import {Usuario, Workflow} from '@cdk/models';
+import {Usuario} from '@cdk/models';
 
 export class TipoValidacaoWorkflow {
 
@@ -14,7 +14,8 @@ export class TipoValidacaoWorkflow {
 
     descricao?: string;
 
-    trigger?: string;
+    @Exclude({ toPlainOnly: true })
+    sigla?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -52,7 +53,7 @@ export class TipoValidacaoWorkflow {
         this.uuid = null;
         this.valor = null;
         this.descricao = null;
-        this.trigger = null;
+        this.sigla = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

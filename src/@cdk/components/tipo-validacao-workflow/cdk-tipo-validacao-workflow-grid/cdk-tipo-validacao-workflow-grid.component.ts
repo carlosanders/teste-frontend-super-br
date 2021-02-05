@@ -49,7 +49,7 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'sigla', 'actions'];
 
     allColumns: any[] = [
         {
@@ -70,6 +70,11 @@ export class CdkTipoValidacaoWorkflowGridComponent implements AfterViewInit, OnI
         {
             id: 'descricao',
             label: 'Descrição',
+            fixed: false
+        },
+        {
+            id: 'sigla',
+            label: 'Sigla',
             fixed: false
         },
         {

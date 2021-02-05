@@ -41,6 +41,7 @@ export class CdkTipoValidacaoWorkflowFilterComponent implements OnInit {
         this.form = this._formBuilder.group({
             valor: [null],
             descricao: [null],
+            sigla: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -94,6 +95,24 @@ export class CdkTipoValidacaoWorkflowFilterComponent implements OnInit {
             }
         });
         
+        this.form.get('sigla').valueChanges.subscribe(value => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({sigla: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('sigla')) {
+                        delete this.filters['sigla'];
+                    }
+                }
+            }
+        });
 
         this.form.get('criadoEm').valueChanges.subscribe(value => {
             if (value !== null) {

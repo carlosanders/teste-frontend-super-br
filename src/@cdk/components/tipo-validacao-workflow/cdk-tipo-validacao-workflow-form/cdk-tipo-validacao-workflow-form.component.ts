@@ -55,7 +55,7 @@ export class CdkTipoValidacaoWorkflowFormComponent implements OnChanges, OnDestr
             id: [null],
             valor: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required]],
-            trigger: [null, [Validators.required]]
+            sigla: [null, [Validators.required]]
         });
     }
 
@@ -70,7 +70,7 @@ export class CdkTipoValidacaoWorkflowFormComponent implements OnChanges, OnDestr
                 id: this.tipoValidacaoWorkflow.id,
                 valor: this.tipoValidacaoWorkflow.valor,
                 descricao: this.tipoValidacaoWorkflow.descricao,
-                trigger: this.tipoValidacaoWorkflow.trigger,
+                sigla: this.tipoValidacaoWorkflow.sigla,
             });
         }
 

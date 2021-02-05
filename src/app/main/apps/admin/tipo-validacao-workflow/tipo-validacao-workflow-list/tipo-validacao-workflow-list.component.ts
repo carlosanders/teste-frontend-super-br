@@ -76,4 +76,9 @@ export class TipoValidacaoWorkflowListComponent implements OnInit {
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
+    
+    delete(tipoValidacaoWorkflowId: number): void {
+        this._store.dispatch(new fromStore.DeleteTipoValidacaoWorkflow(tipoValidacaoWorkflowId));
+    }
+
 }

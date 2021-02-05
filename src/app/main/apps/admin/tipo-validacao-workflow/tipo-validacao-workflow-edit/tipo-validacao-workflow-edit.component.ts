@@ -56,7 +56,7 @@ export class TipoValidacaoWorkflowEditComponent implements OnInit {
             id: [null],
             valor: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required]],
-            trigger: [null, [Validators.required]]       
+            sigla: [null, [Validators.required]]       
          });
     }
 
