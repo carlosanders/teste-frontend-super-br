@@ -11,8 +11,9 @@
     [deletingIds]="(deletingIds$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['select', 'id', 'valor', 'descricao', 'actions']"
-    [actions]="['edit', 'create']"
+    [actions]="['edit', 'create', 'delete']"
     (reload)="reload($event)"
     (edit)="edit($event)"
+    (delete)="delete($event)"
     (create)="create()">
 </cdk-tipo-acao-workflow-grid>

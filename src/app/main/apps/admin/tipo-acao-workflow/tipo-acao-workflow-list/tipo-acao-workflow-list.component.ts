@@ -76,4 +76,9 @@ export class TipoAcaoWorkflowListComponent implements OnInit {
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
     }
+
+    delete(tipoAcaoWorkflowId: number): void {
+        this._store.dispatch(new fromStore.DeleteTipoAcaoWorkflow(tipoAcaoWorkflowId));
+    }
+
 }
