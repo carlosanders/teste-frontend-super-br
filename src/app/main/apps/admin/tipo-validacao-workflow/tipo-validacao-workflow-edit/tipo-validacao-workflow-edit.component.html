@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="insert_drive_file"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="tipo-validacao-workflow">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-tipo-validacao-workflow-form
+        [tipoValidacaoWorkflow]="(tipoValidacaoWorkflow$ | async)"
+        [form]="formTipoValidacaoWorkflow"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitTipoValidacaoWorkflow($event)"
+        (abort)="doAbort()">
+    </cdk-tipo-validacao-workflow-form>
+</div>

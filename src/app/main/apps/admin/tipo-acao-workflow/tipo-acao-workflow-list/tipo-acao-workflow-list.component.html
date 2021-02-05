@@ -1,0 +1,18 @@
+<div class="header">
+    <path icone="insert_drive_file"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="tipo-acao-workflow">
+    </path>
+</div>
+<cdk-tipo-acao-workflow-grid
+    [loading]="(loading$ | async)"
+    [tipoAcaoWorkflows]="(tipoAcaoWorkflows$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [deletingIds]="(deletingIds$ | async)"
+    [deletedIds]="(deletedIds$ | async)"
+    [displayedColumns]="['select', 'id', 'valor', 'descricao', 'actions']"
+    [actions]="['edit', 'create']"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-tipo-acao-workflow-grid>
