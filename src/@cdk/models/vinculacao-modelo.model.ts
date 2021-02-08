@@ -36,7 +36,7 @@ export class VinculacaoModelo {
 
     @Type(() => ModalidadeOrgaoCentral)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    orgaoCentral?: ModalidadeOrgaoCentral;
+    modalidadeOrgaoCentral?: ModalidadeOrgaoCentral;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -76,7 +76,7 @@ export class VinculacaoModelo {
         this.setor = null;
         this.unidade = null;
         this.usuario = null;
-        this.orgaoCentral = null;
+        this.modalidadeOrgaoCentral = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

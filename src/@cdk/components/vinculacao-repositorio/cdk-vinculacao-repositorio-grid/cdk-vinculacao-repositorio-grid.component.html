@@ -4,7 +4,7 @@
     <cdk-sidebar name="cdk-vinculacao-repositorio-filter" position="left">
         <cdk-vinculacao-repositorio-filter [setorPagination]="setorPagination"
                                            [repositorioPagination]="repositorioPagination"
-                                           [orgaoCentralPagination]="orgaoCentralPagination"
+                                           [modalidadeOrgaoCentralPagination]="modalidadeOrgaoCentralPagination"
                                            [usuarioPagination]="usuarioPagination"
                                            (selected)="setFilter($event)" [@animate]="{value:'*'}">
         </cdk-vinculacao-repositorio-filter>
@@ -138,12 +138,12 @@
                 </ng-container>
 
                 <!-- Órgão Central Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('orgaoCentral.valor') > -1" matColumnDef="orgaoCentral.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeOrgaoCentral.valor') > -1" matColumnDef="modalidadeOrgaoCentral.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Órgão Central
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoRepositorio" class='has_label_on_mobile' data-label='Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.orgaoCentral?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoRepositorio.id) > -1}"> {{vinculacaoRepositorio.modalidadeOrgaoCentral?.valor}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->

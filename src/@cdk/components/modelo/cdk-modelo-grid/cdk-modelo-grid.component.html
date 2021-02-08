@@ -175,12 +175,12 @@
                 </ng-container>
 
                 <!-- Órgão Central Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('vinculacoesModelos.orgaoCentral.valor') > -1" matColumnDef="vinculacoesModelos.orgaoCentral.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('vinculacoesModelos.modalidadeOrgaoCentral.valor') > -1" matColumnDef="vinculacoesModelos.modalidadeOrgaoCentral.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Órgão Central
                     </th>
                     <td mat-cell *matCellDef="let modelo" class='has_label_on_mobile' data-label='Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1}"> {{modelo.vinculacoesModelos[0]?.orgaoCentral?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(modelo.id) > -1}"> {{modelo.vinculacoesModelos[0]?.modalidadeOrgaoCentral?.valor}} </td>
                 </ng-container>
 
                 <!-- Documento Column -->

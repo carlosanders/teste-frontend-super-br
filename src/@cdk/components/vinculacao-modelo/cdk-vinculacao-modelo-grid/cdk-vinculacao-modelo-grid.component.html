@@ -3,7 +3,7 @@
     <!-- SIDEBAR -->
     <cdk-sidebar name="cdk-vinculacao-modelo-filter" position="left">
         <cdk-vinculacao-modelo-filter [setorPagination]="setorPagination" [modeloPagination]="modeloPagination"
-                                      [orgaoCentralPagination]="orgaoCentralPagination"
+                                      [modalidadeOrgaoCentralPagination]="modalidadeOrgaoCentralPagination"
                                       (selected)="setFilter($event)" [@animate]="{value:'*'}">
         </cdk-vinculacao-modelo-filter>
     </cdk-sidebar>
@@ -135,12 +135,12 @@
                 </ng-container>
 
                 <!-- Órgão Central Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('orgaoCentral.valor') > -1" matColumnDef="orgaoCentral.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('modalidadeOrgaoCentral.valor') > -1" matColumnDef="modalidadeOrgaoCentral.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Órgão Central
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoModelo" class='has_label_on_mobile' data-label='Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.orgaoCentral?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoModelo.id) > -1}"> {{vinculacaoModelo.modalidadeOrgaoCentral?.valor}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

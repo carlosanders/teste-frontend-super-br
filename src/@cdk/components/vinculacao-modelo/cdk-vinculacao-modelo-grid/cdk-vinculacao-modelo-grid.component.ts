@@ -45,7 +45,7 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
     displayedColumns: string[] = ['select', 'id', 'modelo.nome', 'especieSetor.nome', 'setor.nome', 'usuario.nome', 'actions'];
 
     @Input()
-    orgaoCentralPagination: Pagination;
+    modalidadeOrgaoCentralPagination: Pagination;
 
     @Input()
     modeloPagination: Pagination;
@@ -88,7 +88,7 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
             fixed: false
         },
         {
-            id: 'orgaoCentral.valor',
+            id: 'modalidadeOrgaoCentral.valor',
             label: 'Órgão Central',
             fixed: false
         },
@@ -191,7 +191,7 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
         this.gridFilter = {};
         this.vinculacaoModelos = [];
 
-        this.orgaoCentralPagination = new Pagination();
+        this.modalidadeOrgaoCentralPagination = new Pagination();
         this.modeloPagination = new Pagination();
         this.setorPagination = new Pagination();
         this.usuarioPagination = new Pagination();
