@@ -222,7 +222,7 @@ export class DocumentoAvulsoResponderEffect {
             .pipe(
                 ofType<DocumentoAvulsoReponderActions.AssinaDocumentoEletronicamente>(DocumentoAvulsoReponderActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
                 switchMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({password: action.payload.password})).pipe(
+                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({plainPassword: action.payload.plainPassword})).pipe(
                         mergeMap((response: Assinatura) => [
                             new DocumentoAvulsoReponderActions.AssinaDocumentoEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),

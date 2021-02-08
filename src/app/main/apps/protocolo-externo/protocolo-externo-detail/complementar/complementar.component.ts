@@ -193,7 +193,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     documentoId: result.documento.id,
                     assinatura: assinatura,
-                    password: result.password,
+                    plainPassword: result.plainPassword,
                     processoId: this.processo.id
                 }));
             });

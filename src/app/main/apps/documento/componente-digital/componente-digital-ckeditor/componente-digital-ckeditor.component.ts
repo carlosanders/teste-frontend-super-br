@@ -225,7 +225,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromDocumentoStore.AssinaDocumento());
     }
 
-    doAssinarEletronicamente(password): void {
+    doAssinarEletronicamente(plainPassword): void {
         const assinatura = new Assinatura();
         assinatura.componenteDigital = this.componenteDigital;
         assinatura.algoritmoHash = 'A1';
@@ -235,7 +235,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromDocumentoStore.AssinaDocumentoEletronicamente({
             assinatura: assinatura,
-            password: password
+            plainPassword: plainPassword
         }));
     }
 
