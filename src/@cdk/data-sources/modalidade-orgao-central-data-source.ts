@@ -4,12 +4,12 @@ import { ModalidadeOrgaoCentral } from '@cdk/models';
 
 export class ModalidadeOrgaoCentralDataSource extends DataSource<ModalidadeOrgaoCentral> {
 
-    public constructor(private orgaoCentrales$: Observable<ModalidadeOrgaoCentral[]>) {
+    public constructor(private modalidadeOrgaoCentral$: Observable<ModalidadeOrgaoCentral[]>) {
         super();
     }
 
     public connect(collectionViewer: CollectionViewer): Observable<ModalidadeOrgaoCentral[]> {
-        return this.orgaoCentrales$;
+        return this.modalidadeOrgaoCentral$;
     }
 
     public disconnect(collectionViewer: CollectionViewer): void {

@@ -302,12 +302,12 @@ export class CdkModalidadeOrgaoCentralGridComponent implements AfterViewInit, On
     }
 
     toggleInSelected(modalidadeOrgaoCentralId): void {
-        const selectedModalidadeorgaoCentralIds = [...this.selectedIds];
+        const selectedModalidadeOrgaoCentralIds = [...this.selectedIds];
 
-        if (selectedModalidadeorgaoCentralIds.find(id => id === modalidadeOrgaoCentralId) !== undefined) {
-            this.selectedIds = selectedModalidadeorgaoCentralIds.filter(id => id !== modalidadeOrgaoCentralId);
+        if (selectedModalidadeOrgaoCentralIds.find(id => id === modalidadeOrgaoCentralId) !== undefined) {
+            this.selectedIds = selectedModalidadeOrgaoCentralIds.filter(id => id !== modalidadeOrgaoCentralId);
         } else {
-            this.selectedIds = [...selectedModalidadeorgaoCentralIds, modalidadeOrgaoCentralId];
+            this.selectedIds = [...selectedModalidadeOrgaoCentralIds, modalidadeOrgaoCentralId];
         }
         this.recompute();
     }

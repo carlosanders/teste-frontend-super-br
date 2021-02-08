@@ -84,7 +84,7 @@ export class Modelo {
 
     @Type(() => ModalidadeOrgaoCentral)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    orgaoCentral?: ModalidadeOrgaoCentral;
+    modalidadeOrgaoCentral?: ModalidadeOrgaoCentral;
 
     constructor() {
         this.id = null;
@@ -100,7 +100,7 @@ export class Modelo {
         this.setor = null;
         this.unidade = null;
         this.usuario = null;
-        this.orgaoCentral = null;
+        this.modalidadeOrgaoCentral = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
