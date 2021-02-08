@@ -82,21 +82,7 @@ export class JuntadaListEffect {
             );
 
     /**
-     * Desentranhar Juntada
-     * @type {Observable<any>}
-     */
-    @Effect({dispatch: false})
-    desentranharJuntada: any =
-        this._actions
-            .pipe(
-                ofType<JuntadaListActions.DesentranharJuntada>(JuntadaListActions.DESENTRANHAMENTO_JUNTADA),
-                tap(() => {
-                    this._router.navigate([this.routerState.url.replace('juntadas/listar', 'juntadas/desentranhar')]).then();
-                })
-            );
-
-    /**
-     * Desentranhar Juntada
+     * Copiar Documento Juntada
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})

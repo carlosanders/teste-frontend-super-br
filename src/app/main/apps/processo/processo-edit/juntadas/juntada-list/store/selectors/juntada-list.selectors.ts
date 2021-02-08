@@ -46,6 +46,11 @@ export const getDesentranhandoIds = createSelector(
     (state: JuntadaListState) => state.desentranhandoIds
 );
 
+export const getDesentranhadoIds = createSelector(
+    getJuntadaListState,
+    (state: JuntadaListState) => state.desentranhadoIds
+);
+
 export const getCopiandoIds = createSelector(
     getJuntadaListState,
     (state: JuntadaListState) => state.copiandoIds

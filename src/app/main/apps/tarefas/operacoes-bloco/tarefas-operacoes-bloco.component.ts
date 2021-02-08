@@ -197,6 +197,52 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
         });
     }
 
+    doCienciaTarefa(tarefaId, loteId: string = null): void {
+        const operacaoId = CdkUtils.makeId();
+        const tarefa = new Tarefa();
+        tarefa.id = tarefaId;
+        this._store.dispatch(new fromStoreTarefas.DarCienciaTarefa({
+            tarefa: tarefa,
+            operacaoId: operacaoId,
+            loteId: loteId,
+            redo: [
+                new fromStoreTarefas.DarCienciaTarefa({
+                    tarefa: tarefa,
+                    operacaoId: operacaoId,
+                    loteId: loteId,
+                    redo: 'inherent'
+                    // redo e undo são herdados da ação original
+                }),
+                new fromStoreTarefas.DarCienciaTarefaFlush()
+            ],
+            undo: null
+        }));
+
+        if (this.snackSubscription) {
+            // temos um snack aberto, temos que ignorar
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
+
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['cdk-white-bg'],
+            data: {
+                icon: 'check',
+                text: 'Ciência'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === true) {
+                this._store.dispatch(new fromStoreTarefas.DarCienciaTarefaCancel());
+            } else {
+                this._store.dispatch(new fromStoreTarefas.DarCienciaTarefaFlush());
+            }
+        });
+    }
+
     doRestauraTarefa(tarefaId): void {
         const operacaoId = CdkUtils.makeId();
         const tarefa = new Tarefa();
@@ -244,8 +290,8 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     }
 
     doCienciaBloco(): void {
-        // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/redistribuicao-edit-bloco']).then();
+        const lote = CdkUtils.makeId();
+        this.selectedIds.forEach(tarefaId => this.doCienciaTarefa(tarefaId, lote));
     }
 
     doCreateTarefaBloco(): void {

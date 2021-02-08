@@ -85,33 +85,31 @@ export function JuntadaListReducer(state = JuntadaListInitialState, action: Junt
             };
         }
 
+        case JuntadaListActions.UNLOAD_JUNTADAS: {
+            return {
+                ...JuntadaListInitialState
+            };
+        }
+
+        case JuntadaListActions.DESENTRANHA_JUNTADA: {
+            return {
+                ...state,
+                desentranhadoIds: [...state.desentranhadoIds, action.payload]
+            };
+        }
+
+        case JuntadaListActions.DESENTRANHA_JUNTADA_CANCEL: {
+            return {
+                ...state,
+                desentranhadoIds: state.desentranhadoIds.filter(id => id !== action.payload)
+            };
+        }
+
         case JuntadaListActions.GET_JUNTADAS_FAILED: {
             return {
                 ...state,
                 loading: false,
                 loaded: false
-            };
-        }
-
-        case JuntadaListActions.DESENTRANHAMENTO_JUNTADA: {
-            return {
-                ...state,
-                desentranhandoIds: action.payload
-            };
-        }
-
-        case JuntadaListActions.DESENTRANHAMENTO_JUNTADA_SUCCESS: {
-            return {
-                ...state,
-                desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload),
-                desentranhadoIds: [...state.desentranhadoIds, action.payload]
-            };
-        }
-
-        case JuntadaListActions.DESENTRANHAMENTO_JUNTADA_FAILED: {
-            return {
-                ...state,
-                desentranhandoIds: state.desentranhandoIds.filter(id => id !== action.payload)
             };
         }
 

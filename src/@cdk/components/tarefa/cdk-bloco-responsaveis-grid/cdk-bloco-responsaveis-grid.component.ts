@@ -48,7 +48,7 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'responsavel', 'setor', 'sigla', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'responsavel', 'unidade', 'setor', 'sigla', 'actions'];
 
     allColumns: any[] = [
         {
@@ -64,6 +64,11 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
         {
             id: 'responsavel',
             label: 'Responsável',
+            fixed: false
+        },
+        {
+            id: 'unidade',
+            label: 'Unidade',
             fixed: false
         },
         {
