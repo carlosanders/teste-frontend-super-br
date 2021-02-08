@@ -93,6 +93,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     deleteBloco = new EventEmitter<Tarefa[]>();
 
     @Output()
+    cienciaBloco = new EventEmitter<Tarefa[]>();
+
+    @Output()
     folder = new EventEmitter<any>();
 
     @Output()
@@ -446,7 +449,14 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     }
 
     doCienciaBloco(): void {
-        this.selectedIds.forEach(tarefaId => this.doCienciaTarefa(tarefaId));
+        const tarefasBloco = [];
+        this.tarefas.forEach((tarefa: Tarefa) => {
+            if (this.selectedIds.indexOf(tarefa.id) > -1) {
+                tarefasBloco.push(tarefa);
+            }
+        })
+
+        this.cienciaBloco.emit(tarefasBloco);
     }
 
     doEditProcesso(params): void {

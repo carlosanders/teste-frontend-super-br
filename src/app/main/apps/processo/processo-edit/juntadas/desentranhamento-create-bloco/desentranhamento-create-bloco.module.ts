@@ -14,7 +14,7 @@ import {
     MatSelectModule,
     MatStepperModule,
     MatToolbarModule,
-    MatTooltipModule
+    MatTooltipModule,
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 
@@ -29,6 +29,9 @@ import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkJuntadaGridSelectModule} from '../../../../../../../@cdk/components/juntada/cdk-juntada-grid-select/cdk-juntada-grid-select.module';
 import * as fromGuards from '../desentranhamento-create-bloco/store/guards';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {SnackBarDesfazerModule} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module';
+
 
 const routes: Routes = [
     {
@@ -79,11 +82,13 @@ modulesConfig.forEach((module) => {
 
         CdkSharedModule,
         CdkSidebarModule,
+        SnackBarDesfazerModule,
     ],
     providers: [
         DesentranhamentoService,
         fromGuards.ResolveGuard
-    ]
+    ],
+    entryComponents: [SnackBarDesfazerComponent],
 })
 export class DesentranhamentoCreateBlocoModule {
 }

@@ -53,31 +53,29 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getJuntadaListLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                let processoId = null;
 
-                    let processoId = null;
+                const routeParams = of('processoHandle');
+                routeParams.subscribe(param => {
+                    processoId = `eq:${this.routerState.params[param]}`;
+                });
 
-                    const routeParams = of('processoHandle');
-                    routeParams.subscribe(param => {
-                        processoId = `eq:${this.routerState.params[param]}`;
-                    });
+                const params = {
+                    filter: {
+                        'volume.processo.id': processoId,
+                        'ativo': 'eq:1'
+                    },
+                    gridFilter: {},
+                    limit: 10,
+                    offset: 0,
+                    sort: {numeracaoSequencial: 'DESC'},
+                    populate: [
+                        'documento',
+                        'documento.tipoDocumento'
+                    ]
+                };
 
-                    const params = {
-                        filter: {
-                            'volume.processo.id': processoId
-                        },
-                        gridFilter: {},
-                        limit: 10,
-                        offset: 0,
-                        sort: {numeracaoSequencial: 'DESC'},
-                        populate: [
-                            'documento',
-                            'documento.tipoDocumento'
-                        ]
-                    };
-
-                    this._store.dispatch(new fromStore.GetJuntadas(params));
-                }
+                this._store.dispatch(new fromStore.GetJuntadas(params));
             }),
             filter((loaded: any) => {
                 return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
