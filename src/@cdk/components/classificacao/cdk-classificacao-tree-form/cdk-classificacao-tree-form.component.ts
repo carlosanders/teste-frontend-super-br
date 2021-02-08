@@ -3,8 +3,8 @@ import {
     ChangeDetectionStrategy,
     Component,
     ElementRef,
-    EventEmitter,
-    Input,
+    EventEmitter, HostListener,
+    Input, OnInit,
     Output,
     ViewChildren, ViewEncapsulation
 } from '@angular/core';
@@ -46,25 +46,7 @@ export class FlatNode {
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkClassificacaoTreeFormComponent{
-
-    constructor(
-        private _serviceTree: CdkClassificacaoTreeFormService,
-        private _classificacaoService: ClassificacaoService,
-        private _formBuilder: FormBuilder,
-    ) {
-        this.loadForms();
-
-        this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
-            this.isExpandable, this.getChildren);
-        this.treeControl = new FlatTreeControl<FlatNode>(this.getLevel, this.isExpandable);
-        this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-        this.initTree();
-        _serviceTree.dataChange.subscribe(data => {
-            this.dataSource.data = data;
-        });
-    }
-
+export class CdkClassificacaoTreeFormComponent implements OnInit {
 
     @Input()
     classificacao: Classificacao[];
@@ -108,11 +90,55 @@ export class CdkClassificacaoTreeFormComponent{
 
     @Input()
     formClassificacao: FormGroup;
-    
+
     activeCard = 'form';
 
     classSelect: string;
     searchFilter: Subject<string> = new Subject<string>();
+
+    innerWidth: any;
+    mobileMode: boolean;
+    tamanhoIdentacao = 40;
+    tamanhoIdentacaoForm = 40;
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.verificarModoMobile();
+    }
+
+    constructor(
+        private _serviceTree: CdkClassificacaoTreeFormService,
+        private _classificacaoService: ClassificacaoService,
+        private _formBuilder: FormBuilder,
+    ) {
+        this.loadForms();
+
+        this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
+            this.isExpandable, this.getChildren);
+        this.treeControl = new FlatTreeControl<FlatNode>(this.getLevel, this.isExpandable);
+        this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+        this.initTree();
+        _serviceTree.dataChange.subscribe(data => {
+            this.dataSource.data = data;
+        });
+    }
+
+    ngOnInit(): void {
+        this.verificarModoMobile();
+    }
+
+    verificarModoMobile() {
+        this.innerWidth = window.innerWidth;
+        this.mobileMode = innerWidth <= 600;
+        if(this.mobileMode) {
+            this.tamanhoIdentacao = 15;
+            this.tamanhoIdentacaoForm = 0;
+        }
+        else {
+            this.tamanhoIdentacao = 40;
+            this.tamanhoIdentacaoForm = 40;
+        }
+    }
 
     loadForms(): void {
         this.formClassificacao = this._formBuilder.group({
@@ -284,7 +310,6 @@ export class CdkClassificacaoTreeFormComponent{
         }
     }
 
-
     /**
      * Inicializar o tree de classificação com todos as classificações pai.
      */
@@ -441,5 +466,4 @@ export class CdkClassificacaoTreeFormComponent{
     cancel(): void {
         this.activeCard = 'form';
     }
-
 }
