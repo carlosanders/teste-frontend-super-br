@@ -178,7 +178,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
 
                 this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
                     assinatura: assinatura,
-                    password: result.password
+                    plainPassword: result.plainPassword
                 }));
             });
         }

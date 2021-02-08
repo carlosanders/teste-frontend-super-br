@@ -607,7 +607,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
                     this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
-                        password: result.password
+                        plainPassword: result.plainPassword
                     }));
                 });
             }
@@ -634,7 +634,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
                     this._store.dispatch(new fromStore.AssinaJuntadaEletronicamente({
                         assinatura: assinatura,
-                        password: result.password
+                        plainPassword: result.plainPassword
                     }));
                 });
             }

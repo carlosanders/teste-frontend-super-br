@@ -186,7 +186,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
 
                 this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({
                     assinatura: assinatura,
-                    password: result.password
+                    plainPassword: result.plainPassword
                 }));
             });
         }

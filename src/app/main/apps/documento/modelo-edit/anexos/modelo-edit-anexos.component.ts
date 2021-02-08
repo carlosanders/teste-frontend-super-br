@@ -154,7 +154,7 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
                 assinatura.cadeiaCertificadoPkiPath = 'A1';
                 assinatura.assinatura = 'A1';
 
-                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({assinatura: assinatura, password: result.password}));
+                this._store.dispatch(new fromStore.AssinaDocumentoVinculadoEletronicamente({assinatura: assinatura, plainPassword: result.plainPassword}));
             });
         }
     }

@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             email: [null, [Validators.required]],
             username: [null, [Validators.required]],
-            password: [null, Validators.required],
+            plainPassword: [null, Validators.required],
             confirmPassword: [null, Validators.required]
         });
 
@@ -92,8 +92,8 @@ export class RegisterComponent implements OnInit {
 
         usuario.nome = this.registerForm.controls.nome.value;
         usuario.email = this.registerForm.controls.email.value;
-        usuario.username = this.registerForm.controls.username.value;
-        usuario.password = this.registerForm.controls.password.value;
+        usuario.username = this.registerForm.controls.username.value.replace(/\D/g,'');
+        usuario.plainPassword = this.registerForm.controls.plainPassword.value;
 
         this.loading = true;
         this._store.dispatch(new fromStore.Register(usuario));

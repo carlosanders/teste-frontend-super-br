@@ -47,12 +47,9 @@ export class ProcessoViewEffect {
             .pipe(
                 ofType<ProcessoViewActions.GetJuntadas>(ProcessoViewActions.GET_JUNTADAS),
                 switchMap((action) => {
-                    let chaveAcesso = {};
-                    if (this.routerState.params.documentoAvulsoHandle) {
-                        chaveAcesso = this.routerState.params.stepHandle ? {
-                            chaveAcesso: this.routerState.params.stepHandle
-                        } : {};
-                    }
+                    const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
+                        chaveAcesso: this.routerState.params.chaveAcessoHandle
+                    } : {};
                     return this._juntadaService.query(
                         JSON.stringify({
                             ...action.payload.filter,

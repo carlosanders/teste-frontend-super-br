@@ -261,7 +261,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
                 if (this.assinando.certificadoDigital) {
                     this.assinarDigitalmente.emit();
                 } else {
-                    this.assinarEletronicamente.emit(this.assinando.password);
+                    this.assinarEletronicamente.emit(this.assinando.plainPassword);
                 }
                 this.assinando = false;
             }
