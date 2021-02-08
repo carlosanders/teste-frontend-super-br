@@ -116,7 +116,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
                 {
                     // Modelos nacionais
                     'modalidadeModelo.valor': 'eq:NACIONAL',
-                    'vinculacoesModelos.orgaoCentral.id': 'in:'
+                    'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
                         + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'vinculacoesModelos.especieSetor.id': 'in:'
                         + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')

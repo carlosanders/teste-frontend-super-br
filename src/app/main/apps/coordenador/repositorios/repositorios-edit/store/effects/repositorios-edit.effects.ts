@@ -56,7 +56,7 @@ export class RepositorioEditEffect {
                             'vinculacoesRepositorios',
                             'vinculacoesRepositorios.setor',
                             'vinculacoesRepositorios.usuario',
-                            'vinculacoesRepositorios.orgaoCentral',
+                            'vinculacoesRepositorios.modalidadeOrgaoCentral',
                         ]));
                 }),
                 switchMap(response => [

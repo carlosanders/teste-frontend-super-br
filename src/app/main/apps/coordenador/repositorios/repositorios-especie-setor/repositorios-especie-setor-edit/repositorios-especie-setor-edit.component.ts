@@ -38,8 +38,8 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
     errors$: Observable<any>;
     repositorio$: Observable<Repositorio>;
     repositorio: Repositorio;
-    orgaoCentral$: Observable<ModalidadeOrgaoCentral>;
-    orgaoCentral: ModalidadeOrgaoCentral;
+    modalidadeOrgaoCentral$: Observable<ModalidadeOrgaoCentral>;
+    modalidadeOrgaoCentral: ModalidadeOrgaoCentral;
     especieSetorPagination: Pagination;
 
     /**
@@ -54,7 +54,7 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.vinculacaoRepositorio$ = this._store.pipe(select(fromStore.getVinculacaoRepositorio));
-        this.orgaoCentral$ = this._store.pipe(select(fromStore.getOrgaoCentral));
+        this.modalidadeOrgaoCentral$ = this._store.pipe(select(fromStore.getModalidadeOrgaoCentral));
         this.repositorio$ = this._store.pipe(select(fromStore.getRepositorio));
 
         this._store
@@ -91,12 +91,12 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
             }
         );
 
-        this.orgaoCentral$.pipe(
+        this.modalidadeOrgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            orgaoCentral => {
-                if (orgaoCentral) {
-                    this.orgaoCentral = orgaoCentral;
+            modalidadeOrgaoCentral => {
+                if (modalidadeOrgaoCentral) {
+                    this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
                 }
             }
         );
@@ -113,7 +113,7 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
 
         if (!this.vinculacaoRepositorio) {
             this.vinculacaoRepositorio = new VinculacaoRepositorio();
-            this.vinculacaoRepositorio.orgaoCentral = this.orgaoCentral;
+            this.vinculacaoRepositorio.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
             this.vinculacaoRepositorio.repositorio = this.repositorio;
         }
     }
@@ -145,7 +145,7 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
         );
 
         vinculacaoRepositorio.repositorio = this.repositorio;
-        vinculacaoRepositorio.orgaoCentral = this.orgaoCentral;
+        vinculacaoRepositorio.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
 
         this._store.dispatch(new fromStore.SaveRepositorioEspecieSetor(vinculacaoRepositorio));
     }

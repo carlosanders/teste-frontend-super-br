@@ -72,7 +72,7 @@ export class RepositoriosListComponent implements OnInit {
                     }
                     if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
                         this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.orgaoCentral.valor', 'ativo', 'actions'];
+                        this.colunas = ['select', 'id', 'nome', 'descricao', 'modalidadeRepositorio.valor', 'vinculacoesRepositorios.modalidadeOrgaoCentral.valor', 'ativo', 'actions'];
                     }
                 }
             });
