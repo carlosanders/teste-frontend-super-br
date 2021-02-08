@@ -70,7 +70,7 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params['generoHandle'] === 'nacional') {
                         filtro = {
                             'modelo.id': 'eq:' + this.routerState.params['modeloHandle'],
-                            'orgaoCentral.id' : 'eq:' + this.routerState.params['entidadeHandle'],
+                            'modalidadeOrgaoCentral.id' : 'eq:' + this.routerState.params['entidadeHandle'],
                             'especieSetor.id': 'isNotNull'
                         };
                     }

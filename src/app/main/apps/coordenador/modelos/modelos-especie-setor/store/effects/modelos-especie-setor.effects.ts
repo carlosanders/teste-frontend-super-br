@@ -63,7 +63,7 @@ export class ModelosEspecieSetorEffects {
                             'modalidadeModelo',
                             'vinculacoesModelos',
                             'vinculacoesModelos.setor',
-                            'vinculacoesModelos.orgaoCentral',
+                            'vinculacoesModelos.modalidadeOrgaoCentral',
                         ]));
                 }),
                 switchMap(response => [

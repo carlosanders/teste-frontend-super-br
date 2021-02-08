@@ -29,7 +29,7 @@ export class ModelosEspecieSetorListComponent implements OnInit {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
-    orgaoCentralPagination: Pagination = new Pagination();
+    modalidadeOrgaoCentralPagination: Pagination = new Pagination();
     modeloPagination: Pagination = new Pagination();
 
     /**
@@ -56,10 +56,10 @@ export class ModelosEspecieSetorListComponent implements OnInit {
                 }
             });
 
-        this.orgaoCentralPagination.filter = {
+        this.modalidadeOrgaoCentralPagination.filter = {
             id: 'eq:' + this.routerState.params['entidadeHandle']
         };
-        this.orgaoCentralPagination.populate = ['populateAll'];
+        this.modalidadeOrgaoCentralPagination.populate = ['populateAll'];
         this.modeloPagination.filter = {
             id: 'eq:' + this.routerState.params['modeloHandle']
         };
