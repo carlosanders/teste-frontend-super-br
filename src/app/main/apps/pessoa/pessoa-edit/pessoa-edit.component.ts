@@ -13,7 +13,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './dados-pessoa-edit/store';
 import {Observable, Subject} from 'rxjs';
 import {Pessoa} from '@cdk/models';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
 
