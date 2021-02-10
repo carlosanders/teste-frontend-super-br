@@ -95,6 +95,7 @@ export class VisibilidadeEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadStore());
     }
 
     // -----------------------------------------------------------------------------------------------------

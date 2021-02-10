@@ -18,6 +18,7 @@
     [componentesDigitais]="(componentesDigitais$ | async)"
     [total]="(paginationComponenteDigital$ | async)?.total"
     [actions]="['edit', 'delete']"
+    [mode]="'documento'"
     [displayedColumns]="['id', 'fileName', 'numeracaoSequencial', 'tamanho', 'extensao', 'criadoPor.nome', 'actions']"
     [deletingIds]="(deletingComponenteDigitalIds$ | async)"
     [deletedIds]="(deletedComponenteDigitalIds$ | async)"

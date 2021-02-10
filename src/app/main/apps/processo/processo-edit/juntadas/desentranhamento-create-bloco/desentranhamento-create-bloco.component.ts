@@ -14,11 +14,10 @@ import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {CdkUtils} from '@cdk/utils';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {DynamicService} from '../../../../../../../modules/dynamic.service';
 
 @Component({
     selector: 'desentranhamento-create',
@@ -122,6 +121,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.SetSelectedJuntadas([]));
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();

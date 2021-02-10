@@ -11,6 +11,8 @@ export const GET_GARANTIA = '[GARANTIA] GET GARANTIA';
 export const GET_GARANTIA_SUCCESS = '[GARANTIA] GET GARANTIA SUCCESS';
 export const GET_GARANTIA_FAILED = '[GARANTIA] GET GARANTIA FAILED';
 
+export const UNLOAD_STORE = '[GARANTIA-EDIT] UNLOAD STORE';
+
 /**
  * Get Garantia
  */
@@ -107,6 +109,18 @@ export class CreateGarantiaSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
+
 export type GarantiaEditActionsAll
     = CreateGarantia
     | CreateGarantiaSuccess
@@ -115,4 +129,5 @@ export type GarantiaEditActionsAll
     | GetGarantiaFailed
     | SaveGarantia
     | SaveGarantiaSuccess
-    | SaveGarantiaFailed;
+    | SaveGarantiaFailed
+    | UnloadStore;

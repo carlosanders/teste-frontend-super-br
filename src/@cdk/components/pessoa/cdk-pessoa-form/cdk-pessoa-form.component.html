@@ -41,6 +41,9 @@
                formControlName="numeroDocumentoPrincipal"
                maxlength="255">
         <mat-hint align="end">{{numeroDocumentoPrincipal.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('numeroDocumentoPrincipal').hasError('formError')">
+            {{form.get('numeroDocumentoPrincipal').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field ng-hide="modalidadeGeneroPessoa" [fxHide]="hidden">
@@ -152,10 +155,41 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-        <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent"
+                [disabled]="form.invalid"
+                *ngIf="mode === 'select'"
+                [matMenuTriggerFor]="moreMenu"
+                aria-label="Salvar"
+                #menuTriggerList="matMenuTrigger"
+                (click)="$event.stopPropagation()">
+                <span class="mat-button-wrapper">SALVAR</span>
+                <mat-icon class="sr-16">keyboard_arrow_down</mat-icon>
+        </button>
+        <button mat-raised-button color="accent"
+                [disabled]="form.invalid"
+                *ngIf="mode === 'save'"
+                aria-label="Salvar"
+                (click)="submit()">
             SALVAR
         </button>
+
+        <mat-menu #moreMenu="matMenu">
+            <button mat-menu-item (click)="submit()" aria-label="SALVAR E CONTINUAR"
+                    [disabled]="form.invalid || saving">
+                <ng-container>
+                    <mat-icon>save</mat-icon>
+                    <span>SALVAR E CONTINUAR</span>
+                </ng-container>
+            </button>
+            <button mat-menu-item (click)="submit(true)" aria-label="SALVAR E SELECIONAR"
+                    [disabled]="form.invalid || saving">
+                <ng-container>
+                    <mat-icon>keyboard_return</mat-icon>
+                    <span>SALVAR E SELECIONAR</span>
+                </ng-container>
+            </button>
+        </mat-menu>
+
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
             CANCELAR
         </button>

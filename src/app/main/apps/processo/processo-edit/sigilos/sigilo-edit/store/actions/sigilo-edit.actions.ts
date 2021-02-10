@@ -11,6 +11,8 @@ export const GET_SIGILO = '[SIGILO] GET SIGILO';
 export const GET_SIGILO_SUCCESS = '[SIGILO] GET SIGILO SUCCESS';
 export const GET_SIGILO_FAILED = '[SIGILO] GET SIGILO FAILED';
 
+export const UNLOAD_STORE = '[SIGILO-EDIT] UNLOAD STORE';
+
 /**
  * Get Sigilo
  */
@@ -107,6 +109,18 @@ export class CreateSigiloSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
+
 export type SigiloEditActionsAll
     = CreateSigilo
     | CreateSigiloSuccess
@@ -115,4 +129,5 @@ export type SigiloEditActionsAll
     | GetSigiloFailed
     | SaveSigilo
     | SaveSigiloSuccess
-    | SaveSigiloFailed;
+    | SaveSigiloFailed
+    | UnloadStore;

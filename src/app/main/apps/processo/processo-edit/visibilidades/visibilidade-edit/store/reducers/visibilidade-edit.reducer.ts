@@ -70,7 +70,6 @@ export function VisibilidadeEditReducer(
         case VisibilidadeEditActions.SAVE_VISIBILIDADE_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -80,6 +79,12 @@ export function VisibilidadeEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case VisibilidadeEditActions.UNLOAD_STORE: {
+            return {
+                ...VisibilidadeEditInitialState
             };
         }
 

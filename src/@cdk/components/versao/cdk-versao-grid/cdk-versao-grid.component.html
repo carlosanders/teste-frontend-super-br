@@ -1,6 +1,10 @@
 <div class="page-layout left-sidebar">
 
-    <div class="responsive-grid">
+    <div class="responsive-grid"
+         [ngClass]="{
+            'search': (this.mode == 'search'),
+            'documento-edit': (this.mode === 'documento')
+         }">
 
         <div class="actions">
 

@@ -108,6 +108,10 @@ cdk-componente-digital-grid {
             display: flex;
             flex-direction: column;
 
+            > .content {
+                height: 100%;
+            }
+
             .mat-elevation-z8 {
                 box-shadow: none;
             }
@@ -173,6 +177,12 @@ cdk-componente-digital-grid {
                         font-weight: bold;
                     }
                 }
+            }
+        }
+
+        .responsive-grid.documento-edit {
+            > .content {
+                height: 0;
             }
         }
     }

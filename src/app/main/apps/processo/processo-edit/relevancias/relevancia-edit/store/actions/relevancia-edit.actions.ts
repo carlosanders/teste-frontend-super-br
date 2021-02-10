@@ -11,6 +11,8 @@ export const GET_RELEVANCIA = '[RELEVANCIA] GET RELEVANCIA';
 export const GET_RELEVANCIA_SUCCESS = '[RELEVANCIA] GET RELEVANCIA SUCCESS';
 export const GET_RELEVANCIA_FAILED = '[RELEVANCIA] GET RELEVANCIA FAILED';
 
+export const UNLOAD_STORE = '[RELEVANCIA-EDIT] UNLOAD STORE';
+
 /**
  * Get Relevancia
  */
@@ -107,6 +109,18 @@ export class CreateRelevanciaSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
+
 export type RelevanciaEditActionsAll
     = CreateRelevancia
     | CreateRelevanciaSuccess
@@ -115,4 +129,5 @@ export type RelevanciaEditActionsAll
     | GetRelevanciaFailed
     | SaveRelevancia
     | SaveRelevanciaSuccess
-    | SaveRelevanciaFailed;
+    | SaveRelevanciaFailed
+    | UnloadStore;

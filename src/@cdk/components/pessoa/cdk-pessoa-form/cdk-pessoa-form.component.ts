@@ -48,6 +48,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     errors: any;
 
     @Input()
+    mode = 'select';
+
+    @Input()
     modalidadeQualificacaoPessoaPagination: Pagination;
 
     @Input()
@@ -63,7 +66,7 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     logEntryPagination: Pagination;
 
     @Output()
-    save = new EventEmitter<Pessoa>();
+    save = new EventEmitter<any>();
 
     @Output()
     abort = new EventEmitter<any>();
@@ -117,6 +120,8 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        console.log(this.mode);
+
         if (changes['pessoa'] && this.pessoa && ((!this.pessoa.id && !this.form.dirty) || (this.pessoa.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.pessoa});
         }
@@ -154,9 +159,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
-    submit(): void {
+    submit(select: boolean = false): void {
         if (this.form.valid) {
-            this.save.emit(this.form.value);
+            this.save.emit({pessoa: this.form.value, select: select});
         }
     }
 

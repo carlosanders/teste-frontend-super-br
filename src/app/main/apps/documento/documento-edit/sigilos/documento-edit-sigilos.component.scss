@@ -9,6 +9,10 @@ documento-edit-sigilos {
         flex: 1 1 auto;
         overflow-y: auto;
         height: 0;
+
+        .responsive-grid .content {
+            height: 0 !important;
+        }
     }
 
     > .sigilo-actions {
