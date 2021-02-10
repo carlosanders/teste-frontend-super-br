@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store/reducers';
 import {Back} from '../../../../../store/actions';
+import {filter} from 'rxjs/operators';
 
 @Component({
     selector: 'classificacao-edit',
@@ -52,12 +53,14 @@ export class ClassificacaoEditComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.classificacao$.subscribe(
+        this.classificacao$.pipe(
+            filter(classificacao => !!classificacao)
+        ).subscribe(
             classificacao => {
                 this.classificacao = classificacao;
+                this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Classificacao', id: + this.classificacao.id};
             }
         );
-        this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Classificacao', id: + this.classificacao.id};
     }
 
     loadForm(): void {
