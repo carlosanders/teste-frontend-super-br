@@ -14,7 +14,7 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {takeUntil} from 'rxjs/operators';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
 import {getRouterState} from '../../../../../store';
 
 @Component({

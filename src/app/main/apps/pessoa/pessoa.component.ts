@@ -7,7 +7,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';
-import {getRouterState} from '../../../store/reducers';
+import {getRouterState} from '../../../store';
 import {Router} from '@angular/router';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
