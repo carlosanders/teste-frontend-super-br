@@ -28,7 +28,7 @@ export function TarefaReducer(
         case TarefaActions.SAVE_TAREFA_SUCCESS: {
             return {
                 ...state,
-                saving: false,
+                saving: true,
                 errors: false
             };
         }

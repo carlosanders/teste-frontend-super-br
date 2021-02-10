@@ -38,6 +38,10 @@ documento-avulso-edit-dados-basicos {
             flex: 1 0 auto;
             overflow-y: auto;
             height: 0;
+
+            .responsive-grid .content {
+                height: 0 !important;
+            }
         }
     }
 

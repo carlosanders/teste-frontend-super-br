@@ -6,6 +6,8 @@ export const GET_PESSOAS_FAILED = '[PESSOA LIST] GET PESSOAS FAILED';
 
 export const RELOAD_PESSOAS = '[PESSOA LIST] RELOAD PESSOAS';
 
+export const UNLOAD_PESSOAS = '[PESSOA LIST] UNLOAD PESSOAS';
+
 export const DELETE_PESSOA = '[PESSOA LIST] DELETE PESSOA';
 export const DELETE_PESSOA_SUCCESS = '[PESSOA LIST] DELETE PESSOA SUCCESS';
 export const DELETE_PESSOA_FAILED = '[PESSOA LIST] DELETE PESSOA FAILED';
@@ -59,6 +61,18 @@ export class ReloadPessoas implements Action
 }
 
 /**
+ * Unload Pessoas
+ */
+export class UnloadPessoas implements Action
+{
+    readonly type = UNLOAD_PESSOAS;
+
+    constructor()
+    {
+    }
+}
+
+/**
  * Delete Pessoa
  */
 export class DeletePessoa implements Action
@@ -99,6 +113,7 @@ export type PessoaListActionsAll
     | GetPessoasSuccess
     | GetPessoasFailed
     | ReloadPessoas
+    | UnloadPessoas
     | DeletePessoa
     | DeletePessoaSuccess
     | DeletePessoaFailed;

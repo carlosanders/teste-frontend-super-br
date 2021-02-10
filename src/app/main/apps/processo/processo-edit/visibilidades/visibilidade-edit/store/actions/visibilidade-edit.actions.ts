@@ -11,6 +11,8 @@ export const GET_VISIBILIDADE = '[VISIBILIDADE] GET VISIBILIDADE';
 export const GET_VISIBILIDADE_SUCCESS = '[VISIBILIDADE] GET VISIBILIDADE SUCCESS';
 export const GET_VISIBILIDADE_FAILED = '[VISIBILIDADE] GET VISIBILIDADE FAILED';
 
+export const UNLOAD_STORE = '[VISIBILIDADE-EDIT] UNLOAD STORE';
+
 /**
  * Get Visibilidade
  */
@@ -107,6 +109,18 @@ export class CreateVisibilidadeSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
+
 export type VisibilidadeEditActionsAll
     = CreateVisibilidade
     | CreateVisibilidadeSuccess
@@ -115,4 +129,5 @@ export type VisibilidadeEditActionsAll
     | GetVisibilidadeFailed
     | SaveVisibilidade
     | SaveVisibilidadeSuccess
-    | SaveVisibilidadeFailed;
+    | SaveVisibilidadeFailed
+    | UnloadStore;

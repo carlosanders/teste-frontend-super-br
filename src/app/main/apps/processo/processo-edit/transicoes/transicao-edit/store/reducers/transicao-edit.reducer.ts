@@ -70,7 +70,6 @@ export function TransicaoEditReducer(
         case TransicaoEditActions.SAVE_TRANSICAO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -80,6 +79,12 @@ export function TransicaoEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case TransicaoEditActions.UNLOAD_STORE: {
+            return {
+                ...TransicaoEditInitialState
             };
         }
 

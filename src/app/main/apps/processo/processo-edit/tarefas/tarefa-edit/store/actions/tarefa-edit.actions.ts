@@ -11,6 +11,8 @@ export const GET_TAREFA = '[TAREFA EDIT] GET TAREFA';
 export const GET_TAREFA_SUCCESS = '[TAREFA EDIT] GET TAREFA SUCCESS';
 export const GET_TAREFA_FAILED = '[TAREFA EDIT] GET TAREFA FAILED';
 
+export const UNLOAD_STORE = '[TAREFA EDIT] UNLOAD STORE';
+
 /**
  * Get Tarefa
  */
@@ -107,6 +109,18 @@ export class CreateTarefaSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
+
 export type TarefaEditActionsAll
     = CreateTarefa
     | CreateTarefaSuccess
@@ -115,4 +129,5 @@ export type TarefaEditActionsAll
     | GetTarefaFailed
     | SaveTarefa
     | SaveTarefaSuccess
-    | SaveTarefaFailed;
+    | SaveTarefaFailed
+    | UnloadStore;

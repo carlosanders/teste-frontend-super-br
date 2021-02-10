@@ -68,7 +68,6 @@ export function InteressadoEditReducer(state = InteressadoEditInitialState, acti
         case InteressadoEditActions.SAVE_INTERESSADO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -78,6 +77,12 @@ export function InteressadoEditReducer(state = InteressadoEditInitialState, acti
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case InteressadoEditActions.UNLOAD_STORE: {
+            return {
+                ...InteressadoEditInitialState
             };
         }
 

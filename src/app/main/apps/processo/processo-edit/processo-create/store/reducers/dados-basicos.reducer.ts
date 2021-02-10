@@ -112,7 +112,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
         case DadosBasicosActions.SAVE_PROCESSO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
+                saving: true,
                 errors: false
             };
         }

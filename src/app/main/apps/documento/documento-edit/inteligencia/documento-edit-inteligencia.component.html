@@ -3,7 +3,7 @@
     [loading]="(loading$ | async)"
     [repositorios]="(repositorios$ | async)"
     [total]="(pagination$ | async)?.total"
-    [mode]="'list'"
+    [mode]="'documento'"
     [actions]="['download']"
     (download)="doDownload($event)"
     [downloadingId]="(repositorioIdLoadind$ | async)"

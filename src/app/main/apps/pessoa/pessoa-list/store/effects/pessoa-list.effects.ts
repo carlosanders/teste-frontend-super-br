@@ -42,7 +42,7 @@ export class PessoaListEffect {
             .pipe(
                 ofType<PessoaListActions.GetPessoas>(PessoaListActions.GET_PESSOAS),
                 switchMap((action) => {
-                    return this._pessoaService.query(
+                    return this._pessoaService.search(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,

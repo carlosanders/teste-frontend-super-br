@@ -11,6 +11,8 @@ export const GET_VINCULACAO_PROCESSO = '[VINCULACAO PROCESSO] GET VINCULACAO PRO
 export const GET_VINCULACAO_PROCESSO_SUCCESS = '[VINCULACAO PROCESSO] GET VINCULACAO PROCESSO SUCCESS';
 export const GET_VINCULACAO_PROCESSO_FAILED = '[VINCULACAO PROCESSO] GET VINCULACAO PROCESSO FAILED';
 
+export const UNLOAD_STORE = '[VINCULACAO PROCESSO-EDIT] UNLOAD STORE';
+
 /**
  * Get VinculacaoProcesso
  */
@@ -107,6 +109,17 @@ export class CreateVinculacaoProcessoSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
 export type VinculacaoProcessoEditActionsAll
     = CreateVinculacaoProcesso
     | CreateVinculacaoProcessoSuccess
@@ -115,4 +128,5 @@ export type VinculacaoProcessoEditActionsAll
     | GetVinculacaoProcessoFailed
     | SaveVinculacaoProcesso
     | SaveVinculacaoProcessoSuccess
-    | SaveVinculacaoProcessoFailed;
+    | SaveVinculacaoProcessoFailed
+    | UnloadStore;

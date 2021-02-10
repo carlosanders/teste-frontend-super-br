@@ -3,6 +3,7 @@
     [modelos]="(modelos$ | async)"
     [total]="(pagination$ | async)?.total"
     [actions]="['select']"
+    [mode]="'documento'"
     [displayedColumns]="['id', 'nome', 'modalidadeModelo.valor', 'highlights', 'actions']"
     (selected)="doSelect($event)"
     (reload)="reload($event)">
