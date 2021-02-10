@@ -1,0 +1,25 @@
+<form fxLayoutGap="16px" [formGroup]="form" *ngIf="formState === 'form'">
+    <label id="acoes-rg">Atribuido Para</label>
+    <mat-form-field>
+        <input matInput placeholder="Atribuido Para"
+               formControlName="atribuidoPara"
+               [matAutocomplete]="usuario.autocomplete">
+        <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atribuidoPara')">
+        </cdk-usuario-autocomplete>
+    </mat-form-field>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+    <div>{{form.errors}}</div>
+</form>
