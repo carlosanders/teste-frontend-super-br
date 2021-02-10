@@ -70,7 +70,6 @@ export function RemessaEditReducer(
         case RemessaEditActions.SAVE_TRAMITACAO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -80,6 +79,12 @@ export function RemessaEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case RemessaEditActions.UNLOAD_STORE: {
+            return {
+                ...RemessaEditInitialState
             };
         }
 

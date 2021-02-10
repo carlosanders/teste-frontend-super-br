@@ -11,4 +11,8 @@ documento-edit-visibilidade {
         display: flex;
         flex-direction: row;
     }
+
+    .responsive-grid .content {
+        height: 0 !important;
+    }
 }

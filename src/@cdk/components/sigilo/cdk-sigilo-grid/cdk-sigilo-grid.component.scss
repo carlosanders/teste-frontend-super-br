@@ -157,5 +157,11 @@ cdk-sigilo-grid {
                 }
             }
         }
+
+        .responsive-grid.documento-edit {
+            > .content {
+                height: 0;
+            }
+        }
     }
 }

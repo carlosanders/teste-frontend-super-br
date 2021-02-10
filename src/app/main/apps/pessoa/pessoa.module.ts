@@ -18,6 +18,7 @@ import {PessoaComponent} from './pessoa.component';
 import {RouterModule, Routes} from '@angular/router';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {modulesConfig} from 'modules/modules-config';
+import {PessoaEditService} from './pessoa-edit/pessoa-edit.service';
 
 const routes: Routes = [
     {
@@ -74,6 +75,7 @@ modulesConfig.forEach((module) => {
     ],
     providers: [
         PessoaService,
+        PessoaEditService
     ],
     exports: [
         PessoaComponent

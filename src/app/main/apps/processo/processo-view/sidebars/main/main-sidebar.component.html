@@ -591,7 +591,7 @@
                 </div>
             </div>
             <div class="actions">
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu" *ngIf="juntada.ativo"
                         aria-label="Ferramentas" (click)="$event.stopPropagation()">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>

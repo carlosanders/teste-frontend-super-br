@@ -70,7 +70,6 @@ export function AssuntoEditReducer(
         case AssuntoEditActions.SAVE_ASSUNTO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -80,6 +79,12 @@ export function AssuntoEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case AssuntoEditActions.UNLOAD_STORE: {
+            return {
+                ...AssuntoEditInitialState
             };
         }
 

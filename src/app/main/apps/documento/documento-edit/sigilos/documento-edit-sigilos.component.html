@@ -15,7 +15,6 @@
                      [saving]="(sigiloIsSaving$ | async)"
                      [errors]="(sigiloErrors$ | async)"
                      (save)="submitSigilo($event)">
-
     </cdk-sigilo-form>
 </div>
 
@@ -25,6 +24,7 @@
     [sigilos]="(sigilos$ | async)"
     [total]="(paginationSigilo$ | async)?.total"
     [actions]="['create', 'edit','delete']"
+    [mode]="'documento'"
     [displayedColumns]="['id', 'tipoSigilo.nome','desclassificado',  'actions']"
     [deletingIds]="(deletingSigiloIds$ | async)"
     [deletedIds]="(deletedSigiloIds$ | async)"

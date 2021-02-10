@@ -72,6 +72,7 @@ export function VinculacaoProcessoReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                saving: false,
                 loading: false,
                 loaded
             };
@@ -138,7 +139,7 @@ export function VinculacaoProcessoReducer(
         case VinculacaoProcessoActions.SAVE_VINCULACAO_PROCESSO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
+                saving: true,
                 errors: false
             };
         }

@@ -16,6 +16,7 @@ import {Pessoa} from '@cdk/models';
 import {getRouterState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {PessoaEditService} from './pessoa-edit.service';
 
 @Component({
     selector: 'pessoa-edit',
@@ -38,15 +39,18 @@ export class PessoaEditComponent implements OnInit, OnDestroy {
     routerState: any;
 
     /**
+     *
+     * @param _store
      * @param _changeDetectorRef
      * @param _cdkSidebarService
-     * @param _store
+     * @param _pessoaEditService
      * @param _router
      */
     constructor(
         private _store: Store<fromStore.DadosPessoaEditAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
+        private _pessoaEditService: PessoaEditService,
         private _router: Router
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -62,6 +66,11 @@ export class PessoaEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.pessoa$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            pessoa => this.pessoa = pessoa
+        );
 
         this._store
             .pipe(
@@ -89,6 +98,9 @@ export class PessoaEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        if (this.pessoa?.id) {
+            this._pessoaEditService.setPessoaSelecionada(this.pessoa);
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------

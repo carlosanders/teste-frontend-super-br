@@ -39,7 +39,7 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
         case ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL_SUCCESS: {
             return {
                 ...state,
-                saving: false,
+                saving: true,
                 errors: false,
                 loading: false,
                 loaded: true
