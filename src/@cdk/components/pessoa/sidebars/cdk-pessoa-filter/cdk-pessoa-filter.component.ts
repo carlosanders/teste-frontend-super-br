@@ -42,25 +42,12 @@ export class CdkPessoaFilterComponent implements OnInit {
         this.form = this._formBuilder.group({
             nome: [null],
             numeroDocumentoPrincipal: [null],
-            contato: [null],
             pessoaValidada: [null],
-            pessoaRepresentada: [null],
             dataNascimento: [null],
             dataObito: [null],
-            nomeGenitor: [null],
             nomeGenitora: [null],
-            profissao: [null],
-            nacionalidade: [null],
-            naturalidade: [null],
             modalidadeQualificacaoPessoa: [null],
             modalidadeGeneroPessoa: [null],
-            origemDados: [null],
-            criadoPor: [null],
-            criadoEm: [null],
-            atualizadoPor: [null],
-            atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
         });
     }
 
@@ -110,25 +97,6 @@ export class CdkPessoaFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('nomeGenitor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({nomeGenitor: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('nomeGenitor')) {
-                        delete this.filters['nomeGenitor'];
-                    }
-                }
-            }
-        });
-
         this.form.get('nomeGenitora').valueChanges.subscribe(value => {
             if (value !== null) {
                 const andxFilter = [];
@@ -148,30 +116,11 @@ export class CdkPessoaFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('profissao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({profissao: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('profissao')) {
-                        delete this.filters['profissao'];
-                    }
-                }
-            }
-        });
-
         this.form.get('dataNascimento').valueChanges.subscribe(value => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    dataNascimento: `eq:${value}`
+                    dataNascimento: `eq:${value.format('YYYY-MM-DD')}`
                 };
             }
         });
@@ -180,7 +129,7 @@ export class CdkPessoaFilterComponent implements OnInit {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
-                    dataObito: `eq:${value}`
+                    dataObito: `eq:${value.format('YYYY-MM-DD')}`
                 };
             }
         });
@@ -191,30 +140,6 @@ export class CdkPessoaFilterComponent implements OnInit {
                     ...this.filters,
                     pessoaValidada: `eq:${value}`
                 };
-            }
-        });
-
-        this.form.get('pessoaRepresentada').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    pessoaRepresentada: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('nacionalidade').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'nacionalidade.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('nacionalidade.id')) {
-                        delete this.filters['nacionalidade.id'];
-                    }
-                }
             }
         });
 
@@ -233,21 +158,6 @@ export class CdkPessoaFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('naturalidade').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'naturalidade.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('naturalidade.id')) {
-                        delete this.filters['naturalidade.id'];
-                    }
-                }
-            }
-        });
-
         this.form.get('modalidadeQualificacaoPessoa').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
@@ -258,93 +168,6 @@ export class CdkPessoaFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('modalidadeQualificacaoPessoa.id')) {
                         delete this.filters['modalidadeQualificacaoPessoa.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('origemDados').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'origemDados.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('origemDados.id')) {
-                        delete this.filters['origemDados.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
                     }
                 }
             }

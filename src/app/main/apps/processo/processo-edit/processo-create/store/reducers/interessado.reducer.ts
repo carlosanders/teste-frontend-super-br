@@ -69,6 +69,7 @@ export function InteressadoReducer(state = InteressadoInitialState, action: Inte
                     ...state.pagination,
                     total: action.payload.total
                 },
+                saving: false,
                 loading: false,
                 loaded
             };
@@ -143,7 +144,7 @@ export function InteressadoReducer(state = InteressadoInitialState, action: Inte
         case InteressadoActions.SAVE_INTERESSADO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
+                saving: true,
                 errors: false
             };
         }

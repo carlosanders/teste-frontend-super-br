@@ -149,5 +149,11 @@ cdk-versao-grid {
                 }
             }
         }
+
+        .responsive-grid.documento-edit {
+            > .content {
+                height: 0;
+            }
+        }
     }
 }

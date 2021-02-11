@@ -48,6 +48,9 @@ export class CdkVersaoGridComponent implements AfterViewInit, OnInit, OnChanges 
     pageSize = 10;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     actions: string[] = ['reverter', 'visualizar', 'comparar'];
 
     @ViewChild(MatPaginator, {static: true})

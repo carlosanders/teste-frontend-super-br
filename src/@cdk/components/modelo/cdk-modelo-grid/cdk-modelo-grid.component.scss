@@ -77,7 +77,7 @@ cdk-modelo-grid {
             width: 10vw;
 
             > .content {
-                height: auto;
+                height: 0;
             }
         }
 
@@ -86,6 +86,10 @@ cdk-modelo-grid {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+
+            > .content {
+                height: 100%;
+            }
 
             .mat-elevation-z8 {
                 box-shadow: none;
@@ -152,6 +156,12 @@ cdk-modelo-grid {
                         font-weight: bold;
                     }
                 }
+            }
+        }
+
+        .responsive-grid.documento-edit {
+            > .content {
+                height: 0;
             }
         }
     }

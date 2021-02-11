@@ -22,6 +22,7 @@ import {CdkModalidadeGeneroPessoaGridsearchModule} from '@cdk/components/modalid
 import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modalidade-genero-pessoa/cdk-modalidade-genero-pessoa-autocomplete/cdk-modalidade-genero-pessoa-autocomplete.module';
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
     declarations: [
@@ -50,6 +51,7 @@ import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
         CdkSharedModule,
         CdkLogentryGridsearchModule,
         NgxUpperCaseDirectiveModule,
+        MatMenuModule,
     ],
     providers: [],
     exports: [

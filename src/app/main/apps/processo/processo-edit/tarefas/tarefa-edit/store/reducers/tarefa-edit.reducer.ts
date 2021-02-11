@@ -70,7 +70,6 @@ export function TarefaEditReducer(
         case TarefaEditActions.SAVE_TAREFA_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -80,6 +79,12 @@ export function TarefaEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case TarefaEditActions.UNLOAD_STORE: {
+            return {
+                ...TarefaEditInitialState
             };
         }
 

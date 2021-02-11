@@ -11,6 +11,8 @@ export const GET_ASSUNTO = '[ASSUNTO] GET ASSUNTO';
 export const GET_ASSUNTO_SUCCESS = '[ASSUNTO] GET ASSUNTO SUCCESS';
 export const GET_ASSUNTO_FAILED = '[ASSUNTO] GET ASSUNTO FAILED';
 
+export const UNLOAD_STORE = '[ASSUNTO-EDIT] UNLOAD STORE';
+
 /**
  * Get Assunto
  */
@@ -107,6 +109,19 @@ export class CreateAssuntoSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
+
+
 export type AssuntoEditActionsAll
     = CreateAssunto
     | CreateAssuntoSuccess
@@ -115,4 +130,5 @@ export type AssuntoEditActionsAll
     | GetAssuntoFailed
     | SaveAssunto
     | SaveAssuntoSuccess
-    | SaveAssuntoFailed;
+    | SaveAssuntoFailed
+    | UnloadStore;

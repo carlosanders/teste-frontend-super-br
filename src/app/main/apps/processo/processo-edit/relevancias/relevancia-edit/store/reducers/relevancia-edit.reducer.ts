@@ -70,7 +70,6 @@ export function RelevanciaEditReducer(
         case RelevanciaEditActions.SAVE_RELEVANCIA_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -80,6 +79,12 @@ export function RelevanciaEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case RelevanciaEditActions.UNLOAD_STORE: {
+            return {
+                ...RelevanciaEditInitialState
             };
         }
 

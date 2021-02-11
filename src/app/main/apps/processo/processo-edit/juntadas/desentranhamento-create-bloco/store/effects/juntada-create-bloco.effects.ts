@@ -96,6 +96,8 @@ export class JuntadaCreateBlocoEffect {
                         redo: action.payload.redo
                     }));
                     this._store.dispatch(new DesentranhaJuntada(action.payload.desentranhamento.juntada.id));
+                    this._router.navigate([this.routerState.url.replace('juntadas/desentranhar', 'juntadas/listar')])
+                        .then();
                 }),
                 buffer(this._store.pipe(select(getBufferingDesentranhamento))),
                 mergeAll(),
@@ -131,12 +133,20 @@ export class JuntadaCreateBlocoEffect {
                                 id: action.payload.desentranhamento.juntada.id,
                                 error: err
                             };
-                            const serializedMessage = JSON.parse(err.error.message);
+                            let serializedMessage: any;
+                            if (err.error && err.error.status && err.error.status === 422) {
+                                try {
+                                    serializedMessage = JSON.parse(err.error.message)[0]?.message;
+                                } catch (e) {
+                                    serializedMessage = err.error.message;
+                                }
+                            }
+
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
                                 type: 'desentranhamento',
                                 content: "Erro no desentranhamento da juntada id " + action.payload.desentranhamento.juntada.id + ": " +
-                                    serializedMessage[0].message,
+                                    serializedMessage,
                                 status: 2, // erro
                                 lote: action.payload.loteId,
                                 redo: 'inherent'

@@ -18,7 +18,7 @@ import {
     Interessado,
     VinculacaoProcesso,
     Tarefa,
-    Juntada, ConfiguracaoNup
+    Juntada
 } from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -27,7 +27,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {getConfiguracaoNup, SaveAssunto} from './store';
+import {getConfiguracaoNup, SaveAssunto, UnloadAssuntos} from './store';
 import {SaveInteressado} from './store';
 import {SaveVinculacaoProcesso} from './store';
 import {SaveTarefa} from './store/actions';

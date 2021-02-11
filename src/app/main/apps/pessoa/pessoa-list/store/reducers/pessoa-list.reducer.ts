@@ -77,6 +77,12 @@ export function PessoaListReducer(state = PessoaListInitialState, action: Pessoa
             };
         }
 
+        case PessoaListActions.UNLOAD_PESSOAS: {
+            return {
+                ...PessoaListInitialState
+            };
+        }
+
         case PessoaListActions.GET_PESSOAS_FAILED: {
             return {
                 ...state,

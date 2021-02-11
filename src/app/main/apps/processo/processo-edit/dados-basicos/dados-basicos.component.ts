@@ -200,11 +200,11 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     }
 
     gerirProcedencia(): void {
-        this._router.navigate([this.routerState.url + '/pessoa']).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa']).then();
     }
 
     editProcedencia(pessoaId: number): void {
-        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
 
 }

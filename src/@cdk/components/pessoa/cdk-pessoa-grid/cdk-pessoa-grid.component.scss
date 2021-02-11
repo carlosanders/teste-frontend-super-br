@@ -40,6 +40,8 @@ cdk-pessoa-grid {
             display: flex;
             overflow-y: auto;
             padding: 8px;
+            padding-top: 0;
+            margin-top: 8px;
 
             .mat-column-select {
                 overflow: initial;
@@ -74,6 +76,10 @@ cdk-pessoa-grid {
             flex-direction: column;
             padding: 8px;
             width: 10vw;
+
+            > .content {
+                height: 0;
+            }
         }
 
         .responsive-grid[max-width~="600px"] {
@@ -81,6 +87,10 @@ cdk-pessoa-grid {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+
+            > .content {
+                height: 100%;
+            }
 
             .mat-elevation-z8 {
                 box-shadow: none;
