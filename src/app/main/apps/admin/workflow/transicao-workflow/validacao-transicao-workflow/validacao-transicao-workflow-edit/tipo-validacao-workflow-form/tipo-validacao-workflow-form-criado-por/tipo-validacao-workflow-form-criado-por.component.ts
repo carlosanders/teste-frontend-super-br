@@ -99,6 +99,6 @@ export class TipoValidacaoWorkflowFormCriadoPorComponent implements OnInit, OnDe
     }
 
     doAbort(): void {
-        this._router.navigate([this.routerState.url.replace('/1/form', '')]);
+        this._router.navigate([this.routerState.url.replace('/2/form', '')]);
     }
 }

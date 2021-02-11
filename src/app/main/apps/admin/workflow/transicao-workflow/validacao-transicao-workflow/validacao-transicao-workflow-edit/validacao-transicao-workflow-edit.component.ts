@@ -51,11 +51,11 @@ export class ValidacaoTransicaoWorkflowEditComponent implements OnInit, OnDestro
                 this.action = '';
                 if (routerState) {
                     this.routerState = routerState.state;
-                    this.componentUrl = 'validacao/editar/'+this.routerState.params.validacaoTransicaoWorkflowHandle;
+                    this.componentUrl = 'validacoes/editar/'+this.routerState.params.validacaoTransicaoWorkflowHandle;
                     const currentUrl = this.routerState.url;
-                  //  if (currentUrl.substr(currentUrl.length-this.componentUrl.length, this.componentUrl.length) == this.componentUrl) {
+                    if (currentUrl.substr(currentUrl.length-this.componentUrl.length, this.componentUrl.length) == this.componentUrl) {
                         this.action = 'form-cadastro';
-                  //  }
+                    }
                 }
             });
     }

@@ -3,6 +3,6 @@
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         (save)="submit($event)"
-        (abort)="doAbort()">
+        (abort)="doAbort($event)">
     </cdk-tipo-validacao-atr-para>
 </div>

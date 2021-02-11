@@ -99,6 +99,6 @@ export class TipoValidacaoWorkflowFormSetorOrgComponent implements OnInit, OnDes
     }
 
     doAbort(): void {
-        this._router.navigate([this.routerState.url.replace('/1/form', '')]);
+        this._router.navigate([this.routerState.url.replace('/3/form', '')]);
     }
 }
