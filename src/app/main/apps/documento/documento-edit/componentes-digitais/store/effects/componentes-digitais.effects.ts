@@ -134,6 +134,40 @@ export class ComponenteDigitalEffects {
             );
 
     /**
+     * Patch ComponenteDigital
+     * @type {Observable<any>}
+     */
+    @Effect()
+    patchComponenteDigital: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.PATCH_COMPONENTE_DIGITAL),
+                switchMap((action) => {
+                    return this._componenteDigitalService.patch(action.payload.componenteDigital , {
+                        conteudo: action.payload.componenteDigital.conteudo, hashAntigo: action.payload.componenteDigital.hash,
+                        numeracaoSequencial: action.payload.changes.numeracaoSequencial, fileName: action.payload.changes.fileName,
+                        softwareCriacao: action.payload.changes.softwareCriacao, versaoSoftwareCriacao: action.payload.changes.versaoSoftwareCriacao
+                    }).pipe(
+                        mergeMap((response: ComponenteDigital) => [
+                            new ComponenteDigitalActions.PatchComponenteDigitalSuccess(response),
+                            new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema,
+                                changes: {numeracaoSequencial: response.numeracaoSequencial, fileName: response.fileName,
+                                    softwareCriacao: response.softwareCriacao, versaoSoftwareCriacao: response.versaoSoftwareCriacao}}),
+                            new OperacoesActions.Resultado({
+                                type: 'componenteDigital',
+                                content: `Componente Digital id ${response.id} salvo com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new ComponenteDigitalActions.PatchComponenteDigitalFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
      * Set Current Step
      * @type {Observable<any>}
      */
@@ -191,6 +225,44 @@ export class ComponenteDigitalEffects {
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * Get ComponenteDigital with router parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getComponenteDigital: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.GetComponenteDigital>(ComponenteDigitalActions.GET_COMPONENTE_DIGITAL),
+                switchMap((action) => {
+                    return this._componenteDigitalService.query(JSON.stringify({
+                            id: 'eq:' + action.payload.componenteDigitalId
+                        }),
+                        1,
+                        0,
+                        JSON.stringify({}),
+                        JSON.stringify([
+                            'conteudo',
+                            'hash'
+                        ]));
+                }),
+                switchMap(response => [
+                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                    new ComponenteDigitalActions.GetComponenteDigitalSuccess({
+                        loaded: {
+                            id: 'componenteDigitalHandle',
+                            value: response['entities'][0].id
+                        },
+                        sigiloId: response['entities'][0].id
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ComponenteDigitalActions.GetComponenteDigitalFailed(err));
                     return caught;
                 })
             );
