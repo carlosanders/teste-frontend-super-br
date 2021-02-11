@@ -18,7 +18,7 @@ import {
     Interessado,
     VinculacaoProcesso,
     Tarefa,
-    Juntada
+    Juntada, ConfiguracaoNup
 } from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -27,7 +27,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {SaveAssunto} from './store';
+import {getConfiguracaoNup, SaveAssunto} from './store';
 import {SaveInteressado} from './store';
 import {SaveVinculacaoProcesso} from './store';
 import {SaveTarefa} from './store/actions';
@@ -41,6 +41,7 @@ import {getVinculacaoProcessoIsSaving} from './store/selectors';
 import {getTarefaIsSaving} from './store/selectors';
 import {SetSteps} from '../../store/actions';
 import {getProcesso} from '../../store/selectors';
+import {configuracaoNup} from "@cdk/normalizr";
 
 @Component({
     selector: 'dados-basicos-create',
@@ -123,6 +124,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     especieTarefaPagination: Pagination;
     setorOrigemPagination: Pagination;
+    configuracaoNupPagination: Pagination;
+    configuracaoNupList$: Observable<ConfiguracaoNup[]>;
+    configuracaoNupList: ConfiguracaoNup[] = [];
 
     selectedIndex: number;
     isLinear: boolean;
@@ -157,6 +161,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.errorsTarefa$ = this._store.pipe(select(fromStore.getTarefaErrors));
         this.errorsVinculacoes$ = this._store.pipe(select(fromStore.getVinculacaoProcessoErrors));
         this.processo$ = this._store.pipe(select(getProcesso));
+        this.configuracaoNupList$ = this._store.pipe(select(getConfiguracaoNup));
         this._profile = this._loginService.getUserProfile();
         this.screen$ = this._store.pipe(select(getScreenState));
 
@@ -196,6 +201,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.setorOrigemPagination = new Pagination();
+        this.configuracaoNupPagination = new Pagination();
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
 
@@ -218,6 +224,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             localizador: [null],
             setorAtual: [null, [Validators.required]],
             modalidadeMeio: [null, [Validators.required]],
+            configuracaoNup: [null],
             modalidadeFase: [null],
             dataHoraAbertura: [null, [Validators.required]]
         });
@@ -314,6 +321,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 }, 1000);
             }
         );
+
+        this.configuracaoNupList$.subscribe(configuracaoNupList => this.configuracaoNupList = configuracaoNupList);
 
         if (!this.processo) {
             this.processo = new Processo();
@@ -454,7 +463,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 .replace(/[^\w\-]+/g, '')
                 .replace(/-+/g, '');
         }
-
         this._store.dispatch(new fromStore.SaveProcesso(processo));
     }
 

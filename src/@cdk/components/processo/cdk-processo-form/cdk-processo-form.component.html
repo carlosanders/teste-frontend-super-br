@@ -29,12 +29,12 @@
 
         <mat-form-field>
             <input matInput placeholder="Ramo" formControlName="generoSetor" required
-                [matAutocomplete]="generoSetor.autocomplete" (blur)="checkGeneroSetor()">
+                   [matAutocomplete]="generoSetor.autocomplete" (blur)="checkGeneroSetor()">
             <cdk-genero-setor-autocomplete #generoSetor="generoSetorAutocomplete" [control]="form.get('generoSetor')"
-                [pagination]="generoSetorPagination">
+                                           [pagination]="generoSetorPagination">
             </cdk-genero-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button [disabled]="!form.get('estado').value"
-                (click)="showGeneroSetorGrid()">
+                    (click)="showGeneroSetorGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('generoSetor').hasError('formError')">
@@ -44,12 +44,12 @@
 
         <mat-form-field>
             <input matInput placeholder="Atividade" formControlName="especieSetor" required
-                [matAutocomplete]="especieSetor.autocomplete" (blur)="checkEspecieSetor()">
+                   [matAutocomplete]="especieSetor.autocomplete" (blur)="checkEspecieSetor()">
             <cdk-especie-setor-autocomplete #especieSetor="especieSetorAutocomplete"
-                [control]="form.get('especieSetor')" [pagination]="especieSetorPagination">
+                                            [control]="form.get('especieSetor')" [pagination]="especieSetorPagination">
             </cdk-especie-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button [disabled]="!form.get('generoSetor').value"
-                (click)="showEspecieSetorGrid()">
+                    (click)="showEspecieSetorGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
@@ -59,12 +59,12 @@
 
         <mat-form-field>
             <input matInput placeholder="Unidade" formControlName="setorInicial" required
-                [matAutocomplete]="setorInicial.autocomplete" (blur)="checkSetorInicial()">
+                   [matAutocomplete]="setorInicial.autocomplete" (blur)="checkSetorInicial()">
             <cdk-setor-autocomplete #setorInicial="setorAutocomplete" [control]="form.get('setorInicial')"
-                [pagination]="setorInicialPagination">
+                                    [pagination]="setorInicialPagination">
             </cdk-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button [disabled]="!form.get('especieSetor').value"
-                (click)="showSetorInicialGrid()">
+                    (click)="showSetorInicialGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('setorInicial').hasError('formError')">
@@ -74,9 +74,9 @@
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <input matInput placeholder="Procedência" formControlName="procedencia" required
-                [matAutocomplete]="procedencia.autocomplete" (blur)="checkProcedencia()">
+                   [matAutocomplete]="procedencia.autocomplete" (blur)="checkProcedencia()">
             <cdk-pessoa-autocomplete #procedencia="pessoaAutocomplete" [control]="form.get('procedencia')"
-                [pagination]="procedenciaPagination">
+                                     [pagination]="procedenciaPagination">
             </cdk-pessoa-autocomplete>
             <button matSuffix mat-button mat-icon-button (click)="showProcedenciaGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -143,22 +143,34 @@
             </mat-datetimepicker>
         </mat-form-field>
 
+        <div class="responsive-group" [hidden]="configuracaoNupList.length == 2" *ngIf="form.value.id || form.value.tipoProtocolo === 1">
+            <mat-form-field>
+                <mat-label>Configuração NUP</mat-label>
+                <mat-select matInput #configuracaoNup name="configuracaoNup" formControlName="configuracaoNup" required>
+                    <mat-option  *ngFor="let nup of configuracaoNupList" [value]="nup.id">
+                        {{nup.descricao}}
+                    </mat-option>
+                </mat-select>
+                <mat-error>Campo obrigatório!</mat-error>
+            </mat-form-field>
+        </div>
+
         <mat-form-field>
             <input matInput placeholder="Procedência" id="inputProcedencia" formControlName="procedencia" required
-                [matAutocomplete]="procedencia.autocomplete" (blur)="checkProcedencia()">
+                   [matAutocomplete]="procedencia.autocomplete" (blur)="checkProcedencia()">
             <cdk-pessoa-autocomplete #procedencia="pessoaAutocomplete" [control]="form.get('procedencia')"
-                [pessoaList]="procedenciaList" [pessoaListIsLoading]="procedenciaListIsLoading"
-                [pagination]="procedenciaPagination">
+                                     [pessoaList]="procedenciaList" [pessoaListIsLoading]="procedenciaListIsLoading"
+                                     [pagination]="procedenciaPagination">
             </cdk-pessoa-autocomplete>
             <button matSuffix mat-button mat-icon-button (click)="getFavoritosProcedencia()">
                 <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('procedencia')">
+                    (click)="showLogEntryGrid('procedencia')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
             <button *ngIf="form.get('procedencia').value && form.get('procedencia').value.id" matSuffix mat-button
-                mat-icon-button (click)="doEditProcedencia()">
+                    mat-icon-button (click)="doEditProcedencia()">
                 <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
             </button>
             <button matSuffix mat-button mat-icon-button (click)="doGerirProcedencia()">
@@ -184,10 +196,10 @@
         <mat-form-field>
             <mat-label>Requerimento</mat-label>
             <input matInput #requerimento name="requerimento" formControlName="requerimento" maxlength="255" upperCase
-                required>
+                   required>
             <mat-hint align="end">{{requerimento.value.length}} / 255</mat-hint>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('requerimento')">
+                    (click)="showLogEntryGrid('requerimento')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
             <mat-error>Campo obrigatório!</mat-error>
@@ -201,12 +213,12 @@
 
         <mat-form-field *ngIf="form.value.temProcessoOrigem === true">
             <input matInput placeholder="Processo Origem" formControlName="processoOrigem"
-                [matAutocomplete]="processoOrigem.autocomplete" required (blur)="checkProcesso()">
+                   [matAutocomplete]="processoOrigem.autocomplete" required (blur)="checkProcesso()">
             <cdk-processo-autocomplete #processoOrigem="processoAutocomplete" [control]="form.get('processoOrigem')"
-                [pagination]="processoPagination">
+                                       [pagination]="processoPagination">
             </cdk-processo-autocomplete>
             <button *ngIf="form.get('processoOrigem').enabled" matSuffix mat-button mat-icon-button
-                (click)="showProcessoGrid()">
+                    (click)="showProcessoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('processoOrigem').hasError('formError')">
@@ -218,12 +230,13 @@
     <ng-template *showIfRole="'ROLE_COLABORADOR'">
         <mat-form-field>
             <input matInput placeholder="Fase" formControlName="modalidadeFase" required
-                [matAutocomplete]="modalidadeFase.autocomplete" (blur)="checkModalidadeFase()">
+                   [matAutocomplete]="modalidadeFase.autocomplete" (blur)="checkModalidadeFase()">
             <cdk-modalidade-fase-autocomplete #modalidadeFase="modalidadeFaseAutocomplete"
-                [control]="form.get('modalidadeFase')" [pagination]="modalidadeFasePagination">
+                                              [control]="form.get('modalidadeFase')"
+                                              [pagination]="modalidadeFasePagination">
             </cdk-modalidade-fase-autocomplete>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('modalidadeFase')">
+                    (click)="showLogEntryGrid('modalidadeFase')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showModalidadeFaseGrid()">
@@ -238,16 +251,18 @@
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <input matInput placeholder="Processo de Trabalho" formControlName="especieProcesso" required
-            [matAutocomplete]="especieProcesso.autocomplete" (blur)="checkEspecieProcesso()">
+               [matAutocomplete]="especieProcesso.autocomplete" (blur)="checkEspecieProcesso()">
         <cdk-especie-processo-autocomplete #especieProcesso="especieProcessoAutocomplete"
-            [control]="form.get('especieProcesso')" [especieProcessoList]="especieProcessoList"
-            [especieProcessoListIsLoading]="especieProcessoListIsLoading" [pagination]="especieProcessoPagination">
+                                           [control]="form.get('especieProcesso')"
+                                           [especieProcessoList]="especieProcessoList"
+                                           [especieProcessoListIsLoading]="especieProcessoListIsLoading"
+                                           [pagination]="especieProcessoPagination">
         </cdk-especie-processo-autocomplete>
         <button matSuffix mat-button mat-icon-button (click)="getFavoritosEspecieProcesso()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-            (click)="showLogEntryGrid('especieProcesso')">
+                (click)="showLogEntryGrid('especieProcesso')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
         <button matSuffix mat-button mat-icon-button (click)="showEspecieProcessoGrid()">
@@ -260,13 +275,15 @@
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <input matInput placeholder="Meio" formControlName="modalidadeMeio" required
-            [matAutocomplete]="modalidadeMeio.autocomplete" (blur)="checkModalidadeMeio()">
+               [matAutocomplete]="modalidadeMeio.autocomplete" (blur)="checkModalidadeMeio()">
         <cdk-modalidade-meio-autocomplete #modalidadeMeio="modalidadeMeioAutocomplete"
-            [control]="form.get('modalidadeMeio')" [modalidadeMeioList]="modalidadeMeioList"
-            [modalidadeMeioListIsLoading]="modalidadeMeioListIsLoading" [pagination]="modalidadeMeioPagination">
+                                          [control]="form.get('modalidadeMeio')"
+                                          [modalidadeMeioList]="modalidadeMeioList"
+                                          [modalidadeMeioListIsLoading]="modalidadeMeioListIsLoading"
+                                          [pagination]="modalidadeMeioPagination">
         </cdk-modalidade-meio-autocomplete>
         <button [disabled]="!form.get('especieProcesso').value" matSuffix mat-button mat-icon-button
-            (click)="getFavoritosModalidadeMeio()">
+                (click)="getFavoritosModalidadeMeio()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('modalidadeMeio')">
@@ -282,13 +299,14 @@
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <input matInput placeholder="Classificação" formControlName="classificacao" required
-            [matAutocomplete]="classificacao.autocomplete" (blur)="checkClassificacao()">
+               [matAutocomplete]="classificacao.autocomplete" (blur)="checkClassificacao()">
         <cdk-classificacao-autocomplete #classificacao="classificacaoAutocomplete" [control]="form.get('classificacao')"
-            [classificacaoList]="classificacaoList" [classificacaoListIsLoading]="classificacaoListIsLoading"
-            [pagination]="_classificacaoPagination">
+                                        [classificacaoList]="classificacaoList"
+                                        [classificacaoListIsLoading]="classificacaoListIsLoading"
+                                        [pagination]="_classificacaoPagination">
         </cdk-classificacao-autocomplete>
         <button [disabled]="!form.get('especieProcesso').value" matSuffix mat-button mat-icon-button
-            (click)="getFavoritosClassificacao()">
+                (click)="getFavoritosClassificacao()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('classificacao')">
@@ -334,13 +352,13 @@
 
     <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
         <input matInput placeholder="Setor Responsável" formControlName="setorAtual" required
-            [matAutocomplete]="setor.autocomplete" (blur)="checkSetorAtual()">
+               [matAutocomplete]="setor.autocomplete" (blur)="checkSetorAtual()">
         <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')"
-            [setorList]="setorAtualList" [setorListIsLoading]="setorAtualListIsLoading"
-            [pagination]="setorAtualPagination">
+                                [setorList]="setorAtualList" [setorListIsLoading]="setorAtualListIsLoading"
+                                [pagination]="setorAtualPagination">
         </cdk-setor-autocomplete>
         <button [disabled]="!form.get('especieProcesso').value" matSuffix mat-button mat-icon-button
-            (click)="getFavoritosSetorAtual()">
+                (click)="getFavoritosSetorAtual()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('setorAtual')">
@@ -375,50 +393,54 @@
 </form>
 
 <cdk-processo-gridsearch *ngIf="activeCard === 'processo-gridsearch'" [pagination]="processoPagination"
-    (selected)="selectProcesso($event)" (cancel)="cancel()">
+                         (selected)="selectProcesso($event)" (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
 <cdk-especie-processo-gridsearch *ngIf="activeCard === 'especie-processo-gridsearch'"
-    [pagination]="especieProcessoPagination" (selected)="selectEspecieProcesso($event)" (cancel)="cancel()">
+                                 [pagination]="especieProcessoPagination" (selected)="selectEspecieProcesso($event)"
+                                 (cancel)="cancel()">
 </cdk-especie-processo-gridsearch>
 
 <cdk-modalidade-fase-gridsearch *ngIf="activeCard === 'modalidade-fase-gridsearch'"
-    [pagination]="modalidadeFasePagination" (selected)="selectModalidadeFase($event)" (cancel)="cancel()">
+                                [pagination]="modalidadeFasePagination" (selected)="selectModalidadeFase($event)"
+                                (cancel)="cancel()">
 </cdk-modalidade-fase-gridsearch>
 
 <cdk-modalidade-meio-gridsearch *ngIf="activeCard === 'modalidade-meio-gridsearch'"
-    [pagination]="modalidadeMeioPagination" (selected)="selectModalidadeMeio($event)" (cancel)="cancel()">
+                                [pagination]="modalidadeMeioPagination" (selected)="selectModalidadeMeio($event)"
+                                (cancel)="cancel()">
 </cdk-modalidade-meio-gridsearch>
 
 <cdk-classificacao-gridsearch *ngIf="activeCard === 'classificacao-gridsearch'" [pagination]="_classificacaoPagination"
-    (selected)="selectClassificacao($event)" (cancel)="cancel()">
+                              (selected)="selectClassificacao($event)" (cancel)="cancel()">
 </cdk-classificacao-gridsearch>
 
 <cdk-setor-gridsearch *ngIf="activeCard === 'setor-gridsearch'" [pagination]="setorAtualPagination"
-    (selected)="selectSetor($event)" (cancel)="cancel()">
+                      (selected)="selectSetor($event)" (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-setor-gridsearch *ngIf="activeCard === 'setor-inicial-gridsearch'" [pagination]="setorInicialPagination"
-    [displayedColumns]="['select', 'id', 'unidade.nome', 'actions']" (selected)="selectSetorInicial($event)"
-    (cancel)="cancel()">
+                      [displayedColumns]="['select', 'id', 'unidade.nome', 'actions']"
+                      (selected)="selectSetorInicial($event)"
+                      (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch *ngIf="activeCard === 'logentry-gridsearch'" [pagination]="logEntryPagination"
-    (cancel)="cancel()">
+                         (cancel)="cancel()">
 </cdk-logentry-gridsearch>
 
 <cdk-genero-setor-gridsearch *ngIf="activeCard === 'genero-setor-gridsearch'" [pagination]="generoSetorPagination"
-    (selected)="selectGeneroSetor($event)" (cancel)="cancel()">
+                             (selected)="selectGeneroSetor($event)" (cancel)="cancel()">
 </cdk-genero-setor-gridsearch>
 
 <cdk-especie-setor-gridsearch *ngIf="activeCard === 'especie-setor-gridsearch'" [pagination]="especieSetorPagination"
-    (selected)="selectEspecieSetor($event)" (cancel)="cancel()">
+                              (selected)="selectEspecieSetor($event)" (cancel)="cancel()">
 </cdk-especie-setor-gridsearch>
 
 <cdk-pessoa-gridsearch *ngIf="activeCard === 'procedencia-gridsearch'" [pagination]="procedenciaPagination"
-    (selected)="selectProcedencia($event)" (cancel)="cancel()">
+                       (selected)="selectProcedencia($event)" (cancel)="cancel()">
 </cdk-pessoa-gridsearch>
 
 <cdk-classificacao-grid-tree *ngIf="activeCard === 'classificacao-grid-tree'" (selected)="selectClassificacao($event)"
-    (cancel)="cancel()">
+                             (cancel)="cancel()">
 </cdk-classificacao-grid-tree>
