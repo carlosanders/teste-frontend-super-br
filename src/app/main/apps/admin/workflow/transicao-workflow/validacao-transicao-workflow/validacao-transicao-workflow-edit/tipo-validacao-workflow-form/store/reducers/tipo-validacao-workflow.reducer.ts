@@ -23,12 +23,6 @@ export function TipoValidacaoWorkflowReducer(
     switch (action.type) {
 
         case TipoValidacaoWorkflowActions.GET_TIPO_VALIDACAO_WORKFLOW: {
-            console.log('state', {
-                ...state,
-                entityId: null,
-                loading: true,
-                loaded: false
-            })
             return {
                 ...state,
                 entityId: null,
