@@ -36,6 +36,9 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     total = 0;
 
     @Input()
+    saving = false;
+
+    @Input()
     mode = 'list';
 
     @Output()
@@ -96,7 +99,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
             fixed: false
         },
         {
-            id: 'vinculacaoModelo.orgaoCentral.valor',
+            id: 'vinculacaoModelo.modalidadeOrgaoCentral.valor',
             label: 'Órgão Central',
             fixed: false
         },

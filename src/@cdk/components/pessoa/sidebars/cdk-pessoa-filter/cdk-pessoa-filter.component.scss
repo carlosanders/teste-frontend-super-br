@@ -27,6 +27,10 @@ cdk-pessoa-filter {
             flex: 0 1 auto;
             display: flex;
             flex-direction: column;
+
+            mat-form-field {
+                margin-right: 16px;
+            }
         }
     }
 

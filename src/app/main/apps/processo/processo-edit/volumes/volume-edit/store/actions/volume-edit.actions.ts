@@ -11,6 +11,8 @@ export const GET_VOLUME = '[VOLUME] GET VOLUME';
 export const GET_VOLUME_SUCCESS = '[VOLUME] GET VOLUME SUCCESS';
 export const GET_VOLUME_FAILED = '[VOLUME] GET VOLUME FAILED';
 
+export const UNLOAD_STORE = '[VOLUME-EDIT] UNLOAD STORE';
+
 /**
  * Get Volume
  */
@@ -107,6 +109,18 @@ export class CreateVolumeSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
+
 export type VolumeEditActionsAll
     = CreateVolume
     | CreateVolumeSuccess
@@ -115,4 +129,5 @@ export type VolumeEditActionsAll
     | GetVolumeFailed
     | SaveVolume
     | SaveVolumeSuccess
-    | SaveVolumeFailed;
+    | SaveVolumeFailed
+    | UnloadStore;

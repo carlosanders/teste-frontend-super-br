@@ -89,7 +89,7 @@ export class ResolveGuard implements CanActivate {
                             'modalidadeRepositorio',
                             'vinculacoesRepositorios',
                             'vinculacoesRepositorios.setor',
-                            'vinculacoesRepositorios.orgaoCentral',
+                            'vinculacoesRepositorios.modalidadeOrgaoCentral',
                             'vinculacoesRepositorios.unidade',
                         ],
                         context: {
@@ -101,7 +101,7 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params.generoHandle === 'nacional' && !this.routerState.params.unidadeHandle) {
                         params.filter = {
                             ...params.filter,
-                            'vinculacoesRepositorios.orgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
+                            'vinculacoesRepositorios.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
                         };
                     }
                     if ((this.routerState.params.generoHandle === 'unidade' && !this.routerState.params.setorHandle)

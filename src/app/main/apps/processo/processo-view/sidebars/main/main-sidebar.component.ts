@@ -295,7 +295,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 {
                     // Modelos nacionais
                     'modalidadeModelo.valor': 'eq:NACIONAL',
-                    'vinculacoesModelos.orgaoCentral.id': 'in:'
+                    'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
                         + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'vinculacoesModelos.especieSetor.id': 'in:'
                         + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
@@ -607,7 +607,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
                     this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                         assinatura: assinatura,
-                        password: result.password
+                        plainPassword: result.plainPassword
                     }));
                 });
             }
@@ -634,7 +634,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
                     this._store.dispatch(new fromStore.AssinaJuntadaEletronicamente({
                         assinatura: assinatura,
-                        password: result.password
+                        plainPassword: result.plainPassword
                     }));
                 });
             }

@@ -6,7 +6,11 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
+    <div class="responsive-grid"
+         [ngClass]="{
+            'search': (this.mode == 'search'),
+            'documento-edit': (this.mode === 'documento')
+         }">
 
         <div class="actions">
 
@@ -127,13 +131,13 @@
                 </ng-container>
 
                 <!-- Órgão Central Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('vinculacoesRepositorios.orgaoCentral.valor') > -1"
-                              matColumnDef="vinculacoesRepositorios.orgaoCentral.valor">
+                <ng-container *ngIf="displayedColumns.indexOf('vinculacoesRepositorios.modalidadeOrgaoCentral.valor') > -1"
+                              matColumnDef="vinculacoesRepositorios.modalidadeOrgaoCentral.valor">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Órgão Central
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1}"> {{repositorio.vinculacoesRepositorios[0]?.orgaoCentral?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1}"> {{repositorio.vinculacoesRepositorios[0]?.modalidadeOrgaoCentral?.valor}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->

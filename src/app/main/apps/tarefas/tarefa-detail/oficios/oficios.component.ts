@@ -342,7 +342,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
-                    password: result.password
+                    plainPassword: result.plainPassword
                 }));
             });
         }

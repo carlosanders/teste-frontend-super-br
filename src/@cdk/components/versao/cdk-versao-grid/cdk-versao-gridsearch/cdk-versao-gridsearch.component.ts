@@ -45,6 +45,9 @@ export class CdkVersaoGridsearchComponent implements OnInit {
     cancel = new EventEmitter();
 
     @Input()
+    mode = 'list';
+
+    @Input()
     filterLog: any;
 
     logEntrys: LogEntry[];

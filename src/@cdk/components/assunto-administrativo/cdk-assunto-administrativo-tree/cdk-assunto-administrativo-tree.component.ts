@@ -1,5 +1,16 @@
 import {FlatTreeControl} from '@angular/cdk/tree';
-import {Component, ElementRef, EventEmitter, Input, Output, Renderer2, ViewChildren} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Input,
+    OnInit,
+    Output,
+    Renderer2,
+    ViewChildren, ViewEncapsulation
+} from '@angular/core';
 import {MatTreeFlatDataSource, MatTreeFlattener, MatTreeNode} from '@angular/material/tree';
 import {catchError, debounceTime, distinctUntilChanged, finalize} from 'rxjs/operators';
 import {Observable, of, Subject} from 'rxjs';
@@ -11,6 +22,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AssuntoAdministrativo, Pagination, Processo} from '../../../models';
 import {AssuntoAdministrativoService} from '../../../services/assunto-administrativo.service';
+import {cdkAnimations} from '../../../animations';
 
 export class FlatNode {
     expandable: boolean;
@@ -32,26 +44,12 @@ export class FlatNode {
 @Component({
     selector: 'cdk-assunto-administrativo-tree',
     templateUrl: './cdk-assunto-administrativo-tree.component.html',
-    styleUrls: ['./cdk-assunto-administrativo-tree.component.scss']
+    styleUrls: ['./cdk-assunto-administrativo-tree.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
 })
-export class CdkAssuntoAdministrativoTreeComponent {
-
-    constructor(
-        private _serviceTree: CdkAssuntoAdministrativoTreeService,
-        private _assuntoAdministrativoService: AssuntoAdministrativoService,
-        private _formBuilder: FormBuilder,
-    ) {
-        this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
-            this.isExpandable, this.getChildren);
-        this.treeControl = new FlatTreeControl<FlatNode>(this.getLevel, this.isExpandable);
-        this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
-        this.initTree();
-        _serviceTree.dataChange.subscribe(data => {
-            this.dataSource.data = data;
-        });
-        this.loadForms();
-
-    }
+export class CdkAssuntoAdministrativoTreeComponent implements OnInit {
 
     @Input()
     assuntoAdministrativo: AssuntoAdministrativo;
@@ -71,7 +69,6 @@ export class CdkAssuntoAdministrativoTreeComponent {
     @Input()
     assuntoAdministrativoPagination: Pagination;
 
-
     @Input()
     flatNodeMap = new Map<FlatNode, AssuntoAdministrativoNode>();
     nestedNodeMap = new Map<AssuntoAdministrativoNode, FlatNode>();
@@ -82,7 +79,6 @@ export class CdkAssuntoAdministrativoTreeComponent {
 
     @ViewChildren(MatTreeNode, {read: ElementRef}) treeNodes: ElementRef[];
 
-
     loading: boolean;
     pesquisando: boolean;
     activeCard: string;
@@ -91,6 +87,50 @@ export class CdkAssuntoAdministrativoTreeComponent {
 
     classSelect: string;
     searchFilter: Subject<string> = new Subject<string>();
+
+    innerWidth: any;
+    mobileMode: boolean;
+    tamanhoIdentacao = 40;
+    tamanhoIdentacaoForm = 40;
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+        this.verificarModoMobile();
+    }
+
+    constructor(
+        private _serviceTree: CdkAssuntoAdministrativoTreeService,
+        private _assuntoAdministrativoService: AssuntoAdministrativoService,
+        private _formBuilder: FormBuilder,
+    ) {
+        this.treeFlattener = new MatTreeFlattener(this.transformer, this.getLevel,
+            this.isExpandable, this.getChildren);
+        this.treeControl = new FlatTreeControl<FlatNode>(this.getLevel, this.isExpandable);
+        this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+        this.initTree();
+        _serviceTree.dataChange.subscribe(data => {
+            this.dataSource.data = data;
+        });
+        this.loadForms();
+
+    }
+
+    ngOnInit(): void {
+        this.verificarModoMobile();
+    }
+
+    verificarModoMobile() {
+        this.innerWidth = window.innerWidth;
+        this.mobileMode = innerWidth <= 600;
+        if(this.mobileMode) {
+            this.tamanhoIdentacao = 15;
+            this.tamanhoIdentacaoForm = 0;
+        }
+        else {
+            this.tamanhoIdentacao = 40;
+            this.tamanhoIdentacaoForm = 40;
+        }
+    }
 
     loadForms(): void {
         this.formAssuntoAdministrativo = this._formBuilder.group({

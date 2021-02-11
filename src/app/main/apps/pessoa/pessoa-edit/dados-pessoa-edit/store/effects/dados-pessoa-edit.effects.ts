@@ -81,9 +81,9 @@ export class DadosPessoaEditEffect {
             .pipe(
                 ofType<DadosPessoaEditActions.SavePessoa>(DadosPessoaEditActions.SAVE_PESSOA),
                 switchMap((action) => {
-                    return this._pessoaService.save(action.payload).pipe(
+                    return this._pessoaService.save(action.payload.pessoa).pipe(
                         mergeMap((response: Pessoa) => [
-                            new DadosPessoaEditActions.SavePessoaSuccess(response),
+                            new DadosPessoaEditActions.SavePessoaSuccess({pessoa: response, select: action.payload.select}),
                             new PessoaListActions.ReloadPessoas(),
                             new AddData<Pessoa>({data: [response], schema: pessoaSchema}),
                             new OperacoesActions.Resultado({
@@ -109,7 +109,13 @@ export class DadosPessoaEditEffect {
             .pipe(
                 ofType<DadosPessoaEditActions.SavePessoaSuccess>(DadosPessoaEditActions.SAVE_PESSOA_SUCCESS),
                 tap((action) => {
-                    this._router.navigate([this.routerState.url.replace('criar/dados-pessoa', action.payload.id + '/documentos/listar')]).then();
+                    this._router.navigate([this.routerState.url.replace('criar/dados-pessoa', action.payload.pessoa.id + '/documentos/listar')])
+                        .then(() => {
+                            if (action.payload.select) {
+                                this._router.navigate([this.routerState.url.split('/pessoa')[0]])
+                                    .then(() => {});
+                            }
+                        });
                 })
             );
 }

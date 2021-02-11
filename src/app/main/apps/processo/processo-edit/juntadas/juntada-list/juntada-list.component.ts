@@ -14,7 +14,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {getProcesso} from '../../../store/selectors';
+import {getProcesso} from '../../../store';
 
 @Component({
     selector: 'juntada-list',
@@ -28,10 +28,11 @@ export class JuntadaListComponent implements OnInit {
 
     routerState: any;
     juntadas$: Observable<Juntada[]>;
+    juntadasIds: number[] = [];
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
-    desentranhandoIds$: Observable<any>;
+    desentranhadoIds$: Observable<number[]>;
     copiandoIds$: Observable<any>;
     processo$: Observable<Processo>;
     processo: Processo;
@@ -57,7 +58,7 @@ export class JuntadaListComponent implements OnInit {
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadaList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
-        this.desentranhandoIds$ = this._store.pipe(select(fromStore.getDesentranhandoIds));
+        this.desentranhadoIds$ = this._store.pipe(select(fromStore.getDesentranhadoIds));
         this.copiandoIds$ = this._store.pipe(select(fromStore.getCopiandoIds));
         this.processo$ = this._store.pipe(select(getProcesso));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
@@ -79,6 +80,17 @@ export class JuntadaListComponent implements OnInit {
 
         this.processo$.subscribe(processo => {
             this.processo = processo;
+        });
+
+        this.juntadas$.subscribe(juntadas => {
+            this.juntadasIds = [];
+            let tmp = juntadas.filter((juntada) => {
+                return juntada.ativo;
+            });
+
+            tmp.forEach((juntada) => {
+                this.juntadasIds.push(juntada.id);
+            });
         });
     }
 
@@ -122,9 +134,7 @@ export class JuntadaListComponent implements OnInit {
     }
 
     desentranhar(): void {
-        this.juntadas$.subscribe(juntadas => {
-            this._store.dispatch(new fromStore.DesentranharJuntada(juntadas));
-        });
+        this._router.navigate([this.routerState.url.replace('juntadas/listar', 'juntadas/desentranhar')]).then();
     }
 
     copiar(juntadaId: number[]): void {
@@ -145,7 +155,7 @@ export class JuntadaListComponent implements OnInit {
 
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
-                    password: result.password
+                    plainPassword: result.plainPassword
                 }));
             });
         }

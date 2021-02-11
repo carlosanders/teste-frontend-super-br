@@ -41,8 +41,8 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
     setor$: Observable<Setor>;
     setorHandle$: Observable<Setor>;
     setor: Setor = null;
-    orgaoCentral$: Observable<ModalidadeOrgaoCentral>;
-    orgaoCentral: ModalidadeOrgaoCentral = null;
+    modalidadeOrgaoCentral$: Observable<ModalidadeOrgaoCentral>;
+    modalidadeOrgaoCentral: ModalidadeOrgaoCentral = null;
     unidade$: Observable<Setor>;
     unidadeHandle$: Observable<Setor>;
     unidade: Setor = null;
@@ -64,7 +64,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         this.repositorio$ = this._store.pipe(select(fromStore.getRepositorio));
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
-        this.orgaoCentral$ = this._store.pipe(select(fromStore.getOrgaoCentral));
+        this.modalidadeOrgaoCentral$ = this._store.pipe(select(fromStore.getModalidadeOrgaoCentral));
 
         this._store
             .pipe(select(getRouterState))
@@ -132,8 +132,8 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
                     if (this.repositorio.vinculacoesRepositorios[0]?.usuario) {
                         this.repositorio.usuario = this.repositorio.vinculacoesRepositorios[0]?.usuario;
                     }
-                    if (this.repositorio.vinculacoesRepositorios[0]?.orgaoCentral) {
-                        this.repositorio.orgaoCentral = this.repositorio.vinculacoesRepositorios[0]?.orgaoCentral;
+                    if (this.repositorio.vinculacoesRepositorios[0]?.modalidadeOrgaoCentral) {
+                        this.repositorio.modalidadeOrgaoCentral = this.repositorio.vinculacoesRepositorios[0]?.modalidadeOrgaoCentral;
                     }
                 }
             }
@@ -159,12 +159,12 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.orgaoCentral$.pipe(
+        this.modalidadeOrgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            orgaoCentral => {
-                if (orgaoCentral) {
-                    this.orgaoCentral = orgaoCentral;
+            modalidadeOrgaoCentral => {
+                if (modalidadeOrgaoCentral) {
+                    this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
                 }
             }
         );
@@ -177,7 +177,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
             } else if (this.unidade) {
                 this.repositorio.unidade = this.unidade;
             } else {
-                this.repositorio.orgaoCentral = this.orgaoCentral;
+                this.repositorio.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
             }
         }
     }
@@ -213,7 +213,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         } else if (this.unidade) {
             repositorio.unidade = this.unidade;
         } else {
-            repositorio.orgaoCentral = this.orgaoCentral;
+            repositorio.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
         }
 
         this._store.dispatch(new fromStore.SaveRepositorio(repositorio));

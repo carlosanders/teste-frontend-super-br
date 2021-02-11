@@ -105,6 +105,7 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadStore());
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -127,11 +128,11 @@ export class RemessaEditComponent implements OnInit, OnDestroy {
     }
 
     gerirPessoaDestino(): void {
-        this._router.navigate([this.routerState.url + '/pessoa']).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa']).then();
     }
 
     editPessoaDestino(pessoaId: number): void {
-        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
 
     submit(values): void {

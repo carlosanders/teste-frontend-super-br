@@ -14,7 +14,8 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import {takeUntil} from 'rxjs/operators';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
+import {getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'dados-pessoa-edit',
@@ -34,6 +35,10 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
 
     hidden: any;
+
+    routerState: any;
+
+    mode = 'select';
 
     /**
      * @param _store
@@ -68,6 +73,21 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
         if (this.pessoa.modalidadeQualificacaoPessoa && this.pessoa.modalidadeQualificacaoPessoa.valor !== 'PESSOA FÍSICA') {
             this.hidden = true;
         }
+
+
+        this._store
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+
+                if (this.routerState.url.indexOf('/admin/') !== -1) {
+                    this.mode = 'save';
+                }
+            }
+        });
     }
 
     /**
@@ -87,13 +107,13 @@ export class DadosPessoaEditComponent implements OnInit, OnDestroy {
 
         const pessoa = new Pessoa();
 
-        Object.entries(values).forEach(
+        Object.entries(values.pessoa).forEach(
             ([key, value]) => {
                 pessoa[key] = value;
             }
         );
 
-        this._store.dispatch(new fromStore.SavePessoa(pessoa));
+        this._store.dispatch(new fromStore.SavePessoa({pessoa: pessoa, select: values.select}));
 
     }
 

@@ -60,7 +60,7 @@ export class RepositoriosEspecieSetorEffects {
                             'documento.componentesDigitais',
                             'vinculacoesRepositorios',
                             'vinculacoesRepositorios.setor',
-                            'vinculacoesRepositorios.orgaoCentral',
+                            'vinculacoesRepositorios.modalidadeOrgaoCentral',
                         ]));
                 }),
                 switchMap(response => [

@@ -56,7 +56,7 @@ export class ModeloEditEffect {
                             'vinculacoesModelos',
                             'vinculacoesModelos.setor',
                             'vinculacoesModelos.usuario',
-                            'vinculacoesModelos.orgaoCentral',
+                            'vinculacoesModelos.modalidadeOrgaoCentral',
                         ]));
                 }),
                 switchMap(response => [

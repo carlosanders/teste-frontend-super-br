@@ -65,7 +65,7 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
                             ...this.pagination.filter,
                             andX: andxFilter
                         };
-                        return this._processoService.query(
+                        return this._processoService.search(
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,

@@ -27,7 +27,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {SaveAssunto} from './store';
+import {SaveAssunto, UnloadAssuntos} from './store';
 import {SaveInteressado} from './store';
 import {SaveVinculacaoProcesso} from './store';
 import {SaveTarefa} from './store/actions';
@@ -359,6 +359,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
                 if (this.assuntos.length > 0) {
                     this.assuntoActivated = 'grid';
+
+                    this.assunto = new Assunto();
+                    this.assunto.processo = this.processo;
+                    this.formAssunto.reset();
                 }
             }
         );
@@ -375,6 +379,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
                 if (this.interessados) {
                     this.interessadoActivated = 'grid';
+                    this.formInteressado.reset();
                 }
             }
         );
@@ -401,6 +406,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
                 if (this.vinculacoesProcessos) {
                     this.vinculacaoProcessoActivated = 'grid';
+                    this.formVinculacaoProcesso.reset();
                 }
             }
         );

@@ -44,7 +44,7 @@ export const getSetorId = createSelector(
     (state: CoordenadorState) => state.loaded && state.setorId ? state.setorId : null
 );
 
-export const getOrgaoCentralId = createSelector(
+export const getModalidadeOrgaoCentralId = createSelector(
     getCoordenadorState,
     (state: CoordenadorState) => state.loaded && state.orgaoId ? state.orgaoId : null
 );
@@ -70,9 +70,9 @@ export const getRepositorio = createSelector(
     schemaRepositorioSelectors.entityProjector
 );
 
-export const getOrgaoCentral = createSelector(
+export const getModalidadeOrgaoCentral = createSelector(
     schemaOrgaoSelectors.getNormalizedEntities,
-    getOrgaoCentralId,
+    getModalidadeOrgaoCentralId,
     schemaOrgaoSelectors.entityProjector
 );
 

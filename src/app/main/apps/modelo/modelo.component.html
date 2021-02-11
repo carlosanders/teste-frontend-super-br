@@ -6,6 +6,7 @@
         [actions]="['select']"
         [displayedColumns]="['id', 'nome', 'modalidadeModelo.valor', 'highlights', 'actions']"
         (selected)="doSelect($event)"
+        [saving]="(saving$ | async)"
         (reload)="reload($event)">
     </cdk-modelo-grid>
 </div>

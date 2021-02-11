@@ -7,13 +7,15 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';
-import {getRouterState} from '../../../store/reducers';
+import {getRouterState} from '../../../store';
 import {Router} from '@angular/router';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Observable, Subject} from 'rxjs';
 import {Pessoa} from '@cdk/models';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
+import {PessoaEditService} from './pessoa-edit/pessoa-edit.service';
+import {UnloadPessoas} from 'app/main/apps/pessoa/pessoa-list/store';
 
 @Component({
     selector: 'pessoa',
@@ -32,20 +34,25 @@ export class PessoaComponent implements OnInit, OnDestroy {
 
     pessoas$: Observable<Pessoa[]>;
 
+    pessoaSelecionada: Pessoa;
+
     @Output()
     select: EventEmitter<Pessoa> = new EventEmitter();
 
     /**
+     *
      * @param _store
      * @param _changeDetectorRef
      * @param _router
      * @param _cdkSidebarService
+     * @param _pessoaEditService
      */
     constructor(
         private _store: Store<fromStore.PessoaListAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _cdkSidebarService: CdkSidebarService,
+        private _pessoaEditService: PessoaEditService
     ) {
         this.pessoas$ = this._store.pipe(select(fromStore.getPessoaList));
 
@@ -62,7 +69,7 @@ export class PessoaComponent implements OnInit, OnDestroy {
                 if (this.routerState.url.indexOf('pessoa/editar') > -1) {
                     this.action = 'editar';
                 }
-                if (this.routerState.url.indexOf('pessoa/criar') > -1) {
+                if (this.routerState.url.indexOf('pessoa/editar/criar') > -1) {
                     this.action = 'criar';
                 }
                 this._changeDetectorRef.markForCheck();
@@ -76,12 +83,22 @@ export class PessoaComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         const content = document.getElementsByTagName('content')[0];
         content.classList.add('full-screen');
+        this._pessoaEditService.pessoaSelecionada
+            .subscribe((pessoa) => {
+                this.pessoaSelecionada = pessoa;
+            });
     }
 
     /**
      * On destroy
      */
     ngOnDestroy(): void {
+        if (this.pessoaSelecionada && this.select) {
+            this.select.emit(this.pessoaSelecionada);
+        }
+
+        this._store.dispatch(new UnloadPessoas());
+
         const content = document.getElementsByTagName('content')[0];
         content.classList.remove('full-screen');
 

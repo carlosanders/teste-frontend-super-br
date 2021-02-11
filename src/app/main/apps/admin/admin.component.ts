@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
@@ -20,7 +21,7 @@ import {throwError} from 'rxjs';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AdminComponent implements OnInit, OnDestroy {
+export class AdminComponent implements OnInit, OnDestroy, AfterViewInit {
 
     /**
      * Constructor
@@ -32,6 +33,7 @@ export class AdminComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         private _cdkSidebarService: CdkSidebarService,
     ) {
+
         // Set the defaults
     }
 
@@ -39,15 +41,14 @@ export class AdminComponent implements OnInit, OnDestroy {
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
-    /**
-     * On init
-     */
     ngOnInit(): void {
     }
 
-    /**
-     * On destroy
-     */
+    ngAfterViewInit(): void {
+        this._cdkSidebarService.getSidebar('admin-main-sidebar').toggleOpen();
+        this._changeDetectorRef.detectChanges();
+    }
+
     ngOnDestroy(): void {
     }
 

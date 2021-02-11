@@ -3,6 +3,7 @@
         [hidden]="hidden"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
+        [mode]="mode"
         (abort)="cancel()"
         (save)="submit($event)">
 </cdk-pessoa-form>

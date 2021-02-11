@@ -27,7 +27,7 @@ export class Usuario {
 
     nome?: string;
 
-    password?: string;
+    plainPassword?: string;
 
     jwt?: string;
 
@@ -103,7 +103,7 @@ export class Usuario {
         this.apagadoEm = null;
         this.vinculacoesPessoasUsuarios = [];
         this.coordenadores = [];
-        this.password = null;
+        this.plainPassword = null;
         this.jwt = null;
         this.isDisponivel = null;
     }

@@ -47,11 +47,11 @@
 
         <mat-form-field>
             <input matInput placeholder="Órgão Central"
-                   formControlName="orgaoCentral"
-                   [matAutocomplete]="orgaoCentral.autocomplete">
-            <cdk-modalidade-orgao-central-autocomplete #orgaoCentral="modalidadeOrgaoCentralAutocomplete"
-                                                       [pagination]="orgaoCentralPagination"
-                                                       [control]="form.get('orgaoCentral')">
+                   formControlName="modalidadeOrgaoCentral"
+                   [matAutocomplete]="modalidadeOrgaoCentral.autocomplete">
+            <cdk-modalidade-orgao-central-autocomplete #modalidadeOrgaoCentral="modalidadeOrgaoCentralAutocomplete"
+                                                       [pagination]="modalidadeOrgaoCentralPagination"
+                                                       [control]="form.get('modalidadeOrgaoCentral')">
             </cdk-modalidade-orgao-central-autocomplete>
         </mat-form-field>
 

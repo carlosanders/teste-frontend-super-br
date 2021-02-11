@@ -70,7 +70,6 @@ export function VolumeEditReducer(
         case VolumeEditActions.SAVE_VOLUME_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -80,6 +79,12 @@ export function VolumeEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case VolumeEditActions.UNLOAD_STORE: {
+            return {
+                ...VolumeEditInitialState
             };
         }
 

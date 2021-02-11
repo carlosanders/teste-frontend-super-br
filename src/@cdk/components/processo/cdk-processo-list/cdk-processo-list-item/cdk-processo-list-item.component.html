@@ -8,14 +8,22 @@
 
         <div class="info" fxFlex>
             <div class="title" fxLayout="row">
+                <mat-icon *ngIf="processo?.acessoNegado" matTooltip="Acesso negado!" class="red-fg">block
+                </mat-icon>
+                <mat-icon *ngIf="processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
+                </mat-icon>
                 <span>PROCESSO {{processo?.NUP | formatNup}}</span>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="isOpen">keyboard_arrow_down</mat-icon>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!isOpen">keyboard_arrow_up</mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!processo?.acessoNegado && !isOpen">keyboard_arrow_down</mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!processo?.acessoNegado && isOpen">keyboard_arrow_up</mat-icon>
             </div>
 
-            <div class="subtitle">
+            <div class="subtitle" *ngIf="!processo?.acessoNegado">
                 <span>{{processo.especieProcesso?.nome}} / {{processo.modalidadeMeio?.valor}}
                     / {{processo.modalidadeFase?.valor}}</span>
+            </div>
+
+            <div class="subtitle" *ngIf="processo?.acessoNegado">
+                <span>Usuário com acesso negado ao processo</span>
             </div>
 
             <div class="subtitle" fxLayout="row" *ngIf="isOpen">
@@ -27,16 +35,7 @@
                 </div>
             </div>
 
-            <div class="subtitle" fxLayout="row" *ngIf="isOpen">
-                <!--<div *ngIf="loadingInteressadosProcessosId.indexOf(processo.id) !== -1">
-                    <mat-spinner diameter=16></mat-spinner>
-                </div>-->
-                <div *ngIf="processo?.interessados?.length > 0">
-                    <span>INTERESSADO: {{processo?.interessados[0]?.pessoa?.nome}}</span>
-                </div>
-            </div>
-
-            <div class="body mt-4">
+            <div class="body mt-4" *ngIf="!processo?.acessoNegado">
                 <div>
                     Data Abertura:  {{processo.dataHoraAbertura?.toDate() | date: 'dd/MM/yyyy'}}
                 </div>

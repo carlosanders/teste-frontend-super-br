@@ -50,7 +50,7 @@ export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
 
         this.form = this._formBuilder.group({
             senhaAtual: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
-            password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
+            plainPassword: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(16)]],
             confirmPass: ['']
         }, {validator: this.checkPasswords });
     }
@@ -65,7 +65,7 @@ export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         this.form.patchValue({
             senhaAtual: null,
-            password: null,
+            plainPassword: null,
             confirmPass: null
         });
 
@@ -106,7 +106,7 @@ export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
         if (this.form.valid) {
             this.save.emit({
                     senhaAtual: this.form.value.senhaAtual,
-                    password: this.form.value.password
+                    plainPassword: this.form.value.plainPassword
                 }
             );
         }
@@ -117,7 +117,7 @@ export class CdkSegurancaFormComponent implements OnChanges, OnDestroy {
     }
 
     checkPasswords(group: FormGroup): any { // here we have the 'passwords' group
-        const pass = group.controls.password.value;
+        const pass = group.controls.plainPassword.value;
         const confirmPass = group.controls.confirmPass.value;
 
         return pass === confirmPass ? null : { notSame: true };
