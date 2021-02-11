@@ -6,11 +6,11 @@ export const environment = {
     test: false,
     production: false,
     hmr: false,
-    base_url: 'http://10.1.141.244:8000/',
+    base_url: 'http://localhost:8000/',
     base_url_x509: '',
-    jnlp: 'jnlp://10.1.141.244:8000/',
-    api_url: 'http://10.1.141.244:8000/v1/',
-    mercure_hub: 'http://10.1.141.244:4000/.well-known/mercure',
+    jnlp: 'jnlp://localhost:8000/',
+    api_url: 'http://localhost:8000/v1/',
+    mercure_hub: 'http://localhost:4000/.well-known/mercure',
     xdebug: '?XDEBUG_SESSION_START=docker'
 };
 

@@ -2,7 +2,7 @@
     <div class="header">
       <div class="actions">
         <button mat-icon-button
-                (click)="goBack()"
+                (click)="doAbort()"
                 aria-label="voltar"
                 matTooltip="Voltar">
           <mat-icon>arrow_back</mat-icon>
@@ -20,7 +20,7 @@
             <span>{{tipoValidacaoWorkflow.descricao}}</span>
           </div>
         </div>
-  
+
         <div class="actions">
           <button mat-icon-button aria-label="selecionar">
             <mat-icon>send</mat-icon>
@@ -33,4 +33,3 @@
     </div>
   </div>
   <router-outlet></router-outlet>
-  
