@@ -42,11 +42,11 @@ export class CdkTipoValidacaoCriadoPorComponent implements OnInit, OnChanges, On
     form: FormGroup;
 
     @Input()
-   
+
     @Input()
     usuarioRecebidoPagination: Pagination;
 
-    
+
     activeCard = 'form';
 
     /**
@@ -78,7 +78,7 @@ export class CdkTipoValidacaoCriadoPorComponent implements OnInit, OnChanges, On
 
     }
 
-    
+
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['validacao'] && this.validacao && ((!this.validacao.id && !this.form.dirty) || (this.validacao.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.validacao});
@@ -126,15 +126,7 @@ export class CdkTipoValidacaoCriadoPorComponent implements OnInit, OnChanges, On
     doAbort(): void {
         this.abort.emit();
     }
-/*
-    checkUsuarioRecebido(): void {
-        const value = this.form.get('usuario').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('usuario').setValue(null);
-            this.form.get('valor').setValue(null);
-        }
-    }
-*/
+
     cancel(): void {
         this.activeCard = 'form';
     }
