@@ -1,5 +1,7 @@
-<form fxLayoutGap="16px" [formGroup]="form" *ngIf="formState === 'form'">
-    <label id="acoes-rg">Atribuido Para</label>
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+    <label id="acoes-rg">Atribuido para</label>
+    
+
     <mat-form-field>
         <input matInput placeholder="Atribuido Para"
                formControlName="atribuidoPara"
@@ -8,7 +10,6 @@
         </cdk-usuario-autocomplete>
     </mat-form-field>
 
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()"
@@ -23,3 +24,4 @@
 
     <div>{{form.errors}}</div>
 </form>
+

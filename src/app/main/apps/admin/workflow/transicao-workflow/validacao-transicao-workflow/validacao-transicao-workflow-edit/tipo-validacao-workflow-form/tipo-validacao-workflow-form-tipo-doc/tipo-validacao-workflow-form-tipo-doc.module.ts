@@ -15,25 +15,24 @@ import {
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {TipoValidacaoWorkflowForm001Component} from './tipo-validacao-workflow-form-001.component';
+import {TipoValidacaoWorkflowFormTipoDocComponent} from './tipo-validacao-workflow-form-tipo-doc.component';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
 import {CommonModule} from "@angular/common";
 import * as fromGuards from "./store/guards";
-//Ver o que e
 import {ValidacaoFormStoreModule} from "../store/store.module";
 import {TipoValidacaoWorkflowService} from "@cdk/services/tipo-validacao-workflow.service";
-import {CdkValidacaoTransicaoWorkflowFormModule} from "@cdk/components/validacao-transicao-workflow/cdk-validacao-transicao-workflow-form/cdk-validacao-transicao-workflow-form.module";
+import {CdkTipoValidacaoTipoDocModule} from "@cdk/components/validacao-transicao-workflow/tipos-validacoes/tipo-validacao-tipo-doc/cdk-tipo-validacao-tipo-doc.module";
 
 const routes: Routes = [
     {
         path: 'form',
-        component: TipoValidacaoWorkflowForm001Component,
+        component: TipoValidacaoWorkflowFormTipoDocComponent,
         canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
-const path = 'app/main/apps/admin/workflows/transicao-workflow/validacao-transicao-workflow/validacao-transicao-workflow-edit/tipo-validacao-workflow-form/tipo-validacao-workflow-form-001';
+const path = 'app/main/apps/admin/workflows/transicao-workflow/validacao-transicao-workflow/validacao-transicao-workflow-edit/tipo-validacao-workflow-form/tipo-validacao-workflow-form-tipo-doc';
 
 modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
@@ -43,7 +42,7 @@ modulesConfig.forEach((module) => {
 
 @NgModule({
     declarations: [
-        TipoValidacaoWorkflowForm001Component
+        TipoValidacaoWorkflowFormTipoDocComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -65,12 +64,12 @@ modulesConfig.forEach((module) => {
         TranslateModule,
         CdkSharedModule,
         ValidacaoFormStoreModule,
-      CdkValidacaoTransicaoWorkflowFormModule
+        CdkTipoValidacaoTipoDocModule
     ],
     providers: [
         fromGuards.ResolveGuard,
         TipoValidacaoWorkflowService
     ]
 })
-export class TipoValidacaoWorkflowForm001Module {
+export class TipoValidacaoWorkflowFormTipoDocModule {
 }

@@ -23,12 +23,6 @@ export function TipoAcaoWorkflowReducer(
     switch (action.type) {
 
         case TipoAcaoWorkflowActions.GET_TIPO_ACAO_WORKFLOW: {
-            console.log('state', {
-                ...state,
-                entityId: null,
-                loading: true,
-                loaded: false
-            })
             return {
                 ...state,
                 entityId: null,

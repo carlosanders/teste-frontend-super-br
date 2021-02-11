@@ -1,0 +1,8 @@
+<div class="content" cdkPerfectScrollbar>
+    <cdk-tipo-validacao-tipo-doc
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-tipo-validacao-tipo-doc>
+</div>

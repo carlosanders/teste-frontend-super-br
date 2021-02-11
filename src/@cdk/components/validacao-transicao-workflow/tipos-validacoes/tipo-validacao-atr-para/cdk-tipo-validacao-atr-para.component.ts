@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';
-import {Pagination} from '@cdk/models';
+import {Pagination, Modelo, TipoDocumento, Setor, Usuario} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
@@ -41,15 +41,15 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
 
     form: FormGroup;
 
-
+    @Input()
+  
     @Input()
     usuarioRecebidoPagination: Pagination;
 
-    /*
     @Input()
     usuarioPagination: Pagination;
-    */
 
+  
     
     activeCard = 'form';
 
@@ -64,12 +64,14 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
             id: [null],
             transicaoWorkflow: [null],
             contexto: [null],
-            atribuidoPara: [null, [Validators.required]],
+            atribuidoPara: [null],
             nome: ["nome", [Validators.required]],
             descricao: ["descricao", [Validators.required]],
         });
 
+        
         this.usuarioRecebidoPagination = new Pagination();
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -82,6 +84,12 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
     ngOnInit(): void {
 
     }
+
+    /**
+     * On change
+     */
+
+   
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['validacao'] && this.validacao && ((!this.validacao.id && !this.form.dirty) || (this.validacao.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.validacao});
@@ -129,15 +137,25 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
     doAbort(): void {
         this.abort.emit();
     }
+
     checkUsuarioRecebido(): void {
         const value = this.form.get('usuario').value;
         if (!value || typeof value !== 'object') {
             this.form.get('usuario').setValue(null);
-            this.form.get('valor').setValue(null);
         }
     }
 
-   
+    showUsuarioRecebidoGrid(): void {
+        this.activeCard = 'usuario-recebido-gridsearch';
+    }
+
+    selectUsuarioRecebido(usuario: Usuario): void {
+        if (usuario) {
+            this.form.get('usuario').setValue(usuario);
+        }
+        this.activeCard = 'form';
+    }
+
 
     cancel(): void {
         this.activeCard = 'form';

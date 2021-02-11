@@ -144,7 +144,6 @@ export class CdkTipoValidacaoUnidadeComponent implements OnInit, OnChanges, OnDe
         const value = this.form.get('unidade').value;
         if (!value || typeof value !== 'object') {
             this.form.get('unidade').setValue(null);
-            this.form.get('valor').setValue(null);
         }
     }
 

@@ -59,7 +59,7 @@ export class TipoValidacaoWorkflowEffects {
                     new TipoValidacaoWorkflowActions.GetTipoValidacaoWorkflowSuccess({
                         loaded: {
                             id:response['entities'][0].id,
-                            value: response['entities'][0].trigger
+                            value: response['entities'][0].sigla
                         },
                         entityId: response['entities'][0].id
                     })

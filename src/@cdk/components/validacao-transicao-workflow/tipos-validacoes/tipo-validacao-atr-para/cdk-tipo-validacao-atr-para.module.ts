@@ -30,15 +30,15 @@ import {CdkUsuarioGridsearchModule} from '../../../usuario/cdk-usuario-autocompl
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatRadioModule,
-        MatTooltipModule, 
-        CdkUsuarioAutocompleteModule, 
+        MatTooltipModule,
+        CdkUsuarioAutocompleteModule,
         CdkUsuarioGridsearchModule,
         CdkSharedModule,
     ],
     providers: [
     ],
     exports: [
-        CdkTipoValidacaoAtrParaModule
+        CdkTipoValidacaoAtrParaComponent
     ]
 })
 export class CdkTipoValidacaoAtrParaModule {

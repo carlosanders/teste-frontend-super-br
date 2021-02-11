@@ -15,7 +15,7 @@ import {getRouterState} from 'app/store/reducers';
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
-    siglaValidacao: string = '';
+    siglaValidacao: string = 'ATR_PARA';
 
     /**
      * Constructor
@@ -54,17 +54,16 @@ export class ResolveGuard implements CanActivate {
     getTipoValidacaoWorkflow(): any {
         return this._store.pipe(
             select(getHasLoaded),
-            tap((loaded: any) => {
-                //!= this.siglaValidacao
-                if (!loaded.value || loaded.value) {
+            tap((loaded: any) => {                
+                if (!loaded.value || loaded.value != this.siglaValidacao) {
                     this._store.dispatch(new fromStore.GetTipoValidacaoWorkflow({
-                        //sigla: 'eq:' + this.siglaValidacao
+                        sigla: 'eq:' + this.siglaValidacao
                     }));
                 }
             }),
-            //filter((loaded: any) => {
-                //return loaded.value == this.siglaValidacao;
-           // }),
+            filter((loaded: any) => {
+                return loaded.value == this.siglaValidacao;
+            }),
             take(1)
         );
     }

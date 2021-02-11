@@ -16,14 +16,14 @@ import {getTipoValidacaoWorkflow} from '../store/selectors';
 import {getRouterState} from "../../../../../../../../../store/reducers";
 
 @Component({
-    selector: 'tipo-validacao-workflow-form-001',
-    templateUrl: './tipo-validacao-workflow-form-001.component.html',
-    styleUrls: ['./tipo-validacao-workflow-form-001.component.scss'],
+    selector: 'tipo-validacao-workflow-form-criado-por',
+    templateUrl: './tipo-validacao-workflow-form-criado-por.component.html',
+    styleUrls: ['./tipo-validacao-workflow-form-criado-por.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TipoValidacaoWorkflowForm001Component implements OnInit, OnDestroy {
+export class TipoValidacaoWorkflowFormCriadoPorComponent implements OnInit, OnDestroy {
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -82,7 +82,7 @@ export class TipoValidacaoWorkflowForm001Component implements OnInit, OnDestroy 
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-        values.contexto = JSON.stringify({modeloId: values.modelo.id});
+        values.contexto = JSON.stringify({criadoPorId: values.criadoPor.id});
         const validacaoTransicaoWorkflow = new ValidacaoTransicaoWorkflow();
 
         Object.entries(values).forEach(
@@ -93,6 +93,7 @@ export class TipoValidacaoWorkflowForm001Component implements OnInit, OnDestroy 
 
         validacaoTransicaoWorkflow.transicaoWorkflow = new TransicaoWorkflow();
         validacaoTransicaoWorkflow.transicaoWorkflow.id = this.routerState.params.transicaoWorkflowHandle;
+        validacaoTransicaoWorkflow.tipoValidacaoWorkflow = this.tipoValidacaoWorkflow;
 
         this._store.dispatch(new fromStore.SaveValidacao(validacaoTransicaoWorkflow));
     }
