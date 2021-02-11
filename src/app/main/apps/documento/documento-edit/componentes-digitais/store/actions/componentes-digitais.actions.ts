@@ -24,6 +24,15 @@ export const DELETE_COMPONENTE_DIGITAL = '[DOCUMENTO EDIT COMPONENTE DIGITAL] DE
 export const DELETE_COMPONENTE_DIGITAL_SUCCESS = '[DOCUMENTO EDIT COMPONENTE DIGITAL] DELETE COMPONENTE DIGITAL SUCCESS';
 export const DELETE_COMPONENTE_DIGITAL_FAILED = '[DOCUMENTO EDIT COMPONENTE DIGITAL] DELETE COMPONENTE DIGITAL FAILED';
 
+export const GET_COMPONENTE_DIGITAL = '[DOCUMENTO COMPONENTE DIGITAL] GET COMPONENTE DIGITAL';
+export const GET_COMPONENTE_DIGITAL_SUCCESS = '[DOCUMENTO COMPONENTE DIGITAL] GET COMPONENTE DIGITAL SUCCESS';
+export const GET_COMPONENTE_DIGITAL_FAILED = '[DOCUMENTO COMPONENTE DIGITAL] GET COMPONENTE DIGITAL FAILED';
+
+export const PATCH_COMPONENTE_DIGITAL = '[DOCUMENTO EDIT COMPONENTE DIGITAL REPOSITORIO] PATCH COMPONENTE DIGITAL';
+export const PATCH_COMPONENTE_DIGITAL_SUCCESS = '[DOCUMENTO EDIT COMPONENTE DIGITAL REPOSITORIO] PATCH COMPONENTE DIGITAL SUCCESS';
+export const PATCH_COMPONENTE_DIGITAL_FAILED = '[DOCUMENTO EDIT COMPONENTE DIGITAL REPOSITORIO] PATCH COMPONENTE DIGITAL FAILED';
+
+
 /**
  * Get ComponentesDigitais
  */
@@ -222,6 +231,80 @@ export class ApproveComponenteDigitalFailed implements Action
     }
 }
 
+
+/**
+ * Get ComponenteDigital
+ */
+export class GetComponenteDigital implements Action
+{
+    readonly type = GET_COMPONENTE_DIGITAL;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get ComponenteDigital Success
+ */
+export class GetComponenteDigitalSuccess implements Action
+{
+    readonly type = GET_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Get ComponenteDigital Failed
+ */
+export class GetComponenteDigitalFailed implements Action
+{
+    readonly type = GET_COMPONENTE_DIGITAL_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Patch Componente Digital
+ */
+export class PatchComponenteDigital implements Action
+{
+    readonly type = PATCH_COMPONENTE_DIGITAL;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Patch Componente Digital Success
+ */
+export class PatchComponenteDigitalSuccess implements Action
+{
+    readonly type = PATCH_COMPONENTE_DIGITAL_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Patch Componente Digital Failed
+ */
+export class PatchComponenteDigitalFailed implements Action
+{
+    readonly type = PATCH_COMPONENTE_DIGITAL_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
 export type ComponenteDigitalActionsAll
     = DownloadComponenteDigital
     | DownloadComponenteDigitalSuccess
@@ -239,4 +322,10 @@ export type ComponenteDigitalActionsAll
     | ReloadComponentesDigitais
     | DeleteComponenteDigital
     | DeleteComponenteDigitalSuccess
-    | DeleteComponenteDigitalFailed;
+    | DeleteComponenteDigitalFailed
+    | GetComponenteDigital
+    | GetComponenteDigitalFailed
+    | GetComponenteDigitalSuccess
+    | PatchComponenteDigital
+    | PatchComponenteDigitalSuccess
+    | PatchComponenteDigitalFailed;
