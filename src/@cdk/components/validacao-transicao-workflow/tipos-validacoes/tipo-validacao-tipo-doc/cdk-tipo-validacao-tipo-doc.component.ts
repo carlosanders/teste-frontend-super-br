@@ -59,7 +59,7 @@ export class CdkTipoValidacaoTipoDocComponent implements OnInit, OnChanges, OnDe
             id: [null],
             transicaoWorkflow: [null],
             contexto: [null],
-            tipoDocumento: [null],
+            tipoDocumento: [null, [Validators.required]],
             nome: ["nome", [Validators.required]],
             descricao: ["descricao", [Validators.required]],
         });

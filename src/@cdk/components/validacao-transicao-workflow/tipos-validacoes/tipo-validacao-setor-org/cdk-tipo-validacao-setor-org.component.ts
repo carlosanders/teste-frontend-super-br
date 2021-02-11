@@ -61,7 +61,7 @@ export class CdkTipoValidacaoSetorOrgComponent implements OnInit, OnChanges, OnD
             id: [null],
             transicaoWorkflow: [null],
             contexto: [null],
-            setorOrigem: [null],
+            setorOrigem: [null, [Validators.required]],
             nome: ["nome", [Validators.required]],
             descricao: ["descricao", [Validators.required]],
         });

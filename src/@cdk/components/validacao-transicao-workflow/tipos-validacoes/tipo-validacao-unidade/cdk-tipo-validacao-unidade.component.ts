@@ -64,7 +64,7 @@ export class CdkTipoValidacaoUnidadeComponent implements OnInit, OnChanges, OnDe
             id: [null],
             transicaoWorkflow: [null],
             contexto: [null],
-            unidade: [null],
+            unidade: [null, [Validators.required]],
             nome: ["nome", [Validators.required]],
             descricao: ["descricao", [Validators.required]]
         });

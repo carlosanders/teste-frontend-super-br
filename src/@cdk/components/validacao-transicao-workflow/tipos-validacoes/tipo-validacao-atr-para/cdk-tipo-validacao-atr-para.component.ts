@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';
-import {Pagination, Modelo, TipoDocumento, Setor, Usuario} from '@cdk/models';
+import {Pagination, Usuario} from '@cdk/models';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
@@ -64,7 +64,7 @@ export class CdkTipoValidacaoAtrParaComponent implements OnInit, OnChanges, OnDe
             id: [null],
             transicaoWorkflow: [null],
             contexto: [null],
-            atribuidoPara: [null],
+            atribuidoPara: [null, [Validators.required]],
             nome: ["nome", [Validators.required]],
             descricao: ["descricao", [Validators.required]],
         });

@@ -60,7 +60,7 @@ export class CdkTipoValidacaoCriadoPorComponent implements OnInit, OnChanges, On
             id: [null],
             transicaoWorkflow: [null],
             contexto: [null],
-            criadoPor:[null],
+            criadoPor:[null, [Validators.required]],
             nome: ["nome", [Validators.required]],
             descricao: ["descricao", [Validators.required]],
         });
