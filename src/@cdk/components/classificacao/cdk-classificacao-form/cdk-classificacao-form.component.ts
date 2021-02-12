@@ -149,9 +149,9 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
     }
 
     checkClassificacao(): void {
-        const value = this.form.get('classificacao').value;
+        const value = this.form.get('parent').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('classificacao').setValue(null);
+            this.form.get('parent').setValue(null);
         }
     }
 

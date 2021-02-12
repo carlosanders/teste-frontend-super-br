@@ -15,7 +15,8 @@ export class LoginEffects {
         private loginService: LoginService,
         private router: Router,
         private route: ActivatedRoute
-    ) {}
+    ) {
+    }
 
     @Effect()
     Login: Observable<LoginActions.LoginActionsAll> =
@@ -67,7 +68,7 @@ export class LoginEffects {
             ofType(LoginActions.LOGIN_SUCCESS),
             map((action) => {
                 this.loginService.setToken(action);
-                return new LoginActions.LoginProfile();
+                return new LoginActions.LoginProfile({redirect: true});
             })
         );
 
@@ -77,7 +78,7 @@ export class LoginEffects {
             ofType(LoginActions.LOGIN_REFRESH_TOKEN_SUCCESS),
             map((action) => {
                 this.loginService.setToken(action);
-                return new LoginActions.LoginProfile();
+                return new LoginActions.LoginProfile({redirect: true});
             })
         );
 
@@ -123,11 +124,14 @@ export class LoginEffects {
         this.actions
             .pipe(
                 ofType<LoginActions.Login>(LoginActions.LOGIN_PROFILE),
-                switchMap(() => {
+                switchMap((action) => {
                         return this.loginService.getProfile()
                             .pipe(
                                 map((response) => {
-                                    return new LoginActions.LoginProfileSuccess({profile: response});
+                                    return new LoginActions.LoginProfileSuccess({
+                                        profile: response,
+                                        redirect: action.payload.redirect
+                                    });
                                 }),
                                 catchError((error) => {
                                     return of(new LoginActions.LoginProfileFailure({error: error}));
@@ -146,8 +150,10 @@ export class LoginEffects {
         ofType(LoginActions.LOGIN_PROFILE_SUCCESS),
         tap((action) => {
             this.loginService.setUserProfile(action.payload.profile);
-            const url = this.route.snapshot.queryParamMap.get('url');
-            this.router.navigateByUrl((url && url.indexOf('/apps') > -1) ? url : '/apps/painel').then();
+            if (action.payload.redirect) {
+                const url = this.route.snapshot.queryParamMap.get('url');
+                this.router.navigateByUrl((url && url.indexOf('/apps') > -1) ? url : '/apps/painel').then();
+            }
         })
     );
 }

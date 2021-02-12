@@ -80,6 +80,7 @@
 
 <cdk-documento-gridsearch
     *ngIf="activeCard === 'documento-vinculado-gridsearch'"
+    [displayedColumns]="displayedColumns"
     [pagination]="documentoVinculadoPagination"
     (selected)="selectDocumentoVinculado($event)"
     (cancel)="cancel()">

@@ -41,6 +41,8 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
 
     routerState: any;
 
+    displayedColumns = ['juntadaAtual.id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome', 'componentesDigitais.extensao', 'actions'];
+
     /**
      *
      * @param _store
@@ -59,6 +61,7 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
         this.documentoVinculadoPagination.populate = [
             'tipoDocumento',
             'tipoDocumento.especieDocumento',
+            'juntadaAtual',
             'documentoAvulsoRemessa',
             'documentoAvulsoRemessa.documentoResposta',
             'vinculacoesDocumentos',
@@ -99,6 +102,7 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
                 this.documentoVinculadoPagination.filter = {
                     'juntadaAtual':'isNotNull',
                     'id':'neq:' + this.juntada.documento.id,
+                    'juntadaAtual.ativo':'eq:1',
                     'juntadaAtual.volume.processo.id':'eq:' + this.juntada.volume.processo.id
                 };
             }
