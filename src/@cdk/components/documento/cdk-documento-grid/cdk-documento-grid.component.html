@@ -91,11 +91,19 @@
                 </ng-container>
 
                 <!-- Id Column -->
-                <ng-container matColumnDef="id">
+                <ng-container *ngIf="displayedColumns.indexOf('juntadaAtual.id') === -1" matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let documento" class='has_label_on_mobile' data-label='Id: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.id}} </td>
+                </ng-container>
+
+                <!-- Juntada Atual Id Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('juntadaAtual.id') > -1" matColumnDef="juntadaAtual.id">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    </th>
+                    <td mat-cell *matCellDef="let documento" class='has_label_on_mobile' data-label='Id: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.juntadaAtual?.id}} </td>
                 </ng-container>
 
                 <!-- NUP Column -->

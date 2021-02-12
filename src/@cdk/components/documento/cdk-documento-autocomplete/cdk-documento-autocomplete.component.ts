@@ -87,6 +87,6 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
     }
 
     displayDocumentoFn(documento): string {
-        return documento ? documento.tipoDocumento.nome : null;
+        return documento ? documento.tipoDocumento?.nome : null;
     }
 }
