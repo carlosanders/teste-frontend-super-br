@@ -13,6 +13,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {Usuario} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {usuario as usuarioSchema} from '@cdk/normalizr';
+import * as LoginActions from '../../../../../auth/login/store/actions/login.actions';
 
 @Injectable()
 export class ProfileEffect {
@@ -49,7 +50,8 @@ export class ProfileEffect {
                                 type: 'usuario',
                                 content: `Usuário id ${response.id} editado com sucesso!`,
                                 dateTime: response.criadoEm
-                            })
+                            }),
+                            new LoginActions.LoginProfile({redirect: false})
                         ]),
                         catchError((err) => {
                             console.log (err);
