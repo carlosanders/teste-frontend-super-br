@@ -53,7 +53,7 @@ export class Unload implements Action {
 
 export class LoginProfile implements Action {
     readonly type = LOGIN_PROFILE;
-    constructor() {}
+    constructor(public payload: any) {}
 }
 
 export class LoginProfileSuccess implements Action {

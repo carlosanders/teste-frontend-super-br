@@ -59,7 +59,7 @@ export class JuntadaEffects {
                         1,
                         0,
                         JSON.stringify({}),
-                        JSON.stringify(['populateAll']));
+                        JSON.stringify(['volume']));
                 }),
                 switchMap(response => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
