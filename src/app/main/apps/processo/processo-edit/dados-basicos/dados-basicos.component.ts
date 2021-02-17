@@ -86,7 +86,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.processo$.subscribe(
             processo => {
-                if (this.processo && processo && (this.processo.id !== processo.id)) {
+                if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
                     this._mercureService.unsubscribe(this.processo.origemDados['@id']);
                 }
                 if (processo?.origemDados?.status === 0) {

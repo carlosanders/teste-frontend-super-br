@@ -44,8 +44,7 @@
         <input matInput placeholder="Classificação Pai"
                formControlName="parent"
                [matAutocomplete]="classificacao.autocomplete"
-               (blur)="checkClassificacao()"
-               required>
+               (blur)="checkClassificacao()">
         <cdk-classificacao-autocomplete
             #classificacao="classificacaoAutocomplete"
             [control]="form.get('parent')"
