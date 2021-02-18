@@ -34,6 +34,7 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
 
     modelos$: Observable<Modelo[]>;
     loading$: Observable<boolean>;
+    saving$: Observable<boolean>;
     error$: Observable<any>;
     erro: any;
     pagination$: Observable<any>;
@@ -69,6 +70,7 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.error$ = this._store.pipe(select(fromStore.getErrors));
+        this.saving$ = this._store.pipe(select(fromStore.getIsSaving));
 
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));

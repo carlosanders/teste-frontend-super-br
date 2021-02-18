@@ -11,6 +11,8 @@ export const GET_TRAMITACAO = '[REMESSA] GET TRAMITACAO';
 export const GET_TRAMITACAO_SUCCESS = '[REMESSA] GET TRAMITACAO SUCCESS';
 export const GET_TRAMITACAO_FAILED = '[REMESSA] GET TRAMITACAO FAILED';
 
+export const UNLOAD_STORE = '[REMESSA EDIT] UNLOAD STORE';
+
 /**
  * Get Tramitacao
  */
@@ -107,6 +109,18 @@ export class CreateTramitacaoSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
+
 export type RemessaEditActionsAll
     = CreateTramitacao
     | CreateTramitacaoSuccess
@@ -115,4 +129,5 @@ export type RemessaEditActionsAll
     | GetTramitacaoFailed
     | SaveTramitacao
     | SaveTramitacaoSuccess
-    | SaveTramitacaoFailed;
+    | SaveTramitacaoFailed
+    | UnloadStore;

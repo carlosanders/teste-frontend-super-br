@@ -11,6 +11,8 @@ export const GET_TRANSICAO = '[TRANSICAO] GET TRANSICAO';
 export const GET_TRANSICAO_SUCCESS = '[TRANSICAO] GET TRANSICAO SUCCESS';
 export const GET_TRANSICAO_FAILED = '[TRANSICAO] GET TRANSICAO FAILED';
 
+export const UNLOAD_STORE = '[TRANSICAO EDIT] UNLOAD STORE';
+
 /**
  * Get Transicao
  */
@@ -107,6 +109,18 @@ export class CreateTransicaoSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
+
 export type TransicaoEditActionsAll
     = CreateTransicao
     | CreateTransicaoSuccess
@@ -115,4 +129,5 @@ export type TransicaoEditActionsAll
     | GetTransicaoFailed
     | SaveTransicao
     | SaveTransicaoSuccess
-    | SaveTransicaoFailed;
+    | SaveTransicaoFailed
+    | UnloadStore;

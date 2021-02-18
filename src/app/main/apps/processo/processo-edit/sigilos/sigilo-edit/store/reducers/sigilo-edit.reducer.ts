@@ -70,7 +70,6 @@ export function SigiloEditReducer(
         case SigiloEditActions.SAVE_SIGILO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -80,6 +79,12 @@ export function SigiloEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case SigiloEditActions.UNLOAD_STORE: {
+            return {
+                ...SigiloEditInitialState
             };
         }
 

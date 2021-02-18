@@ -1,13 +1,12 @@
 <h3 style="font-weight: bold">Acesso Restrito</h3>
 
 <div class="visibilidade-actions m-16">
-    <button mat-raised-button
-            class="mat-accent"
-            aria-label="novo"
-            (click)="showFormAcessoRestrito()"
+    <button class="accent" mat-icon-button
             *ngIf="!formAcessoRestrito"
+            (click)="showFormAcessoRestrito()"
+            aria-label="novo"
             matTooltip="Novo">
-        Novo
+        <mat-icon>add</mat-icon>
     </button>
     <button mat-icon-button
             (click)="showFormAcessoRestrito()"

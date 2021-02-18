@@ -116,7 +116,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
                 {
                     // Modelos nacionais
                     'modalidadeModelo.valor': 'eq:NACIONAL',
-                    'vinculacoesModelos.orgaoCentral.id': 'in:'
+                    'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
                         + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
                     'vinculacoesModelos.especieSetor.id': 'in:'
                         + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
@@ -217,11 +217,11 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     }
 
     gerirPessoaDestino(): void {
-        this._router.navigate([this.routerState.url + '/pessoa']).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa']).then();
     }
 
     editPessoaDestino(pessoaId: number): void {
-        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
     
     submit(values): void {

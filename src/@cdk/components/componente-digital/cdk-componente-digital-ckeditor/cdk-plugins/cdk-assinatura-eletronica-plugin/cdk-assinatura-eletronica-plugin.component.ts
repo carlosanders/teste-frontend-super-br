@@ -36,7 +36,7 @@ export class CdkAssinaturaEletronicaPluginComponent implements OnInit {
     ) {
         this.form = this._formBuilder.group({
             certificadoDigital: [null],
-            password: [null, [Validators.required]]
+            plainPassword: [null, [Validators.required]]
         });
     }
 
@@ -46,10 +46,10 @@ export class CdkAssinaturaEletronicaPluginComponent implements OnInit {
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value) {
-                        this.form.get('password').reset();
-                        this.form.get('password').disable();
+                        this.form.get('plainPassword').reset();
+                        this.form.get('plainPassword').disable();
                     } else {
-                        this.form.get('password').enable();
+                        this.form.get('plainPassword').enable();
                     }
                     this._changeDetectorRef.detectChanges();
                     return of([]);

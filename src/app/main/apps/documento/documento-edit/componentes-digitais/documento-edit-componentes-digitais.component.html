@@ -1,27 +1,40 @@
 <h3 style="font-weight: bold">Componentes Digitais</h3>
 
-<button mat-mini-fab *ngIf="(documento$ | async)?.minuta"
+<button mat-mini-fab *ngIf="(documento$ | async)?.minuta && !formComponentesDigitais"
         class="ml-8 mb-16 active accent add-file-button"
         matTooltip="Novo Componente Digital" aria-label="novo componente digital"
         (click)="uploadComponenteDigital()">
     <mat-icon class="secondary-text">attach_file</mat-icon>
 </button>
 
+<cdk-componente-digital-form cdkPerfectScrollbar class="mr-8"
+                 *ngIf="formComponentesDigitais"
+                 [componenteDigital]="componenteDigital"
+                 [saving]="(componenteDigitalIsSaving$ | async)"
+                 [errors]="(componenteDigitalErrors$ | async)"
+                 (save)="submitComponenteDigital($event)"
+                 (abort)="showGridComponentes()">
+</cdk-componente-digital-form>
+
 <cdk-componente-digital-card-list #ckdUploadComponenteDigital
+                                  *ngIf="!formComponentesDigitais"
                                   [documento]="(documento$ | async)"
                                   (completed)="onCompleteComponenteDigital()">
 </cdk-componente-digital-card-list>
 
 <cdk-componente-digital-grid
     *ngIf="!formComponentesDigitais"
+    [isColaborador]="!!_profile.colaborador"
     [loading]="(componenteDigitalLoading$ | async)"
     [componentesDigitais]="(componentesDigitais$ | async)"
     [total]="(paginationComponenteDigital$ | async)?.total"
     [actions]="['edit', 'delete']"
+    [mode]="'documento'"
     [displayedColumns]="['id', 'fileName', 'numeracaoSequencial', 'tamanho', 'extensao', 'criadoPor.nome', 'actions']"
     [deletingIds]="(deletingComponenteDigitalIds$ | async)"
     [deletedIds]="(deletedComponenteDigitalIds$ | async)"
     (delete)="deleteComponenteDigital($event)"
     (reload)="reloadComponentesDigitais($event)"
+    (edit)="editComponenteDigital($event)"
 >
 </cdk-componente-digital-grid>

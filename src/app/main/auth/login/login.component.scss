@@ -7,7 +7,15 @@ login {
         background: whitesmoke;
         background-size: cover;
 
-        #login-form-wrapper {
+        .loading-config {
+            display: flex;
+            flex: 1 0 auto;
+            flex-direction: column;
+            align-items: center;
+            place-content: center;
+        }
+
+        .login-form-wrapper {
             flex: 1 0 auto;
             padding: 32px;
 
@@ -15,7 +23,7 @@ login {
                 padding: 16px;
             }
 
-            #login-form {
+            .login-form {
                 width: 384px;
                 max-width: 384px;
                 padding-right: 32px;

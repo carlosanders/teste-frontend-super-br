@@ -4,10 +4,10 @@
     <cdk-juntada-grid [loading]="loading"
                       [juntadas]="juntadas"
                       [total]="total"
+                      (reload)="doReload($event)"
                       [actions]="actions"
                       [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions']"
-                      (desentranharBloco)="desentranharBloco($event)"
-                      [actions]="['desentranharBloco']">
+                      (desentranharBloco)="desentranharBloco($event)">
     </cdk-juntada-grid>
 
     <div class="div-tabela content responsive-grid" fxLayout="column">

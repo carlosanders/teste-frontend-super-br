@@ -16,7 +16,7 @@ import {Usuario} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {Back} from 'app/store/actions';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 
 @Component({
     selector: 'seguranca',
@@ -34,6 +34,7 @@ export class SegurancaComponent implements OnInit, OnDestroy {
 
     /**
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -82,10 +83,10 @@ export class SegurancaComponent implements OnInit, OnDestroy {
         const usuario = new Usuario();
         usuario.id = this.usuario.id;
         const changes = {
-            password: values.password
+            plainPassword: values.plainPassword
         };
         const context = {
-            senha: values.senhaAtual
+            currentPlainPassword: values.senhaAtual
         };
         this._store.dispatch(new fromStore.SaveSeguranca({usuario: usuario, changes: changes, context: JSON.stringify(context)}));
 

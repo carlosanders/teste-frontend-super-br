@@ -57,7 +57,9 @@ export class JuntadaEffects {
                             'populateAll',
                             'volume.processo',
                             'documento.componentesDigitais',
-                            'documento.vinculacoesDocumentos'
+                            'documento.vinculacoesDocumentos',
+                            'documento.tipoDocumento',
+                            'documento.vinculacaoDocumentoPrincipal'
                         ]));
                 }),
                 mergeMap((response) => [

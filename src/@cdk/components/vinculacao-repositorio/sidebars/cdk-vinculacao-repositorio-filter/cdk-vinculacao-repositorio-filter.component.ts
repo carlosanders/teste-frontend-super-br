@@ -30,7 +30,7 @@ export class CdkVinculacaoRepositorioFilterComponent implements OnInit {
     filters: any = {};
 
     @Input()
-    orgaoCentralPagination: Pagination;
+    modalidadeOrgaoCentralPagination: Pagination;
 
     @Input()
     repositorioPagination: Pagination;
@@ -56,7 +56,7 @@ export class CdkVinculacaoRepositorioFilterComponent implements OnInit {
             especieSetor: [null],
             setor: [null],
             usuario: [null],
-            orgaoCentral: [null],
+            modalidadeOrgaoCentral: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -65,7 +65,7 @@ export class CdkVinculacaoRepositorioFilterComponent implements OnInit {
             apagadoEm: [null],
         });
 
-        this.orgaoCentralPagination = new Pagination();
+        this.modalidadeOrgaoCentralPagination = new Pagination();
         this.repositorioPagination = new Pagination();
         this.setorPagination = new Pagination();
         this.usuarioPagination = new Pagination();
@@ -139,16 +139,16 @@ export class CdkVinculacaoRepositorioFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('orgaoCentral').valueChanges.subscribe(value => {
+        this.form.get('modalidadeOrgaoCentral').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
                         ...this.filters,
-                        'orgaoCentral.id': `eq:${value.id}`
+                        'modalidadeOrgaoCentral.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('orgaoCentral.id')) {
-                        delete this.filters['orgaoCentral.id'];
+                    if (this.filters.hasOwnProperty('modalidadeOrgaoCentral.id')) {
+                        delete this.filters['modalidadeOrgaoCentral.id'];
                     }
                 }
             }

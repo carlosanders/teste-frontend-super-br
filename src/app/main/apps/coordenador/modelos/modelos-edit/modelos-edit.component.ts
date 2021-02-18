@@ -39,8 +39,8 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
     setor$: Observable<Setor>;
     setorHandle$: Observable<Setor>;
     setor: Setor = null;
-    orgaoCentral$: Observable<ModalidadeOrgaoCentral>;
-    orgaoCentral: ModalidadeOrgaoCentral = null;
+    modalidadeOrgaoCentral$: Observable<ModalidadeOrgaoCentral>;
+    modalidadeOrgaoCentral: ModalidadeOrgaoCentral = null;
     unidade$: Observable<Setor>;
     unidadeHandle$: Observable<Setor>;
     unidade: Setor = null;
@@ -64,7 +64,7 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
-        this.orgaoCentral$ = this._store.pipe(select(fromStore.getOrgaoCentral));
+        this.modalidadeOrgaoCentral$ = this._store.pipe(select(fromStore.getModalidadeOrgaoCentral));
 
         this._store
             .pipe(
@@ -137,8 +137,8 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
                     if (this.modelo.vinculacoesModelos[0]?.usuario) {
                         this.modelo.usuario = this.modelo.vinculacoesModelos[0]?.usuario;
                     }
-                    if (this.modelo.vinculacoesModelos[0]?.orgaoCentral) {
-                        this.modelo.orgaoCentral = this.modelo.vinculacoesModelos[0]?.orgaoCentral;
+                    if (this.modelo.vinculacoesModelos[0]?.modalidadeOrgaoCentral) {
+                        this.modelo.modalidadeOrgaoCentral = this.modelo.vinculacoesModelos[0]?.modalidadeOrgaoCentral;
                     }
                 }
             }
@@ -164,12 +164,12 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.orgaoCentral$.pipe(
+        this.modalidadeOrgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            orgaoCentral => {
-                if (orgaoCentral) {
-                    this.orgaoCentral = orgaoCentral;
+            modalidadeOrgaoCentral => {
+                if (modalidadeOrgaoCentral) {
+                    this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
                 }
             }
         );
@@ -182,7 +182,7 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
             } else if (this.unidade) {
                 this.modelo.unidade = this.unidade;
             } else {
-                this.modelo.orgaoCentral = this.orgaoCentral;
+                this.modelo.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
             }
         }
     }
@@ -214,7 +214,7 @@ export class ModelosEditComponent implements OnInit, OnDestroy {
         } else if (this.unidade) {
             modelo.unidade = this.unidade;
         } else {
-            modelo.orgaoCentral = this.orgaoCentral;
+            modelo.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
         }
 
         this._store.dispatch(new fromStore.SaveModelo(modelo));

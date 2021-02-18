@@ -90,7 +90,7 @@ export class ResolveGuard implements CanActivate {
                             'modalidadeModelo',
                             'vinculacoesModelos',
                             'vinculacoesModelos.setor',
-                            'vinculacoesModelos.orgaoCentral',
+                            'vinculacoesModelos.modalidadeOrgaoCentral',
                             'vinculacoesModelos.unidade',
                         ],
                         context: {
@@ -101,7 +101,7 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params.generoHandle === 'nacional' && !this.routerState.params.unidadeHandle) {
                         params.filter = {
                             ...params.filter,
-                            'vinculacoesModelos.orgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
+                            'vinculacoesModelos.modalidadeOrgaoCentral.id': 'eq:' + this.routerState.params['entidadeHandle']
                         };
                     }
 

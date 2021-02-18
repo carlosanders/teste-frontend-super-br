@@ -885,7 +885,7 @@ vinculacaoEtiqueta.define({
 vinculacaoModelo.define({
     modelo: modelo,
     especieSetor: especieSetor,
-    orgaoCentral: modalidadeOrgaoCentral,
+    modalidadeOrgaoCentral: modalidadeOrgaoCentral,
     setor: setor,
     usuario: usuario,
     criadoPor: usuario,
@@ -912,7 +912,7 @@ vinculacaoProcesso.define({
 vinculacaoRepositorio.define({
     modelo: repositorio,
     especieSetor: especieSetor,
-    orgaoCentral: modalidadeOrgaoCentral,
+    modalidadeOrgaoCentral: modalidadeOrgaoCentral,
     setor: setor,
     usuario: usuario,
     criadoPor: usuario,

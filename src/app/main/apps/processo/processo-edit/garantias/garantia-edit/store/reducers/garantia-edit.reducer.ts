@@ -70,7 +70,6 @@ export function GarantiaEditReducer(
         case GarantiaEditActions.SAVE_GARANTIA_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -80,6 +79,12 @@ export function GarantiaEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case GarantiaEditActions.UNLOAD_STORE: {
+            return {
+                ...GarantiaEditInitialState
             };
         }
 

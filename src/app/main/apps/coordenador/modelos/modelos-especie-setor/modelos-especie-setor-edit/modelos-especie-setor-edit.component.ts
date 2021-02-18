@@ -38,8 +38,8 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
     modelo$: Observable<Modelo>;
     modelo: Modelo;
-    orgaoCentral$: Observable<ModalidadeOrgaoCentral>;
-    orgaoCentral: ModalidadeOrgaoCentral;
+    modalidadeOrgaoCentral$: Observable<ModalidadeOrgaoCentral>;
+    modalidadeOrgaoCentral: ModalidadeOrgaoCentral;
     especieSetorPagination: Pagination;
     unidade$: Observable<Setor>;
     unidade: Setor;
@@ -56,7 +56,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.vinculacaoModelo$ = this._store.pipe(select(fromStore.getVinculacaoModelo));
-        this.orgaoCentral$ = this._store.pipe(select(fromStore.getOrgaoCentral));
+        this.modalidadeOrgaoCentral$ = this._store.pipe(select(fromStore.getModalidadeOrgaoCentral));
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
         this.modelo$ = this._store.pipe(select(fromStore.getModelo));
 
@@ -94,12 +94,12 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.orgaoCentral$.pipe(
+        this.modalidadeOrgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            orgaoCentral => {
-                if (orgaoCentral) {
-                    this.orgaoCentral = orgaoCentral;
+            modalidadeOrgaoCentral => {
+                if (modalidadeOrgaoCentral) {
+                    this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
                 }
             }
         );
@@ -126,7 +126,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
 
         if (!this.vinculacaoModelo) {
             this.vinculacaoModelo = new VinculacaoModelo();
-            this.vinculacaoModelo.orgaoCentral = this.orgaoCentral;
+            this.vinculacaoModelo.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
             this.vinculacaoModelo.modelo = this.modelo;
             this.vinculacaoModelo.unidade = this.unidade;
         }
@@ -159,7 +159,7 @@ export class ModelosEspecieSetorEditComponent implements OnInit, OnDestroy {
         );
 
         vinculacaoModelo.modelo = this.modelo;
-        vinculacaoModelo.orgaoCentral = this.orgaoCentral;
+        vinculacaoModelo.modalidadeOrgaoCentral = this.modalidadeOrgaoCentral;
         vinculacaoModelo.unidade = this.unidade;
 
         this._store.dispatch(new fromStore.SaveModeloEspecieSetor(vinculacaoModelo));

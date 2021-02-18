@@ -47,25 +47,4 @@ ajuda {
     .topico-descricao {
 
     }
-
-    .menu {
-        display: flex;
-        width: 100%;
-        flex-wrap: wrap;
-    }
-
-    .menu .menuItem {
-        display: flex;
-        height: 30px;
-        border: 1px solid #e6e6e6;
-        padding: 6px 12px 0 12px;
-        border-radius: 20px;
-        margin-right: 16px;
-    }
-
-    .menu .menuItem, .menu .menuItemOver {
-        margin-right: 16px;
-        margin-bottom: 10px;
-        cursor: pointer;
-    }
 }

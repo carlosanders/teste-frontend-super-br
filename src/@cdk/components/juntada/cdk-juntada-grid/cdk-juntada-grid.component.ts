@@ -222,6 +222,9 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
     @Input()
     assinandoId: number[] = [];
 
+    @Input()
+    desentranhadoId: number[] = [];
+
     @Output()
     removeAssinatura = new EventEmitter<number>();
 
@@ -369,7 +372,10 @@ export class CdkJuntadaGridComponent implements AfterViewInit, OnInit, OnChanges
      * Select all
      */
     selectAll(): void {
-        const arr = Object.keys(this.juntadas).map(k => this.juntadas[k]);
+        const selecionaveis = this.juntadas.filter(juntada => {
+            return juntada.ativo && this.desentranhadoId.indexOf(juntada.id) === -1 && (this.deletedIds.indexOf(juntada.id) === -1 || this.hasExcluded);
+        })
+        const arr = Object.keys(selecionaveis).map(k => selecionaveis[k]);
         this.selectedIds = arr.map(juntada => juntada.id);
         this.recompute();
     }

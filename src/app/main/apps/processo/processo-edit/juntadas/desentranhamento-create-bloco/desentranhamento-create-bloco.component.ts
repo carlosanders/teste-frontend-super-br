@@ -12,9 +12,12 @@ import {Desentranhamento, Juntada} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getOperacoesState, getRouterState, getScreenState} from 'app/store/reducers';
+import {getRouterState, getScreenState} from 'app/store/reducers';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
+import {CdkUtils} from '@cdk/utils';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
 @Component({
     selector: 'desentranhamento-create',
@@ -29,18 +32,17 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
 
     juntadas$: Observable<Juntada[]>;
+    juntadasSelecionadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
     juntadasSelecionadas: Juntada[] = [];
 
     desentranhamento: Desentranhamento;
 
-    isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     screen$: Observable<any>;
 
-    operacoes: any[] = [];
     pagination: any;
     routerState: any;
 
@@ -48,21 +50,26 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
     private _profile: any;
 
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
+
     /**
      *
      * @param _store
      * @param _loginService
      * @param _router
      * @param _changeDetectorRef
+     * @param _snackBar
      */
     constructor(
         private _store: Store<fromStore.DesentranhamentoCreateBlocoAppState>,
         public _loginService: LoginService,
         private _router: Router,
         private _changeDetectorRef: ChangeDetectorRef,
+        private _snackBar: MatSnackBar
     ) {
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadaList));
-        this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
+        this.juntadasSelecionadas$ = this._store.pipe(select(fromStore.getSelectedJuntadas));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile();
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
@@ -77,25 +84,19 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(juntadas => {
-            if (juntadas !== undefined) {
-                if (this.juntadas.length === 0) {
-                    this.juntadas = juntadas.filter(j => j.ativo);
-                }
-            }
+            this.juntadas = juntadas;
         });
 
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'desentranhamento')
-            )
-            .subscribe(
-                operacao => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
-                }
-            );
+        this.juntadasSelecionadas$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(juntadas => {
+            this.juntadasSelecionadas = juntadas;
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this.pagination$.subscribe(pagination => {
+            this.pagination = pagination;
+        });
 
         this._store
             .pipe(
@@ -104,16 +105,13 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                this.operacoes = [];
             }
         });
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
-            this.juntadasSelecionadas = this.juntadasSelecionadas;
-            const diferencaArray = this.juntadas.filter(x => !this.juntadasSelecionadas.includes(x));
-            this.juntadas = diferencaArray;
+            this.juntadas = this.juntadas.filter(x => !this.juntadasSelecionadas.includes(x));
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
             } else {
@@ -123,6 +121,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.SetSelectedJuntadas([]));
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
@@ -132,8 +131,9 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     submit(values): void {
-        this.operacoes = [];
+        const lote = CdkUtils.makeId();
         this.juntadasSelecionadas.forEach(juntada => {
+            const operacaoId = CdkUtils.makeId();
             const desentranhamento = new Desentranhamento();
             Object.entries(values).forEach(
                 ([key, value]) => {
@@ -141,7 +141,46 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
                 }
             );
             desentranhamento.juntada = juntada;
-            this._store.dispatch(new fromStore.SaveDesentranhamento(desentranhamento));
+            this._store.dispatch(new fromStore.SaveDesentranhamento({
+                desentranhamento: desentranhamento,
+                operacaoId: operacaoId,
+                loteId: lote,
+                redo: [
+                    new fromStore.SaveDesentranhamento({
+                        desentranhamento: desentranhamento,
+                        operacaoId: operacaoId,
+                        loteId: lote,
+                        redo: 'inherent'
+                        // redo e undo são herdados da ação original
+                    }),
+                    new fromStore.SaveDesentranhamentoFlush()
+                ],
+                undo: null
+            }));
+
+            if (this.snackSubscription) {
+                // temos um snack aberto, temos que ignorar
+                this.snackSubscription.unsubscribe();
+                this.sheetRef.dismiss();
+                this.snackSubscription = null;
+            }
+
+            this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+                duration: 3000,
+                panelClass: ['cdk-white-bg'],
+                data: {
+                    icon: 'low_priority',
+                    text: 'Desentranhadas'
+                }
+            });
+
+            this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+                if (data.dismissedByAction === true) {
+                    this._store.dispatch(new fromStore.SaveDesentranhamentoCancel());
+                } else {
+                    this._store.dispatch(new fromStore.SaveDesentranhamentoFlush());
+                }
+            });
         });
     }
 
@@ -162,6 +201,15 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     }
 
     juntadasAdicionadas(juntadas: Juntada[]): void {
-        this.juntadasSelecionadas = juntadas;
+        const juntadasIds = [];
+        juntadas.forEach((juntada) => {
+            juntadasIds.push(juntada.id);
+        })
+        this._store.dispatch(new fromStore.SetSelectedJuntadas(juntadasIds));
+    }
+
+    back(): void {
+        this._router.navigate([this.routerState.url.replace('juntadas/desentranhar', 'juntadas/listar')])
+            .then();
     }
 }

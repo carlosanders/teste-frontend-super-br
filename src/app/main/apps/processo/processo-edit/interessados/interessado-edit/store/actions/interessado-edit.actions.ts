@@ -11,6 +11,8 @@ export const GET_INTERESSADO = '[INTERESSADO] GET INTERESSADO';
 export const GET_INTERESSADO_SUCCESS = '[INTERESSADO] GET INTERESSADO SUCCESS';
 export const GET_INTERESSADO_FAILED = '[INTERESSADO] GET INTERESSADO FAILED';
 
+export const UNLOAD_STORE = '[INTERESSADO-EDIT] UNLOAD STORE';
+
 /**
  * Get Interessado
  */
@@ -107,6 +109,18 @@ export class CreateInteressadoSuccess implements Action
     }
 }
 
+/**
+ * Unload Store
+ */
+export class UnloadStore implements Action
+{
+    readonly type = UNLOAD_STORE;
+
+    constructor()
+    {
+    }
+}
+
 export type InteressadoEditActionsAll
     = CreateInteressado
     | CreateInteressadoSuccess
@@ -115,4 +129,5 @@ export type InteressadoEditActionsAll
     | GetInteressadoFailed
     | SaveInteressado
     | SaveInteressadoSuccess
-    | SaveInteressadoFailed;
+    | SaveInteressadoFailed
+    | UnloadStore;

@@ -69,6 +69,7 @@ export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActio
                     ...state.pagination,
                     total: action.payload.total
                 },
+                saving: false,
                 loading: false,
                 loaded
             };
@@ -143,7 +144,7 @@ export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActio
         case AssuntoActions.SAVE_ASSUNTO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
+                saving: true,
                 errors: false
             };
         }

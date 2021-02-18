@@ -31,6 +31,11 @@ arquivista-main-sidebar {
         height: 0;
         overflow-y: auto;
 
+        .nav .nav-subheader {
+            white-space: pre-wrap;
+            margin-bottom: 4px;
+        }
+
         > .create-button {
             margin: 16px;
         }

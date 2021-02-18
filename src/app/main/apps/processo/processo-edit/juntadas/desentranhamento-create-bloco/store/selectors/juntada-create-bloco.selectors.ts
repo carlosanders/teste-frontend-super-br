@@ -53,3 +53,29 @@ export const getDesentranhandoJuntadas = createSelector(
     getDesentranhandoIds,
     schemaSelectors.entitiesProjector
 );
+
+export const getErrors = createSelector(
+    getJuntadaListState,
+    (state: JuntadaCreateBlocoState) => state.errors
+);
+
+export const getBufferingDesentranhamento = createSelector(
+    getJuntadaListState,
+    (state: JuntadaCreateBlocoState) => state.bufferingDesentranhando
+);
+
+export const getSavingIds = createSelector(
+    getJuntadaListState,
+    (state: JuntadaCreateBlocoState) => state.savingJuntadasId
+);
+
+export const getSelectedJuntadasIds = createSelector(
+    getJuntadaListState,
+    (state: JuntadaCreateBlocoState) => state.selectedJuntadasIds
+);
+
+export const getSelectedJuntadas = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getSelectedJuntadasIds,
+    schemaSelectors.entitiesProjector
+);

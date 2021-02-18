@@ -70,7 +70,6 @@ export function VinculacaoProcessoEditReducer(
         case VinculacaoProcessoEditActions.SAVE_VINCULACAO_PROCESSO_SUCCESS: {
             return {
                 ...state,
-                saving: false,
                 errors: false
             };
         }
@@ -80,6 +79,12 @@ export function VinculacaoProcessoEditReducer(
                 ...state,
                 saving: false,
                 errors: action.payload
+            };
+        }
+
+        case VinculacaoProcessoEditActions.UNLOAD_STORE: {
+            return {
+                ...VinculacaoProcessoEditInitialState
             };
         }
 

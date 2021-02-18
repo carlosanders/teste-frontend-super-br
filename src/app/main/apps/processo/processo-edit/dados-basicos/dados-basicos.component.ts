@@ -86,7 +86,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.processo$.subscribe(
             processo => {
-                if (this.processo && processo && (this.processo.id !== processo.id)) {
+                if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
                     this._mercureService.unsubscribe(this.processo.origemDados['@id']);
                 }
                 if (processo?.origemDados?.status === 0) {
@@ -200,11 +200,11 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     }
 
     gerirProcedencia(): void {
-        this._router.navigate([this.routerState.url + '/pessoa']).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa']).then();
     }
 
     editProcedencia(pessoaId: number): void {
-        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
 
 }

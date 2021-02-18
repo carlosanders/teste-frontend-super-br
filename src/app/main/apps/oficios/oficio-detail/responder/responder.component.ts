@@ -254,7 +254,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
                 assinatura.cadeiaCertificadoPkiPath = 'A1';
                 assinatura.assinatura = 'A1';
 
-                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura, password: result.password}));
+                this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({assinatura: assinatura, plainPassword: result.plainPassword}));
             });
         }
     }

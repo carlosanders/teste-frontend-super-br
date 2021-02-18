@@ -6,7 +6,11 @@
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
-    <div class="responsive-grid" [ngClass]="{'search': (this.mode == 'search')}">
+    <div class="responsive-grid"
+         [ngClass]="{
+            'search': (this.mode == 'search'),
+            'documento-edit': (this.mode === 'documento')
+         }">
 
         <div class="actions">
 

@@ -49,15 +49,13 @@
 
     <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()"
-                [disabled]="form.invalid || !valid" *ngIf="!saving">
+                [disabled]="form.invalid || !valid">
             SALVAR
         </button>
-        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()">
             CANCELAR
         </button>
-        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
     </div>
-
 </form>
 
 <cdk-processo-gridsearch

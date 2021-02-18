@@ -339,7 +339,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
                     assinatura: assinatura,
-                    password: result.password,
+                    plainPassword: result.plainPassword,
                     processoId: this.processo.id
                 }));
             });

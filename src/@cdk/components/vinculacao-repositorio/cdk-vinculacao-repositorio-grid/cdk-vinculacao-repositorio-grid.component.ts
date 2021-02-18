@@ -45,7 +45,7 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
     displayedColumns: string[] = ['select', 'id', 'repositorio.nome', 'especieSetor.nome', 'setor.nome', 'usuario.nome', 'actions'];
 
     @Input()
-    orgaoCentralPagination: Pagination;
+    modalidadeOrgaoCentralPagination: Pagination;
 
     @Input()
     repositorioPagination: Pagination;
@@ -88,7 +88,7 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
             fixed: false
         },
         {
-            id: 'orgaoCentral.valor',
+            id: 'modalidadeOrgaoCentral.valor',
             label: 'Órgão Central',
             fixed: false
         },
@@ -191,7 +191,7 @@ export class CdkVinculacaoRepositorioGridComponent implements AfterViewInit, OnI
         this.gridFilter = {};
         this.vinculacaoRepositorios = [];
 
-        this.orgaoCentralPagination = new Pagination();
+        this.modalidadeOrgaoCentralPagination = new Pagination();
         this.repositorioPagination = new Pagination();
         this.setorPagination = new Pagination();
         this.usuarioPagination = new Pagination();
