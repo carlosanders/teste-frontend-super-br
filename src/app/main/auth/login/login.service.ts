@@ -109,6 +109,11 @@ export class LoginService {
         return hasAccess;
     }
 
+    getConfig(): Observable<any> {
+        const url = `${environment.base_url}config` + environment.xdebug;
+        return this.http.get(url);
+    }
+
     private startCountdown(): void {
         // Renova o token quando faltar 3 minutos para expirar
         const timeExpToken = this.getExp() - this.getTimestamp();

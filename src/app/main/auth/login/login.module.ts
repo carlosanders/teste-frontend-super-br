@@ -12,11 +12,15 @@ import {HttpClientModule} from '@angular/common/http';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {LoginComponent} from './login.component';
 import {LoginStoreModule} from './store/store.module';
+import * as fromGuards from './store/guards'
+import {LoginService} from './login.service';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 const routes = [
     {
         path: '',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -35,7 +39,12 @@ const routes = [
         MatInputModule,
         MatProgressBarModule,
         CdkSharedModule,
-        LoginStoreModule
+        LoginStoreModule,
+        MatProgressSpinnerModule
+    ],
+    providers      : [
+        LoginService,
+        fromGuards.ResolveGuard
     ]
 })
 export class LoginModule {
