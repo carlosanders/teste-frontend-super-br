@@ -122,6 +122,15 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
             case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\AcaoTransicaoWorkflow\\Trigger0001':
                 routeId = 1;
                 break;
+            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\AcaoTransicaoWorkflow\\Trigger0002':
+                routeId = 2;
+                break;
+            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\AcaoTransicaoWorkflow\\Trigger0003':
+                routeId = 3;
+                break;
+            case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\AcaoTransicaoWorkflow\\Trigger0004':
+                routeId = 4;
+                break;
             default:
                 routeId = 0;
         }

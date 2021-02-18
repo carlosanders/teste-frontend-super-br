@@ -1,0 +1,11 @@
+    <cdk-distribuir-tarefa-form
+        [tarefa]="tarefa"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [unidadeResponsavelPagination]="unidadePagination"
+        [setorResponsavelPagination]="setorPagination"
+        [usuarioResponsavelPagination]="usuarioPagination"
+        (save)="submit($event)"
+        (abort)="doAbort()"
+        (cancel)="cancel()">
+    </cdk-distribuir-tarefa-form>
