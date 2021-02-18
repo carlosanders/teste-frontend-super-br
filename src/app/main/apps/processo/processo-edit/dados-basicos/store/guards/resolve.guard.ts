@@ -15,6 +15,7 @@ import {getRouterState} from 'app/store/reducers';
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+    needsPopulatedProcesso: any[] = ['populateAll', 'setorAtual.unidade'];
 
     /**
      * Constructor
@@ -46,7 +47,21 @@ export class ResolveGuard implements CanActivate {
             catchError(() => of(false))
         );
     }
- 
+
+    /**
+     *
+     * @param loaded
+     * @param needs
+     */
+    isPopulated(loaded, needs): boolean {
+        needs.forEach((need) => {
+            if (loaded.populate.indexOf(need) === -1) {
+                return false;
+            }
+        });
+        return true;
+    }
+
     /**
      * Get Processo
      *
@@ -56,20 +71,20 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getProcessoLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value || !this.isPopulated(loaded, this.needsPopulatedProcesso)) {
                     if (this.routerState.params['processoHandle'] === 'criar' ) {
                         this._store.dispatch(new fromStore.CreateProcesso());
                     } else {
-                        this._store.dispatch(new fromStore.SetProcesso({
-                            id: 'processoHandle',
-                            value: this.routerState.params['processoHandle']
+                        this._store.dispatch(new fromStore.GetProcesso({
+                            filter: {id: 'eq:' + this.routerState.params['processoHandle']},
+                            populate: this.needsPopulatedProcesso
                         }));
                     }
 
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value && this.isPopulated(loaded, this.needsPopulatedProcesso);
             }),
             take(1)
         );

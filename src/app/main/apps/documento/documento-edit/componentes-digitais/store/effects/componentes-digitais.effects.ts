@@ -15,6 +15,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../../anexos/store';
+import {GetDocumento} from '../../../../store';
 
 @Injectable()
 export class ComponenteDigitalEffects {
@@ -95,7 +96,11 @@ export class ComponenteDigitalEffects {
                 ofType<ComponenteDigitalActions.DeleteComponenteDigital>(ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL),
                 mergeMap((action) => {
                     return this._componenteDigitalService.destroy(action.payload).pipe(
-                        map((response) => new ComponenteDigitalActions.DeleteComponenteDigitalSuccess(response.id)),
+                        mergeMap((response) => [
+                            new ComponenteDigitalActions.DeleteComponenteDigitalSuccess(response.id),
+                            new GetDocumento(),
+                            new ComponenteDigitalActions.ReloadComponentesDigitais()
+                        ]),
                         catchError((err) => {
                             console.log (err);
                             return of(new ComponenteDigitalActions.DeleteComponenteDigitalFailed(action.payload));

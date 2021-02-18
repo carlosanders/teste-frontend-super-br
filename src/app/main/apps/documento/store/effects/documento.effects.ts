@@ -267,11 +267,12 @@ export class DocumentoEffect {
                     if (componenteDigital.apagadoEm) {
                         sidebar = 'editar/restaurar';
                     }
+                    const componenteDigitalHandle = action.payload.id ?? this.routerState.params['componenteDigitalHandle'];
                     this._router.navigate([
                             this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
                             {
                                 outlets: {
-                                    primary: 'componente-digital/' + this.routerState.params['componenteDigitalHandle'] + type,
+                                    primary: 'componente-digital/' + componenteDigitalHandle + type,
                                     sidebar: sidebar
                                 }
                             }

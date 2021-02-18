@@ -18,6 +18,7 @@
 
 <cdk-componente-digital-card-list #ckdUploadComponenteDigital
                                   *ngIf="!formComponentesDigitais"
+                                  [mode]="'documento-edit'"
                                   [documento]="(documento$ | async)"
                                   (completed)="onCompleteComponenteDigital()">
 </cdk-componente-digital-card-list>
@@ -28,12 +29,13 @@
     [loading]="(componenteDigitalLoading$ | async)"
     [componentesDigitais]="(componentesDigitais$ | async)"
     [total]="(paginationComponenteDigital$ | async)?.total"
-    [actions]="['edit', 'delete']"
+    [actions]="['edit', 'view', 'delete']"
     [mode]="'documento'"
     [displayedColumns]="['id', 'fileName', 'numeracaoSequencial', 'tamanho', 'extensao', 'criadoPor.nome', 'actions']"
     [deletingIds]="(deletingComponenteDigitalIds$ | async)"
     [deletedIds]="(deletedComponenteDigitalIds$ | async)"
     (delete)="deleteComponenteDigital($event)"
+    (view)="viewComponenteDigital($event)"
     (reload)="reloadComponentesDigitais($event)"
     (edit)="editComponenteDigital($event)"
 >
