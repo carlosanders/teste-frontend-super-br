@@ -140,6 +140,24 @@ export class LoginEffects {
                     }
                 ));
 
+    @Effect()
+    GetConfig: Observable<LoginActions.LoginActionsAll> =
+        this.actions
+            .pipe(
+                ofType<LoginActions.GetConfig>(LoginActions.GET_CONFIG),
+                switchMap((action) => {
+                        return this.loginService.getConfig()
+                            .pipe(
+                                map((response) => {
+                                    return new LoginActions.GetConfigSuccess(response);
+                                }),
+                                catchError((error) => {
+                                    return of(new LoginActions.LoginProfileFailure({error: error}));
+                                })
+                            );
+                    }
+                ));
+
     @Effect({dispatch: false})
     LoginProfileFailure: Observable<any> = this.actions.pipe(
         ofType(LoginActions.LOGIN_PROFILE_FAILURE)
