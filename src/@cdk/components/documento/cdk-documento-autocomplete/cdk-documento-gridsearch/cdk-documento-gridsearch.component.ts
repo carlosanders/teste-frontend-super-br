@@ -32,6 +32,9 @@ export class CdkDocumentoGridsearchComponent implements OnInit {
     @Input()
     pagination: Pagination;
 
+    @Input()
+    displayedColumns = ['id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome', 'componentesDigitais.extensao', 'actions'];
+
     @Output()
     selected = new EventEmitter();
 

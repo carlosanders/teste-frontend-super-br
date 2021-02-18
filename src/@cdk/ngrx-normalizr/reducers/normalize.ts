@@ -126,6 +126,9 @@ export function normalized(
                                             if (p[c][id][key]?.['id'] && !entities[c][id][key]) {
                                                 return;
                                             }
+                                            if (p[c][id][key]?.[0] && !entities[c][id][key]) {
+                                                return;
+                                            }
                                             p[c] = {
                                                 ...p[c],
                                                 [id]: {

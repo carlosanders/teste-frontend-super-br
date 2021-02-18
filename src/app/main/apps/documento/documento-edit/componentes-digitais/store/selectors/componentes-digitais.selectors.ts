@@ -72,3 +72,13 @@ export const getComponenteDigitalPagination = createSelector(
     getComponenteDigitalState,
     (state: ComponenteDigitalState) => state.pagination
 );
+
+export const getIsSavingComponenteDigital = createSelector(
+    getComponenteDigitalState,
+    (state: ComponenteDigitalState) => state.saving
+);
+
+export const getErrorsComponenteDigital = createSelector(
+    getComponenteDigitalState,
+    (state: ComponenteDigitalState) => state.errors
+);
