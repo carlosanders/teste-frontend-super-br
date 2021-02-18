@@ -8,10 +8,12 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {AjudaComponent} from '../../../../ajuda/ajuda.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { TourModule } from 'app/main/apps/tour/tour.module';
+
 
 @NgModule({
     declarations: [
-        ToolbarComponent
+        ToolbarComponent,
     ],
     imports: [
         RouterModule,
@@ -26,6 +28,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         CdkSearchBarModule,
         CdkShortcutsModule,
         MatTooltipModule,
+        TourModule,
     ],
     providers: [
         LoginService,
