@@ -19,6 +19,7 @@ import {getProcessoLoaded} from '../../../../processo/store';
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+    needsPopulatedProcesso: any[] = ['vinculacoesEtiquetas', 'vinculacoesEtiquetas.etiqueta'];
 
     /**
      * Constructor
@@ -51,6 +52,20 @@ export class ResolveGuard implements CanActivate {
             switchMap(() => of(true)),
             catchError(() => of(false))
         );
+    }
+
+    /**
+     *
+     * @param loaded
+     * @param needs
+     */
+    isPopulated(loaded, needs): boolean {
+        needs.forEach((need) => {
+            if (loaded.populate.indexOf(need) === -1) {
+                return false;
+            }
+        });
+        return true;
     }
 
     /**
@@ -103,19 +118,22 @@ export class ResolveGuard implements CanActivate {
                 if (loaded.acessoNegado) {
                     this._router.navigate([this.routerState.url.split('/processo')[0] + '/processo/' + this.routerState.params.processoHandle + '/acesso-negado']).then();
                 } else {
-                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value || !this.isPopulated(loaded, this.needsPopulatedProcesso)) {
                         if (this.routerState.params['processoHandle'] === 'criar') {
                             this._store.dispatch(new fromStoreProcesso.CreateProcesso());
                         } else {
                             this._store.dispatch(new fromStoreProcesso.GetProcesso({
-                                id: 'eq:' + this.routerState.params['processoHandle']
+                                filter: {
+                                    id: 'eq:' + this.routerState.params['processoHandle']
+                                },
+                                populate: this.needsPopulatedProcesso
                             }));
                         }
                     }
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value && this.isPopulated(loaded, this.needsPopulatedProcesso);
             }),
             take(1)
         );
