@@ -18,17 +18,39 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
 import {AcaoTransicaoWorkflowEditComponent} from './acao-transicao-workflow-edit.component';
 import {RouterModule, Routes} from '@angular/router';
-import {CdkAcaoTransicaoWorkflowFormModule} from '@cdk/components/acao-transicao-workflow/cdk-acao-transicao-workflow-form/cdk-acao-transicao-workflow-form.module';
 import {AcaoTransicaoWorkflowEditStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {AcaoTransicaoWorkflowService} from '@cdk/services/acao-transicao-workflow.service';
 import {modulesConfig} from 'modules/modules-config';
+import {TipoAcaoWorkflowService} from "../../../../../../../../@cdk/services/tipo-acao-workflow.service";
 
 const routes: Routes = [
     {
         path: ':acaoTransicaoWorkflowHandle',
         component: AcaoTransicaoWorkflowEditComponent,
-        canActivate: [fromGuards.ResolveGuard]
+        canActivate: [fromGuards.ResolveGuard],
+        children: [
+            {
+                path: '1',
+                loadChildren: () => import('./tipo-acao-workflow-trigger/tipo-acao-workflow-trigger-001/tipo-acao-workflow-trigger-001.module')
+                    .then(m => m.TipoAcaoWorkflowTrigger001Module),
+            },
+            {
+                path: '2',
+                loadChildren: () => import('./tipo-acao-workflow-trigger/tipo-acao-workflow-trigger-002/tipo-acao-workflow-trigger-002.module')
+                    .then(m => m.TipoAcaoWorkflowTrigger002Module),
+            },
+            {
+                path: '3',
+                loadChildren: () => import('./tipo-acao-workflow-trigger/tipo-acao-workflow-trigger-003/tipo-acao-workflow-trigger-003.module')
+                    .then(m => m.TipoAcaoWorkflowTrigger003Module),
+            },
+            {
+                path: '4',
+                loadChildren: () => import('./tipo-acao-workflow-trigger/tipo-acao-workflow-trigger-004/tipo-acao-workflow-trigger-004.module')
+                    .then(m => m.TipoAcaoWorkflowTrigger004Module),
+            }
+        ]
     }
 ];
 
@@ -65,11 +87,11 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
 
-        CdkAcaoTransicaoWorkflowFormModule,
         AcaoTransicaoWorkflowEditStoreModule,
     ],
     providers: [
         AcaoTransicaoWorkflowService,
+        TipoAcaoWorkflowService,
         fromGuards.ResolveGuard
     ]
 })

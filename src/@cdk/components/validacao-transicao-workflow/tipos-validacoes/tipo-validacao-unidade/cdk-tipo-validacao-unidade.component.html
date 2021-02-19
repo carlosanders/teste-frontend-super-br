@@ -1,0 +1,41 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+    <label id="acoes-rg">Unidade</label>
+    <mat-form-field>
+        <input matInput placeholder="Unidade"
+               formControlName="unidade"
+               [matAutocomplete]="unidade.autocomplete" required
+               (blur)="checkUnidadeRecebido()">
+        <cdk-setor-autocomplete
+            #unidade="setorAutocomplete"
+            [control]="form.get('unidade')"
+            [pagination]="unidadeRecebidoPagination">
+        </cdk-setor-autocomplete>
+        <button matSuffix mat-button mat-icon-button
+                (click)="showUnidadeRecebidoGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('unidade').hasError('formError')">
+            {{form.get('unidade').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+    <div>{{form.errors}}</div>
+</form>
+
+<cdk-setor-gridsearch
+    *ngIf="activeCard === 'unidade-recebido-gridsearch'"
+    [pagination]="unidadeRecebidoPagination"
+    (selected)="selectUnidadeOrigem($event)"
+    (cancel)="cancel()">
+</cdk-setor-gridsearch>
