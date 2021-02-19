@@ -510,19 +510,19 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     }
 
     gerirProcedencia(): void {
-        this._router.navigate([this.routerState.url + '/pessoa/listar']).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/listar']).then();
     }
 
     editProcedencia(pessoaId: number): void {
-        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
 
     gerirPessoa(): void {
-        this._router.navigate([this.routerState.url + '/pessoa/listar']).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/listar']).then();
     }
 
     editPessoa(pessoaId: number): void {
-        this._router.navigate([this.routerState.url + '/pessoa/editar/' + pessoaId]).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
 
     doAbort(): void {
