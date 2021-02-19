@@ -13,7 +13,6 @@ export * from './colaborador.model';
 export * from './coordenador.model';
 export * from './compartilhamento.model';
 export * from './componente-digital.model';
-export * from './configuracao-nup.model';
 export * from './criteria';
 export * from './desentranhamento.model';
 export * from './distribuicao.model';
