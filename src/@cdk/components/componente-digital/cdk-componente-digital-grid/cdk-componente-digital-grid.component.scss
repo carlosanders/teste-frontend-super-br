@@ -78,6 +78,10 @@ cdk-componente-digital-grid {
                     &.deleted {
                         text-decoration: line-through;
                     }
+
+                    .spinner-container .mat-progress-spinner {
+                        display: inline !important;
+                    }
                 }
             }
         }

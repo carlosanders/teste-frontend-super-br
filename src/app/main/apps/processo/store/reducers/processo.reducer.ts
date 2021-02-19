@@ -31,6 +31,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 loaded: {
                     id: 'processoHandle',
                     value: 'criar',
+                    populate: [],
                     acessoNegado: false
                 },
                 loading: false,

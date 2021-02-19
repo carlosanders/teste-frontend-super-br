@@ -1,20 +1,24 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {Interessado, Lembrete, Tarefa} from '@cdk/models';
-import {Usuario} from '@cdk/models';
-import {EspecieProcesso} from '@cdk/models';
-import {Setor} from '@cdk/models';
+import {
+    ConfiguracaoNup,
+    Interessado,
+    Lembrete,
+    Tarefa,
+    ModalidadeFase,
+    ModalidadeMeio,
+    Usuario,
+    EspecieProcesso,
+    Setor,
+    DocumentoAvulso,
+    Classificacao,
+    Pessoa,
+    Localizador,
+    OrigemDados
+} from '@cdk/models';
 
-import {ModalidadeFase} from '@cdk/models';
-import {ModalidadeMeio} from '@cdk/models';
-
-import {DocumentoAvulso} from '@cdk/models';
-import {Classificacao} from '@cdk/models';
-import {Pessoa} from '@cdk/models';
-import {Localizador} from '@cdk/models';
-import {OrigemDados} from '@cdk/models';
 import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
-import { Assunto } from '@cdk/models/assunto.model';
+import {Assunto} from '@cdk/models/assunto.model';
 
 export class Processo {
 
@@ -70,7 +74,9 @@ export class Processo {
 
     protocoloEletronico?: boolean;
 
-    @Exclude({ toPlainOnly: true })
+    configuracaoNup?: number;
+
+    @Exclude({toPlainOnly: true})
     chaveAcesso?: string;
 
     @Exclude({toPlainOnly: true})
@@ -119,8 +125,8 @@ export class Processo {
     @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     dataHoraProximaTransicao?: moment.Moment;
 
-    @Transform(value => value ? value.format() : null, { toPlainOnly: true })
-    @Transform(value => value ? moment(value) : null, { toClassOnly: true })
+    @Transform(value => value ? value.format() : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
     dataHoraPrazoResposta?: moment.Moment;
 
     @Type(() => ModalidadeFase)
@@ -186,7 +192,7 @@ export class Processo {
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     tarefaAtualWorkflow?: Tarefa;
 
-    @Exclude({ toPlainOnly: true })
+    @Exclude({toPlainOnly: true})
     any: any;
 
     constructor() {
@@ -235,5 +241,6 @@ export class Processo {
         this.protocoloEletronico = null;
         this.any = null;
         this.tarefaAtualWorkflow = null;
+        this.configuracaoNup = null;
     }
 }

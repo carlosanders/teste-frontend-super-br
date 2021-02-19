@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import {TransicaoWorkflow, Usuario} from '@cdk/models';
+import {TipoAcaoWorkflow, TransicaoWorkflow, Usuario} from '@cdk/models';
 
 export class AcaoTransicaoWorkflow {
 
@@ -13,7 +13,9 @@ export class AcaoTransicaoWorkflow {
 
     contexto?: string;
 
-    trigger?: string;
+    @Type(() => TipoAcaoWorkflow)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    tipoAcaoWorkflow?: TipoAcaoWorkflow;
 
     @Type(() => TransicaoWorkflow)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -54,7 +56,7 @@ export class AcaoTransicaoWorkflow {
         this.uuid = null;
         this.transicaoWorkflow = null;
         this.contexto = null;
-        this.trigger = null;
+        this.tipoAcaoWorkflow = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

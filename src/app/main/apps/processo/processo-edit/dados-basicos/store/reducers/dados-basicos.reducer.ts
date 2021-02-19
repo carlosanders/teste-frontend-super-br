@@ -30,6 +30,16 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             };
         }
 
+        case DadosBasicosActions.GET_PROCESSO_SUCCESS: {
+            return {
+                ...state,
+                processoId: action.payload.processoId,
+                loading: false,
+                loaded: action.payload.loaded,
+                errors: false
+            };
+        }
+
         case DadosBasicosActions.GET_PROCESSO_FAILED: {
             return {
                 processoId: null,

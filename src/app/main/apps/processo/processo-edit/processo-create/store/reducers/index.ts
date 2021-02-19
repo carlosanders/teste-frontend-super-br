@@ -5,6 +5,7 @@ import {InteressadoReducer, InteressadoState} from './interessado.reducer';
 import {VinculacaoProcessoReducer, VinculacaoProcessoState} from './vinculacao-processo.reducer';
 import {JuntadaReducer, JuntadaState} from './juntada.reducer';
 import {TarefaState, TarefaReducer} from './tarefa.reducer';
+import {ConfiguracaoNupReducer, ConfiguracaoNupState} from "./configuracao-nup.reducer";
 
 export interface DadosBasicosAppState
 {
@@ -14,6 +15,7 @@ export interface DadosBasicosAppState
     vinculacoesProcessos: VinculacaoProcessoState;
     juntadas: JuntadaState;
     tarefa: TarefaState;
+    configuracaoNup: ConfiguracaoNupState;
 }
 
 export const getDadosBasicosAppState = createFeatureSelector<DadosBasicosAppState>(
@@ -31,7 +33,8 @@ export const reducers: ActionReducerMap<DadosBasicosAppState> = {
     interessados: InteressadoReducer,
     vinculacoesProcessos: VinculacaoProcessoReducer,
     juntadas: JuntadaReducer,
-    tarefa: TarefaReducer
+    tarefa: TarefaReducer,
+    configuracaoNup: ConfiguracaoNupReducer
 };
 
 export * from './dados-basicos.reducer';
@@ -40,4 +43,5 @@ export * from './interessado.reducer';
 export * from './vinculacao-processo.reducer';
 export * from './juntada.reducer';
 export * from './tarefa.reducer';
+export * from './configuracao-nup.reducer';
 
