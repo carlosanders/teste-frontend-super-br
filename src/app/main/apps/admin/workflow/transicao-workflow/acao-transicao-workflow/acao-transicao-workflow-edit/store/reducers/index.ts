@@ -1,9 +1,11 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import {AcaoTransicaoWorkflowEditReducer, AcaoTransicaoWorkflowEditState} from "./acao-transicao-workflow-edit.reducer";
+import {TipoAcaoWorkflowReducer, TipoAcaoWorkflowState} from "./tipo-acao-transicao-workflow.reducer";
 
 export interface AcaoTransicaoWorkflowEditAppState
 {
-    acaoTransicaoWorkflow: AcaoTransicaoWorkflowEditState;
+    acaoTransicaoWorkflow: AcaoTransicaoWorkflowEditState,
+    tipoAcaoWorkflowList: TipoAcaoWorkflowState
 }
 
 export const getAcaoEditAppState = createFeatureSelector<AcaoTransicaoWorkflowEditAppState>(
@@ -16,7 +18,9 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<AcaoTransicaoWorkflowEditAppState> = {
-    acaoTransicaoWorkflow: AcaoTransicaoWorkflowEditReducer
+    acaoTransicaoWorkflow: AcaoTransicaoWorkflowEditReducer,
+    tipoAcaoWorkflowList: TipoAcaoWorkflowReducer
 };
 
 export * from './acao-transicao-workflow-edit.reducer';
+export * from './tipo-acao-transicao-workflow.reducer';

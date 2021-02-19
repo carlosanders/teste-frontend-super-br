@@ -19,6 +19,16 @@ export class CdkSidebarService
     }
 
     /**
+     * Checks if a sidebar is registered
+     *
+     * @param key
+     */
+    isRegistered(key): boolean
+    {
+        return !!this._registry[key];
+    }
+
+    /**
      * Add the sidebar to the registry
      *
      * @param key

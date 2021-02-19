@@ -18,6 +18,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 @Injectable()
 export class DadosBasicosEffect {
     routerState: any;
+    populate: [];
 
     constructor(
         private _actions: Actions,
@@ -147,17 +148,13 @@ export class DadosBasicosEffect {
             .pipe(
                 ofType<DadosBasicosActions.GetProcesso>(DadosBasicosActions.GET_PROCESSO),
                 switchMap((action) => {
+                    this.populate = action.payload.populate ?? [];
                     return this._processoService.query(
-                        JSON.stringify(action.payload),
+                        JSON.stringify(action.payload.filter),
                         1,
                         0,
                         JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll',
-                            'setorAtual.unidade',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
-                        ]));
+                        JSON.stringify(this.populate));
                 }),
                 switchMap(response => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
@@ -165,6 +162,7 @@ export class DadosBasicosEffect {
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params.processoHandle,
+                            populate: this.populate,
                             acessoNegado: response['entities'][0].acessoNegado
                         },
                         processoId: response['entities'][0].id
