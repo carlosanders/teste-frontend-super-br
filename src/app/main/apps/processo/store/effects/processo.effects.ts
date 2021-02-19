@@ -20,6 +20,7 @@ import {Router} from '@angular/router';
 export class ProcessoEffect {
     routerState: any;
     private _profile: any;
+    populate: [];
 
     constructor(
         private _actions: Actions,
@@ -53,26 +54,25 @@ export class ProcessoEffect {
                     const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
                         chaveAcesso: this.routerState.params.chaveAcessoHandle
                     } : {};
+                    this.populate = action.payload.populate ?? [];
                     return this._processoService.query(
-                        JSON.stringify(action.payload),
+                        JSON.stringify(action.payload.filter),
                         1,
                         0,
-                        JSON.stringify({'dataHoraProximaTransicao': 'ASC', 'dataHoraAbertura': 'ASC', 'lembretes.criadoEm': 'DESC'}),
-                        JSON.stringify([
-                            'populateAll',
-                            'especieProcesso.generoProcesso',
-                            'setorAtual.unidade',
-                            'setorAtual.especieSetor',
-                            'classificacao.modalidadeDestinacao',
-                            'lembretes',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta',
-                            'especieProcesso',
-                            'especieProcesso.workflow',
-                            'especieProcesso.workflow.especieTarefaInicial',
-                            'tarefaAtualWorkflow',
-                            'tarefaAtualWorkflow.especieTarefa',
-                        ]),
+                        JSON.stringify({}),
+                        JSON.stringify(
+                            this.populate
+                            // 'populateAll',
+                            // 'especieProcesso.generoProcesso',
+                            // 'setorAtual.unidade',
+                            // 'setorAtual.especieSetor',
+                            // 'classificacao.modalidadeDestinacao',
+                            // 'vinculacoesEtiquetas.etiqueta',
+                            // 'especieProcesso.workflow',
+                            // 'especieProcesso.workflow.especieTarefaInicial',
+                            // 'tarefaAtualWorkflow.especieTarefa',
+
+                        ),
                         JSON.stringify(chaveAcesso));
                 }),
                 switchMap(response => [
@@ -81,6 +81,7 @@ export class ProcessoEffect {
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params.processoHandle,
+                            populate: this.populate,
                             acessoNegado: response['entities'][0].acessoNegado
                         },
                         processoId: response['entities'][0].id

@@ -15,6 +15,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../../anexos/store';
+import {GetDocumento} from '../../../../store';
 
 @Injectable()
 export class ComponenteDigitalEffects {
@@ -95,7 +96,11 @@ export class ComponenteDigitalEffects {
                 ofType<ComponenteDigitalActions.DeleteComponenteDigital>(ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL),
                 mergeMap((action) => {
                     return this._componenteDigitalService.destroy(action.payload).pipe(
-                        map((response) => new ComponenteDigitalActions.DeleteComponenteDigitalSuccess(response.id)),
+                        mergeMap((response) => [
+                            new ComponenteDigitalActions.DeleteComponenteDigitalSuccess(response.id),
+                            new GetDocumento(),
+                            new ComponenteDigitalActions.ReloadComponentesDigitais()
+                        ]),
                         catchError((err) => {
                             console.log (err);
                             return of(new ComponenteDigitalActions.DeleteComponenteDigitalFailed(action.payload));
@@ -128,6 +133,40 @@ export class ComponenteDigitalEffects {
                         catchError((err) => {
                             console.log (err);
                             return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                        })
+                    );
+                })
+            );
+
+    /**
+     * Patch ComponenteDigital
+     * @type {Observable<any>}
+     */
+    @Effect()
+    patchComponenteDigital: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.PATCH_COMPONENTE_DIGITAL),
+                switchMap((action) => {
+                    return this._componenteDigitalService.patch(action.payload.componenteDigital , {
+                        conteudo: action.payload.componenteDigital.conteudo, hashAntigo: action.payload.componenteDigital.hash,
+                        numeracaoSequencial: action.payload.changes.numeracaoSequencial, fileName: action.payload.changes.fileName,
+                        softwareCriacao: action.payload.changes.softwareCriacao, versaoSoftwareCriacao: action.payload.changes.versaoSoftwareCriacao
+                    }).pipe(
+                        mergeMap((response: ComponenteDigital) => [
+                            new ComponenteDigitalActions.PatchComponenteDigitalSuccess(response),
+                            new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema,
+                                changes: {numeracaoSequencial: response.numeracaoSequencial, fileName: response.fileName,
+                                    softwareCriacao: response.softwareCriacao, versaoSoftwareCriacao: response.versaoSoftwareCriacao}}),
+                            new OperacoesActions.Resultado({
+                                type: 'componenteDigital',
+                                content: `Componente Digital id ${response.id} salvo com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            console.log (err);
+                            return of(new ComponenteDigitalActions.PatchComponenteDigitalFailed(err));
                         })
                     );
                 })
@@ -191,6 +230,44 @@ export class ComponenteDigitalEffects {
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * Get ComponenteDigital with router parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getComponenteDigital: any =
+        this._actions
+            .pipe(
+                ofType<ComponenteDigitalActions.GetComponenteDigital>(ComponenteDigitalActions.GET_COMPONENTE_DIGITAL),
+                switchMap((action) => {
+                    return this._componenteDigitalService.query(JSON.stringify({
+                            id: 'eq:' + action.payload.componenteDigitalId
+                        }),
+                        1,
+                        0,
+                        JSON.stringify({}),
+                        JSON.stringify([
+                            'conteudo',
+                            'hash'
+                        ]));
+                }),
+                switchMap(response => [
+                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                    new ComponenteDigitalActions.GetComponenteDigitalSuccess({
+                        loaded: {
+                            id: 'componenteDigitalHandle',
+                            value: response['entities'][0].id
+                        },
+                        sigiloId: response['entities'][0].id
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ComponenteDigitalActions.GetComponenteDigitalFailed(err));
                     return caught;
                 })
             );

@@ -17,7 +17,8 @@ import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
-import {ComponenteDigital, Documento, Usuario} from '@cdk/models';
+import {ComponenteDigital, Documento, Sigilo, Usuario} from '@cdk/models';
+import {GetDocumento, SetCurrentStep} from '../../store';
 
 @Component({
     selector: 'documento-edit-componentes-digitais',
@@ -31,6 +32,8 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
 
     documento$: Observable<Documento>;
 
+    documento: Documento;
+
     routerState: any;
     pagination: any;
 
@@ -38,11 +41,14 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
 
     formComponentesDigitais = false;
     componenteDigital: ComponenteDigital;
+    componenteDigital$: Observable<ComponenteDigital>;
     componentesDigitais$: Observable<ComponenteDigital[]>;
     componenteDigitalLoading$: Observable<boolean>;
     deletingComponenteDigitalIds$: Observable<any>;
     deletedComponenteDigitalIds$: Observable<any>;
     paginationComponenteDigital$: Observable<any>;
+    componenteDigitalIsSaving$: Observable<boolean>;
+    componenteDigitalErrors$: Observable<any>;
 
     @ViewChild('ckdUploadComponenteDigital', {static: false})
     cdkUploadComponenteDigital;
@@ -73,6 +79,11 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         this.deletingComponenteDigitalIds$ = this._store.pipe(select(fromStore.getDeletingComponenteDigitalIds));
         this.deletedComponenteDigitalIds$ = this._store.pipe(select(fromStore.getDeletedComponenteDigitalIds));
         this.componenteDigitalLoading$ = this._store.pipe(select(fromStore.getComponenteDigitalLoading));
+        this.componenteDigital$ = this._store.pipe(select(fromStore.getComponenteDigital));
+        this.componenteDigitalIsSaving$ = this._store.pipe(select(fromStore.getIsSavingComponenteDigital));
+        this.componenteDigitalErrors$ = this._store.pipe(select(fromStore.getErrorsComponenteDigital));
+
+        this._profile = _loginService.getUserProfile();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -92,6 +103,14 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
                 this.routerState = routerState.state;
             }
         });
+
+        this.componenteDigital$.subscribe(
+            (componenteDigital) => {
+                this.componenteDigital = componenteDigital;
+            }
+        );
+
+        this.documento$.subscribe((documento) => this.documento = documento);
 
         this.paginationComponenteDigital$.subscribe(pagination => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
@@ -128,7 +147,13 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    editComponenteDigital(componenteDigital: any): void {
+        this.formComponentesDigitais = true;
+        this._store.dispatch(new fromStore.DownloadComponenteDigital({componenteDigitalId: componenteDigital.componenteDigital.id}));
+    }
+
     onCompleteComponenteDigital(): void {
+        this._store.dispatch(new GetDocumento());
         this.reloadComponentesDigitais({});
     }
 
@@ -138,6 +163,13 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
 
     deleteComponenteDigital(componenteDigitalId: number): void {
         this._store.dispatch(new fromStore.DeleteComponenteDigital(componenteDigitalId));
+    }
+
+    viewComponenteDigital(componenteDigital: ComponenteDigital): void {
+        this._store.dispatch(new SetCurrentStep({
+            id: componenteDigital.id,
+            editavel: componenteDigital.editavel && this.documento.minuta
+        }));
     }
 
     reloadComponentesDigitais(params): void {
@@ -151,5 +183,32 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
             offset: params.offset,
             populate: []
         }));
+    }
+
+    showGridComponentes(): void {
+        this.formComponentesDigitais = !this.formComponentesDigitais;
+    }
+
+    submitComponenteDigital(values): void {
+
+        this._store.dispatch(new fromStore.PatchComponenteDigital({
+            componenteDigital: this.componenteDigital,
+            changes: {
+                numeracaoSequencial: values.numeracaoSequencial, fileName: values.fileName,
+                softwareCriacao: values.softwareCriacao, versaoSoftwareCriacao: values.versaoSoftwareCriacao
+            }
+        }));
+
+        this.componenteDigitalIsSaving$.subscribe((next) => {
+            if (!next) {
+                this.formComponentesDigitais = false;
+            }
+        });
+
+        this.componenteDigitalErrors$.subscribe((next) => {
+            if (next) {
+                this.formComponentesDigitais = true;
+            }
+        });
     }
 }

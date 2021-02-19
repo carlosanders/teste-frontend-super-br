@@ -54,7 +54,7 @@ cdk-componente-digital-card {
         align-items: center;
         margin: 0;
         padding: 8px 0;
-        border: 1px solid rgba(0, 0, 0, 0.12);
+        border: 0px solid rgba(0, 0, 0, 0.12);
 
         > .content-img {
             display: flex;
@@ -93,8 +93,13 @@ cdk-componente-digital-card {
         border: solid red 1px;
     }
 }
-
 cdk-componente-digital-card.processo {
     height: 60px;
     max-height: 60px;
+}
+
+cdk-componente-digital-card.documento-edit-card {
+    width: 50%;
+    flex-grow: 0;
+    flex-shrink: 1;
 }

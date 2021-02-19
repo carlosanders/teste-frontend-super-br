@@ -35,6 +35,19 @@ export const navigation: CdkNavigation[] = [
                             bg : '#F44336',
                             fg: '#FFFFFF'
                         }
+                    },
+                    {
+                        id: 'tarefas_pendentes_arquivístico',
+                        title: 'Arquivísticas',
+                        type: 'item',
+                        icon: 'archive',
+                        url: '/apps/tarefas/arquivístico/minhas-tarefas/entrada',
+                        badge: {
+                            title: '0',
+                            bg : '#F44336',
+                            fg: '#FFFFFF'
+                        },
+                        role: 'ROLE_ARQUIVISTA'
                     }
                 ],
                 role: 'ROLE_COLABORADOR'

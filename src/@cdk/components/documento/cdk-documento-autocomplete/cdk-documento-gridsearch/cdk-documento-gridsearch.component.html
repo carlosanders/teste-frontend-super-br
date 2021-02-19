@@ -1,7 +1,7 @@
 <cdk-documento-grid
         [loading]="loading"
         [documentos]="documentos"
-        [displayedColumns]="['id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome', 'componentesDigitais.extensao', 'actions']"
+        [displayedColumns]="displayedColumns"
         [total]="total"
         [actions]="['select', 'cancel']"
         (selected)="select($event)"

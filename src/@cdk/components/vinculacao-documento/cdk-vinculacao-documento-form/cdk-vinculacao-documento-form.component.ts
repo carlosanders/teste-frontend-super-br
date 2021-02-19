@@ -28,6 +28,9 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
     vinculacaoDocumento: VinculacaoDocumento;
 
     @Input()
+    displayedColumns = ['id', 'tipoDocumento.nome', 'tipoDocumento.especieDocumento.nome', 'componentesDigitais.extensao', 'actions'];
+
+    @Input()
     saving: boolean;
 
     @Input()

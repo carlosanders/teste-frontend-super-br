@@ -56,22 +56,22 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
         case ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload.assinaturaId]
+                deletingIds: [...state.deletingIds, action.payload]
             };
         }
 
         case ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL_SUCCESS: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.assinaturaId),
-                deletedIds: [...state.deletedIds, action.payload.assinaturaId]
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
             };
         }
 
         case ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.assinaturaId)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
             };
         }
 
@@ -165,6 +165,54 @@ export function ComponenteDigitalReducer(state = ComponenteDigitalInitialState, 
                 ...state,
                 loaded: action.payload ? state.loaded : null,
                 repositorio: action.payload
+            };
+        }
+
+        case ComponenteDigitalActions.GET_COMPONENTE_DIGITAL: {
+            return {
+                ...state,
+                loading: true,
+                componenteDigitalId: action.payload.sigiloId
+            };
+        }
+
+        case ComponenteDigitalActions.GET_COMPONENTE_DIGITAL_SUCCESS: {
+            return {
+                ...state,
+                componenteDigitalId: action.payload.sigiloId,
+                loading: false,
+                loaded: action.payload.loaded
+            };
+        }
+
+        case ComponenteDigitalActions.GET_COMPONENTE_DIGITAL_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
+            };
+        }
+
+        case ComponenteDigitalActions.PATCH_COMPONENTE_DIGITAL: {
+            return {
+                ...state,
+                saving: true
+            };
+        }
+
+        case ComponenteDigitalActions.PATCH_COMPONENTE_DIGITAL_SUCCESS: {
+            return {
+                ...state,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case ComponenteDigitalActions.PATCH_COMPONENTE_DIGITAL_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
             };
         }
 
