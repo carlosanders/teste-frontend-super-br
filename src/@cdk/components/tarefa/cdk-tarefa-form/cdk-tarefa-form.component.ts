@@ -1066,7 +1066,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         if (this.form.get('processo').value.especieProcesso.workflow) {
 
             if (!this.form.get('processo').value.tarefaAtualWorkflow) {
-                this.especieTarefaPagination.filter['workflow.id'] = 'eq:'
+                this.especieTarefaPagination.filter['workflows.id'] = 'eq:'
                     + this.form.get('processo').value.especieProcesso.workflow.id;
                 this.especieTarefaPagination.filter['id'] = 'eq:'
                     + this.form.get('processo').value.especieProcesso.workflow.especieTarefaInicial.id;

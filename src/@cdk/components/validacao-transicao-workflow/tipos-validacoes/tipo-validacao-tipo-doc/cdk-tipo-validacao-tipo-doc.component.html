@@ -1,0 +1,45 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+    <label id="acoes-rg">Tipo de Documento</label>
+    
+         <mat-form-field>
+             
+            <input matInput placeholder="Tipo Documento"
+                formControlName="tipoDocumento"
+                [matAutocomplete]="tipoDocumento.autocomplete"
+                (blur)="checkTipoDocumento()" required>
+            <cdk-tipo-documento-autocomplete
+                #tipoDocumento="tipoDocumentoAutocomplete"
+                [control]="form.get('tipoDocumento')"
+                [pagination]="tipoDocumentoPagination">
+            </cdk-tipo-documento-autocomplete>
+
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showTipoDocumentoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('tipoDocumento').hasError('formError')">
+                {{form.get('tipoDocumento').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+   
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+    <div>{{form.errors}}</div>
+</form>
+
+<cdk-tipo-documento-gridsearch
+    *ngIf="activeCard === 'tipo-documento-gridsearch'"
+    (selected)="selectTipoDocumento($event)"
+    (cancel)="cancel()">
+</cdk-tipo-documento-gridsearch>
+
