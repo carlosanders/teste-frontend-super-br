@@ -127,7 +127,7 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
     }
 
     gerirPessoa(): void {
-        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa']).then();
+        this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/listar']).then();
     }
 
     editPessoa(pessoaId: number): void {

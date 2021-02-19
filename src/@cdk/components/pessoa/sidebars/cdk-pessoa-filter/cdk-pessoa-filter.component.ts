@@ -10,6 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-pessoa-filter',
@@ -30,6 +31,8 @@ export class CdkPessoaFilterComponent implements OnInit {
     form: FormGroup;
 
     filters: any = {};
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     /**
      * @param _formBuilder
@@ -174,6 +177,37 @@ export class CdkPessoaFilterComponent implements OnInit {
         });
     }
 
+    filtraData(value: any, campo: string): void {
+        if (this.filters.hasOwnProperty('andX')) {
+            let andX = this.filters['andX'];
+            andX = andX.filter((filtro) => {
+                return !filtro.hasOwnProperty(campo);
+            });
+            this.filters = {
+                ...this.filters,
+                andX: andX
+            };
+        }
+
+        let andX = this.filters['andX'];
+        if (andX) {
+            value.forEach((filtro) => andX.push(filtro));
+            this.filters = {
+                ...this.filters,
+                andX: andX
+            };
+        } else {
+            this.filters = {
+                ...this.filters,
+                andX: value
+            };
+        }
+    }
+
+    hasDateFilter(campo: string): boolean {
+        return this.filters.andX?.filter((filtro) => filtro.hasOwnProperty(campo)).length > 0;
+    }
+
     emite(): void {
         const request = {
             filters: this.filters
@@ -190,6 +224,7 @@ export class CdkPessoaFilterComponent implements OnInit {
         this.filters = {};
         this.emite();
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
         this._cdkSidebarService.getSidebar('cdk-pessoa-filter').close();
     }
 }

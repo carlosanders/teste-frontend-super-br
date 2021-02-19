@@ -15,6 +15,7 @@ import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
 import {Pagination} from '../../../../models';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-tarefa-filter',
@@ -41,6 +42,8 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
 
     assuntoAdministrativoPagination: Pagination;
 
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+
     /**
      * Constructor
      */
@@ -54,11 +57,7 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
             urgente: [null],
             observacao: [null],
             redistribuida: [null],
-            dataHoraInicioPrazo: [null],
-            dataHoraFinalPrazo: [null],
-            dataHoraConclusaoPrazo: [null],
             postIt: [null],
-            dataHoraLeitura: [null],
             processo: [null],
             especieTarefa: [null],
             usuarioResponsavel: [null],
@@ -74,14 +73,11 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
             tipoDistribuicao: [null],
             folder: [null],
             criadoPor: [null],
-            criadoEm: [null],
             atualizadoPor: [null],
-            atualizadoEm: [null],
             apagadoPor: [null],
-            apagadoEm: [null],
         });
 
-        this.assuntoAdministrativoPagination =  new Pagination();
+        this.assuntoAdministrativoPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -146,42 +142,6 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
                 this._cdkTarefaFilterService.filters = {
                     ...this._cdkTarefaFilterService.filters,
                     redistribuida: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraLeitura').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this._cdkTarefaFilterService.filters = {
-                    ...this._cdkTarefaFilterService.filters,
-                    dataHoraLeitura: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraInicioPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this._cdkTarefaFilterService.filters = {
-                    ...this._cdkTarefaFilterService.filters,
-                    dataHoraInicioPrazo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraFinalPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this._cdkTarefaFilterService.filters = {
-                    ...this._cdkTarefaFilterService.filters,
-                    dataHoraFinalPrazo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraConclusaoPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this._cdkTarefaFilterService.filters = {
-                    ...this._cdkTarefaFilterService.filters,
-                    dataHoraConclusaoPrazo: `eq:${value}`
                 };
             }
         });
@@ -330,24 +290,6 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
             }
         });
 
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this._cdkTarefaFilterService.filters = {
-                    ...this._cdkTarefaFilterService.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this._cdkTarefaFilterService.filters = {
-                    ...this._cdkTarefaFilterService.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
         this.form.get('criadoPor').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
@@ -409,6 +351,37 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
         });
     }
 
+    filtraData(value: any, campo: string): void {
+        if (this._cdkTarefaFilterService.filters.hasOwnProperty('andX')) {
+            let andX = this._cdkTarefaFilterService.filters['andX'];
+            andX = andX.filter((filtro) => {
+                return !filtro.hasOwnProperty(campo);
+            });
+            this._cdkTarefaFilterService.filters = {
+                ...this._cdkTarefaFilterService.filters,
+                andX: andX
+            };
+        }
+
+        let andX = this._cdkTarefaFilterService.filters['andX'];
+        if (andX) {
+            value.forEach((filtro) => andX.push(filtro));
+            this._cdkTarefaFilterService.filters = {
+                ...this._cdkTarefaFilterService.filters,
+                andX: andX
+            };
+        } else {
+            this._cdkTarefaFilterService.filters = {
+                ...this._cdkTarefaFilterService.filters,
+                andX: value
+            };
+        }
+    }
+
+    hasDateFilter(campo: string): boolean {
+        return this._cdkTarefaFilterService.filters.andX?.filter((filtro) => filtro.hasOwnProperty(campo)).length > 0;
+    }
+
     emite(): void {
         const request = {
             ...this._cdkTarefaFilterService.filters,
@@ -427,5 +400,6 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
         this._cdkTarefaFilterService.clear.next();
         this.emite();
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
     }
 }
