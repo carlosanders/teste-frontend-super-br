@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {ConfiguracaoNup, EspecieProcesso, EspecieSetor, Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
+import {EspecieProcesso, EspecieSetor, Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {ModalidadeFase} from '@cdk/models';
 import {ModalidadeMeio} from '@cdk/models';
@@ -59,9 +59,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     processo: Processo;
-
-    @Input()
-    configuracaoNupList: ConfiguracaoNup[] = [];
 
     @Input()
     saving: boolean;
@@ -125,9 +122,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     especieSetorPagination: Pagination;
-
-    @Input()
-    configuracaoNupPagination: Pagination;
 
     @Input()
     pessoaVinculada = false;
@@ -200,7 +194,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             setorAtual: [null, [Validators.required]],
             modalidadeMeio: [null, [Validators.required]],
             modalidadeFase: [null],
-            configuracaoNup: [null],
             dataHoraAbertura: [null, [Validators.required]],
             dataHoraDesarquivamento: [null]
         });
@@ -213,10 +206,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorAtualPagination = new Pagination();
         this.setorInicialPagination = new Pagination();
         this.processoPagination = new Pagination();
+        this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
         this.generoSetorPagination = new Pagination();
         this.especieSetorPagination = new Pagination();
-        this.configuracaoNupPagination = new Pagination();
-        this.processoPagination.populate = ['configuracaoNup', 'especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
         this._profile = this._loginService.getUserProfile();
 
         this.readonlyNUP = false;
@@ -230,9 +222,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void {
 
         if (!this.processo.id) {
-            if(this.configuracaoNupList.length == 1) {
-                this.form.get('configuracaoNup').setValue(this.configuracaoNupList[0].id);
-            }
             this.form.get('temProcessoOrigem').setValue(false);
 
             this.form.get('dataHoraAbertura').setValue(null);
@@ -294,7 +283,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.textBotao = 'SALVAR';
 
             if (this.processo.id) {
-                this.form.get('configuracaoNup').setValue(this.processo.configuracaoNup.id);
                 this.form.get('processoOrigem').setValue(null);
                 this.form.get('processoOrigem').disable();
             }
