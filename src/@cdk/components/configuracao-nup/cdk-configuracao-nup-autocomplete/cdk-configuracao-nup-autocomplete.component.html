@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayConfiguracaoNupFn">
+    <mat-option *ngFor="let configuracaoNup of configuracaoNupList"
+                [value]="configuracaoNup">
+        <span [innerHTML]="displayConfiguracaoNupFn(configuracaoNup) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="configuracaoNupListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>
