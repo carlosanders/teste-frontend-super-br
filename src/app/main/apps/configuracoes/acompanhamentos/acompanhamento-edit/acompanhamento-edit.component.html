@@ -1,0 +1,15 @@
+<div class="header">
+    <path icone="record_voice_over"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="acompanhamentos">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-acompanhamento-form
+        [acompanhamento]="acompanhamento"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-acompanhamento-form>
+</div>
