@@ -27,6 +27,8 @@ import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepic
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -59,6 +61,8 @@ import {MatDividerModule} from '@angular/material/divider';
         CdkProcessoAutocompleteModule,
         MatExpansionModule,
         MatDividerModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         ProcessoService,
