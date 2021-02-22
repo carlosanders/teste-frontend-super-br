@@ -1,7 +1,7 @@
 <div class="page-layout left-sidebar">
 
     <!-- SIDEBAR -->
-    <cdk-sidebar class="sidebar" name="juntadas-left-sidebar-1" position="left" lockedOpen="gt-md">
+    <cdk-sidebar class="sidebar" [name]="this.sidebarName" position="left" lockedOpen="gt-md">
         <processo-view-main-sidebar [@animate]="{value:'*'}" [capaProcesso]="capaProcesso" [capa]="capa"
                                     (scrolled)="onScroll()"></processo-view-main-sidebar>
     </cdk-sidebar>
@@ -13,7 +13,7 @@
         <div class="header" *ngIf="routerState?.url?.indexOf('/capa') === -1 && !vinculacao && !documentoAvulso && !modelos">
 
             <button mat-icon-button class="sidebar-toggle mr-16 cdk-black-fg" fxHide.gt-md
-                    (click)="toggleSidebar('juntadas-left-sidebar-1')">
+                    (click)="toggleSidebar(this.sidebarName)">
                 <mat-icon>menu</mat-icon>
             </button>
 

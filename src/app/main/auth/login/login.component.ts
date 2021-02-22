@@ -8,6 +8,7 @@ import * as fromStore from 'app/main/auth/login/store';
 import { getLoginAppState } from 'app/main/auth/login/store';
 import {environment} from "../../../../environments/environment";
 import {getRouterState} from "../../../store";
+import {getConfig, getErrorMessage, getLoadingConfig} from './store/selectors';
 
 @Component({
     selector     : 'login',
@@ -20,10 +21,16 @@ export class LoginComponent implements OnInit
 {
     loginForm: FormGroup;
     getLoginState: Observable<any>;
+    errorMessage$: Observable<any>;
     errorMessage: string | null;
+    loadingConfig$: Observable<boolean>;
     loading: boolean;
     certificadoDigital = '';
     routerState: any;
+
+    config$: Observable<any>;
+
+    config: any;
 
     /**
      * Constructor
@@ -65,6 +72,9 @@ export class LoginComponent implements OnInit
             });
 
         this.getLoginState = this.store.pipe(select(getLoginAppState));
+        this.config$ = this.store.pipe(select(getConfig));
+        this.errorMessage$ = this.store.pipe(select(getErrorMessage));
+        this.loadingConfig$ = this.store.pipe(select(getLoadingConfig));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -85,9 +95,16 @@ export class LoginComponent implements OnInit
             password: ['', Validators.required]
         });
 
+        this.errorMessage$.subscribe((errorMessage) => {
+            this.errorMessage = errorMessage;
+        });
+
         this.getLoginState.subscribe((state) => {
             this.loading = false;
-            this.errorMessage = state.login.errorMessage;
+        });
+
+        this.config$.subscribe((config) => {
+            this.config = config;
         });
 
         if (environment.base_url_x509) {
@@ -103,6 +120,10 @@ export class LoginComponent implements OnInit
                 timestamp: this.routerState.params['timestamp']
             }));
         }
+    }
+
+    reloadConfig(): void {
+        this.store.dispatch(new fromStore.GetConfig());
     }
 
     onSubmit(): void {

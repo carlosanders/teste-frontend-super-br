@@ -52,25 +52,31 @@
             </cdk-modalidade-qualificacao-pessoa-autocomplete>
         </mat-form-field>
 
-        <mat-form-field>
-            <mat-label>Data de Nascimento</mat-label>
-            <input matInput formControlName="dataNascimento" [matDatepicker]="dataNascimento">
-            <mat-datepicker-toggle matSuffix [for]="dataNascimento"></mat-datepicker-toggle>
-            <mat-datepicker #dataNascimento></mat-datepicker>
-            <mat-error *ngIf="form.get('dataNascimento').hasError('formError')">
-                {{form.get('dataNascimento').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': hasDateFilter('dataNascimento')}">Data de Nascimento</span>
+            <button mat-icon-button [matMenuTriggerFor]="filtroDataNascimento" [ngClass]="{'filtrado': hasDateFilter('dataNascimento')}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataNascimento="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="false" campo="dataNascimento"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraData($event, 'dataNascimento')">
+            </cdk-date-filter>
+        </mat-menu>
 
-        <mat-form-field>
-            <mat-label>Data de Óbito</mat-label>
-            <input matInput formControlName="dataObito" [matDatepicker]="dataObito">
-            <mat-datepicker-toggle matSuffix [for]="dataObito"></mat-datepicker-toggle>
-            <mat-datepicker #dataObito></mat-datepicker>
-            <mat-error *ngIf="form.get('dataObito').hasError('formError')">
-                {{form.get('dataObito').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+        <div class="filtro-data">
+            <span [ngClass]="{'filtrado': hasDateFilter('dataObito')}">Data de Óbito</span>
+            <button mat-icon-button [matMenuTriggerFor]="filtroDataObito" [ngClass]="{'filtrado': hasDateFilter('dataObito')}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroDataObito="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="false" campo="dataObito"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraData($event, 'dataObito')">
+            </cdk-date-filter>
+        </mat-menu>
     </form>
 </div>
 

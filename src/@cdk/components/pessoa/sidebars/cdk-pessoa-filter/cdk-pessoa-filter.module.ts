@@ -20,6 +20,8 @@ import {CdkModalidadeGeneroPessoaAutocompleteModule} from '@cdk/components/modal
 import {CdkUsuarioAutocompleteModule} from '@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkOrigemDadosAutocompleteModule} from '@cdk/components/origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-municipio-autocomplete/cdk-municipio-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [
@@ -45,6 +47,8 @@ import {CdkMunicipioAutocompleteModule} from '@cdk/components/municipio/cdk-muni
         CdkMunicipioAutocompleteModule,
         CdkModalidadeQualificacaoPessoaAutocompleteModule,
         CdkOrigemDadosAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         PessoaService,

@@ -89,6 +89,14 @@ const routes: Routes = [
             {
                 path: 'modalidade-acao-etiqueta',
                 loadChildren: () => import('./modalidade-acao-etiqueta/modalidade-acao-etiqueta.module').then(m => m.ModalidadeAcaoEtiquetaModule)
+            },
+            {
+                path: 'tipo-acao-workflow',
+                loadChildren: () => import('./tipo-acao-workflow/tipo-acao-workflow.module').then(m => m.TipoAcaoWorkflowModule)
+            },
+            {
+                path: 'tipo-validacao-workflow',
+                loadChildren: () => import('./tipo-validacao-workflow/tipo-validacao-workflow.module').then(m => m.TipoValidacaoWorkflowModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

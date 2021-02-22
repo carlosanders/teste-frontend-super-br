@@ -66,11 +66,11 @@ export class AdminPessoaListComponent implements OnInit {
     }
 
     edit(pessoaId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + pessoaId]);
+        this._router.navigate([this.routerState.url.split('/pessoa/')[0] + '/pessoa/editar/' + pessoaId]);
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url + '/pessoa/editar/criar']).then();
+        this._router.navigate([this.routerState.url.split('/pessoa/')[0] + '/pessoa/editar/criar']).then();
     }
 
     onActivate(componentReference): void  {

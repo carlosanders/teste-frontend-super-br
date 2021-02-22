@@ -127,13 +127,18 @@
                 </cdk-localizador-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <mat-label>Data da Abertura</mat-label>
-                <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura">
-                <mat-datetimepicker-toggle matSuffix [for]="dataHoraAbertura"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #dataHoraAbertura type="datetime" openOnFocus="true" timeInterval="5">
-                </mat-datetimepicker>
-            </mat-form-field>
+            <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
+                <span [ngClass]="{'filtrado': hasDateFilter('dataHoraAbertura')}">Data da Abertura</span>
+                <button mat-icon-button [matMenuTriggerFor]="filtroDataHoraAbertura" [ngClass]="{'filtrado': hasDateFilter('dataHoraAbertura')}">
+                    <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+                </button>
+            </div>
+            <mat-menu #filtroDataHoraAbertura="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+                <cdk-date-filter [datetime]="true" campo="dataHoraAbertura"
+                                 [limparForm]="this.limparFormFiltroDatas$"
+                                 (filtra)="this.filtraData($event, 'dataHoraAbertura')">
+                </cdk-date-filter>
+            </mat-menu>
 
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <input matInput placeholder="Modalidade da Fase"
@@ -162,13 +167,18 @@
                 </cdk-especie-processo-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <mat-label>Criado Em</mat-label>
-                <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
-                <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
-                <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true"
-                                    timeInterval="5"></mat-datetimepicker>
-            </mat-form-field>
+            <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
+                <span [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">Criado Em</span>
+                <button mat-icon-button [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">
+                    <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+                </button>
+            </div>
+            <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+                <cdk-date-filter [datetime]="true" campo="criadoEm"
+                                 [limparForm]="this.limparFormFiltroDatas$"
+                                 (filtra)="this.filtraData($event, 'criadoEm')">
+                </cdk-date-filter>
+            </mat-menu>
 
         </mat-expansion-panel>
 

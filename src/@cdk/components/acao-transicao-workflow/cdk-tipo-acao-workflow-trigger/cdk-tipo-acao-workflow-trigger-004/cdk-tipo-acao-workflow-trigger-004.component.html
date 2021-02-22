@@ -1,0 +1,18 @@
+<h2>Ofício</h2>
+<cdk-documento-avulso-form
+    [documentoAvulso]="documentoAvulso"
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    [especieDocumentoAvulsoPagination]="especieDocumentoAvulsoPagination"
+    [setorDestinoPagination]="setorDestinoPagination"
+    [modeloPagination]="modeloPagination"
+    [modeloPaginationAndx]="modeloPaginationAndx"
+    [mode]="mode"
+    (gerirPessoaDestino)="doGerirPessoaDestino()"
+    (editPessoaDestino)="doEditPessoaDestino($event)"
+    [pessoaDestino]="pessoaDestino"
+    [destinatarios]="destinatarios"
+    [prazoCriteriaList]="prazoCriteriaList"
+    (save)="submit($event)"
+    (abort)="doAbort()">
+</cdk-documento-avulso-form>

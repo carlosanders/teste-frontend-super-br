@@ -1,0 +1,26 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+    <label id="acoes-rg">Criado Por:</label>
+    
+
+    <mat-form-field>
+        <input matInput placeholder="Criado Por"
+               formControlName="criadoPor"
+               [matAutocomplete]="usuario.autocomplete">
+        <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
+        </cdk-usuario-autocomplete>
+    </mat-form-field>
+
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+    <div>{{form.errors}}</div>
+</form>

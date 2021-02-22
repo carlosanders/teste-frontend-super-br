@@ -7,6 +7,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-componente-digital-filter',
@@ -27,6 +28,8 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
 
     @Input()
     mode = 'list';
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     /**
      * Constructor
@@ -151,12 +154,45 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
         });
     }
 
+    filtraData(value: any, campo: string): void {
+        if (this.filters.hasOwnProperty('andX')) {
+            let andX = this.filters['andX'];
+            andX = andX.filter((filtro) => {
+                return !filtro.hasOwnProperty(campo);
+            });
+            this.filters = {
+                ...this.filters,
+                andX: andX
+            };
+        }
+
+        let andX = this.filters['andX'];
+        if (andX) {
+            value.forEach((filtro) => andX.push(filtro));
+            this.filters = {
+                ...this.filters,
+                andX: andX
+            };
+        } else {
+            this.filters = {
+                ...this.filters,
+                andX: value
+            };
+        }
+    }
+
+    hasDateFilter(campo: string): boolean {
+        return this.filters.andX?.filter((filtro) => filtro.hasOwnProperty(campo)).length > 0;
+    }
+
     emite(): void {
-        const request = {
-            filters: this.filters
-        };
-        this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-componente-digital-filter').close();
+        if (this.form.valid) {
+            const request = {
+                filters: this.filters
+            };
+            this.selected.emit(request);
+            this._cdkSidebarService.getSidebar('cdk-componente-digital-filter').close();
+        }
     }
 
     buscar(): void {
@@ -167,6 +203,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
         this.filters = {};
         this.emite();
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
     }
 }
 

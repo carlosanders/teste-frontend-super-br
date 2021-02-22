@@ -9,9 +9,10 @@ import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
 import {DynamicService} from '../../../../../modules/dynamic.service';
-import {CdkProcessoFilterService} from '../../../processo/sidebars/cdk-processo-filter/cdk-processo-filter.service';
+import {CdkProcessoFilterService} from './cdk-processo-filter.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-processo-filter',
@@ -34,6 +35,8 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+
     /**
      * Constructor
      */
@@ -52,7 +55,6 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
             NUP: [null],
             especieProcesso: [null],
             visibilidadeExterna: [null],
-            dataHoraAbertura: [null],
             acessoNegado: [null],
             dataHoraProximaTransicao: [null],
             titulo: [null],
@@ -202,15 +204,6 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
                 this._cdkProcessoFilterService.filters = {
                     ...this._cdkProcessoFilterService.filters,
                     valorEconomico: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('dataHoraAbertura').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this._cdkProcessoFilterService.filters = {
-                    ...this._cdkProcessoFilterService.filters,
-                    dataHoraAbertura: `eq:${value}`
                 };
             }
         });
@@ -460,6 +453,37 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
         }
     }
 
+    filtraData(value: any, campo: string): void {
+        if (this._cdkProcessoFilterService.filters.hasOwnProperty('andX')) {
+            let andX = this._cdkProcessoFilterService.filters['andX'];
+            andX = andX.filter((filtro) => {
+                return !filtro.hasOwnProperty(campo);
+            });
+            this._cdkProcessoFilterService.filters = {
+                ...this._cdkProcessoFilterService.filters,
+                andX: andX
+            };
+        }
+
+        let andX = this._cdkProcessoFilterService.filters['andX'];
+        if (andX) {
+            value.forEach((filtro) => andX.push(filtro));
+            this._cdkProcessoFilterService.filters = {
+                ...this._cdkProcessoFilterService.filters,
+                andX: andX
+            };
+        } else {
+            this._cdkProcessoFilterService.filters = {
+                ...this._cdkProcessoFilterService.filters,
+                andX: value
+            };
+        }
+    }
+
+    hasDateFilter(campo: string): boolean {
+        return this._cdkProcessoFilterService.filters.andX?.filter((filtro) => filtro.hasOwnProperty(campo)).length > 0;
+    }
+
     emite(): void {
         const request = {
             filters: this._cdkProcessoFilterService.filters,
@@ -475,6 +499,8 @@ export class CdkProcessoFilterComponent implements OnInit, AfterViewInit {
     limpar(): void {
         this._cdkProcessoFilterService.filters = {};
         this._cdkProcessoFilterService.clear.next();
+        this.emite();
         this.form.reset();
+        this.limparFormFiltroDatas$.next(true);
     }
 }

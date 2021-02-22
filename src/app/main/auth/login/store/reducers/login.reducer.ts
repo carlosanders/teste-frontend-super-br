@@ -1,16 +1,20 @@
 import * as LoginActions from '../actions/login.actions';
 
 export interface LoginState {
+    loadingConfig: boolean;
     isAuthenticated: boolean;
     profile: any;
     token: string | null;
+    config: any | null;
     errorMessage: string | null;
 }
 
 export const LoginInicialState: LoginState = {
+    loadingConfig: false,
     isAuthenticated: false,
     profile: null,
     token: null,
+    config: null,
     errorMessage: null
 };
 
@@ -43,6 +47,30 @@ export function LoginReducers(state = LoginInicialState, action: LoginActions.Lo
         case LoginActions.LOGIN_PROFILE_FAILURE: {
             return {
                 ...state,
+                errorMessage: action.payload.error
+            };
+        }
+        case LoginActions.GET_CONFIG: {
+            return {
+                ...state,
+                loadingConfig: false,
+                config: null
+            };
+        }
+        case LoginActions.GET_CONFIG_SUCCESS: {
+            return {
+                ...state,
+                loadingConfig: false,
+                config: action.payload
+            };
+        }
+        case LoginActions.GET_CONFIG_FAILURE: {
+            return {
+                ...state,
+                loadingConfig: false,
+                config: {
+                    error: true
+                },
                 errorMessage: action.payload.error
             };
         }

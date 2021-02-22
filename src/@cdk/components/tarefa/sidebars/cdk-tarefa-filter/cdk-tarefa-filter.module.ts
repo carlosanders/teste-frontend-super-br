@@ -23,6 +23,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {CdkPessoaAutocompleteModule} from '../../../pessoa/cdk-pessoa-autocomplete/cdk-pessoa-autocomplete.module';
 import {CdkAssuntoAutocompleteModule} from '../../../assunto/cdk-assunto-autocomplete/cdk-assunto-autocomplete.module';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '../../../assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
+import {MatMenuModule} from '@angular/material/menu';
 
 @NgModule({
     declarations: [
@@ -51,6 +53,8 @@ import {CdkAssuntoAdministrativoAutocompleteModule} from '../../../assunto-admin
         CdkPessoaAutocompleteModule,
         CdkAssuntoAutocompleteModule,
         CdkAssuntoAdministrativoAutocompleteModule,
+        CdkDateFilterModule,
+        MatMenuModule,
     ],
     providers: [
         EspecieTarefaService
