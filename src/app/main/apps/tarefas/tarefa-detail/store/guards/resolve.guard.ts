@@ -74,14 +74,20 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkStore(): Observable<any> {
-        return forkJoin([
-            this.getTarefa(),
-            this.getProcesso(),
-            this.getJuntadas(),
-            this.getDocumentos()
-        ]).pipe(
-            take(1),
-        );
+        if (this.routerState.params['processoHandle']) {
+            return forkJoin([
+                this.getTarefa(),
+                this.getProcesso(),
+                this.getJuntadas(),
+                this.getDocumentos()
+            ]).pipe(
+                take(1),
+            );
+        } else {
+            return this.getTarefa().pipe(
+                take(1),
+            );
+        }
     }
 
     /**
