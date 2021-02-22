@@ -23,12 +23,6 @@ export function AcaoTriggerReducer(
     switch (action.type) {
 
         case ModalidadeAcaoEtiquetaActions.GET_MODALIDADE_ACAO_ETIQUETA: {
-            console.log('state', {
-                ...state,
-                entityId: null,
-                loading: true,
-                loaded: false
-            })
             return {
                 ...state,
                 entityId: null,

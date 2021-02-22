@@ -1,0 +1,10 @@
+<cdk-acompanhamento-grid
+    [loading]="loading"
+    [acompanhamentos]="acompanhamentos"
+    [displayedColumns]="['id', 'usuario.nome', 'actions']"
+    [total]="total"
+    [actions]="['select', 'cancel']"
+    (selected)="select($event)"
+    (cancel)="doCancel()"
+    (reload)="reload($event)">
+</cdk-acompanhamento-grid>

@@ -444,6 +444,14 @@
                             <mat-icon>keyboard_return</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
+                                (click)="viewComponenteDigital(componenteDigital)"
+                                aria-label="visualizar"
+                                matTooltip="Visualizar">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+
                         <span *showIfRole="'ROLE_COLABORADOR'">
                             <button mat-icon-button
                                     *ngIf="actions.indexOf('edit') > -1"
@@ -455,9 +463,9 @@
                             </button>
                         </span>
 
-                        <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(componenteDigital.id) > -1">
+                        <span class="spinner-container m-8" *ngIf="deletingIds?.indexOf(componenteDigital.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
-                        </div>
+                        </span>
 
                         <span *showIfRole="'ROLE_COLABORADOR'">
                             <button mat-icon-button

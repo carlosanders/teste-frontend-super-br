@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="insert_drive_file"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="tipo-acao-workflow">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-tipo-acao-workflow-form
+        [tipoAcaoWorkflow]="(tipoAcaoWorkflow$ | async)"
+        [form]="formTipoAcaoWorkflow"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitTipoAcaoWorkflow($event)"
+        (abort)="doAbort()">
+    </cdk-tipo-acao-workflow-form>
+</div>

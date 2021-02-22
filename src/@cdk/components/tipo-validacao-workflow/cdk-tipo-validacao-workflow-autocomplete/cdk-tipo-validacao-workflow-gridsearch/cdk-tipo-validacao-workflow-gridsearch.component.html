@@ -1,0 +1,9 @@
+<cdk-tipo-validacao-workflow-grid
+        [loading]="loading"
+        [displayedColumns]="['id', 'valor', 'descricao', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-tipo-validacao-workflow-grid>

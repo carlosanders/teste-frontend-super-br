@@ -20,7 +20,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-import {GetDocumentos as GetDocumentosProcesso, UnloadDocumentos} from '../processo/processo-view/store/actions';
+import {
+    GetDocumentos as GetDocumentosProcesso,
+    SetCurrentStep,
+    UnloadDocumentos
+} from '../processo/processo-view/store/actions';
 import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 import {ToggleMaximizado} from '../oficios/store/actions';
@@ -191,30 +195,38 @@ export class DocumentoComponent implements OnInit, OnDestroy {
      * Go to next step
      */
     gotoNextStep(): void {
+        let nextComponenteDigital = null;
         this.documento.componentesDigitais.forEach(componenteDigital => {
             if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial + 1)) {
-                this._store.dispatch(new fromStore.SetCurrentStep({
-                    id: componenteDigital.id,
-                    editavel: componenteDigital.editavel && this.documento.minuta
-                }));
+                nextComponenteDigital = componenteDigital;
                 return;
             }
         });
+        if (nextComponenteDigital) {
+            this._store.dispatch(new fromStore.SetCurrentStep({
+                id: nextComponenteDigital.id,
+                editavel: nextComponenteDigital.editavel && this.documento.minuta
+            }));
+        }
     }
 
     /**
      * Go to previous step
      */
     gotoPreviousStep(): void {
+        let prevComponenteDigital = null;
         this.documento.componentesDigitais.forEach(componenteDigital => {
             if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial - 1)) {
-                this._store.dispatch(new fromStore.SetCurrentStep({
-                    id: componenteDigital.id,
-                    editavel: componenteDigital.editavel && this.documento.minuta
-                }));
+                prevComponenteDigital = componenteDigital;
                 return;
             }
         });
+        if (prevComponenteDigital) {
+            this._store.dispatch(new fromStore.SetCurrentStep({
+                id: prevComponenteDigital.id,
+                editavel: prevComponenteDigital.editavel && this.documento.minuta
+            }));
+        }
     }
 
     visualizarProcessoNovaAba(): void {
@@ -226,11 +238,18 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         if (indice === 1) {
             this.modoProcesso = 2;
             let primary: string;
-            primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar';
+            primary = 'visualizar-processo/' + this.documento.processoOrigem.id + '/visualizar/' + this.routerState.params['stepHandle'];
+            const steps = this.routerState.params['stepHandle'].split('-');
             this._router.navigate([{outlets: {primary: primary}}],
                 {
                     relativeTo: this._activatedRoute
-                }).then();
+                })
+                .then(() => {
+                    this._store.dispatch(new SetCurrentStep({
+                        step: steps[0],
+                        subStep: steps[1]
+                    }));
+                });
         } else {
             this.modoProcesso = 1;
             let primary: string;

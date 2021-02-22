@@ -18,6 +18,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {ComponenteDigital, Documento, Sigilo, Usuario} from '@cdk/models';
+import {GetDocumento, SetCurrentStep} from '../../store';
 
 @Component({
     selector: 'documento-edit-componentes-digitais',
@@ -30,6 +31,8 @@ import {ComponenteDigital, Documento, Sigilo, Usuario} from '@cdk/models';
 export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDestroy, AfterViewInit {
 
     documento$: Observable<Documento>;
+
+    documento: Documento;
 
     routerState: any;
     pagination: any;
@@ -107,6 +110,8 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
             }
         );
 
+        this.documento$.subscribe((documento) => this.documento = documento);
+
         this.paginationComponenteDigital$.subscribe(pagination => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
@@ -148,6 +153,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
     }
 
     onCompleteComponenteDigital(): void {
+        this._store.dispatch(new GetDocumento());
         this.reloadComponentesDigitais({});
     }
 
@@ -157,6 +163,13 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
 
     deleteComponenteDigital(componenteDigitalId: number): void {
         this._store.dispatch(new fromStore.DeleteComponenteDigital(componenteDigitalId));
+    }
+
+    viewComponenteDigital(componenteDigital: ComponenteDigital): void {
+        this._store.dispatch(new SetCurrentStep({
+            id: componenteDigital.id,
+            editavel: componenteDigital.editavel && this.documento.minuta
+        }));
     }
 
     reloadComponentesDigitais(params): void {

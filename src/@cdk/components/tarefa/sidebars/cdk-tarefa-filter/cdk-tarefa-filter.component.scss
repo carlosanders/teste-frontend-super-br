@@ -30,6 +30,19 @@ cdk-tarefa-filter {
                 display: flex;
                 flex-direction: column;
 
+                .filtro-data {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    flex: 1 1 auto;
+
+                    .filtrado {
+                        color: red;
+                        font-weight: bold;
+                    }
+                }
+
                 mat-form-field {
                     flex: 1 1 auto;
                     display: flex;
