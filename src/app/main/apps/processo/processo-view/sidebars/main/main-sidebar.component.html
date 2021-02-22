@@ -285,11 +285,18 @@
                                 <span>Remover Assinatura</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="!minuta.apagadoEm"
-                                    (click)="doConverte(minuta.componentesDigitais[0]?.id)"
+                                    *ngIf="!minuta.apagadoEm && minuta?.componentesDigitais[0]?.extensao === 'html'"
+                                    (click)="doConverte(minuta.id)"
                                     mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Converter em PDF</span>
+                            </button>
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    *ngIf="!minuta.apagadoEm && minuta?.componentesDigitais[0]?.convertidoPdf"
+                                    (click)="doConverteHtml(minuta.id)"
+                                    mat-menu-item>
+                                <mat-icon color="accent">restore_page</mat-icon>
+                                <span>Converter em HTML</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7S(minuta.componentesDigitais[0]?.id)"
                                     mat-menu-item>
@@ -424,10 +431,15 @@
                                 <mat-icon color="accent">lock_open</mat-icon>
                                 <span>Remover Assinatura</span>
                             </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(oficio.componentesDigitais[0]?.id)"
-                                    mat-menu-item>
+                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(oficio.id)"
+                                    *ngIf="oficio?.componentesDigitais[0]?.extensao === 'pdf'" mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Converter em PDF</span>
+                            </button>
+                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverteHtml(oficio.id)"
+                                    *ngIf="oficio?.componentesDigitais[0]?.convertidoPdf" mat-menu-item>
+                                <mat-icon color="accent">restore_page</mat-icon>
+                                <span>Converter em HTML</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7S(oficio.componentesDigitais[0]?.id)"
                                     mat-menu-item>

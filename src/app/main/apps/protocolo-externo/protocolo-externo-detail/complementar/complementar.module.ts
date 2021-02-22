@@ -92,6 +92,7 @@ modulesConfig.forEach((module) => {
         AtividadeService,
         DocumentoService,
         LoginService,
+        ComponenteDigitalService,
         fromGuards.ResolveGuard
     ],
     exports: [

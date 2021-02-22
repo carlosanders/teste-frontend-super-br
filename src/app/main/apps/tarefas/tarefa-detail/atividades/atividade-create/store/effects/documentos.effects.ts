@@ -7,14 +7,15 @@ import * as AtividadeCreateDocumentosActions from 'app/main/apps/tarefas/tarefa-
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, Documento} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {assinatura as assinaturaSchema, documento as documentoSchema} from '@cdk/normalizr';
+import {assinatura as assinaturaSchema, documento as documentoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {getBufferingDelete, getDeletingDocumentosId} from '../selectors';
+import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
 
 @Injectable()
 export class AtividadeCreateDocumentosEffect {
@@ -23,6 +24,7 @@ export class AtividadeCreateDocumentosEffect {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _componenteDigitalService: ComponenteDigitalService,
         private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>,
@@ -352,17 +354,42 @@ export class AtividadeCreateDocumentosEffect {
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.ConverteToPdf>(AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE),
                 mergeMap((action) => {
-                        return this._documentoService.preparaConverter(action.payload, {hash: action.payload.hash})
+                        return this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
                             .pipe(
-                                map((response) => {
-                                    return new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload);
-                                }),
+                                mergeMap((response) => [
+                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new AtividadeCreateDocumentosActions.ConverteToPdfSucess(action.payload)
+                                ]),
                                 catchError((err) => {
                                     console.log(err);
                                     return of(new AtividadeCreateDocumentosActions.ConverteToPdfFailed(action.payload));
                                 })
                             )
                             ;
+                    }
+                )
+            );
+
+    /**
+     * Converte Documento HTML
+     * @type {Observable<any>}
+     */
+    @Effect()
+    converteDocumentoHtml: any =
+        this._actions
+            .pipe(
+                ofType<AtividadeCreateDocumentosActions.ConverteToHtml>(AtividadeCreateDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE_HTML),
+                mergeMap((action) => {
+                        return this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
+                            .pipe(
+                                mergeMap((response) => [
+                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new AtividadeCreateDocumentosActions.ConverteToHtmlSucess(action.payload)
+                                ]),
+                                catchError((err) => {
+                                    return of(new AtividadeCreateDocumentosActions.ConverteToHtmlFailed(action.payload));
+                                })
+                            );
                     }
                 )
             );
@@ -378,7 +405,7 @@ export class AtividadeCreateDocumentosEffect {
             .pipe(
                 ofType<AtividadeCreateDocumentosActions.DownloadP7S>(AtividadeCreateDocumentosActions.DOWNLOAD_DOCUMENTO_P7S),
                 mergeMap((action) => {
-                        return this._documentoService.downloadP7S(action.payload, {hash: action.payload.hash})
+                        return this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
                             .pipe(
                                 map((response) => {
                                     if (response) {

@@ -23,6 +23,8 @@ export class ComponenteDigital {
 
     editavel?: boolean;
 
+    convertidoPdf?: boolean;
+
     @Exclude({toPlainOnly: true})
     assinado?: boolean;
 
@@ -179,6 +181,7 @@ export class ComponenteDigital {
         this.tarefaOrigem = null;
         this.documentoAvulsoOrigem = null;
         this.editavel = null;
+        this.convertidoPdf = null;
         this.assinado = null;
         this.modalidadeAlvoInibidor = null;
         this.modalidadeTipoInibidor = null;

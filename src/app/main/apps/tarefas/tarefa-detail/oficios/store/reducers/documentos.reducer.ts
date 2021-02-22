@@ -11,6 +11,7 @@ export interface DocumentosState {
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    convertendoDocumentoHtmlIds: number[];
     loading: boolean;
     loaded: boolean;
     error: any;
@@ -28,6 +29,7 @@ export const AtividadeCreateDocumentosInitialState: DocumentosState = {
     alterandoDocumentoIds: [],
     removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
+    convertendoDocumentoHtmlIds: [],
     loading: false,
     loaded: false,
     error: null,
@@ -232,6 +234,25 @@ export function DocumentosReducer(
             return {
                 ...state,
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case TarefaDetailDocumentosActions.CONVERTE_DOCUMENTO_ATIVIDADE_HTML: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: [...state.convertendoDocumentoHtmlIds, action.payload],
+            };
+        }
+        case TarefaDetailDocumentosActions.CONVERTE_DOCUMENTO_HTML_SUCESS: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
+            };
+        }
+        case TarefaDetailDocumentosActions.CONVERTE_DOCUMENTO_HTML_FAILED: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
             };
         }
         default:

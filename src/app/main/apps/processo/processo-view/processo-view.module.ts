@@ -108,6 +108,7 @@ modulesConfig.forEach((module) => {
     providers: [
         JuntadaService,
         VinculacaoDocumentoService,
+        ComponenteDigitalService,
         fromGuards.ResolveGuard
     ]
 })

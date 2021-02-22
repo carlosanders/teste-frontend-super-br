@@ -10,7 +10,7 @@ import * as DocumentosComplementaresActions from '../../../complementar/store/ac
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {DocumentoAvulso, Documento, Assinatura} from '@cdk/models';
+import {DocumentoAvulso, Documento, Assinatura, ComponenteDigital} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {documento as documentoSchema} from '@cdk/normalizr';
@@ -18,10 +18,11 @@ import {Router} from '@angular/router';
 import {getDocumentoAvulso} from '../../../store/selectors';
 import {environment} from 'environments/environment';
 import * as DocumentoAvulsoDetailActions from '../../../store/actions';
-import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
+import {documentoAvulso as documentoAvulsoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
 
 @Injectable()
 export class DocumentosEffects {
@@ -31,6 +32,7 @@ export class DocumentosEffects {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _componenteDigitalService: ComponenteDigitalService,
         private _documentoAvulsoService: DocumentoAvulsoService,
         private _assinaturaService: AssinaturaService,
         private _router: Router,
@@ -119,14 +121,40 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ConverteToPdf>(DocumentosActions.CONVERTE_DOCUMENTO),
                 mergeMap((action) => {
-                        return this._documentoService.preparaConverter(action.payload, {hash: action.payload.hash})
+                        return this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
                             .pipe(
-                                map((response) => {
-                                    return new DocumentosActions.ConverteToPdfSucess(action.payload);
-                                }),
+                                mergeMap((response) => [
+                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new DocumentosActions.ConverteToPdfSucess(action.payload)
+                                ]),
                                 catchError((err) => {
                                     console.log(err);
                                     return of(new DocumentosActions.ConverteToPdfFailed(action.payload));
+                                })
+                            );
+                    }
+                )
+            );
+
+    /**
+     * Converte Documento HTML
+     * @type {Observable<any>}
+     */
+    @Effect()
+    converteDocumentoHtml: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.ConverteToHtml>(DocumentosActions.CONVERTE_DOCUMENTO_HTML),
+                mergeMap((action) => {
+                        return this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
+                            .pipe(
+                                mergeMap((response) => [
+                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new DocumentosActions.ConverteToHtmlSucess(action.payload)
+                                ]),
+                                catchError((err) => {
+                                    console.log(err);
+                                    return of(new DocumentosActions.ConverteToHtmlFailed(action.payload));
                                 })
                             );
                     }

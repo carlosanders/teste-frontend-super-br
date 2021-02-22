@@ -8,6 +8,7 @@ export interface DocumentoAvulsoResponderState {
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    convertendoDocumentoHtmlIds: number[];
     loading: boolean;
     loaded: any;
     saving: boolean;
@@ -22,6 +23,7 @@ export const DocumentoAvulsoResponderInitialState: DocumentoAvulsoResponderState
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
     convertendoDocumentoIds: [],
+    convertendoDocumentoHtmlIds: [],
     loading: false,
     loaded: false,
     saving: false,
@@ -91,6 +93,28 @@ export function DocumentoAvulsoResponderReducer(
         }
 
         case DocumentoAvulsoResponderActions.CONVERTE_DOCUMENTO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload,
+            };
+        }
+
+        case DocumentoAvulsoResponderActions.CONVERTE_DOCUMENTO_HTML: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: [...state.convertendoDocumentoHtmlIds, action.payload],
+            };
+        }
+
+        case DocumentoAvulsoResponderActions.CONVERTE_DOCUMENTO_HTML_SUCESS: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case DocumentoAvulsoResponderActions.CONVERTE_DOCUMENTO_HTML_FAILED: {
             return {
                 ...state,
                 saving: false,
