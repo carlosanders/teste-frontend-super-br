@@ -9,7 +9,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-
+import {Tarefa} from '@cdk/models';
 import {cdkAnimations} from '@cdk/animations';
 import {CdkPerfectScrollbarDirective} from '@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
@@ -53,6 +53,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     paginationAssuntos: any;
     loadingAssuntos$: Observable<boolean>;
 
+    tarefa: Tarefa;
     interessados$: Observable<Assunto[]>;
     interessados: Assunto[] = [];
     paginationInteressados$: Observable<any>;
@@ -66,7 +67,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     loadingVinculacoesProcessos$: Observable<boolean>;
 
     chaveAcesso: string;
-
+    estaNumProcessoWorkflow: string;
     /**
      *
      * @param _changeDetectorRef
@@ -96,6 +97,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+
         this._store
             .pipe(
                 select(getRouterState)
@@ -103,6 +105,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             if (routerState) {
                 this.routerState = routerState.state;
             }
+           
         });
 
         this.routerState$.pipe(
@@ -116,7 +119,16 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             filter(processo => !!processo)
         ).subscribe(processo => {
             this.processo = processo;
+            const tarefa = new Tarefa();
+
+            if (this.processo && this.processo.especieProcesso?.workflow) {
+                tarefa.workflow = this.processo.especieProcesso.workflow;
+                 this.estaNumProcessoWorkflow = "Sim";
+            }else{
+                this.estaNumProcessoWorkflow = "Não";
+            }
         });
+       
 
         this.assuntos$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -179,6 +191,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             offset: params.offset,
             populate: this.paginationAssuntos.populate
         }));
+
     }
 
     reloadInteressados(params): void {
@@ -220,3 +233,4 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
     }
 }
+
