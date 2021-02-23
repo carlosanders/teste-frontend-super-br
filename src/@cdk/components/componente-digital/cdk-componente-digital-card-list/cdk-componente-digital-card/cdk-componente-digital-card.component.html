@@ -1,4 +1,4 @@
-<div [ngClass]="{'borda-erro': componenteDigital.canRetry, 'processo': mode === 'processo', 'content': mode === 'tarefa'}">
+<div [ngClass]="{'borda-erro': componenteDigital.canRetry, 'processo': mode === 'processo', 'content': mode === 'tarefa' || mode === 'documento-edit'}">
 
     <mat-checkbox class="mr-8 ml-8 select" *ngIf="mode === 'tarefa'"
                   [checked]="selected"

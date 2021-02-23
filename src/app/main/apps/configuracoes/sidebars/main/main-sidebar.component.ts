@@ -75,6 +75,11 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                     icon: 'label',
                     link: 'etiquetas'
                 },
+                {
+                    nome: 'Acompanhamentos',
+                    icon: 'record_voice_over',
+                    link: 'acompanhamentos'
+                },
                 // {
                 //    nome: 'Favoritos',
                 //    icon: 'star_border',

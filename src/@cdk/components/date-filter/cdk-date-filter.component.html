@@ -1,0 +1,64 @@
+<form fxLayoutGap="2px" name="form" [formGroup]="form">
+    <div class="grupo">
+        <mat-slide-toggle formControlName="checkAntes" *ngIf="this.mode === 'period'" (click) = "$event.stopPropagation()">
+            Antes
+        </mat-slide-toggle>
+
+        <mat-form-field *ngIf="this.mode === 'period'">
+            <ng-container *ngIf="this.datetime">
+                <input matInput formControlName="filterAntes" [matDatetimepicker]="filterAntes">
+                <mat-datetimepicker-toggle matSuffix [for]="filterAntes"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #filterAntes type="datetime" openOnFocus="true" timeInterval="5">
+                </mat-datetimepicker>
+            </ng-container>
+            <ng-container *ngIf="!this.datetime">
+                <input matInput formControlName="filterAntes" [matDatepicker]="filterAntes">
+                <mat-datepicker-toggle matSuffix [for]="filterAntes"></mat-datepicker-toggle>
+                <mat-datepicker #filterAntes></mat-datepicker>
+            </ng-container>
+            <mat-error *ngIf="form.get('filterAntes').hasError('formError')">
+                {{form.get('filterAntes').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="grupo">
+        <mat-slide-toggle formControlName="checkDepois" *ngIf="this.mode === 'period'" (click) = "$event.stopPropagation()">
+            Depois
+        </mat-slide-toggle>
+
+        <mat-form-field *ngIf="this.mode === 'period'">
+            <ng-container *ngIf="this.datetime">
+                <input matInput formControlName="filterDepois" [matDatetimepicker]="filterDepois">
+                <mat-datetimepicker-toggle matSuffix [for]="filterDepois"></mat-datetimepicker-toggle>
+                <mat-datetimepicker #filterDepois type="datetime" openOnFocus="true" timeInterval="5">
+                </mat-datetimepicker>
+            </ng-container>
+            <ng-container *ngIf="!this.datetime">
+                <input matInput formControlName="filterDepois" [matDatepicker]="filterDepois">
+                <mat-datepicker-toggle matSuffix [for]="filterDepois"></mat-datepicker-toggle>
+                <mat-datepicker #filterDepois></mat-datepicker>
+            </ng-container>
+            <mat-error *ngIf="form.get('filterDepois').hasError('formError')">
+                {{form.get('filterDepois').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="grupo">
+        <mat-slide-toggle formControlName="checkEm" *ngIf="this.mode === 'period'" (click) = "$event.stopPropagation()">
+            Em
+        </mat-slide-toggle>
+
+        <mat-form-field>
+            <ng-container>
+                <input matInput formControlName="filterEm" [matDatepicker]="filterEm">
+                <mat-datepicker-toggle matSuffix [for]="filterEm"></mat-datepicker-toggle>
+                <mat-datepicker #filterEm></mat-datepicker>
+            </ng-container>
+            <mat-error *ngIf="form.get('filterEm').hasError('formError')">
+                {{form.get('filterEm').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+    </div>
+</form>

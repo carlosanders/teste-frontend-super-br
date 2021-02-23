@@ -35,7 +35,7 @@ const routes: Routes = [
                 loadChildren: () => import('./transicao-workflow-edit/transicao-workflow-edit.module').then(m => m.TransicaoWorkflowEditModule),
             },
              {
-                path: ':transicaoWorkflowHandle/validacaoTransicaoWorkflow',
+                path: ':transicaoWorkflowHandle/validacoes',
                 loadChildren: () => import('./validacao-transicao-workflow/validacao-transicao-workflow.module').then(m => m.ValidacaoTransicaoWorkflowModule),
             },
             {

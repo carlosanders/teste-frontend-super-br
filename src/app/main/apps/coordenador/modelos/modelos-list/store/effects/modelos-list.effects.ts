@@ -59,11 +59,16 @@ export class ModelosListEffect {
             .pipe(
                 ofType<ModeloListActions.GetModelos>(ModeloListActions.GET_MODELOS),
                 switchMap((action) => {
-                    return this._modeloService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.gridFilter,
-                        }),
+                    const filter = {
+                        ...action.payload.filter,
+                        ...action.payload.gridFilter,
+                    };
+                    let mode = 'query';
+                    if (filter.hasOwnProperty('documento.componentesDigitais.conteudo')) {
+                        mode = 'search';
+                    }
+                    return this._modeloService[`${mode}`](
+                        JSON.stringify(filter),
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),

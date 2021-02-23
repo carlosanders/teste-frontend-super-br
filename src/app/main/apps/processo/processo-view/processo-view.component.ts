@@ -24,7 +24,7 @@ import {ComponenteDigitalService} from '@cdk/services/componente-digital.service
 import {DomSanitizer} from '@angular/platform-browser';
 import {filter, takeUntil} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({
@@ -59,6 +59,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     cdkScrollbarDirectives: QueryList<CdkPerfectScrollbarDirective>;
 
     fileName = '';
+
+    sidebarName = 'juntadas-left-sidebar-1';
 
     src: any;
     loading = false;
@@ -106,6 +108,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _activatedRoute: ActivatedRoute
     ) {
+        if (this._cdkSidebarService.isRegistered(this.sidebarName)) {
+            this._cdkSidebarService.unregister(this.sidebarName);
+        }
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingBinary));
 
@@ -239,7 +244,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
-        if (this.routerState.url.indexOf('anexar-copia') === -1) {
+        if (this.routerState.url.indexOf('anexar-copia') === -1 &&
+            this.routerState.url.indexOf('processo/' + this.routerState.params['processoHandle'] + '/visualizar') === -1) {
             this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
         }
         if (this.tarefa) {

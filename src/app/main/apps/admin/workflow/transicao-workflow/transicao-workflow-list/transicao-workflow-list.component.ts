@@ -78,7 +78,7 @@ export class TransicaoWorkflowListComponent implements OnInit {
     
     regras(transicaoWorkflowId: number): void {
         this._router.navigate(
-            [this.routerState.url.replace('listar', '') + transicaoWorkflowId + '/validacaoTransicaoWorkflow'])
+            [this.routerState.url.replace('listar', '') + transicaoWorkflowId + '/validacoes'])
         ;
     }
 

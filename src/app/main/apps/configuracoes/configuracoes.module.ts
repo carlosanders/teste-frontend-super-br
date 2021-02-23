@@ -63,6 +63,10 @@ const routes: Routes = [
             {
                 path       : 'favoritos',
                 loadChildren: () => import('./favoritos/favoritos.module').then(m => m.FavoritosModule)
+            },
+            {
+                path       : 'acompanhamentos',
+                loadChildren: () => import('./acompanhamentos/acompanhamentos.module').then(m => m.AcompanhamentosModule)
             }
         ]
     },

@@ -16,7 +16,7 @@
                    formControlName="conteudo">
         </mat-form-field>
 
-        <mat-form-field *showIfRole="'ROLE_USER'">
+        <mat-form-field *showIfRole="'ROLE_USUARIO_EXTERNO'">
             <mat-label>Código da Assinatura Digital</mat-label>
             <input matInput #codigo
                    required
@@ -39,12 +39,18 @@
             </cdk-processo-autocomplete>
         </mat-form-field>
 
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-            <mat-label>Criado Em</mat-label>
-            <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-        </mat-form-field>
+       <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
+           <span [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">Criado Em</span>
+           <button mat-icon-button [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">
+               <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+           </button>
+       </div>
+       <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+           <cdk-date-filter [datetime]="true" campo="criadoEm"
+                            [limparForm]="this.limparFormFiltroDatas$"
+                            (filtra)="this.filtraData($event, 'criadoEm')">
+           </cdk-date-filter>
+       </mat-menu>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <input matInput placeholder="Criado Por"

@@ -1,0 +1,10 @@
+<cdk-tipo-acao-workflow-trigger-002
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    [usuarioPagination]="usuarioPagination"
+    [unidadePagination]="unidadePagination"
+    [setorPagination]="setorPagination"
+    [tipoAcaoWorkflow]="tipoAcaoWorkflow"
+    (save)="submit($event)"
+    (abort)="doAbort()">
+</cdk-tipo-acao-workflow-trigger-002>

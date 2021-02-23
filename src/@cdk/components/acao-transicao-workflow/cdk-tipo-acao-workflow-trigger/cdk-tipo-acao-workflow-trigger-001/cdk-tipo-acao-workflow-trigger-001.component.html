@@ -1,0 +1,42 @@
+<form fxLayoutGap="16px" [formGroup]="form" *ngIf="formState === 'form'">
+    <label id="acoes-rg">Selecione o modelo</label>
+    <mat-form-field>
+        <input matInput placeholder="Modelo"
+               formControlName="modelo"
+               [matAutocomplete]="modelo.autocomplete" required
+               (blur)="checkModelo()">
+        <cdk-modelo-autocomplete
+            #modelo="modeloAutocomplete"
+            [control]="form.get('modelo')"
+            [andxFilter]="modeloAndx"
+            [pagination]="modeloPagination">
+        </cdk-modelo-autocomplete>
+        <button *ngIf="form.get('modelo').enabled" matSuffix mat-button mat-icon-button
+                (click)="showModeloGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()"
+                [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+    <div>{{form.errors}}</div>
+</form>
+
+<cdk-modelo-gridsearch
+    *ngIf="formState === 'modelo-gridsearch'"
+    [andxFilter]="modeloAndx"
+    [pagination]="modeloPagination"
+    (selected)="selectModelo($event)"
+    (cancel)="cancel()">
+</cdk-modelo-gridsearch>
