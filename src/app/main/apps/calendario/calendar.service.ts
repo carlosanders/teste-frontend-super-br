@@ -45,7 +45,7 @@ export class CalendarService implements Resolve<any>
                 this.getEvents()
             ]).then(
                 ([events]: [any]) => {
-                    resolve();
+                    resolve(null);
                 },
                 reject
             );
