@@ -44,7 +44,6 @@ export class EtiquetaListEffect {
                         this.id += '_setorHandle';
                         this.value += '_' + this.routerState.params.setorHandle;
                     }
-                    console.log(this.id);
                 }
             });
     }
@@ -59,7 +58,6 @@ export class EtiquetaListEffect {
             .pipe(
                 ofType<EtiquetaListActions.GetEtiquetas>(EtiquetaListActions.GET_ETIQUETAS),
                 switchMap((action) => {
-                    console.log('effect', this.value);
                     return this._etiquetaService.query(
                         JSON.stringify({
                             ...action.payload.filter,

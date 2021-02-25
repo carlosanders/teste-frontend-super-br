@@ -34,7 +34,6 @@ export class ResolveGuard implements CanActivate {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
-                    console.log(this.routerState);
                 }
             });
 
@@ -85,9 +84,7 @@ export class ResolveGuard implements CanActivate {
                         offset: 0,
                         sort: {criadoEm: 'DESC'},
                         populate: [
-                            'documento',
-                            'documento.componentesDigitais',
-                            'template',
+                            'etiqueta',
                             'modalidadeEtiqueta',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.setor',
@@ -143,29 +140,6 @@ export class ResolveGuard implements CanActivate {
                             loaded.value)));
             }),
             take(1)
-
-            //     if (!loaded) {
-            //         const params = {
-            //             filter: {
-            //                 'vinculacoesEtiquetas.usuario.id': 'eq:' + this._loginService.getUserProfile().id
-            //             },
-            //             gridFilter: {},
-            //             limit: 10,
-            //             offset: 0,
-            //             sort: {criadoEm: 'DESC'},
-            //             populate: [
-            //                 'populateAll'
-            //             ],
-            //             context: {isAdmin: true}
-            //         };
-            //
-            //         this._store.dispatch(new fromStore.GetEtiquetas(params));
-            //     }
-            // }),
-            // filter((loaded: any) => {
-            //     return !!loaded;
-            // }),
-            // take(1)
         );
     }
 }

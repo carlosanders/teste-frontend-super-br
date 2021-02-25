@@ -64,7 +64,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-        this.etiqueta$ = this._store.pipe(select(fromStore.getEtiqueta));
+        this.etiqueta$ = this._store.pipe(select(getEtiqueta));
         this.usuario = this._loginService.getUserProfile();
         this.setor$ = this._store.pipe(select(fromStore.getSetor));
         this.unidade$ = this._store.pipe(select(fromStore.getUnidade));
@@ -120,26 +120,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.etiqueta$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(
-            etiqueta => {
-                if (etiqueta) {
-                    this.etiqueta = etiqueta;
-
-                    if (this.etiqueta.vinculacoesEtiquetas[0]?.setor) {
-                        this.etiqueta.setor = this.etiqueta.vinculacoesEtiquetas[0]?.setor;
-                    }
-                    if (this.etiqueta.vinculacoesEtiquetas[0]?.unidade) {
-                        this.etiqueta.unidade = this.etiqueta.vinculacoesEtiquetas[0]?.unidade;
-                    }
-                    if (this.etiqueta.vinculacoesEtiquetas[0]?.usuario) {
-                        this.etiqueta.usuario = this.etiqueta.vinculacoesEtiquetas[0]?.usuario;
-                    }
-                    if (this.etiqueta.vinculacoesEtiquetas[0]?.modalidadeOrgaoCentral) {
-                        this.etiqueta.modalidadeOrgaoCentral = this.etiqueta.vinculacoesEtiquetas[0]?.modalidadeOrgaoCentral;
-                    }
-                }
-            }
-        );
+        ).subscribe(etiqueta => this.etiqueta = etiqueta);
 
         this.setor$.pipe(
             takeUntil(this._unsubscribeAll)

@@ -59,10 +59,7 @@ export class EtiquetaEffect {
                             'vinculacoesEtiquetas.setor',
                             'vinculacoesEtiquetas.usuario',
                             'vinculacoesEtiquetas.modalidadeOrgaoCentral',
-                        ]),
-                        JSON.stringify({isAdmin: true})
-                    );
-
+                        ]));
                 }),
                 switchMap(response => [
                     new AddData<Etiqueta>({data: response['entities'], schema: etiquetaSchema}),

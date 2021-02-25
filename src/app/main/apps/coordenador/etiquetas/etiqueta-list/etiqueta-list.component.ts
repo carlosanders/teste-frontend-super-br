@@ -61,7 +61,6 @@ export class EtiquetaListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
-        console.log('etiqueta list');
     }
 
     reload(params): void {
@@ -101,20 +100,15 @@ export class EtiquetaListComponent implements OnInit {
     }
 
     edit(etiquetaId: number): void {
-        // http://localhost:4200/          apps/coordenador/local/4/etiquetas/editar/criar/dados-basicos
-            // http://localhost:4200/apps/coordenador/local/4/etiquetas/editar/42/dados-basicos
-
-
-     // this._router.navigate(         [this.routerState.url.replace(('editar/' + this.routerState.params.etiquetaHandle), 'listar')]).then();
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + etiquetaId + '/dados-basicos')]).then();
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + etiquetaId + '/dados-basicos')]);
     }
 
     acoes(etiquetaId: number): void {
-        this._router.navigate(['apps/coordenador/etiquetas/editar/' + etiquetaId + '/acoes']);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + etiquetaId + '/acoes')]);
     }
 
     regras(etiquetaId: number): void {
-        this._router.navigate(['apps/coordenador/etiquetas/editar/' + etiquetaId + '/regras']);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + etiquetaId + '/regras')]).then();
     }
 
     delete(etiquetaId: number): void {

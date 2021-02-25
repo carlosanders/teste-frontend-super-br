@@ -16,6 +16,7 @@ import {LoginService} from '../../../../../../auth/login/login.service';
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+    // valorParametro: any;
 
     /**
      * @param _store
