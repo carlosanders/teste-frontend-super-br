@@ -59,7 +59,7 @@ export class CdkTipoAcaoWorkflowAutocompleteComponent implements OnInit {
                     const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         andxFilter.push({
-                            nome: `like:%${bit}%`});
+                            valor: `like:%${bit}%`});
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.tipoAcaoWorkflowListIsLoading = true;
@@ -90,7 +90,7 @@ export class CdkTipoAcaoWorkflowAutocompleteComponent implements OnInit {
     }
 
     displayTipoAcaoWorkflowFn(tipoAcaoWorkflow): string {
-        let displayed = tipoAcaoWorkflow ? tipoAcaoWorkflow.nome : '';
+        let displayed = tipoAcaoWorkflow ? tipoAcaoWorkflow.valor : '';
         displayed += (tipoAcaoWorkflow && tipoAcaoWorkflow.generoProcesso) ? (' (' + tipoAcaoWorkflow.generoProcesso.nome + ')') : '';
         return displayed;
     }
