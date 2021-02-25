@@ -101,7 +101,12 @@ export class EtiquetaListComponent implements OnInit {
     }
 
     edit(etiquetaId: number): void {
-        this._router.navigate(['apps/coordenador/etiquetas/editar/' + etiquetaId + '/dados-basicos']);
+        // http://localhost:4200/          apps/coordenador/local/4/etiquetas/editar/criar/dados-basicos
+            // http://localhost:4200/apps/coordenador/local/4/etiquetas/editar/42/dados-basicos
+
+
+     // this._router.navigate(         [this.routerState.url.replace(('editar/' + this.routerState.params.etiquetaHandle), 'listar')]).then();
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + etiquetaId + '/dados-basicos')]).then();
     }
 
     acoes(etiquetaId: number): void {

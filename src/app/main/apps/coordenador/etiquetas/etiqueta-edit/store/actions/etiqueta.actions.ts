@@ -1,13 +1,10 @@
 import { Action } from '@ngrx/store';
-import {SAVE_MODELO_SUCCESS} from '../../../../modelos/modelos-edit/store/actions';
 
 export const CREATE_ETIQUETA = '[ETIQUETA] CREATE ETIQUETA';
 
 export const GET_ETIQUETA = '[ETIQUETA] GET ETIQUETA';
 export const GET_ETIQUETA_SUCCESS = '[ETIQUETA] GET ETIQUETA SUCCESS';
 export const GET_ETIQUETA_FAILED = '[ETIQUETA] GET ETIQUETA FAILED';
-
-export const SAVE_ETIQUETA_SUCCESS = '[ETIQUETA] SAVE ETIQUETA SUCCESS';
 
 /**
  * Create Etiqueta
@@ -73,5 +70,4 @@ export type EtiquetaActionsAll
     = CreateEtiqueta
     | GetEtiqueta
     | GetEtiquetaSuccess
-    | GetEtiquetaFailed
-    | SaveEtiquetaSuccess;
+    | GetEtiquetaFailed;

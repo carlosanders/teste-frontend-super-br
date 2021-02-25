@@ -80,20 +80,4 @@ export class EtiquetaEffect {
                     return caught;
                 })
             );
-
-    /**
-     * Save Etiqueta Success
-     */
-    @Effect({dispatch: false})
-    saveEtiquetaSuccess: any =
-        this._actions
-            .pipe(
-                ofType<EtiquetaActions.SaveEtiquetaSuccess>(EtiquetaActions.SAVE_ETIQUETA_SUCCESS),
-                tap(() => {
-                    console.log('*************');
-                    console.log(this.routerState.url.replace(('editar/' + this.routerState.params.etiquetaHandle), 'listar'));
-                    console.log('*************');
-                    this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.etiquetaHandle), 'listar')]).then();
-                })
-            );
 }

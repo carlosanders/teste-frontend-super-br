@@ -12,12 +12,12 @@ const routes = [
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_USER']}
     },
-    {
-        path        : 'admin',
-        loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-        canActivate: [RoleGuard],
-        data: {roles: ['ROLE_ADMIN']}
-    },
+    // {
+    //     path        : 'admin',
+    //     loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+    //     canActivate: [RoleGuard],
+    //     data: {roles: ['ROLE_ADMIN']}
+    // },
     // {
     //     path        : 'arquivista',
     //     loadChildren: () => import('./arquivista/arquivista.module').then(m => m.ArquivistaModule),
@@ -60,12 +60,12 @@ const routes = [
     //     canActivate: [RoleGuard],
     //     data: {roles: ['ROLE_USER']}
     // },
-    // {
-    //     path        : 'configuracoes',
-    //     loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule),
-    //     canActivate: [RoleGuard],
-    //     data: {roles: ['ROLE_USER']}
-    // },
+    {
+        path        : 'configuracoes',
+        loadChildren: () => import('./configuracoes/configuracoes.module').then(m => m.ConfiguracoesModule),
+        canActivate: [RoleGuard],
+        data: {roles: ['ROLE_USER']}
+    },
     // {
     //     path        : 'oficios',
     //     loadChildren: () => import('./oficios/oficios.module').then(m => m.OficiosModule),

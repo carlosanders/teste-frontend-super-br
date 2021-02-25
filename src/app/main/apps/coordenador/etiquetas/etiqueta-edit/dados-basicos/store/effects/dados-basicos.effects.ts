@@ -70,9 +70,6 @@ export class EtiquetaEditEffect {
             .pipe(
                 ofType<EtiquetaEditActions.SaveEtiquetaSuccess>(EtiquetaEditActions.SAVE_ETIQUETA_SUCCESS),
                 tap(() => {
-                    console.log('*************');
-                    console.log(this.routerState.url.replace(('editar/' + this.routerState.params.etiquetaHandle), 'listar'));
-                    console.log('*************');
                     this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.etiquetaHandle), 'listar')]).then();
                 })
             );
