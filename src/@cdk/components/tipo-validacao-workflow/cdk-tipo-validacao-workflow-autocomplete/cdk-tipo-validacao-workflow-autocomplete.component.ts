@@ -59,7 +59,7 @@ export class CdkTipoValidacaoWorkflowAutocompleteComponent implements OnInit {
                     const andxFilter = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                         andxFilter.push({
-                            nome: `like:%${bit}%`});
+                            valor: `like:%${bit}%`});
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.tipoValidacaoWorkflowListIsLoading = true;
@@ -90,7 +90,7 @@ export class CdkTipoValidacaoWorkflowAutocompleteComponent implements OnInit {
     }
 
     displayTipoValidacaoWorkflowFn(tipoValidacaoWorkflow): string {
-        let displayed = tipoValidacaoWorkflow ? tipoValidacaoWorkflow.nome : '';
+        let displayed = tipoValidacaoWorkflow ? tipoValidacaoWorkflow.valor : '';
         displayed += (tipoValidacaoWorkflow && tipoValidacaoWorkflow.generoProcesso) ? (' (' + tipoValidacaoWorkflow.generoProcesso.nome + ')') : '';
         return displayed;
     }

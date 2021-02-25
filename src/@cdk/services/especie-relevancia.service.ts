@@ -20,7 +20,7 @@ export class EspecieRelevanciaService extends ParentGenericService<EspecieReleva
 
     patch(especieRelevancia: EspecieRelevancia, changes: any): Observable<EspecieRelevancia> {
         return this.http.patch(
-            `${environment.api_url}${'administrativo/especieRelevancia'}/${especieRelevancia.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/especie_relevancia'}/${especieRelevancia.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {
