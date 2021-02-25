@@ -9,7 +9,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Etiqueta, ModalidadeOrgaoCentral, Modelo, Setor} from '@cdk/models';
+import {Etiqueta, ModalidadeOrgaoCentral, Setor} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
@@ -55,6 +55,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     /**
      *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(

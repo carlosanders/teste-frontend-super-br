@@ -96,15 +96,15 @@ export class EtiquetaListComponent implements OnInit {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]).then();
     }
 
     edit(etiquetaId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + etiquetaId + '/dados-basicos')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + etiquetaId + '/dados-basicos')]).then();
     }
 
     acoes(etiquetaId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + etiquetaId + '/acoes')]);
+        this._router.navigate([this.routerState.url.replace('listar', 'editar/' + etiquetaId + '/acoes')]).then();
     }
 
     regras(etiquetaId: number): void {
