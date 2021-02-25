@@ -6,7 +6,7 @@ import {EspecieAtividade} from '@cdk/models';
 import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
-import {plainToClass, classToPlain} from 'class-transformer';
+import {plainToClass} from 'class-transformer';
 
 @Injectable()
 export class EspecieAtividadeService extends ParentGenericService<EspecieAtividade> {
@@ -20,7 +20,7 @@ export class EspecieAtividadeService extends ParentGenericService<EspecieAtivida
 
     patch(especieAtividade: EspecieAtividade, changes: any): Observable<EspecieAtividade> {
         return this.http.patch(
-            `${environment.api_url}${'administrativo/especieAtividade'}/${especieAtividade.id}` + environment.xdebug,
+            `${environment.api_url}${'administrativo/especie_atividade'}/${especieAtividade.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
             map(response => {

@@ -30,31 +30,31 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
 
         const links = [
             {
-                nome: 'Modalidade Órgão Central',
+                nome: 'Órgãos Centrais',
                 icon: 'business',
                 link: 'modalidade-orgao-central',
                 role: ['ROLE_ADMIN']
             },
             {
-                nome: 'Espécie Tarefas',
+                nome: 'Espécies de Tarefas',
                 icon: 'check_box',
                 link: 'especie-tarefas',
                 role: ['ROLE_ADMIN']
             },
             {
-                nome: 'Espécie Setor',
+                nome: 'Espécies de Setores',
                 icon: 'place',
                 link: 'especie-setor',
                 role: ['ROLE_ADMIN']
             },
             {
-                nome: 'Espécie Atividades',
+                nome: 'Espécies de Atividades',
                 icon: 'local_activity',
                 link: 'especie-atividades',
                 role: ['ROLE_ADMIN']
             },
             {
-                nome: 'Espécie Processo',
+                nome: 'Espécies de Processos',
                 icon: 'insert_drive_file',
                 link: 'especie-processo',
                 role: ['ROLE_ADMIN']
@@ -78,7 +78,7 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 role: ['ROLE_ADMIN']
             },
             {
-                nome: 'Espécie Relevâncias',
+                nome: 'Espécies de Relevâncias',
                 icon: 'new_releases',
                 link: 'especie-relevancias',
                 role: ['ROLE_ADMIN']
@@ -93,6 +93,12 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Tipos de Relatórios',
                 icon: 'assessment',
                 link: 'tipos-relatorios',
+                role: ['ROLE_ADMIN']
+            },
+            {
+                nome: 'Modalidades de Ações Etiquetas',
+                icon: 'label',
+                link: 'modalidade-acao-etiqueta',
                 role: ['ROLE_ADMIN']
             },
             {
@@ -132,19 +138,13 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 role: ['ROLE_ADMIN']
             },
             {
-                nome: 'Modalidade Ação Etiqueta',
-                icon: 'label',
-                link: 'modalidade-acao-etiqueta',
-                role: ['ROLE_ADMIN']
-            },
-            {
-                nome: 'Tipo Ação Workflow',
+                nome: 'Tipos de Ações Workflows',
                 icon: 'low_priority',
                 link: 'tipo-acao-workflow',
                 role: ['ROLE_ADMIN']
             },
             {
-                nome: 'Tipo Validação Workflow',
+                nome: 'Tipos de Validações Workflows',
                 icon: 'low_priority',
                 link: 'tipo-validacao-workflow',
                 role: ['ROLE_ADMIN']
@@ -153,7 +153,7 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
 
         this.links['administrativo'] = CdkUtils.sortArraySideBar(links);
         const path = 'app/main/apps/admin/sidebars/main';
- 
+
         modulesConfig.forEach((module) => {
             if (module.sidebars.hasOwnProperty(path)) {
                 let modulesLink = [];
