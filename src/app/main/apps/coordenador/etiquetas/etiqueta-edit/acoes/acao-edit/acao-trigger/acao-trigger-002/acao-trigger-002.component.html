@@ -1,0 +1,9 @@
+<cdk-acao-trigger-002
+    [saving]="(isSaving$ | async)"
+    [errors]="(errors$ | async)"
+    [usuarioPagination]="usuarioPagination"
+    [unidadePagination]="unidadePagination"
+    [setorPagination]="setorPagination"
+    (save)="submit($event)"
+    (abort)="doAbort()">
+</cdk-acao-trigger-002>
