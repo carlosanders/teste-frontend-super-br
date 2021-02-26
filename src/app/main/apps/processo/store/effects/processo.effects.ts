@@ -55,36 +55,21 @@ export class ProcessoEffect {
                         chaveAcesso: this.routerState.params.chaveAcessoHandle
                     } : {};
                     this.populate = action.payload.populate ?? [];
-                    return this._processoService.query(
-                        JSON.stringify(action.payload.filter),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify(
-                            this.populate
-                            // 'populateAll',
-                            // 'especieProcesso.generoProcesso',
-                            // 'setorAtual.unidade',
-                            // 'setorAtual.especieSetor',
-                            // 'classificacao.modalidadeDestinacao',
-                            // 'vinculacoesEtiquetas.etiqueta',
-                            // 'especieProcesso.workflow',
-                            // 'especieProcesso.workflow.especieTarefaInicial',
-                            // 'tarefaAtualWorkflow.especieTarefa',
-
-                        ),
+                    return this._processoService.get(
+                        action.payload.id,
+                        JSON.stringify(this.populate),
                         JSON.stringify(chaveAcesso));
                 }),
                 switchMap(response => [
-                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
+                    new AddData<Processo>({data: [response], schema: processoSchema}),
                     new ProcessoActions.GetProcessoSuccess({
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params.processoHandle,
                             populate: this.populate,
-                            acessoNegado: response['entities'][0].acessoNegado
+                            acessoNegado: response.acessoNegado
                         },
-                        processoId: response['entities'][0].id
+                        processoId: response.id
                     })
                 ]),
                 catchError((err, caught) => {

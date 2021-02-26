@@ -6,3 +6,7 @@
 * Upgrade do node para 12.20.2 e npm fixado em 6.14.11
 * Correção no módulo admin, nos grids que estavam quebrando ao exibir mais colunas
 * Correção na módulo admin, criação de espécie de setor não estava funcionando
+
+1.0.2
+
+* Correção de bug no carregamento do processo no módulo do arquivista
