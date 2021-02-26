@@ -69,12 +69,17 @@ export class CdkTemplateGridComponent implements AfterViewInit, OnInit, OnChange
             fixed: false
         },
         {
+            id: 'ativo',
+            label: 'Ativo',
+            fixed: false
+        },
+        {
             id: 'modalidadeTemplate.valor',
             label: 'Modalidade do Template',
             fixed: false
         },
         {
-            id: 'documento.TipoDocumento.nome',
+            id: 'documento.tipoDocumento.nome',
             label: 'Tipo Documento',
             fixed: false
         },

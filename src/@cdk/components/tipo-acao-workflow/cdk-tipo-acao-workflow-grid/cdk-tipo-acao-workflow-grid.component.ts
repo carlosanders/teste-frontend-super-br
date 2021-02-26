@@ -49,7 +49,7 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'valor', 'descricao', 'ativo', 'actions'];
 
     allColumns: any[] = [
         {
@@ -63,8 +63,8 @@ export class CdkTipoAcaoWorkflowGridComponent implements AfterViewInit, OnInit, 
             fixed: true
         },
         {
-            id: 'nome',
-            label: 'Nome',
+            id: 'valor',
+            label: 'Valor',
             fixed: true
         },
         {
