@@ -2,22 +2,22 @@ export const builtInButtons = {
     cancel: {
       classes: 'cancel-button',
       secondary: true,
-      text: 'Exit',
+      text: 'Sair',
       type: 'cancel'
     },
     next: {
       classes: 'next-button',
-      text: 'Next',
+      text: 'Próximo',
       type: 'next'
     },
     back: {
       classes: 'back-button',
       secondary: true,
-      text: 'Back',
+      text: 'Anterior',
       type: 'back'
     }
   };
-  
+
   export const defaultStepOptions = {
     classes: 'tour-title tour-text',
     scrollTo: true,
@@ -25,7 +25,7 @@ export const builtInButtons = {
       enabled: true
     }
   };
-  
+
   export const steps = [
     {
       buttons: [
@@ -40,13 +40,106 @@ export const builtInButtons = {
             <p>
               O Super Sapiens manteve as funcionalidades do antigo Sapiens, além de adicionar novas que auxiliarão o dia a dia do usuário.
             </p>
-          
+
             <p>
               Estamos felizes em te convidar a participar desse tour pelo novo sistema.
             </p>
         </div>`
-        
+
     },
+      {
+          attachTo: {
+              element: 'widgets',
+              on: 'top'
+          },
+          buttons: [
+              builtInButtons.cancel,
+              builtInButtons.back,
+              builtInButtons.next
+          ],
+          id: 'Widgets',
+          title: 'Widgets',
+          text: `A página inicial agora está mais limpa e mostra as informações mais importantes para o usuário, por meio de widgets.`
+      },
+      {
+          attachTo: {
+              element: 'widget-alerta',
+              on: 'right'
+          },
+          buttons: [
+              builtInButtons.cancel,
+              builtInButtons.back,
+              builtInButtons.next
+          ],
+          classes: 'custom-class-name-1 custom-class-name-2',
+          id: 'Widget Avisos',
+          title: 'Widget Avisos',
+          text: `Os avisos mostram as informações relevantes do sistema no momento. O email de suporte também é enviado`
+      },
+      {
+          attachTo: {
+              element: 'widget-historico',
+              on: 'right'
+          },
+          buttons: [
+              builtInButtons.cancel,
+              builtInButtons.back,
+              builtInButtons.next
+          ],
+          classes: 'custom-class-name-1 custom-class-name-2',
+          id: 'Widget Histórico',
+          title: 'Widget Histórico',
+          text: `O Histórico mostra as últimas ações do usuário como criação de tarefas e processos`
+      },
+      {
+          attachTo: {
+              element: 'widgets',
+              on: 'top'
+          },
+          buttons: [
+              builtInButtons.cancel,
+              builtInButtons.back,
+              builtInButtons.next
+          ],
+          classes: 'custom-class-name-1 custom-class-name-2',
+          id: 'Widgets2',
+          title: 'Widgets',
+          text: `Além das informações já ressaltadas anteriormente,
+          o painel também coloca as informações das Tarefas pendentes de conclusão,
+          dos Ofícios pendentes de resposta e das Tramitações pendentes de recebimento.
+          Dependendo dos poderes do usuário, outras informações são mostradas.`
+      },
+      {
+          attachTo: {
+              element: '.navbar-scroll-container',
+              on: 'right'
+          },
+          buttons: [
+              builtInButtons.cancel,
+              builtInButtons.back,
+              builtInButtons.next
+          ],
+          classes: 'custom-class-name-1 custom-class-name-2',
+          id: 'Painel Lateral',
+          title: 'Painel Lateral',
+          text: `No Painel lateral, que pode ser fixado ou não, o usuário pode acessar diferentes opções do Sapiens`
+      },
+      {
+          attachTo: {
+              element: '.material2',
+              on: 'right'
+          },
+          buttons: [
+              builtInButtons.cancel,
+              builtInButtons.back,
+              builtInButtons.next
+          ],
+          classes: 'custom-class-name-1 custom-class-name-2',
+          id: 'Painel Lateral',
+          title: 'Painel Lateral',
+          text: `As aplicações que podem ser acessadas são o Painel, as Tarefas, o Protocolo e a Pesquisa.
+          Também é possível acessar os módulos. Por padrão o usuário possui o Módulo Relatórios habilitado.`
+      },
     {
       attachTo: {
         element: '.toolbar-element',
@@ -59,7 +152,7 @@ export const builtInButtons = {
       ],
       classes: 'custom-class-name-1 custom-class-name-2',
       id: 'barra-superior',
-      title: 'BARRA SUPERIOR',
+      title: 'Barra Superior',
       text: 'A Barra superior foi modificada e modernizada.'
     },
     {
@@ -80,7 +173,7 @@ export const builtInButtons = {
       <p>
         O nome fica em um lugar semelhante ao do Sapiens 1.0.
       </p>
-      
+
       <p>
       Além disso, também é possível acessar as configurações e realizar o logout do sistema, na seta.
       </p>`
@@ -119,7 +212,7 @@ export const builtInButtons = {
       title: 'Notificações',
       text: `
           <p>
-            
+            Nas notificações ficam os avisos de movimentação em NUPs que o usuário marcou para acompanhar.
           </p>
           `
     },
@@ -139,14 +232,14 @@ export const builtInButtons = {
       title: 'Ajuda',
       text: `
           <p>
-            
+            Acesso a uma Ajuda ao sistema com várias informações importantes e vídeos.
           </p>
           `
     },
     {
       attachTo: {
         element: '.quick-panel-toggle-button3',
-        on: 'top'
+        on: 'bottom'
       },
       buttons: [
         builtInButtons.cancel,
@@ -154,19 +247,19 @@ export const builtInButtons = {
         builtInButtons.next
       ],
       classes: 'custom-class-name-1 custom-class-name-2',
-      id: 'buttons',
-      text: `For the common button types ("next", "back", "cancel", etc.), we implemented Ember actions
-            that perform these actions on your tour automatically. To use them, simply include
-            in the buttons array in each step.`
+      id: 'Últimas Operações',
+      title: 'Últimas Operações',
+      text: `Mostra as ultimas operaçoes realizadas pelo usuario`
     },
+
     {
       buttons: [
         builtInButtons.cancel,
         builtInButtons.back
       ],
       id: 'noAttachTo',
-      title: 'Centered Modals',
+      title: 'Fim do Tour',
       classes: 'custom-class-name-1 custom-class-name-2',
-      text: 'If no attachTo is specified, the modal will appear in the center of the screen, as per the Shepherd docs.'
+      text: 'Esperamos que o novo sistema facilite seu dia a dia!'
     }
   ];

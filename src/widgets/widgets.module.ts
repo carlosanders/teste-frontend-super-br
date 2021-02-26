@@ -11,6 +11,7 @@ import {
 } from '@cdk/angular/material';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {DirectivesModule} from '../@cdk/directives/directives';
+import {TourModule} from "../app/main/apps/tour/tour.module";
 
 @NgModule({
     declarations: [
@@ -24,7 +25,9 @@ import {DirectivesModule} from '../@cdk/directives/directives';
         MatIconModule,
         MatTooltipModule,
         MatGridListModule,
-        DirectivesModule
+        DirectivesModule,
+        TourModule,
+
     ],
     exports: [
         WidgetsComponent

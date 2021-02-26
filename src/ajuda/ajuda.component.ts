@@ -12,6 +12,7 @@ import {Topico} from './topico';
 import {CdkUtils} from '@cdk/utils';
 import {DynamicService} from '../modules/dynamic.service';
 import {Router} from '@angular/router';
+import {CdkSidebarService} from "../@cdk/components/sidebar/sidebar.service";
 
 @Component({
     selector: 'ajuda',
@@ -33,13 +34,13 @@ export class AjudaComponent implements OnInit {
     categoria= '';
     email = 'sapiens@agu.gov.br'; //INDICAR AQUI O EMAIL UTILIZADO PELO SUPORTE DO SISTEMA
     wiki = "http://sapienswiki.agu.gov.br/index.php/P%C3%A1gina_principal"; //INDICAR AQUI O WIKI UTILIZADO PELO SUPORTE DO SISTEMA
-    
+
     isSubmited = false;
 
-    CatPro: Topico;
     context: any;
+    iniciatour: string;
 
-    
+
 
     /**
      * Constructor
@@ -49,6 +50,7 @@ export class AjudaComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _dynamicService: DynamicService,
         private _router: Router,
+        public _cdkSidebarService: CdkSidebarService,
     ) {
 
         this.form = this._formBuilder.group({
@@ -60,7 +62,7 @@ export class AjudaComponent implements OnInit {
                 this.context = next;
                 if (this.context.url){
                     if(CdkUtils.filterArrayByString(this.topicos, this.context.url.split('/', 3)[2])){
-                        this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split('/', 3)[2]);                  
+                        this.resultado = CdkUtils.filterArrayByString(this.topicos, this.context.url.split('/', 3)[2]);
                     }
                     else{
                         this.resultado = this.topicos.filter(topico => topico.path && topico.path.match(this.context.url));
@@ -96,9 +98,16 @@ export class AjudaComponent implements OnInit {
         this._dynamicService.loadComponent(topico.module)
             .then(componentFactory => this.container.createComponent(componentFactory));
     }
-    
+
     back(): void {
         this.card = 'form';
         this.container.clear();
     }
+
+    tour(tour: string): void {
+        this._cdkSidebarService.getSidebar('navbar').toggleFold();
+        this._cdkSidebarService.getSidebar('ajudaPanel').toggleOpen();
+        this.iniciatour = tour;
+    }
+
 }

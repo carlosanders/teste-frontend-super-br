@@ -9,6 +9,7 @@ import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {AjudaComponent} from '../../../../ajuda/ajuda.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { TourModule } from 'app/main/apps/tour/tour.module';
+import {NavbarVerticalStyle1Module} from "../navbar/vertical/style-1/style-1.module";
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { TourModule } from 'app/main/apps/tour/tour.module';
         CdkShortcutsModule,
         MatTooltipModule,
         TourModule,
+        NavbarVerticalStyle1Module,
     ],
     providers: [
         LoginService,
