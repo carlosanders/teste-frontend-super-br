@@ -11,11 +11,10 @@ export class TitleCasePipe implements PipeTransform {
         }
         const values = value.toLowerCase().split(' ');
         for (let i = 0; i < values.length; i++) {
-            if ((this.stopwords.indexOf(value[i]) !== -1) && (i > 0)) {
-                values[i] = values[i].charAt(0) + values[i].slice(1);
-            } else {
-                values[i] = values[i].charAt(0).toUpperCase() + values[i].slice(1);
+            if ((this.stopwords.indexOf(values[i]) !== -1) && (i > 0)) {
+                continue;
             }
+            values[i] = values[i].charAt(0).toUpperCase() + values[i].slice(1);
         }
         return values.join(' ');
     }

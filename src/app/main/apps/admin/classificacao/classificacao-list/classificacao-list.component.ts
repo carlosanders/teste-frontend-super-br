@@ -2,10 +2,9 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncap
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-
-import {Classificacao, Usuario} from '../../../../../../@cdk/models';
+import {Classificacao} from '../../../../../../@cdk/models';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
@@ -34,6 +33,8 @@ export class ClassificacaoListComponent implements OnInit {
         this.classificacoes$ = this._store.pipe(select(fromStore.getClassificacaoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
             .pipe(select(getRouterState))
@@ -73,5 +74,9 @@ export class ClassificacaoListComponent implements OnInit {
 
     create(): void {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+    }
+
+    delete(classificacaoId: number): void {
+        this._store.dispatch(new fromStore.DeleteClassificacao(classificacaoId));
     }
 }
