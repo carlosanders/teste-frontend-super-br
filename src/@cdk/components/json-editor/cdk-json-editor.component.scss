@@ -1,0 +1,10 @@
+@import "~jsoneditor/dist/jsoneditor.min.css";
+
+cdk-json-editor {
+    textarea.jsoneditor-text {
+        min-height: 350px;
+    }
+
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

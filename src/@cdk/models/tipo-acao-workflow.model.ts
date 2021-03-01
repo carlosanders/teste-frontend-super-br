@@ -16,6 +16,8 @@ export class TipoAcaoWorkflow {
 
     trigger?: string;
 
+    ativo?: boolean;
+
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -52,6 +54,7 @@ export class TipoAcaoWorkflow {
         this.uuid = null;
         this.valor = null;
         this.descricao = null;
+        this.ativo = null;
         this.trigger = null;
         this.criadoPor = null;
         this.criadoEm = null;
