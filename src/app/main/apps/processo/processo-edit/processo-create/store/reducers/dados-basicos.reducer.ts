@@ -6,6 +6,7 @@ export interface DadosBasicosState {
     loaded: any;
     loading: boolean;
     processoId: number;
+    nupInvalido: boolean;
 }
 
 export const DadosBasicosInitialState: DadosBasicosState = {
@@ -14,6 +15,7 @@ export const DadosBasicosInitialState: DadosBasicosState = {
     loaded: false,
     loading: false,
     processoId: null,
+    nupInvalido: true
 };
 
 export function DadosBasicosReducer(state = DadosBasicosInitialState, action: DadosBasicosActions.DadosBasicosActionsAll): DadosBasicosState {
@@ -153,6 +155,36 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             return {
                 ...state,
                 saving: false,
+                errors: action.payload
+            };
+        }
+
+        case DadosBasicosActions.VALIDA_NUP: {
+            return {
+                ...state,
+                nupInvalido: true
+            };
+        }
+
+        case DadosBasicosActions.VALIDA_NUP_SUCCESS: {
+            return {
+                ...state,
+                nupInvalido: true
+            };
+        }
+
+        case DadosBasicosActions.VALIDA_NUP_FAILED: {
+            return {
+                ...state,
+                nupInvalido: true,
+                errors: action.payload
+            };
+        }
+
+        case DadosBasicosActions.VALIDA_NUP_INVALID: {
+            return {
+                ...state,
+                nupInvalido: false,
                 errors: action.payload
             };
         }

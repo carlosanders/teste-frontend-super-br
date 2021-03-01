@@ -8,8 +8,12 @@ import * as DadosBasicosActions from '../actions';
 
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {processo as processoSchema} from '@cdk/normalizr';
-import {Juntada, Processo} from '@cdk/models';
+import {
+    configuracaoNup as configuracaoNupSchema,
+    processo as processoSchema,
+    visibilidade as visibilidadeSchema
+} from '@cdk/normalizr';
+import {ConfiguracaoNup, Juntada, Processo, Visibilidade} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -162,6 +166,37 @@ export class DadosBasicosEffect {
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new DadosBasicosActions.GetJuntadasFailed(err));
+                    return caught;
+                })
+            );
+
+
+    /**
+     * Validar NUP
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    getValidateNup: any =
+        this._actions
+            .pipe(
+                ofType<DadosBasicosActions.ValidaNup>(DadosBasicosActions.VALIDA_NUP),
+                switchMap((action) => {
+                    return this._processoService.validaNup(
+                        action.payload.configuracaoNup,
+                        action.payload.nup,
+                        action.payload.unidadeArquivistica
+                    );
+                }),
+                mergeMap((response) => [
+                    this._store.dispatch(new DadosBasicosActions.ValidaNupSuccess(response))
+                ]),
+                catchError((err, caught) => {
+                    if(err.error.code == 422)
+                    {
+                        this._store.dispatch(new DadosBasicosActions.ValidaNupInvalid(err));
+                    }else{
+                        this._store.dispatch(new DadosBasicosActions.ValidaNupFailed(err));
+                    }
                     return caught;
                 })
             );
