@@ -1,19 +1,15 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
-
-import {getRouterState, State} from '../../../../../../../store/reducers';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {getRouterState, State} from '../../../../../../../store';
 import * as ClassificacaoTreeListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {ClassificacaoService} from '../../../../../../../../@cdk/services/classificacao.service';
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {Classificacao} from '../../../../../../../../@cdk/models';
 import {classificacao as classificacaoSchema} from '../../../../../../../../@cdk/normalizr';
-import * as ClassificacaoEditActions
-    from '../../../classificacao-edit/store/actions/classificacao-edit.actions';
 import * as ClassificacaoListActions
     from '../../../classificacao-list/store/actions/classificacao-list.actions';
 

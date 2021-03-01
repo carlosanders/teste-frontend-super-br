@@ -336,7 +336,7 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1"
+                                *ngIf="actions.indexOf('edit') > -1 && deletingIds?.indexOf(classificacao.id) === -1 && !hasExcluded"
                                 [disabled]="deletedIds?.indexOf(classificacao.id) > -1 && !hasExcluded"
                                 (click)="editClassificacao(classificacao.id)"
                                 aria-label="editar"
