@@ -53,7 +53,7 @@ export class DadosBasicosEffect {
                                 type: 'processo',
                                 content: `Processo id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
-                            })              
+                            })
                         ]),
                         catchError((err) => {
                             return of(new DadosBasicosActions.SaveProcessoFailed(err));
@@ -64,7 +64,7 @@ export class DadosBasicosEffect {
     /**
      * Save Processo Success
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     saveProcessoSuccess: any =
         this._actions
             .pipe(
@@ -92,7 +92,7 @@ export class DadosBasicosEffect {
                                 type: 'processo',
                                 content: `Processo id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
-                            })              
+                            })
                         ]),
                         catchError((err) => {
                             return of(new DadosBasicosActions.PutProcessoFailed(err));
@@ -119,7 +119,7 @@ export class DadosBasicosEffect {
                                 type: 'processo',
                                 content: `Processo id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
-                            })              
+                            })
                         ]),
                         catchError((err) => {
                             return of(new DadosBasicosActions.PostProcessoFailed(err));
@@ -131,7 +131,7 @@ export class DadosBasicosEffect {
     /**
      * Post Processo Success
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     postProcessoSuccess: any =
         this._actions
             .pipe(
@@ -149,23 +149,21 @@ export class DadosBasicosEffect {
                 ofType<DadosBasicosActions.GetProcesso>(DadosBasicosActions.GET_PROCESSO),
                 switchMap((action) => {
                     this.populate = action.payload.populate ?? [];
-                    return this._processoService.query(
-                        JSON.stringify(action.payload.filter),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify(this.populate));
+                    return this._processoService.get(
+                        action.payload.id,
+                        JSON.stringify(this.populate)
+                    );
                 }),
                 switchMap(response => [
-                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
+                    new AddData<Processo>({data: [response], schema: processoSchema}),
                     new DadosBasicosActions.GetProcessoSuccess({
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params.processoHandle,
                             populate: this.populate,
-                            acessoNegado: response['entities'][0].acessoNegado
+                            acessoNegado: response.acessoNegado
                         },
-                        processoId: response['entities'][0].id
+                        processoId: this.routerState.params.processoHandle
                     })
                 ]),
                 catchError((err, caught) => {

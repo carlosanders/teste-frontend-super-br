@@ -22,3 +22,4 @@
 * Correção de bug para salvar o conteudo do componente digital do repositorio antes de salvar os dados basicos do repositorio
 * Correção de bug no autocomplete de classificação para exibir o código
 * Correção de bug com ajustes no layout do form de classificacão
+* Correção de bug na edição de processo
