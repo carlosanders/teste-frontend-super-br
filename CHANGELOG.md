@@ -17,3 +17,8 @@
 * Correçao de bug no módulo do admin que não tem o botão para apagar uma classificação
 * Correçao de bug na capa do processo para colocar o código da classificação
 * Correçao de bug para mostrar o código da classificação na lista de processos do módulo do arquivista
+* Correção de bug para salvar o conteudo do componente digital antes de movimentar o processo com a atividade
+* Correção de bug para salvar o conteudo do componente digital do modelo antes de salvar os dados basicos do modelo
+* Correção de bug para salvar o conteudo do componente digital do repositorio antes de salvar os dados basicos do repositorio
+* Correção de bug no autocomplete de classificação para exibir o código
+* Correção de bug com ajustes no layout do form de classificacão
