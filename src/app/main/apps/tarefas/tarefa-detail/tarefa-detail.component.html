@@ -1,4 +1,4 @@
-<div class="header"  *ngIf="!(expandir$ | async)">
+<div class="header" *ngIf="!(expandir$ | async)">
     <div class="actions">
         <button *ngIf="mobileMode" mat-icon-button (click)="deselectCurrentTarefa()">
             <mat-icon class="secondary-text">arrow_back</mat-icon>
@@ -77,7 +77,7 @@
                 </ng-container>
             </button>
 
-            
+
             <button mat-menu-item aria-label="Ofícios"
                     [routerLink]="'oficios'">
                 <ng-container>

@@ -1,10 +1,10 @@
 import {ProcessoState} from '../reducers/processo.reducer';
 import {createSelector} from '@ngrx/store';
-import {getTarefaDetailAppState, TarefaDetailAppState} from '../reducers';
+import {ArquivistaDetailAppState, getArquivistaDetailAppState} from '../reducers';
 
 export const getProcessoState = createSelector(
-    getTarefaDetailAppState,
-    (state: TarefaDetailAppState) => state.processo
+    getArquivistaDetailAppState,
+    (state: ArquivistaDetailAppState) => state.processo
 );
 
 export const expandirTela = createSelector(

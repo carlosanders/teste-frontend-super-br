@@ -15,9 +15,9 @@ import {LoginService} from '../../../auth/login/login.service';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {
     CreateVinculacaoEtiqueta,
-    DeleteVinculacaoEtiqueta,
+    DeleteVinculacaoEtiqueta, expandirTela,
     getMaximizado,
-    SaveConteudoVinculacaoEtiqueta, ToggleMaximizado
+    SaveConteudoVinculacaoEtiqueta, ToggleMaximizado,
 } from './store';
 import {getRouterState, getScreenState} from '../../../../store/reducers';
 import {takeUntil} from 'rxjs/operators';
@@ -49,6 +49,8 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
     maximizado$: Observable<boolean>;
     maximizado = false;
 
+    expandir$: Observable<boolean>;
+
     vinculacaoEtiquetaPagination: Pagination;
 
     private _profile: Usuario;
@@ -72,6 +74,7 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this._profile = _loginService.getUserProfile();
         this.processo$ = this._store.pipe(select(fromStoreProcesso.getProcesso));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
+        this.expandir$ = this._store.pipe(select(expandirTela));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
@@ -121,6 +124,14 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
             maximizado => this.maximizado = maximizado
         );
 
+        this.expandir$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            expandir => {
+                this.doToggleMaximizado(expandir);
+            }
+        );
+
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
@@ -130,6 +141,8 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
                 this.mobileMode = false;
             }
         });
+
+        this.doToggleMaximizado(false);
     }
 
     ngOnDestroy(): void {
@@ -164,11 +177,9 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         }));
     }
 
-
-    doToggleMaximizado(): void {
-        this._store.dispatch(new ToggleMaximizado());
+    doToggleMaximizado(valor: boolean): void {
+        this._store.dispatch(new ToggleMaximizado(valor));
     }
-
 
     isDataProntaParaTransicao() {
         return this.processo.dataHoraProximaTransicao;
