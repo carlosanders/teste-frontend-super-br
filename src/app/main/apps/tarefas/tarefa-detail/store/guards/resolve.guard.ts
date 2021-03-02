@@ -98,7 +98,7 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetTarefa({
-                        id: 'eq:' + this.routerState.params['tarefaHandle']
+                        id: this.routerState.params['tarefaHandle']
                     }));
                 }
             }),

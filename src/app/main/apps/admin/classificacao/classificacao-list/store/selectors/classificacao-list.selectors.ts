@@ -4,7 +4,6 @@ import {
     ClassificacaoListAppState,
     ClassificacaoListState
 } from '../reducers';
-
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {classificacao as classificacaoSchema} from '@cdk/normalizr';
 import {Classificacao} from '@cdk/models';
@@ -40,4 +39,14 @@ export const getClassificacaoListLoaded = createSelector(
 export const getIsLoading = createSelector(
     getClassificacaoListState,
     (state: ClassificacaoListState) => state.loading
+);
+
+export const getDeletingIds = createSelector(
+    getClassificacaoListState,
+    (state: ClassificacaoListState) => state.deletingIds
+);
+
+export const getDeletedIds = createSelector(
+    getClassificacaoListState,
+    (state: ClassificacaoListState) => state.deletedIds
 );

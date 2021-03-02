@@ -66,36 +66,29 @@ export class TarefaDetailEffect {
             .pipe(
                 ofType<TarefaDetailActions.GetTarefa>(TarefaDetailActions.GET_TAREFA),
                 switchMap((action) => {
-                    return this._tarefaService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
+                    return this._tarefaService.get(
+                        action.payload.id,
                         JSON.stringify([
-                            'processo',
+                            'populateAll',
                             'processo.especieProcesso',
                             'processo.especieProcesso.generoProcesso',
                             'processo.modalidadeMeio',
                             'processo.documentoAvulsoOrigem',
-                            'especieTarefa',
-                            'usuarioResponsavel',
-                            'setorResponsavel',
                             'setorResponsavel.unidade',
-                            'setorOrigem',
                             'setorOrigem.unidade',
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta',
-                            'workflow']));
+                            'vinculacoesEtiquetas.etiqueta'])
+                    );
                 }),
                 mergeMap(response => [
-                    new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
+                    new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
                     new TarefaDetailActions.GetTarefaSuccess({
                         loaded: {
                             id: 'tarefaHandle',
                             value: this.routerState.params.tarefaHandle
                         },
-                        tarefa: response['entities'][0]
+                        tarefa: response
                     })
                 ]),
                 catchError((err, caught) => {

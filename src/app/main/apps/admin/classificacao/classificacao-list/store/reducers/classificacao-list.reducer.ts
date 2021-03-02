@@ -14,6 +14,8 @@ export interface ClassificacaoListState {
     };
     loading: boolean;
     loaded: any;
+    deletingIds: number[];
+    deletedIds: number[];
 }
 
 export const ClassificacaoListInitialState: ClassificacaoListState = {
@@ -30,6 +32,8 @@ export const ClassificacaoListInitialState: ClassificacaoListState = {
     },
     loading: false,
     loaded: false,
+    deletedIds: [],
+    deletingIds: []
 };
 
 export function ClassificacaoListReducer(
@@ -83,6 +87,28 @@ export function ClassificacaoListReducer(
                 ...state,
                 loading: false,
                 loaded: false
+            };
+        }
+
+        case ClassificacaoListActions.DELETE_CLASSIFICACAO: {
+            return {
+                ...state,
+                deletingIds: [...state.deletingIds, action.payload]
+            };
+        }
+
+        case ClassificacaoListActions.DELETE_CLASSIFICACAO_SUCCESS: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
+            };
+        }
+
+        case ClassificacaoListActions.DELETE_CLASSIFICACAO_FAILED: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
             };
         }
 
