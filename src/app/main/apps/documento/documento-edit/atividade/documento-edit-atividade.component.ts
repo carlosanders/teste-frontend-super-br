@@ -13,7 +13,8 @@ import * as fromStore from './store';
 import {Atividade, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
-import {getTarefa} from '../../../tarefas/tarefa-detail/store/selectors';
+import {getTarefa} from '../../../tarefas/tarefa-detail/store';
+import {ComponenteDigitalService} from "../../../../../../@cdk/services/componente-digital.service";
 
 @Component({
     selector: 'documento-edit-atividade',
@@ -41,12 +42,15 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
     setorAprovacaoPagination: Pagination;
     usuarioAprovacaoPagination: Pagination;
 
+    values: any;
+
     /**
-     *
      * @param _store
+     * @param _componenteDigitalService
      */
     constructor(
         private _store: Store<fromStore.DocumentoEditAtividadeAppState>,
+        private _componenteDigitalService: ComponenteDigitalService,
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
 
@@ -81,6 +85,12 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
         });
         this.documento$.subscribe(documento => this.documento = documento);
 
+        this._componenteDigitalService.completedEditorSave.subscribe((value) => {
+            if (value === this.documento.id) {
+                this.submitAtividade();
+            }
+        });
+
         this.atividade = new Atividade();
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();
@@ -107,21 +117,21 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submitAtividade(values): void {
-
+    preSubmitAtividade(values): void {
         delete values.unidadeAprovacao;
-
         const atividade = new Atividade();
-
         Object.entries(values).forEach(
             ([key, value]) => {
                 atividade[key] = value;
             }
         );
-
         atividade.documentos = [this.documento];
+        this.values = atividade;
+        this._componenteDigitalService.doEditorSave.next(this.documento.id);
+    }
 
-        this._store.dispatch(new fromStore.SaveAtividade(atividade));
+    submitAtividade(): void {
+        this._store.dispatch(new fromStore.SaveAtividade(this.values));
     }
 
 }
