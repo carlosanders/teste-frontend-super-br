@@ -15,9 +15,4 @@ export class ConfiguracaoNupService extends ParentGenericService<ConfiguracaoNup
     ) {
         super(modelService, 'administrativo/configuracao_nup', ConfiguracaoNup);
     }
-
-    validarNup(id: number, context: any = '{}'): Observable<any> {
-        const params: HttpParams = new HttpParams().set('context', context);
-        return this.http.get(`${environment.api_url}administrativo/1/validar_nup/12312321312312321` + environment.xdebug, {params});
-    }
 }
