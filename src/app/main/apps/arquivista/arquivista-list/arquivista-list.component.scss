@@ -5,6 +5,10 @@ arquivista-list {
     display: flex;
     flex-direction: row;
 
+    .maximizado {
+        display: none !important;
+    }
+
     > .processo-list {
         display: flex;
         flex-direction: column;

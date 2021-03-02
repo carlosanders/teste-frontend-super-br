@@ -84,7 +84,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     prontoTransicao: boolean;
 
-
+    mostraCriar = false;
 
     private _profile: Usuario;
 
@@ -360,7 +360,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     criarLembrete(processoId): void {
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
         + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/lembretes']).then();
-
+        this.mostraCriar = true;
     }
 
     realizarTransicao(processoId): any {
@@ -368,6 +368,8 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/realizar-transicao/criar']).then();
     }
 
-
-
+    retornar() {
+        this.mostraCriar = false;
+        this.currentProcessoId = null;
+    }
 }
