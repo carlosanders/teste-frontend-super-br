@@ -24,6 +24,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
         case DadosBasicosActions.GET_PROCESSO: {
             return {
                 processoId: null,
+                nupInvalido: false,
                 loaded: false,
                 loading: true,
                 saving: false,
@@ -35,6 +36,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
 
             return {
                 processoId: action.payload.processoId,
+                nupInvalido: false,
                 loading: false,
                 loaded: action.payload.loaded,
                 saving: false,
@@ -45,6 +47,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
         case DadosBasicosActions.GET_PROCESSO_FAILED: {
             return {
                 processoId: null,
+                nupInvalido: false,
                 loading: false,
                 loaded: false,
                 saving: false,
@@ -54,7 +57,8 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
 
         case DadosBasicosActions.CREATE_PROCESSO: {
             return {
-                processoId: null,                
+                processoId: null,
+                nupInvalido: false,
                 loaded: {
                     id: 'processoHandle',
                     value: 'criar',
@@ -62,13 +66,14 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                 },
                 loading: false,
                 saving: false,
-                errors: false,   
+                errors: false,
             };
         }
 
         case DadosBasicosActions.UNLOAD_PROCESSO: {
             return {
-                processoId: undefined,                
+                processoId: undefined,
+                nupInvalido: false,
                 loaded: {
                     id: undefined,
                     value: undefined,
@@ -76,7 +81,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                 },
                 loading: false,
                 saving: false,
-                errors: false,   
+                errors: false
             };
         }
 

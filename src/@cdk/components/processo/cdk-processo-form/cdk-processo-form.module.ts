@@ -41,6 +41,8 @@ import {CdkPessoaGridsearchModule} from '../../pessoa/cdk-pessoa-autocomplete/cd
 import {CdkClassificacaoGridTreeModule} from '../../classificacao/cdk-classificacao-grid-tree/cdk-classificacao-grid-tree.module';
 import {CdkClassificacaoGridTreeService} from '../../classificacao/cdk-classificacao-grid-tree/services/cdk-classificacao-grid-tree.service';
 import {FavoritoService} from '../../../services/favorito.service';
+import {CdkConfiguracaoNupGridsearchModule} from "../../configuracao-nup/cdk-configuracao-nup-autocomplete/cdk-configuracao-nup-gridsearch/cdk-configuracao-nup-gridsearch.module";
+import {CdkConfiguracaoNupAutocompleteModule} from "../../configuracao-nup/cdk-configuracao-nup-autocomplete/cdk-configuracao-nup-autocomplete.module";
 
 @NgModule({
     declarations: [
@@ -85,6 +87,9 @@ import {FavoritoService} from '../../../services/favorito.service';
         MatSelectModule,
         CdkPessoaGridsearchModule,
         CdkClassificacaoGridTreeModule,
+
+        CdkConfiguracaoNupAutocompleteModule,
+        CdkConfiguracaoNupGridsearchModule
     ],
     providers: [
         CdkClassificacaoGridTreeService,
