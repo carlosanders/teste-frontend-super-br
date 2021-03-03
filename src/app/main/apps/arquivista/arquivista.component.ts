@@ -19,8 +19,8 @@ import {LoginService} from '../../auth/login/login.service';
 import {Observable, Subject} from 'rxjs';
 import {Usuario} from '@cdk/models/usuario.model';
 import {takeUntil} from 'rxjs/operators';
-import {ToggleMaximizado} from '../tarefas/store/actions';
-import {getScreenState} from '../../../store/reducers';
+import {ToggleMaximizado} from '../tarefas/store';
+import {getScreenState} from '../../../store';
 
 @Component({
     selector: 'arquivista',
