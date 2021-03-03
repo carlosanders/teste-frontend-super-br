@@ -31,3 +31,4 @@
 * Feature destacar na interface quando estiver trabalhando no contexto de um workflow
 * Feature suportar abstratamente outros formatos de NUP
 * Feature para desfazer a conversão de componente digital html para pdf
+* Feature para suportar novos inválidos de NUP gerados erroneamente por outros sistemas
