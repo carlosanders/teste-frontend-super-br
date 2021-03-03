@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import {ModalidadeOrgaoCentral, Setor, Usuario} from '@cdk/models';
+import {ModalidadeOrgaoCentral, Setor, Usuario, VinculacaoEtiqueta, VinculacaoModelo} from '@cdk/models';
 import {ModalidadeEtiqueta} from '@cdk/models';
 
 export class Etiqueta {
@@ -37,6 +37,10 @@ export class Etiqueta {
     @Type(() => Setor)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     unidade?: Setor;
+
+    @Type(() => VinculacaoEtiqueta)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    vinculacoesEtiquetas?: VinculacaoEtiqueta[];
 
     @Type(() => ModalidadeOrgaoCentral)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})

@@ -1,0 +1,21 @@
+<div class="header">
+    <path icone="label"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="etiquetas">
+    </path>
+</div>
+<cdk-etiqueta-grid
+        [loading]="(loading$ | async)"
+        [etiquetas]="(etiquetas$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['create', 'edit', 'acoes', 'regras']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (edit)="edit($event)"
+        (acoes)="acoes($event)"
+        (regras)="regras($event)"
+        (create)="create()"
+        (delete)="delete($event)">
+</cdk-etiqueta-grid>

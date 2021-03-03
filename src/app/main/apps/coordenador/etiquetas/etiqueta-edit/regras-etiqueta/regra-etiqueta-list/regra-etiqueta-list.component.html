@@ -1,0 +1,17 @@
+<div class="header">
+    <path icone="assignment"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="etiquetas">
+    </path>
+</div>
+<cdk-regra-etiqueta-grid
+        [loading]="(loading$ | async)"
+        [regrasEtiqueta]="regrasEtiqueta"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['create', 'delete']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (create)="create()"
+        (delete)="delete($event)">
+</cdk-regra-etiqueta-grid>

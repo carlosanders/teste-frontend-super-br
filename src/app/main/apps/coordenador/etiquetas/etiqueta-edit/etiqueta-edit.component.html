@@ -1,0 +1,9 @@
+<div class="header" *ngIf="!routerState.url.includes('/acoes') && !routerState.url.includes('regras')">
+    <path icone="label"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="etiquetas">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <router-outlet></router-outlet>
+</div>

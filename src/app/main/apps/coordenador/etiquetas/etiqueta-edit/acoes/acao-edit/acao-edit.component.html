@@ -1,0 +1,41 @@
+<div class="content" *ngIf="action == 'form-cadastro'">
+    <div class="header">
+        <div class="actions">
+            <button mat-icon-button
+                    (click)="goBack()"
+                    aria-label="voltar"
+                    matTooltip="Voltar">
+                <mat-icon>arrow_back</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div class="header border-bottom">
+        <path icone="beenhere"
+              [caminhoAbsoluto]="routerState.url"
+              inicioCaminho="etiquetas">
+        </path>
+    </div>
+        <div class="items" *ngIf="modalidadeAcaoEtiquetaList.length > 0">
+            <div class="trigger-acao-item" *ngFor="let modalidadeAcaoEtiqueta of modalidadeAcaoEtiquetaList"
+                 (click)="selectTrigger(modalidadeAcaoEtiqueta)">
+                <div class="info">
+                    <div class="title">
+                        <span>{{modalidadeAcaoEtiqueta.valor}}</span>
+                    </div>
+                    <div class="body mt-4">
+                        <span>{{modalidadeAcaoEtiqueta.descricao}}</span>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button mat-icon-button aria-label="selecionar">
+                        <mat-icon>send</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="no-acoes-text" *ngIf="modalidadeAcaoEtiquetaList.length === 0">
+            <span class="hint-text">{{ 'Nenhuma ação disponível!' }}</span>
+        </div>
+</div>
+<router-outlet></router-outlet>
