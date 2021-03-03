@@ -29,3 +29,5 @@
 
 * Feature etiquetas para o coordenador
 * Feature destacar na interface quando estiver trabalhando no contexto de um workflow
+* Feature suportar abstratamente outros formatos de NUP
+* Feature para desfazer a conversão de componente digital html para pdf
