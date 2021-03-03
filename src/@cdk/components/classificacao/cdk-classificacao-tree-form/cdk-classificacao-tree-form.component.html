@@ -23,7 +23,7 @@
                 <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node" matTreeNodeToggle
                                matTreeNodePadding matTreeNodePaddingIndent="{{tamanhoIdentacao}}">
                     <button mat-icon-button disabled></button>
-                    {{node.nome}}
+                    {{node.codigo}} - {{node.nome}}
                     <!-- Botão add -->
                     <div class="bt-set-action">
                         <button mat-icon-button (click)="addNewItem(node)">
@@ -253,7 +253,7 @@
                         </mat-icon>
                     </button>
 
-                    {{node.nome}}
+                    {{node.codigo}} - {{node.nome}}
 
                     <mat-progress-bar *ngIf="node.isLoading"
                                       mode="indeterminate"

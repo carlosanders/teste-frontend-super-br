@@ -12,8 +12,8 @@
         </button>
 
         <button class="toggle-filter" mat-icon-button *ngIf="!(expandir$ | async)"
-                aria-label="Expandir Tela"
-                matTooltip="Expandir Tela"
+                aria-label="Maximizar Tela"
+                matTooltip="Maximizar Tela"
                 (click)="expandirTela(true)">
             <mat-icon>fullscreen</mat-icon>
         </button>
@@ -140,7 +140,6 @@
                         [control]="form.get('volume')">
                     </cdk-volume-autocomplete>
                 </mat-form-field>
-
 
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">

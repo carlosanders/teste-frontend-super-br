@@ -14,7 +14,7 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {Documento} from '@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 
 @Component({

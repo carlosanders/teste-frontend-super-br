@@ -9,7 +9,7 @@
                 NUP:
             </div>
             <div class="valor">
-                {{ processo.NUP }}
+                {{ processo.NUPFormatado }}
             </div>
         </div>
         <div class="linha">
@@ -44,8 +44,8 @@
             <div class="titulo">
                 Classificação:
             </div>
-            <div class="valor">
-                {{ processo.classificacao.nome }}
+            <div class="valor" [matTooltip]="processo.classificacao.nomeCompleto">
+                {{ processo.classificacao.codigo }} - {{ processo.classificacao.nome }}
             </div>
         </div>
         <div class="linha">
@@ -107,7 +107,7 @@
                 Setor Atual:
             </div>
             <div class="valor">
-                {{ processo.setorAtual.nome }}
+                {{ processo.setorAtual.nome }} - {{ processo.setorAtual.unidade.sigla }}
             </div>
         </div>
         <div class="linha">

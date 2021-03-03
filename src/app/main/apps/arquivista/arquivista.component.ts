@@ -18,6 +18,9 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../auth/login/login.service';
 import {Observable, Subject} from 'rxjs';
 import {Usuario} from '@cdk/models/usuario.model';
+import {takeUntil} from 'rxjs/operators';
+import {ToggleMaximizado} from '../tarefas/store';
+import {getScreenState} from '../../../store';
 
 @Component({
     selector: 'arquivista',
@@ -32,8 +35,12 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
     etiquetas: Etiqueta[] = [];
     vinculacaoEtiquetaPagination: Pagination;
 
+    maximizado$: Observable<boolean>;
+    maximizado = false;
+    mobileMode = false;
 
-    maximizado$: any;
+    screen$: Observable<any>;
+
     currentProcessoId: Observable<number[]>;
 
     pagination$: Observable<any>;
@@ -77,6 +84,8 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
         // Set the defaults
         this._profile = _loginService.getUserProfile();
         this.vinculacaoEtiquetaPagination = new Pagination();
+        this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
+        this.screen$ = this._store.pipe(select(getScreenState));
 
         this.vinculacaoEtiquetaPagination.filter = {
             orX: [
@@ -120,6 +129,26 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
         this.setoresCoordenacao = [];
         this.usuariosAssessor = [];
         this._router.navigate(['apps/arquivista/' + this.getUnidade() + '/pronto-transicao']).then();
+
+        this.maximizado$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(maximizado => {
+            this.maximizado = maximizado;
+        });
+
+        this.screen$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(screen => {
+            if (screen.size !== 'desktop') {
+                this.mobileMode = true;
+                if (this.maximizado) {
+                    this._store.dispatch(new ToggleMaximizado(false));
+                }
+            } else {
+                this.mobileMode = false;
+            }
+        });
+
     }
 
     /**
