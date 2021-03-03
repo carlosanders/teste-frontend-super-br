@@ -28,3 +28,4 @@
 1.1.0
 
 * Feature etiquetas para o coordenador
+* Feature destacar na interface quando estiver trabalhando no contexto de um workflow
