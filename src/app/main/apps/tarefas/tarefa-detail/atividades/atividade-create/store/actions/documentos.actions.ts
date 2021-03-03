@@ -37,6 +37,10 @@ export const CONVERTE_DOCUMENTO_ATIVIDADE = '[ATIVIDADE CREATE] CONVERTE DOCUMEN
 export const CONVERTE_DOCUMENTO_SUCESS = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE SUCCESS';
 export const CONVERTE_DOCUMENTO_FAILED = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE FAILED';
 
+export const CONVERTE_DOCUMENTO_ATIVIDADE_HTML = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE HTML';
+export const CONVERTE_DOCUMENTO_HTML_SUCESS = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE HTML SUCCESS';
+export const CONVERTE_DOCUMENTO_HTML_FAILED = '[ATIVIDADE CREATE] CONVERTE DOCUMENTO ATIVIDADE HTML FAILED';
+
 export const DOWNLOAD_DOCUMENTO_P7S = '[ATIVIDADE CREATE] DOWNLOAD DOCUMENTOP7S ATIVIDADE';
 export const DOWNLOAD_DOCUMENTO_P7S_SUCCESS = '[ATIVIDADE CREATE] DOWNLOAD DOCUMENTOP7S ATIVIDADE SUCCESS';
 export const DOWNLOAD_DOCUMENTO_P7S_FAILED = '[ATIVIDADE CREATE] DOWNLOAD DOCUMENTOP7S FAILED';
@@ -370,6 +374,36 @@ export class ConverteToPdfFailed implements Action
 }
 
 /**
+ * Converte Documento HTML
+ */
+export class ConverteToHtml implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_ATIVIDADE_HTML;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToHtmlSucess implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML_SUCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToHtmlFailed implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Download Documento P7S
  */
 export class DownloadP7S implements Action
@@ -458,6 +492,9 @@ export type AtividadeCreateDocumentosActionsAll
     | ConverteToPdf
     | ConverteToPdfSucess
     | ConverteToPdfFailed
+    | ConverteToHtml
+    | ConverteToHtmlSucess
+    | ConverteToHtmlFailed
     | DownloadP7S
     | DownloadP7SFailed
     | DownloadP7SSuccess

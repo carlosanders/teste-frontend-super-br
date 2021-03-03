@@ -65,29 +65,6 @@ export class DocumentoService extends ParentGenericService<Documento> {
         );
     }
 
-    /**
-     * SERVICE DE COMPONENTE DIGITAL NO LUGAR ERRADO. VER SE CONSEGUE MUDAR.
-     */
-    preparaConverter(id: number, changes: any, context: any = '{}'): Observable<any> {
-        const params: HttpParams = new HttpParams();
-        params['context'] = context;
-        return this.http.patch(
-            `${environment.api_url}${'administrativo/componente_digital'}/${id}/${'convertToPdf'}` + environment.xdebug,
-            JSON.stringify(changes),
-            {params}
-        )
-            .pipe(
-                map(response =>
-                    plainToClass(ComponenteDigital, response)[0])
-            )
-            ;
-    }
-
-    downloadP7S(id: number, changes: any, context: any = '{}'): Observable<any> {
-        const params: HttpParams = new HttpParams().set('context', context);
-        return this.http.get(`${environment.api_url}administrativo/componente_digital/${id}/download_p7s` + environment.xdebug, {params});
-    }
-
     undelete(documento: Documento, context: any = '{}'): Observable<Documento> {
         const params: HttpParams = new HttpParams();
         params['context'] = context;

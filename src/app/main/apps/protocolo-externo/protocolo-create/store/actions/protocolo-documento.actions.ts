@@ -27,6 +27,10 @@ export const CONVERTE_DOCUMENTO_ATIVIDADE = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCU
 export const CONVERTE_DOCUMENTO_SUCESS = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCUMENTO ATIVIDADE SUCCESS';
 export const CONVERTE_DOCUMENTO_FAILED = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCUMENTO ATIVIDADE FAILED';
 
+export const CONVERTE_DOCUMENTO_ATIVIDADE_HTML = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCUMENTO ATIVIDADE HTML';
+export const CONVERTE_DOCUMENTO_HTML_SUCESS = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCUMENTO ATIVIDADE HTML SUCCESS';
+export const CONVERTE_DOCUMENTO_HTML_FAILED = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCUMENTO ATIVIDADE HTML FAILED';
+
 /**
  * Unload Documentos
  */
@@ -247,6 +251,36 @@ export class ConverteToPdfFailed implements Action
     }
 }
 
+/**
+ * Converte Documento HTML
+ */
+export class ConverteToHtml implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_ATIVIDADE_HTML;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToHtmlSucess implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML_SUCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToHtmlFailed implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProtocoloDocumentoActionsAll
     = EnviarDocumento
     | EnviarDocumentoSuccess
@@ -266,4 +300,7 @@ export type ProtocoloDocumentoActionsAll
     | RemoveAssinaturaDocumentoFailed
     | ConverteToPdf
     | ConverteToPdfSucess
-    | ConverteToPdfFailed;
+    | ConverteToPdfFailed
+    | ConverteToHtml
+    | ConverteToHtmlSucess
+    | ConverteToHtmlFailed;

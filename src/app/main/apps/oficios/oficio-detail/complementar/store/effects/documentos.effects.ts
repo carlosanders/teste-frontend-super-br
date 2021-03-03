@@ -8,14 +8,15 @@ import * as DocumentosActions from '../actions';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, Documento, DocumentoAvulso} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, DocumentoAvulso} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {documento as documentoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {ComponenteDigitalService} from "../../../../../../../../@cdk/services/componente-digital.service";
 
 @Injectable()
 export class DocumentosEffects {
@@ -25,6 +26,7 @@ export class DocumentosEffects {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _componenteDigitalService: ComponenteDigitalService,
         private _assinaturaService: AssinaturaService,
         private _router: Router,
         private _store: Store<State>
@@ -144,14 +146,38 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.ConverteToPdf>(DocumentosActions.CONVERTE_DOCUMENTO),
                 mergeMap((action) => {
-                        return this._documentoService.preparaConverter(action.payload, {hash: action.payload.hash})
+                        return this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
                             .pipe(
-                                map((response) => {
-                                    return new DocumentosActions.ConverteToPdfSucess(action.payload);
-                                }),
+                                mergeMap((response) => [
+                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new DocumentosActions.ConverteToPdfSucess(action.payload)
+                                ]),
                                 catchError((err) => {
-                                    console.log(err);
                                     return of(new DocumentosActions.ConverteToPdfFailed(action.payload));
+                                })
+                            );
+                    }
+                )
+            );
+
+    /**
+     * Converte Documento HTML
+     * @type {Observable<any>}
+     */
+    @Effect()
+    converteDocumentoHtml: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.ConverteToHtml>(DocumentosActions.CONVERTE_DOCUMENTO_HTML),
+                mergeMap((action) => {
+                        return this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
+                            .pipe(
+                                mergeMap((response) => [
+                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new DocumentosActions.ConverteToHtmlSucess(action.payload)
+                                ]),
+                                catchError((err) => {
+                                    return of(new DocumentosActions.ConverteToHtmlFailed(action.payload));
                                 })
                             );
                     }

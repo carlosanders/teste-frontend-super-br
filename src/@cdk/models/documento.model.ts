@@ -35,6 +35,9 @@ export class Documento {
     @Exclude({toPlainOnly: true})
     assinado?: boolean;
 
+    @Exclude({toPlainOnly: true})
+    convertidoPdf?: boolean;
+
     semEfeito?: boolean;
 
     @Exclude({toPlainOnly: true})
@@ -166,6 +169,7 @@ export class Documento {
         this.localProducao = null;
         this.autor = null;
         this.assinado = null;
+        this.convertidoPdf = null;
         this.processoOrigem = null;
         this.documentoOrigem = null;
         this.redator = null;

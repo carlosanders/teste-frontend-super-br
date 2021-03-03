@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, Documento} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
-import {documento as documentoSchema} from '@cdk/normalizr';
+import {documento as documentoSchema, componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 import * as ProtocoloDocumentoActions from '../actions';
 import {Router} from '@angular/router';
 import {getDocumentos} from '../selectors';
@@ -21,6 +21,7 @@ import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../store/actions/operacoes.actions';
 import * as AtividadeCreateDocumentosActions
     from '../../../../tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
+import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
 
 @Injectable()
 export class ProtocoloDocumentoEffects {
@@ -30,6 +31,7 @@ export class ProtocoloDocumentoEffects {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _componenteDigitalService: ComponenteDigitalService,
         private _assinaturaService: AssinaturaService,
         private _documentoAvulsoService: DocumentoAvulsoService,
         private _router: Router,
@@ -207,14 +209,39 @@ export class ProtocoloDocumentoEffects {
             .pipe(
                 ofType<ProtocoloDocumentoActions.ConverteToPdf>(ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE),
                 mergeMap((action) => {
-                        return this._documentoService.preparaConverter(action.payload, {hash: action.payload.hash})
+                        return this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
                             .pipe(
-                                map((response) => {
-                                    return new ProtocoloDocumentoActions.ConverteToPdfSucess(action.payload);
-                                }),
+                                mergeMap((response) => [
+                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new ProtocoloDocumentoActions.ConverteToPdfSucess(action.payload)
+                                ]),
                                 catchError((err) => {
                                     console.log(err);
                                     return of(new ProtocoloDocumentoActions.ConverteToPdfFailed(action.payload));
+                                })
+                            );
+                    }
+                )
+            );
+
+    /**
+     * Converte Documento HTML
+     * @type {Observable<any>}
+     */
+    @Effect()
+    converteDocumentoHtml: any =
+        this._actions
+            .pipe(
+                ofType<ProtocoloDocumentoActions.ConverteToHtml>(ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE_HTML),
+                mergeMap((action) => {
+                        return this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
+                            .pipe(
+                                mergeMap((response) => [
+                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new ProtocoloDocumentoActions.ConverteToHtmlSucess(action.payload)
+                                ]),
+                                catchError((err) => {
+                                    return of(new ProtocoloDocumentoActions.ConverteToHtmlFailed(action.payload));
                                 })
                             );
                     }

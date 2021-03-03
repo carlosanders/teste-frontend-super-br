@@ -7,9 +7,12 @@ import * as ProcessoViewDocumentosActions from '../actions/documentos.actions';
 import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {Assinatura, Documento, Tarefa} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, Tarefa} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {assinatura as assinaturaSchema, documento as documentoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
+import {
+    assinatura as assinaturaSchema, documento as documentoSchema,
+    tarefa as tarefaSchema, componenteDigital as componenteDigitalSchema
+} from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
@@ -17,6 +20,7 @@ import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.ser
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetJuntadas} from '../actions';
 import {getBufferingDelete, getDeletingDocumentosId, getPagination} from '../selectors';
+import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
 
 @Injectable()
 export class ProcessoViewDocumentosEffects {
@@ -27,6 +31,7 @@ export class ProcessoViewDocumentosEffects {
     constructor(
         private _actions: Actions,
         private _documentoService: DocumentoService,
+        private _componenteDigitalService: ComponenteDigitalService,
         private _assinaturaService: AssinaturaService,
         private _vinculacaoDocumentoService: VinculacaoDocumentoService,
         private _router: Router,
@@ -74,7 +79,7 @@ export class ProcessoViewDocumentosEffects {
                             'tipoDocumento',
                             'documentoAvulsoRemessa',
                             'documentoAvulsoRemessa.documentoResposta',
-                            'componentesDigitais'
+                            'componentesDigitais',
                         ]
                     };
 
@@ -493,17 +498,43 @@ export class ProcessoViewDocumentosEffects {
             .pipe(
                 ofType<ProcessoViewDocumentosActions.ConverteToPdf>(ProcessoViewDocumentosActions.CONVERTE_DOCUMENTO),
                 mergeMap((action) => {
-                        return this._documentoService.preparaConverter(action.payload, {hash: action.payload.hash})
+                        return this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
                             .pipe(
-                                map((response) => {
-                                    return new ProcessoViewDocumentosActions.ConverteToPdfSucess(action.payload);
-                                }),
+                                mergeMap((response) => [
+                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new ProcessoViewDocumentosActions.ConverteToPdfSucess(action.payload)
+                                ]),
                                 catchError((err) => {
                                     console.log(err);
                                     return of(new ProcessoViewDocumentosActions.ConverteToPdfFailed(action.payload));
                                 })
                             )
                             ;
+                    }
+                )
+            );
+
+    /**
+     * Converte Documento HTML
+     * @type {Observable<any>}
+     */
+    @Effect()
+    converteDocumentoHtml: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoViewDocumentosActions.ConverteToHtml>(ProcessoViewDocumentosActions.CONVERTE_DOCUMENTO_HTML),
+                mergeMap((action) => {
+                        return this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
+                            .pipe(
+                                mergeMap((response) => [
+                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new ProcessoViewDocumentosActions.ConverteToHtmlSucess(action.payload)
+                                ]),
+                                catchError((err) => {
+                                    console.log(err);
+                                    return of(new ProcessoViewDocumentosActions.ConverteToHtmlFailed(action.payload));
+                                })
+                            );
                     }
                 )
             );
@@ -519,7 +550,7 @@ export class ProcessoViewDocumentosEffects {
             .pipe(
                 ofType<ProcessoViewDocumentosActions.DownloadToP7S>(ProcessoViewDocumentosActions.DOWNLOAD_DOCUMENTO_P7S),
                 mergeMap((action) => {
-                        return this._documentoService.downloadP7S(action.payload, {hash: action.payload.hash})
+                        return this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
                             .pipe(
                                 map((response) => {
                                     if (response && response.conteudo) {
