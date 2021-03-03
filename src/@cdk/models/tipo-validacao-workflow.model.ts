@@ -14,6 +14,8 @@ export class TipoValidacaoWorkflow {
 
     descricao?: string;
 
+    ativo?: boolean;
+
     @Exclude({ toPlainOnly: true })
     sigla?: string;
 
@@ -54,6 +56,7 @@ export class TipoValidacaoWorkflow {
         this.valor = null;
         this.descricao = null;
         this.sigla = null;
+        this.ativo = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;

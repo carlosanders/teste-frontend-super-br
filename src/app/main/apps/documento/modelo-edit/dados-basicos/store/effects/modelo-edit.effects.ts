@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ModeloEditActions from '../actions';
@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 import {Modelo} from '@cdk/models';
 import {ModeloService} from '@cdk/services/modelo.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetDocumento} from '../../../../store/actions';
+import {GetDocumento} from '../../../../store';
 
 @Injectable()
 export class ModeloEditEffects {

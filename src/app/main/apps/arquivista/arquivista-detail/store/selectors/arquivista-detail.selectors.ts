@@ -3,6 +3,8 @@ import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
 import {createSelector} from '@ngrx/store';
 import {ArquivistaDetailAppState, ArquivistaDetailState, getArquivistaDetailAppState} from '../reducers/';
+import {TarefasState} from '../../../../tarefas/store/reducers';
+import {getTarefasState} from '../../../../tarefas/store/selectors';
 
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
 
@@ -30,3 +32,4 @@ export const getErrors = createSelector(
     getArquivistaDetailState,
     (state: ArquivistaDetailState) => state.errors
 );
+

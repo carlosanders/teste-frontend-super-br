@@ -65,7 +65,7 @@ export class CdkProcessoGridsearchComponent implements OnInit {
 
         this.loading = true;
 
-        this._processoService.query(
+        this._processoService.search(
             JSON.stringify(params.filter),
             params.limit,
             params.offset,

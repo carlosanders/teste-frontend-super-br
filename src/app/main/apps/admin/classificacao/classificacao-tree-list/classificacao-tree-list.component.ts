@@ -6,7 +6,7 @@ import * as fromStore from './store';
 import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
@@ -25,7 +25,6 @@ export class ClassificacaoTreeListComponent implements OnInit {
     classificacao$: Observable<Classificacao[]>;
     classificacaoPagination: Pagination;
     formClassificacao: FormGroup;
-
 
     constructor(
         private _store: Store<fromStore.ClassificacaoTreeListAppState>,

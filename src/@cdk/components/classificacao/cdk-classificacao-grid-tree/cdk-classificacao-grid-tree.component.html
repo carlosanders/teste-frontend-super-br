@@ -23,7 +23,7 @@
                 <mat-tree *ngIf="dataSource._data | async" [dataSource]="dataSource" [treeControl]="treeControl">
                     <mat-tree-node *matTreeNodeDef="let node" matTreeNodeToggle matTreeNodePadding>
                         <button mat-icon-button disabled></button>
-                        {{node.nome}} - {{node.codigo}}
+                        {{node.codigo}} - {{node.nome}}
                         <div class="bt-set-action">
                             <button class="bt-action-select" *ngIf="!node.isLoading" mat-icon-button
                                     (click)="setInputClassificacao(node)"
@@ -37,7 +37,7 @@
                     <mat-tree-node *matTreeNodeDef="let node; when: hasChild"
                                    matTreeNodePadding>
                         <button mat-icon-button matTreeNodeToggle
-                                [attr.aria-label]="'toggle ' + node.nome">
+                                [attr.aria-label]="'toggle ' + node.codigo + ' - ' + node.nome">
                             <mat-icon class="mat-icon-rtl-mirror" *ngIf="treeControl.isExpanded(node)">
                                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                             </mat-icon>
@@ -46,7 +46,7 @@
                                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                             </mat-icon>
                         </button>
-                        {{node.nome}}
+                        {{node.codigo}} - {{node.nome}}
                         <div class="bt-set-action">
                             <button class="bt-action-select" *ngIf="!node.isLoading" mat-icon-button
                                     (click)="setInputClassificacao(node)"

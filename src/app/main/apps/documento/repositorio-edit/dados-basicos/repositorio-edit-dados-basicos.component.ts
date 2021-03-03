@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
-    Component, Input,
+    Component,
     OnDestroy,
     OnInit, ViewChild, ViewContainerRef,
     ViewEncapsulation
@@ -15,6 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {ComponenteDigitalService} from "../../../../../../@cdk/services/componente-digital.service";
 
 @Component({
     selector: 'repositorio-edit-dados-basicos',
@@ -27,6 +28,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 export class RepositorioEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     documento$: Observable<Documento>;
+    documento: Documento;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -34,15 +36,19 @@ export class RepositorioEditDadosBasicosComponent implements OnInit, OnDestroy, 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    values: any;
+
     /**
      * @param _store
      * @param _location
      * @param _dynamicService
+     * @param _componenteDigitalService
      */
     constructor(
         private _store: Store<fromStore.RepositorioEditDadosBasicosAppState>,
         private _location: Location,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _componenteDigitalService: ComponenteDigitalService,
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -57,6 +63,13 @@ export class RepositorioEditDadosBasicosComponent implements OnInit, OnDestroy, 
      * On init
      */
     ngOnInit(): void {
+        this.documento$.subscribe(documento => this.documento = documento);
+
+        this._componenteDigitalService.completedEditorSave.subscribe((value) => {
+            if (value === this.documento.id) {
+                this.submit();
+            }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -81,7 +94,7 @@ export class RepositorioEditDadosBasicosComponent implements OnInit, OnDestroy, 
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submit(values): void {
+    preSubmit(values): void {
 
         const repositorio = new Repositorio();
 
@@ -91,7 +104,12 @@ export class RepositorioEditDadosBasicosComponent implements OnInit, OnDestroy, 
             }
         );
 
-        this._store.dispatch(new fromStore.SaveRepositorio(repositorio));
+        this.values = repositorio;
+        this._componenteDigitalService.doEditorSave.next(this.documento.id);
+    }
+
+    submit(): void {
+        this._store.dispatch(new fromStore.SaveRepositorio(this.values));
     }
 
 }
