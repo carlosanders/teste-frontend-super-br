@@ -128,13 +128,35 @@
             </mat-radio-group>
         </div>
 
-        <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2">
+        <mat-form-field>
+            <input matInput placeholder="Configuração NUP" formControlName="configuracaoNup" required
+                   [matAutocomplete]="configuracaoNup.autocomplete" (blur)="checkConfiguracaoNup()">
+            <cdk-configuracao-nup-autocomplete #configuracaoNup="configuracaoNupAutocomplete"
+                                               [control]="form.get('configuracaoNup')"
+                                               [configuracaoNupList]="configuracaoNupList"
+                                               [configuracaoNupListIsLoading]="configuracaoNupListIsLoading"
+                                               [pagination]="configuracaoNupPagination">
+            </cdk-configuracao-nup-autocomplete>
+            <button matSuffix mat-button mat-icon-button (click)="showConfiguracaoNup()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('configuracaoNup').hasError('formError')">
+                {{form.get('configuracaoNup').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && form.get('configuracaoNup').value">
             <mat-label>{{form.value.unidadeArquivistica !== 3 ? 'NUP' : 'Dossiê'}}</mat-label>
-            <input matInput #NUP name="NUP" formControlName="NUP" maxlength="21" [readonly]="readonlyNUP" required>
+            <input matInput #NUP name="NUP" formControlName="NUP" maxlength="21" [readonly]="readonlyNUP" (focusout)="doValidateNup()" required>
             <mat-hint align="end">{{NUP.value.length}} / 21</mat-hint>
             <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
+        <mat-checkbox
+            formControlName="nupInvalido"
+            *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && nupIsValid == false">
+            Estou ciente e insisto no cadastro do digito verificador inválido.
+        </mat-checkbox>
         <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2">
             <mat-label>Data Hora de Abertura</mat-label>
             <input matInput formControlName="dataHoraAbertura" [matDatetimepicker]="dataHoraAbertura" required>
@@ -422,3 +444,8 @@
 <cdk-classificacao-grid-tree *ngIf="activeCard === 'classificacao-grid-tree'" (selected)="selectClassificacao($event)"
     (cancel)="cancel()">
 </cdk-classificacao-grid-tree>
+
+<cdk-configuracao-nup-gridsearch *ngIf="activeCard === 'configuracao-nup-gridsearch'"
+                                 [pagination]="configuracaoNupPagination"
+                                 (selected)="selectConfiguracaoNup($event)" (cancel)="cancel()">
+</cdk-configuracao-nup-gridsearch>

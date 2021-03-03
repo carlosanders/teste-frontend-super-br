@@ -13,6 +13,7 @@ import {Classificacao} from '@cdk/models';
 import {Pessoa} from '@cdk/models';
 import {Localizador} from '@cdk/models';
 import {OrigemDados} from '@cdk/models';
+import {ConfiguracaoNup} from '@cdk/models';
 import {VinculacaoEtiqueta} from './vinculacao-etiqueta.model';
 import { Assunto } from '@cdk/models/assunto.model';
 
@@ -70,7 +71,9 @@ export class Processo {
 
     protocoloEletronico?: boolean;
 
-    @Exclude({ toPlainOnly: true })
+    validaNup?: boolean;
+
+    @Exclude({toPlainOnly: true})
     chaveAcesso?: string;
 
     @Exclude({toPlainOnly: true})
@@ -142,6 +145,10 @@ export class Processo {
     @Type(() => EspecieProcesso)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     especieProcesso?: EspecieProcesso;
+
+    @Type(() => ConfiguracaoNup)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    configuracaoNup?: ConfiguracaoNup;
 
     @Exclude({toPlainOnly: true})
     @Type(() => Usuario)
@@ -235,5 +242,7 @@ export class Processo {
         this.protocoloEletronico = null;
         this.any = null;
         this.tarefaAtualWorkflow = null;
+        this.configuracaoNup = null;
+        this.validaNup = null;
     }
 }

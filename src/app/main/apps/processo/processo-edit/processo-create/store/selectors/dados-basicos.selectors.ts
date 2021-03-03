@@ -27,6 +27,11 @@ export const getProcessoLoaded = createSelector(
     (state: DadosBasicosState) => state.loaded
 );
 
+export const getNupValid = createSelector(
+    getDadosBasicosState,
+    (state: DadosBasicosState) => state.nupInvalido
+);
+
 export const getProcessoIsSaving = createSelector(
     getDadosBasicosState,
     (state: DadosBasicosState) => state.saving

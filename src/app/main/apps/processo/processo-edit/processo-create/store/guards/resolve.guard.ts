@@ -15,7 +15,8 @@ import {
     getAssuntosLoaded,
     getInteressadosLoaded,
     getVinculacoesProcessosLoaded,
-    getJuntadaLoaded
+    getJuntadaLoaded,
+    getConfiguracaoNupLoaded
 } from '../selectors';
 
 @Injectable()
@@ -53,7 +54,8 @@ export class ResolveGuard implements CanActivate {
             this.getAssuntos(),
             this.getInteressados(),
             this.getJuntadas(),
-            this.getVinculacoesProcessos()
+            this.getVinculacoesProcessos(),
+            this.getConfiguracaoNup()
         ]).pipe(
             switchMap(() => of(true)),
             catchError(() => of(false))
@@ -225,6 +227,36 @@ export class ResolveGuard implements CanActivate {
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetJuntadas(params));
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * Get configuracaoNup
+     *
+     * @returns {Observable<any>}
+     */
+    getConfiguracaoNup(): any {
+        this._store.dispatch(new fromStore.UnloadConfiguracoesNup({reset: true}));
+
+        return this._store.pipe(
+            select(getConfiguracaoNupLoaded),
+            tap(loaded => {
+                const params = {
+                    filter: {},
+                    sort: {},
+                    limit: 10,
+                    offset: 0,
+                    populate: ['configuracaoNup']
+                };
+
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    this._store.dispatch(new fromStore.GetConfiguracoesNup(params));
                 }
             }),
             filter((loaded: any) => {

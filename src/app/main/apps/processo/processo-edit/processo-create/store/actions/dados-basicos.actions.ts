@@ -14,6 +14,11 @@ export const SAVE_PROCESSO = '[DADOS BASICOS STEPS] SAVE PROCESSO';
 export const SAVE_PROCESSO_SUCCESS = '[DADOS BASICOS STEPS] SAVE PROCESSO SUCCESS';
 export const SAVE_PROCESSO_FAILED = '[DADOS BASICOS STEPS] SAVE PROCESSO FAILED';
 
+export const VALIDA_NUP = '[DADOS BASICOS STEPS] VALIDA NUP';
+export const VALIDA_NUP_SUCCESS = '[DADOS BASICOS STEPS] VALIDA NUP SUCCESS';
+export const VALIDA_NUP_FAILED = '[DADOS BASICOS STEPS] VALIDA NUP FAILED';
+export const VALIDA_NUP_INVALID = '[DADOS BASICOS STEPS] VALIDA NUP INVALID';
+
 export const POST_PROCESSO = '[DADOS BASICOS STEPS] POST PROCESSO';
 export const POST_PROCESSO_SUCCESS = '[DADOS BASICOS STEPS] POST PROCESSO SUCCESS';
 export const POST_PROCESSO_FAILED = '[DADOS BASICOS STEPS] POST PROCESSO FAILED';
@@ -22,6 +27,36 @@ export const PUT_PROCESSO = '[DADOS BASICOS STEPS] PUT PROCESSO';
 export const PUT_PROCESSO_SUCCESS = '[DADOS BASICOS STEPS] PUT PROCESSO SUCCESS';
 export const PUT_PROCESSO_FAILED = '[DADOS BASICOS STEPS] PUT PROCESSO FAILED';
 
+
+export class ValidaNup implements Action {
+    readonly type = VALIDA_NUP;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class ValidaNupSuccess implements Action {
+    readonly type = VALIDA_NUP_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class ValidaNupFailed implements Action {
+    readonly type = VALIDA_NUP_FAILED;
+
+    constructor(public payload: any) {
+
+    }
+}
+
+export class ValidaNupInvalid implements Action {
+    readonly type = VALIDA_NUP_INVALID;
+
+    constructor(public payload: any) {
+
+    }
+}
 
 /**
  * Set Processo
@@ -233,5 +268,9 @@ export type DadosBasicosActionsAll
     | PutProcessoSuccess
     | PutProcessoFailed
     | PostProcessoSuccess
-    | PostProcessoFailed;
+    | PostProcessoFailed
+    | ValidaNup
+    | ValidaNupFailed
+    | ValidaNupInvalid
+    | ValidaNupSuccess;
 

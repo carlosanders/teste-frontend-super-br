@@ -39,6 +39,7 @@ import {AssuntoService} from '../../../../../../@cdk/services/assunto.service';
 import {InteressadoService} from '../../../../../../@cdk/services/interessado.service';
 import {VinculacaoProcessoService} from '../../../../../../@cdk/services/vinculacao-processo.service';
 import {TarefaService} from '../../../../../../@cdk/services/tarefa.service';
+import {ConfiguracaoNupService} from "@cdk/services/configuracao-nup.service";
 
 const routes: Routes = [
     {
@@ -105,6 +106,7 @@ modulesConfig.forEach((module) => {
         InteressadoService,
         VinculacaoProcessoService,
         TarefaService,
+        ConfiguracaoNupService,
         fromGuards.ResolveGuard
     ]
 })
