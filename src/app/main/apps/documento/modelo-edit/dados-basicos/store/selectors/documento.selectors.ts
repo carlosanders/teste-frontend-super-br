@@ -4,9 +4,9 @@ import {Documento} from '@cdk/models';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {ComponenteDigital} from '@cdk/models';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
-import {AtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/reducers';
-import {getAtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store/selectors';
-import {DocumentoAppState, getDocumentoAppState, DocumentoState} from '../../../../store/reducers';
+import {AtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {getAtividadeCreateDocumentosState} from '../../../../../tarefas/tarefa-detail/atividades/atividade-create/store';
+import {DocumentoAppState, getDocumentoAppState, DocumentoState} from '../../../../store';
 
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
 const schemaComponenteDigitalSelectors = createSchemaSelectors<ComponenteDigital>(componenteDigitalSchema);

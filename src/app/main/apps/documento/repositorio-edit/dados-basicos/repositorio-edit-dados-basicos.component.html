@@ -4,6 +4,6 @@
     <cdk-repositorio-form cdkPerfectScrollbar [repositorio]="(documento$ | async)?.repositorio"
                       [saving]="(isSaving$ | async)"
                       [errors]="(errors$ | async)"
-                      (save)="submit($event)">
+                      (save)="preSubmit($event)">
     </cdk-repositorio-form>
 </div>

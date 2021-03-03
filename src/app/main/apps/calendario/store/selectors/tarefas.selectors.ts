@@ -26,29 +26,37 @@ export const getTarefas = createSelector(
 
 export const getEvents = createSelector(
     getTarefas,
-    (tarefas: Tarefa[]): CalendarEventModel[] => tarefas.map((tarefa: Tarefa) => {
-        const data = {
-            start    : tarefa.dataHoraInicioPrazo,
-            end      : tarefa.dataHoraFinalPrazo,
-            title    : tarefa.especieTarefa.nome,
-            allDay   : false,
-            color    : {
-                primary  : tarefa.especieTarefa.corHexadecimalPrimaria ?? '#F44336',
-                secondary: tarefa.especieTarefa.corHexadecimalSecundaria ?? '#FFCDD2'
-            },
-            resizable: {
-                beforeStart: true,
-                afterEnd   : true
-            },
-            draggable: true,
-            meta     : {
-                location: tarefa.localEvento,
-                notes   : tarefa.observacao,
-                tarefa  : tarefa
-            }
-        };
-        return new CalendarEventModel(data);
-    })
+    (tarefas: Tarefa[]): CalendarEventModel[] => {
+        if (tarefas) {
+            return tarefas.map((tarefa: Tarefa) => {
+                const data = {
+                    start    : tarefa.dataHoraInicioPrazo,
+                    end      : tarefa.dataHoraFinalPrazo,
+                    title    : tarefa.especieTarefa.nome,
+                    allDay   : false,
+                    color    : {
+                        primary  : tarefa.especieTarefa.corHexadecimalPrimaria ?? '#F44336',
+                        secondary: tarefa.especieTarefa.corHexadecimalSecundaria ?? '#FFCDD2'
+                    },
+                    resizable: {
+                        beforeStart: true,
+                        afterEnd   : true
+                    },
+                    draggable: true,
+                    meta     : {
+                        location: tarefa.localEvento,
+                        notes   : tarefa.observacao,
+                        tarefa  : tarefa
+                    }
+                };
+
+                return new CalendarEventModel(data);
+            })
+        } else {
+            return [];
+        }
+
+    }
 );
 
 

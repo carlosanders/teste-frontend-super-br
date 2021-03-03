@@ -108,8 +108,7 @@ export class ToggleMaximizado implements Action
 {
     readonly type = TOGGLE_MAXIMIZADO;
 
-    constructor()
-    {
+    constructor(public payload: boolean = false) {
     }
 }
 

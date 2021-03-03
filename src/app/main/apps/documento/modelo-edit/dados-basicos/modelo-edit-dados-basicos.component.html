@@ -5,6 +5,6 @@
     <cdk-modelo-form cdkPerfectScrollbar [modelo]="(documento$ | async)?.modelo"
                      [saving]="(isSaving$ | async)"
                      [errors]="(errors$ | async)"
-                     (save)="submit($event)">
+                     (save)="preSubmit($event)">
     </cdk-modelo-form>
 </div>

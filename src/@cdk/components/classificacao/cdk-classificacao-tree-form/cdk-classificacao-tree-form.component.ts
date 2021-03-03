@@ -24,6 +24,7 @@ import {cdkAnimations} from "../../../animations";
 export class FlatNode {
     expandable: boolean;
     nome: string;
+    codigo: string;
     id: number;
     level: number;
     children?: ClassificacaoNode[];
@@ -175,6 +176,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
             ? existingNode
             : new FlatNode();
         flatNode.nome = node.nome;
+        flatNode.codigo = node.codigo;
         flatNode.id = node.id;
         flatNode.children = node.children;
         flatNode.level = level;
@@ -327,6 +329,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
             const classificacaoItem = new ClassificacaoNode();
             classificacaoItem.id = value.id;
             classificacaoItem.nome = value.nome;
+            classificacaoItem.codigo = value.codigo;
             classificacaoItem.children = [];
             classificacaoItem.hasChild = value.hasChild;
             arrayAssuntosAdministrativos.push(classificacaoItem);
@@ -341,7 +344,7 @@ export class CdkClassificacaoTreeFormComponent implements OnInit {
                 'parent.id': parent,
             },
             sort: {
-                nome: 'ASC'
+                codigo: 'ASC'
             },
             limit: 1000,
             offset: 0,

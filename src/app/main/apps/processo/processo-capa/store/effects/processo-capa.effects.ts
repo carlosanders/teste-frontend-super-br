@@ -52,31 +52,26 @@ export class ProcessoCapaEffect {
                     const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
                         chaveAcesso: this.routerState.params.chaveAcessoHandle
                     } : {};
-                    console.log()
-                    return this._processoService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
+                    return this._processoService.get(
+                        action.payload.id,
                         JSON.stringify([
                             'populateAll',
                             'setorAtual.unidade',
                             'especieProcesso.generoProcesso',
                             'classificacao.modalidadeDestinacao',
-                            'processo',
                             'processo.especieProcesso',
                             'processo.especieProcesso.workflow'
                         ]),
                         JSON.stringify(chaveAcesso));
-                    }),
-                    mergeMap(response => [
-                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
+                }),
+                mergeMap(response => [
+                    new AddData<Processo>({data: [response], schema: processoSchema}),
                     new ProcessoCapaActions.GetProcessoSuccess({
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params.processoHandle
                         },
-                        processoId: response['entities'][0].id
+                        processoId: this.routerState.params.processoHandle
                     })
                 ]),
                 catchError((err, caught) => {

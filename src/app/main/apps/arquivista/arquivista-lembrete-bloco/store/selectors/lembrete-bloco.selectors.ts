@@ -5,8 +5,8 @@ import {lembrete as lembreteSchema} from '@cdk/normalizr';
 import {processo as processoSchema} from '../../../../../../../@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {getLembreteBlocoAppState, LembreteBlocoAppState, LembreteBlocoState} from '../reducers';
-import {ArquivistaState} from '../../../arquivista-list/store/reducers';
-import {getArquivistaState, getSelectedProcessoIds} from '../../../arquivista-list/store/selectors';
+import {ArquivistaState} from '../../../arquivista-list/store';
+import {getArquivistaState, getSelectedProcessoIds} from '../../../arquivista-list/store';
 
 const schemaLembreteBlocoSelectors = createSchemaSelectors<Lembrete>(lembreteSchema);
 const schemaSelectors = createSchemaSelectors<Processo>(processoSchema);

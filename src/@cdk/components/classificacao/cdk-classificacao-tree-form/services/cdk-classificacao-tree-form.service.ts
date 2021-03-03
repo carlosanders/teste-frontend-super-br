@@ -6,6 +6,7 @@ import {FlatNode} from '../cdk-classificacao-tree-form.component';
 export class ClassificacaoNode {
     id?: number;
     nome?: string;
+    codigo?: string;
     children?: ClassificacaoNode[];
     hasChild?: boolean;
     item?: string;
@@ -31,6 +32,7 @@ export class CdkClassificacaoTreeFormService {
             const value = obj[key];
             const node = new ClassificacaoNode();
             node.nome = value.nome;
+            node.codigo = value.codigo;
             node.id = value.id;
             node.children = value.children;
             node.hasChild = value.hasChild;
@@ -67,6 +69,7 @@ export class CdkClassificacaoTreeFormService {
 
     updateItem(node: ClassificacaoNode, formValue, nodeDad: ClassificacaoNode = null) {
         node.nome = formValue.nome;
+        node.codigo = formValue.codigo;
         this.dataChange.next(this.data);
     }
 

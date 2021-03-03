@@ -130,7 +130,7 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value && typeof value === 'object') {
-                        if (this.form.get('setor').value.especieSetor.descricao === 'ARQUIVO') {
+                        if (this.form.get('setor').value.especieSetor.nome === 'ARQUIVO') {
                             this.inputArquivista = true;
                             this._changeDetectorRef.markForCheck();
                         }
@@ -150,6 +150,11 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
 
             if (this.lotacao.setor) {
                 this.form.get('unidade').setValue(this.lotacao.setor.unidade);
+
+                if (this.lotacao.setor.especieSetor?.nome === 'ARQUIVO') {
+                    this.inputArquivista = true;
+                    this._changeDetectorRef.markForCheck();
+                }
             }
         }
 

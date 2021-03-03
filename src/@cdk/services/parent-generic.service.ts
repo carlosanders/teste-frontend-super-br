@@ -15,12 +15,13 @@ export class ParentGenericService<T> {
     ) {
     }
 
-    get(id: number, context: any = '{}'): Observable<T> {
+    get(id: number, populate: any = '[]', context: any = '{}'): Observable<T> {
         const params = {};
+        params['populate'] = populate;
         params['context'] = context;
         return this.modelService.getOne(this.path, id, new HttpParams({fromObject: params}))
             .pipe(
-                map(response => plainToClass(this.clz, response)[0])
+                map(response => plainToClass(this.clz, response))
             );
     }
 

@@ -1,7 +1,7 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {LembreteService} from '@cdk/services/lembrete.service';
 import {select, Store} from '@ngrx/store';
-import {getRouterState, State} from '../../../../../../store/reducers';
+import {getRouterState, State} from '../../../../../../store';
 import {Router} from '@angular/router';
 import * as LembreteActions from '../actions/lembrete.actions';
 import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
@@ -109,7 +109,7 @@ export class LembreteEffects {
                         if (this.routerState.params[typeParam] === 'pronto-transicao') {
                             processoFilter = {
                                 dataHoraProximaTransicao: 'lt:' + this.currentDate,
-                                modalidadeFase: 'in:1,2',
+                                'modalidadeFase.id': 'in:1,2',
                                 'setorAtual.id': 'eq:' + this.setorAtual
 
                             };
@@ -118,7 +118,7 @@ export class LembreteEffects {
                         if (this.routerState.params[typeParam] === 'aguardando-decurso') {
                             processoFilter = {
                                 dataHoraProximaTransicao: 'gte:' + this.currentDate,
-                                modalidadeFase: 'in:1,2',
+                                'modalidadeFase.id': 'in:1,2',
                                 'setorAtual.id': 'eq:' + this.setorAtual
                             };
                         }
@@ -126,7 +126,7 @@ export class LembreteEffects {
                         if (this.routerState.params[typeParam] === 'pendencia-analise') {
                             processoFilter = {
                                 dataHoraProximaTransicao: 'isNull',
-                                modalidadeFase: 'in:1,2',
+                                'modalidadeFase.id': 'in:1,2',
                                 'setorAtual.id': 'eq:' + this.setorAtual
                             };
 

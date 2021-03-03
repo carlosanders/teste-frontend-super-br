@@ -3,9 +3,11 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input, OnChanges, OnDestroy,
+    Input,
+    OnDestroy,
     OnInit,
-    Output, SimpleChange, ViewChild,
+    Output,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -15,6 +17,7 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
+import {getDocumentosHasLoaded} from '../../store';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -30,8 +33,6 @@ import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {DynamicService} from '../../../../../../../modules/dynamic.service';
-import {getDocumentosHasLoaded} from '../../store';
 import {MatDialog} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../../../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 

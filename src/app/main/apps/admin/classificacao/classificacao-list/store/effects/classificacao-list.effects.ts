@@ -1,11 +1,9 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
-
-import {getRouterState, State} from '../../../../../../../store/reducers';
+import {getRouterState, State} from '../../../../../../../store';
 import * as ClassificacaoListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {ClassificacaoService} from '../../../../../../../../@cdk/services/classificacao.service';
@@ -73,5 +71,23 @@ export class ClassificacaoListEffects {
                 })
             );
 
-
+    /**
+     * Delete Classificacao
+     * @type {Observable<any>}
+     */
+    @Effect()
+    deleteClassificacao: any =
+        this._actions
+            .pipe(
+                ofType<ClassificacaoListActions.DeleteClassificacao>(ClassificacaoListActions.DELETE_CLASSIFICACAO),
+                mergeMap((action) => {
+                    return this._classificacaoService.destroy(action.payload).pipe(
+                        map((response) => new ClassificacaoListActions.DeleteClassificacaoSuccess(action.payload)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new ClassificacaoListActions.DeleteClassificacaoFailed(action.payload));
+                        })
+                    );
+                })
+            );
 }
