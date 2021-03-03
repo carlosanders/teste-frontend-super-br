@@ -20,7 +20,14 @@
                 {{ (processo.tipoProtocolo === 1) ? 'PROCESSO' : ((processo.tipoProtocolo === 2) ? 'DOCUMENTO AVULSO' : 'UA DOSSIE') }}
             </div>
         </div>
-
+        <div class="linha">
+            <div class="titulo">
+                Esta num processo de workflow:
+            </div>
+            <div class="valor">
+                {{estaNumProcessoWorkflow}}
+            </div>
+        </div>
         <div class="linha">
             <div class="titulo">
                 Abertura:

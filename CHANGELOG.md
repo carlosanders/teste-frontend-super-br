@@ -24,3 +24,8 @@
 * Correção de bug com ajustes no layout do form de classificacão
 * Correção de bug na edição de processo
 * Correção de bug no maximizar o processo no módulo do arquivista
+
+1.1.0
+
+* Feature etiquetas para o coordenador
+* Feature destacar na interface quando estiver trabalhando no contexto de um workflow
