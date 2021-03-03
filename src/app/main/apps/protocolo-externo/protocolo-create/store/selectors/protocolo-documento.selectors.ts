@@ -47,9 +47,24 @@ export const getDeletingDocumentosId = createSelector(
     (state: ProtocoloDocumentoState) => state.deletingDocumentoIds
 );
 
+export const getConvertendoAllDocumentosId = createSelector(
+    getProtocoloDocumentoState,
+    (state: ProtocoloDocumentoState) => {
+        return [
+            ...state.convertendoDocumentoIds,
+            ...state.convertendoDocumentoHtmlIds
+        ];
+    }
+);
+
 export const getConvertendoDocumentosId = createSelector(
     getProtocoloDocumentoState,
     (state: ProtocoloDocumentoState) => state.convertendoDocumentoIds
+);
+
+export const getConvertendoDocumentosHtmlId = createSelector(
+    getProtocoloDocumentoState,
+    (state: ProtocoloDocumentoState) => state.convertendoDocumentoHtmlIds
 );
 
 export const getRemovendoAssinaturaDocumentosId = createSelector(

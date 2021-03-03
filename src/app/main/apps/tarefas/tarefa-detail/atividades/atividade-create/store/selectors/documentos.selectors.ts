@@ -63,6 +63,21 @@ export const getConvertendoDocumentosId = createSelector(
     (state: AtividadeCreateDocumentosState) => state.convertendoDocumentoIds
 );
 
+export const getConvertendoAllDocumentosId = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => {
+        return [
+            ...state.convertendoDocumentoIds,
+            ...state.convertendoDocumentoHtmlIds
+        ];
+    }
+);
+
+export const getConvertendoDocumentosHtmlId = createSelector(
+    getAtividadeCreateDocumentosState,
+    (state: AtividadeCreateDocumentosState) => state.convertendoDocumentoHtmlIds
+);
+
 export const getDownloadDocumentosP7SId = createSelector(
     getAtividadeCreateDocumentosState,
     (state: AtividadeCreateDocumentosState) => state.downloadDocumentosP7SIds

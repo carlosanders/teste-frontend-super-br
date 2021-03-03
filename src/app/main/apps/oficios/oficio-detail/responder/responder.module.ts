@@ -91,6 +91,7 @@ modulesConfig.forEach((module) => {
     providers: [
         AtividadeService,
         DocumentoService,
+        ComponenteDigitalService,
         LoginService
     ],
     exports: [

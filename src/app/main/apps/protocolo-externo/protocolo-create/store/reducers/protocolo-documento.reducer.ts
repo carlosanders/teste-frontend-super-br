@@ -8,6 +8,7 @@ export interface ProtocoloDocumentoState {
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    convertendoDocumentoHtmlIds: number[];
     loading: boolean;
     loaded: boolean;
     saving: boolean;
@@ -22,6 +23,7 @@ export const ProtocoloDocumentoInitialState: ProtocoloDocumentoState = {
     assinandoDocumentoIds: [],
     removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
+    convertendoDocumentoHtmlIds: [],
     loading: false,
     loaded: false,
     saving: false,
@@ -53,6 +55,7 @@ export function ProtocoloDocumentoReducer(state = ProtocoloDocumentoInitialState
                 documentosLoaded: undefined,
                 removendoAssinaturaDocumentoIds: [],
                 convertendoDocumentoIds: [],
+                convertendoDocumentoHtmlIds: [],
                 loaded: false,
                 loading: false,
                 selectedDocumentosId: [],
@@ -114,6 +117,25 @@ export function ProtocoloDocumentoReducer(state = ProtocoloDocumentoInitialState
             return {
                 ...state,
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_ATIVIDADE_HTML: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: [...state.convertendoDocumentoHtmlIds, action.payload],
+            };
+        }
+        case ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_HTML_SUCESS: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
+            };
+        }
+        case ProtocoloDocumentoActions.CONVERTE_DOCUMENTO_HTML_FAILED: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
             };
         }
 

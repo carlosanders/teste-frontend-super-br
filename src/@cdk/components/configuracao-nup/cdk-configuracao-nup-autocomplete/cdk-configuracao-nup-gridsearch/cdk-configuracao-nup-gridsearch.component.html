@@ -1,0 +1,10 @@
+<cdk-configuracao-nup-grid
+        [loading]="loading"
+        [configuracoesNup]="configuracoesNup"
+        [displayedColumns]="['id', 'nome', 'descricao', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-configuracao-nup-grid>

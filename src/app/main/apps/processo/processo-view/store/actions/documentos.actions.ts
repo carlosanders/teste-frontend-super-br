@@ -53,6 +53,10 @@ export const CONVERTE_DOCUMENTO = '[PROCESSO VIEW] CONVERTE DOCUMENTO';
 export const CONVERTE_DOCUMENTO_SUCESS = '[PROCESSO VIEW] CONVERTE DOCUMENTO SUCCESS';
 export const CONVERTE_DOCUMENTO_FAILED = '[PROCESSO VIEW] CONVERTE DOCUMENTO FAILED';
 
+export const CONVERTE_DOCUMENTO_HTML = '[PROCESSO VIEW] CONVERTE DOCUMENTO HTML';
+export const CONVERTE_DOCUMENTO_HTML_SUCESS = '[PROCESSO VIEW] CONVERTE DOCUMENTO HTML SUCCESS';
+export const CONVERTE_DOCUMENTO_HTML_FAILED = '[PROCESSO VIEW] CONVERTE DOCUMENTO HTML FAILED';
+
 export const DOWNLOAD_DOCUMENTO_P7S = '[PROCESSO VIEW] DOWNLOAD DOCUMENTO P7S';
 export const DOWNLOAD_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] DOWNLOAD DOCUMENTO P7S SUCESS';
 export const DOWNLOAD_DOCUMENTO_FAILED = '[PROCESSO VIEW] DOWNLOAD DOCUMENTO P7S FAILED';
@@ -556,6 +560,37 @@ export class ConverteToPdfFailed implements Action
 }
 
 /**
+ * Converte Documento HTML
+ */
+
+export class ConverteToHtml implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToHtmlSucess implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML_SUCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToHtmlFailed implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Remove Vinculacao Documento
  */
 export class RemoveVinculacaoDocumento implements Action
@@ -634,6 +669,9 @@ export type ProcessoViewDocumentosActionsAll
     | ConverteToPdf
     | ConverteToPdfSucess
     | ConverteToPdfFailed
+    | ConverteToHtml
+    | ConverteToHtmlSucess
+    | ConverteToHtmlFailed
     | UnloadDocumentos
     | RemoveVinculacaoDocumento
     | RemoveVinculacaoDocumentoSuccess
