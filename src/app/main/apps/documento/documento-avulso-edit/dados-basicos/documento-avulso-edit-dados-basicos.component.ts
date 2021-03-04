@@ -157,7 +157,9 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._componenteDigitalService.doEditorSave.next(this.documento.id);
+                if (!this.documento.assinado){
+                    this._componenteDigitalService.doEditorSave.next(this.documento.id);
+                }
             }
             this.confirmDialogRef = null;
         });
