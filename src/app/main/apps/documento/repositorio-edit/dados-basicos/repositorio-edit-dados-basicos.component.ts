@@ -105,7 +105,11 @@ export class RepositorioEditDadosBasicosComponent implements OnInit, OnDestroy, 
         );
 
         this.values = repositorio;
-        this._componenteDigitalService.doEditorSave.next(this.documento.id);
+        if (!this.documento.assinado){
+            this._componenteDigitalService.doEditorSave.next(this.documento.id);
+        } else {
+            this.submit();
+        }
     }
 
     submit(): void {

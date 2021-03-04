@@ -127,7 +127,11 @@ export class DocumentoEditAtividadeComponent implements OnInit, OnDestroy, After
         );
         atividade.documentos = [this.documento];
         this.values = atividade;
-        this._componenteDigitalService.doEditorSave.next(this.documento.id);
+        if (!this.documento.assinado){
+            this._componenteDigitalService.doEditorSave.next(this.documento.id);
+        } else {
+            this.submitAtividade();
+        }
     }
 
     submitAtividade(): void {

@@ -105,7 +105,11 @@ export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, After
         );
 
         this.values = modelo;
-        this._componenteDigitalService.doEditorSave.next(this.documento.id);
+        if (!this.documento.assinado){
+            this._componenteDigitalService.doEditorSave.next(this.documento.id);
+        } else {
+            this.submit();
+        }
     }
 
     submit(): void {

@@ -30,17 +30,16 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {SaveAssunto, UnloadAssuntos} from './store';
 import {SaveInteressado} from './store';
 import {SaveVinculacaoProcesso} from './store';
-import {SaveTarefa} from './store/actions';
+import {SaveTarefa} from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import * as moment from 'moment';
 import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
 import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
-import {getVinculacaoProcessoIsSaving} from './store/selectors';
-import {getTarefaIsSaving} from './store/selectors';
-import {SetSteps} from '../../store/actions';
-import {getProcesso} from '../../store/selectors';
+import {getVinculacaoProcessoIsSaving} from './store';
+import {getTarefaIsSaving} from './store';
+import {getProcesso} from '../../store';
 
 @Component({
     selector: 'dados-basicos-create',
@@ -421,11 +420,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
-            if (screen.size !== 'desktop') {
-                this.mobileMode = true;
-            } else {
-                this.mobileMode = false;
-            }
+            this.mobileMode = screen.size !== 'desktop';
         });
     }
 
@@ -455,7 +450,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         );
 
         if (this.processo && this.processo.id) {
-            processo.setorInicial = this.processo.setorInicial ? this.processo.setorInicial : null;
+            processo.setorInicial = this.processo.setorInicial ? this.processo.setorInicial : this.processo.setorAtual;
             processo.NUP = this.processo.NUP
                 .replace(/[^\w\-]+/g, '')
                 .replace(/-+/g, '');

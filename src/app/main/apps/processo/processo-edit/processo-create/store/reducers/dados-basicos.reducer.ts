@@ -52,7 +52,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
 
         case DadosBasicosActions.CREATE_PROCESSO: {
             return {
-                processoId: null,                
+                processoId: null,
                 loaded: {
                     id: 'processoHandle',
                     value: 'criar',
@@ -60,13 +60,13 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                 },
                 loading: false,
                 saving: false,
-                errors: false,   
+                errors: false,
             };
         }
 
         case DadosBasicosActions.UNLOAD_PROCESSO: {
             return {
-                processoId: undefined,                
+                processoId: undefined,
                 loaded: {
                     id: undefined,
                     value: undefined,
@@ -74,7 +74,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                 },
                 loading: false,
                 saving: false,
-                errors: false,   
+                errors: false,
             };
         }
 
@@ -112,7 +112,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
         case DadosBasicosActions.SAVE_PROCESSO_SUCCESS: {
             return {
                 ...state,
-                saving: true,
+                saving: false,
                 errors: false
             };
         }

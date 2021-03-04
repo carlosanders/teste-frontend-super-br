@@ -22,3 +22,14 @@
 * Correção de bug para salvar o conteudo do componente digital do repositorio antes de salvar os dados basicos do repositorio
 * Correção de bug no autocomplete de classificação para exibir o código
 * Correção de bug com ajustes no layout do form de classificacão
+
+1.1.0
+
+* Correção do botão salvar form unidade
+* Correção filtro por observação painel de tarefa;
+* Correção filtro por processo painel de tarefa;
+* Correção da busca de processo com número do NUP formatado;
+* Correção na alteração de processo na aba Dados básicos;
+* Correção para não salvar mudanças no conteudo do componente digital se ele estiver assinado
+* Correção na edição de documento avulso trazendo espécie de ofício
+* Correção da url de retorno da pesquisa de documentos
