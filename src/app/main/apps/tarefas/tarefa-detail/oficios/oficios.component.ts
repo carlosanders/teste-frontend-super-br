@@ -113,7 +113,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
-        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
 
         this._store.pipe(select(getDocumentosHasLoaded)).subscribe(
             loaded => this.loadedOficios = loaded
@@ -365,6 +365,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doConverte(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doConverteHtml(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
     }
 
     doAbort(): void {

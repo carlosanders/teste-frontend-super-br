@@ -29,6 +29,7 @@ import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-document
 import {EstadoService} from '@cdk/services/estado.service';
 import {modulesConfig} from 'modules/modules-config';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {ComponenteDigitalService} from "../../../../../@cdk/services/componente-digital.service";
 
 const routes: Routes = [
     {
@@ -84,6 +85,7 @@ modulesConfig.forEach((module) => {
     providers: [
         ProcessoService,
         EstadoService,
+        ComponenteDigitalService,
         fromGuards.ResolveGuard,
         AssinaturaService
     ]

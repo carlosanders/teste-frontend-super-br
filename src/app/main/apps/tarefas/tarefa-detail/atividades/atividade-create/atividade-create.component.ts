@@ -139,7 +139,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
-        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.downloadP7SDocumentosId$ = this._store.pipe(select(fromStore.getDownloadDocumentosP7SId));
 
         this.loadDocumentosExcluidos$ = this._store.pipe(select(fromStore.getDocumentosExcluidos));
@@ -507,6 +507,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     doConverte(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doConverteHtml(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
     }
 
     doDownloadP7S(documentoId): void {

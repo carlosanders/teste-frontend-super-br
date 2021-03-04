@@ -88,6 +88,9 @@ export class CdkDocumentoCardComponent implements OnInit {
     converte = new EventEmitter<number>();
 
     @Output()
+    converteHtml = new EventEmitter<number>();
+
+    @Output()
     downloadP7s = new EventEmitter<number>();
 
     @Output()
@@ -177,6 +180,10 @@ export class CdkDocumentoCardComponent implements OnInit {
 
     doConverte(documentoId): void {
         this.converte.emit(documentoId);
+    }
+
+    doConverteHtml(documentoId): void {
+        this.converteHtml.emit(documentoId);
     }
 
     doDownloadP7s(documentoId): void {

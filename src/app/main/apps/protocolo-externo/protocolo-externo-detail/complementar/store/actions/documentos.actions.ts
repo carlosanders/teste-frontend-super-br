@@ -15,6 +15,10 @@ export const CONVERTE_DOCUMENTO = '[COMPLEMENTAR DOCUMENTOS] CONVERTE DOCUMENTO 
 export const CONVERTE_DOCUMENTO_SUCESS = '[COMPLEMENTAR DOCUMENTOS] CONVERTE DOCUMENTO SUCCESS';
 export const CONVERTE_DOCUMENTO_FAILED = '[COMPLEMENTAR DOCUMENTOS] CONVERTE DOCUMENTO FAILED';
 
+export const CONVERTE_DOCUMENTO_HTML = '[COMPLEMENTAR DOCUMENTOS] CONVERTE DOCUMENTO DOCUMENTOS HTML';
+export const CONVERTE_DOCUMENTO_HTML_SUCESS = '[COMPLEMENTAR DOCUMENTOS] CONVERTE DOCUMENTO HTML SUCCESS';
+export const CONVERTE_DOCUMENTO_HTML_FAILED = '[COMPLEMENTAR DOCUMENTOS] CONVERTE DOCUMENTO HTML FAILED';
+
 export const ASSINA_DOCUMENTO = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_SUCCESS = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_FAILED = '[COMPLEMENTAR DOCUMENTOS] ASSINA DOCUMENTO FAILED';
@@ -157,6 +161,36 @@ export class ConverteToPdfFailed implements Action
 }
 
 /**
+ * Converte Documento HTML
+ */
+export class ConverteToHtml implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToHtmlSucess implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML_SUCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class ConverteToHtmlFailed implements Action
+{
+    readonly type = CONVERTE_DOCUMENTO_HTML_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Assina Documento
  */
 export class AssinaDocumento implements Action
@@ -284,6 +318,9 @@ export type DocumentosActionsAll
     | ConverteToPdf
     | ConverteToPdfSucess
     | ConverteToPdfFailed
+    | ConverteToHtml
+    | ConverteToHtmlSucess
+    | ConverteToHtmlFailed
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed

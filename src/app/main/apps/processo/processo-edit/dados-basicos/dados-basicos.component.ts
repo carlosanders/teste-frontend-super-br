@@ -41,6 +41,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     especieProcessoPagination: Pagination;
     setorAtualPagination: Pagination;
     classificacaoPagination: Pagination;
+    configuracaoNupPagination: Pagination;
     logEntryPagination: Pagination;
 
     routerState: any;

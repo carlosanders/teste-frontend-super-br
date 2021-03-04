@@ -3,9 +3,11 @@ import {
     ChangeDetectorRef,
     Component,
     EventEmitter,
-    Input, OnChanges, OnDestroy,
+    Input,
+    OnDestroy,
     OnInit,
-    Output, SimpleChange, ViewChild,
+    Output,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -15,6 +17,7 @@ import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
+import {getDocumentosHasLoaded} from '../../store';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -30,8 +33,6 @@ import {LoginService} from '../../../../../auth/login/login.service';
 import {CdkUtils} from '../../../../../../../@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {DynamicService} from '../../../../../../../modules/dynamic.service';
-import {getDocumentosHasLoaded} from '../../store';
 import {MatDialog} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../../../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 
@@ -201,7 +202,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
-        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
         this.loadingDocumentosExcluidos$ = this._store.pipe(select(fromStore.getLoadingDocumentosExcluidos));
         this.downloadP7SDocumentoIds$ = this._store.pipe(select(fromStore.getDownloadDocumentoP7SId));
@@ -752,8 +753,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.RemoveAssinaturaDocumento(documentoId));
     }
 
-    doConverte(componenteDigitalId): void {
-        this._store.dispatch(new fromStore.ConverteToPdf(componenteDigitalId));
+    doConverte(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doConverteHtml(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
     }
 
     doDownloadP7S(documentoId): void {

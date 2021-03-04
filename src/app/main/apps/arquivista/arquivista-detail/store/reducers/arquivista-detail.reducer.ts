@@ -1,4 +1,5 @@
 import * as ArquivistaDetailActions from '../actions';
+import * as TarefasActions from '../../../../tarefas/store/actions/tarefas.actions';
 
 export interface ArquivistaDetailState {
     processoId: number;
@@ -29,6 +30,13 @@ export function ArquivistaDetailReducer(
     action: ArquivistaDetailActions.ArquivistaDetailActionsAll
 ): ArquivistaDetailState {
     switch (action.type) {
+
+        case ArquivistaDetailActions.TOGGLE_MAXIMIZADO: {
+            return {
+                ...state,
+                maximizado: action.payload
+            };
+        }
 
         default:
             return state;

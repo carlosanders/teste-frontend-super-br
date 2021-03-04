@@ -22,9 +22,16 @@
 * Correção de bug para salvar o conteudo do componente digital do repositorio antes de salvar os dados basicos do repositorio
 * Correção de bug no autocomplete de classificação para exibir o código
 * Correção de bug com ajustes no layout do form de classificacão
+* Correção de bug na edição de processo
+* Correção de bug no maximizar o processo no módulo do arquivista
 
 1.1.0
 
+* Feature etiquetas para o coordenador
+* Feature destacar na interface quando estiver trabalhando no contexto de um workflow
+* Feature suportar abstratamente outros formatos de NUP
+* Feature para desfazer a conversão de componente digital html para pdf
+* Feature para suportar novos inválidos de NUP gerados erroneamente por outros sistemas
 * Correção do botão salvar form unidade
 * Correção filtro por observação painel de tarefa;
 * Correção filtro por processo painel de tarefa;

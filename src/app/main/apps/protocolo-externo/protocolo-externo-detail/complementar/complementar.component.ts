@@ -89,7 +89,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$ = this._store.pipe(select(fromStore.getSelectedDocumentos));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
-        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -214,5 +214,9 @@ export class ComplementarComponent implements OnInit, OnDestroy {
 
     doConverte(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doConverteHtml(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
     }
 }

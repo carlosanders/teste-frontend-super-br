@@ -106,7 +106,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
-        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoDocumentosId));
+        this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.estados$ = this._store.pipe(select(fromStore.getEstados));
         this._profile = this._loginService.getUserProfile();
 
@@ -352,6 +352,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     doConverte(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToPdf(documentoId));
+    }
+
+    doConverteHtml(documentoId): void {
+        this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
     }
 
     unloadProcesso(): void {
