@@ -120,8 +120,6 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        console.log(this.mode);
-
         if (changes['pessoa'] && this.pessoa && ((!this.pessoa.id && !this.form.dirty) || (this.pessoa.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.pessoa});
         }
@@ -240,9 +238,9 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     }
 
     checkMunicipio(): void {
-        const value = this.form.get('municipio').value;
+        const value = this.form.get('naturalidade').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('municipio').setValue(null);
+            this.form.get('naturalidade').setValue(null);
         }
     }
 

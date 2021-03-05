@@ -1,7 +1,14 @@
 <mat-autocomplete [displayWith]="displayProcessoFn">
-    <mat-option *ngFor="let processo of processoList"
+    <mat-option [ngClass]="{'multiline':processo.outroNumero}"
+                *ngFor="let processo of processoList"
                 [value]="processo">
-        <span [innerHTML]="displayProcessoFn(processo) | highlightOption: this.control.value"></span>
+        <div>
+            <span [innerHTML]="displayProcessoFn(processo) | highlightOption: this.control.value"></span>
+        </div>
+        <div *ngIf="processo.outroNumero">
+            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span style="font-style: italic" [innerHTML]="displayProcessoOutroNumeroFn(processo) | highlightOption: this.control.value"></span>
+        </div>
     </mat-option>
     <mat-option *ngIf="processoListIsLoading">
         <mat-spinner diameter="16"></mat-spinner>

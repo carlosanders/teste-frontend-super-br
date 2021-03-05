@@ -148,18 +148,15 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
 
         this.form.get('processo').valueChanges.subscribe(value => {
             if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({'processo.NUP': `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
+                if (typeof value === 'object' && value) {
                     this._cdkTarefaFilterService.filters = {
                         ...this._cdkTarefaFilterService.filters,
-                        andX: andxFilter
+                        'processo.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('processo')) {
-                        delete this._cdkTarefaFilterService.filters['processo'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('processo.id')) {
+                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
+                        delete this._cdkTarefaFilterService.filters['processo.id'];
                     }
                 }
             }
