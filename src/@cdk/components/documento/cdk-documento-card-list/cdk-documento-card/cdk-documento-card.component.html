@@ -47,7 +47,7 @@
             <ng-template [ngIf]="!documento.apagadoEm">
                 <button
                     [disabled]="!podeDeletar"
-                    *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa) 
+                    *ngIf="(!documento.documentoAvulsoRemessa || !documento.documentoAvulsoRemessa.dataHoraRemessa)
                     && this._loginService.isGranted('ROLE_COLABORADOR') && actions.indexOf('delete') > -1"
                     fxLayout="row" fxLayoutAlign="start center" (click)="doDelete(documento.id)" mat-menu-item>
                     <mat-icon color="accent">delete</mat-icon>
@@ -62,7 +62,7 @@
                     <mat-icon color="accent">lock_open</mat-icon>
                     <span>Remover Assinatura</span>
                 </button>
-                <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(documento.id)"
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(documento?.componentesDigitais[0]?.id)"
                         *ngIf="documento?.componentesDigitais[0]?.extensao === 'html'" mat-menu-item>
                     <mat-icon color="accent">picture_as_pdf</mat-icon>
                     <span>Converter em PDF</span>
