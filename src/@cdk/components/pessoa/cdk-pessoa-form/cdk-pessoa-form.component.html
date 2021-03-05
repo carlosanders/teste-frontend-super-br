@@ -167,7 +167,7 @@
         </button>
         <button mat-raised-button color="accent"
                 [disabled]="form.invalid"
-                *ngIf="mode === 'save'"
+                *ngIf="mode === 'save' && !saving"
                 aria-label="Salvar"
                 (click)="submit()">
             SALVAR

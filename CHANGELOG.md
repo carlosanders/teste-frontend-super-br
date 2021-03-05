@@ -46,3 +46,5 @@
 * Correção de bug na visualização de processo entrando com a url
 * Correção para otimizar a pesquisa de modelos
 * Correção de bug na gestão de pessoas no módulo admin
+* Correçao da validaçao das tarefas em bloco
+* Correção da edição em bloco de tarefas para distribuiçao de tarefas

@@ -145,10 +145,17 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
             }
 
             if (this.blocoEditDistribuicao) {
-                changes = {
-                    setorResponsavel: tarefa.setorResponsavel.id,
-                    usuarioResponsavel: tarefa.usuarioResponsavel.id
-                };
+                if (!values.distribuicaoAutomatica){
+                    changes = {
+                        setorResponsavel: tarefa.setorResponsavel.id,
+                        usuarioResponsavel: tarefa.usuarioResponsavel.id
+                    };
+                } else {
+                    changes = {
+                        distribuicaoAutomatica: true,
+                        setorResponsavel: tarefa.setorResponsavel.id
+                    };
+                }
             }
 
             if (this.blocoEditInicioPrazo) {

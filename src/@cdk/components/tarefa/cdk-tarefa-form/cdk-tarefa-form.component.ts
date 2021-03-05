@@ -220,7 +220,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.addFilterProcessoWorfkflow();
             }
         } else {
-            this.form.get('especieTarefa').disable();
+            if (this.mode !== 'bloco-edit') {
+                this.form.get('especieTarefa').disable();
+            }
         }
 
         if (this.mode === 'bloco-create') {
@@ -1029,12 +1031,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     clearValidators(): void {
-        if (this.valid && this.blocoEdit.blocoEditDistribuicao) {
-            this.form.get('processo').clearValidators();
-            this.form.get('dataHoraInicioPrazo').clearValidators();
-            this.form.get('dataHoraFinalPrazo').clearValidators();
-            this.form.get('especieTarefa').clearValidators();
-            this.form.get('setorOrigem').clearValidators();
+
+        if (this.valid) {
+            const controls = this.form.controls;
+            for (const name in controls) {
+                if (controls[name].invalid) {
+                    controls[name].clearValidators();
+                }
+            }
         }
     }
 
@@ -1063,7 +1067,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     addFilterProcessoWorfkflow(): void {
         // caso processo seja de workflow verificar espécies permitidas
         this.especieTarefaPagination['context'] = {};
-        if (this.form.get('processo').value.especieProcesso.workflow) {
+        if (this.form.get('processo').value && this.form.get('processo').value.especieProcesso.workflow) {
 
             if (!this.form.get('processo').value.tarefaAtualWorkflow) {
                 this.especieTarefaPagination.filter['workflows.id'] = 'eq:'

@@ -51,7 +51,7 @@
                 (click)="getFavoritosEspecieTarefa()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button [disabled]="!form.get('processo').value"
+        <button matSuffix mat-button mat-icon-button [disabled]="!form.get('processo').value && (mode !== 'bloco-edit')"
                 (click)="showEspecieTarefaGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
