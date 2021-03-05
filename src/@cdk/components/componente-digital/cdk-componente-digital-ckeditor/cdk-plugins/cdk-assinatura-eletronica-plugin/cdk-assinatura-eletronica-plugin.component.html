@@ -2,14 +2,11 @@
 <form class="p-24 mr-24" fxLayoutGap="16px"
       fxLayout="column"
       fxLayoutAlign="start"
-      name="form" [formGroup]="form">
+      name="form" [formGroup]="form" (keyup.enter)="close()">
     <div fxFlex="1 0 auto" fxLayout="column">
-        <mat-slide-toggle class="mb-16" formControlName="certificadoDigital">
-            Usar Certificado Digital
-        </mat-slide-toggle>
         <mat-form-field fxFlex="100" [hidden]="form.get('certificadoDigital').value">
             <mat-label>Senha</mat-label>
-            <input tabindex="-1" type="password"
+            <input type="password"
                    matInput #plainPassword
                    name="plainPassword"
                    formControlName="plainPassword"
@@ -21,6 +18,9 @@
             <mat-error [hidden]="!form.get('plainPassword').hasError('maxlength')">Campo deve ter no máximo 16 dígitos!
             </mat-error>
         </mat-form-field>
+        <mat-slide-toggle class="mt-16" formControlName="certificadoDigital">
+            Usar Certificado Digital
+        </mat-slide-toggle>
     </div>
     <div fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
          fxLayoutAlign="center center">

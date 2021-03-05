@@ -21,9 +21,9 @@ import {Tarefa} from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {Usuario} from '@cdk/models/usuario.model';
-import {Back} from '../../../../store/actions';
+import {Back} from '../../../../store';
 import {modulesConfig} from '../../../../../modules/modules-config';
 
 @Component({
@@ -223,7 +223,7 @@ export class DocumentoAvulsoCreateComponent implements OnInit, OnDestroy {
     editPessoaDestino(pessoaId: number): void {
         this._router.navigate([this.routerState.url.split('/pessoa')[0] + '/pessoa/editar/' + pessoaId]).then();
     }
-    
+
     submit(values): void {
 
         const documentoAvulso = new DocumentoAvulso();

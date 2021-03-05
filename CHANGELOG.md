@@ -32,11 +32,17 @@
 * Feature suportar abstratamente outros formatos de NUP
 * Feature para desfazer a conversão de componente digital html para pdf
 * Feature para suportar novos inválidos de NUP gerados erroneamente por outros sistemas
+* Feature para o autocomplete do processo suportar NUP e outro numero
+* Feature para o autocomplete do setor suportar nome e sigla
+* Feature para concluir a assinatura eletrônica clicando no enter
 * Correção do botão salvar form unidade
-* Correção filtro por observação painel de tarefa;
-* Correção filtro por processo painel de tarefa;
+* Correção filtro por observação painel de tarefa
+* Correção filtro por processo painel de tarefa
 * Correção da busca de processo com número do NUP formatado;
 * Correção na alteração de processo na aba Dados básicos;
 * Correção para não salvar mudanças no conteudo do componente digital se ele estiver assinado
 * Correção na edição de documento avulso trazendo espécie de ofício
 * Correção da url de retorno da pesquisa de documentos
+* Correção de bug na visualização de processo entrando com a url
+* Correção para otimizar a pesquisa de modelos
+* Correção de bug na gestão de pessoas no módulo admin

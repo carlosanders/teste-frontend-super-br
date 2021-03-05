@@ -56,17 +56,28 @@ export class CdkSetorAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    const andxFilter = [];
+                    const termFilterNome = [];
+                    const termFilterSigla = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        andxFilter.push({
-                            nome: `like:%${bit}%`});
+                        termFilterNome.push({
+                            nome: `like:%${bit}%`
+                        });
+                        termFilterSigla.push({
+                            sigla: `like:%${bit}%`
+                        });
                     });
-                    if (typeof value === 'string' && andxFilter.length > 0) {
+                    const termFilter = {
+                        orX: [
+                            {orX: termFilterNome},
+                            {orX: termFilterSigla}
+                        ]
+                    };
+                    if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterSigla.length > 0)) {
                         this.setorListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            andX: andxFilter
+                            ...termFilter
                         };
                         return this._setorService.query(
                             JSON.stringify(filterParam),

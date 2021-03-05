@@ -7,6 +7,7 @@ import { CdkMatSidenavHelperDirective, CdkMatSidenavTogglerDirective } from '@cd
 import { ShowIfRoleDirective } from './show-if-role.directive';
 import {ShowIfNotRoleDirective} from './show-if-not-role.directive';
 import {CdkGridColsDirective} from './cdk-grid-cols/cdk-grid-cols.directive';
+import {CdkInputAutoFocusDirective} from "./cdk-input-auto-focus-drective/cdk-input-auto-focus-directive";
 
 @NgModule({
     declarations: [
@@ -18,6 +19,7 @@ import {CdkGridColsDirective} from './cdk-grid-cols/cdk-grid-cols.directive';
         ShowIfRoleDirective,
         ShowIfNotRoleDirective,
         CdkGridColsDirective,
+        CdkInputAutoFocusDirective
     ],
     imports     : [],
     exports     : [
@@ -29,6 +31,7 @@ import {CdkGridColsDirective} from './cdk-grid-cols/cdk-grid-cols.directive';
         ShowIfRoleDirective,
         ShowIfNotRoleDirective,
         CdkGridColsDirective,
+        CdkInputAutoFocusDirective
     ]
 })
 export class DirectivesModule

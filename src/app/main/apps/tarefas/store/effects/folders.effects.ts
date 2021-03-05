@@ -14,7 +14,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {select, Store} from '@ngrx/store';
 import {FoldersState} from '../reducers';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 
 @Injectable()
 export class FoldersEffect

@@ -40,6 +40,15 @@ export class CdkAssinaturaEletronicaPluginComponent implements OnInit {
         });
     }
 
+    close(): void {
+        if (this.form.valid) {
+            this.dialogRef.close({
+                certificadoDigital: this.form.get('certificadoDigital').value,
+                plainPassword: this.form.get('plainPassword').value
+            });
+        }
+    }
+
     ngOnInit(): void {
         this.form.get('certificadoDigital').valueChanges.pipe(
             debounceTime(300),
