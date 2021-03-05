@@ -75,7 +75,7 @@ export class AdminPessoaListComponent implements OnInit {
 
     onActivate(componentReference): void  {
         if (componentReference.select) {
-            componentReference.select.filter((pessoa) => !!pessoa).subscribe((pessoa: Pessoa) => {
+            componentReference.select.subscribe((pessoa: Pessoa) => {
                 this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
             });
         }

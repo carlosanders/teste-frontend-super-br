@@ -11,7 +11,6 @@ import {getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
-import {DocumentoIdentificadorListAppState} from './documento-identificador-list/store';
 
 @Component({
     selector: 'documento-identificador',
@@ -74,10 +73,10 @@ export class DocumentoIdentificadorComponent implements OnInit, OnDestroy {
 
     goBack(): void {
         if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.documentoIdentificadorHandle), 'listar')]).then();
+            this._router.navigate([this.routerState.url.replace(('documentos/editar/' + this.routerState.params.documentoIdentificadorHandle), 'documentos/listar')]).then();
         }
         if (this.action === 'criar') {
-            this._router.navigate([this.routerState.url.replace('criar', 'listar')]).then();
+            this._router.navigate([this.routerState.url.replace('documentos/criar', 'documentos/listar')]).then();
         }
     }
 }
