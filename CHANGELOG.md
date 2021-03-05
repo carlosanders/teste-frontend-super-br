@@ -40,3 +40,5 @@
 * Correção para não salvar mudanças no conteudo do componente digital se ele estiver assinado
 * Correção na edição de documento avulso trazendo espécie de ofício
 * Correção da url de retorno da pesquisa de documentos
+* Correçao da validaçao das tarefas em bloco
+* Correção da edição em bloco de tarefas para distribuiçao de tarefas

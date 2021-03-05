@@ -120,8 +120,6 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        console.log(this.mode);
-
         if (changes['pessoa'] && this.pessoa && ((!this.pessoa.id && !this.form.dirty) || (this.pessoa.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.pessoa});
         }
