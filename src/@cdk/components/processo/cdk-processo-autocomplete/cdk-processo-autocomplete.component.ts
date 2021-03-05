@@ -1,19 +1,20 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
-    OnInit, ViewChild,
+    Component,
+    Input,
+    OnInit,
+    ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Processo} from '@cdk/models';
+import {Pagination, Processo} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {Pagination} from '@cdk/models';
 
 @Component({
     selector: 'cdk-processo-autocomplete',
@@ -35,6 +36,9 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
     processoList: Processo[];
     processoListIsLoading: boolean;
 
+    @Input()
+    field = 'NUP'
+
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
@@ -43,7 +47,6 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
     ) {
         this.processoList = [];
         this.processoListIsLoading = false;
-
         this.pagination = new Pagination();
     }
 
@@ -53,17 +56,28 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
             distinctUntilChanged(),
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    const andxFilter = [];
-                    value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        andxFilter.push({
-                            NUP: `like:%${bit}%`});
+                    const termFilterNUP = [];
+                    const termFilterOutroNumero = [];
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                        termFilterNUP.push({
+                            NUP: `like:%${bit.replace(/\D/g, '')}%`
+                        });
+                        termFilterOutroNumero.push({
+                            outroNumero: `like:%${bit}%`
+                        });
                     });
-                    if (typeof value === 'string' && andxFilter.length > 0) {
+                    const termFilter = {
+                        orX: [
+                            {orX: termFilterNUP},
+                            {orX: termFilterOutroNumero}
+                        ]
+                    };
+                    if (typeof value === 'string' && (termFilterNUP.length > 0 || termFilterOutroNumero.length > 0)) {
                         this.processoListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
                             ...this.pagination.filter,
-                            andX: andxFilter
+                            ...termFilter
                         };
                         return this._processoService.search(
                             JSON.stringify(filterParam),
@@ -90,5 +104,9 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
         let displayed = processo ? processo.NUP : '';
         displayed += (processo?.especieProcesso?.generoProcesso) ? (' (' + processo.especieProcesso.generoProcesso.nome + ')') : '';
         return displayed;
+    }
+
+    displayProcessoOutroNumeroFn(processo): string {
+        return processo ? processo.outroNumero : '';
     }
 }

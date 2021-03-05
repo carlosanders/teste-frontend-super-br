@@ -128,6 +128,8 @@
             </mat-radio-group>
         </div>
 
+        <div [hidden]="!this.exibirNup">
+            <div class="responsive-group">
         <mat-form-field>
             <input matInput placeholder="Configuração NUP" formControlName="configuracaoNup" required
                    [matAutocomplete]="configuracaoNup.autocomplete" (blur)="checkConfiguracaoNup()">
@@ -144,7 +146,8 @@
                 {{form.get('configuracaoNup').errors.formError}}
             </mat-error>
         </mat-form-field>
-
+            </div>
+        </div>
         <mat-form-field *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && form.get('configuracaoNup').value">
             <mat-label>{{form.value.unidadeArquivistica !== 3 ? 'NUP' : 'Dossiê'}}</mat-label>
             <input matInput #NUP name="NUP" formControlName="NUP" maxlength="21" [readonly]="readonlyNUP" (focusout)="doValidateNup()" required>
