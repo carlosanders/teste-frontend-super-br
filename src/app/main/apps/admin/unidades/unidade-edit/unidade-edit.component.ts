@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -16,8 +16,8 @@ import * as fromStore from './store';
 import {Pagination} from '@cdk/models/pagination';
 import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getRouterState} from '../../../../../store/reducers';
-import {Back} from '../../../../../store/actions';
+import {getRouterState} from '../../../../../store';
+import {Back} from '../../../../../store';
 
 @Component({
     selector: 'unidade-edit',
@@ -33,6 +33,7 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
     unidade$: Observable<Setor>;
     unidade: Setor;
     isSaving$: Observable<boolean>;
+    saving: boolean;
     errors$: Observable<any>;
     usuario: Usuario;
     generoSetorPagination: Pagination;
@@ -43,10 +44,12 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
      *
      * @param _store
      * @param _loginService
+     * @param _changeDetectorRef
      */
     constructor(
         private _store: Store<fromStore.UnidadeEditAppState>,
-        public _loginService: LoginService
+        public _loginService: LoginService,
+        private _changeDetectorRef: ChangeDetectorRef,
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -87,6 +90,13 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
             this.unidade = new Setor();
             this.unidade.ativo = true;
         }
+
+        this.isSaving$.subscribe(
+            save => {
+                this.saving = save;
+                this._changeDetectorRef.markForCheck();
+                }
+        )
     }
 
     /**
@@ -104,7 +114,6 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
     }
 
     submit(values): void {
-        console.log(values);
         const unidade = new Setor();
         Object.entries(values).forEach(
             ([key, value]) => {

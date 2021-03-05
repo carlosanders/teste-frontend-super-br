@@ -97,8 +97,8 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
                     andxFilter.push({postIt: `like:%${bit}%`});
                 });
                 if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         andX: andxFilter
                     };
                 } else {
@@ -116,8 +116,8 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
                     andxFilter.push({observacao: `like:%${bit}%`});
                 });
                 if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         andX: andxFilter
                     };
                 } else {
@@ -148,15 +148,18 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
 
         this.form.get('processo').valueChanges.subscribe(value => {
             if (value !== null) {
-                if (typeof value === 'object' && value) {
+                const andxFilter = [];
+                value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({'processo.NUP': `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
                     this._cdkTarefaFilterService.filters = {
                         ...this._cdkTarefaFilterService.filters,
-                        'processo.id': `eq:${value.id}`
+                        andX: andxFilter
                     };
                 } else {
-                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('processo.id')) {
-                        this._cdkTarefaFilterService.filters = {...this._cdkTarefaFilterService.filters};
-                        delete this._cdkTarefaFilterService.filters['processo.id'];
+                    if (this._cdkTarefaFilterService.filters.hasOwnProperty('processo')) {
+                        delete this._cdkTarefaFilterService.filters['processo'];
                     }
                 }
             }
@@ -387,6 +390,7 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
             ...this._cdkTarefaFilterService.filters,
             filters: this._cdkTarefaFilterService.filters
         };
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
     }

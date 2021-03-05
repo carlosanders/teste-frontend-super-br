@@ -174,6 +174,9 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                 this._store.dispatch(new GetDocumentosProcesso());
             }
         });
+        if (this.routerState.queryParams.pesquisa) {
+            this._router.navigate(['apps/pesquisa/documentos/']);
+        }
     }
 
     public destroyEditor(): void {
