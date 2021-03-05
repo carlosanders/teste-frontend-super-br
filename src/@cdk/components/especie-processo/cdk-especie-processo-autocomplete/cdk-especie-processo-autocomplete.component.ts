@@ -91,7 +91,11 @@ export class CdkEspecieProcessoAutocompleteComponent implements OnInit {
 
     displayEspecieProcessoFn(especieProcesso): string {
         let displayed = especieProcesso ? especieProcesso.nome : '';
-        displayed += (especieProcesso && especieProcesso.generoProcesso) ? (' (' + especieProcesso.generoProcesso.nome + ", WORKFLOW" +')') : '';
+        if(displayed === "ELABORAÇÃO DE ATO NORMATIVO"){
+            displayed += (especieProcesso && especieProcesso.generoProcesso) ? (' (' + especieProcesso.generoProcesso.nome + ", WORKFLOW" +')') : '';
+        }else{
+            displayed += (especieProcesso && especieProcesso.generoProcesso) ? (' (' + especieProcesso.generoProcesso.nome + ')') : '';
+        }
         return displayed;
     }
 }

@@ -46,6 +46,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     mode = 'Tarefas';
 
+
     links: any;
 
     routerState: any;
@@ -161,7 +162,13 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     onDrop($event): void {
         if (this.mode === 'Tarefas') {
-            this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
+            if($event[1] !== "Coordenação"){
+                this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
+            }else{
+                $event[0].data.distribuicaoAutomatica = true;
+                $event[0].data.usuarioResponsavel = null;
+                this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: "null"}));
+            }
         }
     }
 
