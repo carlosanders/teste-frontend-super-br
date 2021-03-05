@@ -7,7 +7,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './nome-list/store';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
@@ -73,10 +73,10 @@ export class NomesComponent implements OnInit, OnDestroy {
 
     goBack(): void {
         if (this.action === 'editar') {
-            this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.nomeHandle), 'listar')]).then();
+            this._router.navigate([this.routerState.url.replace(('nomes/editar/' + this.routerState.params.nomeHandle), 'nomes/listar')]).then();
         }
         if (this.action === 'criar') {
-            this._router.navigate([this.routerState.url.replace('criar', 'listar')]).then();
+            this._router.navigate([this.routerState.url.replace('nomes/criar', 'nomes/listar')]).then();
         }
     }
 }
