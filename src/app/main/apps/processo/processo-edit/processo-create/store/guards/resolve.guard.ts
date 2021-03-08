@@ -248,11 +248,13 @@ export class ResolveGuard implements CanActivate {
             select(getConfiguracaoNupLoaded),
             tap(loaded => {
                 const params = {
-                    filter: {},
+                    filter: {
+                        'dataHoraFimVigencia': 'isNull'
+                    },
                     sort: {},
                     limit: 10,
                     offset: 0,
-                    populate: ['configuracaoNup']
+                    populate: []
                 };
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {

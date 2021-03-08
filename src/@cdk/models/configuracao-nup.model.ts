@@ -1,6 +1,5 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-
 import { Usuario } from '@cdk/models';
 
 export class ConfiguracaoNup {
@@ -10,14 +9,21 @@ export class ConfiguracaoNup {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
-    @Exclude({ toPlainOnly: true })
     nome?: string;
 
-    @Exclude({ toPlainOnly: true })
+    sigla?: string;
+
     descricao?: string;
 
-    @Exclude({ toPlainOnly: true })
     ativo?: boolean;
+
+    @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
+    dataHoraInicioVigencia?: moment.Moment;
+
+    @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
+    dataHoraFimVigencia?: moment.Moment;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -54,7 +60,10 @@ export class ConfiguracaoNup {
         this.uuid = null;
         this.nome = null;
         this.descricao = null;
+        this.sigla = null;
         this.ativo = null;
+        this.dataHoraInicioVigencia = null;
+        this.dataHoraFimVigencia = null;
         this.criadoPor = null;
         this.criadoEm = null;
         this.atualizadoPor = null;
