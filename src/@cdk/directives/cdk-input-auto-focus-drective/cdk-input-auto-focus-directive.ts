@@ -5,7 +5,7 @@ import {Directive, ElementRef, AfterViewInit, Input} from '@angular/core';
 })
 export class CdkInputAutoFocusDirective implements AfterViewInit {
 
-    @Input('inputAutoFocus')
+    @Input('cdkInputAutoFocus')
     public  focused: boolean = false;
 
     constructor(private el: ElementRef<HTMLElement>) {}
