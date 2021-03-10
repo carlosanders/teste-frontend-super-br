@@ -81,4 +81,8 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             })
         );
     }
+
+    GerarRelatorioTarefaExcel(): Observable<Tarefa> {
+        return this.modelService.post('administrativo/relatorio/gerar_relatorio_minhas_tarefas');
+    }
 }
