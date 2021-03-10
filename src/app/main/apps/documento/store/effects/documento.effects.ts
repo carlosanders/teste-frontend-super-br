@@ -126,6 +126,7 @@ export class DocumentoEffect {
                             'juntadaAtual',
                             'repositorio.modalidadeRepositorio',
                             'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.especieDocumentoAvulso',
                             'documentoAvulsoRemessa.processo',
                             'documentoAvulsoRemessa.processo.especieProcesso',
                             'documentoAvulsoRemessa.processo.especieProcesso.generoProcesso',

@@ -97,8 +97,8 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
                     andxFilter.push({postIt: `like:%${bit}%`});
                 });
                 if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         andX: andxFilter
                     };
                 } else {
@@ -116,8 +116,8 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
                     andxFilter.push({observacao: `like:%${bit}%`});
                 });
                 if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
+                    this._cdkTarefaFilterService.filters = {
+                        ...this._cdkTarefaFilterService.filters,
                         andX: andxFilter
                     };
                 } else {
@@ -387,6 +387,7 @@ export class CdkTarefaFilterComponent implements OnInit, AfterViewInit {
             ...this._cdkTarefaFilterService.filters,
             filters: this._cdkTarefaFilterService.filters
         };
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
     }

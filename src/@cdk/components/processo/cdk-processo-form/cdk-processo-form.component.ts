@@ -182,6 +182,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     mostraDataHoraDesarquivamento: boolean = false;
 
+    exibirNup: boolean;
+
     /**
      * Constructor
      */
@@ -233,7 +235,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.readonlyNUP = false;
         this.textBotao = '';
-
+        this.exibirNup = true;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -245,6 +247,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
             if (this.configuracaoNupList.length == 1) {
                 this.form.get('configuracaoNup').setValue(this.configuracaoNupList[0]);
+                this.exibirNup = false;
             }
 
             this.form.get('temProcessoOrigem').setValue(false);

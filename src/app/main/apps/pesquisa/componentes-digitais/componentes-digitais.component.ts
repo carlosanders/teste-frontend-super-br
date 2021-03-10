@@ -103,6 +103,9 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
         '/componente-digital/' +
         $event.componenteDigital.id +
         '/visualizar' +
-        chaveAcessoHandle]);
+        chaveAcessoHandle],
+        {
+            queryParams: {pesquisa: true}
+        });
     }
 }

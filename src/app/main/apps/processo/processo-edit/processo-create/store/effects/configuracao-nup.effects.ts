@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
-import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
-
+import {Observable} from 'rxjs';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 import * as ConfiguracaoNupActions from '../actions/configuracao-nup.actions';
-
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';

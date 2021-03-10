@@ -451,11 +451,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
-            if (screen.size !== 'desktop') {
-                this.mobileMode = true;
-            } else {
-                this.mobileMode = false;
-            }
+            this.mobileMode = screen.size !== 'desktop';
         });
     }
 
@@ -485,7 +481,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         );
 
         if (this.processo && this.processo.id) {
-            processo.setorInicial = this.processo.setorInicial ? this.processo.setorInicial : null;
+            processo.setorInicial = this.processo.setorInicial ? this.processo.setorInicial : this.processo.setorAtual;
             processo.NUP = this.processo.NUP
                 .replace(/[^\w\-]+/g, '')
                 .replace(/-+/g, '');

@@ -707,6 +707,7 @@ pessoa.define({
 processo.define({
     classificacao: classificacao,
     origemDados: origemDados,
+    configuracaoNup: configuracaoNup,
     processoOrigem: processo,
     documentoAvulsoOrigem: documentoAvulso,
     procedencia: pessoa,
