@@ -113,6 +113,30 @@ export function SetorListReducer(
             };
         }
 
+        case SetorListActions.TRANSFERIR_PROCESSOS_PROTOCOLO: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
+            };
+        }
+
+        case SetorListActions.TRANSFERIR_PROCESSOS_PROTOCOLO_SUCCESS: {
+            return {
+                ...state,
+                loading: true,
+                loaded: true
+            };
+        }
+
+        case SetorListActions.TRANSFERIR_PROCESSOS_PROTOCOLO_FAILED: {
+            return {
+                ...state,
+                loading: true,
+                loaded: true
+            };
+        }
+
         default:
             return state;
     }

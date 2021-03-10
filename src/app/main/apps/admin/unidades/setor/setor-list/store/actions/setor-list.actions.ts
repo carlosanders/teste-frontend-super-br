@@ -10,6 +10,10 @@ export const DELETE_SETOR = '[ADMIN SETOR LIST] DELETE SETOR';
 export const DELETE_SETOR_SUCCESS = '[ADMIN SETOR LIST] DELETE SETOR SUCCESS';
 export const DELETE_SETOR_FAILED = '[ADMIN SETOR LIST] DELETE SETOR FAILED';
 
+export const TRANSFERIR_PROCESSOS_PROTOCOLO = '[ADMIN SETOR LIST] TRANSFERIR PROCESSOS PROTOCOLO';
+export const TRANSFERIR_PROCESSOS_PROTOCOLO_SUCCESS = '[ADMIN SETOR LIST] TRANSFERIR PROCESSOS PROTOCOLO SUCCESS';
+export const TRANSFERIR_PROCESSOS_PROTOCOLO_FAILED = '[ADMIN SETOR LIST] TRANSFERIR PROCESSOS PROTOCOLO FAILED';
+
 /**
  * Get Setores
  */
@@ -94,6 +98,33 @@ export class DeleteSetorFailed implements Action
     }
 }
 
+export class TransferirProcessosProtocolo implements Action
+{
+    readonly type = TRANSFERIR_PROCESSOS_PROTOCOLO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class TransferirProcessosProtocoloSuccess implements Action
+{
+    readonly type = TRANSFERIR_PROCESSOS_PROTOCOLO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class TransferirProcessosProtocoloFailed implements Action
+{
+    readonly type = TRANSFERIR_PROCESSOS_PROTOCOLO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type SetorListActionsAll
     = GetSetores
     | GetSetoresSuccess
@@ -101,5 +132,8 @@ export type SetorListActionsAll
     | ReloadSetores
     | DeleteSetor
     | DeleteSetorSuccess
-    | DeleteSetorFailed;
+    | DeleteSetorFailed
+    | TransferirProcessosProtocolo
+    | TransferirProcessosProtocoloSuccess
+    | TransferirProcessosProtocoloFailed;
 

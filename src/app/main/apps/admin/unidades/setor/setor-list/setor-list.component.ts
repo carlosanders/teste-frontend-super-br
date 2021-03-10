@@ -94,4 +94,8 @@ export class SetorListComponent implements OnInit {
     delete(setorId: number): void {
         this._store.dispatch(new fromStore.DeleteSetor(setorId));
     }
+
+    doTransferirProcessosProtocolo(setor: Setor): void {
+        this._store.dispatch(new fromStore.TransferirProcessosProtocolo(setor));
+    }
 }
