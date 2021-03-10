@@ -10,6 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from './store';
+import * as fromStoreComponente from '../../componente-digital/store';
 import {ComponenteDigital, Repositorio} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
@@ -142,4 +143,9 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
             repositorioId: repositorio.id
         }));
     }
+
+    showConteudo(data: any): void {
+        this._store.dispatch(new fromStoreComponente.VisualizarVersaoComponenteDigital(data.toString()));
+    }
+
 }

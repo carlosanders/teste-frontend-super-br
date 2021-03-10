@@ -265,6 +265,14 @@
                         </button>
 
                         <button mat-icon-button
+                                *ngIf="actions.indexOf('download') > -1 && downloadingId !== repositorio.id && !hasExcluded"
+                                (click)="doShow(repositorio.documento)"
+                                aria-label="visualizar"
+                                matTooltip="Visualizar">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
                                 *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectRepositorio(repositorio)"
                                 aria-label="selecionar"
