@@ -9,10 +9,10 @@
 
             <div class="acoes">
                 <mat-tab-group (selectedTabChange)="visualizarProcesso(this.modoProcesso)"
-                               *ngIf="(documento$ | async)?.processoOrigem?.id">
-                    <mat-tab label="Editar a Minuta">
+                               *ngIf="(documento$ | async)?.processoOrigem?.id && (documento$ | async)?.minuta">
+                    <mat-tab label="Minuta">
                     </mat-tab>
-                    <mat-tab label="Visualizar o Processo">
+                    <mat-tab label="Processo">
                     </mat-tab>
                 </mat-tab-group>
 

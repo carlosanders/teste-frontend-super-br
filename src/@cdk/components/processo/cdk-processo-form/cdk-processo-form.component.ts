@@ -103,12 +103,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     validateNup = new EventEmitter<any>();
 
     @Output()
-    put = new EventEmitter<Processo>();
-
-    @Output()
-    post = new EventEmitter<Processo>();
-
-    @Output()
     gerirProcedencia = new EventEmitter();
 
     @Output()

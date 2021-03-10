@@ -42,7 +42,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             conteudo: [null],
             tamanho: [null],
             extensao: [null],
-            processoOrigem: [null],
+            processo: [null],
             editavel: [null],
             criadoPor: [null],
             criadoEm: [null],
@@ -114,7 +114,7 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('processoOrigem').valueChanges.subscribe(value => {
+        this.form.get('processo').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
@@ -122,19 +122,10 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
                         'documento.juntadaAtual.volume.processo.id': `eq:${value.id}`
                     };
                 } else {
-                    if (this.filters.hasOwnProperty('processoOrigem.id')) {
-                        delete this.filters['processoOrigem.id'];
+                    if (this.filters.hasOwnProperty('processo.id')) {
+                        delete this.filters['processo.id'];
                     }
                 }
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
             }
         });
 

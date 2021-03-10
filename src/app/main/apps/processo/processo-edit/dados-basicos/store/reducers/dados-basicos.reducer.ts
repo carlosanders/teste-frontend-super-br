@@ -52,7 +52,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
 
         case DadosBasicosActions.CREATE_PROCESSO: {
             return {
-                processoId: null,                
+                processoId: null,
                 loaded: {
                     id: 'processoHandle',
                     value: 'criar',
@@ -60,7 +60,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                 },
                 loading: false,
                 saving: false,
-                errors: false,   
+                errors: false,
             };
         }
 
@@ -70,7 +70,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                 loaded: false,
                 loading: false,
                 saving: false,
-                errors: false,   
+                errors: false,
             };
         }
 
@@ -89,39 +89,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             };
         }
 
-        case DadosBasicosActions.POST_PROCESSO: {
-            return {
-                ...state,
-                saving: true,
-                errors: false
-            };
-        }
-
-        case DadosBasicosActions.PUT_PROCESSO: {
-            return {
-                ...state,
-                saving: true,
-                errors: false
-            };
-        }
-
         case DadosBasicosActions.SAVE_PROCESSO_SUCCESS: {
-            return {
-                ...state,
-                saving: false,
-                errors: false
-            };
-        }
-
-        case DadosBasicosActions.PUT_PROCESSO_SUCCESS: {
-            return {
-                ...state,
-                saving: false,
-                errors: false
-            };
-        }
-
-        case DadosBasicosActions.POST_PROCESSO_SUCCESS: {
             return {
                 ...state,
                 saving: false,
@@ -136,23 +104,6 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
                 errors: action.payload
             };
         }
-
-        case DadosBasicosActions.POST_PROCESSO_FAILED: {
-            return {
-                ...state,
-                saving: false,
-                errors: action.payload
-            };
-        }
-
-        case DadosBasicosActions.PUT_PROCESSO_FAILED: {
-            return {
-                ...state,
-                saving: false,
-                errors: action.payload
-            };
-        }
-
 
         default:
             return state;

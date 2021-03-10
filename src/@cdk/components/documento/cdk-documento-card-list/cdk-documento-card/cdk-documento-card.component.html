@@ -1,12 +1,14 @@
-<div fxLayout="row" fxLayoutAlign="start center">
+<div fxLayout="row">
 
-    <mat-checkbox class="mr-8 ml-8 select" [checked]="selected"
-                  (change)="toggleInSelected(documento.id)"
-                  (click)="$event.stopPropagation();"
-                  *ngIf="actions.indexOf('select') > -1">
-    </mat-checkbox>
+    <div fxFlex fxLayoutAlign="center center">
+        <mat-checkbox class="mr-8 ml-8 mb-4" [checked]="selected"
+                      (change)="toggleInSelected(documento.id)"
+                      (click)="$event.stopPropagation();"
+                      *ngIf="actions.indexOf('select') > -1">
+        </mat-checkbox>
+    </div>
 
-    <div class="p-8 file" fxLayout="column" (click)="onClick(documento)"
+    <div fxFlex class="p-8 file" fxLayout="column" (click)="onClick(documento)"
          [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
 
         <div fxLayout="row" fxLayoutAlign="start center">
@@ -34,12 +36,15 @@
 
     <div class="more-vert"
          [ngClass]="{'light-blue-100':!documento.documentoAvulsoRemessa, 'light-green-100':documento.documentoAvulsoRemessa}">
-        <button *ngIf="!deleting && !assinando && !convertendo && !download && !removendoAssinatura && !alterando && !maisDeUmItemSelecionado && !undeleting" mat-icon-button
-                [matMenuTriggerFor]="menuDocumento" #menuTrigger="matMenuTrigger" aria-label="more">
+        <button
+            *ngIf="!deleting && !assinando && !convertendo && !download && !removendoAssinatura && !alterando && !maisDeUmItemSelecionado && !undeleting"
+            mat-icon-button
+            [matMenuTriggerFor]="menuDocumento" #menuTrigger="matMenuTrigger" aria-label="more">
             <mat-icon>expand_more</mat-icon>
         </button>
 
-        <div *ngIf="deleting || assinando || convertendo || download || removendoAssinatura || alterando || undeleting" class="spinner-container m-8">
+        <div *ngIf="deleting || assinando || convertendo || download || removendoAssinatura || alterando || undeleting"
+             class="spinner-container m-8">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
@@ -57,18 +62,22 @@
                     <mat-icon color="accent">lock</mat-icon>
                     <span>Assinar</span>
                 </button>
-                <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(documento.id)" mat-menu-item
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doRemoveAssinatura(documento.id)"
+                        mat-menu-item
                         *ngIf="documento.assinado && _loginService.isGranted('ROLE_COLABORADOR')">
                     <mat-icon color="accent">lock_open</mat-icon>
                     <span>Remover Assinatura</span>
                 </button>
-                <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(documento?.componentesDigitais[0]?.id)"
-                        *ngIf="documento?.componentesDigitais[0]?.extensao === 'html'" mat-menu-item>
+                <button fxLayout="row" fxLayoutAlign="start center"
+                        (click)="doConverte(documento?.componentesDigitais[0]?.id)"
+                        *ngIf="documento?.componentesDigitais?.length > 0 && documento?.componentesDigitais[0]?.extensao === 'html'"
+                        mat-menu-item>
                     <mat-icon color="accent">picture_as_pdf</mat-icon>
                     <span>Converter em PDF</span>
                 </button>
                 <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverteHtml(documento.id)"
-                        *ngIf="documento?.componentesDigitais[0]?.convertidoPdf" mat-menu-item>
+                        *ngIf="documento?.componentesDigitais?.length > 0 && documento?.componentesDigitais[0]?.convertidoPdf"
+                        mat-menu-item>
                     <mat-icon color="accent">restore_page</mat-icon>
                     <span>Converter em HTML</span>
                 </button>

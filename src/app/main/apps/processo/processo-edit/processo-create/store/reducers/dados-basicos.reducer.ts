@@ -100,22 +100,6 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             };
         }
 
-        case DadosBasicosActions.POST_PROCESSO: {
-            return {
-                ...state,
-                saving: true,
-                errors: false
-            };
-        }
-
-        case DadosBasicosActions.PUT_PROCESSO: {
-            return {
-                ...state,
-                saving: true,
-                errors: false
-            };
-        }
-
         case DadosBasicosActions.SAVE_PROCESSO_SUCCESS: {
             return {
                 ...state,
@@ -124,39 +108,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
             };
         }
 
-        case DadosBasicosActions.PUT_PROCESSO_SUCCESS: {
-            return {
-                ...state,
-                saving: false,
-                errors: false
-            };
-        }
-
-        case DadosBasicosActions.POST_PROCESSO_SUCCESS: {
-            return {
-                ...state,
-                saving: false,
-                errors: false
-            };
-        }
-
         case DadosBasicosActions.SAVE_PROCESSO_FAILED: {
-            return {
-                ...state,
-                saving: false,
-                errors: action.payload
-            };
-        }
-
-        case DadosBasicosActions.POST_PROCESSO_FAILED: {
-            return {
-                ...state,
-                saving: false,
-                errors: action.payload
-            };
-        }
-
-        case DadosBasicosActions.PUT_PROCESSO_FAILED: {
             return {
                 ...state,
                 saving: false,

@@ -28,20 +28,19 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {getConfiguracaoNup, getNupValid, SaveAssunto, UnloadAssuntos} from './store';
+import {getConfiguracaoNup, SaveAssunto} from './store';
 import {SaveInteressado} from './store';
 import {SaveVinculacaoProcesso} from './store';
-import {SaveTarefa} from './store/actions';
+import {SaveTarefa} from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import * as moment from 'moment';
 import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
 import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
-import {getVinculacaoProcessoIsSaving} from './store/selectors';
-import {getTarefaIsSaving} from './store/selectors';
-import {SetSteps} from '../../store/actions';
-import {getProcesso} from '../../store/selectors';
+import {getVinculacaoProcessoIsSaving} from './store';
+import {getTarefaIsSaving} from './store';
+import {getProcesso} from '../../store';
 import {configuracaoNup} from "@cdk/normalizr";
 
 @Component({
@@ -199,6 +198,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.juntadasLoading$ = this._store.pipe(select(fromStore.getJuntadaIsLoading));
 
         this.especieProcessoPagination = new Pagination();
+
         this.logEntryPagination = new Pagination();
         this.setorAtualPagination = new Pagination();
         this.classificacaoPagination = new Pagination();
@@ -356,7 +356,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }
 
         this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: this.processo.id};
-        this.especieProcessoPagination.populate = ['classificacao', 'generoProcesso', 'modalidadeMeio'];
+        this.especieProcessoPagination.populate = ['classificacao', 'generoProcesso', 'modalidadeMeio', 'workflow'];
         this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:' + this.genero.toUpperCase()};
 
         this.especieTarefaPagination.populate = ['generoTarefa'];
@@ -488,30 +488,6 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
-    }
-
-    post(values): void {
-        const processo = new Processo();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.PostProcesso(processo));
-    }
-
-    put(values): void {
-        const processo = new Processo();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.PutProcesso(processo));
     }
 
     onActivate(componentReference): void  {

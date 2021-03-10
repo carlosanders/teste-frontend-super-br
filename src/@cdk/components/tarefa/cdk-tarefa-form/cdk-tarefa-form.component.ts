@@ -206,7 +206,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.clearValidators();
 
-        if (this.form.get('processo').value && this.form.get('processo').value.NUP) {
+        if (this.form.get('processo').value && this.form.get('processo').value.NUP && this.form.get('processo').value.especieProcesso?.generoProcesso) {
             this.form.get('especieTarefa').enable();
             if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
                 this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};

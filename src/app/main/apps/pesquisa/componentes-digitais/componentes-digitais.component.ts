@@ -73,14 +73,9 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
-            if (screen.size !== 'desktop') {
-                this.mobileMode = true;
-            } else {
-                this.mobileMode = false;
-            }
+            this.mobileMode = screen.size !== 'desktop';
         });
     }
-
 
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
@@ -97,15 +92,15 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
     edit($event: {componenteDigital: ComponenteDigital, chaveAcesso: string}): void {
         const chaveAcessoHandle = $event.chaveAcesso ? '/' + $event.chaveAcesso : '';
         this._router.navigate(['apps/processo/' +
-        $event.componenteDigital.documento?.juntadaAtual?.volume?.processo.id +
-        '/editar/juntadas/listar/documento/' +
-        $event.componenteDigital.documento.id +
-        '/componente-digital/' +
-        $event.componenteDigital.id +
-        '/visualizar' +
-        chaveAcessoHandle],
-        {
-            queryParams: {pesquisa: true}
-        });
+            $event.componenteDigital.documento?.juntadaAtual?.volume?.processo.id +
+            '/editar/juntadas/listar/documento/' +
+            $event.componenteDigital.documento.id +
+            '/componente-digital/' +
+            $event.componenteDigital.id +
+            '/visualizar' +
+            chaveAcessoHandle],
+            {
+                queryParams: {pesquisa: true}
+            });
     }
 }

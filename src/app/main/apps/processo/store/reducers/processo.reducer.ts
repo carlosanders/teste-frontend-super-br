@@ -31,7 +31,6 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 loaded: {
                     id: 'processoHandle',
                     value: 'criar',
-                    populate: [],
                     acessoNegado: false
                 },
                 loading: false,
@@ -51,8 +50,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
         case ProcessoActions.UNLOAD_PROCESSO: {
             return {
                 ...state,
-                processoId: null,                
-//                loaded: undefined,
+                processoId: null,
                 loaded: {
                     id: undefined,
                     value: undefined,
@@ -64,7 +62,6 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 steps: false
             };
         }
-
 
         case ProcessoActions.GET_PROCESSO: {
             return {
@@ -124,7 +121,7 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 errors: action.payload,
                 savingVinculacaoEtiquetaId: null
             };
-        }        
+        }
 
         case ProcessoActions.SET_STEPS: {
             return {

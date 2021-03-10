@@ -47,7 +47,7 @@ export class ResolveGuard implements CanActivate {
         this.getTipoAcaoWorkflow(),
       ]).pipe(
         switchMap(() => of(true)),
-        catchError(() => of(false))
+        catchError((err) => {console.log (err); return of(false);})
       );
     }
 
