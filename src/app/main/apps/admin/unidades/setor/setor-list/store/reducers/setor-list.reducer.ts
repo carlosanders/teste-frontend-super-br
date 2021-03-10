@@ -116,7 +116,7 @@ export function SetorListReducer(
         case SetorListActions.TRANSFERIR_PROCESSOS_PROTOCOLO: {
             return {
                 ...state,
-                loading: false,
+                loading: true,
                 loaded: false
             };
         }
