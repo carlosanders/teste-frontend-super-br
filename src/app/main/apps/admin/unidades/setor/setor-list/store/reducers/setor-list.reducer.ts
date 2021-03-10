@@ -124,7 +124,7 @@ export function SetorListReducer(
         case SetorListActions.TRANSFERIR_PROCESSOS_PROTOCOLO_SUCCESS: {
             return {
                 ...state,
-                loading: true,
+                loading: false,
                 loaded: true
             };
         }
@@ -132,7 +132,7 @@ export function SetorListReducer(
         case SetorListActions.TRANSFERIR_PROCESSOS_PROTOCOLO_FAILED: {
             return {
                 ...state,
-                loading: true,
+                loading: false,
                 loaded: true
             };
         }
