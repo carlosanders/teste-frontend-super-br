@@ -23,6 +23,7 @@ import * as fromGuards from './store/guards';
 import {CdkUsuarioGridModule} from '@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.module';
 import {LoginService} from '../../../../auth/login/login.service';
 import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {TarefaService} from "../../../../../../@cdk/services/tarefa.service";
 
 const routes: Routes = [
     {
@@ -58,6 +59,7 @@ const routes: Routes = [
     providers: [
         UsuarioService,
         LoginService,
+        TarefaService,
         fromGuards.ResolveGuard
     ],
     exports: [
