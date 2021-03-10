@@ -29,7 +29,7 @@
             </div>
 
             <div class="subtitle" *ngIf="!tarefa.processo?.acessoNegado">
-                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }}</span>
+                <span>{{tarefa.processo?.modalidadeMeio?.valor | titleCasePipe}} {{tarefa.processo?.especieProcesso?.nome | titleCasePipe }} {{ tarefa.processo?.especieProcesso?.workflow ? ' (Workflow)' : '' }}</span>
             </div>
 
             <div class="subtitle" *ngIf="tarefa.processo?.acessoNegado">
@@ -58,6 +58,10 @@
         <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
             <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
                 {{tarefa.especieTarefa?.nome | titleCasePipe}}
+            </div>
+
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                {{tarefa.workflow ? 'Tarefa de Workflow' : ''}}
             </div>
 
             <div *ngIf="displayedCampos.indexOf('setorResponsavel.nome') > -1">

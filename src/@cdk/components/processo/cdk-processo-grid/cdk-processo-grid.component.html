@@ -179,8 +179,7 @@
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Espécie Processo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.especieProcesso?.nome}}
                         <span
-                            *ngIf="processo.especieProcesso?.generoProcesso?.nome"> ({{processo.especieProcesso?.generoProcesso?.nome}}
-                            )</span></td>
+                            *ngIf="processo.especieProcesso?.generoProcesso?.nome"> ({{processo.especieProcesso?.generoProcesso?.nome}})</span></td>
                 </ng-container>
 
                 <!-- VisibilidadeExterna Column -->

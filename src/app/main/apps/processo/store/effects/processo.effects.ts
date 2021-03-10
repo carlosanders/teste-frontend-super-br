@@ -20,7 +20,6 @@ import {Router} from '@angular/router';
 export class ProcessoEffect {
     routerState: any;
     private _profile: any;
-    populate: [];
 
     constructor(
         private _actions: Actions,
@@ -54,10 +53,9 @@ export class ProcessoEffect {
                     const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
                         chaveAcesso: this.routerState.params.chaveAcessoHandle
                     } : {};
-                    this.populate = action.payload.populate ?? [];
                     return this._processoService.get(
                         action.payload.id,
-                        JSON.stringify(this.populate),
+                        JSON.stringify(['vinculacoesEtiquetas', 'vinculacoesEtiquetas.etiqueta']),
                         JSON.stringify(chaveAcesso));
                 }),
                 switchMap(response => [
@@ -66,7 +64,6 @@ export class ProcessoEffect {
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params.processoHandle,
-                            populate: this.populate,
                             acessoNegado: response.acessoNegado
                         },
                         processoId: response.id

@@ -48,3 +48,12 @@
 * Correção de bug na gestão de pessoas no módulo admin
 * Correçao da validaçao das tarefas em bloco
 * Correção da edição em bloco de tarefas para distribuiçao de tarefas
+
+1.1.1
+
+* Correção de bug na pesquisa de documentos
+* Correção de bug na exibição dos contextos de workflow
+* Correção de bug ao movimentar ao selecionar um modelo pela segunda vez na mesma sessão
+* Correção de bug na edição de pessoa jurídica
+* Correção de bug no layout do componente de upload
+* Correção de bug para logar no console erros nos guardas de rotas

@@ -81,7 +81,7 @@
         </mat-form-field>
     </div>
 
-    <div class="responsive-group">
+    <div class="responsive-group" [fxHide]="hidden">
         <mat-form-field>
             <input matInput placeholder="Nacionalidade"
                    formControlName="nacionalidade"
@@ -123,7 +123,7 @@
         </mat-form-field>
     </div>
 
-    <mat-form-field>
+    <mat-form-field [fxHide]="hidden">
         <mat-label>Profissão</mat-label>
         <input matInput #profissao
                name="profissao"
@@ -131,7 +131,7 @@
                maxlength="255" upperCase>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field [fxHide]="hidden">
         <mat-label>Nome Genitor</mat-label>
         <input matInput #nomeGenitor
                name="nomeGenitor"
@@ -139,7 +139,7 @@
                maxlength="255" upperCase>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field [fxHide]="hidden">
         <mat-label>Nome Genitora</mat-label>
         <input matInput #nomeGenitora
                name="nomeGenitora"

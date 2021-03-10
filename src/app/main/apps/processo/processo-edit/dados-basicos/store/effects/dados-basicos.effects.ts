@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
-
 import * as DadosBasicosActions from '../actions/dados-basicos.actions';
-
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {processo as processoSchema} from '@cdk/normalizr';
@@ -74,74 +71,6 @@ export class DadosBasicosEffect {
                 })
             );
 
-    /**
-     * Put Processo
-     * @type {Observable<any>}
-     */
-    @Effect()
-    putProcesso: any =
-        this._actions
-            .pipe(
-                ofType<DadosBasicosActions.PutProcesso>(DadosBasicosActions.PUT_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
-                        mergeMap((response: Processo) => [
-                            new DadosBasicosActions.PutProcessoSuccess(response),
-                            new AddData<Processo>({data: [response], schema: processoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            return of(new DadosBasicosActions.PutProcessoFailed(err));
-                        })
-                    );
-                })
-            );
-
-    /**
-     * Post Processo
-     * @type {Observable<any>}
-     */
-    @Effect()
-    postProcesso: any =
-        this._actions
-            .pipe(
-                ofType<DadosBasicosActions.PostProcesso>(DadosBasicosActions.POST_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
-                        mergeMap((response: Processo) => [
-                            new DadosBasicosActions.PostProcessoSuccess(response),
-                            new AddData<Processo>({data: [response], schema: processoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })
-                        ]),
-                        catchError((err) => {
-                            return of(new DadosBasicosActions.PostProcessoFailed(err));
-                        })
-                    );
-                })
-            );
-
-    /**
-     * Post Processo Success
-     */
-    @Effect({dispatch: false})
-    postProcessoSuccess: any =
-        this._actions
-            .pipe(
-                ofType<DadosBasicosActions.PostProcessoSuccess>(DadosBasicosActions.POST_PROCESSO_SUCCESS),
-                tap((action) => {
-                    this._router.navigate([this.routerState.url.replace('dados-basicos', 'assuntos/listar').replace('criar', action.payload.id)]).then();
-                })
-            );
-
-
     @Effect()
     getProcesso: any =
         this._actions
@@ -151,7 +80,7 @@ export class DadosBasicosEffect {
                     this.populate = action.payload.populate ?? [];
                     return this._processoService.get(
                         action.payload.id,
-                        JSON.stringify(this.populate)
+                        JSON.stringify(['populateAll', 'setorAtual.unidade'])
                     );
                 }),
                 switchMap(response => [
@@ -160,7 +89,6 @@ export class DadosBasicosEffect {
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params.processoHandle,
-                            populate: this.populate,
                             acessoNegado: response.acessoNegado
                         },
                         processoId: this.routerState.params.processoHandle

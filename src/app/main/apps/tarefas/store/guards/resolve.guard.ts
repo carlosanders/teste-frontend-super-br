@@ -49,7 +49,7 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkStore().pipe(
             switchMap(() => of(true)),
-            catchError(() => of(false))
+            catchError((err) => {console.log (err); return of(false);})
         );
     }
 
@@ -126,7 +126,8 @@ export class ResolveGuard implements CanActivate {
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
-                            'processo.especieProcesso.workflow'
+                            'processo.especieProcesso.workflow',
+                            'workflow'
                         ],
                         context: {}
                     };

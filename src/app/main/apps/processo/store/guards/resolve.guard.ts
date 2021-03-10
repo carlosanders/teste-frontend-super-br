@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-
 import {select, Store} from '@ngrx/store';
-
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
-
 import {ProcessoAppState} from 'app/main/apps/processo/store/reducers';
 import * as fromStore from 'app/main/apps/processo/store';
 import {getProcessoLoaded} from 'app/main/apps/processo/store/selectors';
@@ -15,7 +12,6 @@ import {getRouterState} from 'app/store/reducers';
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
-    needsPopulatedProcesso: any[] = ['vinculacoesEtiquetas', 'vinculacoesEtiquetas.etiqueta'];
 
     /**
      * @param _store
@@ -44,26 +40,9 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getProcesso().pipe(
             switchMap(() => of(true)),
-            catchError(() => of(false))
+            catchError((err) => {console.log (err); return of(false);})
         );
     }
-
-    /**
-     *
-     * @param loaded
-     * @param needs
-     */
-    isPopulated(loaded, needs): boolean {
-        if (needs.length && loaded.value !== 'criar') {
-            needs.forEach((need) => {
-                if (loaded.populate.indexOf(need) === -1) {
-                    return false;
-                }
-            });
-        }
-        return true;
-    }
-
     /**
      * Get Processo
      *
@@ -76,20 +55,19 @@ export class ResolveGuard implements CanActivate {
                 if (loaded.acessoNegado) {
                     this._router.navigate([this.routerState.url.split('/processo')[0] + '/processo/' + this.routerState.params.processoHandle + '/acesso-negado']).then();
                 } else {
-                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value || !this.isPopulated(loaded, this.needsPopulatedProcesso)) {
+                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                         if (this.routerState.params['processoHandle'] === 'criar') {
                             this._store.dispatch(new fromStore.CreateProcesso());
                         } else {
                             this._store.dispatch(new fromStore.GetProcesso({
-                                id: this.routerState.params['processoHandle'],
-                                populate: this.needsPopulatedProcesso
+                                id: this.routerState.params['processoHandle']
                             }));
                         }
                     }
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value && this.isPopulated(loaded, this.needsPopulatedProcesso);
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
             }),
             take(1)
         );
