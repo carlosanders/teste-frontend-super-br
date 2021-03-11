@@ -94,8 +94,9 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.id}}
+                    </td>
                 </ng-container>
 
                 <!-- Nome Column -->
@@ -104,8 +105,9 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel) }"> {{usuario.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.nome}}
+                    </td>
                 </ng-container>
 
                 <!-- Username Column -->
@@ -114,8 +116,9 @@
                         UserName
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Username: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.username}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.username}}
+                    </td>
                 </ng-container>
 
                 <!-- CPFColumn -->
@@ -124,8 +127,9 @@
                         CPF
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Username: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.username}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.username}}
+                    </td>
                 </ng-container>
 
                 <!-- AssinaturaHTML Column -->
@@ -134,8 +138,9 @@
                         Assinatura HTML
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Assinatura HTML: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.assinaturaHTML}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.assinaturaHTML}}
+                    </td>
                 </ng-container>
 
                 <!-- Email Column -->
@@ -144,8 +149,9 @@
                         Email
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Email: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.email}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.email}}
+                    </td>
                 </ng-container>
 
                 <!-- Cargo Column -->
@@ -154,8 +160,9 @@
                         Cargo
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Cargo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.colaborador?.cargo.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.colaborador?.cargo.nome}}
+                    </td>
                 </ng-container>
 
                 <!-- Modalidade Colaborador Column -->
@@ -165,8 +172,9 @@
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile'
                         data-label='Modalidade Colaborador: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.colaborador?.modalidadeColaborador.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.colaborador?.modalidadeColaborador.valor}}
+                    </td>
                 </ng-container>
 
                 <!-- Enabled Column -->
@@ -175,8 +183,7 @@
                         Habilitado
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Habilitado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
                         <mat-checkbox [disabled]="true" [checked]="usuario.enabled"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -187,8 +194,9 @@
                         Nível de Acesso
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Nível de Acesso: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.nivelAcesso}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.nivelAcesso}}
+                    </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -197,8 +205,9 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.criadoPor?.nome}}
+                    </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -207,8 +216,9 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}
+                    </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -218,8 +228,9 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.atualizadoPor?.nome}}
+                    </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -228,8 +239,9 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}}
+                    </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -238,8 +250,9 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.apagadoPor?.nome}}
+                    </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -248,8 +261,9 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let usuario" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 ||
-                        (isDistribuidor && !usuario.isDisponivel)}"> {{usuario.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(usuario.id) > -1 || !usuario.isDisponivel}">
+                        {{usuario.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}}
+                    </td>
                 </ng-container>
 
                 <!-- Actions Column -->
