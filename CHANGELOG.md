@@ -57,3 +57,8 @@
 * Correção de bug na edição de pessoa jurídica
 * Correção de bug no layout do componente de upload
 * Correção de bug para logar no console erros nos guardas de rotas
+
+1.1.2
+
+* Correção de bug no ícone da minuta
+* Correção de bug para exibir o numero do documento na lista de juntadas do processo
