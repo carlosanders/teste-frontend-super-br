@@ -26,6 +26,9 @@ export class Documento {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
+    @Exclude({ toPlainOnly: true })
+    numeroUnicoDocumentoFormatado?: string
+
     descricaoOutros?: string;
 
     numeroFolhas?: number;
@@ -182,6 +185,7 @@ export class Documento {
         this.origemDados = null;
         this.tarefaOrigem = null;
         this.documentoAvulsoComplementacaoResposta = null;
+        this.numeroUnicoDocumentoFormatado = null;
         this.origemDados = null;
         this.modelo = null;
         this.minuta = null;
