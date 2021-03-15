@@ -9,7 +9,7 @@ import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital} from '@cdk/models';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pesquisa/componentes-digitais/store';
 import {getRouterState, getScreenState} from 'app/store/reducers';
@@ -40,16 +40,19 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
     private _profile: any;
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _router
      * @param _store
      * @param _loginService
+     * @param _activatedRoute
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
         private _store: Store<fromStore.ComponentesDigitaisAppState>,
-        public _loginService: LoginService
+        public _loginService: LoginService,
+        private _activatedRoute: ActivatedRoute
     ) {
         this.componentesDigitais$ = this._store.pipe(select(fromStore.getComponentesDigitais));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
@@ -89,18 +92,27 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
         }));
     }
 
-    edit($event: {componenteDigital: ComponenteDigital, chaveAcesso: string}): void {
+    edit($event: { componenteDigital: ComponenteDigital, chaveAcesso: string }): void {
         const chaveAcessoHandle = $event.chaveAcesso ? '/' + $event.chaveAcesso : '';
-        this._router.navigate(['apps/processo/' +
-            $event.componenteDigital.documento?.juntadaAtual?.volume?.processo.id +
-            '/editar/juntadas/listar/documento/' +
-            $event.componenteDigital.documento.id +
-            '/componente-digital/' +
-            $event.componenteDigital.id +
-            '/visualizar' +
-            chaveAcessoHandle],
+
+        let primary: string;
+        primary = 'componente-digital/' + $event.componenteDigital.id + '/visualizar' + chaveAcessoHandle;
+
+        const sidebar = 'empty';
+
+        this._router.navigate([
+                'apps/processo/' +
+                $event.componenteDigital.documento?.juntadaAtual?.volume?.processo.id +
+                '/editar/juntadas/listar/documento/' +
+                $event.componenteDigital.documento.id,
+                {
+                    outlets: {
+                        primary: primary,
+                        sidebar: sidebar
+                    }
+                }],
             {
                 queryParams: {pesquisa: true}
-            });
+            }).then();
     }
 }

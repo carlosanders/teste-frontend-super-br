@@ -62,3 +62,13 @@
 
 * Correção de bug no ícone da minuta
 * Correção de bug para exibir o numero do documento na lista de juntadas do processo
+
+1.1.3
+
+* Correção de bugs no componente de filtros de datas ao clicar no campo texto
+* Correção nos filtros que utilizavam o componente de datas, que abriam o modal ao apertar enter
+* Correção na pesquisa de documentos para utilizar corretamente o componente de documentos
+* Correção no componente de documentos para retornar para pesquisa corretamente
+* Criado componente de sidebar vazio para componente de documento
+
+
