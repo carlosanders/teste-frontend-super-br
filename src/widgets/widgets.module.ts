@@ -11,7 +11,7 @@ import {
 } from '@cdk/angular/material';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {DirectivesModule} from '../@cdk/directives/directives';
-import {TourModule} from "../app/main/apps/tour/tour.module";
+import {TourModule} from "../ajuda/tour/tour.module";
 
 @NgModule({
     declarations: [

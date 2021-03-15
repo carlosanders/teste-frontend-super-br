@@ -10,7 +10,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {HistoricoService} from '../../@cdk/services/historico.service';
 import {CdkHistoricoTimelineModule} from '../../@cdk/components/historico/cdk-historico-timeline/cdk-historico-timeline.module';
-import {TourModule} from "../../app/main/apps/tour/tour.module";
+import {TourModule} from "../../ajuda/tour/tour.module";
 
 @NgModule({
     declarations: [
