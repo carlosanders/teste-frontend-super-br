@@ -437,7 +437,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            if (!this.form.get('nupInvalido').value && this.form.get('tipoProtocolo').value == 2) {
+            if (!this.form.get('nupInvalido')?.value && this.form.get('tipoProtocolo').value == 2) {
                 this.doValidateNup();
             } else {
                 this.save.emit(this.form.value);

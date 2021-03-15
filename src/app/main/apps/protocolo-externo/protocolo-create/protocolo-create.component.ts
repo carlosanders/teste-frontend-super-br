@@ -304,6 +304,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         processo.procedencia = this.pessoaProcedencia;
         processo.titulo = this.formProcesso.get('especieSetor').value.nome;
+        processo.setorAtual = processo.setorInicial;
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
     }
