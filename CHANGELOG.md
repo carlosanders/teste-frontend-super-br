@@ -75,3 +75,6 @@
 
 * Corrigindo defeito no componente de filtro de datas no filtro de data exata para campos sem data e hora
 
+1.1.5
+
+* Correção de comportamento incorreto da aplicação ao recarregar componente de documentos

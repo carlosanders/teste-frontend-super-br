@@ -263,10 +263,11 @@ export class DocumentoEffect {
                     if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
                         type = '/editor/ckeditor';
                     }
-                    if (this.routerState.url.indexOf('/assinaturas') > -1) {
+                    let url = this.routerState.url;
+                    if (url.indexOf('/assinaturas') > -1) {
                         type = '/assinaturas';
                     }
-                    let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
+                    let sidebar = url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
                     if (componenteDigital.apagadoEm) {
                         sidebar = 'editar/restaurar';
                     }

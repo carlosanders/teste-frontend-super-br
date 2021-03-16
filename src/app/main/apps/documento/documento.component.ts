@@ -29,6 +29,7 @@ import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 import {ToggleMaximizado} from '../oficios/store/actions';
 import {UnloadComponenteDigital} from './componente-digital/store';
+import * as ProcessoViewActions from "../processo/processo-view/store/actions/processo-view.actions";
 
 @Component({
     selector: 'documento',
@@ -170,6 +171,13 @@ export class DocumentoComponent implements OnInit, OnDestroy {
             return;
         }
         this._router.navigate([url]).then(() => {
+            if (this.routerState.params.stepHandle) {
+                const steps = this.routerState.params['stepHandle'].split('-');
+                this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                    step: steps[0],
+                    subStep: steps[1]
+                }));
+            }
             if (url.indexOf('/atividades') !== -1) {
                 this._store.dispatch(new GetDocumentosAtividade());
             } else if (url.indexOf('/oficios') !== -1) {
