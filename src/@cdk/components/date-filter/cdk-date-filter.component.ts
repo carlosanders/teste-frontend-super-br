@@ -197,8 +197,10 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
                 filters.push(filtroAfter);
             } else {
                 // Data sem horas não precisa de um intervalo de horas
-                filters = {};
-                filters[this.campo] = `eq:${this.form.get('filterEm').value.format(this.format)}`;
+                filters = [];
+                const filtroEquals = {};
+                filtroEquals[this.campo] = `eq:${this.form.get('filterEm').value.format(this.format)}`;
+                filters.push(filtroEquals);
             }
         }
         this.filtroEm = filters ?? [];
