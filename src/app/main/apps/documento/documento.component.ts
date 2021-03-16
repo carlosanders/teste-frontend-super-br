@@ -165,6 +165,10 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         if (url.indexOf('/capa') !== -1) {
             url += '/mostrar';
         }
+        if (this.routerState.queryParams.pesquisa) {
+            this._router.navigate(['apps/pesquisa/documentos/']);
+            return;
+        }
         this._router.navigate([url]).then(() => {
             if (url.indexOf('/atividades') !== -1) {
                 this._store.dispatch(new GetDocumentosAtividade());

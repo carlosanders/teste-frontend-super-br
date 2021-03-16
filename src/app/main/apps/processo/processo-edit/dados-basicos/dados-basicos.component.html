@@ -6,6 +6,7 @@
         [especieProcessoPagination]="especieProcessoPagination"
         [setorAtualPagination]="setorAtualPagination"
         [_classificacaoPagination]="classificacaoPagination"
+        [configuracaoNupPagination]="configuracaoNupPagination"
         [procedencia]="procedencia"
         [colaborador]="_loginService.isGranted('ROLE_COLABORADOR')"
         [pessoaVinculada]="_loginService.isGranted('ROLE_PESSOA_VINCULADA')"
@@ -13,9 +14,7 @@
         (gerirProcedencia)="gerirProcedencia()"
         (editProcedencia)="editProcedencia($event)"
         (abort)="abort()"
-        (save)="submit($event)"
-        (post)="post($event)"
-        (put)="put($event)">
+        (save)="submit($event)">
     </cdk-processo-form>
 </div>
 <router-outlet (activate)="onActivate($event)" (deactivate)="onDeactivate($event)"></router-outlet>

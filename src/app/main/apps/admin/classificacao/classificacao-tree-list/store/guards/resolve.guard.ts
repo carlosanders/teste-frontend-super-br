@@ -1,8 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
-
 import {select, Store} from '@ngrx/store';
-
 import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 import * as fromStore from '../';
@@ -45,7 +43,7 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getClassificacao().pipe(
             switchMap(() => of(true)),
-            catchError(() => of(false))
+            catchError((err) => {console.log (err); return of(false);})
         );
     }
 
@@ -66,7 +64,7 @@ export class ResolveGuard implements CanActivate {
                         gridFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {criadoEm: 'ASC'},
+                        sort: {codigo: 'ASC'},
                         populate: [
                             'populateAll'
                         ],

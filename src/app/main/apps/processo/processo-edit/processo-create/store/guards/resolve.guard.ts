@@ -1,21 +1,19 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
-
 import {select, Store} from '@ngrx/store';
-
 import {forkJoin, Observable, of} from 'rxjs';
-import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
-
+import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {DadosBasicosAppState} from '../reducers';
 import * as fromStore from '../';
 import {getRouterState} from 'app/store/reducers';
-import {SetSteps} from '../../../../store/actions';
-import {getProcessoLoaded} from '../../../../store/selectors';
+import {SetSteps} from '../../../../store';
+import {getProcessoLoaded} from '../../store';
 import {
     getAssuntosLoaded,
+    getConfiguracaoNupLoaded,
     getInteressadosLoaded,
-    getVinculacoesProcessosLoaded,
-    getJuntadaLoaded
+    getJuntadaLoaded,
+    getVinculacoesProcessosLoaded
 } from '../selectors';
 
 @Injectable()
@@ -53,10 +51,11 @@ export class ResolveGuard implements CanActivate {
             this.getAssuntos(),
             this.getInteressados(),
             this.getJuntadas(),
-            this.getVinculacoesProcessos()
+            this.getVinculacoesProcessos(),
+            this.getConfiguracaoNup()
         ]).pipe(
             switchMap(() => of(true)),
-            catchError(() => of(false))
+            catchError((err) => {console.log (err); return of(false);})
         );
     }
 
@@ -76,9 +75,8 @@ export class ResolveGuard implements CanActivate {
                     if (this.routerState.params['processoHandle'] === 'criar') {
                         this._store.dispatch(new fromStore.CreateProcesso());
                     } else {
-                        this._store.dispatch(new fromStore.SetProcesso({
-                            id: 'processoHandle',
-                            value: this.routerState.params['processoHandle']
+                        this._store.dispatch(new fromStore.GetProcesso({
+                            id: this.routerState.params['processoHandle']
                         }));
                     }
                 }
@@ -225,6 +223,38 @@ export class ResolveGuard implements CanActivate {
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetJuntadas(params));
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * Get configuracaoNup
+     *
+     * @returns {Observable<any>}
+     */
+    getConfiguracaoNup(): any {
+        this._store.dispatch(new fromStore.UnloadConfiguracoesNup({reset: true}));
+
+        return this._store.pipe(
+            select(getConfiguracaoNupLoaded),
+            tap(loaded => {
+                const params = {
+                    filter: {
+                        'dataHoraFimVigencia': 'isNull'
+                    },
+                    sort: {},
+                    limit: 10,
+                    offset: 0,
+                    populate: []
+                };
+
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    this._store.dispatch(new fromStore.GetConfiguracoesNup(params));
                 }
             }),
             filter((loaded: any) => {

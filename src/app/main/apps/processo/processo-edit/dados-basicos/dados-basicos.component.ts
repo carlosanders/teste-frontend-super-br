@@ -41,6 +41,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     especieProcessoPagination: Pagination;
     setorAtualPagination: Pagination;
     classificacaoPagination: Pagination;
+    configuracaoNupPagination: Pagination;
     logEntryPagination: Pagination;
 
     routerState: any;
@@ -156,32 +157,6 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
     abort(): void {
         this._store.dispatch(new Back());
-    }
-
-    post(values): void {
-        const processo = new Processo();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.PostProcesso(processo));
-
-    }
-
-    put(values): void {
-        const processo = new Processo();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.PutProcesso(processo));
-
     }
 
     onActivate(componentReference): void  {

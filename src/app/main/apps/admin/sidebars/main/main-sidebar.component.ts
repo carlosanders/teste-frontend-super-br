@@ -132,10 +132,11 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 role: ['ROLE_ADMIN']
             },
             {
-                nome: 'WorkFlows',
+                nome: 'Workflows',
                 icon: 'low_priority',
                 link: 'workflows',
                 role: ['ROLE_ADMIN']
+<<<<<<< HEAD
             },
             {
                 nome: 'Tipos de Ações Workflows',
@@ -148,6 +149,8 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'low_priority',
                 link: 'tipo-validacao-workflow',
                 role: ['ROLE_ADMIN']
+=======
+>>>>>>> master
             }
         ];
 

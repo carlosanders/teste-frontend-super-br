@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {EspecieProcesso, EspecieSetor, Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
+import {ConfiguracaoNup, EspecieProcesso, EspecieSetor, Estado, GeneroSetor, Processo, Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {ModalidadeFase} from '@cdk/models';
 import {ModalidadeMeio} from '@cdk/models';
@@ -61,6 +61,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     processo: Processo;
 
     @Input()
+    configuracaoNupList: ConfiguracaoNup[] = [];
+
+    @Input()
     saving: boolean;
 
     @Input()
@@ -97,10 +100,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     abort = new EventEmitter<any>();
 
     @Output()
-    put = new EventEmitter<Processo>();
-
-    @Output()
-    post = new EventEmitter<Processo>();
+    validateNup = new EventEmitter<any>();
 
     @Output()
     gerirProcedencia = new EventEmitter();
@@ -130,6 +130,15 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     colaborador = false;
 
     @Input()
+    nupIsValid = true;
+
+    @Input()
+    configuracaoNup: ConfiguracaoNup;
+
+    @Input()
+    configuracaoNupPagination: Pagination;
+
+    @Input()
     estados: Estado[];
 
     @Input()
@@ -147,6 +156,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     procedenciaListIsLoading: boolean;
 
+    configuracaoNupListIsLoading: boolean;
+
     especieProcessoList: EspecieProcesso[] = [];
 
     especieProcessoListIsLoading: boolean;
@@ -158,12 +169,14 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     classificacaoList: Classificacao[] = [];
 
     classificacaoListIsLoading: boolean;
-    
+
     setorAtualList: Setor[] = [];
 
     setorAtualListIsLoading: boolean;
 
     mostraDataHoraDesarquivamento: boolean = false;
+
+    exibirNup: boolean;
 
     /**
      * Constructor
@@ -195,7 +208,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             modalidadeMeio: [null, [Validators.required]],
             modalidadeFase: [null],
             dataHoraAbertura: [null, [Validators.required]],
-            dataHoraDesarquivamento: [null]
+            dataHoraDesarquivamento: [null],
+            configuracaoNup: [null, [Validators.required]],
+            nupInvalido: [null],
         });
 
         this.especieProcessoPagination = new Pagination();
@@ -206,14 +221,15 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.setorAtualPagination = new Pagination();
         this.setorInicialPagination = new Pagination();
         this.processoPagination = new Pagination();
-        this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
         this.generoSetorPagination = new Pagination();
         this.especieSetorPagination = new Pagination();
+        this.configuracaoNupPagination = new Pagination();
+        this.processoPagination.populate = ['configuracaoNup', 'especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
         this._profile = this._loginService.getUserProfile();
 
         this.readonlyNUP = false;
         this.textBotao = '';
-
+        this.exibirNup = true;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -222,6 +238,12 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     ngOnInit(): void {
 
         if (!this.processo.id) {
+
+            if (this.configuracaoNupList.length == 1) {
+                this.form.get('configuracaoNup').setValue(this.configuracaoNupList[0]);
+                this.exibirNup = false;
+            }
+
             this.form.get('temProcessoOrigem').setValue(false);
 
             this.form.get('dataHoraAbertura').setValue(null);
@@ -260,7 +282,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
                     this.form.get('NUP').setValue(null);
                     this.form.get('NUP').disable();
-   
+
                     // this.form.get('procedencia').setValue(null);
                     // this.form.get('procedencia').disable();
                 }
@@ -415,12 +437,30 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            this.save.emit(this.form.value);
+            if (!this.form.get('nupInvalido').value && this.form.get('tipoProtocolo').value == 2) {
+                this.doValidateNup();
+            } else {
+                this.save.emit(this.form.value);
+            }
         }
     }
 
     doAbort(): void {
         this.abort.emit();
+    }
+
+    doValidateNup(): void {
+        const valorNup = this.form.get('NUP').value;
+        const configuracaoNup = this.form.get('configuracaoNup').value.id;
+        const unidadeArquivistica = this.form.get('unidadeArquivistica').value;
+
+        if (valorNup) {
+            this.validateNup.emit({
+                nup: valorNup,
+                configuracaoNup: configuracaoNup,
+                unidadeArquivistica: unidadeArquivistica
+            });
+        }
     }
 
     checkEspecieProcesso(): void {
@@ -548,6 +588,25 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showSetorInicialGrid(): void {
         this.activeCard = 'setor-inicial-gridsearch';
+    }
+
+    checkConfiguracaoNup(): void {
+        const value = this.form.get('configuracaoNup').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('configuracaoNup').setValue(null);
+        }
+    }
+
+    selectConfiguracaoNup(configuracaoNup: ConfiguracaoNup): void {
+        console.log(configuracaoNup);
+        if (configuracaoNup) {
+            this.form.get('configuracaoNup').setValue(configuracaoNup);
+        }
+        this.activeCard = 'form';
+    }
+
+    showConfiguracaoNup(): void {
+        this.activeCard = 'configuracao-nup-gridsearch';
     }
 
     cancel(): void {
@@ -749,6 +808,30 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.setorAtualList = [];
                 response['entities'].forEach((favorito) => {
                     this.setorAtualList.push(favorito.objFavoritoClass[0]);
+                });
+                this._changeDetectorRef.markForCheck();
+            }
+        );
+    }
+
+    getFavoritosConfiguracaoNup(): void {
+        this.configuracaoNupListIsLoading = true;
+        this._favoritoService.query(
+            JSON.stringify({
+                objectClass: 'eq:SuppCore\\AdministrativoBackend\\Entity\\ConfiguracaoNup',
+                context: 'eq:processo_' + this.generoProcesso + '_configuracao_nup'
+            }),
+            5,
+            0,
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+        ).pipe(
+            finalize(() => this.configuracaoNupListIsLoading = false),
+            catchError(() => of([]))
+        ).subscribe(
+            response => {
+                this.configuracaoNupList = [];
+                response['entities'].forEach((favorito) => {
+                    this.configuracaoNupList.push(favorito.objFavoritoClass[0]);
                 });
                 this._changeDetectorRef.markForCheck();
             }

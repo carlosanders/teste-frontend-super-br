@@ -26,6 +26,9 @@ export class Documento {
     @Exclude({ toPlainOnly: true })
     uuid?: string;
 
+    @Exclude({ toPlainOnly: true })
+    numeroUnicoDocumentoFormatado?: string
+
     descricaoOutros?: string;
 
     numeroFolhas?: number;
@@ -34,6 +37,9 @@ export class Documento {
 
     @Exclude({toPlainOnly: true})
     assinado?: boolean;
+
+    @Exclude({toPlainOnly: true})
+    convertidoPdf?: boolean;
 
     semEfeito?: boolean;
 
@@ -166,6 +172,7 @@ export class Documento {
         this.localProducao = null;
         this.autor = null;
         this.assinado = null;
+        this.convertidoPdf = null;
         this.processoOrigem = null;
         this.documentoOrigem = null;
         this.redator = null;
@@ -178,6 +185,7 @@ export class Documento {
         this.origemDados = null;
         this.tarefaOrigem = null;
         this.documentoAvulsoComplementacaoResposta = null;
+        this.numeroUnicoDocumentoFormatado = null;
         this.origemDados = null;
         this.modelo = null;
         this.minuta = null;

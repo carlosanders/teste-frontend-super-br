@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
-
 import * as AtividadeDocumentoActions from '../actions/atividade-documento.actions';
-
 import {AtividadeService} from '@cdk/services/atividade.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {atividade as atividadeSchema} from '@cdk/normalizr';
@@ -14,9 +11,9 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {UnloadDocumento} from '../../../../store/actions';
-import {RemoveTarefa} from '../../../../../tarefas/store/actions';
-import {GetJuntadas, UnloadJuntadas} from '../../../../../processo/processo-view/store/actions';
+import {UnloadDocumento} from '../../../../store';
+import {RemoveTarefa} from '../../../../../tarefas/store';
+import {GetJuntadas, UnloadJuntadas} from '../../../../../processo/processo-view/store';
 
 @Injectable()
 export class AtividadeDocumentoEffects {

@@ -80,11 +80,11 @@ export class NomeListComponent implements OnInit {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('nomes/listar', 'nomes/editar/criar')]);
     }
 
     edit(nomeId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + nomeId]);
+        this._router.navigate([this.routerState.url.replace('nomes/listar', 'nomes/editar/') + nomeId]);
     }
 
     delete(nomeId: number): void {

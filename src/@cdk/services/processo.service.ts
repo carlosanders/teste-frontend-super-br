@@ -108,6 +108,13 @@ export class ProcessoService extends ParentGenericService<Processo> {
         return this.http.get(`${environment.api_url}administrativo/processo/imprime_etiqueta/${id}` + environment.xdebug, {params});
     }
 
+    validaNup(id: number | string, nup: number | string, unidadeArquivistica: number | string, context: any = '{}'): Observable<any> {
+        const params: HttpParams = new HttpParams();
+        params['context'] = context;
+        return this.http.get(`${environment.api_url}administrativo/configuracao_nup/${id}/validar_nup/${nup}/${unidadeArquivistica}` + environment.xdebug, {params});
+    }
+
+
     search(filters: any = '{}', limit: number = 25, offset: number = 0, order: any = '{}', populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
         const params = {};
         params['where'] = filters;

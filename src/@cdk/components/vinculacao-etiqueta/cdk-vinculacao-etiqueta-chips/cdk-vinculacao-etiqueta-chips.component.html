@@ -38,8 +38,15 @@
 </mat-form-field>
 
 <div class="actions" fxLayout="row" fxLayoutAlign="start center">
-    <button mat-mini-fab color="primary" aria-label="Adicionar etiqueta" matTooltip="Adicionar etiqueta"
+    <button mat-icon-button aria-label="Adicionar etiqueta" matTooltip="Adicionar etiqueta" class="accent"
             *ngIf="habilitarOpcaoBtnAddEtiqueta && showBtnAddEtiqueta" (click)="sendEtiqueta()">
-        <mat-icon class="black-fg">add_comment</mat-icon>
+        <mat-icon>label</mat-icon>
     </button>
+
+<!--    <button mat-icon-button aria-label="Processo" matTooltip="Processo"-->
+<!--            [routerLink]="['processo', (tarefa$ | async)?.processo?.id]"-->
+<!--            [routerLinkActive]="['active', 'accent']">-->
+<!--        <mat-icon class="black-fg">book</mat-icon>-->
+<!--    </button>-->
+<!--    -->
 </div>

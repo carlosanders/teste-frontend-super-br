@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-
 import {select, Store} from '@ngrx/store';
-
-import {Observable, forkJoin, of} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
-
 import {ArquivistaAppState} from 'app/main/apps/arquivista/arquivista-list/store/reducers';
 import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
 import {getProcessosLoaded} from 'app/main/apps/arquivista/arquivista-list/store/selectors';
@@ -56,7 +53,7 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getProcessos().pipe(
             switchMap(() => of(true)),
-            catchError(() => of(false))
+            catchError((err) => {console.log (err); return of(false);})
         );
     }
 

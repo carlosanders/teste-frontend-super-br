@@ -70,10 +70,10 @@ export class CdkModeloAutocompleteComponent implements OnInit {
                         this.modeloListIsLoading = true;
                         this._changeDetectorRef.markForCheck();
                         const filterParam = {
-                            ...this.pagination.filter,
-                            andX: andxFilter
+                            andX: andxFilter,
+                            ...this.pagination.filter
                         };
-                        return this._modeloService.query(
+                        return this._modeloService.search(
                             JSON.stringify(filterParam),
                             this.pagination.limit,
                             this.pagination.offset,

@@ -117,6 +117,7 @@ export const acaoTransicaoWorkflow = new schema.Entity('acaoTransicaoWorkflow');
 export const modalidadeAcaoEtiqueta = new schema.Entity('modalidadeAcaoEtiqueta');
 export const tipoAcaoWorkflow = new schema.Entity('tipoAcaoWorkflow');
 export const tipoValidacaoWorkflow = new schema.Entity('tipoValidacaoWorkflow');
+export const configuracaoNup = new schema.Entity('configuracaoNup');
 
 acao.define({
     criadoPor: usuario,
@@ -706,6 +707,7 @@ pessoa.define({
 processo.define({
     classificacao: classificacao,
     origemDados: origemDados,
+    configuracaoNup: configuracaoNup,
     processoOrigem: processo,
     documentoAvulsoOrigem: documentoAvulso,
     procedencia: pessoa,
@@ -1002,6 +1004,12 @@ tipoAcaoWorkflow.define({
 });
 
 tipoValidacaoWorkflow.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario
+});
+
+configuracaoNup.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

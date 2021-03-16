@@ -35,6 +35,7 @@ export class DocumentoEffect {
     routerState: any;
     private _profile: any;
     lixeira = false;
+    pesquisa = false;
 
     /**
      *
@@ -67,6 +68,7 @@ export class DocumentoEffect {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.lixeira = !!routerState.state.queryParams.lixeira;
+                    this.pesquisa = !!routerState.state.queryParams.pesquisa;
                 }
             });
 
@@ -126,6 +128,7 @@ export class DocumentoEffect {
                             'juntadaAtual',
                             'repositorio.modalidadeRepositorio',
                             'documentoAvulsoRemessa',
+                            'documentoAvulsoRemessa.especieDocumentoAvulso',
                             'documentoAvulsoRemessa.processo',
                             'documentoAvulsoRemessa.processo.especieProcesso',
                             'documentoAvulsoRemessa.processo.especieProcesso.generoProcesso',
@@ -279,7 +282,10 @@ export class DocumentoEffect {
                         ],
                         {
                             relativeTo: this.activatedRoute.parent,
-                            queryParams: {lixeira: this.lixeira ? true : null}
+                            queryParams: {
+                                lixeira: this.lixeira ? true : null,
+                                pesquisa: this.pesquisa ? true : null
+                            }
                         }).then();
                 })
             );

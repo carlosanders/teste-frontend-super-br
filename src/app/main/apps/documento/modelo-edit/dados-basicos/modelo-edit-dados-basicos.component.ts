@@ -16,6 +16,7 @@ import {Location} from '@angular/common';
 import {Modelo} from '@cdk/models';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {ComponenteDigitalService} from "../../../../../../@cdk/services/componente-digital.service";
 
 @Component({
     selector: 'modelo-edit-dados-basicos',
@@ -28,6 +29,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     documento$: Observable<Documento>;
+    documento: Documento;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -35,15 +37,19 @@ export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, After
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    values: any;
+
     /**
      * @param _store
      * @param _location
      * @param _dynamicService
+     * @param _componenteDigitalService
      */
     constructor(
         private _store: Store<fromStore.ModeloEditDadosBasicosAppState>,
         private _location: Location,
-        private _dynamicService: DynamicService
+        private _dynamicService: DynamicService,
+        private _componenteDigitalService: ComponenteDigitalService,
     ) {
         this.documento$ = this._store.pipe(select(fromStore.getDocumento));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -58,6 +64,13 @@ export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, After
      * On init
      */
     ngOnInit(): void {
+        this.documento$.subscribe(documento => this.documento = documento);
+
+        this._componenteDigitalService.completedEditorSave.subscribe((value) => {
+            if (value === this.documento.id) {
+                this.submit();
+            }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -82,8 +95,7 @@ export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, After
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
-    submit(values): void {
-
+    preSubmit(values): void {
         const modelo = new Modelo();
 
         Object.entries(values).forEach(
@@ -92,7 +104,16 @@ export class ModeloEditDadosBasicosComponent implements OnInit, OnDestroy, After
             }
         );
 
-        this._store.dispatch(new fromStore.SaveModelo(modelo));
+        this.values = modelo;
+        if (!this.documento.assinado){
+            this._componenteDigitalService.doEditorSave.next(this.documento.id);
+        } else {
+            this.submit();
+        }
+    }
+
+    submit(): void {
+        this._store.dispatch(new fromStore.SaveModelo(this.values));
     }
 
 }

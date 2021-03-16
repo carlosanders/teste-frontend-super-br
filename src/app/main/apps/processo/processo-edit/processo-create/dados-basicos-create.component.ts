@@ -18,7 +18,8 @@ import {
     Interessado,
     VinculacaoProcesso,
     Tarefa,
-    Juntada
+    Juntada,
+    ConfiguracaoNup
 } from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -27,20 +28,20 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
 import {getRouterState, getScreenState} from 'app/store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {SaveAssunto, UnloadAssuntos} from './store';
+import {getConfiguracaoNup, SaveAssunto} from './store';
 import {SaveInteressado} from './store';
 import {SaveVinculacaoProcesso} from './store';
-import {SaveTarefa} from './store/actions';
+import {SaveTarefa} from './store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepper} from '@angular/material/stepper';
 import * as moment from 'moment';
 import {getAssuntoIsSaving as getIsSavingAssunto} from './store/selectors/assunto.selectors';
 import {getInteressadoIsSaving as getIsSavingInteressado} from './store/selectors/interessado.selectors';
-import {getVinculacaoProcessoIsSaving} from './store/selectors';
-import {getTarefaIsSaving} from './store/selectors';
-import {SetSteps} from '../../store/actions';
-import {getProcesso} from '../../store/selectors';
+import {getVinculacaoProcessoIsSaving} from './store';
+import {getTarefaIsSaving} from './store';
+import {getProcesso} from '../../store';
+import {configuracaoNup} from "@cdk/normalizr";
 
 @Component({
     selector: 'dados-basicos-create',
@@ -61,6 +62,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     processo$: Observable<Processo>;
     processo: Processo;
+    nupIsValid$: Observable<boolean>;
+    nupIsValid: boolean;
     isSavingProcesso$: Observable<boolean>;
     errors$: Observable<any>;
     errorsTarefa$: Observable<any>;
@@ -124,6 +127,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     especieTarefaPagination: Pagination;
     setorOrigemPagination: Pagination;
 
+    configuracaoNupPagination: Pagination;
+    configuracaoNupList$: Observable<ConfiguracaoNup[]>;
+    configuracaoNupList: ConfiguracaoNup[] = [];
+
     selectedIndex: number;
     isLinear: boolean;
     mobileMode: boolean = false;
@@ -157,8 +164,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.errorsTarefa$ = this._store.pipe(select(fromStore.getTarefaErrors));
         this.errorsVinculacoes$ = this._store.pipe(select(fromStore.getVinculacaoProcessoErrors));
         this.processo$ = this._store.pipe(select(getProcesso));
+        this.configuracaoNupList$ = this._store.pipe(select(getConfiguracaoNup));
         this._profile = this._loginService.getUserProfile();
         this.screen$ = this._store.pipe(select(getScreenState));
+        this.nupIsValid$ = this._store.pipe(select(fromStore.getNupValid));
 
         this.isSavingAssunto$ = this._store.pipe(select(getIsSavingAssunto));
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntos));
@@ -189,6 +198,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.juntadasLoading$ = this._store.pipe(select(fromStore.getJuntadaIsLoading));
 
         this.especieProcessoPagination = new Pagination();
+
         this.logEntryPagination = new Pagination();
         this.setorAtualPagination = new Pagination();
         this.classificacaoPagination = new Pagination();
@@ -196,6 +206,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
         this.setorOrigemPagination = new Pagination();
+        this.configuracaoNupPagination = new Pagination();
+
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
 
@@ -218,8 +230,10 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             localizador: [null],
             setorAtual: [null, [Validators.required]],
             modalidadeMeio: [null, [Validators.required]],
+            configuracaoNup: [null],
             modalidadeFase: [null],
-            dataHoraAbertura: [null, [Validators.required]]
+            dataHoraAbertura: [null, [Validators.required]],
+            nupInvalido: [null],
         });
 
         this.formAssunto = this._formBuilder.group({
@@ -278,6 +292,20 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      */
     ngOnInit(): void {
 
+        this.configuracaoNupList$.subscribe((configuracaoNupList) => {
+            this.configuracaoNupList = configuracaoNupList;
+            if(configuracaoNupList.length == 1)
+            {
+                this.formProcesso.get('configuracaoNup').setValue(configuracaoNupList[0]);
+            }
+        });
+
+
+        this.nupIsValid$.subscribe((isValid) => {
+            this.nupIsValid = isValid;
+        } );
+
+
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -315,6 +343,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             }
         );
 
+        this.configuracaoNupList$.subscribe(configuracaoNupList => this.configuracaoNupList = configuracaoNupList);
+
         if (!this.processo) {
             this.processo = new Processo();
             this.processo.unidadeArquivistica = 1;
@@ -326,7 +356,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         }
 
         this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: this.processo.id};
-        this.especieProcessoPagination.populate = ['classificacao', 'generoProcesso', 'modalidadeMeio'];
+        this.especieProcessoPagination.populate = ['classificacao', 'generoProcesso', 'modalidadeMeio', 'workflow'];
         this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:' + this.genero.toUpperCase()};
 
         this.especieTarefaPagination.populate = ['generoTarefa'];
@@ -421,11 +451,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
-            if (screen.size !== 'desktop') {
-                this.mobileMode = true;
-            } else {
-                this.mobileMode = false;
-            }
+            this.mobileMode = screen.size !== 'desktop';
         });
     }
 
@@ -455,37 +481,13 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         );
 
         if (this.processo && this.processo.id) {
-            processo.setorInicial = this.processo.setorInicial ? this.processo.setorInicial : null;
+            processo.setorInicial = this.processo.setorInicial ? this.processo.setorInicial : this.processo.setorAtual;
             processo.NUP = this.processo.NUP
                 .replace(/[^\w\-]+/g, '')
                 .replace(/-+/g, '');
         }
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
-    }
-
-    post(values): void {
-        const processo = new Processo();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.PostProcesso(processo));
-    }
-
-    put(values): void {
-        const processo = new Processo();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.PutProcesso(processo));
     }
 
     onActivate(componentReference): void  {
@@ -746,5 +748,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.vinculacaoProcessoActivated = 'form';
                 break;
         }
+    }
+
+    validateNup(values: any){
+       this._store.dispatch(new fromStore.ValidaNup(values));
     }
 }

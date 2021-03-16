@@ -44,7 +44,7 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getTipoValidacaoWorkflow().pipe(
             switchMap(() => of(true)),
-            catchError(() => of(false))
+            catchError((err) => {console.log (err); return of(false);})
         );
     }
 
@@ -54,7 +54,7 @@ export class ResolveGuard implements CanActivate {
     getTipoValidacaoWorkflow(): any {
         return this._store.pipe(
             select(getHasLoaded),
-            tap((loaded: any) => {                
+            tap((loaded: any) => {
                 if (!loaded.value || loaded.value != this.siglaValidacao) {
                     this._store.dispatch(new fromStore.GetTipoValidacaoWorkflow({
                         sigla: 'eq:' + this.siglaValidacao

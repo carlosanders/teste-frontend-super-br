@@ -12,8 +12,8 @@
         </button>
 
         <button class="toggle-filter" mat-icon-button *ngIf="!(expandir$ | async)"
-                aria-label="Expandir Tela"
-                matTooltip="Expandir Tela"
+                aria-label="Maximizar Tela"
+                matTooltip="Maximizar Tela"
                 (click)="expandirTela(true)">
             <mat-icon>fullscreen</mat-icon>
         </button>
@@ -141,7 +141,6 @@
                     </cdk-volume-autocomplete>
                 </mat-form-field>
 
-
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">
                         <input matInput placeholder="Documento"
@@ -180,13 +179,16 @@
     </div>
 
     <div *ngIf="tarefa">
-        <mat-expansion-panel class="mat-elevation-z0" expanded="true" (closed)="onCloseMinutas()" (opened)="onOpenMinutas()">
-            <mat-expansion-panel-header [collapsedHeight]="'48px'" [expandedHeight]="'48px'" style="background-color: whitesmoke;">
+        <mat-expansion-panel class="mat-elevation-z0" expanded="true" (closed)="onCloseMinutas()"
+                             (opened)="onOpenMinutas()">
+            <mat-expansion-panel-header [collapsedHeight]="'48px'" [expandedHeight]="'48px'"
+                                        style="background-color: whitesmoke;">
                 <mat-panel-title>
                     Minutas da Tarefa
                 </mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="minutas" *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async) && !(loadingDocumentosExcluidos$ | async)) && tarefa">
+            <div class="minutas"
+                 *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async) && !(loadingDocumentosExcluidos$ | async)) && tarefa">
 
                 <cdk-componente-digital-card-list #ckdUpload
                                                   [mode]="'processo'"
@@ -195,21 +197,26 @@
                 </cdk-componente-digital-card-list>
 
                 <div class="sem-minutas" *ngIf="(!minutas || !minutas.length) && (!oficios || !oficios.length)">
-                    <div class="m-16" style="font-style: italic;">Não há minutas<span *ngIf="(lixeiraMinutas$ | async)"> na lixeira</span>.</div>
+                    <div class="m-16" style="font-style: italic;">Não há minutas<span *ngIf="(lixeiraMinutas$ | async)"> na lixeira</span>.
+                    </div>
                 </div>
 
                 <div class="minuta" matRipple
                      *ngFor="let minuta of (minutas); let i = index; let last = last; let first = first"
                      (click)="onClickedMinuta(minuta)">
                     <div class="index">
-                    <span>
-                        <mat-icon>{{minuta.apagadoEm ? 'delete' : 'edit'}}</mat-icon>
-                    </span>
+                        <span>
+                            <mat-icon>{{(minuta.apagadoEm ? 'delete' : (minuta.numeroUnicoDocumentoFormatado ? 'edit' : 'picture_as_pdf'))}}</mat-icon>
+                        </span>
                     </div>
                     <div fxFlex fxLayout="column">
                         <div>
                             <div class="descricao">{{minuta.tipoDocumento.nome}}</div>
                             <div class="criado-em">{{minuta.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
+                            <div class="numero"
+                                 *ngIf="minuta.numeroUnicoDocumentoFormatado">
+                                {{minuta.numeroUnicoDocumentoFormatado}}
+                            </div>
                             <div
                                 *ngIf="minuta.origemDados !== undefined && minuta.origemDados.status === 0">
                                 <div fxLayout="row" fxLayoutAlign="start center">
@@ -285,13 +292,21 @@
                                 <span>Remover Assinatura</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
-                                    *ngIf="!minuta.apagadoEm"
-                                    (click)="doConverte(minuta.componentesDigitais[0]?.id)"
+                                    *ngIf="!minuta.apagadoEm && minuta?.componentesDigitais[0]?.extensao === 'html'"
+                                    (click)="doConverte(minuta.id)"
                                     mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Converter em PDF</span>
                             </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7S(minuta.componentesDigitais[0]?.id)"
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    *ngIf="!minuta.apagadoEm && minuta?.componentesDigitais[0]?.convertidoPdf"
+                                    (click)="doConverteHtml(minuta.id)"
+                                    mat-menu-item>
+                                <mat-icon color="accent">restore_page</mat-icon>
+                                <span>Converter em HTML</span>
+                            </button>
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    (click)="doDownloadP7S(minuta.componentesDigitais[0]?.id)"
                                     mat-menu-item>
                                 <mat-icon color="accent">get_app</mat-icon>
                                 <span>Exportar como P7S</span>
@@ -424,12 +439,18 @@
                                 <mat-icon color="accent">lock_open</mat-icon>
                                 <span>Remover Assinatura</span>
                             </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(oficio.componentesDigitais[0]?.id)"
-                                    mat-menu-item>
+                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverte(oficio.id)"
+                                    *ngIf="oficio?.componentesDigitais[0]?.extensao === 'pdf'" mat-menu-item>
                                 <mat-icon color="accent">picture_as_pdf</mat-icon>
                                 <span>Converter em PDF</span>
                             </button>
-                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7S(oficio.componentesDigitais[0]?.id)"
+                            <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverteHtml(oficio.id)"
+                                    *ngIf="oficio?.componentesDigitais[0]?.convertidoPdf" mat-menu-item>
+                                <mat-icon color="accent">restore_page</mat-icon>
+                                <span>Converter em HTML</span>
+                            </button>
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    (click)="doDownloadP7S(oficio.componentesDigitais[0]?.id)"
                                     mat-menu-item>
                                 <mat-icon color="accent">get_app</mat-icon>
                                 <span>Converter em P7S</span>
@@ -443,7 +464,8 @@
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
                                     *ngIf="!oficio.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
-                                    [matMenuTriggerFor]="tipoDocumentoMenu2" #menuTriggerOficios="matMenuTrigger" mat-menu-item>
+                                    [matMenuTriggerFor]="tipoDocumentoMenu2" #menuTriggerOficios="matMenuTrigger"
+                                    mat-menu-item>
                                 <mat-icon color="accent">edit</mat-icon>
                                 <span>Alterar Tipo de Documento</span>
                             </button>
@@ -469,7 +491,8 @@
                                     {{form.get('tipoDocumentoMinutas').errors.formError}}
                                 </mat-error>
                             </mat-form-field>
-                            <button type="button" mat-raised-button color="accent" (click)="salvarTipoDocumento(oficio)">
+                            <button type="button" mat-raised-button color="accent"
+                                    (click)="salvarTipoDocumento(oficio)">
                                 SALVAR
                             </button>
                         </form>
@@ -512,7 +535,7 @@
                 <div class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="s-14">picture_as_pdf</mat-icon>
                     <span class="ml-4"
-                          [ngClass]="{'current-tipo-documento': true}">{{processo?.especieProcesso.nome}}</span>
+                          [ngClass]="{'current-tipo-documento': true}">{{processo?.especieProcesso?.nome}}</span>
                 </div>
             </div>
         </div>
@@ -578,6 +601,10 @@
                                 arrow_left
                             </mat-icon>
                         </div>
+                    </div>
+                    <div class="numero"
+                         *ngIf="juntada.documento.numeroUnicoDocumentoFormatado">
+                        {{juntada.documento.numeroUnicoDocumentoFormatado}}
                     </div>
                     <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
                         <div class="etiqueta"

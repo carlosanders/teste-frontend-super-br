@@ -1,0 +1,10 @@
+<div class="content" cdkPerfectScrollbar>
+    <cdk-etiqueta-form
+        [etiqueta]="etiqueta"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [modalidadeEtiquetaPagination]="modalidadeEtiquetaPagination"
+        (abort)="doAbort()"
+        (save)="submit($event)">
+    </cdk-etiqueta-form>
+</div>

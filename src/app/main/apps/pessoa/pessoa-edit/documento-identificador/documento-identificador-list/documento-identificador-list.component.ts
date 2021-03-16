@@ -80,11 +80,11 @@ export class DocumentoIdentificadorListComponent implements OnInit {
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/criar')]);
+        this._router.navigate([this.routerState.url.replace('documentos/listar', 'documentos/editar/criar')]);
     }
 
     edit(documentoIdentificadorId: number): void {
-        this._router.navigate([this.routerState.url.replace('listar', 'editar/') + documentoIdentificadorId]);
+        this._router.navigate([this.routerState.url.replace('documentos/listar', 'documentos/editar/') + documentoIdentificadorId]);
     }
 
     delete(documentoIdentificadorId: number): void {

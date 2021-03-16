@@ -1,28 +1,24 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
-import {of} from 'rxjs';
-import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
-
+import {Observable, of} from 'rxjs';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import * as DadosBasicosActions from '../actions';
-
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
-import {processo as processoSchema} from '@cdk/normalizr';
+import {juntada as juntadaSchema, processo as processoSchema,} from '@cdk/normalizr';
 import {Juntada, Processo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
 
 @Injectable()
 export class DadosBasicosEffect {
+
     routerState: any;
 
     /**
-     *
      * @param _actions
      * @param _processoService
      * @param _juntadaService
@@ -55,11 +51,8 @@ export class DadosBasicosEffect {
             .pipe(
                 ofType<DadosBasicosActions.GetProcesso>(DadosBasicosActions.GET_PROCESSO),
                 switchMap((action) => {
-                    return this._processoService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
+                    return this._processoService.get(
+                        action.payload.id,
                         JSON.stringify([
                             'populateAll',
                             'especieProcesso.generoProcesso',
@@ -67,18 +60,19 @@ export class DadosBasicosEffect {
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta',
                             'especieProcesso',
-                            'especieProcesso.workflow'
+                            'especieProcesso.workflow',
+                            'especieProcesso.workflow.especieTarefaInicial'
                         ]));
                 }),
                 switchMap(response => [
-                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
+                    new AddData<Processo>({data: [response], schema: processoSchema}),
                     new DadosBasicosActions.GetProcessoSuccess({
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params.processoHandle,
-                            acessoNegado: response['entities'][0].acessoNegado
+                            acessoNegado: response.acessoNegado
                         },
-                        processoId: response['entities'][0].id
+                        processoId: response.id
                     })
                 ]),
                 catchError((err, caught) => {
@@ -117,7 +111,7 @@ export class DadosBasicosEffect {
     /**
      * Save Processo Success
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     saveProcessoSuccess: any =
         this._actions
             .pipe(
@@ -162,6 +156,36 @@ export class DadosBasicosEffect {
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new DadosBasicosActions.GetJuntadasFailed(err));
+                    return caught;
+                })
+            );
+
+
+    /**
+     * Validar NUP
+     * @type {Observable<any>}
+     */
+    @Effect({dispatch: false})
+    getValidateNup: any =
+        this._actions
+            .pipe(
+                ofType<DadosBasicosActions.ValidaNup>(DadosBasicosActions.VALIDA_NUP),
+                switchMap((action) => {
+                    return this._processoService.validaNup(
+                        action.payload.configuracaoNup,
+                        action.payload.nup,
+                        action.payload.unidadeArquivistica
+                    );
+                }),
+                mergeMap((response) => [
+                    this._store.dispatch(new DadosBasicosActions.ValidaNupSuccess(response))
+                ]),
+                catchError((err, caught) => {
+                    if (err.error.code == 422) {
+                        this._store.dispatch(new DadosBasicosActions.ValidaNupInvalid(err));
+                    } else {
+                        this._store.dispatch(new DadosBasicosActions.ValidaNupFailed(err));
+                    }
                     return caught;
                 })
             );

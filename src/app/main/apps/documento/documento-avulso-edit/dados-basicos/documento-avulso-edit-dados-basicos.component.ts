@@ -33,7 +33,6 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     dialogRef: any;
 
     documento$: Observable<Documento>;
-
     documento: Documento;
 
     isSaving$: Observable<boolean>;
@@ -76,12 +75,6 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.isRemetendo$ = this._store.pipe(select(fromStore.getIsRemetendo));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
-
-        this._componenteDigitalService.completedEditorSave.subscribe((value) => {
-            if (value === this.documento.documentoAvulsoRemessa.id) {
-                this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
-            }
-        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -93,6 +86,12 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
      */
     ngOnInit(): void {
         this.documento$.subscribe(documento => this.documento = documento);
+
+        this._componenteDigitalService.completedEditorSave.subscribe((value) => {
+            if (value === this.documento.id) {
+                this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
+            }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -158,7 +157,9 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._componenteDigitalService.doEditorSave.next(this.documento.documentoAvulsoRemessa.id);
+                if (!this.documento.assinado){
+                    this._componenteDigitalService.doEditorSave.next(this.documento.id);
+                }
             }
             this.confirmDialogRef = null;
         });

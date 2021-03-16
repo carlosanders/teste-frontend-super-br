@@ -9,6 +9,7 @@ export interface ProcessoViewDocumentosState {
     assinandoDocumentoIds: number[];
     removendoAssinaturaDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    convertendoDocumentoHtmlIds: number[];
     downloadP7SDocumentoIds: number[];
     undeletingDocumentoIds: number[];
     bufferingDelete: number;
@@ -29,6 +30,7 @@ export const ProcessoViewDocumentosInitialState: ProcessoViewDocumentosState = {
     alterandoDocumentoIds: [],
     removendoAssinaturaDocumentoIds: [],
     convertendoDocumentoIds: [],
+    convertendoDocumentoHtmlIds: [],
     downloadP7SDocumentoIds: [],
     undeletingDocumentoIds: [],
     bufferingDelete: 0,
@@ -267,6 +269,27 @@ export function ProcessoViewDocumentosReducer(
             return {
                 ...state,
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case ProcessoViewDocumentosActions.CONVERTE_DOCUMENTO_HTML: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: [...state.convertendoDocumentoHtmlIds, action.payload],
+            };
+        }
+
+        case ProcessoViewDocumentosActions.CONVERTE_DOCUMENTO_HTML_SUCESS: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case ProcessoViewDocumentosActions.CONVERTE_DOCUMENTO_HTML_FAILED: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoHtmlIds.filter(id => id !== action.payload),
             };
         }
 

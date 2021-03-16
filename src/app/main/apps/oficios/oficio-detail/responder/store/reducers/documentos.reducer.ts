@@ -7,6 +7,7 @@ export interface DocumentosState {
     deletingDocumentoIds: number[];
     assinandoDocumentoIds: number[];
     convertendoDocumentoIds: number[];
+    convertendoDocumentoHtmlIds: number[];
     loading: boolean;
     loaded: boolean;
 
@@ -19,6 +20,7 @@ export const DocumentosInitialState: DocumentosState = {
     deletingDocumentoIds: [],
     assinandoDocumentoIds: [],
     convertendoDocumentoIds: [],
+    convertendoDocumentoHtmlIds: [],
     loading: false,
     loaded: false,
 };
@@ -61,6 +63,27 @@ export function DocumentosReducer(
             return {
                 ...state,
                 convertendoDocumentoIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case DocumentosActions.CONVERTE_DOCUMENTO_HTML: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: [...state.convertendoDocumentoIds, action.payload],
+            };
+        }
+
+        case DocumentosActions.CONVERTE_DOCUMENTO_HTML_SUCESS: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
+            };
+        }
+
+        case DocumentosActions.CONVERTE_DOCUMENTO_HTML_FAILED: {
+            return {
+                ...state,
+                convertendoDocumentoHtmlIds: state.convertendoDocumentoIds.filter(id => id !== action.payload),
             };
         }
 

@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
-
 import * as DadosBasicosActions from '../actions/dados-basicos.actions';
-
 import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {processo as processoSchema} from '@cdk/normalizr';
@@ -53,7 +50,7 @@ export class DadosBasicosEffect {
                                 type: 'processo',
                                 content: `Processo id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
-                            })              
+                            })
                         ]),
                         catchError((err) => {
                             return of(new DadosBasicosActions.SaveProcessoFailed(err));
@@ -64,7 +61,7 @@ export class DadosBasicosEffect {
     /**
      * Save Processo Success
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     saveProcessoSuccess: any =
         this._actions
             .pipe(
@@ -74,74 +71,6 @@ export class DadosBasicosEffect {
                 })
             );
 
-    /**
-     * Put Processo
-     * @type {Observable<any>}
-     */
-    @Effect()
-    putProcesso: any =
-        this._actions
-            .pipe(
-                ofType<DadosBasicosActions.PutProcesso>(DadosBasicosActions.PUT_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
-                        mergeMap((response: Processo) => [
-                            new DadosBasicosActions.PutProcessoSuccess(response),
-                            new AddData<Processo>({data: [response], schema: processoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })              
-                        ]),
-                        catchError((err) => {
-                            return of(new DadosBasicosActions.PutProcessoFailed(err));
-                        })
-                    );
-                })
-            );
-
-    /**
-     * Post Processo
-     * @type {Observable<any>}
-     */
-    @Effect()
-    postProcesso: any =
-        this._actions
-            .pipe(
-                ofType<DadosBasicosActions.PostProcesso>(DadosBasicosActions.POST_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
-                        mergeMap((response: Processo) => [
-                            new DadosBasicosActions.PostProcessoSuccess(response),
-                            new AddData<Processo>({data: [response], schema: processoSchema}),
-                            new OperacoesActions.Resultado({
-                                type: 'processo',
-                                content: `Processo id ${response.id} criada com sucesso!`,
-                                dateTime: response.criadoEm
-                            })              
-                        ]),
-                        catchError((err) => {
-                            return of(new DadosBasicosActions.PostProcessoFailed(err));
-                        })
-                    );
-                })
-            );
-
-    /**
-     * Post Processo Success
-     */
-    @Effect({ dispatch: false })
-    postProcessoSuccess: any =
-        this._actions
-            .pipe(
-                ofType<DadosBasicosActions.PostProcessoSuccess>(DadosBasicosActions.POST_PROCESSO_SUCCESS),
-                tap((action) => {
-                    this._router.navigate([this.routerState.url.replace('dados-basicos', 'assuntos/listar').replace('criar', action.payload.id)]).then();
-                })
-            );
-
-
     @Effect()
     getProcesso: any =
         this._actions
@@ -149,23 +78,20 @@ export class DadosBasicosEffect {
                 ofType<DadosBasicosActions.GetProcesso>(DadosBasicosActions.GET_PROCESSO),
                 switchMap((action) => {
                     this.populate = action.payload.populate ?? [];
-                    return this._processoService.query(
-                        JSON.stringify(action.payload.filter),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify(this.populate));
+                    return this._processoService.get(
+                        action.payload.id,
+                        JSON.stringify(['populateAll', 'setorAtual.unidade'])
+                    );
                 }),
                 switchMap(response => [
-                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
+                    new AddData<Processo>({data: [response], schema: processoSchema}),
                     new DadosBasicosActions.GetProcessoSuccess({
                         loaded: {
                             id: 'processoHandle',
                             value: this.routerState.params.processoHandle,
-                            populate: this.populate,
-                            acessoNegado: response['entities'][0].acessoNegado
+                            acessoNegado: response.acessoNegado
                         },
-                        processoId: response['entities'][0].id
+                        processoId: this.routerState.params.processoHandle
                     })
                 ]),
                 catchError((err, caught) => {

@@ -58,9 +58,24 @@ export const getSelectedDocumentos = createSelector(
     schemaDocumentoSelectors.entitiesProjector
 );
 
+export const getConvertendoAllDocumentosId = createSelector(
+    getTarefaOficiosDocumentosState,
+    (state: DocumentosState) => {
+        return [
+            ...state.convertendoDocumentoIds,
+            ...state.convertendoDocumentoHtmlIds
+        ];
+    }
+);
+
 export const getConvertendoDocumentosId = createSelector(
     getTarefaOficiosDocumentosState,
     (state: DocumentosState) => state.convertendoDocumentoIds
+);
+
+export const getConvertendoDocumentosHtmlId = createSelector(
+    getTarefaOficiosDocumentosState,
+    (state: DocumentosState) => state.convertendoDocumentoHtmlIds
 );
 
 export const getUnDeletingDocumentosId = createSelector(

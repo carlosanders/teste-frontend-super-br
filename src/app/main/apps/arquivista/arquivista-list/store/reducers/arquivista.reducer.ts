@@ -1,7 +1,6 @@
 import * as ArquivistaActions from 'app/main/apps/arquivista/arquivista-list/store/actions/arquivista.actions';
 import {Etiqueta} from '@cdk/models';
 
-
 export interface ArquivistaState {
     entitiesId: number[];
     pagination: {
