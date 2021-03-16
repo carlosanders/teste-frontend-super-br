@@ -71,4 +71,7 @@
 * Correção no componente de documentos para retornar para pesquisa corretamente
 * Criado componente de sidebar vazio para componente de documento
 
+1.1.4
+
+* Corrigindo defeito no componente de filtro de datas no filtro de data exata para campos sem data e hora
 
