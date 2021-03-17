@@ -126,6 +126,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     cienciaTarefa = new EventEmitter<any>();
 
     @Output()
+    gerarRelatorioExcel = new EventEmitter<any>();
+
+    @Output()
     toggleUrgente = new EventEmitter<Tarefa>();
 
     @Output()
@@ -494,7 +497,12 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.loadAssuntos.emit(processoId);
     }
 
+    doGerarRelatorioExcel(): void {
+        this.gerarRelatorioExcel.emit();
+    }
+
     criarRelatorio() {
         this.criaRelatorio.emit(true);
     }
+
 }
