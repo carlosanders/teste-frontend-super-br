@@ -72,3 +72,7 @@
 * Criado componente de sidebar vazio para componente de documento
 * Corrigindo defeito no componente de filtro de datas no filtro de data exata para campos sem data e hora
 * Correção de comportamento incorreto da aplicação ao recarregar componente de documentos
+
+1.2.0
+
+* Melhoria para permitir a pré-visualização de repositórios antes da sua atualização
