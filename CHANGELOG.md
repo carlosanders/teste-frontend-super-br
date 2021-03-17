@@ -80,3 +80,4 @@
 * Melhoria para gerar relatório em excel da listagem completa de tarefas de maneira simplificada, a partir da lista
 * Melhoria para que o administrador possa transferir tarefas de usuário a ser inativado para coordenação e protocolo
 * Melhoria para que o administrador possa transferir processos do setor a ser inativado para protocolo da unidade
+* Melhoria para configurar a restrição acesso a processo restritos na distribuição/redistribuição de tarefas
