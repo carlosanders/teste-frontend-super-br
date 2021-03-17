@@ -8,5 +8,6 @@
     (download)="doDownload($event)"
     [downloadingId]="(repositorioIdLoadind$ | async)"
     [downloadedId]="(repositorioIdLoaded$ | async)"
-    (reload)="reload($event)">
+    (reload)="reload($event)"
+    (visualizar)="showConteudo($event)">
 </cdk-repositorio-grid>
