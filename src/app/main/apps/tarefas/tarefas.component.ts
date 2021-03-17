@@ -32,6 +32,8 @@ import {modulesConfig} from '../../../../modules/modules-config';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {CdkUtils} from '@cdk/utils';
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CdkConfirmDialogComponent} from "../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
 
 @Component({
     selector: 'tarefas',
@@ -44,6 +46,8 @@ import {CdkUtils} from '@cdk/utils';
 export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
+
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
 
     routerState: any;
 
@@ -141,7 +145,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         private _store: Store<fromStore.TarefasAppState>,
         private _loginService: LoginService,
         private _dynamicService: DynamicService,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private _matDialog: MatDialog
     ) {
         // Set the defaults
         this.searchInput = new FormControl('');
@@ -672,6 +677,22 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doGerarRelatorioTarefaExcel(){
-        this._store.dispatch(new fromStore.GerarRelatorioTarefaExcel());
+        this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+            },
+            disableClose: false
+        });
+
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja gerar um relatório com a listagem completa de tarefas? Você receberá uma notificação quando o relatório estiver disponível.';
+
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this._store.dispatch(new fromStore.GerarRelatorioTarefaExcel());
+            }
+            this.confirmDialogRef = null;
+        });
     }
 }
