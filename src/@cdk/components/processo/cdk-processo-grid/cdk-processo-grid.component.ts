@@ -56,6 +56,7 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     displayedColumns: string[] = ['select', 'id', 'NUP', 'setorAtual.nome', 'unidade', 'actions'];
 
+    @Input()
     allColumns: any[] = [
         {
             id: 'select',
@@ -251,6 +252,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     selected = new EventEmitter<Processo>();
 
     @Output()
+    restricoesAcesso = new EventEmitter<Processo>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: ProcessoDataSource;
@@ -391,6 +395,10 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     deleteProcessos(processosId): void {
         processosId.forEach(processoId => this.deleteProcesso(processoId));
+    }
+
+    doRestricoesAcesso(processo:Processo): void {
+        this.restricoesAcesso.emit(processo);
     }
 
     /**

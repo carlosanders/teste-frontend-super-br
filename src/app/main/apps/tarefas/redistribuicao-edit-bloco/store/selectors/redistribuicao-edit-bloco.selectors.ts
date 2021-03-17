@@ -6,6 +6,11 @@ export const getRedistribuicaoEditBlocoState = createSelector(
     (state: RedistribuicaoEditBlocoAppState) => state.tarefaEditBloco
 );
 
+export const getTarefasProcessoRestritoValidadas = createSelector(
+    getRedistribuicaoEditBlocoState,
+    (state: RedistribuicaoEditBlocoState) => state.tarefasProcessoRestritosValidadas
+);
+
 export const getIsSaving = createSelector(
     getRedistribuicaoEditBlocoState,
     (state: RedistribuicaoEditBlocoState) => state.savingId.length > 0

@@ -2,11 +2,13 @@ import * as RedistribuicaoEditBlocoActions from '../actions/redistribuicao-edit-
 
 export interface RedistribuicaoEditBlocoState {
     savingId: number[];
+    tarefasProcessoRestritosValidadas: number[];
     errors: any;
 }
 
 export const RedistribuicaoEditInitialState: RedistribuicaoEditBlocoState = {
     savingId: [],
+    tarefasProcessoRestritosValidadas: [],
     errors: false
 };
 
@@ -17,6 +19,7 @@ export function RedistribuicaoEditBlocoReducer(
 
         case RedistribuicaoEditBlocoActions.EDIT_TAREFA: {
             return {
+                ...state,
                 savingId: [],
                 errors: false
             };
@@ -41,6 +44,13 @@ export function RedistribuicaoEditBlocoReducer(
                 ...state,
                 savingId: state.savingId.filter(id => id !== action.payload.tarefa.id),
                 errors: action.payload
+            };
+        }
+
+        case RedistribuicaoEditBlocoActions.TAREFAS_PROCESOS_RESTRITO_VALIDADAS_SUCCESS: {
+            return {
+                ...state,
+                tarefasProcessoRestritosValidadas: action.payload
             };
         }
 
