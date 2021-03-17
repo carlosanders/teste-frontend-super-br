@@ -332,9 +332,15 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         }
                     }
 
+                    // Adiciona contexto para marcar usuários que estão afastados impedindo seleção
+                    this.usuarioResponsavelPagination['context'] = {semAfastamento: true};
+
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
-                    if (typeof value === 'object' && value && value.apenasDistribuidor && value.id !== this._profile.lotacoes[0].setor.id) {
-                        this.usuarioResponsavelPagination['context'] = {setorApenasDistribuidor: value.id};
+                    if (typeof value === 'object' && value && value.apenasDistribuidor) {
+                        let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == value.id)
+                        if(lotacoes.length === 0) {
+                            this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = value.id;
+                        }
                     }
 
                     this._changeDetectorRef.markForCheck();
