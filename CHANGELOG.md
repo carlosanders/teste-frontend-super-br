@@ -76,3 +76,4 @@
 1.2.0
 
 * Melhoria para permitir a pré-visualização de repositórios antes da sua atualização
+* Melhoria para gerar relatório em excel da listagem completa de tarefas de maneira simplificada, a partir da lista

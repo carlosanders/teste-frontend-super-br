@@ -38,7 +38,7 @@ export const UsuariosListInitialState: UsuariosListState = {
 
 export function UsuariosListReducer(
     state = UsuariosListInitialState,
-    action: UsuariosListActions.UsuariosListActionsAll
+    action: UsuariosListActions.TarefaActionsAll | UsuariosListActions.UsuariosListActionsAll
 ): UsuariosListState {
     switch (action.type) {
 
@@ -130,6 +130,27 @@ export function UsuariosListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
+        }
+
+        case UsuariosListActions.DISTRIBUIR_TAREFAS_USUARIO: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+
+        case UsuariosListActions.DISTRIBUIR_TAREFAS_USUARIO_SUCCESS: {
+            return {
+                ...state,
+                loading: false
+            };
+        }
+
+        case UsuariosListActions.DISTRIBUIR_TAREFAS_USUARIO_FAILED: {
+            return {
+                ...state,
+                loading: false
             };
         }
 

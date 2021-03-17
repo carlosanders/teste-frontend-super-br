@@ -320,6 +320,15 @@
                             <mat-icon>tune</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('distribuirTarefas') > -1"
+                                [disabled]="deletedIds?.indexOf(usuario.id) > -1"
+                                (click)="doDistribuirTarefas(usuario)"
+                                aria-label="distribuir tarefas"
+                                matTooltip="Distribuir Tarefas">
+                            <mat-icon>swap_calls</mat-icon>
+                        </button>
+
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(usuario.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>

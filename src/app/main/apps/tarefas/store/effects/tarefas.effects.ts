@@ -512,7 +512,7 @@ export class TarefasEffect {
             .pipe(
                 ofType<TarefasActions.GerarRelatorioTarefaExcel>(TarefasActions.GERAR_RELATORIO_TAREFA_EXCEL),
                 mergeMap((action) => {
-                    return this._tarefaService.GerarRelatorioTarefaExcel().pipe(
+                    return this._tarefaService.gerarRelatorioTarefaExcel().pipe(
                         mergeMap((response) => [
                             new TarefasActions.GerarRelatorioTarefaExcelSuccess(response.id),
                         ]),

@@ -136,4 +136,8 @@ export class UsuariosListComponent implements OnInit {
     delete(usuarioId: number): void {
         this._store.dispatch(new fromStore.DeleteUsuario(usuarioId));
     }
+
+    doDistribuirTarefas(usuario: Usuario): void {
+        this._store.dispatch(new fromStore.DistribuirTarefasUsuario(usuario));
+    }
 }

@@ -150,7 +150,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'afastamentos', 'vincularPessoa'];
+    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'afastamentos', 'vincularPessoa', 'distribuirTarefas'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -187,6 +187,9 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Output()
     vincular = new EventEmitter<number>();
+
+    @Output()
+    distribuirTarefas = new EventEmitter<Usuario>();
 
     @Output()
     selected = new EventEmitter<Usuario>();
@@ -407,6 +410,10 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    doDistribuirTarefas(usuario: Usuario): void {
+        this.distribuirTarefas.emit(usuario);
     }
 
 

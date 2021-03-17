@@ -11,7 +11,7 @@
     [deletingIds]="(deletingIds$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['id', 'username', 'nome', 'email', 'colaborador.modalidadeColaborador.valor', 'colaborador.cargo.nome', 'enabled', 'actions']"
-    [actions]="['create', 'edit', 'lotacoes', 'afastamentos', 'resetaSenha', 'coordenadores']"
+    [actions]="['create', 'edit', 'lotacoes', 'afastamentos', 'resetaSenha', 'coordenadores', 'distribuirTarefas']"
     (reload)="reload($event)"
     (create)="create()"
     (edit)="edit($event)"
@@ -19,5 +19,6 @@
     (afastamentos)="afastamentos($event)"
     (resetaSenha)="resetaSenha($event)"
     (coordenadores)="coordenadores($event)"
+    (distribuirTarefas)="doDistribuirTarefas($event)"
     (delete)="delete($event)">
 </cdk-usuario-grid>
