@@ -194,6 +194,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     download = new EventEmitter<Repositorio>();
 
     @Output()
+    visualizar = new EventEmitter();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: RepositorioDataSource;
@@ -390,4 +393,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     doCreate(): void {
         this.create.emit();
     }
+
+    doShow(documento: Documento): void {
+        this.visualizar.emit(documento.componentesDigitais[0].hash)
+    }
+
 }
