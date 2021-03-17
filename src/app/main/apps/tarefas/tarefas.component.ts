@@ -670,4 +670,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.mostraCriar = false;
         this.currentTarefaId = null;
     }
+
+    doGerarRelatorioTarefaExcel(){
+        this._store.dispatch(new fromStore.GerarRelatorioTarefaExcel());
+    }
 }

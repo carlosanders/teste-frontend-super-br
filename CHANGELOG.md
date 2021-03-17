@@ -48,3 +48,32 @@
 * Correção de bug na gestão de pessoas no módulo admin
 * Correçao da validaçao das tarefas em bloco
 * Correção da edição em bloco de tarefas para distribuiçao de tarefas
+
+1.1.1
+
+* Correção de bug na pesquisa de documentos
+* Correção de bug na exibição dos contextos de workflow
+* Correção de bug ao movimentar ao selecionar um modelo pela segunda vez na mesma sessão
+* Correção de bug na edição de pessoa jurídica
+* Correção de bug no layout do componente de upload
+* Correção de bug para logar no console erros nos guardas de rotas
+
+1.1.2
+
+* Correção de bug no ícone da minuta
+* Correção de bug para exibir o numero do documento na lista de juntadas do processo
+
+1.1.3
+
+* Correção de bugs no componente de filtros de datas ao clicar no campo texto
+* Correção nos filtros que utilizavam o componente de datas, que abriam o modal ao apertar enter
+* Correção na pesquisa de documentos para utilizar corretamente o componente de documentos
+* Correção no componente de documentos para retornar para pesquisa corretamente
+* Criado componente de sidebar vazio para componente de documento
+* Corrigindo defeito no componente de filtro de datas no filtro de data exata para campos sem data e hora
+* Correção de comportamento incorreto da aplicação ao recarregar componente de documentos
+
+1.2.0
+
+* Melhoria para permitir a pré-visualização de repositórios antes da sua atualização
+* Melhoria para gerar relatório em excel da listagem completa de tarefas de maneira simplificada, a partir da lista

@@ -57,7 +57,7 @@ export class ResolveGuard implements CanActivate {
         if (this.getRouterDefault()) {
             return this.getDocumentosAvulso().pipe(
                 switchMap(() => of(true)),
-                catchError(() => of(false))
+                catchError((err) => {console.log (err); return of(false);})
             );
         }
     }

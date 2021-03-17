@@ -96,12 +96,6 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 role: ['ROLE_ADMIN']
             },
             {
-                nome: 'Modalidades de Ações Etiquetas',
-                icon: 'label',
-                link: 'modalidade-acao-etiqueta',
-                role: ['ROLE_ADMIN']
-            },
-            {
                 nome: 'Assuntos',
                 icon: 'subject',
                 link: 'assuntos',
@@ -132,21 +126,9 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 role: ['ROLE_ADMIN']
             },
             {
-                nome: 'WorkFlows',
+                nome: 'Workflows',
                 icon: 'low_priority',
                 link: 'workflows',
-                role: ['ROLE_ADMIN']
-            },
-            {
-                nome: 'Tipos de Ações Workflows',
-                icon: 'low_priority',
-                link: 'tipo-acao-workflow',
-                role: ['ROLE_ADMIN']
-            },
-            {
-                nome: 'Tipos de Validações Workflows',
-                icon: 'low_priority',
-                link: 'tipo-validacao-workflow',
                 role: ['ROLE_ADMIN']
             }
         ];

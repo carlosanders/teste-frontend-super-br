@@ -54,7 +54,7 @@ export class ResolveGuard implements CanActivate {
         if (this.checkRole()) {
             return this.checkStore().pipe(
                 switchMap(() => of(true)),
-                catchError(() => of(false))
+                catchError((err) => {console.log (err); return of(false);})
             );
         }
     }

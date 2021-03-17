@@ -6,7 +6,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Conteúdo</mat-label>
@@ -25,6 +25,14 @@
         </mat-form-field>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <input matInput placeholder="Criado Por"
+                   formControlName="criadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <mat-label>Extensão</mat-label>
             <input matInput #extensao
                    name="extensao"
@@ -32,33 +40,25 @@
         </mat-form-field>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-            <input matInput placeholder="Processo de Origem"
-                   formControlName="processoOrigem"
+            <input matInput placeholder="Processo"
+                   formControlName="processo"
                    [matAutocomplete]="processo.autocomplete">
-            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processoOrigem')">
+            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
             </cdk-processo-autocomplete>
         </mat-form-field>
 
-       <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
-           <span [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">Criado Em</span>
-           <button mat-icon-button [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">
-               <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
-           </button>
-       </div>
-       <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-           <cdk-date-filter [datetime]="true" campo="criadoEm"
-                            [limparForm]="this.limparFormFiltroDatas$"
-                            (filtra)="this.filtraData($event, 'criadoEm')">
-           </cdk-date-filter>
-       </mat-menu>
-
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-            <input matInput placeholder="Criado Por"
-                   formControlName="criadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
+        <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
+            <span [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">Juntado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="documento.juntadaAtual.criadoEm"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraData($event, 'criadoEm')">
+            </cdk-date-filter>
+        </mat-menu>
 
         <mat-checkbox *showIfRole="'ROLE_COLABORADOR'">
             Editor de Textos

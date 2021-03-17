@@ -6,6 +6,8 @@ export const SET_CURRENT_LOTE = '[OPERACOES] SET CURRENT LOTE';
 
 /**
  * Resultado
+ *
+ * @deprecated
  */
 export class Resultado implements Action
 {

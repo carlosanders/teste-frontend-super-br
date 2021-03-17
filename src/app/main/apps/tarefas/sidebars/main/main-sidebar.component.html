@@ -65,7 +65,7 @@
             <section dndDropzone (dndDrop)="onDrop([$event, folder])">
                 <div class="menu_content nav-link" [routerLinkActive]="['active', 'accent']">
                     <div class="menu_content_label">
-                        <a matRipple
+                        <a fxFlex matRipple
                            [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
                            [routerLinkActive]="['active', 'accent']">
                             <mat-icon class="nav-link-icon">{{ folder.icon ? folder.icon : 'folder' }}</mat-icon>

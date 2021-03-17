@@ -105,7 +105,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
             if (routerState) {
                 this.routerState = routerState.state;
             }
-           
+
         });
 
         this.routerState$.pipe(
@@ -123,12 +123,12 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
 
             if (this.processo && this.processo.especieProcesso?.workflow) {
                 tarefa.workflow = this.processo.especieProcesso.workflow;
-                 this.estaNumProcessoWorkflow = "Sim";
+                 this.estaNumProcessoWorkflow = "SIM";
             }else{
-                this.estaNumProcessoWorkflow = "Não";
+                this.estaNumProcessoWorkflow = "NÃO";
             }
         });
-       
+
 
         this.assuntos$.pipe(
             takeUntil(this._unsubscribeAll),

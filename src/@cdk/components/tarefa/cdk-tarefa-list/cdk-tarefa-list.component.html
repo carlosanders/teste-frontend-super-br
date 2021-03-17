@@ -161,6 +161,13 @@
             </mat-form-field>
 
             <button class="refresh" mat-icon-button
+                    (click)="doGerarRelatorioExcel()"
+                    aria-label="gerarRelatorio"
+                    matTooltip="Gerar Relatório de Tarefas em Excel">
+                <mat-icon>get_app</mat-icon>
+            </button>
+
+            <button class="refresh" mat-icon-button
                     (click)="loadPage()"
                     aria-label="recarregar"
                     matTooltip="Recarregar">

@@ -53,6 +53,11 @@ const routes: Routes = [
                 outlet     : 'sidebar'
             },
             {
+                path: 'empty',
+                loadChildren: () => import('./sidebar-empty/sidebar-empty.module').then(m => m.SidebarEmptyModule),
+                outlet     : 'sidebar'
+            },
+            {
                 path       : 'componente-digital',
                 loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule)
             },

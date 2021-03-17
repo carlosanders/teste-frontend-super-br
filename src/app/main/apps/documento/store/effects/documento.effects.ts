@@ -35,6 +35,7 @@ export class DocumentoEffect {
     routerState: any;
     private _profile: any;
     lixeira = false;
+    pesquisa = false;
 
     /**
      *
@@ -67,6 +68,7 @@ export class DocumentoEffect {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.lixeira = !!routerState.state.queryParams.lixeira;
+                    this.pesquisa = !!routerState.state.queryParams.pesquisa;
                 }
             });
 
@@ -261,10 +263,11 @@ export class DocumentoEffect {
                     if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
                         type = '/editor/ckeditor';
                     }
-                    if (this.routerState.url.indexOf('/assinaturas') > -1) {
+                    let url = this.routerState.url;
+                    if (url.indexOf('/assinaturas') > -1) {
                         type = '/assinaturas';
                     }
-                    let sidebar = this.routerState.url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
+                    let sidebar = url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
                     if (componenteDigital.apagadoEm) {
                         sidebar = 'editar/restaurar';
                     }
@@ -280,7 +283,10 @@ export class DocumentoEffect {
                         ],
                         {
                             relativeTo: this.activatedRoute.parent,
-                            queryParams: {lixeira: this.lixeira ? true : null}
+                            queryParams: {
+                                lixeira: this.lixeira ? true : null,
+                                pesquisa: this.pesquisa ? true : null
+                            }
                         }).then();
                 })
             );

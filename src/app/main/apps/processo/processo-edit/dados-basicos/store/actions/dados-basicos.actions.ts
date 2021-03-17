@@ -8,15 +8,8 @@ export const GET_PROCESSO_FAILED = '[DADOS BASICOS] GET PROCESSO FAILED';
 export const CREATE_PROCESSO = '[DADOS BASICOS] CREATE PROCESSO';
 export const CREATE_PROCESSO_SUCCESS = '[DADOS BASICOS] CREATE PROCESSO SUCCESS';
 export const SAVE_PROCESSO = '[DADOS BASICOS] SAVE PROCESSO';
-export const POST_PROCESSO = '[DADOS BASICOS] POST PROCESSO';
-export const PUT_PROCESSO = '[DADOS BASICOS] PUT PROCESSO';
 export const SAVE_PROCESSO_SUCCESS = '[DADOS BASICOS] SAVE PROCESSO SUCCESS';
 export const SAVE_PROCESSO_FAILED = '[DADOS BASICOS] SAVE PROCESSO FAILED';
-export const POST_PROCESSO_SUCCESS = '[DADOS BASICOS] POST PROCESSO SUCCESS';
-export const POST_PROCESSO_FAILED = '[DADOS BASICOS] POST PROCESSO FAILED';
-export const PUT_PROCESSO_SUCCESS = '[DADOS BASICOS] PUT PROCESSO SUCCESS';
-export const PUT_PROCESSO_FAILED = '[DADOS BASICOS] PUT PROCESSO FAILED';
-
 
 /**
  * Set Processo
@@ -81,30 +74,6 @@ export class SaveProcesso implements Action
 }
 
 /**
- * Post Processo
- */
-export class PostProcesso implements Action
-{
-    readonly type = POST_PROCESSO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Post Processo
- */
-export class PutProcesso implements Action
-{
-    readonly type = PUT_PROCESSO;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
  * Save Processo Success
  */
 export class SaveProcessoSuccess implements Action
@@ -117,59 +86,11 @@ export class SaveProcessoSuccess implements Action
 }
 
 /**
- * Put Processo Success
- */
-export class PutProcessoSuccess implements Action
-{
-    readonly type = PUT_PROCESSO_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Post Processo Success
- */
-export class PostProcessoSuccess implements Action
-{
-    readonly type = POST_PROCESSO_SUCCESS;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
  * Save Processo Failed
  */
 export class SaveProcessoFailed implements Action
 {
     readonly type = SAVE_PROCESSO_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Post Processo Failed
- */
-export class PostProcessoFailed implements Action
-{
-    readonly type = POST_PROCESSO_FAILED;
-
-    constructor(public payload: any)
-    {
-    }
-}
-
-/**
- * Put Processo Failed
- */
-export class PutProcessoFailed implements Action
-{
-    readonly type = PUT_PROCESSO_FAILED;
 
     constructor(public payload: any)
     {
@@ -215,18 +136,12 @@ export class CreateProcessoSuccess implements Action
 export type DadosBasicosActionsAll
     = SetProcesso
     | UnloadProcesso
-    | PostProcesso
-    | PutProcesso
-    | GetProcesso     
+    | GetProcesso
     | GetProcessoSuccess
     | GetProcessoFailed
     | CreateProcesso
     | CreateProcessoSuccess
     | SaveProcesso
     | SaveProcessoSuccess
-    | SaveProcessoFailed
-    | PutProcessoSuccess
-    | PutProcessoFailed
-    | PostProcessoSuccess
-    | PostProcessoFailed;
+    | SaveProcessoFailed;
 

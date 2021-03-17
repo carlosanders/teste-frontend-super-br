@@ -1,13 +1,10 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable} from 'rxjs';
 import {catchError, switchMap, mergeMap} from 'rxjs/operators';
-
 import {getRouterState, State} from 'app/store/reducers';
 import * as ModelosActions from 'app/main/apps/modelo/store/actions/modelos.actions';
-
 import {ModeloService} from '@cdk/services/modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Modelo} from '@cdk/models';

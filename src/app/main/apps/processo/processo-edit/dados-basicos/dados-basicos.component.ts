@@ -159,32 +159,6 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this._store.dispatch(new Back());
     }
 
-    post(values): void {
-        const processo = new Processo();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.PostProcesso(processo));
-
-    }
-
-    put(values): void {
-        const processo = new Processo();
-
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.PutProcesso(processo));
-
-    }
-
     onActivate(componentReference): void  {
         if (componentReference.select) {
             componentReference.select.subscribe((pessoa: Pessoa) => {

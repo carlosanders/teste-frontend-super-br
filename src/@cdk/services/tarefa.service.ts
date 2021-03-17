@@ -4,7 +4,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {Tarefa, Usuario} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
-import {plainToClass, classToPlain} from 'class-transformer';
+import {plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
 import {ParentGenericService} from './parent-generic.service';
 
@@ -80,6 +80,10 @@ export class TarefaService extends ParentGenericService<Tarefa> {
                 return Object.assign(new Tarefa(), {...tarefa, ...response});
             })
         );
+    }
+
+    gerarRelatorioTarefaExcel(): Observable<Tarefa> {
+        return this.modelService.post('administrativo/relatorio/gerar_relatorio_minhas_tarefas');
     }
 
     distribuirTarefasUsuario(usuario: Usuario, context: any = '{}'): Observable<Tarefa> {

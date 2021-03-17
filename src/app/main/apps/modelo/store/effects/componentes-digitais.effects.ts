@@ -1,11 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap, map} from 'rxjs/operators';
-
 import * as ComponenteDigitalActions from '../actions/componentes-digitais.actions';
-
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
