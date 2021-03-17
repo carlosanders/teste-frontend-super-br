@@ -5,6 +5,7 @@ import {tarefa as tarefaSchema} from '@cdk/normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {Tarefa} from '@cdk/models';
 import {Documento} from '@cdk/models';
+import {getRedistribuicaoEditBlocoState, RedistribuicaoEditBlocoState} from "../../../redistribuicao-edit-bloco/store";
 
 const schemaTarefaSelectors = createSchemaSelectors<Tarefa>(tarefaSchema);
 const schemaDocumentoSelectors = createSchemaSelectors<Documento>(documentoSchema);
@@ -89,4 +90,9 @@ export const getRedistribuindoId = createSelector(
 export const getCienciaId = createSelector(
     getTarefaState,
     (state: TarefaDetailState) => state.cienciaId
+);
+
+export const getTarefaProcessoRestritoValidada = createSelector(
+    getTarefaState,
+    (state: TarefaDetailState) => state.tarefaProcessoRestritoValidada
 );

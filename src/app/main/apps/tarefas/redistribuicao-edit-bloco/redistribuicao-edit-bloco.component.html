@@ -5,6 +5,22 @@
 
     <h3>{{(tarefas$ | async)?.length}} tarefa(s) selecionada(s) </h3>
 
+    <ng-container *ngIf="processosRestritos.length">
+        <h2>Processo(s) Restrito(s)</h2>
+
+        <cdk-processo-grid
+            *ngIf="processosRestritos.length"
+            [processos]="processosRestritos"
+            [total]="processosRestritos.length"
+            [mode]="'none'"
+            [mobileMode]="false"
+            [actions]="['restricoesAcesso']"
+            (restricoesAcesso)="doRestricoesAcesso($event)"
+            [allColumns]="[]"
+            [displayedColumns]="['id', 'NUP','setorAtual.nome', 'unidade', 'actions']">
+        </cdk-processo-grid>
+    </ng-container>
+
     <cdk-tarefa-form
             [tarefa]="tarefa"
             [valid]="(tarefas$ | async)?.length > 0 && (blocoEditDistribuicao)"

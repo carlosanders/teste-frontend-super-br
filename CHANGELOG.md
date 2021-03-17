@@ -70,9 +70,13 @@
 * Correção na pesquisa de documentos para utilizar corretamente o componente de documentos
 * Correção no componente de documentos para retornar para pesquisa corretamente
 * Criado componente de sidebar vazio para componente de documento
-* Corrigindo defeito no componente de filtro de datas no filtro de data exata para campos sem data e hora
-* Correção de comportamento incorreto da aplicação ao recarregar componente de documentos
 
 1.2.0
 
+* Correção a exibição de usuários disponíveis (não afastados) para recebimento de tarefas na criação de um processo na aba de distribuição
+* Correção no ícone de visualização da pesquisa de documentos
 * Melhoria para permitir a pré-visualização de repositórios antes da sua atualização
+* Melhoria para gerar relatório em excel da listagem completa de tarefas de maneira simplificada, a partir da lista
+* Melhoria para que o administrador possa transferir tarefas de usuário a ser inativado para coordenação e protocolo
+* Melhoria para que o administrador possa transferir processos do setor a ser inativado para protocolo da unidade
+* Melhoria para configurar a restrição acesso a processo restritos na distribuição/redistribuição de tarefas

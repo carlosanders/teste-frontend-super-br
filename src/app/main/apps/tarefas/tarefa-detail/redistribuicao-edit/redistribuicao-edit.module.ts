@@ -11,7 +11,7 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatProgressSpinnerModule, MatTooltipModule, MatDialogModule
 } from '@cdk/angular/material';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -24,6 +24,7 @@ import { RedistribuicaoEditComponent } from './redistribuicao-edit.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TarefasStoreModule } from '../../store/store.module';
 import { CdkTarefaFormModule } from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
+import {CdkVisibilidadePluginModule} from "../../../../../../@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module";
 
 const routes: Routes = [
     {
@@ -62,6 +63,8 @@ const routes: Routes = [
         CdkSidebarModule,
 
         PipesModule,
+        MatDialogModule,
+        CdkVisibilidadePluginModule,
 
         TarefasStoreModule,
     ],

@@ -1,5 +1,7 @@
 import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
 import * as TarefasActions from '../../../store/actions/tarefas.actions';
+import * as RedistribuicaoEditBlocoActions
+    from "../../../redistribuicao-edit-bloco/store/actions/redistribuicao-edit-bloco.actions";
 
 export interface TarefaDetailState {
     tarefaId: number;
@@ -16,6 +18,7 @@ export interface TarefaDetailState {
     bufferingRedistribuir: number;
     cienciaId: number;
     redistribuindoId: number;
+    tarefaProcessoRestritoValidada: number;
     error: any;
 }
 
@@ -34,6 +37,7 @@ export const TarefaDetailInitialState: TarefaDetailState = {
     bufferingRedistribuir: 0,
     cienciaId: null,
     redistribuindoId: null,
+    tarefaProcessoRestritoValidada: null,
     error: null
 };
 
@@ -250,6 +254,13 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
             return {
                 ...state,
                 pluginLoading: state.pluginLoading.filter((value) => value !== action.payload)
+            };
+        }
+
+        case TarefaDetailActions.TAREFA_PROCESO_RESTRITO_VALIDADA_SUCCESS: {
+            return {
+                ...state,
+                tarefaProcessoRestritoValidada: action.payload
             };
         }
 

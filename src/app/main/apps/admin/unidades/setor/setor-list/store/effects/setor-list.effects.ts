@@ -92,4 +92,24 @@ export class SetorListEffect {
                     );
                 })
             );
+
+    /**
+     * Transferir processos protocolo da unidade
+     * @type {Observable<any>}
+     */
+    @Effect()
+    transferirProcessosProtocolo: any =
+        this._actions
+            .pipe(
+                ofType<SetorListActions.TransferirProcessosProtocolo>(SetorListActions.TRANSFERIR_PROCESSOS_PROTOCOLO),
+                mergeMap((action) => {
+                    return this._setorService.transferirProcessosProtocolo(action.payload).pipe(
+                        map((response) => new SetorListActions.TransferirProcessosProtocoloSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new SetorListActions.TransferirProcessosProtocoloFailed(action.payload));
+                        })
+                    );
+                })
+            );
 }
