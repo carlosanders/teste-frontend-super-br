@@ -48,13 +48,15 @@
                 <mat-icon>delete</mat-icon>
             </button>
 
-            <mat-form-field class="colunas mr-8" *showIfRole="'ROLE_COLABORADOR'">
-                <mat-select [formControl]="columns" multiple>
-                    <div *ngFor="let column of allColumns">
-                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
-                    </div>
-                </mat-select>
-            </mat-form-field>
+            <ng-container *ngIf="allColumns.length">
+                <mat-form-field class="colunas mr-8" *showIfRole="'ROLE_COLABORADOR'">
+                    <mat-select [formControl]="columns" multiple>
+                        <div *ngFor="let column of allColumns">
+                            <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
+            </ng-container>
 
             <button *ngIf="mode === 'list'" class="refresh" mat-icon-button
                     (click)="loadPage()"
@@ -437,6 +439,17 @@
                                     aria-label="remover"
                                     matTooltip="Remover">
                                 <mat-icon>delete</mat-icon>
+                            </button>
+                        </ng-template>
+
+                        <ng-template [showIfRole]="'ROLE_COLABORADOR'">
+                            <button mat-icon-button
+                                    *ngIf="processo.acessoRestrito === true && actions.indexOf('restricoesAcesso') > -1 && deletingIds?.indexOf(processo.id) === -1 && !hasExcluded"
+                                    [disabled]="deletedIds?.indexOf(processo.id) > -1"
+                                    (click)="doRestricoesAcesso(processo)"
+                                    aria-label="configurar restrições de acesso"
+                                    matTooltip="Configurar Restrições de Acesso">
+                                <mat-icon>visibility</mat-icon>
                             </button>
                         </ng-template>
                     </td>

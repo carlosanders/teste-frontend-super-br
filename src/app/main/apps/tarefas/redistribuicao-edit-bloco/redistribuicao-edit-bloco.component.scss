@@ -11,6 +11,16 @@ redistribuicao-edit-bloco {
         .bloco-edit {
             @include mat-elevation(1);
         }
+
+        cdk-processo-grid {
+            .page-layout {
+                .responsive-grid {
+                    .actions {
+                        display: none !important;
+                    }
+                }
+            }
+        }
     }
 
 }
