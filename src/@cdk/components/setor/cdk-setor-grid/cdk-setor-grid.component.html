@@ -419,6 +419,15 @@
                             <mat-icon>filter_9_plus</mat-icon>
                         </button>
 
+                        <button mat-icon-button
+                                *ngIf="actions.indexOf('transferirProcessosProtocolo') > -1 && !hasExcluded"
+                                [disabled]="deletedIds?.indexOf(setor.id) > -1 || setor.nome === 'PROTOCOLO'"
+                                (click)="doTransferirProcessosProtocolo(setor)"
+                                aria-label="transferir processos para o protocolo"
+                                matTooltip="Transferir Processos Para o Protocolo">
+                            <mat-icon>swap_calls</mat-icon>
+                        </button>
+
                         <div class="spinner-container m-8" *ngIf="deletingIds?.indexOf(setor.id) > -1">
                             <mat-spinner diameter="24"></mat-spinner>
                         </div>
