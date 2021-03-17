@@ -24,6 +24,9 @@ import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-ta
 import {RedistribuicaoEditBlocoStoreModule} from './store/store.module';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkProcessoGridModule} from "@cdk/components/processo/cdk-processo-grid/cdk-processo-grid.module";
+import {ModalAvisoRestricaoNupModule} from "../modal-aviso-restricao-nup/modal-aviso-restricao-nup.module";
+import {MatDialogModule} from "@angular/material/dialog";
 
 const routes: Routes = [
     {
@@ -57,10 +60,13 @@ const routes: Routes = [
         MatListModule,
 
         CdkTarefaFormModule,
+        CdkProcessoGridModule,
 
         RedistribuicaoEditBlocoStoreModule,
 
         TranslateModule,
+        ModalAvisoRestricaoNupModule,
+        MatDialogModule,
 
         CdkSharedModule,
         CdkSidebarModule,

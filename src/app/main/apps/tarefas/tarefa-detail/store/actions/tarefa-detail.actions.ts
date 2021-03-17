@@ -55,6 +55,8 @@ export const DESELECT_TAREFA_ACTION = '[TAREFA DETAIL] DESELECT TAREFA ACTION';
 export const ADD_PLUGIN_LOADING = '[TAREFA DETAIL] ALL PLUGIN LOADING';
 export const REMOVE_PLUGIN_LOADING = '[TAREFA DETAIL] ALL PLUGIN LOADING';
 
+export const TAREFA_PROCESO_RESTRITO_VALIDADA_SUCCESS = '[TAREFA DETAIL] TAREFA PROCESSO RESTRITO VALIDADA SUCCESS';
+
 /**
  * Get Tarefa
  */
@@ -536,6 +538,15 @@ export class RemovePluginLoading implements Action
     }
 }
 
+export class TarefaProcessoRestritoValidadaSuccess implements Action
+{
+    readonly type = TAREFA_PROCESO_RESTRITO_VALIDADA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type TarefaDetailActionsAll
     = GetTarefa
     | GetTarefaSuccess
@@ -567,7 +578,7 @@ export type TarefaDetailActionsAll
     | CreateVinculacaoEtiquetaFailed
     | SaveConteudoVinculacaoEtiqueta
     | SaveConteudoVinculacaoEtiquetaSuccess
-    | SaveConteudoVinculacaoEtiquetaFailed   
+    | SaveConteudoVinculacaoEtiquetaFailed
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
@@ -576,4 +587,5 @@ export type TarefaDetailActionsAll
     | GetDocumentosSuccess
     | GetDocumentosFailed
     | AddPluginLoading
-    | RemovePluginLoading;
+    | RemovePluginLoading
+    | TarefaProcessoRestritoValidadaSuccess;

@@ -18,6 +18,7 @@ import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Usuario} from '../../../../../@cdk/models/usuario.model';
+import {Back} from "../../../../store";
 
 @Component({
     selector: 'visibilidade',
@@ -109,11 +110,8 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
         this.formAcessoRestrito = !this.formAcessoRestrito;
     }
 
-    showFormTarefa(): void {
-
-        this._router.navigate(['/apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-        this.routerState.params.typeHandle + '/' +
-        this.routerState.params.targetHandle + '/criar']).then();
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
     submitVisibilidade(visibilidade): void {
