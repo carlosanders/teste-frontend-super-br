@@ -75,6 +75,8 @@
 
 1.2.0
 
+* Correção a exibição de usuários disponíveis (não afastados) para recebimento de tarefas na criação de um processo na aba de distribuição
 * Melhoria para permitir a pré-visualização de repositórios antes da sua atualização
 * Melhoria para gerar relatório em excel da listagem completa de tarefas de maneira simplificada, a partir da lista
 * Melhoria para que o administrador possa transferir tarefas de usuário a ser inativado para coordenação e protocolo
+* Melhoria para que o administrador possa transferir processos do setor a ser inativado para protocolo da unidade
