@@ -7,6 +7,8 @@ export const GET_PROCESSOS = '[PROTOCOLO EXTERNO] GET PROCESSOS';
 export const GET_PROCESSOS_SUCCESS = '[PROTOCOLO EXTERNO] GET PROCESSOS SUCCESS';
 export const GET_PROCESSOS_FAILED = '[PROTOCOLO EXTERNO] GET PROCESSOS FAILED';
 
+export const RELOAD_PROCESSOS = '[PROTOCOLO EXTERNO] RELOAD PROCESSOS';
+
 export const SET_CURRENT_PROCESSO = '[PROTOCOLO EXTERNO] SET CURRENT PROCESSO';
 export const SET_CURRENT_PROCESSO_SUCCESS = '[PROTOCOLO EXTERNO] SET CURRENT PROCESSO SUCCESS';
 
@@ -81,7 +83,7 @@ export class UnloadProcessos implements Action {
 }
 
 /**
- * Get Tarefas
+ * Get Processos
  */
 export class GetProcessos implements Action {
     readonly type = GET_PROCESSOS;
@@ -91,7 +93,7 @@ export class GetProcessos implements Action {
 }
 
 /**
- * Get Tarefas Success
+ * Get Processos Success
  */
 export class GetProcessosSuccess implements Action {
     readonly type = GET_PROCESSOS_SUCCESS;
@@ -101,12 +103,22 @@ export class GetProcessosSuccess implements Action {
 }
 
 /**
- * Get Tarefas Failed
+ * Get Processos Failed
  */
 export class GetProcessosFailed implements Action {
     readonly type = GET_PROCESSOS_FAILED;
 
     constructor(public payload: string) {
+    }
+}
+
+/**
+ * Reload Processos
+ */
+export class ReloadProcessos implements Action {
+    readonly type = RELOAD_PROCESSOS;
+
+    constructor() {
     }
 }
 
@@ -614,6 +626,7 @@ export type ProcessosActionsAll
     | GetProcessos
     | GetProcessosSuccess
     | GetProcessosFailed
+    | ReloadProcessos
     | CreateProcesso
     | CreateProcessoSuccess
     | SetCurrentProcesso

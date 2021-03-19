@@ -124,9 +124,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     especieSetorPagination: Pagination;
 
     @Input()
-    pessoaVinculada = false;
-
-    @Input()
     colaborador = false;
 
     @Input()
@@ -252,17 +249,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.get('NUP').setValue(null);
             this.form.get('NUP').disable();
 
-            if (this.pessoaVinculada) {
-                this.form.get('generoSetor').setValue(null);
-                this.form.get('generoSetor').disable();
-
-                this.form.get('especieSetor').setValue(null);
-                this.form.get('especieSetor').disable();
-
-                this.form.get('setorInicial').setValue(null);
-                this.form.get('setorInicial').disable();
-            }
-
             // this.form.get('procedencia').setValue(null);
             // this.form.get('procedencia').disable();
             this.textBotao = 'SALVAR';
@@ -321,44 +307,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this.form.get('processoOrigem').disable();
             }
         });
-
-        if (this.pessoaVinculada) {
-            this.form.get('estado').valueChanges.subscribe(value => {
-                if (value) {
-                    this.form.get('generoSetor').enable();
-                    this.setorInicialPagination.filter = {
-                        ...this.setorInicialPagination.filter,
-                        ...{'municipio.estado.id': `eq:${value}`}
-                    };
-                } else {
-                    this.form.get('generoSetor').setValue(null);
-                    this.form.get('generoSetor').disable();
-                }
-            });
-
-            this.form.get('generoSetor').valueChanges.subscribe(value => {
-                if (value) {
-                    this.form.get('especieSetor').enable();
-                    this.especieSetorPagination.filter = {'generoSetor.id': `eq:${value.id}`};
-                } else {
-                    this.form.get('especieSetor').setValue(null);
-                    this.form.get('especieSetor').disable();
-                }
-            });
-
-            this.form.get('especieSetor').valueChanges.subscribe(value => {
-                if (value) {
-                    this.form.get('setorInicial').enable();
-                    this.setorInicialPagination.filter = {
-                        ...this.setorInicialPagination.filter,
-                        ...{'unidade.generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`}
-                    };
-                } else {
-                    this.form.get('setorInicial').setValue(null);
-                    this.form.get('setorInicial').disable();
-                }
-            });
-        }
 
         this.form.get('especieProcesso').valueChanges.subscribe(value => {
             if (value && typeof value === 'object') {
@@ -570,24 +518,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showSetorGrid(): void {
         this.activeCard = 'setor-gridsearch';
-    }
-
-    checkSetorInicial(): void {
-        const value = this.form.get('setorInicial').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('setorInicial').setValue(null);
-        }
-    }
-
-    selectSetorInicial(unidade: Setor): void {
-        if (unidade) {
-            this.form.get('setorInicial').setValue(unidade);
-        }
-        this.activeCard = 'form';
-    }
-
-    showSetorInicialGrid(): void {
-        this.activeCard = 'setor-inicial-gridsearch';
     }
 
     checkConfiguracaoNup(): void {

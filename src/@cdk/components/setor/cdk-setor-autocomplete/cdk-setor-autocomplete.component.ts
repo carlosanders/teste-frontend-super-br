@@ -38,6 +38,9 @@ export class CdkSetorAutocompleteComponent implements OnInit {
     @Input()
     setorListIsLoading: boolean;
 
+    @Input()
+    extraFilter: string = '';
+
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
     constructor(
@@ -59,12 +62,14 @@ export class CdkSetorAutocompleteComponent implements OnInit {
                     const termFilterNome = [];
                     const termFilterSigla = [];
                     value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        termFilterNome.push({
-                            nome: `like:%${bit}%`
-                        });
-                        termFilterSigla.push({
-                            sigla: `like:%${bit}%`
-                        });
+                        const nomeKey = this.extraFilter ? this.extraFilter + '.nome' : 'nome';
+                        const siglaKey = this.extraFilter ? this.extraFilter + '.sigla' : 'sigla';
+                        let objNome = {};
+                        objNome[nomeKey] = `like:%${bit}%`
+                        termFilterNome.push(objNome);
+                        let objSigla = {};
+                        objSigla[siglaKey] = `like:%${bit}%`;
+                        termFilterSigla.push(objSigla);
                     });
                     const termFilter = {
                         orX: [
