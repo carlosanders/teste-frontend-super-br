@@ -19,8 +19,6 @@ import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {environment} from '../../../../../../../environments/environment';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../store/actions/operacoes.actions';
-import * as AtividadeCreateDocumentosActions
-    from '../../../../tarefas/tarefa-detail/atividades/atividade-create/store/actions/documentos.actions';
 import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
 
 @Injectable()
@@ -75,8 +73,8 @@ export class ProtocoloDocumentoEffects {
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new ProtocoloDocumentoActions.GetDocumentosSuccess({
                         loaded: {
-                            id: 'documentoAvulsoHandle',
-                            value: this.routerState.params.documentoAvulsoHandle
+                            id: 'processoHandle',
+                            value: this.routerState.params.processoHandle
                         },
                         entitiesId: response['entities'].map(documento => documento.id),
                     }),
@@ -242,6 +240,50 @@ export class ProtocoloDocumentoEffects {
                                 ]),
                                 catchError((err) => {
                                     return of(new ProtocoloDocumentoActions.ConverteToHtmlFailed(action.payload));
+                                })
+                            );
+                    }
+                )
+            );
+
+    /**
+     * Download P7S
+     * @type {Observable<any>}
+     *
+     * */
+    @Effect()
+    downloadP7S: any =
+        this._actions
+            .pipe(
+                ofType<ProtocoloDocumentoActions.DownloadToP7S>(ProtocoloDocumentoActions.DOWNLOAD_DOCUMENTO_P7S),
+                mergeMap((action) => {
+                        return this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
+                            .pipe(
+                                map((response) => {
+                                    if (response && response.conteudo) {
+                                        const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                                        const byteNumbers = new Array(byteCharacters.length);
+                                        for (let i = 0; i < byteCharacters.length; i++) {
+                                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                        }
+                                        const byteArray = new Uint8Array(byteNumbers);
+                                        const blob = new Blob([byteArray], {type: response.mimetype}),
+                                            URL = window.URL;
+                                        const data = URL.createObjectURL(blob);
+                                        const link = document.createElement('a');
+                                        link.href = data;
+                                        link.download = response.fileName;
+                                        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+                                        setTimeout( () => {
+                                            window.URL.revokeObjectURL(data);
+                                            link.remove();
+                                        }, 100);
+                                    }
+                                    return new ProtocoloDocumentoActions.DownloadToP7SSuccess(action.payload);
+                                }),
+                                catchError((err) => {
+                                    console.log(err);
+                                    return of(new ProtocoloDocumentoActions.DownloadToP7SFailed(action.payload));
                                 })
                             );
                     }

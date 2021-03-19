@@ -5,7 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessosActions from '../actions/protocolos-externos.actions';
@@ -21,6 +21,7 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
+import {getPagination} from "../selectors";
 
 @Injectable()
 export class ProcessosEffect {
@@ -86,6 +87,20 @@ export class ProcessosEffect {
                     console.log(err);
                     this._store.dispatch(new ProcessosActions.GetProcessosFailed(err));
                     return caught;
+                })
+            );
+
+    /**
+     * Reload Processos
+     */
+    @Effect({dispatch: false})
+    reloadProcessos: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<ProcessosActions.ReloadProcessos>(ProcessosActions.RELOAD_PROCESSOS),
+                withLatestFrom(this._store.pipe(select(getPagination))),
+                tap(([action, pagination]) => {
+                    return this._store.dispatch(new ProcessosActions.GetProcessos(pagination));
                 })
             );
 

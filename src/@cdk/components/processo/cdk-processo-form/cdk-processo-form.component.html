@@ -423,11 +423,6 @@
     (selected)="selectSetor($event)" (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
-<cdk-setor-gridsearch *ngIf="activeCard === 'setor-inicial-gridsearch'" [pagination]="setorInicialPagination"
-    [displayedColumns]="['select', 'id', 'unidade.nome', 'actions']" (selected)="selectSetorInicial($event)"
-    (cancel)="cancel()">
-</cdk-setor-gridsearch>
-
 <cdk-logentry-gridsearch *ngIf="activeCard === 'logentry-gridsearch'" [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
