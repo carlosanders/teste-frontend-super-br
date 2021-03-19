@@ -34,7 +34,6 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
     pagination$: Observable<any>;
     pagination: any;
 
-    repositorioIdLoadind$: Observable<boolean>;
     repositorioIdLoaded$: Observable<number>;
 
     componenteDigital$: Observable<ComponenteDigital>;
@@ -62,7 +61,6 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
         this.pagination$ = this._store.pipe(select(fromStore.getRepositoriosPagination));
         this.loading$ = this._store.pipe(select(fromStore.getRepositoriosIsLoading));
 
-        this.repositorioIdLoadind$ = this._store.pipe(select(fromStore.getComponenteDigitalLoading));
         this.repositorioIdLoaded$ = this._store.pipe(select(fromStore.getComponenteDigitalLoaded));
     }
 

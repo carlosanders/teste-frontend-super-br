@@ -4,6 +4,7 @@ visibilidade {
     > .content {
         display: flex;
         flex: 1 1 auto;
+        flex-direction: column;
         padding: 8px;
     }
 }

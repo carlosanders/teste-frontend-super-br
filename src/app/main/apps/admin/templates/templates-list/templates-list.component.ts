@@ -4,7 +4,7 @@ import {Documento, Template} from '../../../../../../@cdk/models';
 import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
@@ -60,9 +60,8 @@ export class TemplatesListComponent implements OnInit {
             sort: params.sort,
             limit: params.limit,
             offset: params.offset,
-            populate: [
-                ...this.pagination.populate
-            ]
+            populate: this.pagination.populate,
+            context: this.pagination.context
         }));
     }
 

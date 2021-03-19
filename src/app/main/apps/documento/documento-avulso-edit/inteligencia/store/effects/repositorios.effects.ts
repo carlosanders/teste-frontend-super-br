@@ -41,7 +41,15 @@ export class RepositoriosEffects {
             .pipe(
                 ofType<RepositoriosActions.GetRepositorios>(RepositoriosActions.GET_REPOSITORIOS),
                 switchMap((action) => {
-                    return this._repositorioService.search(
+                    const filter = {
+                        ...action.payload.filter,
+                        ...action.payload.gridFilter,
+                    };
+                    let mode = 'query';
+                    if (filter.hasOwnProperty('documento.componentesDigitais.conteudo')) {
+                        mode = 'search';
+                    }
+                    return this._repositorioService[`${mode}`](
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,

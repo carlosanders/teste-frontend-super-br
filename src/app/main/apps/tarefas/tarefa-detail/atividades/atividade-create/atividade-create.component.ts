@@ -543,7 +543,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.minutas = [];
         const params = {
             filter: {'tarefaOrigem.id':'eq:' + this.tarefa.id, 'juntadaAtual':'isNull'},
-            sort: {criadoEm: 'DESC'},
+            sort: {id: 'DESC'},
             populate: [
                 'tipoDocumento',
                 'documentoAvulsoRemessa',

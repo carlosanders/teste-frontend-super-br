@@ -58,7 +58,11 @@ export class ModelosEffects {
                             });
                         });
                     }
-                    return this._modeloService.search(
+                    let mode = 'query';
+                    if (filter.hasOwnProperty('documento.componentesDigitais.conteudo')) {
+                        mode = 'search';
+                    }
+                    return this._modeloService[`${mode}`](
                         JSON.stringify({
                             ...filter,
                             ...action.payload.gridFilter

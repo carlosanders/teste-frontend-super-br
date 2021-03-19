@@ -48,117 +48,142 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
         {
             id: 'select',
             label: '',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'id',
             label: 'Id',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'nome',
             label: 'Nome',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'numeroDocumentoPrincipal',
             label: 'Número do Documento Principal',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'contato',
             label: 'Contato',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'pessoaValidada',
             label: 'Pessoa Validada',
-            fixed: false
-        },
-        {
-            id: 'pessoaRepresentada',
-            label: 'Pessoa Representada',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'dataNascimento',
             label: 'Data do Nascimento',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'dataObito',
             label: 'Data do Obito',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'nomeGenitor',
             label: 'Nome do Genitor',
-            fixed: false
+            fixed: false,
+            mode: 'list',
+            sort: 'list'
         },
         {
             id: 'nomeGenitora',
             label: 'Nome da Genitora',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'profissao',
             label: 'Profissão',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'nacionalidade.nome',
             label: 'Nacionalidade',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'modalidadeGeneroPessoa.valor',
             label: 'Modalidade Genêro Pessoa',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'naturalidade.nome',
             label: 'Naturalidade',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'origemDados',
             label: 'Origem de Dados',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'criadoPor.nome',
             label: 'Criado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'criadoEm',
             label: 'Criado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'atualizadoPor.nome',
             label: 'Atualizado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'atualizadoEm',
             label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'actions',
             label: '',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         }
     ];
 
@@ -243,14 +268,14 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
 
         this.dataSource = new PessoaDataSource(of(this.pessoas));
 
-        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+        this.columns.setValue(this.getAllColumns().map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
         this.columns.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.getAllColumns().forEach(c => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -259,6 +284,22 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
                 return of([]);
             })
         ).subscribe();
+    }
+
+    getSort(columnId: string): boolean {
+        let disabled = true;
+        this.getAllColumns().forEach(c => {
+            if (c.id === columnId && (c.sort === 'all' || c.sort === this.mode)) {
+                disabled = false;
+            }
+        });
+        return disabled;
+    }
+
+    getAllColumns(): any[] {
+        return this.allColumns.filter(
+            c => c.mode === 'all' || c.mode === this.mode
+        );
     }
 
     ngAfterViewInit(): void {

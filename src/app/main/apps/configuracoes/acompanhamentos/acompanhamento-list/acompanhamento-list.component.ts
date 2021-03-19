@@ -58,9 +58,6 @@ export class AcompanhamentoListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-
-        this.acompanhamentos$.subscribe(x => console.log(x));
-
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });

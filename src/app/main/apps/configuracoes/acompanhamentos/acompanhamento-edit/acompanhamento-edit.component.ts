@@ -104,8 +104,6 @@ export class AcompanhamentoEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        console.log(acompanhamento);
-
         this._store.dispatch(new fromStore.SaveAcompanhamento(acompanhamento));
     }
 

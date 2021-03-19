@@ -6,7 +6,7 @@ import {MercureReducer, MercureState} from './mercure.reducer';
 import {AjudaReducer, AjudaState} from './ajuda.reducer';
 import {ScreenReducer, ScreenState} from './screen.reducer';
 import {OperacoesReducer, OperacoesState} from './operacoes.reducer';
-import {LOGOUT} from '../../main/auth/login/store/actions';
+import {LOGOUT} from '../../main/auth/login/store';
 import {CounterReducer, CounterState} from './counter.reducer';
 import {NotificacaoReducer, NotificacaoState} from './notificacao.reducer';
 
