@@ -8,11 +8,11 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, Tarefa} from '@cdk/models';
+import {Colaborador, Lotacao, Tarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Setor} from '@cdk/models';
-import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
@@ -140,6 +140,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
         } else {
             this.form.get('usuarioResponsavel').disable();
         }
+
         this.form.get('distribuicaoAutomatica').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
@@ -149,6 +150,18 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                         this.form.get('usuarioResponsavel').disable();
                     } else {
                         this.form.get('usuarioResponsavel').enable();
+                    }
+
+                    if (this.form.get('setorResponsavel').value) {
+                        delete this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'];
+                        this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${this.form.get('setorResponsavel').value.id}`;
+                        // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
+                        if (this.form.get('setorResponsavel').value.apenasDistribuidor) {
+                            let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == this.form.get('setorResponsavel').value.id)
+                            if(lotacoes.length === 0) {
+                                this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = this.form.get('setorResponsavel').value.id;
+                            }
+                        }
                     }
 
                     this._changeDetectorRef.markForCheck();
@@ -171,7 +184,12 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                         this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
                         this.editable = true;
 
-                        if (value.apenasProtocolo && value.id !== this._profile.lotacoes[0].setor.unidade.id) {
+                        const unidadesId = [];
+                        this._profile.lotacoes.forEach((lotacao: Lotacao) => {
+                            unidadesId.push(lotacao.setor.unidade.id);
+                        });
+
+                        if (value.apenasProtocolo && unidadesId.indexOf(value.id) === -1) {
                             this.form.get('distribuicaoAutomatica').setValue(true);
                             this.form.get('setorResponsavel').enable();
                             this.getSetorProtocolo();
@@ -198,8 +216,11 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                     }
 
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
-                    if (typeof value === 'object' && value && value.apenasDistribuidor && value.id !== this._profile.lotacoes[0].setor.id) {
-                        this.usuarioResponsavelPagination['context'] = { setorApenasDistribuidor: value.id };
+                    if (typeof value === 'object' && value && value.apenasDistribuidor) {
+                        let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == value.id)
+                        if(lotacoes.length === 0) {
+                            this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = value.id;
+                        }
                     }
 
                     this._changeDetectorRef.markForCheck();

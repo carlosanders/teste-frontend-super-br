@@ -63,7 +63,7 @@ export class RelatorioCreateEffect {
                                 etiquetaFilter: {},
                                 limit: 10,
                                 offset: 0,
-                                sort: {criadoEm: 'DESC'},
+                                sort: {id: 'DESC'},
                                 populate: [
                                     'documento',
                                     'tipoRelatorio',

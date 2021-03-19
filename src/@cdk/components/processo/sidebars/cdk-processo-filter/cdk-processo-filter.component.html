@@ -23,6 +23,37 @@
                 <mat-hint align="end">{{NUP.value.length}} / 255</mat-hint>
             </mat-form-field>
 
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+                <mat-label>Outro Número</mat-label>
+                <input matInput #outroNumero
+                       name="outroNumero"
+                       formControlName="outroNumero"
+                       maxlength="255">
+                <mat-hint align="end">{{outroNumero.value.length}} / 255</mat-hint>
+            </mat-form-field>
+
+            <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
+                <span [ngClass]="{'filtrado': hasDateFilter('dataHoraAbertura')}">Data da Abertura</span>
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraAbertura" [ngClass]="{'filtrado': hasDateFilter('dataHoraAbertura')}">
+                    <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+                </button>
+            </div>
+            <mat-menu #filtroDataHoraAbertura="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+                <cdk-date-filter [datetime]="true" campo="dataHoraAbertura"
+                                 [limparForm]="this.limparFormFiltroDatas$"
+                                 (filtra)="this.filtraData($event, 'dataHoraAbertura')">
+                </cdk-date-filter>
+            </mat-menu>
+
+            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+                <input matInput placeholder="Processo de Trabalho"
+                       formControlName="especieProcesso"
+                       [matAutocomplete]="especieProcesso.autocomplete">
+                <cdk-especie-processo-autocomplete #especieProcesso="especieProcessoAutocomplete"
+                                                   [control]="form.get('especieProcesso')">
+                </cdk-especie-processo-autocomplete>
+            </mat-form-field>
+
             <mat-form-field *showIfRole="'ROLE_PESSOA_VINCULADA'">
                 <mat-label>Nome do Interessado</mat-label>
                 <input matInput #nome
@@ -57,14 +88,6 @@
                        formControlName="cpfCnpj"
                        maxlength="255">
                 <mat-hint align="end">{{cpfCnpj.value.length}} / 19</mat-hint>
-            </mat-form-field>
-
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <input matInput placeholder="Setor Responsável"
-                       formControlName="setorAtual"
-                       [matAutocomplete]="setor.autocomplete">
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')">
-                </cdk-setor-autocomplete>
             </mat-form-field>
 
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
@@ -86,23 +109,7 @@
             </mat-form-field>
 
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <mat-label>Outro Número</mat-label>
-                <input matInput #outroNumero
-                       name="outroNumero"
-                       formControlName="outroNumero"
-                       maxlength="255">
-                <mat-hint align="end">{{outroNumero.value.length}} / 255</mat-hint>
-            </mat-form-field>
-
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <mat-label>Valor Ecônomico</mat-label>
-                <input matInput #valorEconomico
-                       name="valorEconomico"
-                       formControlName="valorEconomico">
-            </mat-form-field>
-
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <input matInput placeholder="Classificacao"
+                <input matInput placeholder="Classificação"
                        formControlName="classificacao"
                        [matAutocomplete]="classificacao.autocomplete">
                 <cdk-classificacao-autocomplete #classificacao="classificacaoAutocomplete"
@@ -117,28 +124,6 @@
                 <cdk-pessoa-autocomplete #pessoa="pessoaAutocomplete" [control]="form.get('procedencia')">
                 </cdk-pessoa-autocomplete>
             </mat-form-field>
-
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <input matInput placeholder="Localizador"
-                       formControlName="localizador"
-                       [matAutocomplete]="localizador.autocomplete">
-                <cdk-localizador-autocomplete #localizador="localizadorAutocomplete"
-                                              [control]="form.get('localizador')">
-                </cdk-localizador-autocomplete>
-            </mat-form-field>
-
-            <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
-                <span [ngClass]="{'filtrado': hasDateFilter('dataHoraAbertura')}">Data da Abertura</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraAbertura" [ngClass]="{'filtrado': hasDateFilter('dataHoraAbertura')}">
-                    <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
-                </button>
-            </div>
-            <mat-menu #filtroDataHoraAbertura="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-                <cdk-date-filter [datetime]="true" campo="dataHoraAbertura"
-                                 [limparForm]="this.limparFormFiltroDatas$"
-                                 (filtra)="this.filtraData($event, 'dataHoraAbertura')">
-                </cdk-date-filter>
-            </mat-menu>
 
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <input matInput placeholder="Modalidade da Fase"
@@ -159,26 +144,20 @@
             </mat-form-field>
 
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-                <input matInput placeholder="Espécie Processo"
-                       formControlName="especieProcesso"
-                       [matAutocomplete]="especieProcesso.autocomplete">
-                <cdk-especie-processo-autocomplete #especieProcesso="especieProcessoAutocomplete"
-                                                   [control]="form.get('especieProcesso')">
-                </cdk-especie-processo-autocomplete>
+                <input matInput placeholder="Unidade Responsável"
+                       formControlName="unidade"
+                       [matAutocomplete]="setor.autocomplete">
+                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidade')" [pagination]="unidadePagination">
+                </cdk-setor-autocomplete>
             </mat-form-field>
 
-            <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
-                <span [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">Criado Em</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">
-                    <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
-                </button>
-            </div>
-            <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-                <cdk-date-filter [datetime]="true" campo="criadoEm"
-                                 [limparForm]="this.limparFormFiltroDatas$"
-                                 (filtra)="this.filtraData($event, 'criadoEm')">
-                </cdk-date-filter>
-            </mat-menu>
+            <mat-form-field *ngIf="form.get('unidade').value && form.get('unidade').value.id">
+                <input matInput placeholder="Setor Responsável"
+                       formControlName="setorAtual"
+                       [matAutocomplete]="setor.autocomplete">
+                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')" [pagination]="setorPagination">
+                </cdk-setor-autocomplete>
+            </mat-form-field>
 
         </mat-expansion-panel>
 

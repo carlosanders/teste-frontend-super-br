@@ -88,7 +88,7 @@ export class SigilosEffects {
                         },
                         limit: action.payload.limit ? action.payload.limit : 5,
                         offset: action.payload.offset ? action.payload.offset : 0,
-                        sort: {criadoEm: 'DESC'},
+                        sort: {id: 'DESC'},
                         populate: ['tipoSigilo']
                     };
 

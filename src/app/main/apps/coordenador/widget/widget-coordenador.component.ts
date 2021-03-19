@@ -47,25 +47,32 @@ export class WidgetCoordenadorComponent implements OnInit {
      */
     ngOnInit(): void {
 
-        this._tarefaService.count(
-            `{"setorResponsavel.id": "in:${this._profile.coordenadores.map(coordenador => coordenador.setor.id).join(',')}", "dataHoraConclusaoPrazo": "isNull"}`)
-            .pipe(
-                catchError(() => of([]))
-            ).subscribe(
-            value => {
-                this.tarefasCount = value;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
-        this._tarefaService.count(
-            `{"setorResponsavel.id": "in:${this._profile.coordenadores.map(coordenador => coordenador.setor.id).join(',')}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
-            .pipe(
-                catchError(() => of([]))
-            ).subscribe(
-            value => {
-                this.tarefasVencidasCount = value;
-                this._changeDetectorRef.markForCheck();
-            }
-        );
+        const setoresId = this._profile.coordenadores.filter(coordenador => !!coordenador.setor?.id).map(coordenador => coordenador.setor.id).join(',');
+
+        if (setoresId) {
+            this._tarefaService.count(
+                `{"setorResponsavel.id": "in:${setoresId}", "dataHoraConclusaoPrazo": "isNull"}`)
+                .pipe(
+                    catchError(() => of([]))
+                ).subscribe(
+                value => {
+                    this.tarefasCount = value;
+                    this._changeDetectorRef.markForCheck();
+                }
+            );
+            this._tarefaService.count(
+                `{"setorResponsavel.id": "in:${setoresId}", "dataHoraConclusaoPrazo": "isNull", "dataHoraFinalPrazo": "lt:${moment().format('YYYY-MM-DDTHH:mm:ss')}"}`)
+                .pipe(
+                    catchError(() => of([]))
+                ).subscribe(
+                value => {
+                    this.tarefasVencidasCount = value;
+                    this._changeDetectorRef.markForCheck();
+                }
+            );
+        } else {
+            this.tarefasCount = 0;
+            this.tarefasVencidasCount = 0;
+        }
     }
 }

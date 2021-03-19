@@ -4,7 +4,7 @@
         [modelos]="(modelos$ | async)"
         [total]="(pagination$ | async)?.total"
         [actions]="['select']"
-        [displayedColumns]="['id', 'nome', 'modalidadeModelo.valor', 'highlights', 'actions']"
+        [mode]="'search'"
         (selected)="doSelect($event)"
         [saving]="(saving$ | async)"
         (reload)="reload($event)">

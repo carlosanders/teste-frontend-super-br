@@ -62,12 +62,13 @@ export class ResolveGuard implements CanActivate {
 
                     const params = {
                         filter: {
-                            'usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                            'usuario.id': 'eq:' + this._loginService.getUserProfile().id,
+                            'processo': 'isNotNull'
                         },
                         gridFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {criadoEm: 'DESC'},
+                        sort: {id: 'DESC'},
                         populate: [
                             'populateAll'
                         ]

@@ -262,6 +262,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     if (this.blocoResponsaveis) {
                         this.blocoResponsaveis = [];
                     }
+
+                    if (this.form.get('setorResponsavel').value) {
+                        delete this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'];
+                        this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${this.form.get('setorResponsavel').value.id}`;
+                        // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
+                        if (this.form.get('setorResponsavel').value.apenasDistribuidor) {
+                            let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == this.form.get('setorResponsavel').value.id)
+                            if (lotacoes.length === 0) {
+                                this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = this.form.get('setorResponsavel').value.id;
+                            }
+                        }
+                    }
+
                     this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
@@ -338,7 +351,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                     if (typeof value === 'object' && value && value.apenasDistribuidor) {
                         let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == value.id)
-                        if(lotacoes.length === 0) {
+                        if (lotacoes.length === 0) {
                             this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = value.id;
                         }
                     }

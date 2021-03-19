@@ -12,6 +12,7 @@
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="colunas"
         [actions]="actions"
+        [mode]="'search'"
         (reload)="reload($event)"
         (create)="create()"
         (edit)="edit($event)"
