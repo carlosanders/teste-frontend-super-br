@@ -41,7 +41,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
     private _unsubscribeAll: Subject<any> = new Subject();
 
     savingVinculacaoEtiquetaId$: Observable<any>;
-    errors$: Observable<any>; 
+    errors$: Observable<any>;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -55,9 +55,6 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
 
     accept = 'application/pdf';
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
     maximizado$: Observable<boolean>;
     maximizado = false;
 
@@ -66,8 +63,6 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
     private _profile: Usuario;
 
     mobileMode = false;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     /**
      * @param _changeDetectorRef
@@ -94,15 +89,6 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/protocolo-externo/protocolo-externo-detail';
-        modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
-                    this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => this.container.createComponent(componentFactory));
-                }));
-            }
-        });
     }
 
     ngOnInit(): void {
@@ -166,13 +152,13 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         this._store.dispatch(new CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
     }
 
-    onEtiquetaEdit(values): void {   
+    onEtiquetaEdit(values): void {
         const vinculacaoEtiqueta = new VinculacaoEtiqueta();
         vinculacaoEtiqueta.id = values.id;
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
             changes: {conteudo: values.conteudo, privada: values.privada}
-        }));         
+        }));
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
@@ -196,10 +182,6 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
 
     doCreateProcesso(): void {
         this._router.navigate([this.routerState.url.split('/processo/')[0] + '/criar/' + this.processo.id]).then();
-    }
-
-    onUploadClick(): void {
-        this.cdkUpload.onClick();
     }
 
     doToggleMaximizado(): void {

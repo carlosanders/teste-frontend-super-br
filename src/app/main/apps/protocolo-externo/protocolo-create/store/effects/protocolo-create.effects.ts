@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {ReloadProcessos, UnloadProcessos} from "../../../store";
 
 @Injectable()
 export class ProtocoloCreateEffects {
@@ -48,6 +49,8 @@ export class ProtocoloCreateEffects {
                         mergeMap((response: Processo) => [
                             new AddData<Processo>({data: [response], schema: processoSchema}),
                             new ProtocoloCreateActions.SaveProcessoSuccess(response),
+                            new UnloadProcessos({reset: false}),
+                            new ReloadProcessos(),
                             new OperacoesActions.Resultado({
                                 type: 'processo',
                                 content: `Processo id ${response.id} criada com sucesso!`,

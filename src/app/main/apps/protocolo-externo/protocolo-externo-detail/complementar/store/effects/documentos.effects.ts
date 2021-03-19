@@ -263,7 +263,7 @@ export class DocumentosEffects {
                 switchMap((action) => {
                     return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({plainPassword: action.payload.plainPassword})).pipe(
                         mergeMap((response: Assinatura) => [
-                            new DocumentosActions.AssinaDocumentoEletronicamenteSuccess(response.componenteDigital.id),
+                            new DocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documentoId),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
                             new DocumentosActions.GetDocumentos({'processoOrigem.id': `eq:${action.payload.processoId}`}),
                             new OperacoesActions.Resultado({
@@ -300,4 +300,49 @@ export class DocumentosEffects {
                             );
                     }
                 ));
+
+    /**
+     * Download P7S
+     * @type {Observable<any>}
+     *
+     * */
+    @Effect()
+    downloadP7S: any =
+        this._actions
+            .pipe(
+                ofType<DocumentosActions.DownloadToP7S>(DocumentosActions.DOWNLOAD_DOCUMENTO_P7S),
+                mergeMap((action) => {
+                        return this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
+                            .pipe(
+                                map((response) => {
+                                    if (response && response.conteudo) {
+                                        const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                                        const byteNumbers = new Array(byteCharacters.length);
+                                        for (let i = 0; i < byteCharacters.length; i++) {
+                                            byteNumbers[i] = byteCharacters.charCodeAt(i);
+                                        }
+                                        const byteArray = new Uint8Array(byteNumbers);
+                                        const blob = new Blob([byteArray], {type: response.mimetype}),
+                                            URL = window.URL;
+                                        const data = URL.createObjectURL(blob);
+                                        const link = document.createElement('a');
+                                        link.href = data;
+                                        link.download = response.fileName;
+                                        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+                                        setTimeout( () => {
+                                            window.URL.revokeObjectURL(data);
+                                            link.remove();
+                                        }, 100);
+                                    }
+                                    return new DocumentosActions.DownloadToP7SSuccess(action.payload);
+                                }),
+                                catchError((err) => {
+                                    console.log(err);
+                                    return of(new DocumentosActions.DownloadToP7SFailed(action.payload));
+                                })
+                            );
+                    }
+                )
+            );
+
 }

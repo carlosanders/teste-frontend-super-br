@@ -51,7 +51,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
     processo$: Observable<Processo>;
     processo: Processo;
 
-    estados$: Observable<Estado[]>;
     estados: Estado[] = [];
 
     documentos: Documento[] = [];
@@ -64,12 +63,11 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     routerState: any;
 
-    formProcesso: FormGroup;
     javaWebStartOK = false;
 
     selectedIndex: number;
 
-    @ViewChild('ckdUpload', {static: false})
+    @ViewChild('cdkUpload', {static: false})
     cdkUpload;
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
@@ -107,47 +105,14 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
-        this.estados$ = this._store.pipe(select(fromStore.getEstados));
         this._profile = this._loginService.getUserProfile();
 
-
-
         this.unidadePagination = new Pagination();
-        this.unidadePagination.populate = ['unidade', 'parent'];
-        this.unidadePagination.filter = {'especieSetor.nome': 'like:PROTOCOLO'};
+        this.unidadePagination.populate = ['unidade', 'parent', 'especieSetor'];
+        this.unidadePagination.filter = {'especieSetor.nome': 'eq:PROTOCOLO'};
 
         this.procedenciaPagination = new Pagination();
         this.procedenciaPagination.filter = {id: `in:${this._profile.vinculacoesPessoasUsuarios.map(pessoaConveniada => pessoaConveniada.pessoa.id).join(',')}`};
-
-        this.formProcesso = this._formBuilder.group({
-            id: [null],
-            temProcessoOrigem: [null],
-            processoOrigem: [null],
-            NUP: [null],
-            novo: [null],
-            especieProcesso: [null],
-            visibilidadeExterna: [null],
-            titulo: [null],
-            descricao: [null, [Validators.required, Validators.maxLength(255)]],
-            outroNumero: [null],
-            valorEconomico: [null],
-            semValorEconomico: [null],
-            classificacao: [null],
-            procedencia: [null],
-            localizador: [null],
-            setorAtual: [null],
-            modalidadeMeio: [null],
-            modalidadeFase: [null],
-            dataHoraAbertura: [null],
-            setorInicial: [null, [Validators.required]],
-            tipoProtocolo: [null],
-            unidadeArquivistica: [null],
-            generoSetor: [null, [Validators.required]],
-            especieSetor: [null, [Validators.required]],
-            estado: [null, [Validators.required]],
-            requerimento: [null, [Validators.required, Validators.maxLength(255)]],
-            protocoloEletronico: [null]
-        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -202,9 +167,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         ).subscribe(
             processo => {
                 this.processo = processo;
-                if (this.processo) {
-                    this.formProcesso.value.id = this.processo.id;
-                }
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -223,15 +185,6 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
             documentos => {
                 this.documentos = documentos;
                 this._changeDetectorRef.markForCheck();
-            }
-        );
-
-        this.estados$.pipe(
-            takeUntil(this._unsubscribeAll),
-            filter(estados => !!estados)
-        ).subscribe(
-            estados => {
-                this.estados = estados;
             }
         );
 
@@ -296,6 +249,9 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         const processo = new Processo();
 
+        delete values.estado;
+        delete values.generoSetor;
+
         Object.entries(values).forEach(
             ([key, value]) => {
                 processo[key] = value;
@@ -303,10 +259,15 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         );
 
         processo.procedencia = this.pessoaProcedencia;
-        processo.titulo = this.formProcesso.get('especieSetor').value.nome;
-        processo.setorAtual = processo.setorInicial;
+        processo.titulo = values.setorAtual.especieSetor.nome;
 
         this._store.dispatch(new fromStore.SaveProcesso(processo));
+    }
+
+    cancel(): void {
+        this._router.navigate([
+            '/apps/protocolo-externo/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle
+        ]).then();
     }
 
     upload(): void {
@@ -357,6 +318,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     doConverteHtml(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
+    }
+
+    doDownloadP7S(componenteDigitalId): void {
+        this._store.dispatch(new fromStore.DownloadToP7S(componenteDigitalId));
     }
 
     unloadProcesso(): void {

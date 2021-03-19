@@ -219,4 +219,8 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     doConverteHtml(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
     }
+
+    doDownloadP7S(componenteDigitalId): void {
+        this._store.dispatch(new fromStore.DownloadToP7S(componenteDigitalId));
+    }
 }

@@ -68,20 +68,22 @@
                     <mat-icon color="accent">lock_open</mat-icon>
                     <span>Remover Assinatura</span>
                 </button>
+
                 <button fxLayout="row" fxLayoutAlign="start center"
-                        (click)="doConverte(documento?.componentesDigitais[0]?.id)"
+                        (click)="doConverte(documento.id)"
                         *ngIf="documento?.componentesDigitais?.length > 0 && documento?.componentesDigitais[0]?.extensao === 'html'"
                         mat-menu-item>
                     <mat-icon color="accent">picture_as_pdf</mat-icon>
                     <span>Converter em PDF</span>
                 </button>
+
                 <button fxLayout="row" fxLayoutAlign="start center" (click)="doConverteHtml(documento.id)"
                         *ngIf="documento?.componentesDigitais?.length > 0 && documento?.componentesDigitais[0]?.convertidoPdf"
                         mat-menu-item>
                     <mat-icon color="accent">restore_page</mat-icon>
                     <span>Converter em HTML</span>
                 </button>
-                <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7s(documento.id)" mat-menu-item>
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7s(documento.componentesDigitais[0]?.id)" mat-menu-item>
                     <mat-icon color="accent">get_app</mat-icon>
                     <span>Download em P7S</span>
                 </button>
