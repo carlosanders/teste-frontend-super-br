@@ -3,11 +3,13 @@ import {Observable, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 
 import {select, Store} from '@ngrx/store';
-import {Processo} from '@cdk/models';
+import {Classificacao, Processo} from '@cdk/models';
 import * as fromStore from '../arquivista-classificacao-bloco/store';
 import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {getSelectedProcessos} from '../arquivista-list/store/selectors';
-import {cdkAnimations} from '../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {MatDialog} from "@cdk/angular/material";
+import {CdkProcessoModalClassificacaoRestritaComponent} from "@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component";
 
 @Component({
     selector: 'arquivista-classificacao-bloco',
@@ -33,6 +35,7 @@ export class ArquivistaClassificacaoBlocoComponent implements OnInit {
     constructor(
         private _store: Store<fromStore.ArquivistaClassificacaoBlocoAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
+        public dialog: MatDialog
     ) {
         this.initObservales();
 
@@ -73,6 +76,16 @@ export class ArquivistaClassificacaoBlocoComponent implements OnInit {
                 this.operacoes = [];
             }
         });
+    }
+
+    doSelectClassificacao(classificacao: Classificacao): void {
+        if (classificacao.visibilidadeRestrita === true) {
+            this.dialog.open(CdkProcessoModalClassificacaoRestritaComponent, {
+                data: {},
+                hasBackdrop: false,
+                closeOnNavigation: true
+            });
+        }
     }
 
     submit(values): void {
