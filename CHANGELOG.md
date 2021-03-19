@@ -84,6 +84,10 @@
 * Correção de layout tela de reclassificação em bloco do módulo do arquivista
 * Correção no widget do coordenador no painel
 * Correção no recarregamento de templates no módulo do administrador
+* Criação de cdk para protocolo externo
+* Atualização de listagem de processos externos ao salvar um novo processo
+* Atualização de lista de documentos ao salvar um processo
+* Correção de comportamento de autocompletes em formulário de protocolo-externo
 * Melhoria para permitir a pré-visualização de repositórios antes da sua atualização
 * Melhoria para gerar relatório em excel da listagem completa de tarefas de maneira simplificada, a partir da lista
 * Melhoria para que o administrador possa transferir tarefas de usuário a ser inativado para coordenação e protocolo
