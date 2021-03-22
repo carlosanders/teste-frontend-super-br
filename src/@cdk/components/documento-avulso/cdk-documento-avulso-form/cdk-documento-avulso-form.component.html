@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" [hidden]="activeCard !== 'form'">
 
     <mat-slide-toggle *ngIf="!documentoAvulso.id && mode === 'regular'" formControlName="blocoProcessos">
         Bloco de Processos
@@ -233,14 +233,14 @@
 </form>
 
 <cdk-processo-gridsearch
-    *ngIf="activeCard === 'processo-gridsearch'"
+    [hidden]="activeCard !== 'processo-gridsearch'"
     [pagination]="processoPagination"
     (selected)="selectProcesso($event)"
     (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
 <cdk-modelo-gridsearch
-    *ngIf="activeCard === 'modelo-gridsearch'"
+    [hidden]="activeCard !== 'modelo-gridsearch'"
     [pagination]="modeloPagination"
     [andxFilter]="modeloPaginationAndx"
     (selected)="selectModelo($event)"
@@ -248,21 +248,21 @@
 </cdk-modelo-gridsearch>
 
 <cdk-especie-documento-avulso-gridsearch
-    *ngIf="activeCard === 'especie-documento-avulso-gridsearch'"
+    [hidden]="activeCard !== 'especie-documento-avulso-gridsearch'"
     [pagination]="especieDocumentoAvulsoPagination"
     (selected)="selectEspecieDocumentoAvulso($event)"
     (cancel)="cancel()">
 </cdk-especie-documento-avulso-gridsearch>
 
 <cdk-setor-gridsearch
-    *ngIf="activeCard === 'setor-destino-gridsearch'"
+    [hidden]="activeCard !== 'setor-destino-gridsearch'"
     [pagination]="setorDestinoPagination"
     (selected)="selectSetorDestino($event)"
     (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch
-    *ngIf="activeCard === 'logentry-gridsearch'"
+    [hidden]="activeCard !== 'logentry-gridsearch'"
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
