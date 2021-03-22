@@ -74,7 +74,6 @@
 1.2.0
 
 * Correção a exibição de usuários disponíveis (não afastados) para recebimento de tarefas na criação de um processo na aba de distribuição
-* Correção no ícone de visualização da pesquisa de documentos
 * Correção na reordenação de juntadas do processo
 * Correção na tela de acompanhamento de processos na configuração
 * Correção na redistribuição de tarefas
@@ -82,6 +81,7 @@
 * Correção de layout tela de reclassificação em bloco do módulo do arquivista
 * Correção no widget do coordenador no painel
 * Correção no recarregamento de templates no módulo do administrador
+* Correção no módulo de protocolo externo
 * Melhoria para permitir a pré-visualização de repositórios antes da sua atualização
 * Melhoria para gerar relatório em excel da listagem completa de tarefas de maneira simplificada, a partir da lista
 * Melhoria para que o administrador possa transferir tarefas de usuário a ser inativado para coordenação e protocolo
