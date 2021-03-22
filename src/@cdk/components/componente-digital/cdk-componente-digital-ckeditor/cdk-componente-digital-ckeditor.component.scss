@@ -24,7 +24,7 @@ cdk-componente-digital-ckeditor {
                     display: flex;
                     flex: 1 1 auto;
                     flex-direction: column;
-                    height: 0 !important;
+                    height: 92% !important;
 
                     > .cke_wysiwyg_frame {
                         display: flex;
@@ -32,6 +32,14 @@ cdk-componente-digital-ckeditor {
                         height: 0 !important;
                         overflow-y: auto;
                     }
+                }
+            }
+
+            > .cke_maximized {
+                height: 100% !important;
+
+                > .cke_contents {
+                    height: 96% !important;
                 }
             }
         }
