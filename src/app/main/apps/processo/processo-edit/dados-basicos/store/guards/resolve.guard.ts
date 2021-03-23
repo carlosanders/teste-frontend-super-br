@@ -58,12 +58,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateProcesso());
                     } else {
                         this._store.dispatch(new fromStore.GetProcesso({
-<<<<<<< HEAD
-                            id: this.routerState.params['processoHandle'],
-                            populate: this.needsPopulatedProcesso
-=======
                             id: this.routerState.params['processoHandle']
->>>>>>> master
                         }));
                     }
                 }

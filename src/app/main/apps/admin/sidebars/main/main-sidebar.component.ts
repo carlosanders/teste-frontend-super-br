@@ -136,21 +136,6 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'low_priority',
                 link: 'workflows',
                 role: ['ROLE_ADMIN']
-<<<<<<< HEAD
-            },
-            {
-                nome: 'Tipos de Ações Workflows',
-                icon: 'low_priority',
-                link: 'tipo-acao-workflow',
-                role: ['ROLE_ADMIN']
-            },
-            {
-                nome: 'Tipos de Validações Workflows',
-                icon: 'low_priority',
-                link: 'tipo-validacao-workflow',
-                role: ['ROLE_ADMIN']
-=======
->>>>>>> master
             }
         ];
 
