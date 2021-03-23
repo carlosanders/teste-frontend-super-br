@@ -1,5 +1,12 @@
 import {Action} from '@ngrx/store';
 
+export const GET_LOTACOES = '[TAREFA LOTACAO LIST] GET LOTACOES';
+export const GET_LOTACOES_SUCCESS = '[TAREFA LOTACAO LIST] GET LOTACOES SUCCESS';
+export const GET_LOTACOES_FAILED = '[TAREFA LOTACAO LIST] GET LOTACOES FAILED';
+
+export const RELOAD_LOTACOES = '[TAREFA LOTACAO LIST] RELOAD LOTACOES';
+
+
 export const UNLOAD_TAREFAS = '[TAREFAS] UNLOAD TAREFAS';
 
 export const GET_TAREFAS = '[TAREFAS] GET TAREFAS';
@@ -42,6 +49,10 @@ export const SET_FOLDER_ON_SELECTED_TAREFAS = '[TAREFAS] SET FOLDER ON SELECTED 
 export const SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS SUCCESS';
 export const SET_FOLDER_ON_SELECTED_TAREFAS_FAILED = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS FAILED';
 
+export const SET_SETOR_ON_SELECTED_TAREFAS = '[TAREFAS] SET SETOR ON SELECTED TAREFAS';
+export const SET_SETOR_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET SETOR ON SELECTED TAREFAS SUCCESS';
+export const SET_SETOR_ON_SELECTED_TAREFAS_FAILED = '[TAREFAS] SET SETOR ON SELECTED TAREFAS FAILED';
+
 export const SAVE_TAREFA = '[TAREFA] SAVE TAREFA';
 export const SAVE_TAREFA_SUCCESS = '[TAREFA] SAVE TAREFA SUCCESS';
 export const SAVE_TAREFA_FAILED = '[TAREFA] SAVE TAREFA FAILED';
@@ -80,6 +91,55 @@ export const REDISTRIBUIR_TAREFA_SUCCESS = '[TAREFAS] REDISTRIBUIR TAREFA SUCCES
 
 export const REDISTRIBUIR_TAREFA_CANCEL = '[TAREFAS] REDISTRIBUIR TAREFA CANCEL';
 export const REDISTRIBUIR_TAREFA_CANCEL_SUCCESS = '[TAREFAS] REDISTRIBUIR TAREFA CANCEL SUCCESS';
+
+/**
+ * Get Lotacoes
+ */
+ export class GetLotacoes implements Action
+ {
+     readonly type = GET_LOTACOES;
+ 
+     constructor(public payload: any)
+     {
+     }
+ }
+ 
+ /**
+  * Get Lotacoes Success
+  */
+ export class GetLotacoesSuccess implements Action
+ {
+     readonly type = GET_LOTACOES_SUCCESS;
+ 
+     constructor(public payload: any)
+     {
+     }
+ }
+ 
+ /**
+  * Get Lotacoes Failed
+  */
+ export class GetLotacoesFailed implements Action
+ {
+     readonly type = GET_LOTACOES_FAILED;
+ 
+     constructor(public payload: string)
+     {
+     }
+ }
+ 
+ /**
+  * Reload Lotacoes
+  */
+ export class ReloadLotacoes implements Action
+ {
+     readonly type = RELOAD_LOTACOES;
+ 
+     constructor()
+     {
+     }
+ }
+
 
 /**
  * Unload Tarefas
@@ -200,6 +260,37 @@ export class SetFolderOnSelectedTarefasFailed implements Action {
     constructor(public payload: any) {
     }
 }
+
+/**
+ * Set Setor on Selected Tarefas
+ */
+export class SetSetorOnSelectedTarefas implements Action {
+    readonly type = SET_SETOR_ON_SELECTED_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Set setor on Selected Tarefas Success
+ */
+export class SetSetorOnSelectedTarefasSuccess implements Action {
+    readonly type = SET_SETOR_ON_SELECTED_TAREFAS_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Set Setor on Selected Tarefas Failed
+ */
+export class SetSetorOnSelectedTarefasFailed implements Action {
+    readonly type = SET_SETOR_ON_SELECTED_TAREFAS_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
 
 /**
  * Delete Tarefa
@@ -690,6 +781,10 @@ export class RemoveTarefa implements Action {
 
 export type TarefasActionsAll
     = UnloadTarefas
+    | GetLotacoes
+    | GetLotacoesSuccess
+    | GetLotacoesFailed
+    | ReloadLotacoes
     | GetTarefas
     | GetTarefasSuccess
     | GetTarefasFailed
@@ -701,6 +796,9 @@ export type TarefasActionsAll
     | SetFolderOnSelectedTarefas
     | SetFolderOnSelectedTarefasSuccess
     | SetFolderOnSelectedTarefasFailed
+    | SetSetorOnSelectedTarefas
+    | SetSetorOnSelectedTarefasSuccess
+    | SetSetorOnSelectedTarefasFailed
     | DeleteTarefa
     | DeleteTarefaSuccess
     | DeleteTarefaFailed

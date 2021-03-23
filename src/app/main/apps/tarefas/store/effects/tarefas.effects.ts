@@ -1,9 +1,10 @@
 import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {assunto as assuntoSchema, processo as processoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
+import {assunto as assuntoSchema, processo as processoSchema, tarefa as tarefaSchema, lotacao as lotacaoSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 import {Observable, of} from 'rxjs';
 import {
@@ -22,7 +23,10 @@ import * as TarefasActions from '../actions/tarefas.actions';
 
 import {Tarefa} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
-import {LoginService} from 'app/main/auth/login/login.service';
+
+import {Lotacao} from '@cdk/models/lotacao.model';
+import {LotacaoService} from '@cdk/services/lotacao.service';
+
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
@@ -40,6 +44,8 @@ export class TarefasEffect {
         private _actions: Actions,
         private _tarefaService: TarefaService,
         public _loginService: LoginService,
+        private _lotacaoService: LotacaoService,
+
         private _store: Store<State>,
         private _router: Router,
         private _assuntoService: AssuntoService
@@ -363,6 +369,69 @@ export class TarefasEffect {
                     );
                 })
             );
+
+            @Effect()
+            setSetorOnSelectedTarefas: Observable<any> =
+                this._actions
+                    .pipe(
+                        ofType<TarefasActions.SetSetorOnSelectedTarefas>(TarefasActions.SET_SETOR_ON_SELECTED_TAREFAS),
+                        concatMap((action) => {
+                           //const setor = action.payload.setorResponsavel ? action.payload.setorResponsavel : null;
+                            return this._tarefaService.patch(action.payload.tarefa, {setorResponsavel: action.payload.setorResponsavel,
+                                                                                    distribuicaoAutomatica: action.payload.distribuicaoAutomatica,
+                                                                                    usuarioResponsavel: action.payload.usuarioResponsavel}).pipe(
+                                mergeMap((response: any) => [
+                                    new TarefasActions.SetSetorOnSelectedTarefasSuccess(response),
+                                    new OperacoesActions.Resultado({
+                                        type: 'tarefa',
+                                        content: `Tarefa id ${response.id} editada com sucesso!`,
+                                        dateTime: response.criadoEm
+                                    })
+                                ]),
+                                catchError((err) => {
+                                    console.log(err);
+                                    return of(new TarefasActions.SetSetorOnSelectedTarefasFailed(err));
+                                })
+                            );
+                        })
+                    );                       
+                 
+                    @Effect()
+                    getLotacoes: any =
+                        this._actions
+                            .pipe(
+                                ofType<TarefasActions.GetLotacoes>(TarefasActions.GET_LOTACOES),
+                                switchMap((action) => {
+                                    console.log(action.payload);
+                                    return this._lotacaoService.query(
+                                        JSON.stringify({
+                                            ...action.payload.filter,
+                                            ...action.payload.gridFilter,
+                                        }),
+                                        action.payload.limit,
+                                        action.payload.offset,
+                                        JSON.stringify(action.payload.sort),
+                                        JSON.stringify(action.payload.populate),
+                                        JSON.stringify(action.payload.context)).pipe(
+                                        mergeMap((response) => [
+                                            new AddData<Lotacao>({data: response['entities'], schema: lotacaoSchema}),
+                                            new TarefasActions.GetLotacoesSuccess({
+                                                entitiesId: response['entities'].map(lotacao => lotacao.id),
+                                                loaded: {
+                                                    id: this.routerState.params.setorHandle ? 'setorHandle' : 'usuarioHandle',
+                                                    value: this.routerState.params.setorHandle ? this.routerState.params.setorHandle : this.routerState.params.usuarioHandle                
+                                                },
+                                                total: response['total']
+                                            })
+                                        ]),
+                                        catchError((err) => {
+                                            console.log(err);
+                                            return of(new TarefasActions.GetLotacoesFailed(err));
+                                        })
+                                    );
+                                })
+                            );
+                
 
     /**
      * ISSUE-107
