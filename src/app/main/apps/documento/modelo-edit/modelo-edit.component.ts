@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
-import {ClickedDocumentoVinculado} from './anexos/store/actions';
+import {ClickedDocumentoVinculado} from './anexos/store';
 import {ActivatedRoute, Router} from '@angular/router';
 
 @Component({

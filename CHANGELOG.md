@@ -82,10 +82,21 @@
 * Correção no widget do coordenador no painel
 * Correção no recarregamento de templates no módulo do administrador
 * Correção no módulo de protocolo externo
+* Correção em erro no botão de maximizar editor de documentos
+* Correção ao salvar uma espécie de setor no módulo do administrador
+* Correção para exibir a coluna origem dados no grid de relacionamento pessoal
+* Correção no tamanho máximo do campo CEP no formulario do endereço
+* Correção no formulário de outros nomes da pessoa
+* Correção na paginação das pessoas no modulo admin
+* Correção no formulário de tipos de documentos para marcar os campos obrigatórios
+* Correção para salvar o conteúdo do template ao salvar o template
+* Correção no maximizar o processo quando troca a tela
+* Correção na deleção em lote de endereços, documentos identificadores e relacionamento de pessoas
+* Correção para exibir corretamente os erros no formulario do assunto no módulo do administrador
+* Correção para exibir os erros no cadastro de usuário externo
 * Melhoria para permitir a pré-visualização de repositórios antes da sua atualização
 * Melhoria para gerar relatório em excel da listagem completa de tarefas de maneira simplificada, a partir da lista
 * Melhoria para que o administrador possa transferir tarefas de usuário a ser inativado para coordenação e protocolo
 * Melhoria para que o administrador possa transferir processos do setor a ser inativado para protocolo da unidade
 * Melhoria para configurar a restrição acesso a processo restritos na distribuição/redistribuição de tarefas
 * Melhoria nas pesquisas de processos e de documentos no módulo de pesquisa
-* Correção em erro no botão de maximizar editor de documentos

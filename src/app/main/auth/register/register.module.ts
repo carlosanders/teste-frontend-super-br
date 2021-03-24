@@ -13,6 +13,7 @@ import { CdkSharedModule } from '@cdk/shared.module';
 import { RegisterComponent } from './register.component';
 import { RegisterStoreModule } from './store/store.module';
 import { UsuarioService } from '@cdk/services/usuario.service';
+import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
 const routes = [
     {
         path     : '',
@@ -24,7 +25,7 @@ const routes = [
     declarations: [
         RegisterComponent
     ],
-    imports     : [
+    imports: [
         RouterModule.forChild(routes),
         HttpClientModule,
         MatButtonModule,
@@ -34,7 +35,8 @@ const routes = [
         MatInputModule,
         MatProgressBarModule,
         CdkSharedModule,
-        RegisterStoreModule
+        RegisterStoreModule,
+        NgxUpperCaseDirectiveModule
     ],
     providers: [
         UsuarioService

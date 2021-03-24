@@ -137,13 +137,13 @@
 
                 <!-- OrigemDados Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('origemDados.servico') > -1"
-                              matColumnDef="origemDados.servico">
+                              matColumnDef="origemDados">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                         Origem dos Dados
                     </th>
                     <td mat-cell *matCellDef="let representante" class='has_label_on_mobile'
                         data-label='Origem dos Dados: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1}"> {{representante.origemDados?.servico}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(representante.id) > -1}"> {{representante.origemDados?.fonteDados}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->

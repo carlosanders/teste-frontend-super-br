@@ -86,7 +86,6 @@ export class CdkAdminPessoaFormComponent implements OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             id: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
-            pessoaRepresentada: [null, [Validators.required]],
             pessoaConveniada: [null, [Validators.required]],
             pessoaValidada: [null, [Validators.required]],
 

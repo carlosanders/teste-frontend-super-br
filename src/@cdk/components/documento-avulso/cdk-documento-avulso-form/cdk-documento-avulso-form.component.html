@@ -94,7 +94,8 @@
         <label id="minutas-rg">Selecione o mecanismo de remessa</label>
 
         <mat-radio-group [ngClass]="{'horizontal': (mode === 'horizontal'), 'vertical': (mode === 'vertical')}"
-                         formControlName="mecanismoRemessa" aria-labelledby="minutas-rg" required>
+                         formControlName="mecanismoRemessa" aria-labelledby="minutas-rg"
+                         required [disabled]="!!documentoAvulso.id">
             <mat-radio-button [value]="'interna'">
                 Interna
             </mat-radio-button>

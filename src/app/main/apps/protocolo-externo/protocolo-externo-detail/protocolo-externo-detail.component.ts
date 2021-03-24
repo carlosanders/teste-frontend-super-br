@@ -1,25 +1,25 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ViewContainerRef, OnDestroy,
-    OnInit, ViewChild, AfterViewInit,
+    Component, OnDestroy,
+    OnInit, AfterViewInit,
     ViewEncapsulation
 } from '@angular/core';
 
 import {Processo} from '@cdk/models';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject, of} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Etiqueta} from '@cdk/models';
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculacaoEtiqueta} from './store';
 import {Documento} from '@cdk/models';
-import {getMaximizado} from '../store/selectors';
-import {ToggleMaximizado} from '../store/actions';
+import {getMaximizado} from '../store';
+import {ToggleMaximizado} from '../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
