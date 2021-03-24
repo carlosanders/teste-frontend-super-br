@@ -1,4 +1,4 @@
-<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+<form fxLayoutGap="16px" name="form" [formGroup]="form" [hidden]="activeCard !== 'form'">
 
     <mat-slide-toggle formControlName="urgente">
         Urgente
@@ -109,14 +109,14 @@
 </form>
 
 <cdk-processo-gridsearch
-    *ngIf="activeCard === 'processo-gridsearch'"
+    [hidden]="activeCard !== 'processo-gridsearch'"
     [pagination]="processoPagination"
     (selected)="selectProcesso($event)"
     (cancel)="cancel()">
 </cdk-processo-gridsearch>
 
 <cdk-setor-gridsearch
-    *ngIf="activeCard === 'setor-origem-gridsearch'"
+    [hidden]="activeCard !== 'setor-origem-gridsearch'"
     [pagination]="setorOrigemPagination"
     (selected)="selectSetorOrigem($event)"
     (cancel)="cancel()">

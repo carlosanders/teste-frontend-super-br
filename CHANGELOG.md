@@ -100,3 +100,5 @@
 * Melhoria para que o administrador possa transferir processos do setor a ser inativado para protocolo da unidade
 * Melhoria para configurar a restrição acesso a processo restritos na distribuição/redistribuição de tarefas
 * Melhoria nas pesquisas de processos e de documentos no módulo de pesquisa
+* Correção em erro no botão de maximizar editor de documentos
+* Correção para que botoes injetados nos form documento avulso e remessa apareçam
