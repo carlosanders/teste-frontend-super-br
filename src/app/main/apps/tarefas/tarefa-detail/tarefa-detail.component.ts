@@ -113,7 +113,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         private _snackBar: MatSnackBar
     ) {
         this._profile = _loginService.getUserProfile();
-        this.tarefa$ = this._store.pipe(select(fromStore.getTarefa)); 
+        this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.etiqueta$ = this._store.pipe(select(getEtiqueta));
@@ -209,10 +209,12 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         ).subscribe(screen => {
             this.mobileMode = screen.size !== 'desktop';
         });
+        this.doToggleMaximizado(false);
     }
 
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
+        this.doToggleMaximizado(false);
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
@@ -243,7 +245,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
             changes: {conteudo: values.conteudo, privada: values.privada}
-        }));         
+        }));
     }
 
     onVinculacaoEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
