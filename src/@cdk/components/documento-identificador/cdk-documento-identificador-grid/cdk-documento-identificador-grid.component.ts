@@ -278,7 +278,7 @@ export class CdkDocumentoIdentificadorGridComponent implements AfterViewInit, On
         this.delete.emit(documentoIdentificadorId);
     }
 
-    deleteDocumentoIdentificadors(documentoIdentificadorsId): void {
+    deleteDocumentoIdentificadores(documentoIdentificadorsId): void {
         documentoIdentificadorsId.forEach(documentoIdentificadorId => this.deleteDocumentoIdentificador(documentoIdentificadorId));
     }
 

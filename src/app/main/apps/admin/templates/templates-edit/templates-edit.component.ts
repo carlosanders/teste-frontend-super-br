@@ -5,8 +5,8 @@ import {Pagination, Template} from '../../../../../../@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {LoginService} from '../../../../auth/login/login.service';
-import {Back} from '../../../../../store/actions';
-import {getRouterState} from '../../../../../store/reducers';
+import {Back} from '../../../../../store';
+import {getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'templates-edit',

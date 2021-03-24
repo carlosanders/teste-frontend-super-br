@@ -5,8 +5,11 @@
         <input matInput #nome
                name="nome"
                formControlName="nome"
-               maxlength="255" upperCase>
+               maxlength="255" upperCase required>
         <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('nome').hasError('formError')">
+            {{form.get('nome').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -16,6 +19,9 @@
                formControlName="dispositivoLegal"
                maxlength="255" upperCase>
         <mat-hint align="end">{{dispositivoLegal.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('dispositivoLegal').hasError('formError')">
+            {{form.get('dispositivoLegal').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -25,6 +31,9 @@
                formControlName="codigoCNJ"
                maxlength="255" upperCase>
         <mat-hint align="end">{{codigoCNJ.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('codigoCNJ').hasError('formError')">
+            {{form.get('codigoCNJ').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -34,8 +43,11 @@
                   cdkTextareaAutosize
                   #autosize="cdkTextareaAutosize"
                   cdkAutosizeMinRows="4"
-                  cdkAutosizeMaxRows="10"></textarea>
+                  cdkAutosizeMaxRows="10" upperCase></textarea>
         <mat-hint align="end">{{glossario.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('glossario').hasError('formError')">
+            {{form.get('glossario').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -50,10 +62,16 @@
                 (click)="showAssuntoAdministrativoGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
+        <mat-error *ngIf="form.get('parent').hasError('formError')">
+            {{form.get('parent').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-checkbox formControlName="ativo">
         Ativo
+        <mat-error *ngIf="form.get('ativo').hasError('formError')">
+            {{form.get('ativo').errors.formError}}
+        </mat-error>
     </mat-checkbox>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

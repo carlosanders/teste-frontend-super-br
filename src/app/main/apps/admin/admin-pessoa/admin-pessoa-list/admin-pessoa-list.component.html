@@ -8,7 +8,7 @@
     [loading]="(loading$ | async)"
     [pessoas]="(pessoas$ | async)"
     [total]="(pagination$ | async)?.total"
-    [displayedColumns]="['id', 'nome', 'numeroDocumentoPrincipal', 'pessoaRepresentada', 'pessoaConveniada', 'pessoaValidada', 'actions']"
+    [displayedColumns]="['id', 'nome', 'numeroDocumentoPrincipal', 'pessoaConveniada', 'pessoaValidada', 'actions']"
     [actions]="['edit', 'create']"
     (reload)="reload($event)"
     (edit)="edit($event)"

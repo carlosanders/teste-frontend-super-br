@@ -7,7 +7,11 @@
                formControlName="valor"
                minlength="3"
                maxlength="255"
-               required>
+               required
+               upperCase>
+        <mat-error *ngIf="form.get('valor').hasError('formError')">
+            {{form.get('valor').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

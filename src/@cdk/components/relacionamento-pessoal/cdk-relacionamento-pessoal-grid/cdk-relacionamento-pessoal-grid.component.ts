@@ -265,7 +265,7 @@ export class CdkRelacionamentoPessoalGridComponent implements AfterViewInit, OnI
         this.delete.emit(relacionamentoPessoalId);
     }
 
-    deleteRelacionamentoPessoals(relacionamentoPessoalsId): void {
+    deleteRelacionamentosPessoais(relacionamentoPessoalsId): void {
         relacionamentoPessoalsId.forEach(relacionamentoPessoalId => this.deleteRelacionamentoPessoal(relacionamentoPessoalId));
     }
 
