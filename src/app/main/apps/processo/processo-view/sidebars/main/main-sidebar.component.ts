@@ -18,7 +18,7 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {getDocumentosHasLoaded} from '../../store';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -26,7 +26,7 @@ import {getMercureState, getRouterState} from '../../../../../../store';
 import {getProcesso} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {getTarefa} from '../../../../tarefas/tarefa-detail/store';
+import {GetTarefa, getTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {LoginService} from '../../../../../auth/login/login.service';
@@ -245,7 +245,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 this.tarefa$.next(!!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1);
 
                 this.volumePaginaton = new Pagination();
-                this.volumePaginaton.filter = {'processo.id': 'eq:' + this.routerState.params.processoHandle};
+                const handleProcesso = this.routerState.params['processoCopiaHandle'] ? 'processoCopiaHandle' : 'processoHandle';
+                this.volumePaginaton.filter = {'processo.id': 'eq:' + this.routerState.params[handleProcesso]};
             }
         });
 
@@ -447,11 +448,18 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      *
      * @param step
      * @param ativo
+     * @param componenteDigitalId
      */
-    gotoStep(step, ativo): void {
+    gotoStep(step, ativo, componenteDigitalId = null): void {
+        let substep = 0;
+
         if (this.juntadas[step] === undefined) {
             this._store.dispatch(new fromStore.GetCapaProcesso());
             return;
+        }
+
+        if (componenteDigitalId) {
+            substep = this.index[step].indexOf(componenteDigitalId);
         }
 
         // Decide the animation direction
@@ -465,13 +473,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             let arrPrimary = [];
             arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                 'visualizar-processo' : 'anexar-copia');
-            arrPrimary.push(this.routerState.params.processoHandle);
+            this.routerState.params['processoCopiaHandle'] ?
+                arrPrimary.push(this.routerState.params.processoCopiaHandle) : arrPrimary.push(this.routerState.params.processoHandle);
             if (this.routerState.params.chaveAcessoHandle) {
                 arrPrimary.push('chave');
                 arrPrimary.push(this.routerState.params.chaveAcessoHandle);
             }
             arrPrimary.push('visualizar');
-            arrPrimary.push(step + '-0');
+            arrPrimary.push(step + '-' + substep);
             // Navegação do processo deve ocorrer por outlet
             this._router.navigate(
                 [
@@ -487,7 +496,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     relativeTo: this._activatedRoute.parent
                 }
             ).then(() => {
-                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
+                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
             });
         } else {
             let url = this.routerState.url.split('/processo/')[0] +
@@ -496,9 +505,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             if (this.routerState.params.chaveAcessoHandle) {
                 url += '/chave/' + this.routerState.params.chaveAcessoHandle;
             }
-            url += '/visualizar/' + step + '-0';
+            url += '/visualizar/' + step + '-' + substep;
             this._router.navigateByUrl(url).then(() => {
-                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
+                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
             });
         }
     }
@@ -766,6 +775,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
+        if (this.routerState.params['tarefaHandle']) {
+            this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
+        }
         this._store.dispatch(new fromStore.GetDocumentos());
     }
 

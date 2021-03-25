@@ -50,9 +50,6 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     accept = 'application/pdf';
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
     maximizado$: Observable<boolean>;
     maximizado = false;
 
@@ -63,8 +60,6 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     mobileMode = false;
     mode = 'entrada';
     chaveAcesso: any;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     /**
      * @param _changeDetectorRef
@@ -109,15 +104,6 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/oficios/oficio-detail';
-        modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
-                    this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => this.container.createComponent(componentFactory));
-                }));
-            }
-        });
     }
 
     ngOnInit(): void {
@@ -224,10 +210,6 @@ export class OficioDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         if (pending === 0) {
             this._store.dispatch(new fromStore.GetDocumentos());
         }
-    }
-
-    onUploadClick(): void {
-        this.cdkUpload.onClick();
     }
 
     doToggleMaximizado(): void {

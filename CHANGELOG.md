@@ -102,3 +102,21 @@
 * Melhoria nas pesquisas de processos e de documentos no módulo de pesquisa
 * Correção em erro no botão de maximizar editor de documentos
 * Correção para que botoes injetados nos form documento avulso e remessa apareçam
+* Implementar possibilidade de pesquisar processo no momento de anexar por cópia
+* Deletar múltiplos documentos vinculados não funciona em edição de minutas
+* Deletar múltiplos documentos vinculados não funciona em edição de ofícios
+* Corrigir problema no fechamento de modal de documentos
+* Exibir todas as pessoas vinculadas no menu lateral do protocolo externo
+* Protocolo-externo só deve aparecer se usuário for validado
+* Correção da exibição de autocompletes posteriores na tela de criação de processo externo
+* Correção de CSS de gridsearch de estados
+* Correção de autocomplete de unidade na tela de protocolo-externo
+* Clicar no card de um documento avulso não exibia o conteúdo do componente digital
+* Responder ofício não movia o ofício para a caixa de saída
+* Assinar uma juntada causava duplicação das juntadas na listagem
+* Erro nas setas de navegação de juntadas quando há mais de um componente digital na juntada
+* Possibilitar a navegação de múltiplos componentes digitais clicando no tipo de documento na listagem
+* Correção de upload de resposta de ofício/complementação de ofício
+* Correção de css utilizado na tela de documentos/complementar/responder
+* Atualizar etiquetas da tarefa ao incluir minuta/ofício
+* Atualizar etiquetas da tarefa ao excluir minuta/ofício

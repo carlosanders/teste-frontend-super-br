@@ -1,11 +1,23 @@
-atividade-create {
+responder {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
 
-  .mat-tab-body {
-    padding-top: 16px;
-  }
+    > mat-tab-group {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: row;
 
-}
+        .mat-tab-body {
+            padding-top: 16px;
+            display: flex;
+            flex-direction: column;
 
-.bt-upload{
-    margin-top: 16px;
+            .bt-upload {
+                display: flex;
+                flex-direction: row;
+            }
+        }
+    }
 }
