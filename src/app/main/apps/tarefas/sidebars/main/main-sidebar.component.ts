@@ -45,16 +45,15 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     folders$: Observable<Folder[]>;
 
     loading$: Observable<boolean>;
-    
+
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
-    
+
     pagination$: Observable<any>;
     pagination: any;
-    //setorPagination: Pagination = new Pagination();
-    //colaboradorPagination: Pagination = new Pagination();
+
     gridFilter: any;
-    
+
     listFilter = {};
 
     mode = 'Tarefas';
@@ -80,7 +79,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
 
-    /** 
+    /**
      *
      * @param _store
      * @param _changeDetectorRef
@@ -115,32 +114,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 this.modulo = decodeURIComponent((this.modulo[0].toUpperCase() + this.modulo.substr(1).toLowerCase()));
             }
         });
-
-      /*  this.setorPagination.populate = ['populateAll'];
-        this.colaboradorPagination.filter = {};
-        this.colaboradorPagination.populate = ['populateAll'];
-        this.setorPagination.filter = {
-            'parent.id': 'isNotNull'
-        };
-        if (this.routerState.params['unidadeHandle']) {
-            this.setorPagination.filter = {
-                ...this.setorPagination.filter,
-                'unidade.id': 'eq:' + this.routerState.params.unidadeHandle
-            };
-        }
-        if (this.routerState.params['usuarioHandle']) {
-            this.colaboradorPagination.filter = {
-                ...this.colaboradorPagination.filter,
-                'usuario.id': 'eq:' + this.routerState.params['usuarioHandle']
-            };
-        }
-        if (this.routerState.params['setorHandle']) {
-            this.setorPagination.filter = {
-                ...this.setorPagination.filter,
-                id: 'eq:' + this.routerState.params['setorHandle']
-            };
-        }
-        */
     }
 
     /**
@@ -150,7 +123,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
-     
+
            this._store
             .pipe(
                 select(getRouterState),
@@ -174,7 +147,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
             if (coordenador.setor) {
                 this.setoresCoordenacao.push(coordenador.setor);
-                
+
             }
         });
 
@@ -210,31 +183,23 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.CreateTarefa());
     }
 
-    
+
     listaUsuario(setor): void{
         setor.numeracaoDocumentoUnidade = true;
-        //this._store.dispatch(new fromStore.GetLotacoes(setor.id));
-        console.log(this.pagination);
-        console.log(this.sort);
         this._store.dispatch(new fromStore.GetLotacoes({
             ...this.pagination,
             filter: {
-                ...setor.id,
+                "setor.id":"eq:"+setor.id
             },
             gridFilter: {
                 ...this.gridFilter
             },
-
             limit: this.pagination.pageSize,
-            populate: this.pagination.populate,
+            populate: ["populateAll","colaborador.usuario"],
             context: this.pagination.context,
             offset: (this.pagination.pageSize * this.pagination.pageIndex),
             sort: {},
         }));
-        
-        //this.router.navigate(['/apps/admin/unidades/1/setores/' + `${setor.id}` + '/lotacoes']);
-
-        
     }
 
     fechaUsuarioCoordenacao(setor): void {
@@ -248,7 +213,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 this.sheetRef.dismiss();
                 this.snackSubscription = null;
             }
-    
+
             this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
                 duration: 3000,
                 panelClass: ['cdk-white-bg'],
@@ -257,20 +222,20 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                     text: 'Desistir de enviar'
                 }
             });
-            
+
             this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
                 if (data.dismissedByAction === false) {
-                    this._store.dispatch(new fromStore.SetSetorOnSelectedTarefas({tarefa: $event[0].data, setorResponsavel: $event[1].id, 
-                                                                                distribuicaoAutomatica: true, 
+                    this._store.dispatch(new fromStore.SetSetorOnSelectedTarefas({tarefa: $event[0].data, setorResponsavel: $event[1].id,
+                                                                                distribuicaoAutomatica: true,
                                                                                 usuarioResponsavel: null}));
                 }
-            });       
+            });
     }
 
     onDrop($event): void {
         if (this.mode === 'Tarefas') {
                 this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
-            
+
         }
     }
 
