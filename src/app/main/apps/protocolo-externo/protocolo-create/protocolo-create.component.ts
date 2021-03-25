@@ -280,7 +280,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     onClicked(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+        const chaveAcesso = this.routerState.params.chaveAcessoHandle ? '/' + this.routerState.params.chaveAcessoHandle : '';
+        this._router.navigate([
+            this.routerState.url.split('/criar/')[0] + '/documento/' + documento.componentesDigitais[0].id + '/visualizar' + chaveAcesso
+        ]);
     }
 
     getEstados(): void {

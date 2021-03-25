@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
 
 import * as ComponenteDigitalActions from '../actions/componentes-digitais.actions';
 
@@ -15,6 +15,8 @@ import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../index';
+import {GetDocumentosVinculados as GetDocumentosVinculadosMinuta} from "../../documento-edit/anexos/store";
+import {GetDocumentosVinculados as GetDocumentosVinculadosOficio} from "../../documento-avulso-edit/anexos/store";
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -118,6 +120,14 @@ export class ComponenteDigitalEffect {
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
                 switchMap((action) => {
                     return this._componenteDigitalService.save(action.payload).pipe(
+                        tap(() => {
+                            if (this.routerState.url.indexOf('editar/') !== -1) {
+                                this._store.dispatch(new GetDocumentosVinculadosMinuta());
+                            }
+                            if (this.routerState.url.indexOf('oficio/') !== -1) {
+                                this._store.dispatch(new GetDocumentosVinculadosOficio());
+                            }
+                        }),
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
                             new AddData<ComponenteDigital>({data: [{...action.payload, ...response}], schema: componenteDigitalSchema}),
@@ -126,7 +136,6 @@ export class ComponenteDigitalEffect {
                                 content: `Componente Digital id ${response.id} criado com sucesso!`,
                                 dateTime: response.criadoEm
                             }),
-                            new fromStore.GetDocumentosVinculados()
                         ]),
                         catchError((err) => {
                             console.log (err);

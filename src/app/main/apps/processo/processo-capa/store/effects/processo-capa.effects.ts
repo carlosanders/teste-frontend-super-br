@@ -68,10 +68,13 @@ export class ProcessoCapaEffect {
                     new AddData<Processo>({data: [response], schema: processoSchema}),
                     new ProcessoCapaActions.GetProcessoSuccess({
                         loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle
+                            id: this.routerState.params['processoCopiaHandle'] ?
+                                'processoCopiaHandle' : 'processoHandle',
+                            value: this.routerState.params['processoCopiaHandle'] ?
+                                this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
                         },
-                        processoId: this.routerState.params.processoHandle
+                        processoId: this.routerState.params['processoCopiaHandle'] ?
+                            this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
                     })
                 ]),
                 catchError((err, caught) => {
@@ -106,8 +109,10 @@ export class ProcessoCapaEffect {
                     new ProcessoCapaActions.GetAssuntosSuccess({
                         entitiesId: response['entities'].map(assunto => assunto.id),
                         loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle,
+                            id: this.routerState.params['processoCopiaHandle'] ?
+                                'processoCopiaHandle' : 'processoHandle',
+                            value: this.routerState.params['processoCopiaHandle'] ?
+                                this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
                         },
                         total: response['total']
                     })
@@ -144,8 +149,10 @@ export class ProcessoCapaEffect {
                     new ProcessoCapaActions.GetInteressadosSuccess({
                         entitiesId: response['entities'].map(interessado => interessado.id),
                         loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle,
+                            id: this.routerState.params['processoCopiaHandle'] ?
+                                'processoCopiaHandle' : 'processoHandle',
+                            value: this.routerState.params['processoCopiaHandle'] ?
+                                this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
                         },
                         total: response['total']
                     })
@@ -182,8 +189,10 @@ export class ProcessoCapaEffect {
                     new ProcessoCapaActions.GetVinculacoesProcessosSuccess({
                         entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
                         loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle,
+                            id: this.routerState.params['processoCopiaHandle'] ?
+                                'processoCopiaHandle' : 'processoHandle',
+                            value: this.routerState.params['processoCopiaHandle'] ?
+                                this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
                         },
                         total: response['total']
                     })

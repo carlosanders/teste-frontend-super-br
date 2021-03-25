@@ -85,8 +85,6 @@ export class CdkSearchBarComponent implements OnInit, OnDestroy
                 distinctUntilChanged(),
                 switchMap((value) => {
                         if (value && typeof value === 'object') {
-                            this.inputText.emit(value.NUP);
-
                             if (value.visibilidadeExterna || this._loginService.isGranted('ROLE_COLABORADOR')) {
                                 this.inputText.emit({id: value.id});
                                 return of([]);

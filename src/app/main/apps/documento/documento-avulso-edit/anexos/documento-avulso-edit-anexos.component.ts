@@ -164,6 +164,10 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado(documentoId));
     }
 
+    doDeleteBloco(documentos: Documento[]): void {
+        documentos.forEach((documento: Documento) => this.doDeleteDocumentoVinculado(documento.id));
+    }
+
     doAssinaturaDocumentoVinculado(result): void {
         if (result.certificadoDigital) {
             this._store.dispatch(new fromStore.AssinaDocumentoVinculado(result.documento.id));
