@@ -1,12 +1,5 @@
 import {Action} from '@ngrx/store';
 
-export const GET_LOTACOES = '[TAREFA LOTACAO LIST] GET LOTACOES';
-export const GET_LOTACOES_SUCCESS = '[TAREFA LOTACAO LIST] GET LOTACOES SUCCESS';
-export const GET_LOTACOES_FAILED = '[TAREFA LOTACAO LIST] GET LOTACOES FAILED';
-
-export const RELOAD_LOTACOES = '[TAREFA LOTACAO LIST] RELOAD LOTACOES';
-
-
 export const UNLOAD_TAREFAS = '[TAREFAS] UNLOAD TAREFAS';
 
 export const GET_TAREFAS = '[TAREFAS] GET TAREFAS';
@@ -92,53 +85,6 @@ export const REDISTRIBUIR_TAREFA_SUCCESS = '[TAREFAS] REDISTRIBUIR TAREFA SUCCES
 export const REDISTRIBUIR_TAREFA_CANCEL = '[TAREFAS] REDISTRIBUIR TAREFA CANCEL';
 export const REDISTRIBUIR_TAREFA_CANCEL_SUCCESS = '[TAREFAS] REDISTRIBUIR TAREFA CANCEL SUCCESS';
 
-/**
- * Get Lotacoes
- */
- export class GetLotacoes implements Action
- {
-     readonly type = GET_LOTACOES;
- 
-     constructor(public payload: any)
-     {
-     }
- }
- 
- /**
-  * Get Lotacoes Success
-  */
- export class GetLotacoesSuccess implements Action
- {
-     readonly type = GET_LOTACOES_SUCCESS;
- 
-     constructor(public payload: any)
-     {
-     }
- }
- 
- /**
-  * Get Lotacoes Failed
-  */
- export class GetLotacoesFailed implements Action
- {
-     readonly type = GET_LOTACOES_FAILED;
- 
-     constructor(public payload: string)
-     {
-     }
- }
- 
- /**
-  * Reload Lotacoes
-  */
- export class ReloadLotacoes implements Action
- {
-     readonly type = RELOAD_LOTACOES;
- 
-     constructor()
-     {
-     }
- }
 
 
 /**
@@ -781,10 +727,6 @@ export class RemoveTarefa implements Action {
 
 export type TarefasActionsAll
     = UnloadTarefas
-    | GetLotacoes
-    | GetLotacoesSuccess
-    | GetLotacoesFailed
-    | ReloadLotacoes
     | GetTarefas
     | GetTarefasSuccess
     | GetTarefasFailed

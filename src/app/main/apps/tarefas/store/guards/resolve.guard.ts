@@ -112,8 +112,12 @@ export class ResolveGuard implements CanActivate {
                         offset: 0,
                         sort: {dataHoraDistribuicao: 'DESC'},
                         populate: [
-                            'lotacao',
                             'processo',
+                            'colaborador.usuario',
+                            'setor.especieSetor',
+                            'setor.generoSetor',
+                            'setor.parent',
+                            'setor.unidade',
                             'processo.especieProcesso',
                             'processo.especieProcesso.generoProcesso',
                             'processo.modalidadeMeio',

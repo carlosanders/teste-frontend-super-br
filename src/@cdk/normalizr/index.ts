@@ -707,6 +707,7 @@ pessoa.define({
 processo.define({
     classificacao: classificacao,
     origemDados: origemDados,
+    configuracaoNup: configuracaoNup,
     processoOrigem: processo,
     documentoAvulsoOrigem: documentoAvulso,
     procedencia: pessoa,
@@ -795,6 +796,8 @@ sigilo.define({
 
 tarefa.define({
     processo: processo,
+    lotacao: lotacao,
+    colaborador: colaborador,
     especieTarefa: especieTarefa,
     usuarioResponsavel: usuario,
     setorOrigem: setor,

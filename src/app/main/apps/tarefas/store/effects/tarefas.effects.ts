@@ -1,5 +1,5 @@
 import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {assunto as assuntoSchema, processo as processoSchema, tarefa as tarefaSchema, lotacao as lotacaoSchema} from '@cdk/normalizr';
+import {assunto as assuntoSchema, processo as processoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
@@ -24,8 +24,7 @@ import * as TarefasActions from '../actions/tarefas.actions';
 import {Tarefa} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 
-import {Lotacao} from '@cdk/models/lotacao.model';
-import {LotacaoService} from '@cdk/services/lotacao.service';
+
 
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
@@ -44,7 +43,6 @@ export class TarefasEffect {
         private _actions: Actions,
         private _tarefaService: TarefaService,
         public _loginService: LoginService,
-        private _lotacaoService: LotacaoService,
 
         private _store: Store<State>,
         private _router: Router,
@@ -396,42 +394,6 @@ export class TarefasEffect {
                         })
                     );                       
                  
-                    @Effect()
-                    getLotacoes: any =
-                        this._actions
-                            .pipe(
-                                ofType<TarefasActions.GetLotacoes>(TarefasActions.GET_LOTACOES),
-                                switchMap((action) => {
-                                    console.log(action.payload);
-                                    return this._lotacaoService.query(
-                                        JSON.stringify({
-                                            ...action.payload.filter,
-                                            ...action.payload.gridFilter,
-                                        }),
-                                        action.payload.limit,
-                                        action.payload.offset,
-                                        JSON.stringify(action.payload.sort),
-                                        JSON.stringify(action.payload.populate),
-                                        JSON.stringify(action.payload.context)).pipe(
-                                        mergeMap((response) => [
-                                            new AddData<Lotacao>({data: response['entities'], schema: lotacaoSchema}),
-                                            new TarefasActions.GetLotacoesSuccess({
-                                                entitiesId: response['entities'].map(lotacao => lotacao.id),
-                                                loaded: {
-                                                    id: this.routerState.params.setorHandle ? 'setorHandle' : 'usuarioHandle',
-                                                    value: this.routerState.params.setorHandle ? this.routerState.params.setorHandle : this.routerState.params.usuarioHandle                
-                                                },
-                                                total: response['total']
-                                            })
-                                        ]),
-                                        catchError((err) => {
-                                            console.log(err);
-                                            return of(new TarefasActions.GetLotacoesFailed(err));
-                                        })
-                                    );
-                                })
-                            );
-                
 
     /**
      * ISSUE-107

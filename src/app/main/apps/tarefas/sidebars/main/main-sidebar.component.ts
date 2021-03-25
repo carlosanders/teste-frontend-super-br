@@ -230,7 +230,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             context: this.pagination.context,
             offset: (this.pagination.pageSize * this.pagination.pageIndex),
             sort: {},
-            setor: setor
         }));
         
         //this.router.navigate(['/apps/admin/unidades/1/setores/' + `${setor.id}` + '/lotacoes']);
