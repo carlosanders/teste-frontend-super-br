@@ -3,12 +3,12 @@
     <mat-card>
         <mat-form-field>
             <input matInput placeholder="Ramo" formControlName="generoSetor" required
-                [matAutocomplete]="generoSetor.autocomplete" (blur)="checkGeneroSetor()">
+                   [matAutocomplete]="generoSetor.autocomplete" (blur)="checkGeneroSetor()">
             <cdk-genero-setor-autocomplete #generoSetor="generoSetorAutocomplete" [control]="form.get('generoSetor')"
-                [pagination]="generoSetorPagination">
+                                           [pagination]="generoSetorPagination">
             </cdk-genero-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button
-                (click)="showGeneroSetorGrid()">
+                    (click)="showGeneroSetorGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('generoSetor').hasError('formError')">
@@ -16,10 +16,11 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field *ngIf="form.get('generoSetor').value">
+        <mat-form-field *ngIf="form.get('estado').enabled">
             <input matInput placeholder="Estado" formControlName="estado" required
                    [matAutocomplete]="estado.autocomplete" (blur)="checkEstado()">
-            <cdk-estado-autocomplete #estado="estadoAutocomplete" [control]="form.get('estado')"></cdk-estado-autocomplete>
+            <cdk-estado-autocomplete #estado="estadoAutocomplete"
+                                     [control]="form.get('estado')"></cdk-estado-autocomplete>
             <button matSuffix mat-button mat-icon-button
                     (click)="showEstadoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
@@ -29,14 +30,15 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field *ngIf="form.get('generoSetor').value && form.get('estado').value">
+        <mat-form-field *ngIf="form.get('setorAtual').enabled">
             <input matInput placeholder="Unidade" formControlName="setorAtual" required
-                [matAutocomplete]="setorAtual.autocomplete" (blur)="checkSetorAtual()">
+                   [matAutocomplete]="setorAtual.autocomplete" (blur)="checkSetorAtual()">
             <cdk-setor-autocomplete #setorAtual="setorAutocomplete" [control]="form.get('setorAtual')"
-                [pagination]="setorAtualPagination">
+                                    [extraFilter]="'unidade'"
+                                    [pagination]="setorAtualPagination">
             </cdk-setor-autocomplete>
             <button matSuffix mat-button mat-icon-button
-                (click)="showSetorAtualGrid()">
+                    (click)="showSetorAtualGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('setorAtual').hasError('formError')">
@@ -59,10 +61,10 @@
         <mat-form-field>
             <mat-label>Requerimento</mat-label>
             <input matInput #requerimento name="requerimento" formControlName="requerimento" maxlength="255" upperCase
-                required>
+                   required>
             <mat-hint align="end">{{requerimento.value.length}} / 255</mat-hint>
             <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('requerimento')">
+                    (click)="showLogEntryGrid('requerimento')">
                 <mat-icon matTooltip="Histórico">history</mat-icon>
             </button>
             <mat-error>Campo obrigatório!</mat-error>
@@ -87,14 +89,15 @@
 </cdk-genero-setor-gridsearch>
 
 <cdk-estado-gridsearch *ngIf="activeCard === 'estado-gridsearch'"
-                      (selected)="selectEstado($event)" (cancel)="cancel()">
+                       (selected)="selectEstado($event)" (cancel)="cancel()">
 </cdk-estado-gridsearch>
 
 <cdk-setor-gridsearch *ngIf="activeCard === 'setor-atual-gridsearch'" [pagination]="setorAtualPagination"
-    [displayedColumns]="['id', 'unidade.nome', 'nome', 'actions']" (selected)="selectSetorAtual($event)"
-    (cancel)="cancel()">
+                      [displayedColumns]="['id', 'unidade.nome', 'nome', 'actions']"
+                      (selected)="selectSetorAtual($event)"
+                      (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch *ngIf="activeCard === 'logentry-gridsearch'" [pagination]="logEntryPagination"
-    (cancel)="cancel()">
+                         (cancel)="cancel()">
 </cdk-logentry-gridsearch>

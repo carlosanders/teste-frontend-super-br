@@ -32,6 +32,7 @@
                              [deletingId]="(deletingDocumentosVinculadosId$ | async)"
                              [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
                              (delete)="doDeleteDocumentoVinculado($event)"
+                             (deleteBloco)="doDeleteBloco($event)"
                              (assinatura)="doAssinaturaDocumentoVinculado($event)"
                              (clicked)="onClickedDocumentoVinculado($event)"
                              (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">

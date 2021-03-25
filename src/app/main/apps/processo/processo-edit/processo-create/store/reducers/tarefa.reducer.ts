@@ -41,6 +41,12 @@ export function TarefaReducer(
             };
         }
 
+        case TarefaActions.UNLOAD_TAREFA: {
+            return {
+                ...TarefaInitialState
+            };
+        }
+
         default:
             return state;
     }

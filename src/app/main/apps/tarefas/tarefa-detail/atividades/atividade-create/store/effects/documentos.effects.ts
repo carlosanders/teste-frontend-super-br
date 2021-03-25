@@ -16,6 +16,7 @@ import * as OperacoesActions from '../../../../../../../../store/actions/operaco
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {getBufferingDelete, getDeletingDocumentosId} from '../selectors';
 import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
+import {GetTarefa} from "../../../../store";
 
 @Injectable()
 export class AtividadeCreateDocumentosEffect {
@@ -187,6 +188,7 @@ export class AtividadeCreateDocumentosEffect {
                                 undo: 'inherent'
                             }));
                             new UpdateData<Documento>({id: response.id, schema: documentoSchema, changes: {apagadoEm: response.apagadoEm}});
+                            this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
                             return new AtividadeCreateDocumentosActions.DeleteDocumentoSuccess(response.id);
                         }),
                         catchError((err) => {

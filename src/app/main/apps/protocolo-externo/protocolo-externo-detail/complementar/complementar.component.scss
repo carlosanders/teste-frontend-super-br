@@ -9,12 +9,15 @@ complementar {
         display: flex;
         flex-direction: row;
 
-        .upload {
-            padding-bottom: 16px;
-        }
-
         .mat-tab-body {
+            display: flex;
+            flex-direction: column;
             padding-top: 16px;
+
+            .bt-upload {
+                display: flex;
+                flex-direction: row;
+            }
         }
     }
 }

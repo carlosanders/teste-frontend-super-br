@@ -577,8 +577,11 @@
                     <div *ngFor="let componenteDigital of (juntada.documento.componentesDigitais); let j = index;"
                          class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                         <mat-icon class="s-14">picture_as_pdf</mat-icon>
-                        <span class="ml-4"
-                              [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{juntada.documento.tipoDocumento.nome}}</span>
+                        <a class="ml-4"
+                           (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
+                           [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                            {{juntada.documento.tipoDocumento.nome}}
+                        </a>
                         <div *ngIf="j>0">{{j + 1}}</div>
                         <mat-icon class="ml-4 s-24"
                                   *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
@@ -593,8 +596,11 @@
                             class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
                             <mat-icon class="ml-16 s-14">attach_file</mat-icon>
                             <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
-                            <span class="ml-4"
-                                  [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">{{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}</span>
+                            <a class="ml-4"
+                               (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
+                               [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                                {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}
+                            </a>
                             <div *ngIf="z>0">{{z + 1}}</div>
                             <mat-icon class="ml-4 s-24"
                                       *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
@@ -618,7 +624,8 @@
                 </div>
             </div>
             <div class="actions">
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu" *ngIf="juntada.ativo"
+                <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                        *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1"
                         aria-label="Ferramentas" (click)="$event.stopPropagation()">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
