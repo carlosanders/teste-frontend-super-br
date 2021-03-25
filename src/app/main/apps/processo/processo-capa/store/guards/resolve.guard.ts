@@ -17,6 +17,8 @@ export class ResolveGuard implements CanActivate {
 
     routerState: any;
 
+    processoId: number;
+
     /**
      * @param _store
      * @param _router
@@ -30,6 +32,8 @@ export class ResolveGuard implements CanActivate {
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+
+                    this.processoId = this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'];
                 }
             });
     }
@@ -72,9 +76,9 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getProcessoLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value || this.processoId !== loaded.value) {
                     this._store.dispatch(new fromStore.GetProcesso({
-                        id: this.routerState.params['processoHandle']
+                        id: this.processoId
                     }));
                 }
             }),
@@ -97,7 +101,7 @@ export class ResolveGuard implements CanActivate {
             select(getAssuntosLoaded),
             tap(loaded => {
                 const params = {
-                    filter: {'processo.id': `eq:${this.routerState.params['processoHandle']}`, 'principal': 'eq:true'},
+                    filter: {'processo.id': `eq:${this.processoId}`, 'principal': 'eq:true'},
                     sort: {},
                     limit: 10,
                     offset: 0,
@@ -127,7 +131,7 @@ export class ResolveGuard implements CanActivate {
             select(getInteressadosLoaded),
             tap(loaded => {
                 const params = {
-                    filter: {'processo.id': `eq:${this.routerState.params['processoHandle']}`},
+                    filter: {'processo.id': `eq:${this.processoId}`},
                     sort: {},
                     limit: 10,
                     offset: 0,
@@ -160,11 +164,11 @@ export class ResolveGuard implements CanActivate {
                     filter: {
                         orX: [
                             {
-                                'processo.id': `eq:${this.routerState.params['processoHandle']}`
+                                'processo.id': `eq:${this.processoId}`
                             },
                             {
                                 'processoVinculado.id':
-                                    `eq:${this.routerState.params['processoHandle']}`
+                                    `eq:${this.processoId}`
                             }
                         ]
                     },

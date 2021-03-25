@@ -209,7 +209,11 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     }
 
     onClicked(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+        const chaveAcesso = this.routerState.params.chaveAcessoHandle ? '/' + this.routerState.params.chaveAcessoHandle : '';
+
+        this._router.navigate([
+            this.routerState.url.split('/detalhe/')[0] + '/documento/' + documento.componentesDigitais[0].id + '/visualizar' + chaveAcesso
+        ]);
     }
 
     onComplete(): void {
