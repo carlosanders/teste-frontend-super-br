@@ -71,7 +71,9 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
         });
 
         this.processoPagination = new Pagination();
+        this.processoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'setorAtual', 'setorAtual.unidade'];
         this.processoVinculadoPagination = new Pagination();
+        this.processoVinculadoPagination.populate = ['especieProcesso', 'especieProcesso.generoProcesso', 'setorAtual', 'setorAtual.unidade'];
         this.modalidadeVinculacaoProcessoPagination = new Pagination();
     }
 
