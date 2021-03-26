@@ -35,6 +35,7 @@ export class CdkCargoFormComponent implements OnChanges, OnDestroy {
     @Output()
     abort = new EventEmitter<any>();
 
+    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -64,8 +65,13 @@ export class CdkCargoFormComponent implements OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (changes['cargo'] && this.cargo && (!this.cargo.id || (this.cargo.id !== this.form.get('id').value))) {
-            this.form.patchValue({...this.cargo});
+        if (changes['cargo'] && this.cargo && ((!this.cargo.id && !this.form.dirty) || (this.cargo.id !== this.form.get('id').value))) {
+            this.form.patchValue({
+                id: this.cargo.id,
+                nome: this.cargo.nome,
+                descricao: this.cargo.descricao,
+                ativo: this.cargo.ativo
+            });
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
@@ -80,6 +86,15 @@ export class CdkCargoFormComponent implements OnChanges, OnDestroy {
                 this.form.setErrors({rulesError: this.errors.error.message});
             }
         }
+
+        if (!this.errors) {
+            Object.keys(this.form.controls).forEach(key => {
+                this.form.get(key).setErrors(null);
+            });
+
+            this.form.setErrors(null);
+        }
+
         this._changeDetectorRef.markForCheck();
     }
 
