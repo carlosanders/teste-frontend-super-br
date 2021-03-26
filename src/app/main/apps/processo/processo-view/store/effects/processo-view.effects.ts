@@ -91,8 +91,10 @@ export class ProcessoViewEffect {
                         ),
                         entitiesId: response['entities'].map(juntada => juntada.id),
                         loaded: {
-                            id: 'processoHandle',
-                            value: this.routerState.params.processoHandle
+                            id: this.routerState.params['processoCopiaHandle'] ?
+                                'processoCopiaHandle' : 'processoHandle',
+                            value: this.routerState.params['processoCopiaHandle'] ?
+                                this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle
                         },
                         total: response['total']
                     })
@@ -338,7 +340,8 @@ export class ProcessoViewEffect {
                         let arrPrimary = [];
                         arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                             'visualizar-processo' : 'anexar-copia');
-                        arrPrimary.push(this.routerState.params.processoHandle);
+                        this.routerState.params['processoCopiaHandle'] ?
+                            arrPrimary.push(this.routerState.params.processoCopiaHandle) : arrPrimary.push(this.routerState.params.processoHandle);
                         if (this.routerState.params.chaveAcessoHandle) {
                             arrPrimary.push('chave');
                             arrPrimary.push(this.routerState.params.chaveAcessoHandle);

@@ -17,6 +17,7 @@ import {getMercureState, getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ActivatedRoute, Router} from '@angular/router';
+import {CdkUtils} from "../../../../../../@cdk/utils";
 
 @Component({
     selector: 'documento-edit-anexos',
@@ -172,6 +173,10 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         this._store.dispatch(new fromStore.DeleteDocumentoVinculado(documentoId));
     }
 
+    doDeleteBloco(documentos: Documento[]): void {
+        documentos.forEach((documento: Documento) => this.doDeleteDocumentoVinculado(documento.id));
+    }
+
     doAssinaturaDocumentoVinculado(result): void {
         if (result.certificadoDigital) {
             this._store.dispatch(new fromStore.AssinaDocumentoVinculado(result.documento.id));
@@ -201,7 +206,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     }
 
     anexarCopia(): void {
-        const rota = 'anexar-copia/' + this.documento.processoOrigem.id + '/visualizar';
+        const rota = 'anexar-copia/' + this.documento.processoOrigem.id + '/visualizar/capa/mostrar';
         this._router.navigate(
             [
                 this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],

@@ -48,13 +48,12 @@ export class ResponderComponent implements OnInit, OnDestroy {
     oficios: Documento[] = [];
     selectedOficios: Documento[] = [];
 
-    documentoAvulsoOrigem: number;
+    documentoAvulsoOrigem: DocumentoAvulso;
 
     mode: string;
     chaveAcesso: any;
 
     routerState: any;
-    routerState$: Observable<any>;
 
     @ViewChild('ckdUpload', {static: false})
     cdkUpload;
@@ -85,7 +84,6 @@ export class ResponderComponent implements OnInit, OnDestroy {
     ) {
         this._profile = this._loginService.getUserProfile();
         this.documentoAvulso$ = this._store.pipe(select(getDocumentoAvulso));
-        this.routerState$ = this._store.pipe(select(getRouterState));
         this.documentosComplementares$ = this._store.pipe(select(getDocumentosComplementares));
 
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
@@ -109,6 +107,8 @@ export class ResponderComponent implements OnInit, OnDestroy {
         ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.mode = routerState.state.params['oficioTargetHandle'];
+                this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
             }
         });
 
@@ -136,24 +136,6 @@ export class ResponderComponent implements OnInit, OnDestroy {
                         break;
                 }
             }
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
-            this.mode = routerState.state.params['oficioTargetHandle'];
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
-            this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
-        });
-
-        this.routerState$.pipe(
-            takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
-            this.documentoAvulsoOrigem = routerState.state.params['documentoAvulsoHandle'];
         });
 
         this.documentoAvulso$.pipe(
@@ -260,7 +242,11 @@ export class ResponderComponent implements OnInit, OnDestroy {
     }
 
     onClicked(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+        const chaveAcesso = this.routerState.params.chaveAcessoHandle ? '/' + this.routerState.params.chaveAcessoHandle : '';
+
+        this._router.navigate([
+            this.routerState.url.split('/detalhe/')[0] + '/documento/' + documento.componentesDigitais[0].id + '/visualizar' + chaveAcesso
+        ]);
     }
 
     onComplete(): void {

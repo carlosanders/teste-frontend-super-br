@@ -1,59 +1,49 @@
+<mat-tab-group>
+    <mat-tab>
+        <ng-template matTabLabel>
+                    <span [matBadge]="oficios.length.toString()" matBadgeOverlap="false"
+                          matBadgeColor="warn">Ofícios</span>
+        </ng-template>
 
-<div id="responder-complementar">
+        <div class="bt-upload">
+            <button mat-mini-fab
+                    class="active accent mt-8 mb-8 ml-8 mr-8"
+                    [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
+                    (click)="$event.stopPropagation()">
+                <mat-icon class="secondary-text">attach_file</mat-icon>
+            </button>
 
-    <!-- CONTENT -->
-    <div class="content pr-24 pl-24" fxLayout="column" fxFlex="100">
+            <mat-menu #moreMenu="matMenu">
+                <button mat-menu-item aria-label="upload"
+                        (click)="complementarDocumento()">
+                    <ng-container>
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        <span>Complementar</span>
+                    </ng-container>
+                </button>
+                <ng-template #dynamicComponent></ng-template>
+            </mat-menu>
 
-        <div class="documentos mb-16" fxLayout="row">
+            <cdk-componente-digital-card-list #ckdUpload
+                                              [documentoAvulsoOrigem]="documentoAvulsoOrigem"
+                                              (completed)="onComplete()">
+            </cdk-componente-digital-card-list>
 
-            <mat-tab-group fxFlex="100">
-                <mat-tab>
-                    <ng-template matTabLabel>
-                        <span [matBadge]="oficios.length.toString()" matBadgeOverlap="false" matBadgeColor="warn">Ofícios</span>
-                    </ng-template>
+            <cdk-documento-card-list [documentos]="oficios"
+                                     [deletingId]="(deletingDocumentosId$ | async)"
+                                     [assinandoId]="(assinandoDocumentosId$ | async)"
+                                     [convertendoId]="(convertendoDocumentosId$ | async)"
+                                     (delete)="doDelete($event)"
+                                     (verResposta)="doVerResposta($event)"
+                                     (assinatura)="doAssinatura($event)"
+                                     (removeAssinatura)="doRemoveAssinatura($event)"
+                                     (converte)="doConverte($event)"
+                                     (converteHtml)="doConverteHtml($event)"
+                                     (clicked)="onClicked($event)"
+                                     (changedSelectedIds)="changedSelectedIds($event)">
+            </cdk-documento-card-list>
 
-                    <div fxLayout="row" class="bt-upload">
-                        <button mat-mini-fab
-                                class="m-4 active accent"
-                                [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
-                                (click)="$event.stopPropagation()">
-                            <mat-icon class="secondary-text">attach_file</mat-icon>
-                        </button>
-
-                        <mat-menu #moreMenu="matMenu">
-                            <button mat-menu-item aria-label="upload"
-                                    (click)="complementarDocumento()">
-                                <ng-container>
-                                    <mat-icon>picture_as_pdf</mat-icon>
-                                    <span>Complementar</span>
-                                </ng-container>
-                            </button>
-                            <ng-template #dynamicComponent></ng-template>
-                        </mat-menu>
-
-                        <cdk-componente-digital-documento-avulso-card-list #ckdUpload
-                                                                           [documentoAvulsoOrigem]="documentoAvulsoOrigem"
-                                                                           (completed)="onComplete()">
-                        </cdk-componente-digital-documento-avulso-card-list>
-
-                        <cdk-documento-card-list [documentos]="oficios"
-                                                 [deletingId]="(deletingDocumentosId$ | async)"
-                                                 [assinandoId]="(assinandoDocumentosId$ | async)"
-                                                 [convertendoId]="(convertendoDocumentosId$ | async)"
-                                                 (delete)="doDelete($event)"
-                                                 (verResposta)="doVerResposta($event)"
-                                                 (assinatura)="doAssinatura($event)"
-                                                 (removeAssinatura)="doRemoveAssinatura($event)"
-                                                 (converte)="doConverte($event)"
-                                                 (converteHtml)="doConverteHtml($event)"
-                                                 (clicked)="onClicked($event)"
-                                                 (changedSelectedIds)="changedSelectedIds($event)">
-                        </cdk-documento-card-list>
-
-                    </div>
-
-                </mat-tab>
-            </mat-tab-group>
         </div>
-    </div>
-</div>
+
+    </mat-tab>
+</mat-tab-group>
