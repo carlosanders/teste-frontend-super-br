@@ -4,9 +4,9 @@
             <span [matBadge]="oficios.length.toString()" matBadgeOverlap="false" matBadgeColor="warn">Documentos</span>
         </ng-template>
 
-        <div fxLayout="row" class="bt-upload">
+        <div class="bt-upload">
             <button mat-mini-fab
-                    class="m-4 active accent"
+                    class="active accent mt-8 mb-8 ml-8 mr-8"
                     [matMenuTriggerFor]="moreMenu" aria-label="Upload Documento"
                     (click)="$event.stopPropagation()">
                 <mat-icon class="secondary-text">attach_file</mat-icon>
@@ -24,10 +24,10 @@
                 <ng-template #dynamicComponent></ng-template>
             </mat-menu>
 
-            <cdk-componente-digital-documento-avulso-card-list #ckdUpload
-                                                               [processoOrigem]="processo"
-                                                               (completed)="onComplete()">
-            </cdk-componente-digital-documento-avulso-card-list>
+            <cdk-componente-digital-card-list #ckdUpload
+                                              [processoOrigem]="processo"
+                                              (completed)="onComplete()">
+            </cdk-componente-digital-card-list>
 
             <cdk-documento-card-list [documentos]="oficios"
                                      [deletingId]="(deletingDocumentosId$ | async)"

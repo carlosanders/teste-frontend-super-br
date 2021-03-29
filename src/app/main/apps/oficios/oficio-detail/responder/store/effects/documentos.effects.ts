@@ -23,6 +23,7 @@ import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
+import {ReloadDocumentosAvulso} from "../../../../store";
 
 @Injectable()
 export class DocumentosEffects {
@@ -290,6 +291,7 @@ export class DocumentosEffects {
                 }),
                 mergeMap(response => [
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
+                    new ReloadDocumentosAvulso(),
                     new DocumentoAvulsoDetailActions.GetDocumentoAvulsoSuccess({
                         loaded: {
                             id: 'documentoAvulsoHandle',

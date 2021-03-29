@@ -82,6 +82,18 @@
 * Correção no widget do coordenador no painel
 * Correção no recarregamento de templates no módulo do administrador
 * Correção no módulo de protocolo externo
+* Correção em erro no botão de maximizar editor de documentos
+* Correção ao salvar uma espécie de setor no módulo do administrador
+* Correção para exibir a coluna origem dados no grid de relacionamento pessoal
+* Correção no tamanho máximo do campo CEP no formulario do endereço
+* Correção no formulário de outros nomes da pessoa
+* Correção na paginação das pessoas no modulo admin
+* Correção no formulário de tipos de documentos para marcar os campos obrigatórios
+* Correção para salvar o conteúdo do template ao salvar o template
+* Correção no maximizar o processo quando troca a tela
+* Correção na deleção em lote de endereços, documentos identificadores e relacionamento de pessoas
+* Correção para exibir corretamente os erros no formulario do assunto no módulo do administrador
+* Correção para exibir os erros no cadastro de usuário externo
 * Melhoria para permitir a pré-visualização de repositórios antes da sua atualização
 * Melhoria para gerar relatório em excel da listagem completa de tarefas de maneira simplificada, a partir da lista
 * Melhoria para que o administrador possa transferir tarefas de usuário a ser inativado para coordenação e protocolo
@@ -89,3 +101,27 @@
 * Melhoria para configurar a restrição acesso a processo restritos na distribuição/redistribuição de tarefas
 * Melhoria nas pesquisas de processos e de documentos no módulo de pesquisa
 * Correção em erro no botão de maximizar editor de documentos
+* Correção para que botoes injetados nos form documento avulso e remessa apareçam
+* Implementar possibilidade de pesquisar processo no momento de anexar por cópia
+* Deletar múltiplos documentos vinculados não funciona em edição de minutas
+* Deletar múltiplos documentos vinculados não funciona em edição de ofícios
+* Corrigir problema no fechamento de modal de documentos
+* Exibir todas as pessoas vinculadas no menu lateral do protocolo externo
+* Protocolo-externo só deve aparecer se usuário for validado
+* Correção da exibição de autocompletes posteriores na tela de criação de processo externo
+* Correção de CSS de gridsearch de estados
+* Correção de autocomplete de unidade na tela de protocolo-externo
+* Clicar no card de um documento avulso não exibia o conteúdo do componente digital
+* Responder ofício não movia o ofício para a caixa de saída
+* Assinar uma juntada causava duplicação das juntadas na listagem
+* Erro nas setas de navegação de juntadas quando há mais de um componente digital na juntada
+* Possibilitar a navegação de múltiplos componentes digitais clicando no tipo de documento na listagem
+* Correção de upload de resposta de ofício/complementação de ofício
+* Correção de css utilizado na tela de documentos/complementar/responder
+* Atualizar etiquetas da tarefa ao incluir minuta/ofício
+* Atualizar etiquetas da tarefa ao excluir minuta/ofício
+* Correção para exibir as colunas necessárias no grid de vinculacao de processos
+
+1.2.1
+
+* Correção para exibir os erros no salvamento de componente digital dentro do editor

@@ -52,7 +52,6 @@ export class AdminPessoaEditComponent {
         this.formPessoa = this._formBuilder.group({
             id: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
-            pessoaRepresentada: [null, [Validators.required]],
             pessoaConveniada: [null, [Validators.required]],
             pessoaValidada: [null, [Validators.required]],
         });

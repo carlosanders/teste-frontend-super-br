@@ -78,7 +78,7 @@ export class ResolveGuard implements CanActivate {
 
                     let processoFilter = null;
 
-                    const routeParams = of('processoHandle');
+                    const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
                     routeParams.subscribe(param => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
                     });

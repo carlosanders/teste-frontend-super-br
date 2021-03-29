@@ -8,17 +8,15 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-
 import {Modelo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
-
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'modelo-edit',
@@ -34,14 +32,12 @@ export class ModeloEditComponent implements OnInit, OnDestroy {
     modelo: Modelo;
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
-
     usuario: Usuario;
-
     templatePagination: Pagination;
 
     /**
-     *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(

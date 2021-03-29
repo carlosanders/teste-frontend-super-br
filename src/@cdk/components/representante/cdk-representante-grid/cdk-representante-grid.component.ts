@@ -42,8 +42,7 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'inscricao', 'modalidadeRepresentante.valor', 'interessado.pessoa.nome',
-        'origemDados.servico', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'inscricao', 'modalidadeRepresentante.valor', 'interessado.pessoa.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -77,7 +76,7 @@ export class CdkRepresentanteGridComponent implements AfterViewInit, OnInit, OnC
             fixed: false
         },
         {
-            id: 'origemDados.servico',
+            id: 'origemDados',
             label: 'Origem de Dados',
             fixed: false
         },

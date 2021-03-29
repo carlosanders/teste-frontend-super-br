@@ -18,6 +18,7 @@ import {documento as documentoSchema} from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {GetDocumentos} from '../actions';
+import * as fromStoreTarefaDetail from "../../../../store";
 
 
 @Injectable()
@@ -83,6 +84,9 @@ export class ComponentesDigitaisEffects {
                     return this._componenteDigitalService.save(action.payload.componenteDigital).pipe(
                         tap((response) => {
                             this._store.dispatch(new GetDocumentos());
+                            this._store.dispatch(new fromStoreTarefaDetail.GetTarefa({
+                                id: this.routerState.params['tarefaHandle']
+                            }));
                         }),
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),

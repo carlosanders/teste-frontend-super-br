@@ -68,19 +68,21 @@ export class CdkLogentryGridsearchComponent implements OnInit {
 
         this.loading = true;
 
-        this._logEntryService.getLogs(
-            JSON.stringify(params.filter),
-            params.limit,
-            params.offset,
-            JSON.stringify(params.sort),
-            JSON.stringify(params.populate))
-            .pipe(finalize(() => this.loading = false),
-                catchError(() => of([]))
-            ).subscribe(response => {
+        if (params && params.filter) {
+            this._logEntryService.getLogs(
+                JSON.stringify(params.filter),
+                params.limit,
+                params.offset,
+                JSON.stringify(params.sort),
+                JSON.stringify(params.populate))
+                .pipe(finalize(() => this.loading = false),
+                    catchError(() => of([]))
+                ).subscribe(response => {
                 this.logEntrys = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();
             });
+        }
     }
 
     reload(params): void {

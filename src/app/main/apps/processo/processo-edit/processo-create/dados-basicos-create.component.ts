@@ -459,6 +459,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      * On destroy
      */
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadTarefa());
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }

@@ -14,7 +14,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/pessoa/pessoa-list/store';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
-import {Back} from '../../../../store/actions';
+import {Back} from '../../../../store';
 
 @Component({
     selector: 'pessoa-list',

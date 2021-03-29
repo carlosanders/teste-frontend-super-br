@@ -68,7 +68,7 @@ export const navigation: CdkNavigation[] = [
                 type: 'item',
                 icon: 'check_box',
                 url: '/apps/protocolo-externo/meus-processos/entrada',
-                role: 'ROLE_USUARIO_EXTERNO'
+                role: 'ROLE_USUARIO_EXTERNO_VALIDADO'
             },
             {
                 id: 'protocolo',

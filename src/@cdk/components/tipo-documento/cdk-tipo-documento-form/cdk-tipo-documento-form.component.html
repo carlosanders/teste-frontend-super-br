@@ -5,7 +5,7 @@
         <input matInput #nome
                name="nome"
                formControlName="nome"
-               maxlength="255" upperCase>
+               maxlength="255" upperCase required>
         <mat-hint align="end">{{nome.value.length}} / 255</mat-hint>
     </mat-form-field>
 
@@ -14,10 +14,9 @@
         <input matInput #sigla
                name="sigla"
                formControlName="sigla"
-               maxlength="255" upperCase>
+               maxlength="255" upperCase required>
         <mat-hint align="end">{{sigla.value.length}} / 255</mat-hint>
     </mat-form-field>
-
 
     <mat-form-field>
         <mat-label>Descrição</mat-label>
@@ -26,14 +25,14 @@
                   cdkTextareaAutosize
                   #autosize="cdkTextareaAutosize"
                   cdkAutosizeMinRows="4"
-                  cdkAutosizeMaxRows="10"></textarea>
+                  cdkAutosizeMaxRows="10" upperCase required></textarea>
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
     </mat-form-field>
 
     <mat-form-field>
         <input matInput placeholder="Espécie"
                formControlName="especieDocumento"
-               [matAutocomplete]="especieDocumento.autocomplete">
+               [matAutocomplete]="especieDocumento.autocomplete" required>
         <cdk-especie-documento-autocomplete
             #especieDocumento="especieDocumentoAutocomplete"
             [control]="form.get('especieDocumento')">
