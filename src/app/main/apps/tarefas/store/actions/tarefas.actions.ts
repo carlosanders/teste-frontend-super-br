@@ -42,6 +42,10 @@ export const SET_FOLDER_ON_SELECTED_TAREFAS = '[TAREFAS] SET FOLDER ON SELECTED 
 export const SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS SUCCESS';
 export const SET_FOLDER_ON_SELECTED_TAREFAS_FAILED = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS FAILED';
 
+export const SET_SETOR_ON_SELECTED_TAREFAS = '[TAREFAS] SET SETOR ON SELECTED TAREFAS';
+export const SET_SETOR_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET SETOR ON SELECTED TAREFAS SUCCESS';
+export const SET_SETOR_ON_SELECTED_TAREFAS_FAILED = '[TAREFAS] SET SETOR ON SELECTED TAREFAS FAILED';
+
 export const SAVE_TAREFA = '[TAREFA] SAVE TAREFA';
 export const SAVE_TAREFA_SUCCESS = '[TAREFA] SAVE TAREFA SUCCESS';
 export const SAVE_TAREFA_FAILED = '[TAREFA] SAVE TAREFA FAILED';
@@ -205,6 +209,37 @@ export class SetFolderOnSelectedTarefasFailed implements Action {
     constructor(public payload: any) {
     }
 }
+
+/**
+ * Set Setor on Selected Tarefas
+ */
+export class SetSetorOnSelectedTarefas implements Action {
+    readonly type = SET_SETOR_ON_SELECTED_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Set setor on Selected Tarefas Success
+ */
+export class SetSetorOnSelectedTarefasSuccess implements Action {
+    readonly type = SET_SETOR_ON_SELECTED_TAREFAS_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Set Setor on Selected Tarefas Failed
+ */
+export class SetSetorOnSelectedTarefasFailed implements Action {
+    readonly type = SET_SETOR_ON_SELECTED_TAREFAS_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
 
 /**
  * Delete Tarefa
@@ -736,6 +771,9 @@ export type TarefasActionsAll
     | SetFolderOnSelectedTarefas
     | SetFolderOnSelectedTarefasSuccess
     | SetFolderOnSelectedTarefasFailed
+    | SetSetorOnSelectedTarefas
+    | SetSetorOnSelectedTarefasSuccess
+    | SetSetorOnSelectedTarefasFailed
     | DeleteTarefa
     | DeleteTarefaSuccess
     | DeleteTarefaFailed

@@ -16,12 +16,16 @@ import {Observable, Subject} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
+import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario, Pagination} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {NavigationEnd, Router} from '@angular/router';
+import {MatSort} from '@cdk/angular/material';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -42,9 +46,18 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     loading$: Observable<boolean>;
 
+    @ViewChild(MatSort, {static: true})
+    sort: MatSort;
+
+    pagination$: Observable<any>;
+    pagination: any;
+
+    gridFilter: any;
+
     listFilter = {};
 
     mode = 'Tarefas';
+
 
     links: any;
 
@@ -57,11 +70,14 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     usuariosAssessor: Usuario[] = [];
 
+
     @ViewChild('inputFolder') inputFolder: ElementRef;
 
     showAddFolder = false;
 
     modulo: string;
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
 
     /**
      *
@@ -69,14 +85,18 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * @param _changeDetectorRef
      * @param _loginService
      * @param router
+     * @param _snackBar
      */
     constructor(
         private _store: Store<fromStore.TarefasAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         public _loginService: LoginService,
-        private router: Router
+        private router: Router,
+        private _snackBar: MatSnackBar
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
+        this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+        this.gridFilter = {};
         const path = 'app/main/apps/tarefas/sidebars/main';
 
         modulesConfig.forEach((module) => {
@@ -100,7 +120,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._store
+        this.pagination$.subscribe(pagination => {
+            this.pagination = pagination;
+        });
+
+           this._store
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
@@ -120,10 +144,10 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingFolder));
 
         this.setoresCoordenacao = [];
-
         this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
             if (coordenador.setor) {
                 this.setoresCoordenacao.push(coordenador.setor);
+
             }
         });
 
@@ -159,9 +183,59 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.CreateTarefa());
     }
 
+
+    listaUsuario(setor): void{
+        setor.numeracaoDocumentoUnidade = true;
+        this._store.dispatch(new fromStore.GetLotacoes({
+            ...this.pagination,
+            filter: {
+                "setor.id":"eq:"+setor.id
+            },
+            gridFilter: {
+                ...this.gridFilter
+            },
+            limit: this.pagination.pageSize,
+            populate: ["populateAll","colaborador.usuario"],
+            context: this.pagination.context,
+            offset: (this.pagination.pageSize * this.pagination.pageIndex),
+            sort: {},
+        }));
+    }
+
+    fechaUsuarioCoordenacao(setor): void {
+        setor.numeracaoDocumentoUnidade = false;
+
+    }
+
+    onDropSetor($event): void {
+            if (this.snackSubscription) {
+                this.snackSubscription.unsubscribe();
+                this.sheetRef.dismiss();
+                this.snackSubscription = null;
+            }
+
+            this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+                duration: 3000,
+                panelClass: ['cdk-white-bg'],
+                data: {
+                    icon: 'delete',
+                    text: 'Desistir de enviar'
+                }
+            });
+
+            this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+                if (data.dismissedByAction === false) {
+                    this._store.dispatch(new fromStore.SetSetorOnSelectedTarefas({tarefa: $event[0].data, setorResponsavel: $event[1].id,
+                                                                                distribuicaoAutomatica: true,
+                                                                                usuarioResponsavel: null}));
+                }
+            });
+    }
+
     onDrop($event): void {
         if (this.mode === 'Tarefas') {
-            this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
+                this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
+
         }
     }
 

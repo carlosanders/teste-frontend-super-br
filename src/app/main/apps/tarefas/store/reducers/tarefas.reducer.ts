@@ -8,6 +8,7 @@ export interface TarefasState {
         offset: number;
         filter: any;
         folderFilter: any;
+        gridFilter: any;
         listFilter: any;
         etiquetaFilter: Etiqueta[];
         populate: any;
@@ -15,6 +16,7 @@ export interface TarefasState {
         total: number;
         context: any;
     };
+
     loading: boolean;
     loaded: any;
     togglingUrgenteIds: number[];
@@ -45,6 +47,7 @@ export const TarefasInitialState: TarefasState = {
         offset: 0,
         filter: {},
         folderFilter: {},
+        gridFilter: {},
         listFilter: {},
         etiquetaFilter: [],
         populate: [],
@@ -106,6 +109,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                     offset: action.payload.offset,
                     filter: action.payload.filter,
                     folderFilter: action.payload.folderFilter,
+                    gridFilter: action.payload.gridFilter,
                     listFilter: action.payload.listFilter,
                     etiquetaFilter: action.payload.etiquetaFilter,
                     populate: action.payload.populate,
@@ -476,8 +480,10 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             }
         }
 
+
         default:
             return state;
     }
 }
+
 

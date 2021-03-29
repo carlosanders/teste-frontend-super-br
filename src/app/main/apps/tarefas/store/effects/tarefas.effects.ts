@@ -4,6 +4,7 @@ import {assunto as assuntoSchema, processo as processoSchema, tarefa as tarefaSc
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 import {Observable, of} from 'rxjs';
 import {
@@ -22,7 +23,9 @@ import * as TarefasActions from '../actions/tarefas.actions';
 
 import {Tarefa} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
-import {LoginService} from 'app/main/auth/login/login.service';
+
+
+
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
@@ -40,6 +43,7 @@ export class TarefasEffect {
         private _actions: Actions,
         private _tarefaService: TarefaService,
         public _loginService: LoginService,
+
         private _store: Store<State>,
         private _router: Router,
         private _assuntoService: AssuntoService
@@ -363,6 +367,33 @@ export class TarefasEffect {
                     );
                 })
             );
+
+            @Effect()
+            setSetorOnSelectedTarefas: Observable<any> =
+                this._actions
+                    .pipe(
+                        ofType<TarefasActions.SetSetorOnSelectedTarefas>(TarefasActions.SET_SETOR_ON_SELECTED_TAREFAS),
+                        concatMap((action) => {
+                           //const setor = action.payload.setorResponsavel ? action.payload.setorResponsavel : null;
+                            return this._tarefaService.patch(action.payload.tarefa, {setorResponsavel: action.payload.setorResponsavel,
+                                                                                    distribuicaoAutomatica: action.payload.distribuicaoAutomatica,
+                                                                                    usuarioResponsavel: action.payload.usuarioResponsavel}).pipe(
+                                mergeMap((response: any) => [
+                                    new TarefasActions.SetSetorOnSelectedTarefasSuccess(response),
+                                    new OperacoesActions.Resultado({
+                                        type: 'tarefa',
+                                        content: `Tarefa id ${response.id} editada com sucesso!`,
+                                        dateTime: response.criadoEm
+                                    })
+                                ]),
+                                catchError((err) => {
+                                    console.log(err);
+                                    return of(new TarefasActions.SetSetorOnSelectedTarefasFailed(err));
+                                })
+                            );
+                        })
+                    );                       
+                 
 
     /**
      * ISSUE-107

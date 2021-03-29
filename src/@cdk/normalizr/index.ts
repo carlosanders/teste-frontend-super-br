@@ -796,6 +796,8 @@ sigilo.define({
 
 tarefa.define({
     processo: processo,
+    lotacao: lotacao,
+    colaborador: colaborador,
     especieTarefa: especieTarefa,
     usuarioResponsavel: usuario,
     setorOrigem: setor,

@@ -46,7 +46,7 @@ export class ResolveGuard implements CanActivate {
             this.getEtiqueta(),
         ]).pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError(() => of(false))
         );
     }
 
@@ -75,7 +75,7 @@ export class ResolveGuard implements CanActivate {
                         gridFilter: {},
                         limit: 10,
                         offset: 0,
-                        sort: {id: 'DESC'},
+                        sort: {criadoEm: 'DESC'},
                         populate: [
                             'populateAll',
                             'modalidadeAcaoEtiqueta',

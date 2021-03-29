@@ -13,7 +13,7 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {ConfiguracaoNup} from "../../../models";
+import {ConfiguracaoNup} from "../../../models/configuracao-nup.model";
 import {ConfiguracaoNupService} from "../../../services/configuracao-nup.service";
 import {Pagination} from "../../../models";
 

@@ -47,6 +47,7 @@
                 </a>
             </section>
         </div>
+        
 
         <mat-menu #menuMain="matMenu">
             <button mat-menu-item aria-label="Criar Pasta" (click)="showFolderComponent()">
@@ -120,12 +121,32 @@
 
         <div *ngIf="setoresCoordenacao.length > 0" class="nav-subheader">COORDENAÇÃO</div>
 
-        <div class="nav-item" *ngFor="let setor of setoresCoordenacao">
+     <!--   <div class="nav-item" *ngFor="let setor of setoresCoordenacao">
+            <section dndDropzone (dndDrop)="onDrop([$event, null])">
             <a class="nav-link-setor" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ 'group' }}</mat-icon>
                 <span>{{setor.nome | titlecase}}</span>
             </a>
+        </section>
+        </div>
+    -->
+        <div class="nav-item" *ngFor="let setor of setoresCoordenacao">  
+            <div class="menu_content nav-link" [routerLinkActive]="['active', 'accent']">
+                    <section dndDropzone (dndDrop)="onDropSetor([$event, setor])">
+                        <div class="menu_content_label">
+                            <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"
+                            [routerLinkActive]="['active', 'accent']">
+                            <mat-icon class="nav-link-icon">{{ 'group' }}</mat-icon>
+                            <span>{{setor.nome | titlecase}}</span>
+                            </a>
+                        </div>  
+                    </section>      
+                    <div class="menu_content nav-link">
+                        <mat-icon class="nav-link-icon" *ngIf="!setor.numeracaoDocumentoUnidade" (click)="listaUsuario(setor)" matTooltip="Lista todos usuarios dessa coordenação">keyboard_arrow_down</mat-icon>    
+                        <mat-icon class="nav-link-icon" *ngIf="setor.numeracaoDocumentoUnidade" (click)="fechaUsuarioCoordenacao(setor)" matTooltip="fechar lista">keyboard_arrow_up</mat-icon>
+                    </div>   
+            </div>
         </div>
 
         <div *ngIf="usuariosAssessor.length > 0" class="nav-subheader">ASSESSOR</div>
