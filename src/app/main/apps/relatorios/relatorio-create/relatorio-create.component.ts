@@ -18,10 +18,9 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {GeneroRelatorio} from '../../../../../@cdk/models/genero-relatorio.model';
-import {getClassName} from 'codelyzer/util/utils';
-import {Back} from '../../../../store/actions';
+import {Back} from '../../../../store';
 
 @Component({
     selector: 'relatorio-create',

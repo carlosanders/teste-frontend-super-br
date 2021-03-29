@@ -116,7 +116,7 @@
                                       [total]="(vinculacoesProcessosPagination$ | async)?.total"
                                       [deletingIds]="(vinculacoesProcessosDeletingIds$ | async)"
                                       [deletedIds]="(vinculacoesProcessosDeletedIds$ | async)"
-                                      [actions]="['create', 'delete', 'showDeleted']"
+                                      [actions]="['create', 'delete']"
                                       (reload)="reloadVinculacoesProcessos($event)"
                                       (excluded)="excludedVinculacoesProcessos($event)"
                                       (create)="create('vinculacao-processo')"

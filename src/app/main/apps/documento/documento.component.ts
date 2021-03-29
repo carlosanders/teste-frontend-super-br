@@ -200,9 +200,6 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                 if (editor.instances.hasOwnProperty(editorInstance) &&
                     editor.instances[editorInstance]) {
                     editor.instances[editorInstance].destroy();
-                    editor.instances[editorInstance] = {
-                        destroy: () => true,
-                    };
                 }
             }
         }
