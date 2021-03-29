@@ -121,3 +121,7 @@
 * Atualizar etiquetas da tarefa ao incluir minuta/ofício
 * Atualizar etiquetas da tarefa ao excluir minuta/ofício
 * Correção para exibir as colunas necessárias no grid de vinculacao de processos
+
+1.2.1
+
+* Correção para exibir os erros no salvamento de componente digital dentro do editor
