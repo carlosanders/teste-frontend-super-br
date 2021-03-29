@@ -23,11 +23,11 @@
     <mat-form-field *ngIf="form.get('tipoContato')?.value?.nome === 'UNIDADE'">
         <input matInput placeholder="Unidade"
                formControlName="unidade"
-               [matAutocomplete]="unidade.autocomplete"
+               [matAutocomplete]="setor.autocomplete"
                (blur)="checkUnidade()"
                required>
         <cdk-setor-autocomplete
-            #setor="unidadeAutocomplete"
+            #setor="setorAutocomplete"
             [control]="form.get('unidade')"
             [pagination]="unidadePagination">
         </cdk-setor-autocomplete>
