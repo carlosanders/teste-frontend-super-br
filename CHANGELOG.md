@@ -135,3 +135,12 @@
 * Correção não é possível desativar modelo da unidade e tese [SUPERBR-144]
 * Correção colunas do Modelo da Unidade não são exibidos [SUPERBR-142]
 * Correção Checkboxes dos itens da tabela Unidade somem [SUPERBR-140]
+
+1.2.2
+
+* Implementação de um novo filtro de volumes de juntadas no componente processo-view
+* Implementação de um separador de volumes na listagem de juntadas do processo-view
+* Implementação de um modo linear de upload no componente-digital-card-list
+* Implementação de ordenação de arquivos antes de upload no modo linear
+* Utilização do novo modo de upload de componentes digitais em locais que necessitam de linearidade - juntadas
+* Correção de erros em formulário de vinculação de processos
