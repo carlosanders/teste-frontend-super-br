@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateLocalizador());
                     } else {
                         this._store.dispatch(new fromStore.GetLocalizador({
-                            id: 'eq:' + this.routerState.params['localizadorHandle']
+                            id: this.routerState.params['localizadorHandle']
                         }));
                     }
 

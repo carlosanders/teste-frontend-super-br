@@ -71,7 +71,7 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
         },
         {
             id: 'highlights',
-            label: 'Highlights',
+            label: 'Resumo',
             fixed: false,
             mode: 'search',
             sort: 'none'

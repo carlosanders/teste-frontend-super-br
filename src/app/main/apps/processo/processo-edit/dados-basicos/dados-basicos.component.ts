@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {getProcesso} from './store/selectors';
+import {getProcesso} from './store';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {MercureService} from '../../../../../../@cdk/services/mercure.service';
@@ -47,6 +47,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     routerState: any;
 
     procedencia: Pessoa;
+
+    genero = 'ADMINISTRATIVO';
 
     private _unsubscribeAll: Subject<any>;
 
@@ -94,6 +96,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
                     this._mercureService.subscribe(processo.origemDados['@id']);
                 }
                 this.processo = processo;
+                this.genero = this.processo.especieProcesso.generoProcesso.nome;
                 this._changeDetectorRef.markForCheck();
             }
         );
@@ -113,7 +116,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
             });
 
         this.logEntryPagination.filter = {entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo', id: + this.processo.id};
-        this.especieProcessoPagination.populate = ['generoProcesso'];
+        this.especieProcessoPagination.populate = ['classificacao', 'generoProcesso', 'modalidadeMeio', 'workflow'];
+        this.especieProcessoPagination.filter = {'generoProcesso.nome': 'eq:' + this.genero};
         this.setorAtualPagination.populate = ['unidade', 'parent'];
         this.setorAtualPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
         this.classificacaoPagination.filter = {permissaoUso: 'eq:true'};

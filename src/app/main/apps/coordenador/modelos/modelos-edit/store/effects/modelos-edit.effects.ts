@@ -46,27 +46,25 @@ export class ModeloEditEffect {
             .pipe(
                 ofType<ModeloEditActions.GetModelo>(ModeloEditActions.GET_MODELO),
                 switchMap((action) => {
-                    return this._modeloService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
+                    return this._modeloService.get(
+                        action.payload.id,
                         JSON.stringify([
                             'populateAll',
                             'vinculacoesModelos',
                             'vinculacoesModelos.setor',
                             'vinculacoesModelos.usuario',
                             'vinculacoesModelos.modalidadeOrgaoCentral',
-                        ]));
+                        ]),
+                        JSON.stringify({isAdmin: true}));
                 }),
                 switchMap(response => [
-                    new AddData<Modelo>({data: response['entities'], schema: modeloSchema}),
+                    new AddData<Modelo>({data: [response], schema: modeloSchema}),
                     new ModeloEditActions.GetModeloSuccess({
                         loaded: {
                             id: 'modeloHandle',
                             value: this.routerState.params.modeloHandle
                         },
-                        modeloId: response['entities'][0].id
+                        modeloId: this.routerState.params.modeloHandle
                     })
                 ]),
                 catchError((err, caught) => {
