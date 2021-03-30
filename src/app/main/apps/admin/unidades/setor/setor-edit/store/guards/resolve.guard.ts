@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateSetor());
                     } else {
                         this._store.dispatch(new fromStore.GetSetor({
-                            id: 'eq:' + this.routerState.params['setorHandle']
+                            id: this.routerState.params['setorHandle']
                         }));
                     }
 

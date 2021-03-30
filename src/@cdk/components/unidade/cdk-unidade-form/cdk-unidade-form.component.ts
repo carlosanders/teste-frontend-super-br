@@ -74,7 +74,7 @@ export class CdkUnidadeFormComponent implements OnChanges, OnDestroy {
             email: [null, [Validators.email, Validators.maxLength(255)]],
             modalidadeOrgaoCentral: [null, [Validators.required]],
             unidadePai: [null],
-            generoSetor: [null],
+            generoSetor: [null, [Validators.required]],
             municipio: [null, [Validators.required]],
             apenasProtocolo: [null],
             numeracaoDocumentoUnidade: [null],
@@ -83,6 +83,7 @@ export class CdkUnidadeFormComponent implements OnChanges, OnDestroy {
         this.generoSetorPagination = new Pagination();
         this.modalidadeOrgaoCentralPagination = new Pagination();
         this.municipioPagination = new Pagination();
+        this.municipioPagination.populate = ['estado'];
         this.setorPagination = new Pagination();
     }
 

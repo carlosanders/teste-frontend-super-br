@@ -8,6 +8,7 @@ export interface RepositorioListState {
         filter: any;
         gridFilter: any;
         populate: any;
+        context: any;
         sort: any;
         total: number;
     };
@@ -25,6 +26,7 @@ export const RepositorioListInitialState: RepositorioListState = {
         filter: {},
         gridFilter: {},
         populate: [],
+        context: {},
         sort: {},
         total: 0,
     },
@@ -50,6 +52,7 @@ export function RepositorioListReducer(
                     filter: action.payload.filter,
                     gridFilter: action.payload.gridFilter,
                     populate: action.payload.populate,
+                    context: action.payload.context,
                     sort: action.payload.sort,
                     total: state.pagination.total
                 }

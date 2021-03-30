@@ -30,7 +30,6 @@ export class Setor {
 
     prefixoNUP?: string;
 
-    // @Exclude({ toPlainOnly: true })
     sequenciaInicialNUP?: number;
 
     gerenciamento?: boolean;
