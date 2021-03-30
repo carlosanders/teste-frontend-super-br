@@ -42,7 +42,7 @@ export class CdkMunicipioGridComponent implements AfterViewInit, OnInit, OnChang
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'estado.nome', 'actions'];
 
     allColumns: any[] = [
         {

@@ -80,7 +80,8 @@ export class RepositorioListComponent implements OnInit {
             offset: params.offset,
             populate: [
                 ...this.pagination.populate
-            ]
+            ],
+            context: this.pagination.context
         }));
     }
 

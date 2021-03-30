@@ -50,30 +50,27 @@ export class ModelosEspecieSetorEffects {
             .pipe(
                 ofType<ModelosEspecieSetorActions.GetModelo>(ModelosEspecieSetorActions.GET_MODELO),
                 switchMap((action) => {
-                    return this._modeloService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
+                    return this._modeloService.get(
+                        action.payload.id,
                         JSON.stringify([
                             'populateAll',
-                            'documento',
                             'documento.componentesDigitais',
-                            'template',
                             'modalidadeModelo',
                             'vinculacoesModelos',
                             'vinculacoesModelos.setor',
                             'vinculacoesModelos.modalidadeOrgaoCentral',
-                        ]));
+                        ]),
+                        JSON.stringify({isAdmin: true})
+                    );
                 }),
                 switchMap(response => [
-                    new AddData<Modelo>({data: response['entities'], schema: modeloSchema}),
+                    new AddData<Modelo>({data: [response], schema: modeloSchema}),
                     new ModelosEspecieSetorActions.GetModeloSuccess({
                         loaded: {
                             id: 'modeloHandle',
                             value: this.routerState.params.modeloHandle
                         },
-                        modeloId: response['entities'][0].id
+                        modeloId: this.routerState.params.modeloHandle
                     })
                 ]),
                 catchError((err, caught) => {

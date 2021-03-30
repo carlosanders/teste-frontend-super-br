@@ -48,7 +48,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'modalidadeModelo.valor', 'highlights', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'modalidadeModelo.valor', 'ativo', 'highlights', 'actions'];
 
     allColumns: any[] = [
         {
@@ -74,7 +74,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
         },
         {
             id: 'highlights',
-            label: 'Highlights',
+            label: 'Resumo',
             fixed: false,
             mode: 'search',
             sort: 'none'
@@ -122,7 +122,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
             sort: 'list'
         },
         {
-            id: 'vinculacaoModelo.modalidadeOrgaoCentral.valor',
+            id: 'vinculacoesModelo.modalidadeOrgaoCentral.valor',
             label: 'Órgão Central',
             fixed: false,
             mode: 'all',

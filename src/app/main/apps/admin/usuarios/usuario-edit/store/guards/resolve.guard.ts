@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.CreateUsuario());
                     } else {
                         this._store.dispatch(new fromStore.GetUsuario({
-                            id: 'eq:' + this.routerState.params['usuarioHandle']
+                            id: this.routerState.params['usuarioHandle']
                         }));
                     }
 

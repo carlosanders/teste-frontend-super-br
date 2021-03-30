@@ -87,6 +87,8 @@ export class CdkMunicipioAutocompleteComponent implements OnInit {
     }
 
     displayMunicipioFn(municipio): string {
-        return municipio ? municipio.nome : null;
+        let displayed = municipio ? municipio.nome : '';
+        displayed += (municipio && municipio.estado) ? (' (' + municipio.estado.uf + ')') : '';
+        return displayed;
     }
 }
