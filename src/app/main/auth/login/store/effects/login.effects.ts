@@ -41,6 +41,28 @@ export class LoginEffects {
                 ));
 
     @Effect()
+    LoginGovBr: Observable<LoginActions.LoginActionsAll> =
+        this.actions
+            .pipe(
+                ofType<LoginActions.Login>(LoginActions.LOGIN_GOV_BR),
+                switchMap((action) => {
+                        return this.loginService.loginGovBr(action.payload.code)
+                            .pipe(
+                                map((data) => {
+                                    return new LoginActions.LoginSuccess(data);
+                                }),
+                                catchError((error) => {
+                                    let msg = 'Sistema indisponível, tente mais tarde!';
+                                    if (error && error.error && error.error.code && error.error.code === 401) {
+                                        msg = 'Dados incorretos!';
+                                    }
+                                    return of(new LoginActions.LoginFailure({error: msg}));
+                                })
+                            );
+                    }
+                ));
+
+    @Effect()
     LoginRefreshToken: Observable<LoginActions.LoginActionsAll> =
         this.actions
             .pipe(
