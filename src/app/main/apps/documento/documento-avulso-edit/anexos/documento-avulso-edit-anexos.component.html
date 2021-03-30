@@ -40,6 +40,7 @@
 
     <cdk-componente-digital-card-list #ckdUpload
                                       [documentoOrigem]="(documento$ | async)"
+                                      [uploadMode]="'linear'"
                                       (completed)="onCompleteDocumentoVinculado()">
     </cdk-componente-digital-card-list>
 </div>

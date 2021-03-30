@@ -6,11 +6,55 @@ cdk-componente-digital-card-list {
     flex-wrap: wrap;
 
     > .toolbar {
-        flex: 1 1 auto;
+        flex: 0 1 auto;
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
         flex-wrap: wrap;
+
+        > .grupo-componentes-digitais {
+            display: flex;
+            flex: 0 1 auto;
+            flex-direction: row;
+            flex-wrap: wrap;
+
+            > cdk-componente-digital-card {
+                box-sizing: border-box;
+                margin-bottom: 4px;
+            }
+        }
+    }
+
+    .cdk-drag-preview {
+        box-sizing: border-box;
+        border-radius: 4px;
+        box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+    }
+
+    .cdk-drag-placeholder {
+        opacity: 0;
+    }
+
+    .cdk-drag-animating {
+        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    .toolbar cdk-componente-digital-card.cdk-drag {
+        cursor: move;
+    }
+
+    .toolbar cdk-componente-digital-card.cdk-drag-disabled {
+        cursor: default;
+    }
+
+    .toolbar.cdk-drop-list-dragging cdk-componente-digital-card:not(.cdk-drag-placeholder) {
+        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    }
+
+    .toolbar cdk-componente-digital-card:last-child {
+        border: none;
     }
 }
