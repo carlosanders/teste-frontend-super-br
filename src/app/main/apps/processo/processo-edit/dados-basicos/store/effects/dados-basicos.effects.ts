@@ -80,7 +80,7 @@ export class DadosBasicosEffect {
                     this.populate = action.payload.populate ?? [];
                     return this._processoService.get(
                         action.payload.id,
-                        JSON.stringify(['populateAll', 'setorAtual.unidade'])
+                        JSON.stringify(['populateAll', 'especieProcesso.generoProcesso', 'setorAtual.unidade'])
                     );
                 }),
                 switchMap(response => [

@@ -72,6 +72,11 @@ export class LoginService {
         return this.http.post(url, {username, password});
     }
 
+    loginGovBr(code: string): Observable<any> {
+        const url = `${environment.base_url}auth/govbr_get_token` + environment.xdebug;
+        return this.http.post(url, {code: code});
+    }
+
     getProfile(): Observable<any> {
         const url = `${environment.base_url}profile` + environment.xdebug;
         return this.http.get(url);

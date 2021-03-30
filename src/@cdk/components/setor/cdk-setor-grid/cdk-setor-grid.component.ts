@@ -51,7 +51,7 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
         {
             id: 'select',
             label: '',
-            fixed: true
+            fixed: false
         },
         {
             id: 'id',

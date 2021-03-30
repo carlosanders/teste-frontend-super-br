@@ -1,0 +1,15 @@
+<div class="header">
+    <path icone="supervisor_account"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="cargos">
+    </path>
+</div>
+<cdk-cargo-grid
+    [loading]="(loading$ | async)"
+    [cargos]="(cargos$ | async)"
+    [total]="(pagination$ | async)?.total"
+    [actions]="['edit', 'create']"
+    (reload)="reload($event)"
+    (edit)="edit($event)"
+    (create)="create()">
+</cdk-cargo-grid>

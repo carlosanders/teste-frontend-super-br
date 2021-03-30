@@ -1,0 +1,16 @@
+<div class="header">
+    <path icone="supervisor_account"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="cargos">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-cargo-form
+        [cargo]="(cargo$ | async)"
+        [form]="formCargo"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submitCargo($event)"
+        (abort)="doAbort()">
+    </cdk-cargo-form>
+</div>
