@@ -13,6 +13,8 @@ import {VinculacaoProcesso} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {ModalidadeVinculacaoProcesso} from '@cdk/models';
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
     selector: 'cdk-vinculacao-processo-form',
@@ -86,6 +88,22 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
      */
     ngOnInit(): void {
         this.form.get('checkAnexacao')?.disable();
+
+        this.form.get('modalidadeVinculacaoProcesso').valueChanges.pipe(
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        if (value.valor === 'ANEXAÇÃO') {
+                            this.form.get('checkAnexacao').enable();
+                        } else {
+                            this.form.get('checkAnexacao').disable();
+                        }
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**
@@ -187,9 +205,6 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
         this.form.get('checkAnexacao').disable();
         if (modalidadeVinculacaoProcesso) {
             this.form.get('modalidadeVinculacaoProcesso').setValue(modalidadeVinculacaoProcesso);
-            if (modalidadeVinculacaoProcesso.valor === 'ANEXAÇÃO') {
-                this.form.get('checkAnexacao').enable();
-            }
         }
         this.activeCard = 'form';
     }

@@ -121,3 +121,12 @@
 * Atualizar etiquetas da tarefa ao incluir minuta/ofício
 * Atualizar etiquetas da tarefa ao excluir minuta/ofício
 * Correção para exibir as colunas necessárias no grid de vinculacao de processos
+
+1.2.1
+
+* Implementação de um novo filtro de volumes de juntadas no componente processo-view
+* Implementação de um separador de volumes na listagem de juntadas do processo-view
+* Implementação de um modo linear de upload no componente-digital-card-list
+* Implementação de ordenação de arquivos antes de upload no modo linear
+* Utilização do novo modo de upload de componentes digitais em locais que necessitam de linearidade - juntadas
+* Correção de erros em formulário de vinculação de processos
