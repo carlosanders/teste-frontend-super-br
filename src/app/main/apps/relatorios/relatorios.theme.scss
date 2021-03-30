@@ -166,7 +166,7 @@
 
     // Todo edit
     relatorio-detail {
-        .relatorio-header {
+        > .header {
             background: map-get($background, background);
             border-bottom-color: map-get($foreground, divider);
 

@@ -120,6 +120,12 @@ export class LoginComponent implements OnInit
                 timestamp: this.routerState.params['timestamp']
             }));
         }
+
+        if (this.routerState.params['code']) {
+            this.store.dispatch(new fromStore.LoginGovBR({
+                code: this.routerState.params['code']
+            }));
+        }
     }
 
     reloadConfig(): void {
