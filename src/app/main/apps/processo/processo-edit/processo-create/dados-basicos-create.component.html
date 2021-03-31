@@ -104,6 +104,7 @@
         <ng-template matStepLabel>Vinculações</ng-template>
         <cdk-vinculacao-processo-form *ngIf="vinculacaoProcessoActivated === 'form'"
                                       [vinculacaoProcesso]="vinculacaoProcesso"
+                                      [processoVinculadoPagination]="processoVinculadoPagination"
                                       [form]="formVinculacaoProcesso"
                                       [saving]="(isSavingVinculacao$ | async)"
                                       [errors]="(errorsVinculacoes$ | async)"
