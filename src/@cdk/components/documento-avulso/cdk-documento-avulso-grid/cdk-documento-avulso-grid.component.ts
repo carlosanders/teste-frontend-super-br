@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    ViewEncapsulation, Input, OnChanges, Output, EventEmitter, ViewContainerRef, ElementRef, QueryList, ViewChildren
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
@@ -13,6 +13,8 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {DocumentoAvulso} from '@cdk/models';
 import {DocumentoAvulsoDataSource} from '@cdk/data-sources/documento-avulso-data-source';
 import {FormControl} from '@angular/forms';
+import {modulesConfig} from "../../../../modules/modules-config";
+import {DynamicService} from "../../../../modules/dynamic.service";
 
 @Component({
     selector: 'cdk-documento-avulso-grid',
@@ -284,13 +286,17 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     isIndeterminate = false;
     hasExcluded = false;
 
+    @ViewChildren('buttonModule', {read: ViewContainerRef}) btContainer: QueryList<ViewContainerRef>
+
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
+     * @param _dynamicService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService
+        private _cdkSidebarService: CdkSidebarService,
+        private _dynamicService: DynamicService
     ) {
         this.gridFilter = {};
         this.documentosAvulsos = [];
@@ -333,6 +339,24 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     }
 
     ngAfterViewInit(): void {
+
+        const path = '@cdk/components/documento-avulso/cdk-documento-avulso-grid/cdk-documento-avulso-grid#button';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => {
+                            this.btContainer.forEach((button, index) => {
+                                let componentRef = button.createComponent(componentFactory);
+                                componentRef.instance['documentoAvulsoId'] = this.documentosAvulsos[index]['id'];
+                                componentRef.instance['mecanismoRemessa'] = this.documentosAvulsos[index]['mecanismoRemessa'];
+                            });
+                            this._changeDetectorRef.detectChanges();
+                        });
+                }));
+            }
+        });
+
         // reset the paginator after sorting
         this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
 
