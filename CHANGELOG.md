@@ -144,3 +144,4 @@
 * Implementação de ordenação de arquivos antes de upload no modo linear
 * Utilização do novo modo de upload de componentes digitais em locais que necessitam de linearidade - juntadas
 * Correção de erros em formulário de vinculação de processos
+* Atualizando etiquetas da tarefa ao movimentar minuta
