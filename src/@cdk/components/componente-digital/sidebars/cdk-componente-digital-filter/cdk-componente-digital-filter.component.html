@@ -25,10 +25,26 @@
         </mat-form-field>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <input matInput placeholder="Tipo Documento"
+                   formControlName="tipoDocumento"
+                   [matAutocomplete]="tipoDocumento.autocomplete">
+            <cdk-tipo-documento-autocomplete #tipoDocumento="tipoDocumentoAutocomplete" [control]="form.get('tipoDocumento')">
+            </cdk-tipo-documento-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <input matInput placeholder="Criado Por"
                    formControlName="criadoPor"
                    [matAutocomplete]="usuario.autocomplete">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
+
+        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <input matInput placeholder="Juntado Por"
+                   formControlName="juntadoPor"
+                   [matAutocomplete]="usuario.autocomplete">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('juntadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
 
@@ -48,15 +64,28 @@
         </mat-form-field>
 
         <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
-            <span [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">Juntado Em</span>
+            <span [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">Criado Em</span>
             <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>
         <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="true" campo="documento.juntadaAtual.criadoEm"
+            <cdk-date-filter [datetime]="true" campo="criadoEm"
                              [limparForm]="this.limparFormFiltroDatas$"
                              (filtra)="this.filtraData($event, 'criadoEm')">
+            </cdk-date-filter>
+        </mat-menu>
+
+        <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
+            <span [ngClass]="{'filtrado': hasDateFilter('documento.juntadaAtual.criadoEm')}">Juntado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroJuntadoEm" [ngClass]="{'filtrado': hasDateFilter('documento.juntadaAtual.criadoEm')}">
+                <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
+            </button>
+        </div>
+        <mat-menu #filtroJuntadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <cdk-date-filter [datetime]="true" campo="documento.juntadaAtual.criadoEm"
+                             [limparForm]="this.limparFormFiltroDatas$"
+                             (filtra)="this.filtraData($event, 'documento.juntadaAtual.criadoEm')">
             </cdk-date-filter>
         </mat-menu>
 

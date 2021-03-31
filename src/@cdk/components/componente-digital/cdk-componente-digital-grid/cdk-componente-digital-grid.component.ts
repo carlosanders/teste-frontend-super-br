@@ -182,6 +182,20 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
             sort: 'list'
         },
         {
+            id: 'documento.juntadaAtual.criadoEm',
+            label: 'Juntado Em',
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
+        },
+        {
+            id: 'documento.juntadaAtual.criadoPor.nome',
+            label: 'Juntado Por',
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
+        },
+        {
             id: 'origemDados',
             label: 'Origem dos Dados',
             fixed: false,
