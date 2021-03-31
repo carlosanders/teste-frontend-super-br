@@ -144,3 +144,6 @@
 * Correção de erro em formulário de vinculação de processos
 * Correção na árvore de seleção de setores
 * Correção para melhorar o desempenho do carregamento de tarefas pela unificação dos eventos com a caixa de entrada
+* Correção upload em modo linear inicia automaticamente quando houver apenas um arquivo
+* Correção para atualizar etiquetas da tarefa quando movimenta minuta sem encerrar tarefa
+* Correção de erro no componente de documento-card-list quando da exclusão de múltiplos documentos
