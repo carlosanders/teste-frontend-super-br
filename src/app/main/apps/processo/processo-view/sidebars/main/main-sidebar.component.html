@@ -100,15 +100,19 @@
         </button>
 
         <button mat-icon-button [matMenuTriggerFor]="selectMenu">
-            <mat-icon>sort</mat-icon>
+            <mat-icon *ngIf="sort === 'DESC'">sort</mat-icon>
+            <mat-icon class="sort-asc" *ngIf="sort === 'ASC'">sort</mat-icon>
         </button>
         <mat-menu fxHide #selectMenu="matMenu">
-            <button mat-menu-item
-                    (click)="doSort({'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'})">
-                Decrescente
+            <button mat-menu-item class="sort-menu-button"
+                    (click)="doSort('DESC')">
+                <mat-icon>{{sort === 'DESC' ? 'check' : ''}}</mat-icon>
+                <span>Decrescente</span>
             </button>
-            <button mat-menu-item (click)="doSort({'volume.numeracaoSequencial': 'ASC', 'numeracaoSequencial': 'ASC'})">
-                Crescente
+            <button mat-menu-item class="sort-menu-button"
+                    (click)="doSort('ASC')">
+                <mat-icon>{{sort === 'ASC' ? 'check' : ''}}</mat-icon>
+                <span>Crescente</span>
             </button>
         </mat-menu>
 
@@ -127,19 +131,22 @@
               fxFlex="1 0 auto" name="form" [formGroup]="form">
 
             <div fxFlex="1 0 auto" fxLayout="column">
-
-                <mat-form-field fxFlex="100">
-                    <div fxLayout="row" fxLayoutAlign="start center">
-                        <input matInput placeholder="Volume"
-                               formControlName="volume"
-                               [matAutocomplete]="volume.autocomplete">
+                <div class="volumes-filter">
+                    <mat-label>Volume:</mat-label>
+                    <div class="volumes">
+                        <div *ngFor="let volume of (volumes$ | async)">
+                            <div class="index-volume" [ngClass]="{'current': volume.id === selectedVolume}" (click)="filtraVolume(volume)">
+                                <span>{{volume.numeracaoSequencial}}</span>
+                            </div>
+                        </div>
+                        <div class="loading" *ngIf="loadingVolumes$ | async">
+                            <mat-spinner class="volumes-loading" diameter="22"></mat-spinner>
+                        </div>
+                        <div class="index-volume" (click)="paginaVolumes()" *ngIf="this.volumes.length < this.volumesPagination.total">
+                            <span>+</span>
+                        </div>
                     </div>
-                    <cdk-volume-autocomplete
-                        #volume="volumeAutocomplete"
-                        [pagination]="volumePaginaton"
-                        [control]="form.get('volume')">
-                    </cdk-volume-autocomplete>
-                </mat-form-field>
+                </div>
 
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center">
@@ -158,7 +165,7 @@
             <div fxLayout="row" class="mr-sm-12 mt-8 mb-8" fxFlex
                  fxLayoutAlign="center center">
                 <button mat-raised-button color="accent" class="mr-sm-12"
-                        [disabled]="(listFilter | json) == '{}'" (click)="pesquisar()">
+                        [disabled]="(listFilter | json) == '{}' && !selectedVolume" (click)="pesquisar()">
                     Pesquisar
                 </button>
                 <button mat-raised-button color="warn" class="mr-sm-12"
@@ -521,6 +528,7 @@
          [infiniteScrollDistance]="2"
          [infiniteScrollThrottle]="50"
          (scrolled)="onScroll()">
+
         <div class="juntada capa" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"
              (click)="goToCapaProcesso()"
              [ngClass]="{'current': capa}">
@@ -540,140 +548,158 @@
             </div>
         </div>
 
-        <div class="juntada" matRipple
-             *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first"
-             (click)="gotoStep(i, juntada.ativo)"
-             [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': currentStep.step > i, 'last': last, 'first': first}">
-            <div class="index">
-                <span>{{juntada.numeracaoSequencial}}</span>
-            </div>
-            <div fxFlex fxLayout="column">
-                <div *ngIf="!juntada.ativo">
-                    <div class="desentranhado">DESENTRANHADO</div>
+        <div class="volume"
+             *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;">
+            <div class="juntada" matRipple
+                 (click)="gotoStep(i, juntada.ativo)"
+                 [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': currentStep.step > i, 'last': last, 'first': first}">
+                <div class="index">
+                    <span>{{juntada.numeracaoSequencial}}</span>
                 </div>
-                <div *ngIf="juntada.ativo">
-                    <div class="descricao">{{juntada.descricao}}</div>
-                    <div class="criado-em">{{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
-                    <div
-                        *ngIf="juntada.documento.origemDados !== undefined && juntada.documento.origemDados.status === 0">
-                        <div fxLayout="row" fxLayoutAlign="start center">
-                            <mat-spinner diameter="24"></mat-spinner>
-                        </div>
+                <div fxFlex fxLayout="column">
+                    <div *ngIf="!juntada.ativo">
+                        <div class="desentranhado">DESENTRANHADO</div>
                     </div>
-                    <div
-                        *ngIf="juntada.documento.origemDados !== undefined && (juntada.documento.origemDados.status > 1) && (juntada.documento.origemDados.status !== 11)">
-                        <div fxLayout="row" fxLayoutAlign="start center">
-                            <mat-icon>error_outline</mat-icon>
-                            ERRO!
-                        </div>
-                    </div>
-                    <div
-                        *ngIf="juntada.documento.origemDados !== undefined && (juntada.documento.origemDados.status === 11)">
-                        <div fxLayout="row" fxLayoutAlign="start center">
-                            <mat-icon>lock</mat-icon>
-                            PENDENTE DE CIÊNCIA
-                        </div>
-                    </div>
-                    <div *ngFor="let componenteDigital of (juntada.documento.componentesDigitais); let j = index;"
-                         class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
-                        <mat-icon class="s-14">picture_as_pdf</mat-icon>
-                        <a class="ml-4"
-                           (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
-                           [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
-                            {{juntada.documento.tipoDocumento.nome}}
-                        </a>
-                        <div *ngIf="j>0">{{j + 1}}</div>
-                        <mat-icon class="ml-4 s-24"
-                                  *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
-                            arrow_left
-                        </mat-icon>
-                    </div>
-                    <div
-                        *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); let k = index;"
-                        class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                    <div *ngIf="juntada.ativo">
+                        <div class="descricao">{{juntada.descricao}}</div>
+                        <div class="criado-em">{{juntada.criadoEm?.toDate() | date: 'dd/MM/yyyy'}}</div>
                         <div
-                            *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); let z = index;"
-                            class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
-                            <mat-icon class="ml-16 s-14">attach_file</mat-icon>
-                            <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
+                            *ngIf="juntada.documento.origemDados !== undefined && juntada.documento.origemDados.status === 0">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-spinner diameter="24"></mat-spinner>
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="juntada.documento.origemDados !== undefined && (juntada.documento.origemDados.status > 1) && (juntada.documento.origemDados.status !== 11)">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-icon>error_outline</mat-icon>
+                                ERRO!
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="juntada.documento.origemDados !== undefined && (juntada.documento.origemDados.status === 11)">
+                            <div fxLayout="row" fxLayoutAlign="start center">
+                                <mat-icon>lock</mat-icon>
+                                PENDENTE DE CIÊNCIA
+                            </div>
+                        </div>
+                        <div *ngFor="let componenteDigital of (juntada.documento.componentesDigitais); let j = index;"
+                             class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                            <mat-icon class="s-14">picture_as_pdf</mat-icon>
                             <a class="ml-4"
                                (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
                                [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
-                                {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}
+                                {{juntada.documento.tipoDocumento.nome}}
                             </a>
-                            <div *ngIf="z>0">{{z + 1}}</div>
+                            <div *ngIf="j>0">{{j + 1}}</div>
                             <mat-icon class="ml-4 s-24"
                                       *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
                                 arrow_left
                             </mat-icon>
                         </div>
-                    </div>
-                    <div class="numero"
-                         *ngIf="juntada.documento.numeroUnicoDocumentoFormatado">
-                        {{juntada.documento.numeroUnicoDocumentoFormatado}}
-                    </div>
-                    <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
-                        <div class="etiqueta"
-                             *ngFor="let vinculacaoEtiqueta of juntada.documento.vinculacoesEtiquetas"
-                             fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.label">
-                            <div class="etiqueta-color"
-                                 [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                            <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                        <div
+                            *ngFor="let vinculacaoDocumento of (juntada.documento.vinculacoesDocumentos); let k = index;"
+                            class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                            <div
+                                *ngFor="let componenteDigital of (vinculacaoDocumento.documentoVinculado.componentesDigitais); let z = index;"
+                                class="tipo-documento" fxLayout="row" fxLayoutAlign="start center">
+                                <mat-icon class="ml-16 s-14">attach_file</mat-icon>
+                                <mat-icon class="ml-4 s-14">picture_as_pdf</mat-icon>
+                                <a class="ml-4"
+                                   (click)="$event.stopPropagation(); gotoStep(i, juntada.ativo, componenteDigital.id)"
+                                   [ngClass]="{'current-tipo-documento': !capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id}">
+                                    {{vinculacaoDocumento.documentoVinculado.tipoDocumento.nome}}
+                                </a>
+                                <div *ngIf="z>0">{{z + 1}}</div>
+                                <mat-icon class="ml-4 s-24"
+                                          *ngIf="!capa && index[currentStep.step][currentStep.subStep] === componenteDigital.id">
+                                    arrow_left
+                                </mat-icon>
+                            </div>
+                        </div>
+                        <div class="numero"
+                             *ngIf="juntada.documento.numeroUnicoDocumentoFormatado">
+                            {{juntada.documento.numeroUnicoDocumentoFormatado}}
+                        </div>
+                        <div class="etiquetas" fxLayout="row wrap" fxHide fxShow.gt-sm>
+                            <div class="etiqueta"
+                                 *ngFor="let vinculacaoEtiqueta of juntada.documento.vinculacoesEtiquetas"
+                                 fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.label">
+                                <div class="etiqueta-color"
+                                     [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
+                                <div class="etiqueta-title">{{vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="actions">
+                    <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+                            *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1"
+                            aria-label="Ferramentas" (click)="$event.stopPropagation()">
+                        <mat-icon class="secondary-text">more_vert</mat-icon>
+                    </button>
+
+                    <mat-menu #moreMenu="matMenu">
+
+                        <button mat-menu-item aria-label="enviar por email" (click)="enviarDocumentoEmail(juntada.id)">
+                            <ng-container>
+                                <mat-icon>send</mat-icon>
+                                <span>Enviar por email</span>
+                            </ng-container>
+                        </button>
+
+                        <button mat-menu-item aria-label="editar"
+                                *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                                (click)="onClickedMinuta(juntada.documento)">
+                            <ng-container>
+                                <mat-icon>edit</mat-icon>
+                                <span>Editar</span>
+                            </ng-container>
+                        </button>
+
+                        <button mat-menu-item aria-label="assinar juntada"
+                                (click)="doAssinaturaJuntada(juntada.documento)">
+                            <ng-container>
+                                <mat-icon>lock</mat-icon>
+                                <span>Assinar</span>
+                            </ng-container>
+                        </button>
+
+                        <button fxLayout="row" fxLayoutAlign="start center"
+                                (click)="doDownloadP7S(juntada.documento.componentesDigitais[0]?.id)"
+                                mat-menu-item>
+                            <mat-icon color="accent">get_app</mat-icon>
+                            <span>Exportar como P7S</span>
+                        </button>
+
+
+                        <button mat-menu-item aria-label="adicionar vinculação"
+                                *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                                (click)="doAdicionarVinculacao(juntada.id)">
+                            <ng-container>
+                                <mat-icon>link</mat-icon>
+                                <span>Adicionar vinculação</span>
+                            </ng-container>
+                        </button>
+
+                        <button mat-menu-item aria-label="remover vinculações" (click)="doRemoverVinculacoes(juntada)"
+                                *ngIf="juntada.documento.vinculacoesDocumentos.length > 0 && _loginService.isGranted('ROLE_COLABORADOR')">
+                            <ng-container>
+                                <mat-icon>lock</mat-icon>
+                                <span>Desvincular</span>
+                            </ng-container>
+                        </button>
+
+                    </mat-menu>
+                </div>
             </div>
-            <div class="actions">
-                <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                        *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1"
-                        aria-label="Ferramentas" (click)="$event.stopPropagation()">
-                    <mat-icon class="secondary-text">more_vert</mat-icon>
-                </button>
-
-                <mat-menu #moreMenu="matMenu">
-
-                    <button mat-menu-item aria-label="enviar por email" (click)="enviarDocumentoEmail(juntada.id)">
-                        <ng-container>
-                            <mat-icon>send</mat-icon>
-                            <span>Enviar por email</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="editar"
-                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
-                            (click)="onClickedMinuta(juntada.documento)">
-                        <ng-container>
-                            <mat-icon>edit</mat-icon>
-                            <span>Editar</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="assinar juntada"
-                            (click)="doAssinaturaJuntada(juntada.documento)">
-                        <ng-container>
-                            <mat-icon>lock</mat-icon>
-                            <span>Assinar</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="adicionar vinculação"
-                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
-                            (click)="doAdicionarVinculacao(juntada.id)">
-                        <ng-container>
-                            <mat-icon>link</mat-icon>
-                            <span>Adicionar vinculação</span>
-                        </ng-container>
-                    </button>
-
-                    <button mat-menu-item aria-label="remover vinculações" (click)="doRemoverVinculacoes(juntada)"
-                            *ngIf="juntada.documento.vinculacoesDocumentos.length > 0 && _loginService.isGranted('ROLE_COLABORADOR')">
-                        <ng-container>
-                            <mat-icon>lock</mat-icon>
-                            <span>Desvincular</span>
-                        </ng-container>
-                    </button>
-
-                </mat-menu>
+            <div class="separador-volume"
+                 *ngIf="juntadasByVolume.get(juntada.volume.numeracaoSequencial)[juntadasByVolume.get(juntada.volume.numeracaoSequencial).length - 1].id === juntada.id">
+                <mat-chip-list class="mat-chip-list-stacked" aria-label="Volume">
+                    <mat-chip color="primary">
+                        Volume {{juntada.volume.numeracaoSequencial}}
+                    </mat-chip>
+                </mat-chip-list>
             </div>
         </div>
     </div>
