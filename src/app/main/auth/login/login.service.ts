@@ -72,6 +72,11 @@ export class LoginService {
         return this.http.post(url, {username, password});
     }
 
+    loginLdap(username: string, password: string): Observable<any> {
+        const url = `${environment.base_url}auth/ldap_get_token` + environment.xdebug;
+        return this.http.post(url, {username, password});
+    }
+
     loginGovBr(code: string): Observable<any> {
         const url = `${environment.base_url}auth/govbr_get_token` + environment.xdebug;
         return this.http.post(url, {code: code});
