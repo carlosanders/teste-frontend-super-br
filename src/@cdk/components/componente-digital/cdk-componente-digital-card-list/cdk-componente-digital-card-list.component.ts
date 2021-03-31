@@ -203,7 +203,7 @@ export class CdkComponenteDigitalCardListComponent {
             }
             fileUpload.value = '';
 
-            if (this.uploadMode !== 'linear') {
+            if (this.uploadMode !== 'linear' || this.files.length === 1) {
                 this.start();
             }
         };
@@ -218,7 +218,6 @@ export class CdkComponenteDigitalCardListComponent {
             });
         } else {
             this.files = this.files.reverse();
-            this.pending = this.files.filter((file) => (!file.canRetry && !file.retrying));
             this.uploadNext();
         }
     }

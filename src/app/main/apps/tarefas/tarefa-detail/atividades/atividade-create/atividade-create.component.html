@@ -6,7 +6,7 @@
     <div class="upload">
 
         <button mat-mini-fab
-                class="active accent mt-8 mb-8 ml-8 mr-8"
+                class="active accent m-12"
                 [matMenuTriggerFor]="moreMenu" aria-label="Criar Documento"
                 #menuTriggerList="matMenuTrigger"
                 (click)="$event.stopPropagation()">
@@ -87,8 +87,7 @@
                                  [loadingDocumentosExcluidos]="(loadDocumentosExcluidos$ | async)"
                                  [lixeiraMinutas]="(lixeiraMinutas$| async)"
                                  (sairLixeira)="doSairLixeiraMinutas($event)"
-                                 [undeletingId]="(undeletingDocumentosId$ | async)"
-                                 >
+                                 [undeletingId]="(undeletingDocumentosId$ | async)">
         </cdk-documento-card-list>
         <cdk-componente-digital-card-list class="componente-digital-card"
                                           #ckdUpload

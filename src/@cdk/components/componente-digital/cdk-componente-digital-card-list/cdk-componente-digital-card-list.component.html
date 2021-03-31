@@ -26,9 +26,9 @@
 
     <input hidden type="file" id="fileUpload" name="fileUpload" multiple="multiple" accept="{{accept}}"/>
 
-    <button mat-mini-fab type="button" class="m-4 active accent" matTooltip="Iniciar"
+    <button mat-mini-fab type="button" class="mb-4 active accent" matTooltip="Iniciar"
             [disabled]="uploading || !pending.length"
-            *ngIf="uploadMode === 'linear' && componentesDigitais.length > 0" (click)="start()">
+            *ngIf="uploadMode === 'linear' && componentesDigitais.length > 0 && !uploading" (click)="start()">
         <mat-icon class="secondary-text">play_arrow</mat-icon>
     </button>
 </div>
