@@ -46,6 +46,9 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
             editavel: [null],
             criadoPor: [null],
             criadoEm: [null],
+            tipoDocumento: [null],
+            juntadoPor: [null],
+            juntadoEm: [null],
             codigo: [null]
         });
     }
@@ -139,6 +142,36 @@ export class CdkComponenteDigitalFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('criadoPor.id')) {
                         delete this.filters['criadoPor.id'];
+                    }
+                }
+            }
+        });
+
+        this.form.get('tipoDocumento').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'documento.tipoDocumento.id': `eq:${value.id}`
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('documento.tipoDocumento.id')) {
+                        delete this.filters['documento.tipoDocumento.id'];
+                    }
+                }
+            }
+        });
+
+        this.form.get('juntadoPor').valueChanges.subscribe(value => {
+            if (value !== null) {
+                if (typeof value === 'object' && value) {
+                    this.filters = {
+                        ...this.filters,
+                        'documento.juntadaAtual.criadoPor.id': `eq:${value.id}`
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('documento.juntadaAtual.criadoPor.id')) {
+                        delete this.filters['documento.juntadaAtual.criadoPor.id'];
                     }
                 }
             }

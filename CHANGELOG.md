@@ -135,3 +135,4 @@
 * Correção não é possível desativar modelo da unidade e tese [SUPERBR-144]
 * Correção colunas do Modelo da Unidade não são exibidos [SUPERBR-142]
 * Correção Checkboxes dos itens da tabela Unidade somem [SUPERBR-140]
+* Correção na tela de pesquisa de documentos

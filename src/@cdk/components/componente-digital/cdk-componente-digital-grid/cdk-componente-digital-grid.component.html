@@ -135,6 +135,26 @@
                     </td>
                 </ng-container>
 
+                <!-- JuntadoPor Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('documento.juntadaAtual.criadoPor.nome') > -1" matColumnDef="documento.juntadaAtual.criadoPor.nome">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('documento.juntadaAtual.criadoPor.nome')">
+                        Juntado Por
+                    </th>
+                    <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile'
+                        data-label='Juntado Por: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.documento?.juntadaAtual?.criadoPor?.nome}} </td>
+                </ng-container>
+
+                <!-- JuntadoEm Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('documento.juntadaAtual.criadoEm') > -1" matColumnDef="documento.juntadaAtual.criadoEm">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('documento.juntadaAtual.criadoEm')">
+                        Juntado Em
+                    </th>
+                    <td mat-cell *matCellDef="let componenteDigital" class='has_label_on_mobile'
+                        data-label='Juntado Em: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(componenteDigital.id) > -1}"> {{componenteDigital.documento.juntadaAtual.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                </ng-container>
+
                 <!-- highlights Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('highlights') > -1" matColumnDef="highlights">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('highlights')">
