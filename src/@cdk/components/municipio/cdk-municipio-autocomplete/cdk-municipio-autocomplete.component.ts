@@ -45,6 +45,7 @@ export class CdkMunicipioAutocompleteComponent implements OnInit {
         this.municipioListIsLoading = false;
 
         this.pagination = new Pagination();
+        this.pagination.populate = ['estado'];
     }
 
     ngOnInit(): void {
