@@ -19,6 +19,7 @@ import {RemessasComponent} from './remessas.component';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
+import {DynamicService} from "../../../../../../modules/dynamic.service";
 
 const routes: Routes = [
     {
@@ -36,10 +37,6 @@ const routes: Routes = [
             {
                 path       : 'recebimento',
                 loadChildren: () => import('./recebimento/recebimento.module').then(m => m.RecebimentoModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'listar'
             }
         ]
     }
@@ -51,6 +48,11 @@ modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
         module.routes[path].forEach((r => routes[0].children.push(r)));
     }
+});
+
+routes[0].children.push({
+    path: '**',
+    redirectTo: 'listar'
 });
 
 @NgModule({
@@ -77,7 +79,8 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
     ],
     providers: [
-        TramitacaoService
+        TramitacaoService,
+        DynamicService
     ],
     exports: [
         RemessasComponent
