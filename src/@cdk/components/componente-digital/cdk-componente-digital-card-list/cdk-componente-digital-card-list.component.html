@@ -1,15 +1,38 @@
+<<<<<<< HEAD
 <div class="toolbar">
+=======
+<div class="toolbar pt-8 pb-8 pl-8 pr-8 boundary" cdkDropListGroup>
+>>>>>>> origin/feature/7714
 
-    <cdk-componente-digital-card *ngFor="let componenteDigital of componentesDigitais"
-                                 [componenteDigital]="componenteDigital"
-                                 [selected]="selectedIds.indexOf(componenteDigital.id) > -1"
-                                 (cancel)="onCancel($event)"
-                                 [ngClass]="{'processo': mode === 'processo', 'documento-edit-card': mode === 'documento-edit'}"
-                                 [mode]="mode"
-                                 (retry)="onRetry($event)"
-                                 (clicked)="onClick($event)"
-                                 (changedSelected)="toggleInSelected($event)">
-    </cdk-componente-digital-card>
+    <div cdkDropList [cdkDropListData]="i"
+         class="grupo-componentes-digitais"
+         cdkDropListOrientation="horizontal"
+         cdkDropListAutoScrollStep="50"
+         [cdkDropListDisabled]="uploadMode !== 'linear' || (uploadMode === 'linear' && uploading)"
+         [cdkDropListAutoScrollDisabled]="false"
+         *ngFor="let componenteDigital of componentesDigitais; let i = index;">
+        <cdk-componente-digital-card [componenteDigital]="componenteDigital"
+                                     [selected]="selectedIds.indexOf(componenteDigital.id) > -1"
+                                     (cancel)="onCancel($event)"
+                                     [ngClass]="{'processo': mode === 'processo', 'documento-edit-card': mode === 'documento-edit'}"
+                                     [mode]="mode"
+                                     [uploadMode]="this.uploadMode"
+                                     [uploading]="this.uploading"
+                                     (retry)="onRetry($event)"
+                                     (clicked)="onClick($event)"
+                                     (changedSelected)="toggleInSelected($event)"
+                                     [cdkDragDisabled]="uploadMode !== 'linear' || (uploadMode === 'linear' && uploading)"
+                                     [cdkDragData]="i"
+                                     (cdkDragEntered)="drop($event)"
+                                     cdkDrag>
+        </cdk-componente-digital-card>
+    </div>
 
     <input hidden type="file" id="fileUpload" name="fileUpload" multiple="multiple" accept="{{accept}}"/>
+
+    <button mat-mini-fab type="button" class="m-4 active accent" matTooltip="Iniciar"
+            [disabled]="uploading || !pending.length"
+            *ngIf="uploadMode === 'linear' && componentesDigitais.length > 0" (click)="start()">
+        <mat-icon class="secondary-text">play_arrow</mat-icon>
+    </button>
 </div>
