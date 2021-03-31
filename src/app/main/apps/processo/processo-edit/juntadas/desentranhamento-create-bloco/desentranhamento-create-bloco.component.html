@@ -14,7 +14,7 @@
                                  (reload)="reload($event)"
                                  [juntadasAdicionadas]="juntadasSelecionadas"
                                  (juntadasSelecionadas)="juntadasAdicionadas($event)"
-                                 [total]="juntadas.length">
+                                 [total]="(pagination$ | async)?.total">
         </cdk-juntada-grid-select>
         <div>
             <button matStepperNext mat-raised-button color="accent" class="mr-sm-12"
