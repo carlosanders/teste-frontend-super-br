@@ -136,3 +136,9 @@
 * Correção colunas do Modelo da Unidade não são exibidos [SUPERBR-142]
 * Correção Checkboxes dos itens da tabela Unidade somem [SUPERBR-140]
 * Correção na tela de pesquisa de documentos
+* Correção filtro de volumes de juntadas no componente processo-view
+* Correção separador de volumes na listagem de juntadas do processo-view
+* Correção modo linear de upload no componente-digital-card-list
+* Correção ordenação de arquivos antes de upload no modo linear
+* Correção modo de upload de componentes digitais em locais que necessitam de linearidade - juntadas
+* Correção de erro em formulário de vinculação de processos
