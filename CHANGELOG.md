@@ -142,3 +142,6 @@
 * Correção ordenação de arquivos antes de upload no modo linear
 * Correção modo de upload de componentes digitais em locais que necessitam de linearidade - juntadas
 * Correção de erro em formulário de vinculação de processos
+* Upload em modo linear inicia automaticamente quando houver apenas um arquivo
+* Atualizar etiquetas da tarefa quando movimenta minuta sem encerrar tarefa
+* Corrigido erro no componente de documento-card-list quando da exclusão de múltiplos documentos
