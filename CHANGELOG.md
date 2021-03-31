@@ -143,3 +143,4 @@
 * Correção modo de upload de componentes digitais em locais que necessitam de linearidade - juntadas
 * Correção de erro em formulário de vinculação de processos
 * Correção na árvore de seleção de setores
+* Correção para melhorar o desempenho do carregamento de tarefas pela unificação dos eventos com a caixa de entrada

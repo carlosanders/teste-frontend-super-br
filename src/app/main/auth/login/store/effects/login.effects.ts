@@ -41,6 +41,30 @@ export class LoginEffects {
                 ));
 
     @Effect()
+    LoginLdap: Observable<LoginActions.LoginActionsAll> =
+        this.actions
+            .pipe(
+                ofType<LoginActions.Login>(LoginActions.LOGIN_LDAP),
+                switchMap((action) => {
+                        return this.loginService.loginLdap(action.payload.username, action.payload.password)
+                            .pipe(
+                                map((data) => {
+                                    return new LoginActions.LoginSuccess(data);
+                                }),
+                                catchError((error) => {
+                                    console.log (error);
+
+                                    let msg = 'Sistema indisponível, tente mais tarde!';
+                                    if (error && error.error && error.error.code && error.error.code === 401) {
+                                        msg = 'Dados incorretos!';
+                                    }
+                                    return of(new LoginActions.LoginFailure({error: msg}));
+                                })
+                            );
+                    }
+                ));
+
+    @Effect()
     LoginGovBr: Observable<LoginActions.LoginActionsAll> =
         this.actions
             .pipe(
