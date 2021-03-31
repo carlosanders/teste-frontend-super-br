@@ -147,3 +147,9 @@
 * Correção upload em modo linear inicia automaticamente quando houver apenas um arquivo
 * Correção para atualizar etiquetas da tarefa quando movimenta minuta sem encerrar tarefa
 * Correção de erro no componente de documento-card-list quando da exclusão de múltiplos documentos
+
+1.2.2
+
+* Correção para nova entrada de menu no módulo pessoa
+* Correção para nova entrada de botão no módulo de listar remessas
+* Correção para nova entrada de botão no módulo de listar ofícios
