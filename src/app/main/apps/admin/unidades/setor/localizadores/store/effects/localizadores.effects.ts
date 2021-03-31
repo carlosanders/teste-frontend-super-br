@@ -50,23 +50,22 @@ export class LocalizadoresEffects {
             .pipe(
                 ofType<RootLocalizadoresActions.GetSetor>(RootLocalizadoresActions.GET_SETOR),
                 switchMap((action) => {
-                    return this._setorService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
+                    return this._setorService.get(
+                        action.payload.id,
                         JSON.stringify([
                             'populateAll'
-                        ]));
+                        ]),
+                        JSON.stringify({isAdmin: true})
+                    );
                 }),
                 switchMap(response => [
-                    new AddData<Setor>({data: response['entities'], schema: setorSchema}),
+                    new AddData<Setor>({data: [response], schema: setorSchema}),
                     new RootLocalizadoresActions.GetSetorSuccess({
                         loaded: {
                             id: 'setorHandle',
                             value: this.routerState.params.setorHandle
                         },
-                        setorId: response['entities'][0].id
+                        setorId: this.routerState.params.setorHandle
                     })
                 ]),
                 catchError((err, caught) => {

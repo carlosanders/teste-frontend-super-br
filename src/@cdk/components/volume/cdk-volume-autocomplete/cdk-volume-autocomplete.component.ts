@@ -54,9 +54,10 @@ export class CdkVolumeAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 1),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 1).forEach(bit => {
                         andxFilter.push({
-                            numeracaoSequencial: `like:%${bit}%`});
+                            numeracaoSequencial: `like:%${bit}%`
+                        });
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.volumeListIsLoading = true;

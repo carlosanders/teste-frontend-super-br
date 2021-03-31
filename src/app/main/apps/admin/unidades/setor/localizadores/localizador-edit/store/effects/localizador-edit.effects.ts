@@ -46,24 +46,22 @@ export class LocalizadorEditEffects {
             .pipe(
                 ofType<RootLocalizadorEditActions.GetLocalizador>(RootLocalizadorEditActions.GET_LOCALIZADOR),
                 switchMap((action) => {
-                    return this._localizadorService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
+                    return this._localizadorService.get(
+                        action.payload.id,
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
+                        JSON.stringify({isAdmin: true})
+                    );
                 }),
                 switchMap(response => [
-                    new AddData<Localizador>({data: response['entities'], schema: localizadorSchema}),
+                    new AddData<Localizador>({data: [response], schema: localizadorSchema}),
                     new RootLocalizadorEditActions.GetLocalizadorSuccess({
                         loaded: {
                             id: 'localizadorHandle',
                             value: this.routerState.params.localizadorHandle
                         },
-                        localizadorId: response['entities'][0].id
+                        localizadorId: this.routerState.params.localizadorHandle
                     })
                 ]),
                 catchError((err, caught) => {

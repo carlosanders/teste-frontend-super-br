@@ -10,12 +10,13 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../store';
-import {Back} from 'app/store';
-import {ComponenteDigital} from '@cdk/models';
+import {Back, getRouterState} from 'app/store';
+import {ComponenteDigital, Pagination} from '@cdk/models';
 import {Observable} from 'rxjs';
 import {Documento} from '@cdk/models';
 import {getCurrentComponenteDigitalId} from '../store';
 import {ActivatedRoute, Router} from '@angular/router';
+import {UnloadJuntadas} from "../../processo/processo-view/store";
 
 @Component({
     selector: 'anexar-copia',
@@ -36,6 +37,8 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
     currentComponenteDigitalId$: Observable<number>;
     currentComponenteDigitalId: number;
 
+    routerState: any;
+
     /**
      *
      * @param _store
@@ -49,6 +52,14 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _activatedRoute: ActivatedRoute
     ) {
+        this._store
+            .pipe(
+                select(getRouterState)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -119,4 +130,28 @@ export class AnexarCopiaComponent implements OnInit, OnDestroy {
             componentReference.select.unsubscribe();
         }
     }
+
+    /**
+     * Search
+     *
+     * @param emissao
+     */
+    search(emissao): void {
+        let rota = 'anexar-copia/' + emissao.id;
+        if (this.routerState.params.chaveAcessoHandle) {
+            rota += '/chave/' + this.routerState.params.chaveAcessoHandle;
+        }
+        rota += '/visualizar/capa/mostrar';
+
+        if (emissao.id !== this.routerState.params['processoCopiaHandle']) {
+            this._store.dispatch(new UnloadJuntadas({reset: true}));
+        }
+
+        this._router.navigate(
+            [
+                {outlets: {primary: rota}}
+            ],
+            {relativeTo: this._activatedRoute.parent.parent}).then();
+    }
+
 }

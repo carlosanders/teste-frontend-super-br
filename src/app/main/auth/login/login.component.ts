@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit
         private store: Store<fromStore.LoginState>
     )
     {
-        // Configure the layout
         this.cdkConfigService.config = {
             layout: {
                 navbar   : {
@@ -120,6 +119,12 @@ export class LoginComponent implements OnInit
                 timestamp: this.routerState.params['timestamp']
             }));
         }
+
+        if (this.routerState.params['code']) {
+            this.store.dispatch(new fromStore.LoginGovBR({
+                code: this.routerState.params['code']
+            }));
+        }
     }
 
     reloadConfig(): void {
@@ -133,5 +138,14 @@ export class LoginComponent implements OnInit
         };
         this.loading = true;
         this.store.dispatch(new fromStore.Login(payload));
+    }
+
+    onSubmitLdap(): void {
+        const payload = {
+            username: this.loginForm.controls.username.value,
+            password: this.loginForm.controls.password.value
+        };
+        this.loading = true;
+        this.store.dispatch(new fromStore.LoginLdap(payload));
     }
 }

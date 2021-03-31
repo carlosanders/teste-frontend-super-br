@@ -34,30 +34,8 @@ cdk-juntada-grid {
             align-items: center;
         }
 
-        .content {
+        > .responsive-grid {
 
-            flex: 1 1 auto;
-            display: flex;
-            overflow-y: auto;
-            padding: 8px;
-
-            .mat-column-select {
-                overflow: initial;
-            }
-
-            table {
-                width: 100%;
-
-                tr {
-                    height: auto;
-                }
-
-                td {
-                    &.deleted {
-                        text-decoration: line-through;
-                    }
-                }
-            }
         }
 
         .footer {
@@ -74,6 +52,32 @@ cdk-juntada-grid {
             flex-direction: column;
             padding: 8px;
             width: 10vw;
+
+            .content {
+                flex: 1 1 auto;
+                display: flex;
+                overflow-y: auto;
+                margin: 8px;
+                height: 0;
+
+                .mat-column-select {
+                    overflow: initial;
+                }
+
+                table {
+                    width: 100%;
+
+                    tr {
+                        height: auto;
+                    }
+
+                    td {
+                        &.deleted {
+                            text-decoration: line-through;
+                        }
+                    }
+                }
+            }
         }
 
         .responsive-grid[max-width~="600px"] {
@@ -81,6 +85,10 @@ cdk-juntada-grid {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+
+            > .content {
+                height: unset;
+            }
 
             .mat-elevation-z8 {
                 box-shadow: none;

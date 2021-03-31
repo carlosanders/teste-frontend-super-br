@@ -26,6 +26,7 @@ import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-dig
 import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatChipsModule} from "@angular/material/chips";
 
 const routes: Routes = [
     {
@@ -103,7 +104,8 @@ modulesConfig.forEach((module) => {
         CdkComponenteDigitalCardListModule,
         CdkTipoDocumentoAutocompleteModule,
         MatProgressBarModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatChipsModule
     ],
     providers: [
         JuntadaService,

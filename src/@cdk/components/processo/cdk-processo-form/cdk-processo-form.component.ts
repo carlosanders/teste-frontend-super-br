@@ -313,22 +313,16 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 if (value.classificacao) {
                     this.form.get('classificacao').setValue(value.classificacao);
                     this.form.get('classificacao').clearValidators();
-                } else {
-                    this.form.get('classificacao').setValue(null);
                 }
 
                 if (value.modalidadeMeio) {
                     this.form.get('modalidadeMeio').setValue(value.modalidadeMeio);
                     this.form.get('modalidadeMeio').clearValidators();
-                } else {
-                    this.form.get('modalidadeMeio').setValue(null);
                 }
 
                 if (value.titulo) {
                     this.form.get('titulo').setValue(value.titulo);
                     this.form.get('titulo').clearValidators();
-                } else {
-                    this.form.get('titulo').setValue(null);
                 }
             }
         });

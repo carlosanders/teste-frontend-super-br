@@ -9,7 +9,7 @@ import {
     Output,
     SimpleChange, ViewEncapsulation
 } from '@angular/core';
-import {AssuntoAdministrativo, Pagination, Pessoa} from '../../../models';
+import {AssuntoAdministrativo, Pagination} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {cdkAnimations} from '../../../animations';
 

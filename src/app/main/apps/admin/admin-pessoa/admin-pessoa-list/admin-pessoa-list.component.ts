@@ -4,7 +4,7 @@ import {Pessoa} from '../../../../../../@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '../../../../../../@cdk/animations';
 
 @Component({
@@ -22,7 +22,6 @@ export class AdminPessoaListComponent implements OnInit {
     loading$: Observable<boolean>;
     pagination$: Observable<any>;
     pagination: any;
-
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

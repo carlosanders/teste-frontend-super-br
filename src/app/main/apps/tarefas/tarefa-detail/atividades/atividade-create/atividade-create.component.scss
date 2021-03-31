@@ -31,9 +31,10 @@ atividade-create {
             flex-direction: row;
             flex-wrap: wrap;
 
-            >.componente-digital-card {
+            > .componente-digital-card {
                 padding-left: 10px;
                 padding-bottom: 16px;
+                margin-top: 1px;
             }
         }
     }

@@ -32,6 +32,7 @@
                              [deletingId]="(deletingDocumentosVinculadosId$ | async)"
                              [assinandoId]="(assinandoDocumentosVinculadosId$ | async)"
                              (delete)="doDeleteDocumentoVinculado($event)"
+                             (deleteBloco)="doDeleteBloco($event)"
                              (assinatura)="doAssinaturaDocumentoVinculado($event)"
                              (clicked)="onClickedDocumentoVinculado($event)"
                              (changedSelectedIds)="changedSelectedDocumentosVinculadosId($event)">
@@ -39,6 +40,7 @@
 
     <cdk-componente-digital-card-list #ckdUpload
                                       [documentoOrigem]="(documento$ | async)"
+                                      [uploadMode]="'linear'"
                                       (completed)="onCompleteDocumentoVinculado()">
     </cdk-componente-digital-card-list>
 </div>

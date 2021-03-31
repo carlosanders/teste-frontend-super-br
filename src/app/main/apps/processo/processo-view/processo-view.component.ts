@@ -209,6 +209,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         if (this.capa && (this.routerState.url.indexOf('default') === -1 && this.routerState.url.indexOf('mostrar') === -1)) {
             if (this.routerState.url.indexOf('/documento/') !== -1 &&
                 (this.routerState.url.indexOf('anexar-copia') !== -1 || this.routerState.url.indexOf('visualizar-processo') !== -1)) {
+                const processoId = this.routerState.params['processoCopiaHandle'] ?
+                    this.routerState.params.processoCopiaHandle : this.routerState.params.processoHandle;
+
                 // Navegação do processo deve ocorrer por outlet
                 this._router.navigate(
                     [
@@ -219,7 +222,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                                 primary: [
                                     this.routerState.url.indexOf('anexar-copia') === -1 ?
                                         'visualizar-processo' : 'anexar-copia',
-                                    this.routerState.params.processoHandle,
+                                    processoId,
                                     'visualizar',
                                     'capa',
                                     'mostrar'
@@ -244,6 +247,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+        this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
         if (this.routerState.url.indexOf('anexar-copia') === -1 &&
             this.routerState.url.indexOf('processo/' + this.routerState.params['processoHandle'] + '/visualizar') === -1) {
             this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
@@ -307,7 +311,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         let step = 0;
         let subStep = 0;
 
-        if ((this.currentStep.subStep - 1) > 0) {
+        if ((this.currentStep.subStep - 1) >= 0) {
             subStep = this.currentStep.subStep - 1;
             step = this.currentStep.step;
         } else {
@@ -327,7 +331,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 let arrPrimary = [];
                 arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                     'visualizar-processo' : 'anexar-copia');
-                arrPrimary.push(this.routerState.params.processoHandle);
+                this.routerState.params['processoCopiaHandle'] ?
+                    arrPrimary.push(this.routerState.params.processoCopiaHandle) : arrPrimary.push(this.routerState.params.processoHandle);
                 if (this.routerState.params.chaveAcessoHandle) {
                     arrPrimary.push('chave');
                     arrPrimary.push(this.routerState.params.chaveAcessoHandle);

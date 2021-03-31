@@ -53,7 +53,7 @@ const routes: Routes = [
                 outlet     : 'sidebar'
             },
             {
-                path: 'empty',
+                path       : 'empty',
                 loadChildren: () => import('./sidebar-empty/sidebar-empty.module').then(m => m.SidebarEmptyModule),
                 outlet     : 'sidebar'
             },

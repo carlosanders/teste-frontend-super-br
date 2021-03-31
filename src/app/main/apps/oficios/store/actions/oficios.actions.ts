@@ -4,6 +4,8 @@ export const GET_DOCUMENTOS_AVULSO = '[OFICIO] GET DOCUMENTOS AVULSO';
 export const GET_DOCUMENTOS_AVULSO_SUCCESS = '[OFICIO] GET DOCUMENTOS AVULSO SUCCESS';
 export const GET_DOCUMENTOS_AVULSO_FAILED = '[OFICIO] GET DOCUMENTOS AVULSO FAILED';
 
+export const RELOAD_DOCUMENTOS_AVULSO = '[OFICIO] RELOAD DOCUMENTOS AVULSO';
+
 export const CHANGE_SELECTED_DOCUMENTOS_AVULSO = '[OFICIO] CHANGE SELECTED DOCUMENTOS AVULSO';
 
 export const DELETE_VINCULACAO_ETIQUETA = '[OFICIO] DELETE VINCULACAO ETIQUETA';
@@ -57,6 +59,17 @@ export class GetDocumentosAvulsoFailed implements Action {
     readonly type = GET_DOCUMENTOS_AVULSO_FAILED;
 
     constructor(public payload: string) {
+    }
+}
+
+/**
+ *
+ * Reload DocumentosAvulso
+ */
+export class ReloadDocumentosAvulso implements Action {
+    readonly type = RELOAD_DOCUMENTOS_AVULSO;
+
+    constructor() {
     }
 }
 

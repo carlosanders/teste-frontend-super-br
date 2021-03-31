@@ -17,6 +17,10 @@
     </mat-form-field>
 
     <mat-form-field>
+        <input matInput placeholder="Prefixo NUP" formControlName="prefixoNUP" required maxlength="255" [readonly]="!isAdmin">
+    </mat-form-field>
+
+    <mat-form-field>
         <input matInput placeholder="Endereço" formControlName="endereco" maxlength="255" upperCase>
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
                 (click)="showLogEntryGrid('endereco')">
