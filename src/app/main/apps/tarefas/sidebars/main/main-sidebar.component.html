@@ -145,10 +145,10 @@
                     <div class="menu_content nav-link">
                         <mat-icon class="nav-link-icon" *ngIf="setorLotacaoId !== setor.id" (click)="listaUsuario(setor)" matTooltip="Lista todos usuarios dessa coordenação">keyboard_arrow_down</mat-icon>    
                         <mat-icon class="nav-link-icon" *ngIf="setorLotacaoId === setor.id" matTooltip="fechar lista">keyboard_arrow_up</mat-icon>
-                        <div class="menu_content_button" *ngFor="let lotacao of lotacoes"> 
+                        <div style="position: relative; top: 10px; display: block; left: -100px;" *ngFor="let lotacao of lotacoes"> 
                             <section dndDropzone (dndDrop)="onDropUsuario([$event, setor, lotacao.colaborador.usuario])">
-                                <div class="menu_content_label">
-                                    <span class="nav-link-icon" >{{setorLotacaoId}} - {{setor.id}} - {{lotacao.colaborador.usuario.nome}}</span>
+                                <div class="nav-link-badge">
+                                    <span  >{{setorLotacaoId}} - {{setor.id}} - {{lotacao.colaborador.usuario.nome}}</span>
                                 </div>        
                             </section>
                         </div>
