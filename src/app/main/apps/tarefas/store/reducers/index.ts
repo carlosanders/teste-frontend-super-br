@@ -16,10 +16,16 @@ export const getTarefasAppState = createFeatureSelector<TarefasAppState>(
 );
 
 
+export const getRootLotacaoListAppState = createFeatureSelector<TarefasAppState>(
+    'admin-lotacao-list-app'
+);
+
 export const getAppState = createSelector(
     getTarefasAppState,
+    getRootLotacaoListAppState,
     (state: TarefasAppState) => state
 );
+
 
 
 export const reducers: ActionReducerMap<TarefasAppState> = {

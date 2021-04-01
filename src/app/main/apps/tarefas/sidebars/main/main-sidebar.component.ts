@@ -16,7 +16,7 @@ import {Observable, Subject} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario, Pagination} from '@cdk/models';
+import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario, Pagination, Lotacao} from '@cdk/models';
 import {getRouterState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
@@ -43,8 +43,14 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     reload = new EventEmitter<any>();
 
     folders$: Observable<Folder[]>;
+    lotacoes$: Observable<Lotacao[]>;
+    lotacoes: Lotacao[] = [];
+    setorLotacaoId$: Observable<number>;
+    setorLotacaoId: number = 0;
+
 
     loading$: Observable<boolean>;
+    lotacaoLoading$: Observable<boolean>
 
     @ViewChild(MatSort, {static: true})
     sort: MatSort;
@@ -94,8 +100,12 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         private router: Router,
         private _snackBar: MatSnackBar
     ) {
+        this.lotacoes$ = this._store.pipe(select(fromStore.getLotacaoList));
+        this.setorLotacaoId$ = this._store.pipe(select(fromStore.getSetorId));
+
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+
         this.gridFilter = {};
         const path = 'app/main/apps/tarefas/sidebars/main';
 
@@ -123,7 +133,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
-
+    
            this._store
             .pipe(
                 select(getRouterState),
@@ -141,7 +151,16 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
+        this.lotacoes$.subscribe(
+            lotacoes => {
+                console.log(1, lotacoes)
+                this.lotacoes = lotacoes
+            }
+        );
+
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingFolder));
+        this.lotacaoLoading$ = this._store.pipe(select(fromStore.getLotacaoIsLoading));
+        
 
         this.setoresCoordenacao = [];
         this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
@@ -185,7 +204,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
 
     listaUsuario(setor): void{
-        setor.numeracaoDocumentoUnidade = true;
+        console.log(2, setor)
         this._store.dispatch(new fromStore.GetLotacoes({
             ...this.pagination,
             filter: {
@@ -199,14 +218,33 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             context: this.pagination.context,
             offset: (this.pagination.pageSize * this.pagination.pageIndex),
             sort: {},
+            setorId: setor.id
         }));
-    }
-
-    fechaUsuarioCoordenacao(setor): void {
-        setor.numeracaoDocumentoUnidade = false;
 
     }
+    onDropUsuario($event): void{
+        if (this.snackSubscription) {
+            this.snackSubscription.unsubscribe();
+            this.sheetRef.dismiss();
+            this.snackSubscription = null;
+        }
 
+        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
+            duration: 3000,
+            panelClass: ['cdk-white-bg'],
+            data: {
+                icon: 'delete',
+                text: 'Desistir de enviar'
+            }
+        });
+
+        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
+            if (data.dismissedByAction === false) {
+                this._store.dispatch(new fromStore.SetSetorOnSelectedTarefas({tarefa: $event[0].data, setorResponsavel: $event[1].id,
+                                                                            usuarioResponsavel: $event[2].id}));
+            }
+        });
+    }_
     onDropSetor($event): void {
             if (this.snackSubscription) {
                 this.snackSubscription.unsubscribe();

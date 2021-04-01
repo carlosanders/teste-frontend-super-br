@@ -143,9 +143,18 @@
                         </div>  
                     </section>      
                     <div class="menu_content nav-link">
-                        <mat-icon class="nav-link-icon" *ngIf="!setor.numeracaoDocumentoUnidade" (click)="listaUsuario(setor)" matTooltip="Lista todos usuarios dessa coordenação">keyboard_arrow_down</mat-icon>    
-                        <mat-icon class="nav-link-icon" *ngIf="setor.numeracaoDocumentoUnidade" (click)="fechaUsuarioCoordenacao(setor)" matTooltip="fechar lista">keyboard_arrow_up</mat-icon>
-                    </div>   
+                        <mat-icon class="nav-link-icon" *ngIf="setorLotacaoId !== setor.id" (click)="listaUsuario(setor)" matTooltip="Lista todos usuarios dessa coordenação">keyboard_arrow_down</mat-icon>    
+                        <mat-icon class="nav-link-icon" *ngIf="setorLotacaoId === setor.id" matTooltip="fechar lista">keyboard_arrow_up</mat-icon>
+                        <div class="menu_content_button" *ngFor="let lotacao of lotacoes"> 
+                            <section dndDropzone (dndDrop)="onDropUsuario([$event, setor, lotacao.colaborador.usuario])">
+                                <div class="menu_content_label">
+                                    <span class="nav-link-icon" >{{setorLotacaoId}} - {{setor.id}} - {{lotacao.colaborador.usuario.nome}}</span>
+                                </div>        
+                            </section>
+                        </div>
+                    </div>
+                   
+    
             </div>
         </div>
 

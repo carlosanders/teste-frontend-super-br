@@ -1,6 +1,7 @@
 import * as RootLotacaoListActions from '../actions';
 
 export interface RootLotacaoListState {
+    setorId: number;
     entitiesId: number[];
     pagination: {
         limit: number;
@@ -20,6 +21,7 @@ export interface RootLotacaoListState {
 
 export const RootLotacaoListInitialState: RootLotacaoListState = {
     entitiesId: [],
+    setorId: 0,
     pagination: {
         limit: 0,
         offset: 0,
@@ -45,6 +47,7 @@ export function RootLotacaoListReducer(
         case RootLotacaoListActions.GET_LOTACOES: {
             return {
                 ...state,
+                setorId: action.payload.setorId,
                 loading: true,
                 pagination: {
                     limit: action.payload.limit,
@@ -65,6 +68,7 @@ export function RootLotacaoListReducer(
 
             return {
                 ...state,
+                setorId: action.payload.setorId,
                 entitiesId: action.payload.entitiesId,
                 pagination: {
                     ...state.pagination,
@@ -86,6 +90,7 @@ export function RootLotacaoListReducer(
         case RootLotacaoListActions.GET_LOTACOES_FAILED: {
             return {
                 ...state,
+                setorId: 0,
                 loading: false,
                 loaded: false
             };

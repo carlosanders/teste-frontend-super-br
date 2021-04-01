@@ -69,8 +69,9 @@ export class LotacaoListEffect {
                             console.log(err);
                             return of(new RootLotacaoListActions.GetLotacoesFailed(err));
                         })
+                        
                     );
                 })
-            );
+                );
 
 }

@@ -23,18 +23,17 @@ export const getLotacaoList = createSelector(
     schemaSelectors.entitiesProjector
 );
 
-/*export const getPagination = createSelector(
+export const getSetorId = createSelector(
     getRootLotacaoListState,
-    (state: RootLotacaoListState) => state.pagination
+    (state: RootLotacaoListState) => state.setorId
 );
-*/
+
 export const getLotacaoListLoaded = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.loaded
 );
 
-export const getIsLoadingLotacao = createSelector(
+export const getLotacaoIsLoading = createSelector(
     getRootLotacaoListState,
     (state: RootLotacaoListState) => state.loading
 );
-
