@@ -211,6 +211,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             dataHoraDesarquivamento: [null],
             configuracaoNup: [null, [Validators.required]],
             nupInvalido: [null],
+            chaveAcesso: [null],
+            alterarChave: [false]
         });
 
         this.especieProcessoPagination = new Pagination();
@@ -331,6 +333,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.form.get('modalidadeFase').disable();
+        this.form.get('alterarChave').setValue(false);
     }
 
     /**
