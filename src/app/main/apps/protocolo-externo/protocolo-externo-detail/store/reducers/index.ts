@@ -1,9 +1,11 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import { DocumentoDetailReducer, ProcessoDetailState } from './Documento-detail.reducer';
+import {ProcessoReducer, ProcessoState} from "./processo.reducer";
 
 export interface ProcessoDetailAppState
 {
     processoDetail: ProcessoDetailState;
+    processo: ProcessoState;
 }
 
 export const getProcessoDetailAppState = createFeatureSelector<ProcessoDetailAppState>(
@@ -16,7 +18,9 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<ProcessoDetailAppState> = {
-    processoDetail: DocumentoDetailReducer
+    processoDetail: DocumentoDetailReducer,
+    processo: ProcessoReducer
 };
 
 export * from './Documento-detail.reducer';
+export * from './processo.reducer';

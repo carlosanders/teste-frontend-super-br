@@ -185,7 +185,7 @@ export function ProtocolosExternosReducer(state = ProcessosInitialState, action:
         case ProcessosActions.TOGGLE_MAXIMIZADO: {
             return {
                 ...state,
-                maximizado: !state.maximizado
+                maximizado: action.payload
             };
         }
 
