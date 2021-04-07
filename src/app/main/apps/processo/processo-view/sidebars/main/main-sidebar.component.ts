@@ -446,6 +446,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
             }
         });
+
+        this._store.dispatch(new fromStore.ExpandirProcesso(false));
     }
 
     ngOnDestroy(): void {
