@@ -119,3 +119,6 @@ export * from './acao-transicao-workflow.model';
 export * from './modalidade-acao-etiqueta.model';
 export * from './tipo-acao-workflow.model';
 export * from './tipo-validacao-workflow.model';
+export * from './tipo-contato.model';
+export * from './grupo-contato.model';
+export * from './contato.model';

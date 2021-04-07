@@ -1,0 +1,20 @@
+<div class="header">
+    <path icone="label"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="grupo-contato">
+    </path>
+</div>
+<cdk-grupo-contato-grid
+        [loading]="(loading$ | async)"
+        [grupoContatos]="(grupoContatos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['create', 'edit', 'delete', 'showContatos']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (edit)="edit($event)"
+        (showContatos)="doShowContatos($event)"
+        (create)="create()"
+        (delete)="delete($event)">
+</cdk-grupo-contato-grid>

@@ -1,0 +1,93 @@
+import {Injectable} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {Actions, createEffect, Effect, ofType} from '@ngrx/effects';
+
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+
+import {getRouterState, State} from 'app/store/reducers';
+import * as ContatoListActions from '../actions';
+
+import {ContatoService} from '@cdk/services/contato.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {Contato} from '@cdk/models';
+import {contato as contatoSchema} from '@cdk/normalizr';
+import {LoginService} from 'app/main/auth/login/login.service';
+
+@Injectable()
+export class ContatoListEffect {
+
+    routerState: any;
+
+    constructor(
+        private _actions: Actions,
+        private _contatoService: ContatoService,
+        public _loginService: LoginService,
+        private _store: Store<State>
+    ) {
+        this._store
+            .pipe(select(getRouterState))
+            .subscribe(routerState => {
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
+    }
+
+    /**
+     * Get Contato with router parameters
+     * @type {Observable<any>}
+     */
+    getContato: any = createEffect(() => {
+        return this._actions
+            .pipe(
+                ofType<ContatoListActions.GetContato>(ContatoListActions.GET_CONTATOS),
+                switchMap((action) => {
+                    return this._contatoService.query(
+                        JSON.stringify({
+                            ...action.payload.filter,
+                            ...action.payload.gridFilter,
+                        }),
+                        action.payload.limit,
+                        action.payload.offset,
+                        JSON.stringify(action.payload.sort),
+                        JSON.stringify(action.payload.populate),
+                        JSON.stringify(action.payload.context)).pipe(
+                        mergeMap((response) => [
+                            new AddData<Contato>({data: response['entities'], schema: contatoSchema}),
+                            new ContatoListActions.GetContatoSuccess({
+                                entitiesId: response['entities'].map(contato => contato.id),
+                                loaded: {
+                                    id: 'usuarioHandle',
+                                    value: this._loginService.getUserProfile().id
+                                },
+                                total: response['total']
+                            })
+                        ]),
+                        catchError((err) => {
+                            return of(new ContatoListActions.GetContatoFailed(err));
+                        })
+                    );
+                })
+            )
+    });
+
+    /**
+     * Delete Contato
+     * @type {Observable<any>}
+     */
+    deleteContato: any = createEffect(() => {
+        return this._actions
+            .pipe(
+                ofType<ContatoListActions.DeleteContato>(ContatoListActions.DELETE_CONTATO),
+                mergeMap((action) => {
+                    return this._contatoService.destroy(action.payload).pipe(
+                        map((response) => new ContatoListActions.DeleteContatoSuccess(response.id)),
+                        catchError((err) => {
+                            return of(new ContatoListActions.DeleteContatoFailed(action.payload));
+                        })
+                    );
+                })
+            )
+    });
+}
