@@ -11,7 +11,7 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatDatepickerModule,
-    MatProgressSpinnerModule, MatTooltipModule
+    MatProgressSpinnerModule, MatTooltipModule, MatDialogModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
@@ -40,6 +40,7 @@ import {InteressadoService} from '../../../../../../@cdk/services/interessado.se
 import {VinculacaoProcessoService} from '../../../../../../@cdk/services/vinculacao-processo.service';
 import {TarefaService} from '../../../../../../@cdk/services/tarefa.service';
 import {ConfiguracaoNupService} from "@cdk/services/configuracao-nup.service";
+import {CdkProcessoModalClassificacaoRestritaModule} from "@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.module";
 
 const routes: Routes = [
     {
@@ -97,7 +98,9 @@ modulesConfig.forEach((module) => {
         CdkJuntadaGridModule,
         CdkAssuntoGridModule,
         CdkInteressadoGridModule,
-        CdkVinculacaoProcessoGridModule
+        CdkVinculacaoProcessoGridModule,
+        MatDialogModule,
+        CdkProcessoModalClassificacaoRestritaModule
     ],
     providers: [
         ProcessoService,

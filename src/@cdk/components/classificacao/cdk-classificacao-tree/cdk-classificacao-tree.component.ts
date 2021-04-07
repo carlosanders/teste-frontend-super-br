@@ -16,13 +16,14 @@ import {Observable, of, Subject} from 'rxjs';
 import {CdkClassificacaoTreeService, ClassificacaoNode} from './services/cdk-classificacao-tree.service';
 import {SelectionModel} from '@angular/cdk/collections';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Processo} from '../../../models';
+import {Classificacao, Processo} from '../../../models';
 import {cdkAnimations} from "../../../animations";
 
 export class FlatNode {
     expandable: boolean;
     name: string;
     id: number;
+    classificacao?: Classificacao;
     level: number;
     children?: ClassificacaoNode[];
     selected?: boolean;
@@ -84,6 +85,10 @@ export class CdkClassificacaoTreeComponent {
      */
     @Output()
     save = new EventEmitter<Processo>();
+
+    @Output()
+    selectClassificacaoHandler = new EventEmitter<Classificacao>();
+
     loading: boolean;
     pesquisando: boolean;
     activeCard: string;
@@ -115,6 +120,7 @@ export class CdkClassificacaoTreeComponent {
             : new FlatNode();
         flatNode.name = node.name;
         flatNode.id = node.id;
+        flatNode.classificacao = node.classificacao;
         flatNode.children = node.children;
         flatNode.level = level;
         flatNode.expandable = !!node.children;
@@ -230,6 +236,7 @@ export class CdkClassificacaoTreeComponent {
             const classificacaoItem = new ClassificacaoNode();
             classificacaoItem.id = value.id;
             classificacaoItem.name = value.nome;
+            classificacaoItem.classificacao = value;
             classificacaoItem.children = [];
             classificacaoItem.hasChild = value.hasChild;
             arrayClassificoes.push(classificacaoItem);
@@ -299,6 +306,8 @@ export class CdkClassificacaoTreeComponent {
             value.selected = false;
         });
         node.selected = !node.selected;
+
+        this.selectClassificacaoHandler.emit(node.classificacao);
     }
 
     getNodeSelected(node: FlatNode): string {

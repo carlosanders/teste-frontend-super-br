@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Classificacao, TipoSigilo} from '@cdk/models';
+import {Classificacao} from '@cdk/models';
 import {ModalidadeDestinacao} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 
@@ -47,9 +47,6 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
     abort = new EventEmitter<any>();
 
     @Input()
-    tipoSigiloPagination: Pagination;
-
-    @Input()
     form: FormGroup;
 
     activeCard = 'form';
@@ -78,12 +75,11 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
             prazoGuardaFaseIntermediariaMes: [null],
             prazoGuardaFaseIntermediariaAno: [null],
             prazoGuardaFaseIntermediariaEvento: [null],
-            tipoSigilo: [null],
+            visibilidadeRestrita: [null],
             observacao: [null, [Validators.maxLength(255)]]
         });
         this.modalidadeDestinacaoPagination = new Pagination();
         this.classificacaoPagination = new Pagination();
-        this.tipoSigiloPagination = new Pagination();
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -169,24 +165,6 @@ export class CdkClassificacaoFormComponent implements OnChanges, OnDestroy {
     selectClassificacao(classificacao: Classificacao): void {
         if (classificacao) {
             this.form.get('parent').setValue(classificacao);
-        }
-        this.activeCard = 'form';
-    }
-
-    checkTipoSigilo(): void {
-        const value = this.form.get('tipoSigilo').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('tipoSigilo').setValue(null);
-        }
-    }
-
-    showTipoSigiloGrid(): void {
-        this.activeCard = 'tipo-sigilo-gridsearch';
-    }
-
-    selectTipoSigilo(tipoSigilo: TipoSigilo): void {
-        if (tipoSigilo) {
-            this.form.get('tipoSigilo').setValue(tipoSigilo);
         }
         this.activeCard = 'form';
     }

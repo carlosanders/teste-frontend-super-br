@@ -1,0 +1,10 @@
+<cdk-tipo-contato-grid
+        [loading]="loading"
+        [tipoContato]="tipoContatos"
+        [displayedColumns]="['id', 'nome', 'descricao', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-tipo-contato-grid>

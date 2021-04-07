@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayGrupoContatoFn">
+    <mat-option *ngFor="let grupoContato of grupoContatoList"
+                [value]="grupoContato">
+        <span [innerHTML]="displayGrupoContatoFn(grupoContato) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="grupoContatoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

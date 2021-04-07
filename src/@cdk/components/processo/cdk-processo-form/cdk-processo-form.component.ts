@@ -106,6 +106,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     gerirProcedencia = new EventEmitter();
 
     @Output()
+    classificacao = new EventEmitter<Classificacao|null>();
+
+    @Output()
     editProcedencia = new EventEmitter<number>();
 
     @Input()
@@ -208,6 +211,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             dataHoraDesarquivamento: [null],
             configuracaoNup: [null, [Validators.required]],
             nupInvalido: [null],
+            chaveAcesso: [null],
+            alterarChave: [false]
         });
 
         this.especieProcessoPagination = new Pagination();
@@ -328,6 +333,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         });
 
         this.form.get('modalidadeFase').disable();
+        this.form.get('alterarChave').setValue(false);
     }
 
     /**
@@ -478,12 +484,15 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         const value = this.form.get('classificacao').value;
         if (!value || typeof value !== 'object') {
             this.form.get('classificacao').setValue(null);
+        } else {
+            this.classificacao.emit(this.form.get('classificacao').value);
         }
     }
 
     selectClassificacao(classificacao: Classificacao): void {
         if (classificacao) {
             this.form.get('classificacao').setValue(classificacao);
+            this.classificacao.emit(classificacao);
         }
         this.activeCard = 'form';
     }
