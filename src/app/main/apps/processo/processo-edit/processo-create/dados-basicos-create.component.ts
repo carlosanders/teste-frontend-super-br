@@ -119,6 +119,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     screen$: Observable<any>;
     vinculacoesProcessosPagination: any;
     vinculacaoProcessoActivated = 'from';
+    processoVinculadoPagination: Pagination;
 
     tarefa: Tarefa;
     isSavingTarefa$: Observable<boolean>;
@@ -210,6 +211,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+
+        this.processoVinculadoPagination = new Pagination();
+        this.processoVinculadoPagination.populate = ['setorAtual', 'setorAtual.unidade'];
 
         this.formProcesso = this._formBuilder.group({
             id: [null],
@@ -333,6 +337,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.assuntoActivated = 'form';
                 this.interessadoActivated = 'form';
                 this.vinculacaoProcessoActivated = 'form';
+                this.processoVinculadoPagination.filter = {
+                    'id':'neq:' + this.processo.id
+                };
 
                 this.assunto = new Assunto();
                 this.assunto.processo = this.processo;

@@ -47,10 +47,6 @@ const routes: Routes = [
                 path       : 'nomes',
                 loadChildren: () => import('./nomes/nomes.module').then(m => m.NomesModule),
                 canActivate: [fromGuards.ResolveGuard]
-            },
-            {
-                path       : '**',
-                redirectTo: 'dados-pessoa'
             }
         ]
     }
@@ -62,6 +58,11 @@ modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
         module.routes[path].forEach((r => routes[0].children.push(r)));
     }
+});
+
+routes[0].children.push({
+    path: '**',
+    redirectTo: 'dados-pessoa'
 });
 
 @NgModule({
@@ -89,5 +90,4 @@ modulesConfig.forEach((module) => {
     ]
 })
 export class PessoaEditModule
-{
-}
+{}

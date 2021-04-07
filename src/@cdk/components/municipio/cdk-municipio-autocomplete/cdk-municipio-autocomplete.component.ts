@@ -45,6 +45,7 @@ export class CdkMunicipioAutocompleteComponent implements OnInit {
         this.municipioListIsLoading = false;
 
         this.pagination = new Pagination();
+        this.pagination.populate = ['estado'];
     }
 
     ngOnInit(): void {
@@ -87,6 +88,8 @@ export class CdkMunicipioAutocompleteComponent implements OnInit {
     }
 
     displayMunicipioFn(municipio): string {
-        return municipio ? municipio.nome : null;
+        let displayed = municipio ? municipio.nome : '';
+        displayed += (municipio && municipio.estado) ? (' (' + municipio.estado.uf + ')') : '';
+        return displayed;
     }
 }

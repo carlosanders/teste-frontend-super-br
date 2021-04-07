@@ -67,7 +67,7 @@
         <input matInput placeholder="Gênero"
                formControlName="generoSetor"
                [matAutocomplete]="generoSetor.autocomplete"
-               (blur)="checkGeneroSetor()">
+               (blur)="checkGeneroSetor()" required>
         <cdk-genero-setor-autocomplete
             #generoSetor="generoSetorAutocomplete"
             [control]="form.get('generoSetor')"
@@ -81,10 +81,6 @@
             {{form.get('generoSetor').errors.formError}}
         </mat-error>
     </mat-form-field>
-
-    <mat-checkbox formControlName="ativo">
-        Ativo
-    </mat-checkbox>
 
     <mat-form-field>
         <input matInput placeholder="Município"
@@ -105,6 +101,10 @@
         </mat-error>
     </mat-form-field>
 
+    <mat-checkbox formControlName="ativo">
+        Ativo
+    </mat-checkbox>
+
     <div class="legendaGrupo">Configuração:</div>
 
     <mat-checkbox formControlName="apenasProtocolo"
@@ -114,7 +114,7 @@
 
     <mat-checkbox formControlName="numeracaoDocumentoUnidade"
                   matTooltip="Numeração de documentos por unidade.">
-        Num Unidade
+        Numeração de Documentos por Unidade
     </mat-checkbox>
 
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>

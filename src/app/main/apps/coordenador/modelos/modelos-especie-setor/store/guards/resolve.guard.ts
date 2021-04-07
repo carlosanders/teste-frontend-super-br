@@ -59,7 +59,7 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!loaded || this.routerState.params['modeloHandle'] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetModelo({
-                        id: 'eq:' + this.routerState.params['modeloHandle']
+                        id: this.routerState.params['modeloHandle']
                     }));
                 }
             }),

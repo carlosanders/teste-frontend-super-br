@@ -18,6 +18,7 @@ import {Tarefa} from '@cdk/models';
 import {Documento} from '@cdk/models';
 import {DocumentoAvulso} from '@cdk/models';
 import {ObjectAssignBuiltinFn} from '@angular/compiler-cli/src/ngtsc/partial_evaluator/src/builtin';
+import {CdkDragDrop, CdkDragEnter, moveItemInArray} from "@angular/cdk/drag-drop";
 
 @Component({
     selector: 'cdk-componente-digital-card-list',
@@ -59,6 +60,9 @@ export class CdkComponenteDigitalCardListComponent {
     @Input()
     mode: string = 'tarefa';
 
+    @Input()
+    uploadMode: string = 'concorrente';
+
     @Output()
     cancel = new EventEmitter<number>();
 
@@ -96,7 +100,15 @@ export class CdkComponenteDigitalCardListComponent {
 
     private files: Array<FileUploadModel> = [];
 
+    private currentFile: FileUploadModel = null;
+
     private arquivoSubscription: Subscription;
+
+    uploading: boolean = false;
+
+    pending: Array<FileUploadModel> = [];
+
+    lastOrder = 0;
 
     /**
      * @param _http
@@ -105,8 +117,7 @@ export class CdkComponenteDigitalCardListComponent {
     constructor(
         private _http: HttpClient,
         private _changeDetectorRef: ChangeDetectorRef
-    ) {
-    }
+    ) {}
 
     toggleInSelected(componenteDigitalId): void {
         const selectedComponentesDigitaisId = [...this.selectedIds];
@@ -123,7 +134,7 @@ export class CdkComponenteDigitalCardListComponent {
     }
 
     onCancel(componenteDigital): void {
-        this.cancelFile(componenteDigital.file);
+        this.cancelFile(componenteDigital);
         this.cancel.emit(componenteDigital);
     }
 
@@ -131,39 +142,102 @@ export class CdkComponenteDigitalCardListComponent {
         this.clicked.emit(componenteDigital);
     }
 
-    onRetry(componenteDigital): void {
-        const file = new FileUploadModel();
-        this.componentesDigitais = this.componentesDigitais.filter(el => el.fileName != componenteDigital.fileName);
+    onRetry(componenteDigital: ComponenteDigital): void {
+        this.componentesDigitais = this.componentesDigitais.filter(el => el.file != componenteDigital.file);
+        componenteDigital.canRetry = false;
+        this._changeDetectorRef.markForCheck();
         componenteDigital.file.sub.unsubscribe();
-        this.uploadFile(componenteDigital.file);
+        const file = componenteDigital.file;
+        file.canCancel = false;
+        file.progress = 0;
+        file.canRetry = false;
+        file.retrying = true;
+        this.componentesDigitais.push(componenteDigital);
+        this._changeDetectorRef.markForCheck();
+        if (this.uploadMode !== 'linear') {
+            this.uploadFile(componenteDigital.file);
+        } else {
+            this.files.push(file);
+            if (!this.currentFile) {
+                this.uploadNext();
+            }
+        }
     }
 
     upload(): void {
         const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
         fileUpload.onchange = () => {
             for (let index = 0; index < fileUpload.files.length; index++) {
-                const file = fileUpload.files[index];
-                this.files.push({
-                    data: file,
+                this.lastOrder++;
+                const tmpFile = fileUpload.files[index];
+                const file = {
+                    data: tmpFile,
                     state: 'in',
                     inProgress: false,
                     complete: false,
                     progress: 0,
                     canRetry: false,
-                    canCancel: true
-                });
+                    canCancel: true,
+                    retrying: false,
+                    chave: this.lastOrder
+                };
+                this.files.push(file);
+                this.pending.push(file);
+                const componenteDigital = new ComponenteDigital();
+                componenteDigital.file = file;
+                componenteDigital.mimetype = file.data.type;
+                componenteDigital.fileName = file.data.name;
+                componenteDigital.tamanho = file.data.size;
+                componenteDigital.processoOrigem = this.processoOrigem;
+                componenteDigital.tarefaOrigem = this.tarefaOrigem;
+                componenteDigital.tarefaOrigemBloco = this.tarefaOrigemBloco;
+                componenteDigital.documentoAvulsoOrigem = this.documentoAvulsoOrigem;
+                componenteDigital.documentoAvulsoOrigemBloco = this.documentoAvulsoOrigemBloco;
+                componenteDigital.documentoOrigem = this.documentoOrigem;
+                componenteDigital.documento = this.documento;
+                componenteDigital.canRetry = false;
+                componenteDigital.inProgress = false;
+
+                this.componentesDigitais.push(componenteDigital);
+                this._changeDetectorRef.markForCheck();
             }
             fileUpload.value = '';
-            this.files.forEach(file => {
-                this.uploadFile(file);
-            });
+
+            if (this.uploadMode !== 'linear' || this.files.length === 1) {
+                this.start();
+            }
         };
         fileUpload.click();
     }
 
+    start(): void {
+        this.uploading = true;
+        if (this.uploadMode !== 'linear') {
+            this.files.forEach(file => {
+                this.uploadFile(file);
+            });
+        } else {
+            this.files = this.files.reverse();
+            this.uploadNext();
+        }
+    }
+
+    uploadNext(): void {
+        this.pending = this.files.filter((file) => (!file.canRetry && !file.retrying));
+        if (this.files.length) {
+            this.currentFile = this.files.pop();
+            this.uploadFile(this.currentFile);
+        } else {
+            this.currentFile = null;
+            this.uploading = false;
+        }
+    }
+
     cancelFile(componenteDigital: ComponenteDigital): void {
         // @ts-ignore
-        this.componentesDigitais = this.componentesDigitais.filter(el => el.fileName !== componenteDigital.data.name);
+        this.componentesDigitais = this.componentesDigitais.filter(el => el.file !== componenteDigital.file);
+        this.removeFileFromArray(componenteDigital.file);
+        this._changeDetectorRef.markForCheck();
     }
 
     private getBase64(file): any {
@@ -185,21 +259,8 @@ export class CdkComponenteDigitalCardListComponent {
 
         this.getBase64(file.data).then(
             conteudo => {
-                const componenteDigital = new ComponenteDigital();
-                componenteDigital.file = file;
+                const componenteDigital = this.componentesDigitais.find(componenteDigital => componenteDigital.file === file);
                 componenteDigital.conteudo = conteudo;
-                componenteDigital.mimetype = file.data.type;
-                componenteDigital.fileName = file.data.name;
-                componenteDigital.tamanho = file.data.size;
-                componenteDigital.processoOrigem = this.processoOrigem;
-                componenteDigital.tarefaOrigem = this.tarefaOrigem;
-                componenteDigital.tarefaOrigemBloco = this.tarefaOrigemBloco;
-                componenteDigital.documentoAvulsoOrigem = this.documentoAvulsoOrigem;
-                componenteDigital.documentoAvulsoOrigemBloco = this.documentoAvulsoOrigemBloco;
-                componenteDigital.documentoOrigem = this.documentoOrigem;
-                componenteDigital.documento = this.documento;
-
-                this.componentesDigitais.push(componenteDigital);
                 this._changeDetectorRef.markForCheck();
 
                 const params = classToPlain(componenteDigital);
@@ -227,9 +288,18 @@ export class CdkComponenteDigitalCardListComponent {
                     catchError((error: HttpErrorResponse) => {
                         componenteDigital.inProgress = false;
                         componenteDigital.canRetry = true;
-                        this.removeFileFromArray(file);
+                        file.inProgress = false;
+                        file.canRetry = true;
+                        file.retrying = false;
+                        this.currentFile = null;
+                        if (this.uploadMode !== 'linear') {
+                            this.removeFileFromArray(file);
+                        }
                         this._changeDetectorRef.markForCheck();
-                        this.erroUpload.emit("Ocorreu um erro ao realizar o upload, clique no menu do arquivo e em seguida em repetir para tentar novamente!")
+                        this.erroUpload.emit("Ocorreu um erro ao realizar o upload, clique no menu do arquivo e em seguida em repetir para tentar novamente!");
+                        if (this.uploadMode === 'linear') {
+                            this.uploadNext();
+                        }
                         return of(`${file.data.name} upload falhou.`);
                     })
                 ).subscribe(
@@ -238,12 +308,19 @@ export class CdkComponenteDigitalCardListComponent {
                             componenteDigital.id = event.body.id;
                             componenteDigital.complete = true;
                             componenteDigital.inProgress = false;
+                            this.currentFile = null;
                             this._changeDetectorRef.markForCheck();
                             setTimeout(() => {
-                                this.removeFileFromArray(file);
+                                if (this.uploadMode !== 'linear') {
+                                    this.removeFileFromArray(file);
+                                }
+
                                 this.componentesDigitais = this.componentesDigitais.filter(cd => cd !== componenteDigital);
                                 this._changeDetectorRef.markForCheck();
                                 this.completed.emit(componenteDigital);
+                                if (this.uploadMode === 'linear') {
+                                    this.uploadNext();
+                                }
                             }, 1000);
                         }
                     }
@@ -251,7 +328,16 @@ export class CdkComponenteDigitalCardListComponent {
             }
         );
 
+    }
 
+    drop(event: CdkDragEnter<any>): void {
+        moveItemInArray(this.componentesDigitais, event.item.data, event.container.data);
+        //moveItemInArray(this.componentesDigitais, event.previousIndex, event.currentIndex);
+        let tmpFiles: FileUploadModel[] = [];
+        this.componentesDigitais.forEach(componente => {
+            tmpFiles.push(componente.file);
+        });
+        this.files = [...tmpFiles];
     }
 
     private removeFileFromArray(file: FileUploadModel): void {
@@ -269,6 +355,8 @@ export class FileUploadModel {
     inProgress: boolean;
     progress: number;
     canRetry: boolean;
+    retrying: boolean;
     canCancel: boolean;
+    chave: number;
     sub?: Subscription;
 }

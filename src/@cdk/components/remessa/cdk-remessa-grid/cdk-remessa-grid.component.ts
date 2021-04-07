@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit, ViewChild, AfterViewInit,
-    ViewEncapsulation, Input, OnChanges, Output, EventEmitter
+    ViewEncapsulation, Input, OnChanges, Output, EventEmitter, ViewChildren, ViewContainerRef, QueryList
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -16,6 +16,8 @@ import {Tramitacao, Usuario} from '@cdk/models';
 import {TramitacaoDataSource} from '@cdk/data-sources/tramitacao-data-source';
 import {FormControl} from '@angular/forms';
 import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {modulesConfig} from "../../../../modules/modules-config";
+import {DynamicService} from "../../../../modules/dynamic.service";
 
 @Component({
     selector: 'cdk-remessa-grid',
@@ -44,7 +46,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'setorOrigem.nome', 'pessoaDestino.nome',
-        'dataHoraRecebimento', 'usuarioRecebimento.nome', 'urgente', 'actions'];
+        'dataHoraRecebimento', 'usuarioRecebimento.nome', 'actions'];
 
     allColumns: any[] = [
         {
@@ -189,13 +191,17 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     isIndeterminate = false;
     hasExcluded = false;
 
+    @ViewChildren('buttonModule', {read: ViewContainerRef}) btContainer: QueryList<ViewContainerRef>
+
     /**
      * @param _changeDetectorRef
      * @param _cdkSidebarService
+     * @param _dynamicService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _cdkSidebarService: CdkSidebarService
+        private _cdkSidebarService: CdkSidebarService,
+        private _dynamicService: DynamicService
     ) {
         this.gridFilter = {};
         this.remessas = [];
@@ -248,6 +254,23 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
         ).pipe(
             tap(() => this.loadPage())
         ).subscribe();
+
+        const path = '@cdk/components/remessa/cdk-remessa-grid/cdk-remessa-grid#button';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => {
+                            this.btContainer.forEach((button, index) => {
+                                let componentRef = button.createComponent(componentFactory);
+                                componentRef.instance['remessaId'] = this.remessas[index]['id'];
+                                componentRef.instance['mecanismoRemessa'] = this.remessas[index]['mecanismoRemessa'];
+                            });
+                            this._changeDetectorRef.markForCheck();
+                        });
+                }));
+            }
+        });
     }
 
     toggleFilter(): void {

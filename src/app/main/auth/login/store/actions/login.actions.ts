@@ -1,6 +1,8 @@
 import { Action } from '@ngrx/store';
 
 export const LOGIN = '[Login] Login Attempt';
+export const LOGIN_LDAP = '[Login] Login LDAP Attempt';
+export const LOGIN_GOV_BR = '[Login] Login GovBR Attempt';
 export const LOGIN_REFRESH_TOKEN = '[Login] LoginRefreshToken Attempt';
 export const LOGOUT = '[Login] Logout';
 export const UNLOAD = '[Login] Unload';
@@ -17,6 +19,16 @@ export const GET_CONFIG_FAILURE = '[Login] Get Config Failure';
 
 export class Login implements Action {
     readonly type = LOGIN;
+    constructor(public payload: any) {}
+}
+
+export class LoginGovBR implements Action {
+    readonly type = LOGIN_GOV_BR;
+    constructor(public payload: any) {}
+}
+
+export class LoginLdap implements Action {
+    readonly type = LOGIN_LDAP;
     constructor(public payload: any) {}
 }
 
@@ -86,6 +98,8 @@ export class GetConfigFailure implements Action {
 
 export type LoginActionsAll =
     | Login
+    | LoginLdap
+    | LoginGovBR
     | Logout
     | Unload
     | LoginSuccess

@@ -14,6 +14,7 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {UnloadDocumento} from '../../../../store';
 import {RemoveTarefa} from '../../../../../tarefas/store';
 import {GetJuntadas, UnloadJuntadas} from '../../../../../processo/processo-view/store';
+import {GetTarefa} from "../../../../../tarefas/tarefa-detail/store";
 
 @Injectable()
 export class AtividadeDocumentoEffects {
@@ -73,6 +74,8 @@ export class AtividadeDocumentoEffects {
                 tap((action) => {
                     if (action.payload.encerraTarefa) {
                         this._store.dispatch(new RemoveTarefa(action.payload.tarefa.id));
+                    } else {
+                        this._store.dispatch(new GetTarefa({id: action.payload.tarefa.id}));
                     }
                     this._store.dispatch(new UnloadDocumento());
                     if (this.routerState.url.indexOf('/processo') !== -1) {

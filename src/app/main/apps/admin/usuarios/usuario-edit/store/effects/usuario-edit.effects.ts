@@ -49,25 +49,24 @@ export class UsuarioEditEffects {
             .pipe(
                 ofType<UsuarioEditActions.GetUsuario>(UsuarioEditActions.GET_USUARIO),
                 switchMap((action) => {
-                    return this._usuarioService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
+                    return this._usuarioService.get(
+                        action.payload.id,
                         JSON.stringify([
                             'populateAll',
                             'colaborador.cargo',
                             'colaborador.modalidadeColaborador'
-                        ]));
+                        ]),
+                        JSON.stringify({isAdmin: true})
+                    );
                 }),
                 switchMap(response => [
-                    new AddData<Usuario>({data: response['entities'], schema: usuarioSchema}),
+                    new AddData<Usuario>({data: [response], schema: usuarioSchema}),
                     new UsuarioEditActions.GetUsuarioSuccess({
                         loaded: {
                             id: 'usuarioHandle',
                             value: this.routerState.params.usuarioHandle
                         },
-                        usuarioId: response['entities'][0].id
+                        usuarioId: this.routerState.params.usuarioHandle
                     })
                 ]),
                 catchError((err, caught) => {

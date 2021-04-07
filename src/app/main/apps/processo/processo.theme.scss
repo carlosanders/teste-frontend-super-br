@@ -44,6 +44,20 @@
 
         .sidebar {
 
+            .header {
+
+                .filters {
+
+                    .volumes-filter {
+
+                        .index-volume {
+                            color: map-get($foreground, secondary-text);
+                        }
+                    }
+                }
+
+            }
+
             .content {
 
                 .juntada {

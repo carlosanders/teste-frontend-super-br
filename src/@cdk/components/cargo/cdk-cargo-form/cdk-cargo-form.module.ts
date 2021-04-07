@@ -11,6 +11,7 @@ import {
 } from '@cdk/angular/material';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkCargoFormComponent} from './cdk-cargo-form.component';
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [
@@ -25,6 +26,7 @@ import {CdkCargoFormComponent} from './cdk-cargo-form.component';
         MatInputModule,
         MatProgressSpinnerModule,
         MatDatepickerModule,
+        NgxUpperCaseDirectiveModule,
 
         CdkSharedModule,
     ],

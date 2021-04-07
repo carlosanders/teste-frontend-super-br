@@ -41,7 +41,7 @@ import {CdkDocumentoAvulsoFilterModule} from '../sidebars/cdk-documento-avulso-f
         CdkDocumentoAvulsoFilterModule,
     ],
     providers: [
-        DocumentoAvulsoService,
+        DocumentoAvulsoService
     ],
     exports: [
         CdkDocumentoAvulsoGridComponent

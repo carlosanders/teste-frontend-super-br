@@ -54,23 +54,20 @@ export class LotacoesEffects {
             .pipe(
                 ofType<RootLotacoesActions.GetSetor>(RootLotacoesActions.GET_SETOR),
                 switchMap((action) => {
-                    return this._setorService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]));
+                    return this._setorService.get(
+                        action.payload.id,
+                        JSON.stringify(['populateAll']),
+                        JSON.stringify({isAdmin: true})
+                    );
                 }),
                 switchMap(response => [
-                    new AddData<Setor>({data: response['entities'], schema: setorSchema}),
+                    new AddData<Setor>({data: [response], schema: setorSchema}),
                     new RootLotacoesActions.GetSetorSuccess({
                         loaded: {
                             id: 'setorHandle',
                             value: this.routerState.params.setorHandle
                         },
-                        setorId: response['entities'][0].id
+                        setorId: this.routerState.params.setorHandle
                     })
                 ]),
                 catchError((err, caught) => {
@@ -90,23 +87,20 @@ export class LotacoesEffects {
             .pipe(
                 ofType<RootLotacoesActions.GetUsuario>(RootLotacoesActions.GET_USUARIO),
                 switchMap((action) => {
-                    return this._usuarioService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]));
+                    return this._usuarioService.get(
+                        action.payload.id,
+                        JSON.stringify(['populateAll']),
+                        JSON.stringify({isAdmin: true})
+                    );
                 }),
                 switchMap(response => [
-                    new AddData<Usuario>({data: response['entities'], schema: usuarioSchema}),
+                    new AddData<Usuario>({data: [response], schema: usuarioSchema}),
                     new RootLotacoesActions.GetUsuarioSuccess({
                         loaded: {
                             id: 'usuarioHandle',
                             value: this.routerState.params.usuarioHandle
                         },
-                        usuarioId: response['entities'][0].id
+                        usuarioId: this.routerState.params.usuarioHandle
                     })
                 ]),
                 catchError((err, caught) => {

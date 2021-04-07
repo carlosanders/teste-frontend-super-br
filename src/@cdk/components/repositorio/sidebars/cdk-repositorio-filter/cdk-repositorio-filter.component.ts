@@ -40,7 +40,6 @@ export class CdkRepositorioFilterComponent implements OnInit {
     ) {
         this.form = this._formBuilder.group({
             nome: [null],
-            highlights: [null],
             descricao: [null],
             ativo: [null],
             modalidadeRepositorio: [null],
@@ -76,25 +75,6 @@ export class CdkRepositorioFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('nome')) {
                         delete this.filters['nome'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('highlights').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({highlights: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('highlights')) {
-                        delete this.filters['highlights'];
                     }
                 }
             }
