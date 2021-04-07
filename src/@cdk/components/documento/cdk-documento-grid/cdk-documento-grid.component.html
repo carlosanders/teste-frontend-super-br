@@ -219,6 +219,24 @@
                         [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.autor}} </td>
                 </ng-container>
 
+                <!-- Redator Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('redator') > -1" matColumnDef="redator">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Redator
+                    </th>
+                    <td mat-cell *matCellDef="let documento" class='has_label_on_mobile' data-label='Redator: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.autor}} </td>
+                </ng-container>
+
+                <!-- Destinatario Column -->
+                <ng-container *ngIf="displayedColumns.indexOf('destinatario') > -1" matColumnDef="destinatario">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                        Destinatário
+                    </th>
+                    <td mat-cell *matCellDef="let documento" class='has_label_on_mobile' data-label='Destinatário: '
+                        [ngClass]="{'deleted':deletedIds?.indexOf(documento.id) > -1}"> {{documento.destinatario}} </td>
+                </ng-container>
+
                 <!-- Observação Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('observacao') > -1" matColumnDef="observacao">
                     <th mat-header-cell *matHeaderCellDef mat-sort-header>

@@ -48,6 +48,8 @@ export class Documento {
 
     redator?: string;
 
+    destinatario?: string;
+
     localizadorOriginal?: string;
 
     localProducao?: string;
@@ -176,6 +178,7 @@ export class Documento {
         this.processoOrigem = null;
         this.documentoOrigem = null;
         this.redator = null;
+        this.destinatario = null;
         this.procedencia = null;
         this.tipoDocumento = null;
         this.descricaoOutros = null;
