@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
+import {Classificacao} from "../../../../models";
 
 export class ClassificacaoNode {
     id?: number;
     name: string;
+    classificacao?: Classificacao;
     children?: ClassificacaoNode[];
     hasChild: boolean;
 }
@@ -30,6 +32,7 @@ export class CdkClassificacaoTreeService {
             const node = new ClassificacaoNode();
             node.name = value.name;
             node.id = value.id;
+            node.classificacao = value.classificacao;
             node.children = value.children;
             node.hasChild = value.hasChild;
             return accumulator.concat(node);

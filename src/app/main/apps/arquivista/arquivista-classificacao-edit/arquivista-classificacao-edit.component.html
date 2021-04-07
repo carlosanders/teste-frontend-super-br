@@ -3,6 +3,7 @@
     <cdk-classificacao-tree
         [processoId]="this.processoId"
         (save)="submit($event)"
+        (selectClassificacaoHandler)="doSelectClassificacao($event)"
         [saving]="(isSaving$ | async)">
     </cdk-classificacao-tree>
 </div>

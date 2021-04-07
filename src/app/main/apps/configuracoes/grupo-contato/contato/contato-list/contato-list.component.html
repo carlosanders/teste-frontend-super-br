@@ -1,0 +1,13 @@
+<cdk-contato-grid
+        [loading]="(loading$ | async)"
+        [contato]="(contatos$ | async)"
+        [total]="(pagination$ | async)?.total"
+        [deletingIds]="(deletingIds$ | async)"
+        [deletedIds]="(deletedIds$ | async)"
+        [actions]="['create', 'delete']"
+        (reload)="reload($event)"
+        (excluded)="excluded($event)"
+        (edit)="edit($event)"
+        (create)="create()"
+        (delete)="delete($event)">
+</cdk-contato-grid>

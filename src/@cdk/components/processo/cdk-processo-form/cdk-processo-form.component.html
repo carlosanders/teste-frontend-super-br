@@ -84,6 +84,14 @@
             <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
+        <mat-form-field *ngIf="!!this.form.get('id').value">
+            <mat-label>Chave de acesso</mat-label>
+            <input matInput formControlName="chaveAcesso" readonly>
+        </mat-form-field>
+        <mat-slide-toggle formControlName="alterarChave" class="alterar-chave" *ngIf="!!this.form.get('id').value">
+            Alterar chave de acesso
+        </mat-slide-toggle>
+
         <mat-checkbox
             formControlName="nupInvalido"
             *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && nupIsValid == false">
