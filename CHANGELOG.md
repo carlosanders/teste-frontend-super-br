@@ -71,4 +71,85 @@
 * Correção no componente de documentos para retornar para pesquisa corretamente
 * Criado componente de sidebar vazio para componente de documento
 
+1.2.0
 
+* Correção a exibição de usuários disponíveis (não afastados) para recebimento de tarefas na criação de um processo na aba de distribuição
+* Correção na reordenação de juntadas do processo
+* Correção na tela de acompanhamento de processos na configuração
+* Correção na redistribuição de tarefas
+* Correção na validação de nup existente
+* Correção de layout tela de reclassificação em bloco do módulo do arquivista
+* Correção no widget do coordenador no painel
+* Correção no recarregamento de templates no módulo do administrador
+* Correção no módulo de protocolo externo
+* Correção em erro no botão de maximizar editor de documentos
+* Correção ao salvar uma espécie de setor no módulo do administrador
+* Correção para exibir a coluna origem dados no grid de relacionamento pessoal
+* Correção no tamanho máximo do campo CEP no formulario do endereço
+* Correção no formulário de outros nomes da pessoa
+* Correção na paginação das pessoas no modulo admin
+* Correção no formulário de tipos de documentos para marcar os campos obrigatórios
+* Correção para salvar o conteúdo do template ao salvar o template
+* Correção no maximizar o processo quando troca a tela
+* Correção na deleção em lote de endereços, documentos identificadores e relacionamento de pessoas
+* Correção para exibir corretamente os erros no formulario do assunto no módulo do administrador
+* Correção para exibir os erros no cadastro de usuário externo
+* Melhoria para permitir a pré-visualização de repositórios antes da sua atualização
+* Melhoria para gerar relatório em excel da listagem completa de tarefas de maneira simplificada, a partir da lista
+* Melhoria para que o administrador possa transferir tarefas de usuário a ser inativado para coordenação e protocolo
+* Melhoria para que o administrador possa transferir processos do setor a ser inativado para protocolo da unidade
+* Melhoria para configurar a restrição acesso a processo restritos na distribuição/redistribuição de tarefas
+* Melhoria nas pesquisas de processos e de documentos no módulo de pesquisa
+* Correção em erro no botão de maximizar editor de documentos
+* Correção para que botoes injetados nos form documento avulso e remessa apareçam
+* Implementar possibilidade de pesquisar processo no momento de anexar por cópia
+* Deletar múltiplos documentos vinculados não funciona em edição de minutas
+* Deletar múltiplos documentos vinculados não funciona em edição de ofícios
+* Corrigir problema no fechamento de modal de documentos
+* Exibir todas as pessoas vinculadas no menu lateral do protocolo externo
+* Protocolo-externo só deve aparecer se usuário for validado
+* Correção da exibição de autocompletes posteriores na tela de criação de processo externo
+* Correção de CSS de gridsearch de estados
+* Correção de autocomplete de unidade na tela de protocolo-externo
+* Clicar no card de um documento avulso não exibia o conteúdo do componente digital
+* Responder ofício não movia o ofício para a caixa de saída
+* Assinar uma juntada causava duplicação das juntadas na listagem
+* Erro nas setas de navegação de juntadas quando há mais de um componente digital na juntada
+* Possibilitar a navegação de múltiplos componentes digitais clicando no tipo de documento na listagem
+* Correção de upload de resposta de ofício/complementação de ofício
+* Correção de css utilizado na tela de documentos/complementar/responder
+* Atualizar etiquetas da tarefa ao incluir minuta/ofício
+* Atualizar etiquetas da tarefa ao excluir minuta/ofício
+* Correção para exibir as colunas necessárias no grid de vinculacao de processos
+
+1.2.1
+
+* Correção para exibir os erros no salvamento de componente digital dentro do editor
+* Correção para permitir a leitura da prefixo nup pelo coordenador e a escrita pelo admin
+* Correção na edição no processo ao trocar o processo de trabalho [SUPERBR-203]
+* Correção no formulário de criação de unidades [SUPERBR-201]
+* Correção ao acessar os setores, lotações, unidades, competencias de uma unidade que foi desativada [SUPERBR-191]
+* Correção na visualização dos documentos juntados ao adicionar a coluna "Volume" [SUPERBR-187]
+* Correção para retirar a coluna sigla do grid de municipios [SUPERBR-187]
+* Correção nos formularios das especies [SUPERBR-178]
+* Correção não é possível desativar modelo da unidade e tese [SUPERBR-144]
+* Correção colunas do Modelo da Unidade não são exibidos [SUPERBR-142]
+* Correção Checkboxes dos itens da tabela Unidade somem [SUPERBR-140]
+* Correção na tela de pesquisa de documentos
+* Correção filtro de volumes de juntadas no componente processo-view
+* Correção separador de volumes na listagem de juntadas do processo-view
+* Correção modo linear de upload no componente-digital-card-list
+* Correção ordenação de arquivos antes de upload no modo linear
+* Correção modo de upload de componentes digitais em locais que necessitam de linearidade - juntadas
+* Correção de erro em formulário de vinculação de processos
+* Correção na árvore de seleção de setores
+* Correção para melhorar o desempenho do carregamento de tarefas pela unificação dos eventos com a caixa de entrada
+* Correção upload em modo linear inicia automaticamente quando houver apenas um arquivo
+* Correção para atualizar etiquetas da tarefa quando movimenta minuta sem encerrar tarefa
+* Correção de erro no componente de documento-card-list quando da exclusão de múltiplos documentos
+
+1.2.2
+
+* Correção para nova entrada de menu no módulo pessoa
+* Correção para nova entrada de botão no módulo de listar remessas
+* Correção para nova entrada de botão no módulo de listar ofícios

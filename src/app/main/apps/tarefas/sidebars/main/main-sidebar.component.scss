@@ -81,6 +81,8 @@ tarefas-main-sidebar {
             .menu_content_label {
                 display: flex;
                 flex: 1 1 95%;
+                height: 30px;
+                align-items: center;
 
                 > a {
                     color: currentColor;

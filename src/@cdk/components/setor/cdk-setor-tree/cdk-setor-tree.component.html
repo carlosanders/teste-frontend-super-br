@@ -25,7 +25,7 @@
                         <button mat-icon-button disabled></button>
                         {{node.nome}} - {{node.sigla}}
                         <div class="bt-set-action">
-                            <button class="bt-action-select" *ngIf="!node.isLoading" mat-icon-button
+                            <button class="bt-action-select" *ngIf="!node.isLoading && node.parent" mat-icon-button
                                     (click)="setInputSetor(node)"
                                     aria-label="selecionar"
                                     matTooltip="Selecionar">
@@ -46,7 +46,15 @@
                                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
                             </mat-icon>
                         </button>
-                        {{node.nome}}
+                        {{node.nome}} - {{node.sigla}}
+                        <div class="bt-set-action">
+                            <button class="bt-action-select" *ngIf="!node.isLoading && node.parent" mat-icon-button
+                                    (click)="setInputSetor(node)"
+                                    aria-label="selecionar"
+                                    matTooltip="Selecionar">
+                                <mat-icon>keyboard_return</mat-icon>
+                            </button>
+                        </div>
                         <mat-progress-bar *ngIf="node.isLoading"
                                           mode="indeterminate"
                                           class="example-tree-progress-bar"></mat-progress-bar>

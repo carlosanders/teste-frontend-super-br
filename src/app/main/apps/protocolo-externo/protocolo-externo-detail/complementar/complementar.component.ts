@@ -175,7 +175,11 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     }
 
     doVerResposta(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+        const chaveAcesso = this.routerState.params.chaveAcessoHandle ? '/' + this.routerState.params.chaveAcessoHandle : '';
+
+        this._router.navigate([
+            this.routerState.url.split('/detalhe/')[0] + '/documento/' + documento.componentesDigitais[0].id + '/visualizar' + chaveAcesso
+        ]);
     }
 
     doAssinatura(result): void {
@@ -205,7 +209,11 @@ export class ComplementarComponent implements OnInit, OnDestroy {
     }
 
     onClicked(documento): void {
-        this._store.dispatch(new fromStore.ClickedDocumento(documento));
+        const chaveAcesso = this.routerState.params.chaveAcessoHandle ? '/' + this.routerState.params.chaveAcessoHandle : '';
+
+        this._router.navigate([
+            this.routerState.url.split('/detalhe/')[0] + '/documento/' + documento.componentesDigitais[0].id + '/visualizar' + chaveAcesso
+        ]);
     }
 
     onComplete(): void {
@@ -218,5 +226,9 @@ export class ComplementarComponent implements OnInit, OnDestroy {
 
     doConverteHtml(documentoId): void {
         this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
+    }
+
+    doDownloadP7S(componenteDigitalId): void {
+        this._store.dispatch(new fromStore.DownloadToP7S(componenteDigitalId));
     }
 }

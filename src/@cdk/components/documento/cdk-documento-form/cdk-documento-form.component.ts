@@ -63,7 +63,7 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder 
+        private _formBuilder: FormBuilder
     ) {
         this.form = this._formBuilder.group({
             id: [null],
@@ -73,6 +73,7 @@ export class CdkDocumentoFormComponent implements OnChanges, OnDestroy {
             numeroFolhas: [null],
             autor: [null, [Validators.maxLength(255)]],
             redator: [null, [Validators.maxLength(255)]],
+            destinatario: [null, [Validators.maxLength(255)]],
             procedencia: [null],
             localizadorOriginal: [null, [Validators.maxLength(255)]],
             dataHoraProducao: [null],

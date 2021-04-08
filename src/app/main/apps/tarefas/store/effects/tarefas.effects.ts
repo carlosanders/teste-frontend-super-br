@@ -502,4 +502,25 @@ export class TarefasEffect {
                 })
             );
 
+    /**
+     * Gerar Relatorio em Excel
+     * @type {Observable<any>}
+     */
+    @Effect()
+    doGerarRelatorioTarefaExcel: any =
+        this._actions
+            .pipe(
+                ofType<TarefasActions.GerarRelatorioTarefaExcel>(TarefasActions.GERAR_RELATORIO_TAREFA_EXCEL),
+                mergeMap((action) => {
+                    return this._tarefaService.gerarRelatorioTarefaExcel().pipe(
+                        mergeMap((response) => [
+                            new TarefasActions.GerarRelatorioTarefaExcelSuccess(response.id),
+                        ]),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new TarefasActions.GerarRelatorioTarefaExcelFailed());
+                        })
+                    );
+                })
+            );
 }

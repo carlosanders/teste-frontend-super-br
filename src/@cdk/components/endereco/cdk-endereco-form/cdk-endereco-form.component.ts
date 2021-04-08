@@ -68,7 +68,7 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
             pais: [null, [Validators.required]],
             logradouro: [null, [Validators.required, Validators.maxLength(255)]],
             bairro: [null, [Validators.required, Validators.maxLength(255)]],
-            cep: [null, [Validators.required, Validators.maxLength(8)]],
+            cep: [null, [Validators.required, Validators.maxLength(10)]],
             observacao: [null, [Validators.maxLength(255)]],
             numero: [null, [Validators.maxLength(255)]],
             complemento: [null, [Validators.maxLength(255)]],
@@ -136,7 +136,7 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
     getEnderecoByCep(): void{
         if (this.form.get('cep').value) {
             this._enderecoService.getFromCorreiosByCep(
-                this.form.get('cep').value
+                this.form.get('cep').value?.replace(/\D/g, '')
                 )
                 .pipe(
                     catchError(error => of([]))
@@ -179,8 +179,6 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
     showMunicipioGrid(): void {
         this.activeCard = 'municipio-gridsearch';
     }
-
-    
 
     selectPais(pais: Pais): void {
         if (pais) {

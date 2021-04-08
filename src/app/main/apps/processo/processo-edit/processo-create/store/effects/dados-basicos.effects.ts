@@ -173,7 +173,7 @@ export class DadosBasicosEffect {
                 switchMap((action) => {
                     return this._processoService.validaNup(
                         action.payload.configuracaoNup,
-                        action.payload.nup,
+                        action.payload.nup.replace(/\D/g, ''),
                         action.payload.unidadeArquivistica
                     );
                 }),

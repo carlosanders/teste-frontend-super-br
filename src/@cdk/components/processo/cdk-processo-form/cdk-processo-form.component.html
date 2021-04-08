@@ -16,77 +16,6 @@
         </mat-card>
     </div>
 
-    <mat-card *showIfNotRole="'ROLE_COLABORADOR'">
-        <mat-form-field>
-            <mat-label>Estado</mat-label>
-            <mat-select matInput #estado name="estado" formControlName="estado" required>
-                <mat-option *ngFor="let estado of estados" [value]="estado.id">
-                    {{estado.uf}}
-                </mat-option>
-            </mat-select>
-            <mat-error>Campo obrigatório!</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Ramo" formControlName="generoSetor" required
-                [matAutocomplete]="generoSetor.autocomplete" (blur)="checkGeneroSetor()">
-            <cdk-genero-setor-autocomplete #generoSetor="generoSetorAutocomplete" [control]="form.get('generoSetor')"
-                [pagination]="generoSetorPagination">
-            </cdk-genero-setor-autocomplete>
-            <button matSuffix mat-button mat-icon-button [disabled]="!form.get('estado').value"
-                (click)="showGeneroSetorGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('generoSetor').hasError('formError')">
-                {{form.get('generoSetor').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Atividade" formControlName="especieSetor" required
-                [matAutocomplete]="especieSetor.autocomplete" (blur)="checkEspecieSetor()">
-            <cdk-especie-setor-autocomplete #especieSetor="especieSetorAutocomplete"
-                [control]="form.get('especieSetor')" [pagination]="especieSetorPagination">
-            </cdk-especie-setor-autocomplete>
-            <button matSuffix mat-button mat-icon-button [disabled]="!form.get('generoSetor').value"
-                (click)="showEspecieSetorGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
-                {{form.get('especieSetor').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Unidade" formControlName="setorInicial" required
-                [matAutocomplete]="setorInicial.autocomplete" (blur)="checkSetorInicial()">
-            <cdk-setor-autocomplete #setorInicial="setorAutocomplete" [control]="form.get('setorInicial')"
-                [pagination]="setorInicialPagination">
-            </cdk-setor-autocomplete>
-            <button matSuffix mat-button mat-icon-button [disabled]="!form.get('especieSetor').value"
-                (click)="showSetorInicialGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('setorInicial').hasError('formError')">
-                {{form.get('setorInicial').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-
-        <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
-            <input matInput placeholder="Procedência" formControlName="procedencia" required
-                [matAutocomplete]="procedencia.autocomplete" (blur)="checkProcedencia()">
-            <cdk-pessoa-autocomplete #procedencia="pessoaAutocomplete" [control]="form.get('procedencia')"
-                [pagination]="procedenciaPagination">
-            </cdk-pessoa-autocomplete>
-            <button matSuffix mat-button mat-icon-button (click)="showProcedenciaGrid()">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('procedencia').hasError('formError')">
-                {{form.get('procedencia').errors.formError}}
-            </mat-error>
-        </mat-form-field>
-    </mat-card>
-
     <mat-card *showIfRole="'ROLE_COLABORADOR'">
 
         <mat-card-subtitle>Unidade Arquivística</mat-card-subtitle>
@@ -155,6 +84,14 @@
             <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
+        <mat-form-field *ngIf="!!this.form.get('id').value">
+            <mat-label>Chave de acesso</mat-label>
+            <input matInput formControlName="chaveAcesso" readonly>
+        </mat-form-field>
+        <mat-slide-toggle formControlName="alterarChave" class="alterar-chave" *ngIf="!!this.form.get('id').value">
+            Alterar chave de acesso
+        </mat-slide-toggle>
+
         <mat-checkbox
             formControlName="nupInvalido"
             *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && nupIsValid == false">
@@ -192,30 +129,6 @@
             <mat-error *ngIf="form.get('procedencia').hasError('formError')">
                 {{form.get('procedencia').errors.formError}}
             </mat-error>
-        </mat-form-field>
-    </mat-card>
-
-    <mat-card *showIfNotRole="'ROLE_COLABORADOR'">
-        <mat-form-field>
-            <mat-label>Resumo</mat-label>
-            <input matInput #descricao name="descricao" formControlName="descricao" maxlength="255" upperCase required>
-            <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('descricao')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-            <mat-error>Campo obrigatório!</mat-error>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Requerimento</mat-label>
-            <input matInput #requerimento name="requerimento" formControlName="requerimento" maxlength="255" upperCase
-                required>
-            <mat-hint align="end">{{requerimento.value.length}} / 255</mat-hint>
-            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('requerimento')">
-                <mat-icon matTooltip="Histórico">history</mat-icon>
-            </button>
-            <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
     </mat-card>
 
@@ -421,11 +334,6 @@
 
 <cdk-setor-gridsearch *ngIf="activeCard === 'setor-gridsearch'" [pagination]="setorAtualPagination"
     (selected)="selectSetor($event)" (cancel)="cancel()">
-</cdk-setor-gridsearch>
-
-<cdk-setor-gridsearch *ngIf="activeCard === 'setor-inicial-gridsearch'" [pagination]="setorInicialPagination"
-    [displayedColumns]="['select', 'id', 'unidade.nome', 'actions']" (selected)="selectSetorInicial($event)"
-    (cancel)="cancel()">
 </cdk-setor-gridsearch>
 
 <cdk-logentry-gridsearch *ngIf="activeCard === 'logentry-gridsearch'" [pagination]="logEntryPagination"

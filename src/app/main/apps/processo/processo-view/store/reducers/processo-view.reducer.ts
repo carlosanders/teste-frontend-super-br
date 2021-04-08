@@ -113,6 +113,7 @@ export function ProcessoViewReducer(state = ProcessoViewInitialState, action: Pr
                 return {
                     ...state,
                     entitiesId: [],
+                    index: [],
                     pagination: {
                         ...state.pagination,
                         limit: 10,

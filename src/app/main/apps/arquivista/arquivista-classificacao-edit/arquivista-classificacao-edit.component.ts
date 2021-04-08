@@ -3,9 +3,11 @@ import * as fromStore from './store';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, RouterStateUrl} from '../../../../store/reducers';
 import {Observable, Subject} from 'rxjs';
-import {Processo} from '../../../../../@cdk/models';
+import {Classificacao, Processo} from '../../../../../@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '../../../../../@cdk/animations';
+import {MatDialog} from "../../../../../@cdk/angular/material";
+import {CdkProcessoModalClassificacaoRestritaComponent} from "../../../../../@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component";
 
 @Component({
     selector: 'arquivista-classificacao-edit',
@@ -27,7 +29,8 @@ export class ArquivistaClassificacaoEditComponent implements OnInit {
     errors$: Observable<any>;
 
     constructor(
-        private _store: Store<fromStore.ArquivistaClassificacaoAppState>
+        private _store: Store<fromStore.ArquivistaClassificacaoAppState>,
+        public dialog: MatDialog
     ) {
         this.constructObservables();
         this.initRouteState();
@@ -57,6 +60,16 @@ export class ArquivistaClassificacaoEditComponent implements OnInit {
                     this.routerState = routerState.state;
                 }
             });
+    }
+
+    doSelectClassificacao(classificacao: Classificacao): void {
+        if (classificacao.visibilidadeRestrita === true) {
+            this.dialog.open(CdkProcessoModalClassificacaoRestritaComponent, {
+                data: {},
+                hasBackdrop: false,
+                closeOnNavigation: true
+            });
+        }
     }
 
     submit(values: any): void {

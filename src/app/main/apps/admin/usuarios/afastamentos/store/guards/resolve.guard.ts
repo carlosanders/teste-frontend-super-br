@@ -59,7 +59,7 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!loaded || this.routerState.params['usuarioHandle'] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetUsuario({
-                        id: 'eq:' + this.routerState.params['usuarioHandle']
+                        id: this.routerState.params['usuarioHandle']
                     }));
                 }
             }),

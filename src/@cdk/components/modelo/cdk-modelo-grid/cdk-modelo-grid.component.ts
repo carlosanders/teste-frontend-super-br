@@ -41,107 +41,148 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     @Input()
     mode = 'list';
 
+    @Input()
+    documento = false;
+
     @Output()
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'nome', 'modalidadeModelo.valor', 'highlights', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'nome', 'modalidadeModelo.valor', 'ativo', 'highlights', 'actions'];
 
     allColumns: any[] = [
         {
             id: 'select',
             label: '',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'id',
             label: 'Id',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'nome',
             label: 'nome',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'highlights',
-            label: 'Highlights',
-            fixed: false
+            label: 'Resumo',
+            fixed: false,
+            mode: 'search',
+            sort: 'none'
         },
         {
             id: 'ativo',
             label: 'Ativo',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'descricao',
             label: 'Descrição',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'modalidadeModelo.valor',
             label: 'Modalidade',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'template.nome',
             label: 'Template',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'vinculacoesModelos.setor.nome',
             label: 'Setor',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'vinculacoesModelos.unidade.nome',
             label: 'Unidade',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
-            id: 'vinculacaoModelo.modalidadeOrgaoCentral.valor',
+            id: 'vinculacoesModelo.modalidadeOrgaoCentral.valor',
             label: 'Órgão Central',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'documento.tipoDocumento.nome',
             label: 'Documento',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'criadoPor.nome',
             label: 'Criado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'criadoEm',
             label: 'Criado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'atualizadoPor.nome',
             label: 'Atualizado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'atualizadoEm',
             label: 'Atualizado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'apagadoPor.nome',
             label: 'Apagado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'apagadoEm',
             label: 'Apagado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'actions',
             label: '',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         }
     ];
 
@@ -235,14 +276,14 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
 
         this.dataSource = new ModeloDataSource(of(this.modelos));
 
-        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+        this.columns.setValue(this.getAllColumns().map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
         this.columns.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.getAllColumns().forEach(c => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -251,6 +292,22 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
                 return of([]);
             })
         ).subscribe();
+    }
+
+    getSort(columnId: string): boolean {
+        let disabled = true;
+        this.getAllColumns().forEach(c => {
+            if (c.id === columnId && (c.sort === 'all' || c.sort === this.mode)) {
+                disabled = false;
+            }
+        });
+        return disabled;
+    }
+
+    getAllColumns(): any[] {
+        return this.allColumns.filter(
+            c => c.mode === 'all' || c.mode === this.mode
+        );
     }
 
     ngAfterViewInit(): void {

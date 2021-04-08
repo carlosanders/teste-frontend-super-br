@@ -5,7 +5,8 @@
 
     <cdk-classificacao-tree
         (save)="submit($event)"
-        [saving]="(isSaving$ | async)">
+        [saving]="(isSaving$ | async)"
+        (selectClassificacaoHandler)="doSelectClassificacao($event)">
     </cdk-classificacao-tree>
 
     <mat-list *ngIf="operacoes.length > 0 && (isSaving$ | async) === false">

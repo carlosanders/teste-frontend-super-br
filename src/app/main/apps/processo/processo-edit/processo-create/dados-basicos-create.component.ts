@@ -19,7 +19,7 @@ import {
     VinculacaoProcesso,
     Tarefa,
     Juntada,
-    ConfiguracaoNup
+    ConfiguracaoNup, Classificacao
 } from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -42,6 +42,8 @@ import {getVinculacaoProcessoIsSaving} from './store';
 import {getTarefaIsSaving} from './store';
 import {getProcesso} from '../../store';
 import {configuracaoNup} from "@cdk/normalizr";
+import {CdkProcessoModalClassificacaoRestritaComponent} from "@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component";
+import {MatDialog} from "@cdk/angular/material";
 
 @Component({
     selector: 'dados-basicos-create',
@@ -119,6 +121,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     screen$: Observable<any>;
     vinculacoesProcessosPagination: any;
     vinculacaoProcessoActivated = 'from';
+    processoVinculadoPagination: Pagination;
 
     tarefa: Tarefa;
     isSavingTarefa$: Observable<boolean>;
@@ -151,6 +154,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      * @param _loginService
      * @param _formBuilder
      * @param renderer
+     * @param dialog
      */
     constructor(
         private _store: Store<fromStore.DadosBasicosAppState>,
@@ -158,6 +162,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         public _loginService: LoginService,
         private _formBuilder: FormBuilder,
         private renderer: Renderer2,
+        public dialog: MatDialog
     ) {
         this.isSavingProcesso$ = this._store.pipe(select(fromStore.getProcessoIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getProcessoErrors));
@@ -210,6 +215,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
         this.setorOrigemPagination.populate = ['unidade', 'parent'];
         this.setorOrigemPagination.filter = {id: 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')};
+
+        this.processoVinculadoPagination = new Pagination();
+        this.processoVinculadoPagination.populate = ['setorAtual', 'setorAtual.unidade'];
 
         this.formProcesso = this._formBuilder.group({
             id: [null],
@@ -333,6 +341,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
                 this.assuntoActivated = 'form';
                 this.interessadoActivated = 'form';
                 this.vinculacaoProcessoActivated = 'form';
+                this.processoVinculadoPagination.filter = {
+                    'id':'neq:' + this.processo.id
+                };
 
                 this.assunto = new Assunto();
                 this.assunto.processo = this.processo;
@@ -459,6 +470,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
      * On destroy
      */
     ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadTarefa());
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
@@ -752,5 +764,15 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
 
     validateNup(values: any){
        this._store.dispatch(new fromStore.ValidaNup(values));
+    }
+
+    doSelectClassificacao(classificacao: Classificacao): void {
+        if (classificacao && classificacao.visibilidadeRestrita === true && this.processo.acessoRestrito !== true) {
+            this.dialog.open(CdkProcessoModalClassificacaoRestritaComponent, {
+                data: {},
+                hasBackdrop: false,
+                closeOnNavigation: true
+            });
+        }
     }
 }

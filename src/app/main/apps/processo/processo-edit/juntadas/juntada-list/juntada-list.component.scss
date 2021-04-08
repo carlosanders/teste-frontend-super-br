@@ -21,8 +21,8 @@ juntada-list {
 
         > cdk-componente-digital-card-list {
             > .toolbar {
-                flex: 0 0 auto !important;
-                flex-wrap: nowrap !important;
+                flex: 0 1 auto !important;
+                flex-wrap: wrap !important;
             }
         }
     }

@@ -27,11 +27,6 @@ export const getTemplateLoaded = createSelector(
     (state: TemplateEditDadosBasicosState) => state.loaded
 );
 
-export const getIsLoading = createSelector(
-    getTemplateEditState,
-    (state: TemplateEditDadosBasicosState) => state.loading
-);
-
 export const getIsSaving = createSelector(
     getTemplateEditState,
     (state: TemplateEditDadosBasicosState) => state.saving

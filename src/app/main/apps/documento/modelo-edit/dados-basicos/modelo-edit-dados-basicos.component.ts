@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy,
-    Component, Input,
+    Component,
     OnDestroy,
     OnInit, ViewChild, ViewContainerRef,
     ViewEncapsulation

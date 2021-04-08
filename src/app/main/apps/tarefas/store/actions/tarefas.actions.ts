@@ -81,6 +81,11 @@ export const REDISTRIBUIR_TAREFA_SUCCESS = '[TAREFAS] REDISTRIBUIR TAREFA SUCCES
 export const REDISTRIBUIR_TAREFA_CANCEL = '[TAREFAS] REDISTRIBUIR TAREFA CANCEL';
 export const REDISTRIBUIR_TAREFA_CANCEL_SUCCESS = '[TAREFAS] REDISTRIBUIR TAREFA CANCEL SUCCESS';
 
+export const GERAR_RELATORIO_TAREFA_EXCEL = '[TAREFAS] GERAR RELATORIO TAREFA EXCEL';
+export const GERAR_RELATORIO_TAREFA_EXCEL_FAILED = '[TAREFAS] GERAR RELATORIO TAREFA EXCEL FAILED';
+export const GERAR_RELATORIO_TAREFA_EXCEL_SUCCESS = '[TAREFAS] GERAR RELATORIO TAREFA EXCEL SUCCESS';
+
+
 /**
  * Unload Tarefas
  */
@@ -679,6 +684,36 @@ export class RedistribuirTarefaCancelSuccess implements Action
 }
 
 /**
+ * Gerar Relatorio em Excel
+ */
+export class GerarRelatorioTarefaExcel implements Action
+{
+    readonly type = GERAR_RELATORIO_TAREFA_EXCEL;
+
+    constructor()
+    {
+    }
+}
+
+export class GerarRelatorioTarefaExcelFailed implements Action
+{
+    readonly type = GERAR_RELATORIO_TAREFA_EXCEL_FAILED;
+
+    constructor()
+    {
+    }
+}
+
+export class GerarRelatorioTarefaExcelSuccess implements Action
+{
+    readonly type = GERAR_RELATORIO_TAREFA_EXCEL_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
  * Remove Tarefa
  */
 export class RemoveTarefa implements Action {
@@ -746,4 +781,7 @@ export type TarefasActionsAll
     | RedistribuirTarefaSuccess
     | RedistribuirTarefaCancel
     | RedistribuirTarefaCancelSuccess
-    | RemoveTarefa;
+    | RemoveTarefa
+    | GerarRelatorioTarefaExcel
+    | GerarRelatorioTarefaExcelFailed
+    | GerarRelatorioTarefaExcelSuccess;

@@ -31,6 +31,11 @@ export const CONVERTE_DOCUMENTO_ATIVIDADE_HTML = '[PROTOCOLO-DOCUMENTO] CONVERTE
 export const CONVERTE_DOCUMENTO_HTML_SUCESS = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCUMENTO ATIVIDADE HTML SUCCESS';
 export const CONVERTE_DOCUMENTO_HTML_FAILED = '[PROTOCOLO-DOCUMENTO] CONVERTE DOCUMENTO ATIVIDADE HTML FAILED';
 
+export const DOWNLOAD_DOCUMENTO_P7S = '[PROTOCOLO-DOCUMENTO] DOWNLOAD DOCUMENTO P7S';
+export const DOWNLOAD_DOCUMENTO_SUCCESS = '[PROTOCOLO-DOCUMENTO] DOWNLOAD DOCUMENTO P7S SUCESS';
+export const DOWNLOAD_DOCUMENTO_FAILED = '[PROTOCOLO-DOCUMENTO] DOWNLOAD DOCUMENTO P7S FAILED';
+
+
 /**
  * Unload Documentos
  */
@@ -281,6 +286,36 @@ export class ConverteToHtmlFailed implements Action
     }
 }
 
+/**
+ * Download P7S
+ */
+export class DownloadToP7S implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadToP7SSuccess implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadToP7SFailed implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type ProtocoloDocumentoActionsAll
     = EnviarDocumento
     | EnviarDocumentoSuccess
@@ -303,4 +338,7 @@ export type ProtocoloDocumentoActionsAll
     | ConverteToPdfFailed
     | ConverteToHtml
     | ConverteToHtmlSucess
-    | ConverteToHtmlFailed;
+    | ConverteToHtmlFailed
+    | DownloadToP7S
+    | DownloadToP7SSuccess
+    | DownloadToP7SFailed;

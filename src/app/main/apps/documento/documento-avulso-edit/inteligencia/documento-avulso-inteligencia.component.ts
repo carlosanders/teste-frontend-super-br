@@ -19,6 +19,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
+import * as fromStoreComponente from "../../componente-digital/store";
 
 @Component({
     selector: 'documento-avulso-inteligencia',
@@ -35,7 +36,6 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
     pagination$: Observable<any>;
     pagination: any;
 
-    repositorioIdLoadind$: Observable<boolean>;
     repositorioIdLoaded$: Observable<number>;
 
     componenteDigital$: Observable<ComponenteDigital>;
@@ -68,7 +68,6 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
         this.pagination$ = this._store.pipe(select(fromStore.getRepositoriosPagination));
         this.loading$ = this._store.pipe(select(fromStore.getRepositoriosIsLoading));
 
-        this.repositorioIdLoadind$ = this._store.pipe(select(fromStore.getComponenteDigitalLoading));
         this.repositorioIdLoaded$ = this._store.pipe(select(fromStore.getComponenteDigitalLoaded));
     }
 
@@ -158,4 +157,9 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
             repositorioId: repositorio.id
         }));
     }
+
+    showConteudo(data: any): void {
+        this._store.dispatch(new fromStoreComponente.VisualizarVersaoComponenteDigital(data.toString()));
+    }
+
 }

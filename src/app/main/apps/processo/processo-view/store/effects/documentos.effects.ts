@@ -18,9 +18,10 @@ import {environment} from 'environments/environment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetJuntadas} from '../actions';
+import {GetJuntadas, UnloadJuntadas} from '../actions';
 import {getBufferingDelete, getDeletingDocumentosId, getPagination} from '../selectors';
 import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
+import {GetTarefa} from "../../../../tarefas/tarefa-detail/store";
 
 @Injectable()
 export class ProcessoViewDocumentosEffects {
@@ -248,6 +249,9 @@ export class ProcessoViewDocumentosEffects {
                                 undo: 'inherent'
                             }));
                             new UpdateData<Documento>({id: response.id, schema: documentoSchema, changes: {apagadoEm: response.apagadoEm}});
+                            if (this.routerState.params['tarefaHandle']) {
+                                this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
+                            }
                             return new ProcessoViewDocumentosActions.DeleteDocumentoSuccess(response.id);
                         }),
                         catchError((err) => {
@@ -304,12 +308,15 @@ export class ProcessoViewDocumentosEffects {
         this._actions
             .pipe(
                 ofType<ProcessoViewDocumentosActions.AssinaJuntada>(ProcessoViewDocumentosActions.ASSINA_JUNTADA),
-                mergeMap((action) => {
+                withLatestFrom(this._store.pipe(select(getPagination))),
+                switchMap(([action, pagination]) => {
                         return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                             .pipe(
-                                map((response) => {
-                                    return new ProcessoViewDocumentosActions.AssinaJuntadaSuccess(response);
-                                }),
+                                mergeMap((response) => [
+                                    new ProcessoViewDocumentosActions.AssinaJuntadaSuccess(response),
+                                    new UnloadJuntadas({reset: false}),
+                                    new GetJuntadas(pagination),
+                                ]),
                                 catchError((err, caught) => {
                                     console.log(err);
                                     this._store.dispatch(new ProcessoViewDocumentosActions.AssinaJuntadaFailed(err));
@@ -428,6 +435,7 @@ export class ProcessoViewDocumentosEffects {
                         mergeMap((response: Assinatura) => [
                             new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
+                            new UnloadJuntadas({reset: false}),
                             new GetJuntadas(pagination),
                             new OperacoesActions.Resultado({
                                 type: 'assinatura',

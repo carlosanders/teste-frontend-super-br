@@ -6,6 +6,8 @@ import {
 
 import { CdkSharedModule } from '@cdk/shared.module';
 import { CdkComponenteDigitalCardComponent } from './cdk-componente-digital-card.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
     declarations: [
@@ -21,6 +23,8 @@ import { CdkComponenteDigitalCardComponent } from './cdk-componente-digital-card
         MatProgressSpinnerModule,
 
         CdkSharedModule,
+        MatTooltipModule,
+        DragDropModule,
     ],
     providers: [
     ],

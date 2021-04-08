@@ -80,6 +80,11 @@ export class ConfiguracoesMainSidebarComponent implements OnInit, OnDestroy {
                     icon: 'record_voice_over',
                     link: 'acompanhamentos'
                 },
+                {
+                    nome: 'Grupo de Contatos',
+                    icon: 'contacts',
+                    link: 'grupo-contato'
+                },
                 // {
                 //    nome: 'Favoritos',
                 //    icon: 'star_border',

@@ -42,7 +42,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     create = new EventEmitter<any>();
 
     @Input()
-    displayedColumns: string[] = ['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'highlights', 'actions'];
+    displayedColumns: string[] = ['select', 'id', 'documento.juntadaAtual.volume.processo.NUP', 'documento.tipoDocumento', 'actions'];
 
     @Input()
     mobileMode = false;
@@ -51,162 +51,205 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         {
             id: 'select',
             label: '',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'id',
             label: 'Id',
-            fixed: true
-        },
-        {
-            id: 'conteudo',
-            label: 'Conteúdo',
-            fixed: false
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'editavel',
             label: 'Editável',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'assinado',
             label: 'Assinado',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'none'
         },
         {
             id: 'fileName',
             label: 'Arquivo',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'highlights',
             label: 'Resumo',
-            fixed: false
+            fixed: false,
+            mode: 'search',
+            sort: 'none'
         },
         {
             id: 'numeracaoSequencial',
             label: 'Numeração Sequencial',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'tamanho',
             label: 'Tamanho',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'nivelComposicao',
             label: 'Nível Composição',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'softwareCriacao',
             label: 'Software de Criação',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'chaveInibidor',
             label: 'Chave Inibidor',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'versaoSoftwareCriacao',
             label: 'Versão do Software de Criação',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'mimetype',
             label: 'Mimetype',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'extensao',
             label: 'Extensão',
-            fixed: false
-        },
-        {
-            id: 'usernameLockEdicao',
-            label: 'Username Lock Edição',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'dataHoraSoftwareCriacao',
             label: 'Data Software Criação',
-            fixed: false
-        },
-        {
-            id: 'dataHoraLockEdicao',
-            label: 'Data Lock Edição',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'modalidadeAlvoInibidor.valor',
             label: 'Modalidade Alvo Inibidor',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'modalidadeTipoInibidor.valor',
             label: 'Modalidade Tipo Inibidor',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'modelo.nome',
             label: 'Modelo',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'documento.juntadaAtual.volume.processo.NUP',
             label: 'NUP',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
-            id: 'tarefaOrigem.especieTarefa.nome',
-            label: 'Tarefa de Origem',
-            fixed: false
+            id: 'documento.juntadaAtual.criadoEm',
+            label: 'Juntado Em',
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
-            id: 'documentoAvulsoOrigem.especieDocumentoAvulso.nome',
-            label: 'Documento Avulso Origem',
-            fixed: false
+            id: 'documento.juntadaAtual.criadoPor.nome',
+            label: 'Juntado Por',
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'origemDados',
             label: 'Origem dos Dados',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'criadoPor.nome',
             label: 'Criado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'criadoEm',
             label: 'Criado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'atualizadoPor.nome',
             label: 'Atualizado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'atualizadoEm',
             label: 'Atualizado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'apagadoPor.nome',
             label: 'Apagado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'apagadoEm',
             label: 'Apagado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'actions',
             label: '',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         }
     ];
 
@@ -301,18 +344,14 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
 
         this.dataSource = new ComponenteDigitalDataSource(of(this.componentesDigitais));
 
-        // if (this.mode === 'search') {
-        //     this.toggleFilter();
-        // }
-
-        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+        this.columns.setValue(this.getAllColumns().map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
         this.columns.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.getAllColumns().forEach(c => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -321,6 +360,22 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
                 return of([]);
             })
         ).subscribe();
+    }
+
+    getSort(columnId: string): boolean {
+        let disabled = true;
+        this.getAllColumns().forEach(c => {
+            if (c.id === columnId && (c.sort === 'all' || c.sort === this.mode)) {
+                disabled = false;
+            }
+        });
+        return disabled;
+    }
+
+    getAllColumns(): any[] {
+        return this.allColumns.filter(
+            c => c.mode === 'all' || c.mode === this.mode
+        );
     }
 
     ngAfterViewInit(): void {

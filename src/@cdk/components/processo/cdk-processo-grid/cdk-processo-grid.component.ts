@@ -9,7 +9,7 @@ import {
     Input,
     OnChanges,
     Output,
-    EventEmitter, ElementRef, ContentChild
+    EventEmitter,
 } from '@angular/core';
 import {merge, of} from 'rxjs';
 
@@ -56,156 +56,203 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
     @Input()
     displayedColumns: string[] = ['select', 'id', 'NUP', 'setorAtual.nome', 'unidade', 'actions'];
 
+    @Input()
     allColumns: any[] = [
         {
             id: 'select',
             label: '',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'id',
             label: 'Id',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'NUP',
             label: 'Processo',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'unidade',
             label: 'Unidade',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'descricao',
             label: 'Descricao',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'valorEconomico',
             label: 'Valor',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'semValorEconomico',
-            label: 'Sem Valor',
-            fixed: false
+            label: 'Sem Valor Econômico',
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'especieProcesso.nome',
-            label: 'Espécie Processo',
-            fixed: false
+            label: 'Processo de Trabalho',
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'visibilidadeExterna',
             label: 'Visibilidade Externa',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'dataHoraAbertura',
             label: 'Data Abertura',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'dataHoraProximaTransicao',
             label: 'Data Próxima Transição',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'titulo',
             label: 'Título',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'outroNumero',
             label: 'Outro Número',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'chaveAcesso',
             label: 'Chave Acesso',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'modalidadeMeio',
             label: 'Modalidade Meio',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'modalidadeFase.valor',
             label: 'Modalidade Fase',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'documentoAvulsoOrigem.setorOrigem.nome',
             label: 'Documento Avulso Origem',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'classificacao.nome',
             label: 'Classificação',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'procedencia.nome',
-            label: 'ProcedÊncia',
-            fixed: false
+            label: 'Procedência',
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'localizador.nome',
             label: 'Localizador',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'setorAtual.nome',
-            label: 'Setor Atual',
-            fixed: false
+            label: 'Setor Responsável',
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'setorInicial.nome',
             label: 'Setor Inicial',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'origemDados',
             label: 'Origem Dados',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'criadoPor.nome',
             label: 'Criado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'criadoEm',
             label: 'Criado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'atualizadoPor.nome',
             label: 'Atualizado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'atualizadoEm',
             label: 'Atualizado Em',
-            fixed: false
-        },
-        {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'actions',
             label: '',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'list'
         }
     ];
 
@@ -249,6 +296,9 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Output()
     selected = new EventEmitter<Processo>();
+
+    @Output()
+    restricoesAcesso = new EventEmitter<Processo>();
 
     @Output()
     selectedIds: number[] = [];
@@ -296,14 +346,14 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
         this.dataSource = new ProcessoDataSource(of(this.processos));
 
-        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+        this.columns.setValue(this.getAllColumns().map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
         this.columns.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.getAllColumns().forEach(c => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -312,6 +362,22 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
                 return of([]);
             })
         ).subscribe();
+    }
+
+    getSort(columnId: string): boolean {
+        let disabled = true;
+        this.getAllColumns().forEach(c => {
+            if (c.id === columnId && (c.sort === 'all' || c.sort === this.mode)) {
+                disabled = false;
+            }
+        });
+        return disabled;
+    }
+
+    getAllColumns(): any[] {
+        return this.allColumns.filter(
+            c => c.mode === 'all' || c.mode === this.mode
+        );
     }
 
     ngAfterViewInit(): void {
@@ -391,6 +457,10 @@ export class CdkProcessoGridComponent implements AfterViewInit, OnInit, OnChange
 
     deleteProcessos(processosId): void {
         processosId.forEach(processoId => this.deleteProcesso(processoId));
+    }
+
+    doRestricoesAcesso(processo:Processo): void {
+        this.restricoesAcesso.emit(processo);
     }
 
     /**

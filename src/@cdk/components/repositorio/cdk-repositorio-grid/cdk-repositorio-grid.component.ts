@@ -38,6 +38,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     @Input()
     mode = 'list';
 
+    @Input()
+    documento = false;
+
     @Output()
     create = new EventEmitter<any>();
 
@@ -48,92 +51,128 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
         {
             id: 'select',
             label: '',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'id',
             label: 'Id',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         },
         {
             id: 'nome',
             label: 'Nome',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'highlights',
-            label: 'Highlights',
-            fixed: false
+            label: 'Resumo',
+            fixed: false,
+            mode: 'search',
+            sort: 'none'
         },
         {
             id: 'descricao',
             label: 'Descrição',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'ativo',
             label: 'Ativo',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'modalidadeRepositorio.valor',
             label: 'Modalidade da Tese',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'documento.tipoDocumento.nome',
             label: 'Documento',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'vinculacoesRepositorios.setor.nome',
             label: 'Setor',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'vinculacoesRepositorios.unidade.nome',
             label: 'Unidade',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'vinculacoesRepositorios.modalidadeOrgaoCentral.valor',
             label: 'Órgão Central',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'criadoPor.nome',
             label: 'Criado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'criadoEm',
             label: 'Criado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'atualizadoPor.nome',
             label: 'Atualizado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'atualizadoEm',
             label: 'Atualizado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'apagadoPor.nome',
             label: 'Apagado Por',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'apagadoEm',
             label: 'Apagado Em',
-            fixed: false
+            fixed: false,
+            mode: 'all',
+            sort: 'list'
         },
         {
             id: 'actions',
             label: '',
-            fixed: true
+            fixed: true,
+            mode: 'all',
+            sort: 'all'
         }
     ];
 
@@ -144,9 +183,6 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
     @Input()
     deletedIds: number[] = [];
-
-    @Input()
-    downloadingId: number;
 
     @Input()
     downloadedId: number;
@@ -194,6 +230,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     download = new EventEmitter<Repositorio>();
 
     @Output()
+    visualizar = new EventEmitter();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: RepositorioDataSource;
@@ -236,14 +275,14 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
 
         this.dataSource = new RepositorioDataSource(of(this.repositorios));
 
-        this.columns.setValue(this.allColumns.map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
+        this.columns.setValue(this.getAllColumns().map(c => c.id).filter(c => this.displayedColumns.indexOf(c) > -1));
 
         this.columns.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.getAllColumns().forEach(c => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -252,6 +291,22 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
                 return of([]);
             })
         ).subscribe();
+    }
+
+    getSort(columnId: string): boolean {
+        let disabled = true;
+        this.getAllColumns().forEach(c => {
+            if (c.id === columnId && (c.sort === 'all' || c.sort === this.mode)) {
+                disabled = false;
+            }
+        });
+        return disabled;
+    }
+
+    getAllColumns(): any[] {
+        return this.allColumns.filter(
+            c => c.mode === 'all' || c.mode === this.mode
+        );
     }
 
     ngAfterViewInit(): void {
@@ -390,4 +445,9 @@ export class CdkRepositorioGridComponent implements AfterViewInit, OnInit, OnCha
     doCreate(): void {
         this.create.emit();
     }
+
+    doShow(documento: Documento): void {
+        this.visualizar.emit(documento.componentesDigitais[0].hash)
+    }
+
 }

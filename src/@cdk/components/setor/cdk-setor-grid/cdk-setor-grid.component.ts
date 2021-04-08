@@ -41,6 +41,9 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     @Output()
     create = new EventEmitter<any>();
 
+    @Output()
+    transferirProcessosProtocolo = new EventEmitter<Setor>();
+
     @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'sigla', 'actions'];
 
@@ -48,7 +51,7 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
         {
             id: 'select',
             label: '',
-            fixed: true
+            fixed: false
         },
         {
             id: 'id',
@@ -204,7 +207,7 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
     pageSize = 10;
 
     @Input()
-    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'localizadores', 'numeros-unicos-documentos'];
+    actions: string[] = ['edit', 'delete', 'select', 'lotacoes', 'localizadores', 'numeros-unicos-documentos', 'transferirProcessosProtocolo'];
 
     @ViewChild(MatPaginator, {static: true})
     paginator: MatPaginator;
@@ -450,6 +453,10 @@ export class CdkSetorGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     doCancel(): void {
         this.cancel.emit();
+    }
+
+    doTransferirProcessosProtocolo(setor: Setor): void {
+        this.transferirProcessosProtocolo.emit(setor);
     }
 
 }

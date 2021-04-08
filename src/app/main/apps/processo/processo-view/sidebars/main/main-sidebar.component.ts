@@ -12,13 +12,13 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Assinatura, Documento, Juntada, Pagination, Processo, Tarefa} from '@cdk/models';
+import {Assinatura, Documento, Juntada, Pagination, Processo, Tarefa, Volume} from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
-import {getDocumentosHasLoaded} from '../../store';
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
+import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -26,7 +26,7 @@ import {getMercureState, getRouterState} from '../../../../../../store';
 import {getProcesso} from '../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {getTarefa} from '../../../../tarefas/tarefa-detail/store';
+import {GetTarefa, getTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {LoginService} from '../../../../../auth/login/login.service';
@@ -49,6 +49,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     private _unsubscribeAll: Subject<any> = new Subject();
     private _unsubscribeDocs: Subject<any> = new Subject();
 
+    sort: string = 'DESC';
+
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
 
@@ -62,6 +64,16 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     documentos$: Observable<Documento[]>;
     minutas: Documento[] = [];
     oficios: Documento[] = [];
+
+    volumes$: Observable<Volume[]>;
+    volumes: Volume[];
+
+    juntadasByVolume: any;
+
+    loadingVolumes$: Observable<boolean>;
+
+    selectedVolume$: Observable<any>;
+    selectedVolume: number = null;
 
     errors$: Observable<any>;
 
@@ -114,7 +126,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     @ViewChild('menuTriggerList') menuTriggerList: MatMenuTrigger;
 
-    volumePaginaton: Pagination;
+    volumesPagination$: Observable<any>;
+    volumesPagination: any;
 
     routerState: any;
 
@@ -191,10 +204,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.expandir$ = this._store.pipe(select(fromStore.expandirTela));
         this.isLoading$ = this._store.pipe(select(fromStore.getIsLoading));
+        this.loadingVolumes$ = this._store.pipe(select(fromStore.getIsLoadingVolumes));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
         this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
+        this.volumesPagination$ = this._store.pipe(select(fromStore.getVolumesPagination));
         this.processo$ = this._store.pipe(select(getProcesso));
+
+        this.volumes$ = this._store.pipe(select(getVolumes));
+        this.selectedVolume$ = this._store.pipe(select(getSelectedVolume));
 
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
 
@@ -213,6 +231,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             juntadas => {
                 this.juntadas = juntadas;
                 this.totalSteps = juntadas.length;
+
+                this.juntadasByVolume = CdkUtils.groupArrayByFunction(juntadas, juntada => juntada.volume.numeracaoSequencial);
             }
         );
 
@@ -227,12 +247,24 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             index => this.index = index
         );
 
+        this.selectedVolume$.subscribe(
+            volume => this.selectedVolume = volume
+        );
+
         this.pagination$.subscribe(
             pagination => this.pagination = pagination
         );
 
+        this.volumesPagination$.subscribe(
+            pagination => this.volumesPagination = pagination
+        );
+
         this.processo$.subscribe(
             processo => this.processo = processo
+        );
+
+        this.volumes$.subscribe(
+            volumes => this.volumes = volumes
         );
 
         this._store
@@ -243,9 +275,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 this.routerState = routerState.state;
 
                 this.tarefa$.next(!!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1);
-
-                this.volumePaginaton = new Pagination();
-                this.volumePaginaton.filter = {'processo.id': 'eq:' + this.routerState.params.processoHandle};
             }
         });
 
@@ -390,18 +419,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 });
             }
         });
-        this.form.get('volume').valueChanges.subscribe(value => {
-            if (typeof value === 'object' && value) {
-                this.listFilter = {
-                    ...this.listFilter,
-                    'volume.id': `eq:${value.id}`
-                };
-            } else {
-                if (this.listFilter.hasOwnProperty('volume.id')) {
-                    delete this.listFilter['volume.id'];
-                }
-            }
-        });
 
         this.form.get('tipoDocumento').valueChanges.subscribe(value => {
             if (typeof value === 'object' && value) {
@@ -429,6 +446,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 this.routeOficioDocumento = module.routerLinks[pathDocumento]['oficio'][this.routerState.params.generoHandle];
             }
         });
+
+        this._store.dispatch(new fromStore.ExpandirProcesso(false));
     }
 
     ngOnDestroy(): void {
@@ -447,11 +466,18 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      *
      * @param step
      * @param ativo
+     * @param componenteDigitalId
      */
-    gotoStep(step, ativo): void {
+    gotoStep(step, ativo, componenteDigitalId = null): void {
+        let substep = 0;
+
         if (this.juntadas[step] === undefined) {
             this._store.dispatch(new fromStore.GetCapaProcesso());
             return;
+        }
+
+        if (componenteDigitalId) {
+            substep = this.index[step].indexOf(componenteDigitalId);
         }
 
         // Decide the animation direction
@@ -465,13 +491,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             let arrPrimary = [];
             arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                 'visualizar-processo' : 'anexar-copia');
-            arrPrimary.push(this.routerState.params.processoHandle);
+            this.routerState.params['processoCopiaHandle'] ?
+                arrPrimary.push(this.routerState.params.processoCopiaHandle) : arrPrimary.push(this.routerState.params.processoHandle);
             if (this.routerState.params.chaveAcessoHandle) {
                 arrPrimary.push('chave');
                 arrPrimary.push(this.routerState.params.chaveAcessoHandle);
             }
             arrPrimary.push('visualizar');
-            arrPrimary.push(step + '-0');
+            arrPrimary.push(step + '-' + substep);
             // Navegação do processo deve ocorrer por outlet
             this._router.navigate(
                 [
@@ -487,7 +514,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     relativeTo: this._activatedRoute.parent
                 }
             ).then(() => {
-                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
+                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
             });
         } else {
             let url = this.routerState.url.split('/processo/')[0] +
@@ -496,15 +523,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             if (this.routerState.params.chaveAcessoHandle) {
                 url += '/chave/' + this.routerState.params.chaveAcessoHandle;
             }
-            url += '/visualizar/' + step + '-0';
+            url += '/visualizar/' + step + '-' + substep;
             this._router.navigateByUrl(url).then(() => {
-                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: 0}));
+                this._store.dispatch(new fromStore.SetCurrentStep({step: step, subStep: substep}));
             });
         }
     }
 
     reload(params): void {
-
         this._store.dispatch(new fromStore.UnloadJuntadas({reset: false}));
 
         const nparams = {
@@ -541,9 +567,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         }
     }
 
-    doSort(sort: any): void {
-        this.listSort = sort;
-        this.reload({listSort: sort});
+    doSort(sort: string): void {
+        this.sort = sort;
+        this.listSort = {'volume.numeracaoSequencial': sort, 'numeracaoSequencial': sort};
+        this.reload({listFilter: this.listFilter, listSort: this.listSort});
     }
 
     toggleFilter(): void {
@@ -551,12 +578,19 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     pesquisar(): void {
-        this.reload({listFilter: this.listFilter});
+        if (this.selectedVolume) {
+            this.listFilter = {
+                ...this.listFilter,
+                'volume.id': `eq:${this.selectedVolume}`
+            };
+        }
+        this.reload({listFilter: this.listFilter, listSort: this.listSort});
         this.toggleFilter();
     }
 
     limpar(): void {
         this.listFilter = {};
+        this._store.dispatch(new fromStore.SelectVolume(false));
         this.reload({listFilter: this.listFilter});
         this.toggleFilter();
         this.form.reset();
@@ -766,6 +800,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     onComplete(): void {
+        if (this.routerState.params['tarefaHandle']) {
+            this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
+        }
         this._store.dispatch(new fromStore.GetDocumentos());
     }
 
@@ -800,5 +837,22 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     expandirTela(valor: boolean): void {
         this._store.dispatch(new fromStore.ExpandirProcesso(valor));
+    }
+
+    filtraVolume(volume: Volume): void {
+        this._store.dispatch(new fromStore.SelectVolume(volume.id));
+    }
+
+    paginaVolumes(): void {
+        if (this.volumes.length >= this.volumesPagination.total) {
+            return;
+        }
+
+        const nparams = {
+            ...this.volumesPagination,
+            offset: this.volumesPagination.offset + this.volumesPagination.limit
+        };
+
+        this._store.dispatch(new fromStore.GetVolumes(nparams));
     }
 }

@@ -1,12 +1,13 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-
 import {Pagination, Processo, Transicao} from '../../../../../@cdk/models';
 import * as fromStore from './store';
-import {getOperacoesState, RouterStateUrl, getRouterState} from '../../../../store/reducers';
+import {getOperacoesState, RouterStateUrl, getRouterState} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '../../../../../@cdk/animations';
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'transicao-arquivista-bloco',
@@ -20,6 +21,8 @@ export class TransicaoArquivistaBlocoComponent implements OnInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
     loading: boolean;
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
     processos: Processo[] = [];
     processos$: Observable<Processo[]>;
     modalidadeTransicaoPagination: Pagination;
@@ -35,6 +38,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit {
   constructor(
       private _store: Store<fromStore.TransicaoArquivistaBlocoAppState>,
       private _changeDetectorRef: ChangeDetectorRef,
+      private _matDialog: MatDialog,
   ) {
       this.loading = false;
       this.initObservales();
@@ -80,17 +84,31 @@ export class TransicaoArquivistaBlocoComponent implements OnInit {
     }
 
     submit(values): void {
-        debugger;
-        this.operacoes = [];
-        this.processos.forEach(processo => {
-            const transicao = new Transicao();
-            Object.entries(values).forEach(
-                ([key, value]) => {
-                    transicao[key] = value;
-                }
-            );
-            transicao.processo = processo;
-            this._store.dispatch(new fromStore.SaveTransicaoArquivistaBloco(transicao));
+        this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+            },
+            disableClose: false
+        });
+
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente realizar as transições arquivístivas em bloco? NUPs apensos ou anexação sofrerão a mesma transição.';
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                this.operacoes = [];
+                this.processos.forEach(processo => {
+                    const transicao = new Transicao();
+                    Object.entries(values).forEach(
+                        ([key, value]) => {
+                            transicao[key] = value;
+                        }
+                    );
+                    transicao.processo = processo;
+                    this._store.dispatch(new fromStore.SaveTransicaoArquivistaBloco(transicao));
+                });
+            }
+            this.confirmDialogRef = null;
         });
     }
 }

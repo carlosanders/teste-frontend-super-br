@@ -1,26 +1,24 @@
 <mat-horizontal-stepper linear #stepper [selectedIndex]="selectedIndex">
 
-    <mat-step [completed]="formProcesso.value.id">
+    <mat-step [completed]="!!processo.id">
         <ng-template matStepLabel>Processo</ng-template>
-        <cdk-processo-form
-                [processo]="processo"
-                [form]="formProcesso"
-                [saving]="(isSaving$ | async)"
-                [errors]="(errors$ | async)"
-                [colaborador]="_loginService.isGranted('ROLE_COLABORADOR')"
-                [pessoaVinculada]="_loginService.isGranted('ROLE_USUARIO_EXTERNO')"
-                [setorInicialPagination]="unidadePagination"
-                [procedenciaPagination]="procedenciaPagination"
-                [estados]="estados"
-                [paramHandle]="paramHandle"
-                (save)="submit($event)">
-        </cdk-processo-form>
+        <cdk-protocolo-externo-form
+            [processo]="processo"
+            [saving]="(isSaving$ | async)"
+            [errors]="(errors$ | async)"
+            [pessoaVinculada]="_loginService.isGranted('ROLE_USUARIO_EXTERNO')"
+            [setorAtualPagination]="unidadePagination"
+            [procedenciaPagination]="procedenciaPagination"
+            [paramHandle]="paramHandle"
+            (save)="submit($event)"
+            (abort)="cancel()">
+        </cdk-protocolo-externo-form>
     </mat-step>
     <mat-step>
         <ng-template matStepLabel>Documentos</ng-template>
         <div class="bt-upload">
             <button mat-mini-fab
-                    class="m-4 active accent"
+                    class="active accent mt-8 mb-8 ml-8 mr-8"
                     [matMenuTriggerFor]="moreMenu" aria-label="Documento Avulso"
                     (click)="$event.stopPropagation()">
                 <mat-icon class="secondary-text">attach_file</mat-icon>
@@ -37,18 +35,21 @@
                 <ng-template #dynamicComponent></ng-template>
             </mat-menu>
 
-            <cdk-componente-digital-documento-avulso-card-list #ckdUpload
-                                                               [processoOrigem]="processo"
-                                                               (completed)="onComplete()">
-            </cdk-componente-digital-documento-avulso-card-list>
+            <cdk-componente-digital-card-list #cdkUpload
+                                              [processoOrigem]="processo"
+                                              (completed)="onComplete()">
+            </cdk-componente-digital-card-list>
 
             <cdk-documento-card-list [documentos]="documentos"
                                      (clicked)="onClicked($event)"
                                      [assinandoId]="(assinandoDocumentosId$ | async)"
                                      [deletingId]="(deletingDocumentosId$ | async)"
+                                     (converte)="doConverte($event)"
+                                     (converteHtml)="doConverteHtml($event)"
                                      (assinatura)="doAssinatura($event)"
                                      (removeAssinatura)="doRemoveAssinatura($event)"
-                                     [convertendoId]="(convertendoDocumentosId$ | async)">
+                                     [convertendoId]="(convertendoDocumentosId$ | async)"
+                                     (downloadP7S)="doDownloadP7S($event)">
             </cdk-documento-card-list>
         </div>
 

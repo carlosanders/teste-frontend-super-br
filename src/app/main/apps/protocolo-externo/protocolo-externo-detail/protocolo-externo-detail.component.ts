@@ -1,25 +1,25 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, ViewContainerRef, OnDestroy,
-    OnInit, ViewChild, AfterViewInit,
+    Component, OnDestroy,
+    OnInit, AfterViewInit,
     ViewEncapsulation
 } from '@angular/core';
 
 import {Processo} from '@cdk/models';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject, of} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Etiqueta} from '@cdk/models';
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {CreateVinculacaoEtiqueta, DeleteVinculacaoEtiqueta, SaveConteudoVinculacaoEtiqueta} from './store';
 import {Documento} from '@cdk/models';
-import {getMaximizado} from '../store/selectors';
-import {ToggleMaximizado} from '../store/actions';
+import {getMaximizado} from '../store';
+import {ToggleMaximizado} from '../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
@@ -27,6 +27,7 @@ import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {Usuario} from '@cdk/models';
+import {expandirTela} from "./store/selectors/processo.selectors";
 
 @Component({
     selector: 'protocolo-externo-detail',
@@ -41,7 +42,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
     private _unsubscribeAll: Subject<any> = new Subject();
 
     savingVinculacaoEtiquetaId$: Observable<any>;
-    errors$: Observable<any>; 
+    errors$: Observable<any>;
 
     processo$: Observable<Processo>;
     processo: Processo;
@@ -55,19 +56,16 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
 
     accept = 'application/pdf';
 
-    @ViewChild('ckdUpload', {static: false})
-    cdkUpload;
-
     maximizado$: Observable<boolean>;
     maximizado = false;
+
+    expandir$: Observable<boolean>;
 
     vinculacaoEtiquetaPagination: Pagination;
 
     private _profile: Usuario;
 
     mobileMode = false;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef}) container: ViewContainerRef;
 
     /**
      * @param _changeDetectorRef
@@ -87,6 +85,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
+        this.expandir$ = this._store.pipe(select(expandirTela));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
@@ -94,15 +93,6 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
     }
 
     ngAfterViewInit(): void {
-        const path = 'app/main/apps/protocolo-externo/protocolo-externo-detail';
-        modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
-                    this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => this.container.createComponent(componentFactory));
-                }));
-            }
-        });
     }
 
     ngOnInit(): void {
@@ -138,11 +128,22 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         ).subscribe(screen => {
             this.mobileMode = screen.size !== 'desktop';
         });
+
+        this.expandir$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            expandir => {
+                this.doToggleMaximizado(expandir);
+            }
+        );
+
+        this.doToggleMaximizado(false);
     }
 
     ngOnDestroy(): void {
 
         // Unsubscribe from all subscriptions
+        this.doToggleMaximizado(false);
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
@@ -166,13 +167,13 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         this._store.dispatch(new CreateVinculacaoEtiqueta({processo: this.processo, etiqueta: etiqueta}));
     }
 
-    onEtiquetaEdit(values): void {   
+    onEtiquetaEdit(values): void {
         const vinculacaoEtiqueta = new VinculacaoEtiqueta();
         vinculacaoEtiqueta.id = values.id;
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
             changes: {conteudo: values.conteudo, privada: values.privada}
-        }));         
+        }));
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
@@ -198,11 +199,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         this._router.navigate([this.routerState.url.split('/processo/')[0] + '/criar/' + this.processo.id]).then();
     }
 
-    onUploadClick(): void {
-        this.cdkUpload.onClick();
-    }
-
-    doToggleMaximizado(): void {
-        this._store.dispatch(new ToggleMaximizado());
+    doToggleMaximizado(valor: boolean): void {
+        this._store.dispatch(new ToggleMaximizado(valor));
     }
 }

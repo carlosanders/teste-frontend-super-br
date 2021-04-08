@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentosAvulsoActions from '../actions/oficios.actions';
@@ -15,6 +15,7 @@ import {DocumentoAvulso} from '@cdk/models/documento-avulso.model';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
+import {getPagination} from "../selectors";
 
 @Injectable()
 export class OficiosEffects {
@@ -83,6 +84,20 @@ export class OficiosEffects {
                     console.log(err);
                     this._store.dispatch(new DocumentosAvulsoActions.GetDocumentosAvulsoFailed(err));
                     return caught;
+                })
+            );
+
+    /**
+     * Reload DocumentosAvulso
+     */
+    @Effect({dispatch: false})
+    reloadDocumentosAvulso: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<DocumentosAvulsoActions.ReloadDocumentosAvulso>(DocumentosAvulsoActions.RELOAD_DOCUMENTOS_AVULSO),
+                withLatestFrom(this._store.pipe(select(getPagination))),
+                tap(([action, pagination]) => {
+                    return this._store.dispatch(new DocumentosAvulsoActions.GetDocumentosAvulso(pagination));
                 })
             );
 

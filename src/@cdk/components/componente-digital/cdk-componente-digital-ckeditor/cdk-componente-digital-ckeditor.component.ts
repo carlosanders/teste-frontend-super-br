@@ -220,8 +220,8 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             }
         }
 
-        if (changes['errors'] && this.errors && this.errors.status && this.errors.status === 422) {
-            const error = this.errors.error.message || this.errors.statusText;
+        if (changes['errors'] && this.errors) {
+            const error = 'Erro! ' + (this.errors.error.message || this.errors.statusText);
             this.snackBar.open(error, null, {
                 duration: 5000,
                 horizontalPosition: this.horizontalPosition,
@@ -413,7 +413,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
         setInterval(() => {
             me.doSave();
-        }, 5 * 60 * 1000);
+        }, 60 * 1000);
     }
 
     doSave(): void {

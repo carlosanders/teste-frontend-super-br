@@ -4,6 +4,6 @@
     <cdk-template-form cdkPerfectScrollbar [template]="template$ | async"
                        [saving]="(isSaving$ | async)"
                        [errors]="(errors$ | async)"
-                       (save)="submit($event)">
+                       (save)="preSubmit($event)">
     </cdk-template-form>
 </div>

@@ -50,27 +50,26 @@ export class RepositoriosEspecieSetorEffects {
             .pipe(
                 ofType<RepositoriosEspecieSetorActions.GetRepositorio>(RepositoriosEspecieSetorActions.GET_REPOSITORIO),
                 switchMap((action) => {
-                    return this._repositorioService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
+                    return this._repositorioService.get(
+                        action.payload.id,
                         JSON.stringify([
                             'populateAll',
-                            'documento.componentesDigitais',
                             'vinculacoesRepositorios',
                             'vinculacoesRepositorios.setor',
+                            'vinculacoesRepositorios.usuario',
                             'vinculacoesRepositorios.modalidadeOrgaoCentral',
-                        ]));
+                        ]),
+                        JSON.stringify({isAdmin: true}),
+                    );
                 }),
                 switchMap(response => [
-                    new AddData<Repositorio>({data: response['entities'], schema: repositorioSchema}),
+                    new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
                     new RepositoriosEspecieSetorActions.GetRepositorioSuccess({
                         loaded: {
                             id: 'repositorioHandle',
                             value: this.routerState.params.repositorioHandle
                         },
-                        repositorioId: response['entities'][0].id
+                        repositorioId: this.routerState.params.repositorioHandle
                     })
                 ]),
                 catchError((err, caught) => {

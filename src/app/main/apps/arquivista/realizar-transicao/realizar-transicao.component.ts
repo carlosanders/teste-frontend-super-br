@@ -6,7 +6,8 @@ import * as fromStore from './store';
 import {getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '../../../../../@cdk/animations';
-
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
 
 @Component({
     selector: 'realizar-transicao',
@@ -18,9 +19,11 @@ import {cdkAnimations} from '../../../../../@cdk/animations';
 })
 export class RealizarTransicaoComponent implements OnInit {
 
-
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
+
+    confirmDialogRef: MatDialogRef<CdkConfirmDialogComponent>;
+    dialogRef: any;
 
     processos: Processo[] = [];
     processos$: Observable<Processo[]>;
@@ -34,6 +37,7 @@ export class RealizarTransicaoComponent implements OnInit {
     constructor(
         private _store: Store<fromStore.RealizarTransicaoAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
+        private _matDialog: MatDialog,
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -72,14 +76,28 @@ export class RealizarTransicaoComponent implements OnInit {
     }
 
     submit(values): void {
-        const transicao = new Transicao();
+        this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
+            data: {
+                title: 'Confirmação',
+                confirmLabel: 'Sim',
+                cancelLabel: 'Não',
+            },
+            disableClose: false
+        });
 
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                transicao[key] = value;
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente realizar a transição arquivística?  NUPs apensos ou anexação sofrerão a mesma transição.';
+        this.confirmDialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                const transicao = new Transicao();
+
+                Object.entries(values).forEach(
+                    ([key, value]) => {
+                        transicao[key] = value;
+                    }
+                );
+                this._store.dispatch(new fromStore.SaveRealizarTransicao(transicao));
             }
-        );
-        this._store.dispatch(new fromStore.SaveRealizarTransicao(transicao));
-
+            this.confirmDialogRef = null;
+        });
     }
 }

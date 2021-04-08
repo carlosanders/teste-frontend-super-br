@@ -3,10 +3,11 @@
     [loading]="(loading$ | async)"
     [repositorios]="(repositorios$ | async)"
     [total]="(pagination$ | async)?.total"
-    [mode]="'documento'"
+    [mode]="'search'"
+    [documento]="true"
     [actions]="['download']"
     (download)="doDownload($event)"
-    [downloadingId]="(repositorioIdLoadind$ | async)"
     [downloadedId]="(repositorioIdLoaded$ | async)"
-    (reload)="reload($event)">
+    (reload)="reload($event)"
+    (visualizar)="showConteudo($event)">
 </cdk-repositorio-grid>

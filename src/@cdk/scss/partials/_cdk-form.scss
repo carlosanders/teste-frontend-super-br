@@ -24,6 +24,11 @@ form {
         flex: 1 1 auto;
     }
 
+    > mat-checkbox {
+        margin-bottom: 16px;
+        margin-right: 16px;
+    }
+
     > mat-slide-toggle {
         margin-right: 16px;
         margin-bottom: 16px;
@@ -37,7 +42,7 @@ form {
         margin-bottom: 16px;
 
         > mat-radio-group {
-            margin-bottom: 8px;
+            margin-bottom: 16px;
             mat-radio-button {
                 margin-right: 24px;
             }

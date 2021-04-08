@@ -67,7 +67,6 @@ export class CdkModeloGridsearchComponent implements OnInit {
     }
 
     load(params): void {
-
         this.loading = true;
 
         const filterParam = {
@@ -75,7 +74,11 @@ export class CdkModeloGridsearchComponent implements OnInit {
             andX: this.andxFilter
         };
 
-        this._modeloService.query(
+        let mode = 'query';
+        if (filterParam.hasOwnProperty('documento.componentesDigitais.conteudo')) {
+            mode = 'search';
+        }
+        this._modeloService[`${mode}`](
             JSON.stringify(filterParam),
             params.limit,
             params.offset,

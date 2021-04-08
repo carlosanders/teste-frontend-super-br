@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {select, Store} from '@ngrx/store';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
@@ -21,14 +21,15 @@ import {getRouterState, getScreenState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {
-    GetDocumentos as GetDocumentosProcesso,
+    GetDocumentos as GetDocumentosProcesso, GetJuntadas,
     SetCurrentStep,
-    UnloadDocumentos
+    UnloadDocumentos, UnloadJuntadas
 } from '../processo/processo-view/store/actions';
 import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 import {ToggleMaximizado} from '../oficios/store/actions';
 import {UnloadComponenteDigital} from './componente-digital/store';
+import * as ProcessoViewActions from "../processo/processo-view/store/actions/processo-view.actions";
 
 @Component({
     selector: 'documento',
@@ -155,6 +156,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     }
 
     back(): void {
+        let reloadJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
         this.destroying = true;
         this._store.dispatch(new UnloadComponenteDigital());
         this._store.dispatch(new fromStore.UnloadDocumento());
@@ -177,6 +179,17 @@ export class DocumentoComponent implements OnInit, OnDestroy {
             } else if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
                 this._store.dispatch(new GetDocumentosProcesso());
             }
+            if (reloadJuntadas) {
+                this.reloadJuntadas();
+                return;
+            }
+            if (this.routerState.params.stepHandle) {
+                const steps = this.routerState.params['stepHandle'].split('-');
+                this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                    step: steps[0],
+                    subStep: steps[1]
+                }));
+            }
         });
     }
 
@@ -187,12 +200,45 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                 if (editor.instances.hasOwnProperty(editorInstance) &&
                     editor.instances[editorInstance]) {
                     editor.instances[editorInstance].destroy();
-                    editor.instances[editorInstance] = {
-                        destroy: () => true,
-                    };
                 }
             }
         }
+    }
+
+    reloadJuntadas(): void {
+        this._store.dispatch(new UnloadJuntadas({reset: true}));
+
+        let processoFilter = null;
+
+        const routeParams = of('processoHandle');
+        routeParams.subscribe(param => {
+            processoFilter = `eq:${this.routerState.params[param]}`;
+        });
+
+        const params = {
+            filter: {
+                'volume.processo.id': processoFilter,
+                'vinculada': 'eq:0'
+            },
+            listFilter: {},
+            limit: 10,
+            offset: 0,
+            sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+            populate: [
+                'documento',
+                'documento.origemDados',
+                'documento.tipoDocumento',
+                'documento.componentesDigitais',
+                'documento.vinculacoesDocumentos',
+                'documento.vinculacoesDocumentos.documentoVinculado',
+                'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                'documento.vinculacoesEtiquetas',
+                'documento.vinculacoesEtiquetas.etiqueta'
+            ]
+        };
+
+        this._store.dispatch(new GetJuntadas(params));
     }
 
     /**

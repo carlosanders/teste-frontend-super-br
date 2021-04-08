@@ -34,13 +34,15 @@
                 <mat-icon>delete</mat-icon>
             </button>
 
-            <mat-form-field class="colunas mr-8" aria-label="colunas" matTooltip="Colunas">
-                <mat-select [formControl]="columns" multiple>
-                    <div *ngFor="let column of allColumns">
-                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
-                    </div>
-                </mat-select>
-            </mat-form-field>
+            <ng-container *ngIf="getAllColumns().length">
+                <mat-form-field class="colunas mr-8" *showIfRole="'ROLE_COLABORADOR'">
+                    <mat-select [formControl]="columns" multiple>
+                        <div *ngFor="let column of getAllColumns()">
+                            <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
+            </ng-container>
 
             <button class="refresh" mat-icon-button
                     (click)="loadPage()"
@@ -93,7 +95,7 @@
 
                 <!-- Id Column -->
                 <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> &nbsp;Id
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('id')"> &nbsp;Id
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Id: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> &nbsp;{{pessoa.id}} </td>
@@ -101,7 +103,7 @@
 
                 <!-- Nome Column -->
                 <ng-container matColumnDef="nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('nome')">
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Nome: '
@@ -111,7 +113,7 @@
                 <!-- NumeroDocumentoPrincipal Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('numeroDocumentoPrincipal') > -1"
                               matColumnDef="numeroDocumentoPrincipal">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('numeroDocumentoPrincipal')">
                         Número do Documento Principal
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile'
@@ -121,7 +123,7 @@
 
                 <!-- Contato Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('contato') > -1" matColumnDef="contato">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('contato')">
                         Contato
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Contato: '
@@ -130,7 +132,7 @@
 
                 <!-- PessoaValidada Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('pessoaValidada') > -1" matColumnDef="pessoaValidada">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('pessoaValidada')">
                         Pessoa Validada
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Pessoa Validada: '
@@ -138,20 +140,9 @@
                 </ng-container>
 
                 <!-- PessoaValidada Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('pessoaRepresentada') > -1"
-                              matColumnDef="pessoaRepresentada">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Pessoa Representada
-                    </th>
-                    <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile'
-                        data-label='Pessoa Representada: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.pessoaRepresentada | booleanoPipe }} </td>
-                </ng-container>
-
-                <!-- PessoaValidada Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('pessoaConveniada') > -1"
                               matColumnDef="pessoaConveniada">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('pessoaConveniada')">
                         Pessoa Conveniada
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile'
@@ -161,7 +152,7 @@
 
                 <!-- DataNascimento Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('dataNascimento') > -1" matColumnDef="dataNascimento">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('dataNascimento')">
                         Data do Nascimento
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile'
@@ -171,7 +162,7 @@
 
                 <!-- dataObito Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('dataObito') > -1" matColumnDef="dataObito">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('dataObito')">
                         Data do Obito
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Data do Obito: '
@@ -180,7 +171,7 @@
 
                 <!-- NomeGenitor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('nomeGenitor') > -1" matColumnDef="nomeGenitor">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('nomeGenitor')">
                         Nome do Genitor
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Nome do Genitor: '
@@ -189,7 +180,7 @@
 
                 <!-- NomeGenitora Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('nomeGenitora') > -1" matColumnDef="nomeGenitora">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('nomeGenitora')">
                         Nome da Genitora
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile'
@@ -199,7 +190,7 @@
 
                 <!-- Profissao Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('profissao') > -1" matColumnDef="profissao">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('profissao')">
                         Profissão
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Profissão: '
@@ -209,7 +200,7 @@
                 <!-- Nacionalidade Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('nacionalidade.nome') > -1"
                               matColumnDef="nacionalidade.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('nacionalidade.nome')">
                         Nacionalidade
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Nacionalidade: '
@@ -219,7 +210,7 @@
                 <!-- ModalidadeGeneroPessoa.valor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('modalidadeGeneroPessoa.valor') > -1"
                               matColumnDef="modalidadeGeneroPessoa.valor">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('modalidadeGeneroPessoa.valor')">
                         Modalidade Genêro Pessoa
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile'
@@ -230,7 +221,7 @@
                 <!-- Naturalidade Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('naturalidade.nome') > -1"
                               matColumnDef="naturalidade.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('naturalidade.nome')">
                         Naturalidade
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Naturalidade: '
@@ -240,7 +231,7 @@
                 <!-- OrigemDados Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('origemDados') > -1"
                               matColumnDef="origemDados">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('origemDados')">
                         Origem de Dados
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Origem de Dados: '
@@ -249,7 +240,7 @@
 
                 <!-- CriadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('criadoPor.nome')">
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Criado Por: '
@@ -258,7 +249,7 @@
 
                 <!-- CriadoEm Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('criadoEm')">
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Criado Em: '
@@ -268,7 +259,7 @@
                 <!-- AtualizadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
                               matColumnDef="atualizadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('atualizadoPor.nome')">
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Atualizado Por: '
@@ -277,30 +268,11 @@
 
                 <!-- AtualizadoEm Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('atualizadoEm')">
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
-
-                <!-- ApagadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1"
-                              matColumnDef="apagadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Por
-                    </th>
-                    <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.apagadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- ApagadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Em
-                    </th>
-                    <td mat-cell *matCellDef="let pessoa" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(pessoa.id) > -1}"> {{pessoa.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->

@@ -35,6 +35,7 @@ import {CdkUtils} from '../../../../../../../@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '../../../../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {getDocumentosHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
+import * as fromStoreTarefaDetail from "../../store";
 
 @Component({
     selector: 'atividade-create',
@@ -502,6 +503,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     onComplete(): void {
+        this._store.dispatch(new fromStoreTarefaDetail.GetTarefa({
+            id: this.routerState.params['tarefaHandle']
+        }));
         this._store.dispatch(new fromStore.GetDocumentos());
     }
 
@@ -543,7 +547,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.minutas = [];
         const params = {
             filter: {'tarefaOrigem.id':'eq:' + this.tarefa.id, 'juntadaAtual':'isNull'},
-            sort: {criadoEm: 'DESC'},
+            sort: {id: 'DESC'},
             populate: [
                 'tipoDocumento',
                 'documentoAvulsoRemessa',

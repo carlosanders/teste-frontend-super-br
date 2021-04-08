@@ -19,16 +19,19 @@ import {
     RedistribuirTarefaFlush,
     SaveTarefa
 } from 'app/main/apps/tarefas/tarefa-detail/store';
-import {filter, skip, takeUntil} from 'rxjs/operators';
+import {filter, skip, take, takeUntil, tap} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
 import {getOperacoesState, getRouterState} from '../../../../../store/reducers';
 import {Router} from '@angular/router';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
-import {CdkUtils} from '../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
+import {MatDialog} from "@cdk/angular/material";
+import {CdkVisibilidadePluginComponent} from "@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component";
+import {getTarefasProcessoRestritoValidadas} from "../../redistribuicao-edit-bloco/store";
 
 @Component({
     selector: 'redistribuicao-edit',
@@ -59,24 +62,29 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
     snackSubscription: any;
     lote: string;
 
+    tarefaProcessoRestritoValidada$: Observable<number>;
+    tarefaProcessoRestritoValidada: number;
+
     /**
-     *
      * @param _store
      * @param _loginService
      * @param _router
      * @param _snackBar
+     * @param dialog
      */
     constructor(
         private _store: Store<fromStore.TarefaDetailAppState>,
         public _loginService: LoginService,
         private _router: Router,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        public dialog: MatDialog
     ) {
         this.tarefa$ = this._store.pipe(select(fromStore.getTarefa));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this._profile = _loginService.getUserProfile().colaborador;
         this.pagination$ = this._store.pipe(select(fromStoreTarefas.getPagination));
+        this.tarefaProcessoRestritoValidada$ = this._store.pipe(select(fromStore.getTarefaProcessoRestritoValidada));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -87,7 +95,6 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -120,6 +127,13 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
                 }
             );
 
+        this.tarefaProcessoRestritoValidada$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            tarefaProcessoRestritoValidada =>
+                this.tarefaProcessoRestritoValidada = tarefaProcessoRestritoValidada
+        );
+
         this.tarefa$.pipe(
             filter(tarefa => !this.tarefa || (tarefa.id !== this.tarefa.id)),
             takeUntil(this._unsubscribeAll)
@@ -128,6 +142,41 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
             this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
             this.tarefa.setorResponsavel = null;
             this.tarefa.usuarioResponsavel = null;
+
+            if (this.tarefa.processo.acessoRestrito === true && this.tarefa.id != this.tarefaProcessoRestritoValidada) {
+                const dialogRef = this.dialog.open(CdkVisibilidadePluginComponent, {
+                    data: {
+                        NUP: this.tarefa.processo.NUP
+                    },
+                    hasBackdrop: false,
+                    closeOnNavigation: true
+                });
+
+                dialogRef.afterClosed()
+                    .pipe(
+                        tap(
+                            (value) => {
+                                const processoId = this.routerState.params.processoHandle ?
+                                    this.routerState.params.processoHandle : this.tarefa.processo.id;
+                                if (value === 1 && processoId) {
+
+                                    this._store.dispatch(
+                                        new fromStore.TarefaProcessoRestritoValidadaSuccess(
+                                            this.tarefa.id
+                                        )
+                                    );
+
+                                    this._router.navigate(['apps/tarefas/' +
+                                    this.routerState.params.generoHandle + '/' +
+                                    this.routerState.params.typeHandle + '/' +
+                                    this.routerState.params.targetHandle + '/visibilidade/' + processoId]);
+                                }
+                            }
+                        ),
+                        tap(() => dialogRef.close()),
+                        take(1)
+                    ).subscribe();
+            }
         });
     }
 

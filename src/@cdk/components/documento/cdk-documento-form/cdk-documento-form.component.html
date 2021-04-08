@@ -69,6 +69,14 @@
     </mat-form-field>
 
     <mat-form-field>
+        <mat-label>Destinatário</mat-label>
+        <input matInput #destinatario
+               name="destinatario"
+               formControlName="destinatario"
+               maxlength="255">
+    </mat-form-field>
+
+    <mat-form-field>
         <input matInput placeholder="Procedência"
                formControlName="procedencia"
                [matAutocomplete]="procedencia.autocomplete"

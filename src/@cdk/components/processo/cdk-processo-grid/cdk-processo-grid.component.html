@@ -48,13 +48,15 @@
                 <mat-icon>delete</mat-icon>
             </button>
 
-            <mat-form-field class="colunas mr-8" *showIfRole="'ROLE_COLABORADOR'">
-                <mat-select [formControl]="columns" multiple>
-                    <div *ngFor="let column of allColumns">
-                        <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
-                    </div>
-                </mat-select>
-            </mat-form-field>
+            <ng-container *ngIf="getAllColumns().length">
+                <mat-form-field class="colunas mr-8" *showIfRole="'ROLE_COLABORADOR'">
+                    <mat-select [formControl]="columns" multiple>
+                        <div *ngFor="let column of getAllColumns()">
+                            <mat-option *ngIf="!column.fixed" [value]="column.id">{{ column.label }}</mat-option>
+                        </div>
+                    </mat-select>
+                </mat-form-field>
+            </ng-container>
 
             <button *ngIf="mode === 'list'" class="refresh" mat-icon-button
                     (click)="loadPage()"
@@ -107,7 +109,7 @@
 
                 <!-- Id Column -->
                 <ng-container matColumnDef="id">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('id')"> Id
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Id: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> &nbsp;{{processo.id}} </td>
@@ -115,7 +117,7 @@
 
                 <!-- NUP Column -->
                 <ng-container matColumnDef="NUP">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('NUP')">
                         NUP
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='NUP: '
@@ -124,7 +126,7 @@
 
                 <!-- SetorAtual Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('setorAtual.nome') > -1" matColumnDef="setorAtual.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('setorAtual.nome')">
                         Setor Responsável
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Setor Responsável: '
@@ -133,7 +135,7 @@
 
                 <!-- Unidade Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('unidade') > -1" matColumnDef="unidade">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('unidade')">
                         Unidade
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Unidade: '
@@ -142,7 +144,7 @@
 
                 <!-- Descricao Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('descricao') > -1" matColumnDef="descricao">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('descricao')">
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Descrição: '
@@ -151,7 +153,7 @@
 
                 <!-- Valor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('valorEconomico') > -1" matColumnDef="valorEconomico">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('valorEconomico')">
                         Valor
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Valor: '
@@ -161,8 +163,8 @@
                 <!-- Sem Valor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('semValorEconomico') > -1"
                               matColumnDef="semValorEconomico">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Sem Valor
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('semValorEconomico')">
+                        Sem Valor Econômico
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Sem Valor: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}">
@@ -173,8 +175,8 @@
                 <!-- EspecieProcesso Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('especieProcesso.nome') > -1"
                               matColumnDef="especieProcesso.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Espécie Processo
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('especieProcesso.nome')">
+                        Processo de Trabalho
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Espécie Processo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.especieProcesso?.nome}}
@@ -185,7 +187,7 @@
                 <!-- VisibilidadeExterna Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('visibilidadeExterna') > -1"
                               matColumnDef="visibilidadeExterna">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('visibilidadeExterna')">
                         Visibilidade Externa
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile'
@@ -197,7 +199,7 @@
 
                 <!-- DataAbertura Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('dataHoraAbertura') > -1" matColumnDef="dataHoraAbertura">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('dataHoraAbertura')">
                         Data Abertura
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Data Abertura: '
@@ -206,7 +208,7 @@
 
                 <!-- AcessoNegado Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('acessoNegado') > -1" matColumnDef="acessoNegado">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('acessoNegado')">
                         Acesso Negado
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Acesso Negado: '
@@ -218,7 +220,7 @@
                 <!-- DataProximaTransicao Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('dataHoraProximaTransicao') > -1"
                               matColumnDef="dataHoraProximaTransicao">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('dataHoraProximaTransicao')">
                         Data Próxima Transição
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile'
@@ -228,7 +230,7 @@
 
                 <!-- Titulo Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('titulo') > -1" matColumnDef="titulo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('titulo')">
                         Tútulo
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Título: '
@@ -237,7 +239,7 @@
 
                 <!-- OutroNumero Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('outroNumero') > -1" matColumnDef="outroNumero">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('outroNumero')">
                         Outro Número
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Outro Número: '
@@ -246,7 +248,7 @@
 
                 <!-- ChaveAcesso Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('chaveAcesso') > -1" matColumnDef="chaveAcesso">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('chaveAcesso')">
                         Chave Acesso
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Chave Acesso: '
@@ -256,7 +258,7 @@
                 <!-- ModalidadeMeio Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('modalidadeMeio') > -1"
                               matColumnDef="modalidadeMeio">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('modalidadeMeio')">
                         Modalidade Meio
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Modalidade Meio: '
@@ -266,7 +268,7 @@
                 <!-- ModalidadeFase Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('modalidadeFase.valor') > -1"
                               matColumnDef="modalidadeFase.valor">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('modalidadeFase.valor')">
                         Modalidade Fase
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Modalidade Fase: '
@@ -276,7 +278,7 @@
                 <!-- DocumentoAvulsoOrigem Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('documentoAvulsoOrigem.setorOrigem.nome') > -1"
                               matColumnDef="documentoAvulsoOrigem.setorOrigem.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('documentoAvulsoOrigem.setorOrigem.nome')">
                         Documento Avulso Origem
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile'
@@ -287,7 +289,7 @@
                 <!-- Classificacao Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('classificacao.nome') > -1"
                               matColumnDef="classificacao.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('classificacao.nome')">
                         Classificação
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Classificação: '
@@ -296,7 +298,7 @@
 
                 <!-- Procedencia Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('procedencia.nome') > -1" matColumnDef="procedencia.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('procedencia.nome')">
                         Procedência
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Procedência: '
@@ -305,7 +307,7 @@
 
                 <!-- Localizador Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('localizador.nome') > -1" matColumnDef="localizador.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('localizador.nome')">
                         Localizador
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Localizador: '
@@ -315,7 +317,7 @@
                 <!-- SetorInicial Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('setorInicial.nome') > -1"
                               matColumnDef="setorInicial.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('setorInicial.nome')">
                         Setor Inicial
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Setor Inicial: '
@@ -325,7 +327,7 @@
                 <!-- OrigemDados Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('origemDados') > -1"
                               matColumnDef="origemDados">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('origemDados')">
                         Origem Dados
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Origem Dados: '
@@ -334,7 +336,7 @@
 
                 <!-- CriadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('criadoPor.nome') > -1" matColumnDef="criadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('criadoPor.nome')">
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Criado Por: '
@@ -343,7 +345,7 @@
 
                 <!-- CriadoEm Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('criadoEm') > -1" matColumnDef="criadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('criadoEm')">
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Criado Em: '
@@ -353,7 +355,7 @@
                 <!-- AtualizadoPor Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('atualizadoPor.nome') > -1"
                               matColumnDef="atualizadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('atualizadoPor.nome')">
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Atualizado Por: '
@@ -362,29 +364,11 @@
 
                 <!-- AtualizadoEm Column -->
                 <ng-container *ngIf="displayedColumns.indexOf('atualizadoEm') > -1" matColumnDef="atualizadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('atualizadoEm')">
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
-                </ng-container>
-
-                <!-- ApagadoPor Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoPor.nome') > -1" matColumnDef="apagadoPor.nome">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Por
-                    </th>
-                    <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.apagadoPor?.nome}} </td>
-                </ng-container>
-
-                <!-- ApagadoEm Column -->
-                <ng-container *ngIf="displayedColumns.indexOf('apagadoEm') > -1" matColumnDef="apagadoEm">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                        Apagado Em
-                    </th>
-                    <td mat-cell *matCellDef="let processo" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(processo.id) > -1}"> {{processo.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -437,6 +421,17 @@
                                     aria-label="remover"
                                     matTooltip="Remover">
                                 <mat-icon>delete</mat-icon>
+                            </button>
+                        </ng-template>
+
+                        <ng-template [showIfRole]="'ROLE_COLABORADOR'">
+                            <button mat-icon-button
+                                    *ngIf="processo.acessoRestrito === true && actions.indexOf('restricoesAcesso') > -1 && deletingIds?.indexOf(processo.id) === -1 && !hasExcluded"
+                                    [disabled]="deletedIds?.indexOf(processo.id) > -1"
+                                    (click)="doRestricoesAcesso(processo)"
+                                    aria-label="configurar restrições de acesso"
+                                    matTooltip="Configurar Restrições de Acesso">
+                                <mat-icon>visibility</mat-icon>
                             </button>
                         </ng-template>
                     </td>

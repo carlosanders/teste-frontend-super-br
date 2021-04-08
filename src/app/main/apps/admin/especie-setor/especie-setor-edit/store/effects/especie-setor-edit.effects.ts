@@ -1,18 +1,14 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable} from 'rxjs';
 import {catchError, mergeMap, tap, switchMap} from 'rxjs/operators';
-
 import * as EspecieSetorEditActions from '../actions/especie-setor-edit.actions';
 import * as EspecieSetorListActions from '../../../especie-setor-list/store/actions/especie-setor-list.actions';
-
 import {EspecieSetorService} from '@cdk/services/especie-setor.service';
 import {ColaboradorService} from '@cdk/services/colaborador.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {especieSetor as especieSetorSchema} from '@cdk/normalizr';
-import {colaborador as colaboradorSchema} from '@cdk/normalizr';
-import {EspecieSetor, Colaborador} from '@cdk/models';
+import {EspecieSetor} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
@@ -136,7 +132,7 @@ export class EspecieSetorEditEffects {
             .pipe(
                 ofType<EspecieSetorEditActions.SaveEspecieSetorSuccess>(EspecieSetorEditActions.SAVE_ESPECIE_SETOR_SUCCESS),
                 tap((action) => {
-                    this._router.navigate(['apps/admin/especie-setors/listar']).then();
+                    this._router.navigate(['apps/admin/especie-setor/listar']).then();
                 })
             );
 

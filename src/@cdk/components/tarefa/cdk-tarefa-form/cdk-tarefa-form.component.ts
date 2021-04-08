@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, Lotacao, Tarefa} from '@cdk/models';
+import {Colaborador, Contato, GrupoContato, Lotacao, Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
@@ -84,6 +84,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     setorOrigemPagination: Pagination;
+
+    @Input()
+    grupoContatoPagination: Pagination;
 
     @Input()
     logEntryPagination: Pagination;
@@ -168,6 +171,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             setorResponsavel: [null, [Validators.required]],
             usuarioResponsavel: [null],
             blocoResponsaveis: [null],
+            grupoContato: [null],
             usuarios: [null],
             setores: [null],
             setorOrigem: [null, [Validators.required]],
@@ -191,6 +195,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPaginationTree = new Pagination();
+        this.grupoContatoPagination = new Pagination();
+        this.grupoContatoPagination.populate = [
+            'contatos',
+            'contatos.tipoContato',
+            'contatos.setor',
+            'contatos.setor.unidade',
+            'contatos.usuario',
+            'contatos.usuario.colaborador',
+            'contatos.usuario.colaborador.lotacoes',
+            'contatos.usuario.colaborador.lotacoes.setor',
+            'contatos.usuario.colaborador.lotacoes.setor.unidade',
+        ];
+        this.grupoContatoPagination.filter = {'usuario.id': 'eq:'+this._loginService.getUserProfile().id};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -262,6 +279,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     if (this.blocoResponsaveis) {
                         this.blocoResponsaveis = [];
                     }
+
+                    if (this.form.get('setorResponsavel').value) {
+                        delete this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.apenasDistribuidor'];
+                        this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${this.form.get('setorResponsavel').value.id}`;
+                        // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
+                        if (this.form.get('setorResponsavel').value.apenasDistribuidor) {
+                            let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == this.form.get('setorResponsavel').value.id)
+                            if (lotacoes.length === 0) {
+                                this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = this.form.get('setorResponsavel').value.id;
+                            }
+                        }
+                    }
+
                     this._changeDetectorRef.markForCheck();
                     return of([]);
                 }
@@ -332,9 +362,15 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         }
                     }
 
+                    // Adiciona contexto para marcar usuários que estão afastados impedindo seleção
+                    this.usuarioResponsavelPagination['context'] = {semAfastamento: true};
+
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
-                    if (typeof value === 'object' && value && value.apenasDistribuidor && value.id !== this._profile.lotacoes[0].setor.id) {
-                        this.usuarioResponsavelPagination['context'] = {setorApenasDistribuidor: value.id};
+                    if (typeof value === 'object' && value && value.apenasDistribuidor) {
+                        let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == value.id)
+                        if (lotacoes.length === 0) {
+                            this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = value.id;
+                        }
                     }
 
                     this._changeDetectorRef.markForCheck();
@@ -530,6 +566,21 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     return of([]);
                 }
             )
+        ).subscribe();
+
+        this.form.get('grupoContato').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+
+                if (value && typeof value === 'object') {
+                    this.clearValidators();
+                    this._changeDetectorRef.markForCheck();
+                    this.processaGrupoContato(value)
+                }
+                return of([]);
+
+            })
         ).subscribe();
 
         this.alteraPrazoDias();
@@ -1083,5 +1134,40 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
             this.especieTarefaPagination['context'] = {processoId: this.form.get('processo').value.id};
         }
+    }
+
+    checkGrupoContato(): void {
+        const value = this.form.get('setorResponsavel').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setorResponsavel').setValue(null);
+        }
+    }
+
+    selectGrupoContato(grupoContato: GrupoContato): void {
+        this.processaGrupoContato(grupoContato);
+        this.activeCard = 'form';
+    }
+
+    showGrupoContatoGRID():void {
+        this.activeCard = 'grupo-contato-gridsearch';
+    }
+
+    processaGrupoContato(grupoContato): void {
+        grupoContato.contatos.forEach(contato => {
+            if (this.form.get('distribuicaoAutomatica').value && contato.setor) {
+                const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === contato.setor.id));
+                if (!findDuplicate) {
+                    let setor = contato.setor;
+                    this.blocoResponsaveis = [...this.blocoResponsaveis, {setor}];
+                }
+            } else if (!this.form.get('distribuicaoAutomatica').value && contato.usuario) {
+                const findDuplicate = this.blocoResponsaveis.some(item => (item.usuario.id === contato.usuario.id));
+                if (!findDuplicate) {
+                    let usuario = contato.usuario;
+                    let setor = contato.usuario.colaborador.lotacoes[0].setor;
+                    this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                }
+            }
+        });
     }
 }

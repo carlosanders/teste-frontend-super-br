@@ -33,6 +33,10 @@ export const REMOVE_ASSINATURA_DOCUMENTO_FAILED = '[COMPLEMENTAR DOCUMENTOS] REM
 
 export const CHANGE_SELECTED_DOCUMENTOS = '[COMPLEMENTAR DOCUMENTOS] CHANGE SELECTED DOCUMENTOS';
 
+export const DOWNLOAD_DOCUMENTO_P7S = '[COMPLEMENTAR DOCUMENTO] DOWNLOAD DOCUMENTO P7S';
+export const DOWNLOAD_DOCUMENTO_SUCCESS = '[COMPLEMENTAR DOCUMENTO] DOWNLOAD DOCUMENTO P7S SUCESS';
+export const DOWNLOAD_DOCUMENTO_FAILED = '[COMPLEMENTAR DOCUMENTO] DOWNLOAD DOCUMENTO P7S FAILED';
+
 
 /**
  * Get Documentos
@@ -309,6 +313,36 @@ export class ChangeSelectedDocumentos implements Action {
     }
 }
 
+/**
+ * Download P7S
+ */
+export class DownloadToP7S implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_P7S;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadToP7SSuccess implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class DownloadToP7SFailed implements Action
+{
+    readonly type = DOWNLOAD_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type DocumentosActionsAll
     = GetDocumentos
     | GetDocumentosSuccess
@@ -333,4 +367,7 @@ export type DocumentosActionsAll
     | DeleteDocumento
     | DeleteDocumentoSuccess
     | DeleteDocumentoFailed
-    | ChangeSelectedDocumentos;
+    | ChangeSelectedDocumentos
+    | DownloadToP7S
+    | DownloadToP7SSuccess
+    | DownloadToP7SFailed;

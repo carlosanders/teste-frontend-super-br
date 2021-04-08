@@ -9,15 +9,15 @@ import {Observable, Subject} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {Visibilidade} from '@cdk/models';
-import {NavigationEnd, Router, RouterEvent} from '@angular/router';
+import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Pagination} from '@cdk/models';
-import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
-import {filter, takeUntil} from 'rxjs/operators';
-import {Usuario} from '../../../../../@cdk/models/usuario.model';
+import {takeUntil} from 'rxjs/operators';
+import {Usuario} from '../../../../../@cdk/models';
+import {Back} from "../../../../store";
 
 @Component({
     selector: 'visibilidade',
@@ -109,11 +109,8 @@ export class VisibilidadeComponent implements OnInit, OnDestroy {
         this.formAcessoRestrito = !this.formAcessoRestrito;
     }
 
-    showFormTarefa(): void {
-
-        this._router.navigate(['/apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-        this.routerState.params.typeHandle + '/' +
-        this.routerState.params.targetHandle + '/criar']).then();
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 
     submitVisibilidade(visibilidade): void {

@@ -113,6 +113,8 @@ export class ResolveGuard implements CanActivate {
                         sort: {dataHoraDistribuicao: 'DESC'},
                         populate: [
                             'processo',
+                            'processo.setorAtual',
+                            'processo.unidade',
                             'processo.especieProcesso',
                             'processo.especieProcesso.generoProcesso',
                             'processo.modalidadeMeio',
@@ -173,17 +175,10 @@ export class ResolveGuard implements CanActivate {
                             routeTargetParam.subscribe(targetParam => {
                                 if (
                                     this.routerState.params[targetParam] !== 'entrada' &&
-                                    this.routerState.params[targetParam] !== 'eventos' &&
                                     this.routerState.params[targetParam] !== 'lixeira'
                                     ) {
                                     const folderName = this.routerState.params[targetParam];
                                     folderFilter = `eq:${folderName.toUpperCase()}`;
-                                }
-
-                                if (this.routerState.params[targetParam] === 'eventos') {
-                                    tarefaFilter['especieTarefa.evento'] = 'eq:true';
-                                } else {
-                                    tarefaFilter['especieTarefa.evento'] = 'eq:false';
                                 }
 
                                 paramUrl = this.routerState.params[targetParam];

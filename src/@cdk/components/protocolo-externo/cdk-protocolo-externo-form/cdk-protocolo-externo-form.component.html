@@ -1,0 +1,103 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+
+    <mat-card>
+        <mat-form-field>
+            <input matInput placeholder="Ramo" formControlName="generoSetor" required
+                   [matAutocomplete]="generoSetor.autocomplete" (blur)="checkGeneroSetor()">
+            <cdk-genero-setor-autocomplete #generoSetor="generoSetorAutocomplete" [control]="form.get('generoSetor')"
+                                           [pagination]="generoSetorPagination">
+            </cdk-genero-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showGeneroSetorGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('generoSetor').hasError('formError')">
+                {{form.get('generoSetor').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="form.get('estado').enabled">
+            <input matInput placeholder="Estado" formControlName="estado" required
+                   [matAutocomplete]="estado.autocomplete" (blur)="checkEstado()">
+            <cdk-estado-autocomplete #estado="estadoAutocomplete"
+                                     [control]="form.get('estado')"></cdk-estado-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showEstadoGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('estado').hasError('formError')">
+                {{form.get('estado').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field *ngIf="form.get('setorAtual').enabled">
+            <input matInput placeholder="Unidade" formControlName="setorAtual" required
+                   [matAutocomplete]="setorAtual.autocomplete" (blur)="checkSetorAtual()">
+            <cdk-setor-autocomplete #setorAtual="setorAutocomplete" [control]="form.get('setorAtual')"
+                                    [extraFilter]="'unidade'"
+                                    [pagination]="setorAtualPagination">
+            </cdk-setor-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showSetorAtualGrid()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+            <mat-error *ngIf="form.get('setorAtual').hasError('formError')">
+                {{form.get('setorAtual').errors.formError}}
+            </mat-error>
+        </mat-form-field>
+    </mat-card>
+
+    <mat-card>
+        <mat-form-field>
+            <mat-label>Resumo</mat-label>
+            <input matInput #descricao name="descricao" formControlName="descricao" maxlength="255" upperCase required>
+            <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('descricao')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+            <mat-error>Campo obrigatório!</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Requerimento</mat-label>
+            <input matInput #requerimento name="requerimento" formControlName="requerimento" maxlength="255" upperCase
+                   required>
+            <mat-hint align="end">{{requerimento.value.length}} / 255</mat-hint>
+            <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
+                    (click)="showLogEntryGrid('requerimento')">
+                <mat-icon matTooltip="Histórico">history</mat-icon>
+            </button>
+            <mat-error>Campo obrigatório!</mat-error>
+        </mat-form-field>
+    </mat-card>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid || saving" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+</form>
+
+<cdk-genero-setor-gridsearch *ngIf="activeCard === 'genero-setor-gridsearch'" [pagination]="generoSetorPagination"
+                             (selected)="selectGeneroSetor($event)" (cancel)="cancel()">
+</cdk-genero-setor-gridsearch>
+
+<cdk-estado-gridsearch *ngIf="activeCard === 'estado-gridsearch'"
+                       (selected)="selectEstado($event)" (cancel)="cancel()">
+</cdk-estado-gridsearch>
+
+<cdk-setor-gridsearch *ngIf="activeCard === 'setor-atual-gridsearch'" [pagination]="setorAtualPagination"
+                      [displayedColumns]="['id', 'unidade.nome', 'nome', 'actions']"
+                      (selected)="selectSetorAtual($event)"
+                      (cancel)="cancel()">
+</cdk-setor-gridsearch>
+
+<cdk-logentry-gridsearch *ngIf="activeCard === 'logentry-gridsearch'" [pagination]="logEntryPagination"
+                         (cancel)="cancel()">
+</cdk-logentry-gridsearch>

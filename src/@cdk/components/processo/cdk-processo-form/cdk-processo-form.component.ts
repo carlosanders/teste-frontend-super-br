@@ -106,6 +106,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     gerirProcedencia = new EventEmitter();
 
     @Output()
+    classificacao = new EventEmitter<Classificacao|null>();
+
+    @Output()
     editProcedencia = new EventEmitter<number>();
 
     @Input()
@@ -122,9 +125,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     especieSetorPagination: Pagination;
-
-    @Input()
-    pessoaVinculada = false;
 
     @Input()
     colaborador = false;
@@ -211,6 +211,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             dataHoraDesarquivamento: [null],
             configuracaoNup: [null, [Validators.required]],
             nupInvalido: [null],
+            chaveAcesso: [null],
+            alterarChave: [false]
         });
 
         this.especieProcessoPagination = new Pagination();
@@ -251,17 +253,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
             this.form.get('NUP').setValue(null);
             this.form.get('NUP').disable();
-
-            if (this.pessoaVinculada) {
-                this.form.get('generoSetor').setValue(null);
-                this.form.get('generoSetor').disable();
-
-                this.form.get('especieSetor').setValue(null);
-                this.form.get('especieSetor').disable();
-
-                this.form.get('setorInicial').setValue(null);
-                this.form.get('setorInicial').disable();
-            }
 
             // this.form.get('procedencia').setValue(null);
             // this.form.get('procedencia').disable();
@@ -322,70 +313,27 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
-        if (this.pessoaVinculada) {
-            this.form.get('estado').valueChanges.subscribe(value => {
-                if (value) {
-                    this.form.get('generoSetor').enable();
-                    this.setorInicialPagination.filter = {
-                        ...this.setorInicialPagination.filter,
-                        ...{'municipio.estado.id': `eq:${value}`}
-                    };
-                } else {
-                    this.form.get('generoSetor').setValue(null);
-                    this.form.get('generoSetor').disable();
-                }
-            });
-
-            this.form.get('generoSetor').valueChanges.subscribe(value => {
-                if (value) {
-                    this.form.get('especieSetor').enable();
-                    this.especieSetorPagination.filter = {'generoSetor.id': `eq:${value.id}`};
-                } else {
-                    this.form.get('especieSetor').setValue(null);
-                    this.form.get('especieSetor').disable();
-                }
-            });
-
-            this.form.get('especieSetor').valueChanges.subscribe(value => {
-                if (value) {
-                    this.form.get('setorInicial').enable();
-                    this.setorInicialPagination.filter = {
-                        ...this.setorInicialPagination.filter,
-                        ...{'unidade.generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`}
-                    };
-                } else {
-                    this.form.get('setorInicial').setValue(null);
-                    this.form.get('setorInicial').disable();
-                }
-            });
-        }
-
         this.form.get('especieProcesso').valueChanges.subscribe(value => {
             if (value && typeof value === 'object') {
                 if (value.classificacao) {
                     this.form.get('classificacao').setValue(value.classificacao);
                     this.form.get('classificacao').clearValidators();
-                } else {
-                    this.form.get('classificacao').setValue(null);
                 }
 
                 if (value.modalidadeMeio) {
                     this.form.get('modalidadeMeio').setValue(value.modalidadeMeio);
                     this.form.get('modalidadeMeio').clearValidators();
-                } else {
-                    this.form.get('modalidadeMeio').setValue(null);
                 }
 
                 if (value.titulo) {
                     this.form.get('titulo').setValue(value.titulo);
                     this.form.get('titulo').clearValidators();
-                } else {
-                    this.form.get('titulo').setValue(null);
                 }
             }
         });
 
         this.form.get('modalidadeFase').disable();
+        this.form.get('alterarChave').setValue(false);
     }
 
     /**
@@ -437,7 +385,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            if (!this.form.get('nupInvalido').value && this.form.get('tipoProtocolo').value == 2) {
+            if (!this.form.get('nupInvalido')?.value && this.form.get('tipoProtocolo').value == 2) {
                 this.doValidateNup();
             } else {
                 this.save.emit(this.form.value);
@@ -536,12 +484,15 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         const value = this.form.get('classificacao').value;
         if (!value || typeof value !== 'object') {
             this.form.get('classificacao').setValue(null);
+        } else {
+            this.classificacao.emit(this.form.get('classificacao').value);
         }
     }
 
     selectClassificacao(classificacao: Classificacao): void {
         if (classificacao) {
             this.form.get('classificacao').setValue(classificacao);
+            this.classificacao.emit(classificacao);
         }
         this.activeCard = 'form';
     }
@@ -570,24 +521,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     showSetorGrid(): void {
         this.activeCard = 'setor-gridsearch';
-    }
-
-    checkSetorInicial(): void {
-        const value = this.form.get('setorInicial').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('setorInicial').setValue(null);
-        }
-    }
-
-    selectSetorInicial(unidade: Setor): void {
-        if (unidade) {
-            this.form.get('setorInicial').setValue(unidade);
-        }
-        this.activeCard = 'form';
-    }
-
-    showSetorInicialGrid(): void {
-        this.activeCard = 'setor-inicial-gridsearch';
     }
 
     checkConfiguracaoNup(): void {

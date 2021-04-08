@@ -12,7 +12,9 @@ import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {CdkClassificacaoTreeService} from '@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
 import {LoginService} from '../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
-import {DirectivesModule} from '../../../../../@cdk/directives/directives';
+import {DirectivesModule} from '@cdk/directives/directives';
+import {MatDialogModule} from "@cdk/angular/material";
+import {CdkProcessoModalClassificacaoRestritaModule} from "@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.module";
 
 const routes: Routes = [
     {
@@ -38,6 +40,8 @@ modulesConfig.forEach((module) => {
         CdkClassificacaoTreeModule,
         MatListModule,
         DirectivesModule,
+        MatDialogModule,
+        CdkProcessoModalClassificacaoRestritaModule
     ],
     providers: [
         ClassificacaoService,

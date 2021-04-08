@@ -3,8 +3,8 @@
     [modelos]="(modelos$ | async)"
     [total]="(pagination$ | async)?.total"
     [actions]="['select']"
-    [mode]="'documento'"
-    [displayedColumns]="['id', 'nome', 'modalidadeModelo.valor', 'highlights', 'actions']"
+    [mode]="'search'"
+    [documento]="true"
     (selected)="doSelect($event)"
     (reload)="reload($event)">
 </cdk-modelo-grid>

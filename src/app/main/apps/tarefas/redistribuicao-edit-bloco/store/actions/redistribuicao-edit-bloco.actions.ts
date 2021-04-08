@@ -7,6 +7,8 @@ export const SAVE_TAREFA = '[REDISTRIBUICAO EDIT] SAVE TAREFA';
 export const SAVE_TAREFA_SUCCESS = '[REDISTRIBUICAO EDIT] SAVE TAREFA SUCCESS';
 export const SAVE_TAREFA_FAILED = '[REDISTRIBUICAO EDIT] SAVE TAREFA FAILED';
 
+export const TAREFAS_PROCESOS_RESTRITO_VALIDADAS_SUCCESS = '[REDISTRIBUICAO EDIT] TAREFAS PROCESSO RESTRITO VALIDADAS SUCCESS';
+
 /**
  * Save Tarefa
  */
@@ -67,9 +69,19 @@ export class EditTarefaSuccess implements Action
     }
 }
 
+export class TarefasProcessoRestritoValidadasSuccess implements Action
+{
+    readonly type = TAREFAS_PROCESOS_RESTRITO_VALIDADAS_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
 export type RedistribuicaoEditBlocoActionsAll
     = EditTarefa
     | EditTarefaSuccess
     | SaveTarefa
     | SaveTarefaSuccess
-    | SaveTarefaFailed;
+    | SaveTarefaFailed
+    | TarefasProcessoRestritoValidadasSuccess;

@@ -10,7 +10,7 @@ import {ProcessoViewAppState} from 'app/main/apps/processo/processo-view/store/r
 import * as fromStore from 'app/main/apps/processo/processo-view/store';
 import {getJuntadasLoaded} from 'app/main/apps/processo/processo-view/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getDocumentosHasLoaded} from 'app/main/apps/processo/processo-view/store';
+import {getDocumentosHasLoaded, getVolumesLoaded} from 'app/main/apps/processo/processo-view/store';
 
 
 @Injectable()
@@ -59,7 +59,7 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkStore(): Observable<any> {
-        return forkJoin([this.getJuntadas(), this.getDocumentos()]).pipe(
+        return forkJoin([this.getJuntadas(), this.getDocumentos(), this.getVolumes()]).pipe(
             take(1)
         );
     }
@@ -78,7 +78,7 @@ export class ResolveGuard implements CanActivate {
 
                     let processoFilter = null;
 
-                    const routeParams = of('processoHandle');
+                    const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
                     routeParams.subscribe(param => {
                         processoFilter = `eq:${this.routerState.params[param]}`;
                     });
@@ -93,6 +93,7 @@ export class ResolveGuard implements CanActivate {
                         offset: 0,
                         sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
                         populate: [
+                            'volume',
                             'documento',
                             'documento.origemDados',
                             'documento.tipoDocumento',
@@ -149,5 +150,45 @@ export class ResolveGuard implements CanActivate {
                 take(1)
             );
         }
+    }
+
+    /**
+     * Get Volumes
+     *
+     * @returns {Observable<any>}
+     */
+    getVolumes(): any {
+        return this._store.pipe(
+            select(getVolumesLoaded),
+            tap((loaded: any) => {
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
+
+                    let processoFilter = null;
+
+                    const routeParams = this.routerState.params['processoCopiaHandle'] ? of('processoCopiaHandle') : of('processoHandle');
+                    routeParams.subscribe(param => {
+                        processoFilter = `eq:${this.routerState.params[param]}`;
+                    });
+
+                    const params = {
+                        filter: {
+                            'processo.id': processoFilter
+                        },
+                        listFilter: {},
+                        limit: 10,
+                        offset: 0,
+                        sort: {numeracaoSequencial: 'ASC'},
+                        populate: []
+                    };
+
+                    this._store.dispatch(new fromStore.GetVolumes(params));
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
     }
 }
