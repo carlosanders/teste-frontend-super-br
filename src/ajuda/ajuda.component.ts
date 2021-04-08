@@ -13,6 +13,9 @@ import {CdkUtils} from '@cdk/utils';
 import {DynamicService} from '../modules/dynamic.service';
 import {Router} from '@angular/router';
 import {CdkSidebarService} from "../@cdk/components/sidebar/sidebar.service";
+import { ShepherdService } from 'angular-shepherd';
+import Shepherd from 'shepherd.js';
+import { steps as defaultSteps, defaultStepOptions} from './tour/data';
 
 @Component({
     selector: 'ajuda',
@@ -39,6 +42,8 @@ export class AjudaComponent implements OnInit {
 
     context: any;
     iniciatour: string;
+    tourInicio: boolean;
+    aberto: boolean;
 
 
 
@@ -51,6 +56,7 @@ export class AjudaComponent implements OnInit {
         private _dynamicService: DynamicService,
         private _router: Router,
         public _cdkSidebarService: CdkSidebarService,
+      public shepherdService: ShepherdService,
     ) {
 
         this.form = this._formBuilder.group({
@@ -105,9 +111,21 @@ export class AjudaComponent implements OnInit {
     }
 
     tour(tour: string): void {
-        this._cdkSidebarService.getSidebar('navbar').toggleFold();
+        if(this._cdkSidebarService.getSidebar('navbar').folded){
+            this._cdkSidebarService.getSidebar('navbar').toggleFold();
+            this.aberto = true;
+        }
         this._cdkSidebarService.getSidebar('ajudaPanel').toggleOpen();
+        
         this.iniciatour = tour;
+
+        this.tourInicio = true;
+        this.shepherdService.defaultStepOptions = defaultStepOptions;
+        this.shepherdService.modal = true;
+        this.shepherdService.isActive=true;
+        this.shepherdService.confirmCancel = false;
+        this.shepherdService.addSteps(defaultSteps);
+        this.shepherdService.start();
     }
 
 }
