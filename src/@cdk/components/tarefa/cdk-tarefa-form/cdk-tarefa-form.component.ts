@@ -276,7 +276,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     } else {
                         this.form.get('usuarioResponsavel').enable();
                     }
-                    if (this.blocoResponsaveis) {
+                    if (value && this.blocoResponsaveis) {
                         this.blocoResponsaveis = [];
                     }
 
@@ -394,7 +394,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             if (this.generoProcessos.find(genero =>
                                 (genero === value.especieProcesso.generoProcesso.nome)
                             )) {
-                                this.processos.push(value);
+                                const findDuplicate = this.processos.some(item => (item.id === value.id));
+                                if (!findDuplicate) {
+                                    this.processos.push(value);
+                                }
                             }
 
                             // caso nao seja o mesmo genero mas ainda é um genero que nao existe no array
@@ -568,20 +571,22 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             )
         ).subscribe();
 
-        this.form.get('grupoContato').valueChanges.pipe(
-            debounceTime(300),
-            distinctUntilChanged(),
-            switchMap((value) => {
+        if (this.form.get('grupoContato')) {
+            this.form.get('grupoContato').valueChanges.pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap((value) => {
 
-                if (value && typeof value === 'object') {
-                    this.clearValidators();
-                    this._changeDetectorRef.markForCheck();
-                    this.processaGrupoContato(value)
-                }
-                return of([]);
+                    if (value && typeof value === 'object') {
+                        this.clearValidators();
+                        this._changeDetectorRef.markForCheck();
+                        this.processaGrupoContato(value)
+                    }
+                    return of([]);
 
-            })
-        ).subscribe();
+                })
+            ).subscribe();
+        }
 
         this.alteraPrazoDias();
         this.validaPrazo();

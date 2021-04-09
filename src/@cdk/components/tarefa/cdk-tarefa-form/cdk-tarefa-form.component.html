@@ -188,7 +188,7 @@
         <mat-form-field *ngIf="form.get('blocoResponsaveis').value">
             <input matInput placeholder="Grupo de Contatos"
                    formControlName="grupoContato"
-                   [matAutocomplete]="grupoContato.autocomplete" required
+                   [matAutocomplete]="grupoContato.autocomplete"
                    (blur)="checkGrupoContato()">
             <cdk-grupo-contato-autocomplete
                 #grupoContato="grupoContatoAutocomplete"

@@ -45,7 +45,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
 
     filtrarPor: string;
 
-    isDistribuidor = false;
+    temDistribuidor = false;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -107,8 +107,9 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
             )
         ).subscribe(response => {
             this.usuarioList = response['entities'];
-            if (this.pagination['context'] && this.pagination['context'].setorApenasDistribuidor) {
-                this.isDistribuidor = true;
+            if (this.pagination['context'] &&
+                (this.pagination['context'].setorApenasDistribuidor || this.pagination['context'].semAfastamento) ) {
+                this.temDistribuidor = true;
             }
             this._changeDetectorRef.markForCheck();
         });

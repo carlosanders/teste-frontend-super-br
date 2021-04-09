@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import * as fromStore from './store';
-import {Documento, DocumentoAvulso} from '@cdk/models';
+import {Atividade, Documento, DocumentoAvulso} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
@@ -38,6 +38,8 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     isSaving$: Observable<boolean>;
     isRemetendo$: Observable<boolean>;
     errors$: Observable<any>;
+
+    remeterDocAvulso = false;
 
     /**
      * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
@@ -88,7 +90,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         this.documento$.subscribe(documento => this.documento = documento);
 
         this._componenteDigitalService.completedEditorSave.subscribe((value) => {
-            if (value === this.documento.id) {
+            if (value === this.documento.id && this.remeterDocAvulso) {
                 this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
             }
         });
@@ -158,6 +160,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
                 if (!this.documento.assinado){
+                    this.remeterDocAvulso = true;
                     this._componenteDigitalService.doEditorSave.next(this.documento.id);
                 }
             }
@@ -170,6 +173,10 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     }
 
     submit(values): void {
+
+        if (!this.documento.assinado && this.documento.componentesDigitais[0].editavel) {
+            this._componenteDigitalService.doEditorSave.next(this.documento.id);
+        }
 
         const documentoAvulso = new DocumentoAvulso();
 
