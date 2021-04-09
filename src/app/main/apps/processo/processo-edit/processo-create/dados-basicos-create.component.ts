@@ -242,6 +242,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             modalidadeFase: [null],
             dataHoraAbertura: [null, [Validators.required]],
             nupInvalido: [null],
+            chaveAcesso: [null],
+            alterarChave: [false]
         });
 
         this.formAssunto = this._formBuilder.group({

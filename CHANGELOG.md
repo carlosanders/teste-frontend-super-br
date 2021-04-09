@@ -153,3 +153,20 @@
 * Correção para nova entrada de menu no módulo pessoa
 * Correção para nova entrada de botão no módulo de listar remessas
 * Correção para nova entrada de botão no módulo de listar ofícios
+
+1.3.0
+
+* Feature criação do grupo de contatos
+* Feature criação de opção para alterar chave de acesso de processo
+* Correção erro ao cadastrar uma tarefa com bloco de responsáveis - issue #268
+* Correção de erro ao criar tarefa com bloco de processos - issues #267 #271
+* Ajuste do form de tarefas para tratamento de setores com apenas distribuidor e afastamentos
+* Ajuste form ofícios para salvar dados alterados - issue #266
+* Ajuste para criação de tarefas administrativas para setor de Arquivo
+* Ajuste para salvar dados do editor ao salvar form do documento avulso - issue #266
+* Ajuste do botão cancelar do form de tarefa - issue #270
+* Ajuste erro bloco de responsáveis - issue #269
+* Ajuste botão voltar form perfil - issue #263
+* Correção erro no cadastramento de processos utilizando opção de "Informar Protocolo Existente" #261
+* Correção Contador de caracteres do título contendo valores fixos #259
+* Correção Não é possível desclassificar um sigilo de um processo #245

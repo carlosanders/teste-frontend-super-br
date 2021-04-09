@@ -62,7 +62,7 @@
         <input matInput placeholder="Modelo"
                formControlName="modelo"
                [matAutocomplete]="modelo.autocomplete" required
-               [readonly]="inputModelo"
+               [readonly]="inputReadOnly"
                (blur)="checkModelo()">
         <cdk-modelo-autocomplete
             #modelo="modeloAutocomplete"
@@ -72,11 +72,11 @@
             [modeloListIsLoading]="modeloListIsLoading"
             [pagination]="modeloPagination">
         </cdk-modelo-autocomplete>
-        <button *ngIf="!inputModelo && form.get('processo').value" matSuffix mat-button mat-icon-button
+        <button *ngIf="!inputReadOnly && form.get('processo').value" matSuffix mat-button mat-icon-button
                 (click)="getFavoritosModelo()">
             <mat-icon matTooltip="Favoritos">star</mat-icon>
         </button>
-        <button *ngIf="form.get('modelo').enabled && !inputModelo" matSuffix mat-button mat-icon-button
+        <button *ngIf="form.get('modelo').enabled && !inputReadOnly" matSuffix mat-button mat-icon-button
                 (click)="showModeloGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
@@ -106,10 +106,10 @@
             <ng-template #dynamicComponent></ng-template>
         </mat-radio-group>
 
-        <mat-form-field *ngIf="!documentoAvulso.id && (form.get('mecanismoRemessa').value === 'interna')">
+        <mat-form-field *ngIf="(form.get('mecanismoRemessa').value === 'interna')">
             <input matInput placeholder="Unidade"
                    formControlName="setorDestino"
-                   [readonly]="inputModelo"
+                   [readonly]="inputReadOnly"
                    [matAutocomplete]="setorDestino.autocomplete" required
                    (blur)="checkSetorDestino()">
             <cdk-setor-autocomplete
@@ -119,11 +119,12 @@
                 [setorListIsLoading]="setorDestinoListIsLoading"
                 [pagination]="setorDestinoPagination">
             </cdk-setor-autocomplete>
-            <button *ngIf="!inputModelo  && form.get('processo').value"  matSuffix mat-button mat-icon-button
+            <button *ngIf="!inputReadOnly  && form.get('processo').value"  matSuffix mat-button mat-icon-button
+                    [disabled]="inputReadOnly"
                     (click)="getFavoritosSetorDestino()">
                 <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
-            <button *ngIf="form.get('setorDestino').enabled && !inputModelo" matSuffix mat-button mat-icon-button
+            <button *ngIf="form.get('setorDestino').enabled && !inputReadOnly" matSuffix mat-button mat-icon-button
                     (click)="showSetorDestinoGrid()">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
@@ -132,10 +133,10 @@
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field *ngIf="!documentoAvulso.id && (form.get('mecanismoRemessa').value !== 'interna')">
+        <mat-form-field *ngIf="(form.get('mecanismoRemessa').value !== 'interna')">
             <input matInput placeholder="Pessoa"
                    formControlName="pessoaDestino"
-                   [readonly]="inputModelo"
+                   [readonly]="inputReadOnly"
                    [matAutocomplete]="pessoaDestino.autocomplete" required
                    (blur)="checkPessoaDestino()">
             <cdk-pessoa-autocomplete
@@ -146,15 +147,17 @@
                 [pagination]="pessoaDestinoPagination">
             </cdk-pessoa-autocomplete>
             <button *ngIf="form.get('processo').value" matSuffix mat-button mat-icon-button
+                    [disabled]="inputReadOnly"
                     (click)="getFavoritosPessoaDestino()">
                 <mat-icon matTooltip="Favoritos">star</mat-icon>
             </button>
             <button *ngIf="form.get('pessoaDestino').value && form.get('pessoaDestino').value.id" matSuffix mat-button
                     mat-icon-button
+                    [disabled]="inputReadOnly"
                     (click)="doEditPessoaDestino()">
                 <mat-icon matTooltip="Editar pessoa">edit</mat-icon>
             </button>
-            <button matSuffix mat-button mat-icon-button *ngIf="!inputModelo"
+            <button matSuffix mat-button mat-icon-button *ngIf="!inputReadOnly"
                     (click)="doGerirPessoaDestino()">
                 <mat-icon matTooltip="Procurar ou incluir pessoa">person_add</mat-icon>
             </button>
