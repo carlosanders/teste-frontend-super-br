@@ -170,3 +170,14 @@
 * Correção erro no cadastramento de processos utilizando opção de "Informar Protocolo Existente" #261
 * Correção Contador de caracteres do título contendo valores fixos #259
 * Correção Não é possível desclassificar um sigilo de um processo #245
+* Ajuste no componente de pessoas do módulo admin passando para o modo search
+* Correção em sidebar de vinculação de pessoa com barramento sendo chamada somente de dentro do módulo admin
+* Correção em bugs no dialog de assinatura eletrônica
+* Ajuste de css de separador de volumes no processo-view para ficar igual ao cabeçalho das juntadas
+* Correção de bug de não atualização de minutas ao remeter um ofício
+* Refactoring do login
+* Criação do cdk-login-form
+* Criados radio buttons para o tipo de login caso ldap esteja habilitado na configuração do sistema
+* Mudança de rótulos e títulos de botão caso seja selecionado login interno
+* Salvar tipo de login selecionado no localstorage
+* Ao fim do token, exibir um modal de login para que o usuário revalide o seu login sem perder o trabalho atual

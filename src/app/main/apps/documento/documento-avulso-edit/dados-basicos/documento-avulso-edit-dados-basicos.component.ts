@@ -43,18 +43,9 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
 
     /**
      * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
-     * adicionar botões de remessa diferentes da remessa manual
-     */
-    @ViewChild('dynamicButtons', {static: false, read: ViewContainerRef}) containerButtons: ViewContainerRef;
-
-    /**
-     * Criando ponto de entrada para extensões do componente de edição de documento avulso, permitindo
      * informar status da remessa oriundos de módulos diferentes da remessa manual
      */
     @ViewChild('dynamicStatus', {static: false, read: ViewContainerRef}) containerStatus: ViewContainerRef;
-
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
-    container: ViewContainerRef;
 
     /**
      *
@@ -96,31 +87,9 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         });
     }
 
-    ngAfterViewInit(): void {
-        const path = 'app/main/apps/documento/documento-avulso-edit';
-        modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
-                    this._dynamicService.loadComponent(c)
-                        .then(componentFactory => this.container.createComponent(componentFactory));
-                }));
-            }
-        });
-    }
+    ngAfterViewInit(): void {}
 
     iniciaModulos(): void {
-        const path1 = 'app/main/apps/documento/documento-avulso-edit#buttons';
-        modulesConfig.forEach((module) => {
-            if (module.components.hasOwnProperty(path1)) {
-                module.components[path1].forEach((c => {
-                    this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => {
-                            this.containerButtons.createComponent(componentFactory);
-                            this._ref.markForCheck();
-                        });
-                }));
-            }
-        });
         const path2 = 'app/main/apps/documento/documento-avulso-edit#status';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path2)) {
@@ -155,7 +124,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Esta operaçao nao pode ser desfeita. Deseja realmente remeter o oficio?';
+        this.confirmDialogRef.componentInstance.confirmMessage = 'Esta operação não pode ser desfeita. Deseja realmente remeter o ofício?';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {

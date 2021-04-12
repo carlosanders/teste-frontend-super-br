@@ -27,6 +27,9 @@ import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatDialogModule} from "@angular/material/dialog";
+import {CdkAssinaturaEletronicaPluginComponent} from "@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component";
+import {CdkAssinaturaEletronicaPluginModule} from "@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module";
 
 const routes: Routes = [
     {
@@ -88,12 +91,14 @@ modulesConfig.forEach((module) => {
         MatInputModule,
         MatTooltipModule,
         MatFormFieldModule,
+        MatDialogModule,
 
         InfiniteScrollModule,
 
         TranslateModule,
 
         ProcessoViewStoreModule,
+        CdkAssinaturaEletronicaPluginModule,
 
         CdkSharedModule,
         CdkSidebarModule,
@@ -112,6 +117,9 @@ modulesConfig.forEach((module) => {
         VinculacaoDocumentoService,
         ComponenteDigitalService,
         fromGuards.ResolveGuard
+    ],
+    entryComponents: [
+        CdkAssinaturaEletronicaPluginComponent
     ]
 })
 export class ProcessoViewModule {

@@ -11,6 +11,15 @@ cdk-pessoa-form {
         display: flex;
         flex-direction: column;
 
+        .checkboxes {
+            display: flex;
+            flex-direction: row;
+
+            mat-checkbox {
+                margin-right: 8px;
+            }
+        }
+
         mat-form-field {
             flex: 1 1 auto;
         }

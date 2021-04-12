@@ -6,6 +6,8 @@ import * as fromStore from '../../dados-pessoa-edit/store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {cdkAnimations} from '../../../../../../../@cdk/animations';
 import {CdkUtils} from "../../../../../../../@cdk/utils";
+import {LoginService} from "../../../../../auth/login/login.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'pessoa-edit-main-sidebar',
@@ -22,11 +24,18 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
 
     links: any;
 
+    extendedLinks: any;
+
     /**
+     *
      * @param _store
+     * @param _loginService
+     * @param _router
      */
     constructor(
         private _store: Store<fromStore.DadosPessoaEditAppState>,
+        public _loginService: LoginService,
+        private _router: Router
     ) {
         this.pessoa$ = this._store.pipe(select(fromStore.getPessoa));
     }
@@ -41,11 +50,12 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
 
         this.links = [];
+        this.extendedLinks = [];
         const path = 'app/main/apps/pessoa/pessoa-edit/sidebars/main';
 
         modulesConfig.forEach((module) => {
             if (module.sidebars.hasOwnProperty(path)) {
-                module.sidebars[path].forEach((s => this.links.push(s)));
+                module.sidebars[path].forEach((s => this.extendedLinks.push(s)));
             }
         });
 
@@ -84,5 +94,4 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
      */
     ngOnDestroy(): void {
     }
-
 }

@@ -60,67 +60,70 @@
 
             .juntadas {
 
-                .juntada {
-                    color: map-get($foreground, secondary-text);
+                .volume {
 
-                    &.current {
-                        @if ($is-dark) {
-                            background: map-get($background, app-bar);
-                            color: map-get($foreground, text);
-                        } @else {
-                            background: map-get($accent, 50);
-                            color: map-get($accent, '50-contrast');
-                        }
+                    .juntada {
+                        color: map-get($foreground, secondary-text);
 
-                        .index {
-
-                            span {
-                                @if ($is-dark) {
-                                    background: map-get($background, app-bar);
-                                    border-color: map-get($accent, default);
-                                } @else {
-                                    background: map-get($background, background);
-                                    border-color: map-get($accent, default);
-                                }
+                        &.current {
+                            @if ($is-dark) {
+                                background: map-get($background, app-bar);
+                                color: map-get($foreground, text);
+                            } @else {
+                                background: map-get($accent, 50);
+                                color: map-get($accent, '50-contrast');
                             }
-                        }
-                    }
-
-                    &.completed {
-                        color: map-get($foreground, text);
-
-                        .index {
-
-                            span {
-                                border-color: map-get($accent, default);
-                            }
-
-                            &:after {
-                                border-left-color: map-get($accent, default);
-                            }
-                        }
-
-                        + .juntada {
 
                             .index {
 
-                                &:before {
-                                    border-left-color: map-get($accent, default);
+                                span {
+                                    @if ($is-dark) {
+                                        background: map-get($background, app-bar);
+                                        border-color: map-get($accent, default);
+                                    } @else {
+                                        background: map-get($background, background);
+                                        border-color: map-get($accent, default);
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    .index {
+                        &.completed {
+                            color: map-get($foreground, text);
 
-                        &:before,
-                        &:after {
-                            border-left-color: map-get($foreground, divider);
+                            .index {
+
+                                span {
+                                    border-color: map-get($accent, default);
+                                }
+
+                                &:after {
+                                    border-left-color: map-get($accent, default);
+                                }
+                            }
+
+                            + .juntada {
+
+                                .index {
+
+                                    &:before {
+                                        border-left-color: map-get($accent, default);
+                                    }
+                                }
+                            }
                         }
 
-                        span {
-                            background: map-get($background, background);
-                            border-color: map-get($foreground, divider);
+                        .index {
+
+                            &:before,
+                            &:after {
+                                border-left-color: map-get($foreground, divider);
+                            }
+
+                            span {
+                                background: map-get($background, background);
+                                border-color: map-get($foreground, divider);
+                            }
                         }
                     }
                 }

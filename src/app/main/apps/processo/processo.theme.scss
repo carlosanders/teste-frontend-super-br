@@ -73,6 +73,9 @@
                         }
 
                         .index {
+                            &:before {
+                                border-left-color: map-get($accent, default);
+                            }
 
                             span {
                                 @if ($is-dark) {
@@ -90,6 +93,9 @@
                         color: map-get($foreground, text);
 
                         .index {
+                            &:before {
+                                border-left-color: map-get($accent, default);
+                            }
 
                             span {
                                 border-color: map-get($accent, default);
