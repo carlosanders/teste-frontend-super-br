@@ -42,6 +42,8 @@ export const SET_FOLDER_ON_SELECTED_TAREFAS = '[TAREFAS] SET FOLDER ON SELECTED 
 export const SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS SUCCESS';
 export const SET_FOLDER_ON_SELECTED_TAREFAS_FAILED = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS FAILED';
 
+export const CONTAR_TAREFA_PASTA_USUARIO = '[TAREFAS] CONTAR_TAREFA_PASTA_USUARIO';
+
 export const SAVE_TAREFA = '[TAREFA] SAVE TAREFA';
 export const SAVE_TAREFA_SUCCESS = '[TAREFA] SAVE TAREFA SUCCESS';
 export const SAVE_TAREFA_FAILED = '[TAREFA] SAVE TAREFA FAILED';
@@ -181,6 +183,13 @@ export class ChangeSelectedTarefas implements Action {
  */
 export class SetFolderOnSelectedTarefas implements Action {
     readonly type = SET_FOLDER_ON_SELECTED_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
+
+export class ContarTarefaPastaUsuario implements Action {
+    readonly type = CONTAR_TAREFA_PASTA_USUARIO;
 
     constructor(public payload: any) {
     }
@@ -732,6 +741,7 @@ export type TarefasActionsAll
     | CreateTarefaSuccess
     | SetCurrentTarefa
     | SetCurrentTarefaSuccess
+    | ContarTarefaPastaUsuario
     | ChangeSelectedTarefas
     | SetFolderOnSelectedTarefas
     | SetFolderOnSelectedTarefasSuccess
