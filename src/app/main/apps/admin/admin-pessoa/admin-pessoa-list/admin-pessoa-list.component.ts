@@ -65,17 +65,17 @@ export class AdminPessoaListComponent implements OnInit {
     }
 
     edit(pessoaId: number): void {
-        this._router.navigate([this.routerState.url.split('/pessoa/')[0] + '/pessoa/editar/' + pessoaId]);
+        this._router.navigate([this.routerState.url.replace('listar', 'listar/pessoa/editar/') + pessoaId]);
     }
 
     create(): void {
-        this._router.navigate([this.routerState.url.split('/pessoa/')[0] + '/pessoa/editar/criar']).then();
+        this._router.navigate([this.routerState.url.split('listar')[0] + 'listar/pessoa/editar/criar']).then();
     }
 
     onActivate(componentReference): void  {
         if (componentReference.select) {
             componentReference.select.subscribe((pessoa: Pessoa) => {
-                this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
+                // this._router.navigate([this.routerState.url.split('/pessoa')[0]]).then();
             });
         }
     }
