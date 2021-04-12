@@ -44,7 +44,7 @@ export class AdminPessoaListEffects {
             .pipe(
                 ofType<PessoaListActions.GetPessoa>(PessoaListActions.GET_PESSOA),
                 switchMap((action) => {
-                    return this._pessoaService.query(
+                    return this._pessoaService.search(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,

@@ -10,6 +10,9 @@ import {MatIconModule} from "@angular/material/icon";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatButtonModule} from "@angular/material/button";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatMenuModule} from "@angular/material/menu";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
     declarations: [
@@ -27,6 +30,9 @@ import {MatButtonModule} from "@angular/material/button";
         MatProgressSpinnerModule,
         MatTooltipModule,
         MatButtonModule,
+        MatCheckboxModule,
+        MatMenuModule,
+        MatSelectModule,
     ],
     exports: [
         QuickPanelComponent

@@ -152,6 +152,16 @@
                       matInput placeholder="Contato" upperCase maxlength="255"></textarea>
     </mat-form-field>
 
+    <div class="checkboxes" *ngIf="showCheckboxes()">
+        <mat-checkbox formControlName="pessoaConveniada">
+            Pessoa Conveniada
+        </mat-checkbox>
+
+        <mat-checkbox formControlName="pessoaValidada">
+            Pessoa Validada
+        </mat-checkbox>
+    </div>
+
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">

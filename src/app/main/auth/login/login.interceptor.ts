@@ -1,24 +1,175 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import {Injectable} from '@angular/core';
+import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor} from '@angular/common/http';
+import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 
-import { LoginService } from './login.service';
+import {LoginService} from './login.service';
+import {CdkUtils} from "../../../../@cdk/utils";
+import {MatDialog, MatDialogRef} from "@angular/material/dialog";
+import {CdkLoginDialogComponent} from "../../../../@cdk/components/login/cdk-login-dialog/cdk-login-dialog.component";
+import {select, Store} from "@ngrx/store";
+import * as fromStore from "./store";
+import {Router} from "@angular/router";
+import {getConfig, getErrorMessage, getLoadingConfig, getToken} from "./store/selectors";
+import {environment} from "../../../../environments/environment";
+import {distinctUntilChanged, filter, switchMap, take} from "rxjs/operators";
+import {getRouterState} from "../../../store";
 
 @Injectable()
 export class LoginInterceptor implements HttpInterceptor {
-    constructor(private loginService: LoginService) { }
+
+    config$: Observable<any>;
+    config: any;
+    loadingConfig$: Observable<boolean>;
+    loadingConfig: boolean;
+    loading$: Subject<boolean> = new Subject<boolean>();
+    certificadoDigital = '';
+    errorMessage$: Observable<any>;
+
+    token$: Observable<string>;
+    token: string;
+
+    loginSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    private loginProgress = false;
+
+    dialogRef: MatDialogRef<CdkLoginDialogComponent>;
+
+    subscribers: any;
+
+    routerState: any;
+
+    constructor(
+        private store: Store<fromStore.LoginState>,
+        private loginService: LoginService,
+        public dialog: MatDialog,
+        private _router: Router
+    ) {
+        this.token = this.loginService.getToken();
+        this.config$ = this.store.pipe(select(getConfig));
+        this.loadingConfig$ = this.store.pipe(select(getLoadingConfig));
+        this.errorMessage$ = this.store.pipe(select(getErrorMessage));
+        this.token$ = this.store.pipe(select(getToken));
+
+        this.store.pipe(select(getRouterState)).subscribe(state => this.routerState = state?.state);
+
+        if (environment.base_url_x509) {
+            this.certificadoDigital = environment.base_url_x509;
+        }
+
+        this.token$
+            .pipe(
+                distinctUntilChanged(),
+                filter(result => !!result),
+            ).subscribe(token => {
+                this.token = token;
+                if (this.loginProgress) {
+                    this.loginProgress = false;
+                    this.loginSubject.next(true);
+                }
+            });
+
+        this.config$
+            .pipe(
+                filter(result => !!result)
+            )
+            .subscribe(config => {
+                this.config = config;
+                if (this._router.url !== '/auth/login' && this.routerState.url.indexOf('/auth/login') === -1 && !this.loginProgress) {
+                    this.loginProgress = true;
+                    this.openDialog();
+                }
+            });
+
+        this.loadingConfig$.pipe(filter(result => !!result)).subscribe(loading => this.loadingConfig = loading);
+    }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        const token = this.loginService.getToken();
-        if (token) {
-            request = request.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${token}`
+        if (this.token && request.url !== 'config' && request.url.indexOf('get_token') === -1) {
+            if (!CdkUtils.tokenExpired(this.token)) {
+                // Existe um token e ele ainda é válido
+                request = request.clone({
+                    setHeaders: {
+                        Authorization: `Bearer ${this.token}`
+                    }
+                });
+                return next.handle(request);
+            } else if (this._router.url === '/' && this.routerState.url.indexOf('auth') === -1) {
+                // Esta requisição veio de um F5 com token inválido/URL compartilhada com token inválido, enviar para
+                // tela de login
+                request = request.clone({
+                    setHeaders: {
+                        Authorization: `Bearer ${this.token}`
+                    }
+                });
+                return next.handle(request);
+            } else if (!this.loginProgress) {
+                // Token expirou, aguardar ação de login antes de dar next
+                if ((!this.config || this.config.error) && !this.loadingConfig) {
+                    this.store.dispatch(new fromStore.GetConfig());
+                } else if (this.config) {
+                    this.loginProgress = true;
+                    this.openDialog();
                 }
-            });
-        }
 
-        return next.handle(request);
+                return this.loginSubject.pipe(
+                    filter(result => result !== null),
+                    take(1),
+                    switchMap(() => {
+                        // Aqui, o valor que chega do token já é o atualizado após o relogin
+                        this.loginProgress = false;
+                        request = request.clone({
+                            setHeaders: {
+                                Authorization: `Bearer ${this.token}`
+                            }
+                        });
+                        return next.handle(request);
+                    })
+                );
+            }
+        } else {
+            return next.handle(request);
+        }
+    }
+
+    openDialog(): void {
+        this.loginSubject.next(null);
+
+        this.dialogRef = this.dialog.open(CdkLoginDialogComponent, {
+            data: {
+                loading$: this.loading$,
+                config$: this.config$,
+                loadingConfig$: this.loadingConfig$,
+                certificadoDigital: this.certificadoDigital,
+                errorMessage$: this.errorMessage$
+            },
+            disableClose: true,
+            height: '95%',
+        });
+
+        this.subscribers = this.dialogRef.afterClosed().subscribe(result => {
+            if (result.tipoLogin === 'externo') {
+                this.onSubmitExterno(result);
+            } else if (result.tipoLogin === 'ldap') {
+                this.onSubmitLdap(result);
+            }
+        });
+    }
+
+    onSubmitExterno(values): void {
+        const payload = {
+            username: values.username.replace(/\D/g, ''),
+            password: values.password,
+            redirect: false
+        };
+        this.store.dispatch(new fromStore.Login(payload));
+    }
+
+    onSubmitLdap(values): void {
+        const payload = {
+            username: values.username,
+            password: values.password,
+            redirect: false
+        };
+        this.store.dispatch(new fromStore.LoginLdap(payload));
     }
 }
