@@ -695,11 +695,10 @@
             </div>
             <div class="separador-volume"
                  *ngIf="juntadasByVolume.get(juntada.volume.numeracaoSequencial)[juntadasByVolume.get(juntada.volume.numeracaoSequencial).length - 1].id === juntada.id">
-                <mat-chip-list class="mat-chip-list-stacked" aria-label="Volume">
-                    <mat-chip color="primary">
-                        Volume {{juntada.volume.numeracaoSequencial}}
-                    </mat-chip>
-                </mat-chip-list>
+                <div class="documentos-juntados-title" style="background-color: whitesmoke;" fxFlex="0 0 auto"
+                     fxLayoutAlign="start center" aria-label="Volume">
+                    <div class="ml-24">Volume {{juntada.volume.numeracaoSequencial}}</div>
+                </div>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 <mat-toolbar class="p-0 mat-elevation-z1">
 
-    <div fxFlex fxFill fxLayout="row" fxLayoutAlign="start center">
+    <div class="toolbar-element" xFlex fxFill fxLayout="row" fxLayoutAlign="start center">
 
         <div fxFlex="1 0 auto" fxLayout="row" fxLayoutAlign="start center">
 
@@ -21,32 +21,34 @@
 
         <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">
 
-            <button mat-button [matMenuTriggerFor]="userMenu"
-                    class="user-button">
-                <div fxLayout="row" fxLayoutAlign="center center">
-                    <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/User.png">
-                    <span class="username mr-12" fxHide fxShow.gt-sm>{{userProfile?.nome.split(' ')[0]}}</span>
-                    <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
-                </div>
-            </button>
-
-            <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
-
-                <button mat-menu-item (click)="goConfiguracoes()">
-                    <mat-icon>account_circle</mat-icon>
-                    <span>Configurações</span>
+            <div class="avatar-element" >
+                <button mat-button [matMenuTriggerFor]="userMenu"
+                        class="user-button">
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <img class="avatar mr-0 mr-sm-16" src="assets/images/avatars/User.png">
+                        <span class="username mr-12" fxHide fxShow.gt-sm>{{userProfile?.nome.split(' ')[0]}}</span>
+                        <mat-icon class="s-16" fxHide.xs>keyboard_arrow_down</mat-icon>
+                    </div>
                 </button>
 
-                <button mat-menu-item (click)="goLogout()">
-                    <mat-icon>exit_to_app</mat-icon>
-                    <span>Sair</span>
-                </button>
+                <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
 
-            </mat-menu>
+                    <button mat-menu-item (click)="goConfiguracoes()">
+                        <mat-icon>account_circle</mat-icon>
+                        <span>Configurações</span>
+                    </button>
+
+                    <button mat-menu-item (click)="goLogout()">
+                        <mat-icon>exit_to_app</mat-icon>
+                        <span>Sair</span>
+                    </button>
+
+                </mat-menu>
+            </div>
 
             <div class="toolbar-separator"></div>
 
-            <cdk-search-bar (inputText)="search($event)" *showIfRole="'ROLE_COLABORADOR'"></cdk-search-bar>
+            <cdk-search-bar class="pesquisa-rapida" (inputText)="search($event)" *showIfRole="'ROLE_COLABORADOR'"></cdk-search-bar>
 
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
 
@@ -85,7 +87,8 @@
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <button mat-icon-button
-                    class="quick-panel-toggle-button"
+                    id="help"
+                    class="quick-panel-toggle-button2"
                     (click)="toggleSidebarOpen('ajudaPanel')"
                     aria-label="Ajuda">
                 <mat-icon class="secondary-text">live_help</mat-icon>
@@ -96,7 +99,7 @@
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <button mat-icon-button
-                    class="quick-panel-toggle-button"
+                    class="quick-panel-toggle-button3"
                     *ngIf="(!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen || this._cdkSidebarService.getSidebar('quickPanel').folded)
                      && operacoesProcessando === 0"
                     (click)="toggleQuickPanel()"
@@ -115,5 +118,7 @@
         </div>
 
     </div>
-
+    <div *ngIf="titulo === 'Inicia Tour'">
+        <shepherd></shepherd>
+    </div>
 </mat-toolbar>

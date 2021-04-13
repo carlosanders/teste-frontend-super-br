@@ -532,7 +532,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectConfiguracaoNup(configuracaoNup: ConfiguracaoNup): void {
-        console.log(configuracaoNup);
         if (configuracaoNup) {
             this.form.get('configuracaoNup').setValue(configuracaoNup);
         }

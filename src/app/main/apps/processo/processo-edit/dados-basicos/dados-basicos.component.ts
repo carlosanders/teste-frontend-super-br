@@ -80,6 +80,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.logEntryPagination = new Pagination();
         this.setorAtualPagination = new Pagination();
         this.classificacaoPagination = new Pagination();
+        this.configuracaoNupPagination = new Pagination();
         this._unsubscribeAll = new Subject();
     }
 

@@ -33,6 +33,8 @@ export class Usuario {
 
     isDisponivel?: boolean;
 
+    primeiroAcesso?: boolean;
+
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -106,5 +108,6 @@ export class Usuario {
         this.plainPassword = null;
         this.jwt = null;
         this.isDisponivel = null;
+        this.primeiroAcesso = null;
     }
 }
