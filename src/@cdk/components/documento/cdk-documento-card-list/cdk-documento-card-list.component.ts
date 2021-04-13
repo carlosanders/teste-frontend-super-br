@@ -49,7 +49,7 @@ export class CdkDocumentoCardListComponent implements OnInit, OnChanges {
     converteHtml = new EventEmitter<number>();
 
     @Output()
-    downloadP7S = new EventEmitter<number>();
+    downloadP7S = new EventEmitter<Documento>();
 
     @Output()
     restaurar = new EventEmitter<number>();

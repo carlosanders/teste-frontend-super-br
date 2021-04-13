@@ -11,14 +11,14 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Assinatura, Atividade, Pagination} from '@cdk/models';
+import {Assinatura, Atividade, ComponenteDigital, Pagination} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 
 import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Tarefa} from '@cdk/models';
-import {getTarefa} from '../../store/selectors';
+import {getTarefa} from '../../store';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Documento} from '@cdk/models';
 import {getRouterState, getMercureState, getScreenState} from 'app/store/reducers';
@@ -26,7 +26,7 @@ import {Router} from '@angular/router';
 import {Colaborador} from '@cdk/models';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
-import {Back} from '../../../../../../store/actions';
+import {Back} from '../../../../../../store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../../modules/dynamic.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
@@ -517,8 +517,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
     }
 
-    doDownloadP7S(documentoId): void {
-         this._store.dispatch(new fromStore.DownloadP7S(documentoId));
+    doDownloadP7S(documento: Documento): void {
+        documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+            this._store.dispatch(new fromStore.DownloadP7S(componenteDigital.id));
+        });
     }
 
     doRestaurar(documentoId): void {
