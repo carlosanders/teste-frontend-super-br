@@ -1,3 +1,5 @@
+@import "../@cdk/scss/cdk";
+
 ajuda {
     flex: 1 1 auto;
     display: flex;
@@ -46,5 +48,33 @@ ajuda {
 
     .topico-descricao {
 
+    }
+    section {
+        display: table;
+    }
+
+    .button-row {
+        display: table-cell;
+        width: 500px;
+        height: 20px;
+    }
+
+    .button-row .mat-button-base {
+        margin: 5px 10px 40px 10px;
+        font-size: 10px;
+    }
+
+    .mat-icon-button{
+        padding: 10px;
+        height: 20px;
+        margin-bottom: 5px;
+        line-height: 10px;
+    }
+
+
+    .flex-container {
+        display: flex;
+        justify-content: normal;
+        flex-wrap: wrap;
     }
 }

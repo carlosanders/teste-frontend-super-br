@@ -33,12 +33,20 @@ export class LoginService {
         this.startCountdown();
     }
 
+    setLoginType(type): void {
+        localStorage.setItem('loginType', type);
+    }
+
     setExp(action): void {
         localStorage.setItem('exp', action.payload.exp);
     }
 
     setTimestamp(action): void {
         localStorage.setItem('timestamp', action.payload.timestamp);
+    }
+
+    getLoginType(): string {
+        return localStorage.getItem('loginType');
     }
 
     getExp(): number {

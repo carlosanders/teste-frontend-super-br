@@ -16,6 +16,11 @@ export const getConfig = createSelector(
     (login: LoginState) => login.config
 );
 
+export const getToken = createSelector(
+    getLoginState,
+    (login: LoginState) => login.token
+);
+
 export const getErrorMessage = createSelector(
     getLoginState,
     (login: LoginState) => login.errorMessage

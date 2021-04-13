@@ -635,23 +635,9 @@ processo-view-main-sidebar {
                 display: flex;
                 flex: 1 1 auto;
                 flex-wrap: wrap;
-
-                mat-chip-list {
-                    display: flex;
-                    flex: 1 1 auto;
-
-                    .mat-chip-list-wrapper {
-                        display: flex;
-                        flex: 0.9 1 auto;
-
-                        .mat-chip {
-                            display: flex;
-                            flex: 1 1 auto;
-                            flex-wrap: wrap;
-                            margin-right: 8px;
-                        }
-                    }
-                }
+                background-color: whitesmoke;
+                font-size: 15px;
+                height: 48px;
             }
         }
 

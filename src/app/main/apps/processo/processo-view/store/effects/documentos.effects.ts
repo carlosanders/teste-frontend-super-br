@@ -558,7 +558,7 @@ export class ProcessoViewDocumentosEffects {
             .pipe(
                 ofType<ProcessoViewDocumentosActions.DownloadToP7S>(ProcessoViewDocumentosActions.DOWNLOAD_DOCUMENTO_P7S),
                 mergeMap((action) => {
-                        return this._componenteDigitalService.downloadP7S(action.payload, {hash: action.payload.hash})
+                        return this._componenteDigitalService.downloadP7S(action.payload)
                             .pipe(
                                 map((response) => {
                                     if (response && response.conteudo) {

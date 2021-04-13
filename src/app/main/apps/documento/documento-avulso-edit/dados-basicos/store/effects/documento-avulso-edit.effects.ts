@@ -15,6 +15,17 @@ import {DocumentoAvulso} from '@cdk/models';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as DocumentoActions from '../../../../store/actions/documento.actions';
+import {UnloadDocumento} from "../../../../store/actions/documento.actions";
+import {
+    GetDocumentos as GetDocumentosProcesso,
+    GetJuntadas,
+    UnloadDocumentos,
+    UnloadJuntadas
+} from "../../../../../processo/processo-view/store";
+import {GetDocumentos as GetDocumentosAtividade} from "../../../../../tarefas/tarefa-detail/atividades/atividade-create/store";
+import {GetDocumentos as GetDocumentosAvulsos} from "../../../../../tarefas/tarefa-detail/oficios/store";
+import * as ProcessoViewActions from "../../../../../processo/processo-view/store/actions/processo-view.actions";
+import {UnloadComponenteDigital} from "../../../../componente-digital/store";
 
 @Injectable()
 export class DocumentoAvulsoEditEffects {
@@ -138,10 +149,71 @@ export class DocumentoAvulsoEditEffects {
             .pipe(
                 ofType<DocumentoAvulsoEditActions.RemeterDocumentoAvulsoSuccess>(DocumentoAvulsoEditActions.REMETER_DOCUMENTO_AVULSO_SUCCESS),
                 tap(() => {
-                    this._router.navigate([
-                            this.routerState.url.split('/documento/')[0]
-                        ]
-                    ).then();
+                    this._store.dispatch(new UnloadDocumento());
+                    let reloadJuntadas = false;
+                    this._store.dispatch(new UnloadComponenteDigital());
+                    if (this.routerState.url.indexOf('/processo') !== -1) {
+                        this._store.dispatch(new UnloadJuntadas({reset: false}));
+                        reloadJuntadas = true;
+                    }
+                    let url = this.routerState.url.split('/documento/')[0];
+                    if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
+                        this._store.dispatch(new UnloadDocumentos());
+                    }
+                    if (url.indexOf('/capa') !== -1) {
+                        url += '/mostrar';
+                    }
+                    this._router.navigate([url]).then(() => {
+                        if (url.indexOf('/atividades') !== -1) {
+                            this._store.dispatch(new GetDocumentosAtividade());
+                        } else if (url.indexOf('/oficios') !== -1) {
+                            this._store.dispatch(new GetDocumentosAvulsos());
+                        } else if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
+                            this._store.dispatch(new GetDocumentosProcesso());
+                        }
+                        if (reloadJuntadas) {
+                            let processoFilter = null;
+
+                            const routeParams = of('processoHandle');
+                            routeParams.subscribe(param => {
+                                processoFilter = `eq:${this.routerState.params[param]}`;
+                            });
+
+                            const params = {
+                                filter: {
+                                    'volume.processo.id': processoFilter,
+                                    'vinculada': 'eq:0'
+                                },
+                                listFilter: {},
+                                limit: 10,
+                                offset: 0,
+                                sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
+                                populate: [
+                                    'volume',
+                                    'documento',
+                                    'documento.origemDados',
+                                    'documento.tipoDocumento',
+                                    'documento.componentesDigitais',
+                                    'documento.vinculacoesDocumentos',
+                                    'documento.vinculacoesDocumentos.documentoVinculado',
+                                    'documento.vinculacoesDocumentos.documentoVinculado.tipoDocumento',
+                                    'documento.vinculacoesDocumentos.documentoVinculado.componentesDigitais',
+                                    'documento.vinculacoesEtiquetas',
+                                    'documento.vinculacoesEtiquetas.etiqueta'
+                                ]
+                            };
+
+                            this._store.dispatch(new GetJuntadas(params));
+                            return;
+                        }
+                        if (this.routerState.params.stepHandle) {
+                            const steps = this.routerState.params['stepHandle'].split('-');
+                            this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                                step: steps[0],
+                                subStep: steps[1]
+                            }));
+                        }
+                    });
                 })
             );
 }

@@ -14,7 +14,7 @@ import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
 import * as fromStoreProtocolo from '../store';
-import {Assinatura, Documento, Estado, Pagination, Pessoa, Processo, Usuario} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, Estado, Pagination, Pessoa, Processo, Usuario} from '@cdk/models';
 import {filter, takeUntil} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {Router} from '@angular/router';
@@ -323,8 +323,10 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
     }
 
-    doDownloadP7S(componenteDigitalId): void {
-        this._store.dispatch(new fromStore.DownloadToP7S(componenteDigitalId));
+    doDownloadP7S(documento: Documento): void {
+        documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+            this._store.dispatch(new fromStore.DownloadToP7S(componenteDigital.id));
+        });
     }
 
     unloadProcesso(): void {

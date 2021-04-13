@@ -97,7 +97,7 @@ export class GetConfigFailure implements Action {
 }
 
 export type LoginActionsAll =
-    | Login
+    Login
     | LoginLdap
     | LoginGovBR
     | Logout

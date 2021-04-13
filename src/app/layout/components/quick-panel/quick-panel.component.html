@@ -14,14 +14,77 @@
     </div>
 </div>
 
+<div class="header">
+    <mat-checkbox class="ml-8 mb-4" (click)="toggleSelectAll($event)"
+                  [checked]="!!selectedIds.length"
+                  [indeterminate]="isIndeterminate">
+    </mat-checkbox>
+
+    <div class="toolbar-separator" *ngIf="selectedIds?.length"></div>
+
+    <button mat-icon-button [matMenuTriggerFor]="moreMenu"
+            aria-label="Ferramentas" (click)="$event.stopPropagation()"
+            *ngIf="selectedIds?.length > 1">
+        <mat-icon class="secondary-text">more_vert</mat-icon>
+    </button>
+
+    <mat-menu #moreMenu="matMenu">
+        <button mat-menu-item aria-label="refazer selecionadas"
+                (click)="doRefazerBloco()">
+            <ng-container>
+                <mat-icon>redo</mat-icon>
+                <span>Refazer Selecionadas</span>
+            </ng-container>
+        </button>
+
+        <button mat-menu-item aria-label="desfazer selecionadas"
+                (click)="doDesfazerBloco()">
+            <ng-container>
+                <mat-icon>undo</mat-icon>
+                <span>Desfazer Selecionadas</span>
+            </ng-container>
+        </button>
+    </mat-menu>
+
+    <div class="operacoes-list-control" fxLayout="row" fxLayoutAlign="start center">
+        <mat-form-field class="colunas mr-8" aria-label="campos" matTooltip="Campos">
+            <mat-select [formControl]="filtros">
+                <div>
+                    <mat-option value="todas">Ver Todas</mat-option>
+                    <mat-option value="1">Apenas sucesso</mat-option>
+                    <mat-option value="2">Apenas com erros</mat-option>
+                    <mat-option value="3">Apenas canceladas</mat-option>
+                </div>
+            </mat-select>
+        </mat-form-field>
+
+        <div class="toolbar-separator"></div>
+
+        <div *ngIf="!(loteAtual$ | async)">
+            {{displayedOperacoes ? displayedOperacoes.length : 0}}/{{operacoes.length}}
+        </div>
+
+        <div *ngIf="(loteAtual$ | async)">
+            {{displayedOperacoes ? displayedOperacoes.length : 0}}/{{operacoesLoteAtual.length}}
+        </div>
+
+    </div>
+</div>
+
 <mat-progress-bar *ngIf="operacoesPendentes > 0" mode="determinate"
                   [value]="(operacoesProcessando * 100) / operacoesPendentes"></mat-progress-bar>
 
 <div class="content" cdkPerfectScrollbar>
     <div *ngIf="!(loteAtual$ | async)" class="operacoes">
-        <mat-card class="mt-8 ml-8 mr-8" *ngFor="let operacao of operacoes">
+        <mat-card class="mt-8 ml-8 mr-8" *ngFor="let operacao of displayedOperacoes">
             <mat-card-title>
                 <div class="card-header">
+                    <div class="check">
+                        <mat-checkbox class="pr-8 pb-8" [checked]="selectedIds.indexOf(operacao.id) !== -1"
+                                      (change)="toggleInSelected(operacao.id)"
+                                      (click)="$event.stopPropagation();">
+                        </mat-checkbox>
+                    </div>
                     <span class="secondary-text">{{operacao.type | titlecase}}</span>
                     <span *ngIf="operacao.status === 0"><mat-spinner [diameter]="16"></mat-spinner></span>
                     <span *ngIf="operacao.status === 1"><mat-icon>check</mat-icon></span>
@@ -91,9 +154,15 @@
             </mat-card-actions>
         </mat-card>
 
-        <mat-card class="mt-8 ml-8 mr-8" *ngFor="let operacao of operacoesLoteAtual">
+        <mat-card class="mt-8 ml-8 mr-8" *ngFor="let operacao of displayedOperacoes">
             <mat-card-title>
                 <div class="card-header">
+                    <div class="check">
+                        <mat-checkbox class="pr-8 pb-8" [checked]="selectedIds.indexOf(operacao.id) !== -1"
+                                      (change)="toggleInSelected(operacao.id)"
+                                      (click)="$event.stopPropagation();">
+                        </mat-checkbox>
+                    </div>
                     <span class="secondary-text">{{operacao.type | titlecase}}</span>
                     <span *ngIf="operacao.status === 0"><mat-spinner [diameter]="16"></mat-spinner></span>
                     <span *ngIf="operacao.status === 1"><mat-icon>check</mat-icon></span>
