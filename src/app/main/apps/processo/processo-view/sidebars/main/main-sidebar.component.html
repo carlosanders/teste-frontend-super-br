@@ -313,7 +313,8 @@
                                 <span>Converter em HTML</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
-                                    (click)="doDownloadP7S(minuta.componentesDigitais[0]?.id)"
+                                    *ngIf="minuta.assinado"
+                                    (click)="doDownloadP7S(minuta)"
                                     mat-menu-item>
                                 <mat-icon color="accent">get_app</mat-icon>
                                 <span>Exportar como P7S</span>
@@ -457,7 +458,8 @@
                                 <span>Converter em HTML</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
-                                    (click)="doDownloadP7S(oficio.componentesDigitais[0]?.id)"
+                                    *ngIf="oficio.assinado"
+                                    (click)="doDownloadP7S(oficio)"
                                     mat-menu-item>
                                 <mat-icon color="accent">get_app</mat-icon>
                                 <span>Converter em P7S</span>
@@ -632,6 +634,7 @@
                         </div>
                     </div>
                 </div>
+                <mat-icon *ngIf="juntada.documento.assinado" class="ml-8 mr-8">lock</mat-icon>
                 <div class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                             *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1"
@@ -666,12 +669,12 @@
                         </button>
 
                         <button fxLayout="row" fxLayoutAlign="start center"
-                                (click)="doDownloadP7S(juntada.documento.componentesDigitais[0]?.id)"
+                                *ngIf="juntada.documento.assinado"
+                                (click)="doDownloadP7S(juntada.documento)"
                                 mat-menu-item>
                             <mat-icon color="accent">get_app</mat-icon>
                             <span>Exportar como P7S</span>
                         </button>
-
 
                         <button mat-menu-item aria-label="adicionar vinculação"
                                 *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
