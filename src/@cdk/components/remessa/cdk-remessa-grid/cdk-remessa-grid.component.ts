@@ -66,27 +66,22 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
         },
         {
             id: 'urgente',
-            label: 'urgente',
+            label: 'Urgente',
             fixed: false
         },
         {
             id: 'setorOrigem.nome',
-            label: 'setorOrigem.nome',
-            fixed: false
-        },
-        {
-            id: 'setorDestino.nome',
-            label: 'setorDestino.nome',
+            label: 'Setor Origem',
             fixed: false
         },
         {
             id: 'dataHoraRecebimento',
-            label: 'dataHoraRecebimento',
+            label: 'Data Hora Recebimento',
             fixed: false
         },
         {
             id: 'usuarioRecebimento.nome',
-            label: 'usuarioRecebimento.nome',
+            label: 'Usuário Recebimento',
             fixed: false
         },
         {

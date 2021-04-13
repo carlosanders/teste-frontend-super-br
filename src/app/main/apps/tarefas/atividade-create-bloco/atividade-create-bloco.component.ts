@@ -124,6 +124,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.operacoes = [];
         this.atividade = new Atividade();
         this.atividade.encerraTarefa = true;
         this.atividade.dataHoraConclusao = moment();

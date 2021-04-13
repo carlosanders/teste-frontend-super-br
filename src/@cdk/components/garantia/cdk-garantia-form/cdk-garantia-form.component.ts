@@ -45,7 +45,7 @@ export class CdkGarantiaFormComponent implements OnChanges, OnDestroy {
 
     activeCard = 'form';
 
-    valorRegex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(\d{3})*)|\d+)?(\,\d{1,2})?$/;
+    valorRegex = /(?=.*?\d)^\$?(([1-9]\d{0,2}(\d{2})*)|\d+)?(\,\d{1,2})?$/;
 
     /**
      * Constructor

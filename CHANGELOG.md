@@ -186,3 +186,12 @@
 * Correção de erro ao tentar selecionar a configuração nup pela lupa
 * Correção Distribuidor não consegue distribuir tarefa automaticamente para outros colaboradores do setor #318
 * Correção Edição de tarefa em lote não modifica dados do responsável #310
+* Correção Somente é possível executar a movimentação em lote 1 vez #317
+* Correção Redistribuição de tarefas está mantendo a tarefa para o mesmo usuário no setor #295
+* Correção Não é possível selecionar setores de unidades diferentes na distribuição em bloco #297
+* Correção Campo Distribuição Automática sendo desmarcado automaticamente quando uma unidade é selecionada #293
+* Ajustes tamanho máximo da Etiqueta #123
+* Ajustes no delete dos critérios de regra de Etiqueta #150
+* Ajustes no gerenciamento de Etiquetas individuais #183
+* Ajustes nas colunas da página de Acompanhamento #185
+* Ajustes nas colunas da página de Remessas #214

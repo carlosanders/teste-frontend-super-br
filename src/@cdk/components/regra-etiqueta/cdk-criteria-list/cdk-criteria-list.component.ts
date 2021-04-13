@@ -49,7 +49,7 @@ export class CdkCriteriaListComponent implements AfterViewInit, OnInit, OnChange
     }
 
     doDeleteCriteria(rowId): void {
-        this.criterias = this.criterias.splice(rowId, 1);
+        this.criterias = this.criterias.filter(row => row.exibicao !== rowId);
         this.criteriasChange.emit(this.criterias);
     }
 
