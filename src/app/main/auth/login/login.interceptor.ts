@@ -84,7 +84,7 @@ export class LoginInterceptor implements HttpInterceptor {
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
-        if (this.token && request.url !== 'config' && request.url.indexOf('get_token') === -1) {
+        if (this.token && (request.url.indexOf('config') === -1 || request.url.indexOf('nup') !== -1) && request.url.indexOf('get_token') === -1) {
             if (!CdkUtils.tokenExpired(this.token)) {
                 // Existe um token e ele ainda é válido
                 request = request.clone({
