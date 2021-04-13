@@ -73,6 +73,16 @@ login {
                         }
                     }
 
+                    mat-radio-group {
+                        display: flex;
+                        flex-direction: row;
+                        padding: 16px;
+
+                        mat-radio-button {
+                            margin-right: 8px;
+                        }
+                    }
+
                     .submit-button {
                         width: 220px;
                         margin: 16px auto;

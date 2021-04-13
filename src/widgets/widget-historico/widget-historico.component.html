@@ -11,7 +11,7 @@
                 Carregando
             </div>
         </div>
-        <div class="activities" *ngIf="historicos.length > 0">
+        <div class="activities" *ngIf="historicos?.length > 0">
             <div class="activity" fxLayout="row" fxLayoutAlign="start start"
                  *ngFor="let historico of historicos">
                 <mat-icon>book</mat-icon>
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div fxLayout="column" *ngIf="!historicoIsLoding && historicos.length === 0">
+        <div fxLayout="column" *ngIf="!historicoIsLoding && historicos?.length === 0">
             <div>
                 <span class="username">Nenhuma ação recente</span>
             </div>

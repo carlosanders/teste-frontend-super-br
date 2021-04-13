@@ -139,47 +139,34 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
             let changes = {};
 
             if (this.blocoEditEspecie) {
-                changes = {
-                    especieTarefa: tarefa.especieTarefa.id
-                };
+                changes['especieTarefa'] = tarefa.especieTarefa.id;
             }
 
             if (this.blocoEditDistribuicao) {
                 if (!values.distribuicaoAutomatica){
-                    changes = {
-                        setorResponsavel: tarefa.setorResponsavel.id,
-                        usuarioResponsavel: tarefa.usuarioResponsavel.id
-                    };
+                    changes['setorResponsavel'] = tarefa.setorResponsavel.id;
+                    changes['usuarioResponsavel'] = tarefa.usuarioResponsavel.id;
+
                 } else {
-                    changes = {
-                        distribuicaoAutomatica: true,
-                        setorResponsavel: tarefa.setorResponsavel.id
-                    };
+                    changes['distribuicaoAutomatica'] = true;
+                    changes['setorResponsavel'] = tarefa.setorResponsavel.id;
                 }
             }
 
             if (this.blocoEditInicioPrazo) {
-                changes = {
-                    dataHoraInicioPrazo: tarefa.dataHoraInicioPrazo
-                };
+                changes['dataHoraInicioPrazo'] = tarefa.dataHoraInicioPrazo;
             }
 
             if (this.blocoEditFinalPrazo) {
-                changes = {
-                    dataHoraFinalPrazo: tarefa.dataHoraFinalPrazo
-                };
+                changes['dataHoraFinalPrazo'] = tarefa.dataHoraFinalPrazo;
             }
 
             if (this.blocoEditUrgente) {
-                changes = {
-                    urgente: tarefa.urgente
-                };
+                changes['urgente'] = tarefa.urgente;
             }
 
             if (this.blocoEditObservacao) {
-                changes = {
-                    observacao: tarefa.observacao
-                };
+                changes['observacao'] = tarefa.observacao;
             }
 
             this._store.dispatch(new fromStore.SaveTarefa({tarefa: tarefa, changes: changes}));

@@ -61,14 +61,14 @@
             <div class="responsive-group">
         <mat-form-field>
             <input matInput placeholder="Configuração NUP" formControlName="configuracaoNup" required
-                   [matAutocomplete]="configuracaoNup.autocomplete" (blur)="checkConfiguracaoNup()">
+                   [matAutocomplete]="configuracaoNup.autocomplete" (blur)="checkConfiguracaoNup()" [readonly]="readonlyNUP">
             <cdk-configuracao-nup-autocomplete #configuracaoNup="configuracaoNupAutocomplete"
                                                [control]="form.get('configuracaoNup')"
                                                [configuracaoNupList]="configuracaoNupList"
                                                [configuracaoNupListIsLoading]="configuracaoNupListIsLoading"
                                                [pagination]="configuracaoNupPagination">
             </cdk-configuracao-nup-autocomplete>
-            <button matSuffix mat-button mat-icon-button (click)="showConfiguracaoNup()">
+            <button matSuffix mat-button mat-icon-button (click)="showConfiguracaoNup()" [disabled]="readonlyNUP">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('configuracaoNup').hasError('formError')">

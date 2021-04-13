@@ -45,6 +45,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     operacoesProcessando = 0;
     operacoesPendentes = 0;
+    shepherdService: any;
 
     /**
      *
@@ -239,6 +240,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     goLogout(): void {
         this._store.dispatch(new Logout({url: false}));
+    }
+
+    titulo = 'processo';
+
+    tour(tour: string): void {
+        this.titulo = tour;
     }
 
     /**
