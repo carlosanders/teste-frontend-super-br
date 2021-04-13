@@ -164,6 +164,8 @@
 * Ajuste form ofícios para salvar dados alterados - issue #266
 * Ajuste para criação de tarefas administrativas para setor de Arquivo
 * Ajuste para salvar dados do editor ao salvar form do documento avulso - issue #266
+* O formulário de tarefa não é limpo #270 **
+* Ajuste download zip #248
 * Ajuste do botão cancelar do form de tarefa - issue #270
 * Ajuste erro bloco de responsáveis - issue #269
 * Ajuste botão voltar form perfil - issue #263
@@ -181,3 +183,6 @@
 * Mudança de rótulos e títulos de botão caso seja selecionado login interno
 * Salvar tipo de login selecionado no localstorage
 * Ao fim do token, exibir um modal de login para que o usuário revalide o seu login sem perder o trabalho atual
+* Correção de erro ao tentar selecionar a configuração nup pela lupa
+* Correção Distribuidor não consegue distribuir tarefa automaticamente para outros colaboradores do setor #318
+* Correção Edição de tarefa em lote não modifica dados do responsável #310
