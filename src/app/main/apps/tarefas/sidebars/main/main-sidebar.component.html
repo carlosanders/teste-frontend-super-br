@@ -10,9 +10,13 @@
 <!-- SIDEBAR CONTENT -->
 <div class="content" cdkPerfectScrollbar>
 
-    <div class="progress-bar">
+    <div class="progress-bar mt-8">
         <mat-progress-bar [mode]="'indeterminate'" *ngIf="(loading$ | async)"></mat-progress-bar>
     </div>
+
+    <mat-error class="m-4" *ngIf="error">
+        {{ error }}
+    </mat-error>
 
     <div class="create-button">
         <button mat-raised-button
@@ -42,22 +46,17 @@
             <section dndDropzone (dndDrop)="onDrop([$event, null])">
                 <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'"
                    [routerLinkActive]="['active', 'accent']">
-                    <mat-icon class="nav-link-icon"
-                              matBadge="{{tarefasPendentes['caixa_entrada_' + generoHandle]}}"
-                              matBadgeColor="warn"
-                              matBadgeSize="small">
-                        inbox
-                    </mat-icon>
+                    <mat-icon class="nav-link-icon">inbox</mat-icon>
                     <span>Entrada</span>
                 </a>
             </section>
         </div>
+
         <mat-menu #menuMain="matMenu">
             <button mat-menu-item aria-label="Criar Pasta" (click)="showFolderComponent()">
                 <ng-container>
                     <mat-icon>folder</mat-icon>
                     <span>Criar Pasta</span>
-
                 </ng-container>
             </button>
         </mat-menu>
@@ -66,17 +65,14 @@
             <input #inputFolder type="text" *ngIf="showAddFolder" class="input-add-pasta" (keyup.enter)="addFolder()">
         </div>
 
-        <div class="nav-item" *ngFor="let folder of folders">
+        <div class="nav-item" *ngFor="let folder of folders$ | async">
             <section dndDropzone (dndDrop)="onDrop([$event, folder])">
                 <div class="menu_content nav-link" [routerLinkActive]="['active', 'accent']">
                     <div class="menu_content_label">
-                        <mat-icon class="nav-link-icon"
-                                  matBadge="{{tarefasPendentes[folder.nome]}}" matBadgeColor="warn" matBadgeSize="small">
-                            {{ folder.icon ? folder.icon : 'folder' }}
-                        </mat-icon>
                         <a fxFlex matRipple
                            [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
                            [routerLinkActive]="['active', 'accent']">
+                            <mat-icon class="nav-link-icon">{{ folder.icon ? folder.icon : 'folder' }}</mat-icon>
                             <span>{{folder.nome | titlecase}}</span>
                         </a>
                     </div>

@@ -8,7 +8,9 @@ import {
 } from '@angular/core';
 
 import { cdkAnimations } from '@cdk/animations';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
     selector: 'cdk-download-form',
@@ -56,7 +58,7 @@ export class CdkDownloadFormComponent implements OnInit, OnChanges, OnDestroy {
         this.form = this._formBuilder.group({
             tipo_download: ['processo_pdf'],
             parcial: [null],
-            sequencial: [null],
+            sequencial: [null, [Validators.required]],
         });
 
     }
@@ -69,7 +71,22 @@ export class CdkDownloadFormComponent implements OnInit, OnChanges, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
+        this.form.get('parcial').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value) {
+                        this.form.get('sequencial').enable();
+                    } else {
+                        this.form.get('sequencial').reset();
+                        this.form.get('sequencial').disable();
+                    }
+                    this._changeDetectorRef.markForCheck();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+        this.form.get('parcial').setValue(false);
     }
 
     /**
