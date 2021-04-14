@@ -1,8 +1,21 @@
 @import "../../../scss/cdk";
 
 cdk-juntada-grid-select {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
 
-    height: 100%;
+    > .selecione {
+        display: flex;
+        flex-direction: column;
+        flex: 0.5 1 auto;
+    }
+
+    > .selecionadas {
+        display: flex;
+        flex-direction: column;
+        flex: 0.5 1 auto;
+    }
 
     .colunas {
         width: 20px !important;
