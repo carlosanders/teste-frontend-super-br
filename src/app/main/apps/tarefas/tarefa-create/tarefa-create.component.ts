@@ -13,6 +13,7 @@ import {Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from './store';
+import * as fromStoreSidebar from 'app/main/apps/tarefas/store';
 import {Pagination} from '@cdk/models';
 import * as moment from 'moment';
 import {Colaborador} from '@cdk/models';
@@ -55,15 +56,19 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     NUP: any;
 
     routerState: any;
+    isClearForm$: Observable<boolean>;
+    isClearForm = false;
 
     /**
      * @param _store
+     * @param _storeSideBar
      * @param _loginService
      * @param dialog
      * @param _router
      */
     constructor(
         private _store: Store<fromStore.TarefaCreateAppState>,
+        private _storeSideBar: Store<fromStoreSidebar.TarefasAppState>,
         public _loginService: LoginService,
         public dialog: MatDialog,
         private _router: Router
@@ -73,6 +78,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this._profile = _loginService.getUserProfile().colaborador;
         this.visibilidades$ = this._store.pipe(select(fromStore.getVisibilidadeProcesso));
+        this.isClearForm$ = this._storeSideBar.pipe(select(fromStoreSidebar.getIsClearForm));
 
         this.especieTarefaPagination = new Pagination();
         this.especieTarefaPagination.populate = ['generoTarefa'];
@@ -157,6 +163,12 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
                 }
             }
         );
+
+        this.isClearForm$.subscribe(limpaForm => {
+            if (limpaForm) {
+                this.isClearForm = true;
+            }
+        });
     }
 
     /**
