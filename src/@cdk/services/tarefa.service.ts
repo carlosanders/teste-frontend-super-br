@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Tarefa, Usuario} from '@cdk/models';
+import {PaginatedResponse, Tarefa, Usuario} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {plainToClass} from 'class-transformer';
 import {environment} from 'environments/environment';
@@ -101,4 +101,21 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             })
         );
     }
+
+    contarTarefaPastaUsuario(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
+        console.log('zzzzzzzzzzzzzzzzzzzzzzzzzz');
+        console.log(tarefa.usuarioResponsavel.id);
+        const params: HttpParams = new HttpParams();
+        params['context'] = context;
+        return this.http.get(
+            `${environment.api_url}${'administrativo/tarefa'}/contar_tarefa_pasta_usuario/${tarefa.usuarioResponsavel.id}` + environment.xdebug,
+            {params}
+        ).
+        pipe(
+            map(response => {
+                return plainToClass(Tarefa, response);
+            })
+        );
+    }
+
 }

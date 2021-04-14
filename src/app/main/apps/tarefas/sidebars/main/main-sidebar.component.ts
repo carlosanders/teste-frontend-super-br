@@ -22,7 +22,6 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {NavigationEnd, Router} from '@angular/router';
-import forEach = CKEDITOR.tools.array.forEach;
 import {CounterState} from "../../../../../store/reducers/counter.reducer";
 
 @Component({
@@ -81,7 +80,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.TarefasAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         public _loginService: LoginService,
-        private router: Router
+        private router: Router,
     ) {
         const path = 'app/main/apps/tarefas/sidebars/main';
 
@@ -192,6 +191,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     preencherContador() {
+        this.tarefasPendentes = [];
         if(this.generoHandle && this.counterState) {
             if (this.folders) {
                 for (let folder of this.folders) {
@@ -209,6 +209,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 this.tarefasPendentes['caixa_entrada_' + this.generoHandle] = 0;
             }
         }
+        this._changeDetectorRef.detectChanges();
     }
 
     showFolderComponent(): void {
