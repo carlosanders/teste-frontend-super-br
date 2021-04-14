@@ -164,9 +164,9 @@
 * Ajuste form ofícios para salvar dados alterados - issue #266
 * Ajuste para criação de tarefas administrativas para setor de Arquivo
 * Ajuste para salvar dados do editor ao salvar form do documento avulso - issue #266
-* O formulário de tarefa não é limpo #270 **
+* Correção o formulário de tarefa não é limpo #270
 * Ajuste download zip #248
-* Ajuste do botão cancelar do form de tarefa - issue #270
+* Correção O botão Cancelar ao editar tarefa não faz nada #304
 * Ajuste erro bloco de responsáveis - issue #269
 * Ajuste botão voltar form perfil - issue #263
 * Correção erro no cadastramento de processos utilizando opção de "Informar Protocolo Existente" #261
@@ -204,3 +204,9 @@
 * Correção no alinhamento do form de login
 * Correção em bug de login em caso de erro na requisição por configurações do sistema
 * Ajuste no texto do Radio de login interno no formulário de login
+* Correção Campos desabilitados na redistribuição de tarefas em lote #311
+* Correção Erro SQL INSERT ao criar tarefas em bloco #308
+* Correção Campo [Espécie de Tarefa] aparece desabilitado na criação de tarefas em bloco #307
+* Correção Erro ao adicionar unidades em bloco a partir do botão favoritos #302
+* Correção Configuração de setor para Apenas Permitir Distribuidor não está funcionando adequadamente #291
+* Correção Erro ao criar tarefas em lote com processo em trâmite #334

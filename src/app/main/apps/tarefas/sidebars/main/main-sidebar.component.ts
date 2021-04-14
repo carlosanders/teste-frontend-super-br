@@ -17,12 +17,11 @@ import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/tarefas/store';
 import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
-import {getCounterState, getRouterState} from 'app/store/reducers';
+import {getRouterState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {NavigationEnd, Router} from '@angular/router';
-import {CounterState} from "../../../../../store/reducers/counter.reducer";
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -40,7 +39,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     reload = new EventEmitter<any>();
 
     folders$: Observable<Folder[]>;
-    folders: Folder[];
+    errors$: Observable<any>;
+    error = '';
 
     errors$: Observable<any>;
     error = '';
@@ -68,10 +68,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
 
     modulo: string;
 
-    tarefasPendentes = [];
-    private counterState: CounterState;
-
-
     /**
      *
      * @param _store
@@ -83,7 +79,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.TarefasAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
         public _loginService: LoginService,
-        private router: Router,
+        private router: Router
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -112,25 +108,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._store
             .pipe(
-                select(getCounterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(value => {
-            this.counterState = value;
-            this.preencherContador();
-        });
-
-        this._store
-            .pipe(
-                select(fromStore.getFolders),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(folders => {
-                this.folders = folders;
-                this.preencherContador();
-            }
-        );
-
-        this._store
-            .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
             ).subscribe(routerState => {
@@ -143,7 +120,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 }
                 this.generoHandle = routerState.state.params['generoHandle'];
                 this.typeHandle = routerState.state.params['typeHandle'];
-                this.preencherContador();
             }
         });
 
@@ -210,28 +186,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         if (this.mode === 'Tarefas') {
             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
         }
-    }
-
-    preencherContador() {
-        this.tarefasPendentes = [];
-        if(this.generoHandle && this.counterState) {
-            if (this.folders) {
-                for (let folder of this.folders) {
-                    let nomePasta = 'folder_' + this.generoHandle + '_' + folder.nome.toLowerCase();
-                    if (this.counterState && this.counterState[nomePasta] !== undefined) {
-                        this.tarefasPendentes[folder.nome] = this.counterState[nomePasta];
-                    } else {
-                        this.tarefasPendentes[folder.nome] = 0;
-                    }
-                }
-            }
-            if (this.counterState['caixa_entrada_' + this.generoHandle] !== undefined) {
-                this.tarefasPendentes['caixa_entrada_' + this.generoHandle] = this.counterState['caixa_entrada_' + this.generoHandle];
-            } else {
-                this.tarefasPendentes['caixa_entrada_' + this.generoHandle] = 0;
-            }
-        }
-        this._changeDetectorRef.detectChanges();
     }
 
     showFolderComponent(): void {
