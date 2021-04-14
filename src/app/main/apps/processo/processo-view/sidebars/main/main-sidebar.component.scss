@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+
 processo-view-main-sidebar {
     display: flex;
     flex: 1 1 auto;
@@ -19,6 +21,13 @@ processo-view-main-sidebar {
             justify-content: flex-start;
             align-items: center;
 
+            .sort-asc {
+                moz-transform: rotateX(180deg);
+                -o-transform: rotateX(180deg);
+                -webkit-transform: rotateX(180deg);
+                transform: rotateX(180deg);
+            }
+
             > .toolbar-separator {
                 margin-left: auto;
                 height: 32px;
@@ -30,6 +39,54 @@ processo-view-main-sidebar {
             flex: 1 1 auto;
             display: flex;
             flex-direction: column;
+
+            .volumes-filter {
+                display: flex;
+                flex-direction: row;
+
+                mat-label {
+                    margin-right: 8px;
+                    line-height: 22px;
+                }
+
+                > .volumes {
+                    display: flex;
+                    flex-direction: row;
+                    flex-wrap: wrap;
+                    flex: 1 1 auto;
+                }
+
+                .index-volume {
+                    display: flex;
+                    flex-direction: row;
+                    margin-right: 2px;
+                    margin-bottom: 2px;
+                    width: 22px;
+                    cursor: pointer;
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        position: relative;
+                        width: 22px;
+                        min-width: 22px;
+                        max-width: 22px;
+                        height: 22px;
+                        border-radius: 100%;
+                        border: 2px solid;
+                        font-weight: bold;
+                        font-size: 12px;
+                        z-index: 10;
+                    }
+
+                    &.current {
+                        span {
+                            border-color: red;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -570,6 +627,34 @@ processo-view-main-sidebar {
             }
         }
 
+        .volume {
+            display: flex;
+            flex-direction: column;
+
+            .separador-volume {
+                display: flex;
+                flex: 1 1 auto;
+                flex-wrap: wrap;
+
+                mat-chip-list {
+                    display: flex;
+                    flex: 1 1 auto;
+
+                    .mat-chip-list-wrapper {
+                        display: flex;
+                        flex: 0.9 1 auto;
+
+                        .mat-chip {
+                            display: flex;
+                            flex: 1 1 auto;
+                            flex-wrap: wrap;
+                            margin-right: 8px;
+                        }
+                    }
+                }
+            }
+        }
+
         .actions {
             flex: 0 1 auto;
             display: flex;
@@ -582,4 +667,26 @@ processo-view-main-sidebar {
             pointer-events: none;
         }
     }
+}
+
+.sort-menu-button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: flex-end;
+
+    > mat-icon {
+        flex: 0 1 auto;
+        align-self: center;
+        width: 24px;
+        min-width: 24px;
+        max-width: 24px;
+    }
+
+    > span {
+        flex: 1 1 auto;
+        align-self: center;
+    }
+
 }

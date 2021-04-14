@@ -40,7 +40,6 @@ export class CdkUsuarioFilterComponent implements OnInit {
     ) {
         this.form = this._formBuilder.group({
             username: [null],
-            assinaturaHTML: [null],
             email: [null],
             nivelAcesso: [null],
             nome: [null],
@@ -76,25 +75,6 @@ export class CdkUsuarioFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('username')) {
                         delete this.filters['username'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('assinaturaHTML').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({assinaturaHTML: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('assinaturaHTML')) {
-                        delete this.filters['assinaturaHTML'];
                     }
                 }
             }

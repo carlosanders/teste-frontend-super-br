@@ -41,10 +41,6 @@ const routes: Routes = [
             {
                 path       : 'documento',
                 loadChildren: () => import('./componente-digital/componente-digital.module').then(m => m.ComponenteDigitalModule),
-            },
-            {
-                path: '**',
-                redirectTo: 'listar'
             }
         ]
     }
@@ -56,6 +52,12 @@ modulesConfig.forEach((module) => {
     if (module.routes.hasOwnProperty(path)) {
         module.routes[path].forEach((r => routes[0].children.push(r)));
     }
+});
+
+
+routes[0].children.push({
+    path: '**',
+    redirectTo: 'listar'
 });
 
 @NgModule({

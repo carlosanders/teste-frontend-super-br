@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, Lotacao, Tarefa} from '@cdk/models';
+import {Colaborador, Contato, GrupoContato, Lotacao, Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
@@ -84,6 +84,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input()
     setorOrigemPagination: Pagination;
+
+    @Input()
+    grupoContatoPagination: Pagination;
 
     @Input()
     logEntryPagination: Pagination;
@@ -168,6 +171,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             setorResponsavel: [null, [Validators.required]],
             usuarioResponsavel: [null],
             blocoResponsaveis: [null],
+            grupoContato: [null],
             usuarios: [null],
             setores: [null],
             setorOrigem: [null, [Validators.required]],
@@ -191,6 +195,19 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
         this.usuarioResponsavelPagination = new Pagination();
         this.setorOrigemPagination = new Pagination();
         this.setorOrigemPaginationTree = new Pagination();
+        this.grupoContatoPagination = new Pagination();
+        this.grupoContatoPagination.populate = [
+            'contatos',
+            'contatos.tipoContato',
+            'contatos.setor',
+            'contatos.setor.unidade',
+            'contatos.usuario',
+            'contatos.usuario.colaborador',
+            'contatos.usuario.colaborador.lotacoes',
+            'contatos.usuario.colaborador.lotacoes.setor',
+            'contatos.usuario.colaborador.lotacoes.setor.unidade',
+        ];
+        this.grupoContatoPagination.filter = {'usuario.id': 'eq:'+this._loginService.getUserProfile().id};
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -259,7 +276,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     } else {
                         this.form.get('usuarioResponsavel').enable();
                     }
-                    if (this.blocoResponsaveis) {
+                    if (value && this.blocoResponsaveis) {
                         this.blocoResponsaveis = [];
                     }
 
@@ -377,7 +394,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             if (this.generoProcessos.find(genero =>
                                 (genero === value.especieProcesso.generoProcesso.nome)
                             )) {
-                                this.processos.push(value);
+                                const findDuplicate = this.processos.some(item => (item.id === value.id));
+                                if (!findDuplicate) {
+                                    this.processos.push(value);
+                                }
                             }
 
                             // caso nao seja o mesmo genero mas ainda é um genero que nao existe no array
@@ -550,6 +570,23 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 }
             )
         ).subscribe();
+
+        if (this.form.get('grupoContato')) {
+            this.form.get('grupoContato').valueChanges.pipe(
+                debounceTime(300),
+                distinctUntilChanged(),
+                switchMap((value) => {
+
+                    if (value && typeof value === 'object') {
+                        this.clearValidators();
+                        this._changeDetectorRef.markForCheck();
+                        this.processaGrupoContato(value)
+                    }
+                    return of([]);
+
+                })
+            ).subscribe();
+        }
 
         this.alteraPrazoDias();
         this.validaPrazo();
@@ -1102,5 +1139,40 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
             this.especieTarefaPagination['context'] = {processoId: this.form.get('processo').value.id};
         }
+    }
+
+    checkGrupoContato(): void {
+        const value = this.form.get('setorResponsavel').value;
+        if (!value || typeof value !== 'object') {
+            this.form.get('setorResponsavel').setValue(null);
+        }
+    }
+
+    selectGrupoContato(grupoContato: GrupoContato): void {
+        this.processaGrupoContato(grupoContato);
+        this.activeCard = 'form';
+    }
+
+    showGrupoContatoGRID():void {
+        this.activeCard = 'grupo-contato-gridsearch';
+    }
+
+    processaGrupoContato(grupoContato): void {
+        grupoContato.contatos.forEach(contato => {
+            if (this.form.get('distribuicaoAutomatica').value && contato.setor) {
+                const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === contato.setor.id));
+                if (!findDuplicate) {
+                    let setor = contato.setor;
+                    this.blocoResponsaveis = [...this.blocoResponsaveis, {setor}];
+                }
+            } else if (!this.form.get('distribuicaoAutomatica').value && contato.usuario) {
+                const findDuplicate = this.blocoResponsaveis.some(item => (item.usuario.id === contato.usuario.id));
+                if (!findDuplicate) {
+                    let usuario = contato.usuario;
+                    let setor = contato.usuario.colaborador.lotacoes[0].setor;
+                    this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
+                }
+            }
+        });
     }
 }

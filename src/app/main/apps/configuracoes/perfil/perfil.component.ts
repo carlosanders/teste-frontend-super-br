@@ -16,6 +16,7 @@ import {LoginService} from '../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
+import {Back} from "../../../../store";
 
 @Component({
     selector: 'perfil',
@@ -33,6 +34,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
 
     /**
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -78,5 +80,10 @@ export class PerfilComponent implements OnInit, OnDestroy {
         usuario.id = this.usuario.id;
         this._store.dispatch(new fromStore.SaveProfile({usuario: usuario, changes: values}));
     }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
+    }
+
 
 }

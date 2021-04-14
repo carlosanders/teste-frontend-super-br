@@ -16,6 +16,7 @@
             [logEntryPagination]="logEntryPagination"
             [nupIsValid]="nupIsValid"
             (gerirProcedencia)="gerirProcedencia()"
+            (classificacao)="doSelectClassificacao($event)"
             (editProcedencia)="editProcedencia($event)"
             (validateNup)="validateNup($event)"
             (save)="submit($event)">
@@ -78,13 +79,14 @@
         <div fxFlex fxLayout="column">
             <div fxLayout="row" class="mt-8">
                 <button mat-mini-fab
-                        class="m-4 active accent"
+                        class="active accent mt-8 mb-8 ml-8 mr-8"
                         (click)="upload()">
                     <mat-icon class="secondary-text">attach_file</mat-icon>
                 </button>
 
                 <cdk-componente-digital-card-list #ckdUpload
                                                   [processoOrigem]="processo"
+                                                  [uploadMode]="'linear'"
                                                   (completed)="onCompleteJuntada()">
                 </cdk-componente-digital-card-list>
             </div>
@@ -103,6 +105,7 @@
         <ng-template matStepLabel>Vinculações</ng-template>
         <cdk-vinculacao-processo-form *ngIf="vinculacaoProcessoActivated === 'form'"
                                       [vinculacaoProcesso]="vinculacaoProcesso"
+                                      [processoVinculadoPagination]="processoVinculadoPagination"
                                       [form]="formVinculacaoProcesso"
                                       [saving]="(isSavingVinculacao$ | async)"
                                       [errors]="(errorsVinculacoes$ | async)"

@@ -10,6 +10,11 @@ cdk-processo-form {
         display: flex;
         flex-direction: column;
 
+        mat-slide-toggle.alterar-chave {
+            margin-top: -5px;
+            margin-bottom: 25px;
+        }
+
         mat-card {
             flex: 1 1 auto;
             display: flex !important;

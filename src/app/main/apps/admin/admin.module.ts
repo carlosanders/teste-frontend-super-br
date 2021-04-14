@@ -79,6 +79,10 @@ const routes: Routes = [
                 loadChildren: () => import('./municipio/municipio.module').then(m => m.MunicipioModule)
             },
             {
+                path: 'cargos',
+                loadChildren: () => import('./cargo/cargo.module').then(m => m.CargoModule)
+            },
+            {
                 path: 'workflows',
                 loadChildren: () => import('./workflow/workflow.module').then(m => m.WorkflowModule)
             },

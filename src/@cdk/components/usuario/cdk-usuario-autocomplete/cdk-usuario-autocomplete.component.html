@@ -1,8 +1,8 @@
 <mat-autocomplete [displayWith]="displayUsuarioFn">
-    <mat-option *ngFor="let usuario of usuarioList" [disabled]="(isDistribuidor && !usuario.isDisponivel)"
+    <mat-option *ngFor="let usuario of usuarioList" [disabled]="(temDistribuidor && !usuario.isDisponivel)"
                 [value]="usuario">
         <span [innerHTML]="displayUsuarioFn(usuario) | highlightOption: this.control.value"
-              [ngStyle]="isDistribuidor && !usuario.isDisponivel ? {'text-decoration': 'line-through'} : {}"></span>
+              [ngStyle]="temDistribuidor && !usuario.isDisponivel ? {'text-decoration': 'line-through'} : {}"></span>
     </mat-option>
     <mat-option *ngIf="usuarioListIsLoading">
         <mat-spinner diameter="16"></mat-spinner>

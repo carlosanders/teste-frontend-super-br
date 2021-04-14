@@ -193,6 +193,8 @@ export class Processo {
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     tarefaAtualWorkflow?: Tarefa;
 
+    alterarChave?: boolean;
+
     @Exclude({ toPlainOnly: true })
     any: any;
 
@@ -244,5 +246,6 @@ export class Processo {
         this.tarefaAtualWorkflow = null;
         this.configuracaoNup = null;
         this.validaNup = null;
+        this.alterarChave = null;
     }
 }

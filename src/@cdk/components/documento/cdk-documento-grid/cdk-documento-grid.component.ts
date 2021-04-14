@@ -88,6 +88,11 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
             fixed: false
         },
         {
+            id: 'destinatario',
+            label: 'Destinatário',
+            fixed: false
+        },
+        {
             id: 'localizadorOriginal',
             label: 'Localizador Original',
             fixed: false

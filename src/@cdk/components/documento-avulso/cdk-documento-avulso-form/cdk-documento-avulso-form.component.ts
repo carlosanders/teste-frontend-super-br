@@ -119,7 +119,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     @Input()
     pessoaDestino: Pessoa;
 
-    inputModelo: boolean;
+    inputReadOnly: boolean;
     inputProcesso: boolean;
 
     especieDocumentoAvulsoList: EspecieDocumentoAvulso[] = [];
@@ -197,8 +197,10 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             this.form.controls['prazoFinal'].setValidators(Validators.required);
         }
 
-        this.form.get('pessoaDestino').reset();
-        this.form.get('pessoaDestino').disable();
+        if (!this.documentoAvulso.id) {
+            this.form.get('pessoaDestino').reset();
+            this.form.get('pessoaDestino').disable();
+        }
 
         this.form.get('mecanismoRemessa').valueChanges.pipe(
             debounceTime(300),
@@ -284,9 +286,9 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
 
             if (this.documentoAvulso.id) {
                 this.inputProcesso = true;
-                this.inputModelo = true;
-                this.form.get('pessoaDestino').enable();
-                this.form.get('setorDestino').enable();
+                this.inputReadOnly = true;
+                this.documentoAvulso.pessoaDestino ? this.form.get('setorDestino').clearValidators() : false;
+                this.documentoAvulso.setorDestino ? this.form.get('pessoaDestino').clearValidators() : false;
             }
         }
 

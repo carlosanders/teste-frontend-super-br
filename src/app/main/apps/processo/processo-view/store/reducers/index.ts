@@ -2,12 +2,14 @@ import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/s
 import { ProcessoViewReducer, ProcessoViewState } from './processo-view.reducer';
 import { ComponenteDigitalReducer, ComponenteDigitalState } from './componentes-digitais.reducer';
 import { ProcessoViewDocumentosReducer, ProcessoViewDocumentosState } from './documentos.reducer';
+import { VolumesReducer, VolumesState } from "./volumes.reducer";
 
 export interface ProcessoViewAppState
 {
     processoView: ProcessoViewState;
     componentesDigitais: ComponenteDigitalState;
     documentos: ProcessoViewDocumentosState;
+    volumes: VolumesState
 }
 
 export const getProcessoViewAppState = createFeatureSelector<ProcessoViewAppState>(
@@ -22,9 +24,11 @@ export const getAppState = createSelector(
 export const reducers: ActionReducerMap<ProcessoViewAppState> = {
     processoView: ProcessoViewReducer,
     componentesDigitais: ComponenteDigitalReducer,
-    documentos: ProcessoViewDocumentosReducer
+    documentos: ProcessoViewDocumentosReducer,
+    volumes: VolumesReducer
 };
 
 export * from './processo-view.reducer';
 export * from './componentes-digitais.reducer';
 export * from './documentos.reducer';
+export * from './volumes.reducer';

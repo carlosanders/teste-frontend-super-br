@@ -33,6 +33,9 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
     saving: boolean;
 
     @Input()
+    isAdmin = false;
+
+    @Input()
     errors: any;
 
     @Input()
@@ -72,6 +75,7 @@ export class CdkSetorFormComponent implements OnChanges, OnDestroy {
             ativo: [true],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             sigla: [null, [Validators.required, Validators.maxLength(255)]],
+            prefixoNUP: [null, [Validators.required, Validators.maxLength(255)]],
             endereco: [null],
             especieSetor: [null, [Validators.required]],
             municipio: [null, [Validators.required]],

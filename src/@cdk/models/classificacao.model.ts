@@ -22,7 +22,7 @@ export class Classificacao {
 
     prazoGuardaFaseCorrenteAno?: number;
 
-    prazoGuardaFaseCorrenteMes?: number;    
+    prazoGuardaFaseCorrenteMes?: number;
 
     prazoGuardaFaseCorrenteDia?: number;
 
@@ -42,6 +42,8 @@ export class Classificacao {
 
     permissaoUso?: boolean;
 
+    visibilidadeRestrita?: boolean;
+
     observacao?: string;
 
     hasChild?: any;
@@ -51,10 +53,6 @@ export class Classificacao {
     expandable?: boolean;
 
     level?: number;
-
-    @Type(() => TipoSigilo)
-    @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    tipoSigilo?: TipoSigilo;
 
     @Type(() => Classificacao)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
@@ -107,7 +105,7 @@ export class Classificacao {
         this.codigo = null;
         this.permissaoUso = null;
         this.observacao = null;
-        this.tipoSigilo = null;
+        this.visibilidadeRestrita = null;
         this.parent = null;
         this.criadoPor = null;
         this.criadoEm = null;

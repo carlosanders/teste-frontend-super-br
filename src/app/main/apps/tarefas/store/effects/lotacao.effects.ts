@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as RootLotacaoListActions from '../actions';
@@ -62,6 +62,7 @@ export class LotacaoListEffect {
                                     id: this.routerState.params.setorHandle ? 'setorHandle' : 'usuarioHandle',
                                     value: this.routerState.params.setorHandle ? this.routerState.params.setorHandle : this.routerState.params.usuarioHandle
                                 },
+                                setorId: action.payload.setorId,
                                 total: response['total']
                             })
                         ]),
@@ -69,9 +70,7 @@ export class LotacaoListEffect {
                             console.log(err);
                             return of(new RootLotacaoListActions.GetLotacoesFailed(err));
                         })
-                        
                     );
                 })
-                );
-
+            );
 }

@@ -81,6 +81,8 @@ tarefas-main-sidebar {
             .menu_content_label {
                 display: flex;
                 flex: 1 1 95%;
+                height: 30px;
+                align-items: center;
 
                 > a {
                     color: currentColor;
@@ -175,6 +177,34 @@ tarefas-main-sidebar {
                 min-width: 16px;
                 min-height: 16px;
                 line-height: 16px;
+            }
+        }
+
+        .lotacao-drop {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+
+            > .loading-wrapper {
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                align-self: center;
+                margin-top: 4px;
+                margin-bottom: 4px;
+            }
+
+            section {
+                height: 32px;
+                margin-top: 4px;
+                margin-left: 12px;
+                margin-bottom: 4px;
+                display: flex;
+                flex-direction: column;
+                flex: 1 1 auto;
+                align-content: center;
+                align-items: flex-start;
+                justify-content: center;
             }
         }
     }

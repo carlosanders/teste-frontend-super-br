@@ -59,7 +59,7 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!loaded || this.routerState.params['unidadeHandle'] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetUnidade({
-                        id: 'eq:' + this.routerState.params['unidadeHandle']
+                        id: this.routerState.params['unidadeHandle']
                     }));
                 }
             }),

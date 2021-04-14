@@ -1,18 +1,19 @@
-<div [ngClass]="{'borda-erro': componenteDigital.canRetry, 'processo': mode === 'processo', 'content': mode === 'tarefa' || mode === 'documento-edit'}">
-
-    <mat-checkbox class="mr-8 ml-8 select" *ngIf="mode === 'tarefa'"
+<div class="arquivo" [matTooltip]="this.fullTitle"
+     [ngClass]="{'borda-erro': componenteDigital.canRetry, 'processo': mode === 'processo', 'content': mode === 'tarefa' || mode === 'documento-edit'}">
+    <mat-checkbox class="ml-8 select"
+                  *ngIf="mode === 'tarefa' && uploadMode !== 'linear'"
                   [checked]="selected"
                   (change)="toggleInSelected(componenteDigital.id)"
                   (click)="$event.stopPropagation();">
     </mat-checkbox>
 
-    <div class="content-img">
+    <div class="content-img ml-8">
         <mat-icon>picture_as_pdf</mat-icon>
     </div>
 
     <div (click)="onClick(componenteDigital)" class="content-card">
         <div class="content-card-item">
-            {{!componenteDigital.canRetry ? 'CARREGANDO' : (!(componenteDigital.fileName.length > 14) ? componenteDigital.fileName : componenteDigital.fileName.substr(0, 15) + "...")}}
+            {{title}}
         </div>
         <div class="content-card-item">
             <mat-progress-bar mode="determinate" *ngIf="componenteDigital.inProgress"
@@ -31,6 +32,13 @@
                 <span>Repetir</span>
             </button>
             <button [disabled]="!componenteDigital.canRetry"
+                    *ngIf="uploadMode !== 'linear'"
+                    (click)="onCancel(componenteDigital)" mat-menu-item>
+                <mat-icon>delete</mat-icon>
+                <span>Cancelar</span>
+            </button>
+            <button [disabled]="!componenteDigital.canRetry && componenteDigital.inProgress"
+                    *ngIf="uploadMode === 'linear'"
                     (click)="onCancel(componenteDigital)" mat-menu-item>
                 <mat-icon>delete</mat-icon>
                 <span>Cancelar</span>

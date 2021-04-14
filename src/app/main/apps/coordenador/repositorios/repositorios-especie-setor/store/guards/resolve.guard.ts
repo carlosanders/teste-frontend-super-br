@@ -59,7 +59,7 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!loaded || this.routerState.params['repositorioHandle'] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetRepositorio({
-                        id: 'eq:' + this.routerState.params['repositorioHandle']
+                        id: this.routerState.params['repositorioHandle']
                     }));
                 }
             }),

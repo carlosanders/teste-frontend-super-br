@@ -1,0 +1,10 @@
+<cdk-grupo-contato-grid
+        [loading]="loading"
+        [grupoContatos]="grupoContatos"
+        [displayedColumns]="['id', 'nome', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-grupo-contato-grid>

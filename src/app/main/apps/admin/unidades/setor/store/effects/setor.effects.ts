@@ -50,23 +50,20 @@ export class SetorEffects {
             .pipe(
                 ofType<SetorActions.GetUnidade>(SetorActions.GET_UNIDADE),
                 switchMap((action) => {
-                    return this._setorService.query(
-                        JSON.stringify(action.payload),
-                        1,
-                        0,
-                        JSON.stringify({}),
-                        JSON.stringify([
-                            'populateAll'
-                        ]));
+                    return this._setorService.get(
+                        action.payload.id,
+                        JSON.stringify(['populateAll']),
+                        JSON.stringify({isAdmin: true}),
+                    );
                 }),
                 switchMap(response => [
-                    new AddData<Setor>({data: response['entities'], schema: setorSchema}),
+                    new AddData<Setor>({data: [response], schema: setorSchema}),
                     new SetorActions.GetUnidadeSuccess({
                         loaded: {
                             id: 'unidadeHandle',
                             value: this.routerState.params.unidadeHandle
                         },
-                        setorId: response['entities'][0].id
+                        setorId: this.routerState.params.unidadeHandle
                     })
                 ]),
                 catchError((err, caught) => {

@@ -71,6 +71,10 @@
         </button>
     </mat-checkbox>
 
+    <mat-checkbox formControlName="visibilidadeRestrita">
+        Restrição de Acesso
+    </mat-checkbox>
+
     <mat-checkbox formControlName="permissaoUso">
         Permissão Uso
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
@@ -160,25 +164,6 @@
     </mat-expansion-panel>
 
     <mat-form-field>
-        <input matInput placeholder="Tipo do Sigilo"
-               formControlName="tipoSigilo"
-               [matAutocomplete]="tipoSigilo.autocomplete"
-               (blur)="checkTipoSigilo()">
-        <cdk-tipo-sigilo-autocomplete
-            #tipoSigilo="tipoSigiloAutocomplete"
-            [control]="form.get('tipoSigilo')"
-            [pagination]="tipoSigiloPagination">
-        </cdk-tipo-sigilo-autocomplete>
-        <button *ngIf="form.get('tipoSigilo')?.enabled" matSuffix mat-button mat-icon-button
-                (click)="showTipoSigiloGrid()">
-            <mat-icon matTooltip="Procurar">search</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('tipoSigilo').hasError('formError')">
-            {{form.get('tipoSigilo').errors.formError}}
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
             <textarea formControlName="observacao"
                       matInput placeholder="Observação" maxlength="255"></textarea>
     </mat-form-field>
@@ -213,10 +198,3 @@
     [pagination]="logEntryPagination"
     (cancel)="cancel()">
 </cdk-logentry-gridsearch>
-
-<cdk-tipo-sigilo-gridsearch
-    *ngIf="activeCard === 'tipo-sigilo-gridsearch'"
-    [pagination]="tipoSigiloPagination"
-    (selected)="selectTipoSigilo($event)"
-    (cancel)="cancel()">
-</cdk-tipo-sigilo-gridsearch>

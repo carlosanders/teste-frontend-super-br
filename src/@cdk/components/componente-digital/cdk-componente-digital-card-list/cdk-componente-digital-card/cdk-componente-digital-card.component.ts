@@ -1,8 +1,8 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, DoCheck, EventEmitter, Input, KeyValueDiffers,
-    OnInit, Output,
+    Component, DoCheck, EventEmitter, Input, KeyValueDiffers, OnChanges,
+    OnInit, Output, SimpleChange,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -17,7 +17,7 @@ import {ComponenteDigital} from '@cdk/models';
     changeDetection: ChangeDetectionStrategy.OnPush,
     animations: cdkAnimations
 })
-export class CdkComponenteDigitalCardComponent implements DoCheck {
+export class CdkComponenteDigitalCardComponent implements DoCheck, OnChanges {
 
     @Input()
     componenteDigital: ComponenteDigital;
@@ -27,6 +27,12 @@ export class CdkComponenteDigitalCardComponent implements DoCheck {
 
     @Input()
     mode: string;
+
+    @Input()
+    uploadMode: string;
+
+    @Input()
+    uploading: boolean;
 
     @Output()
     retry = new EventEmitter<any>();
@@ -41,6 +47,10 @@ export class CdkComponenteDigitalCardComponent implements DoCheck {
     changedSelected = new EventEmitter<boolean>();
 
     differ: any;
+
+    title: string = 'CARREGANDO';
+
+    fullTitle: string;
 
     /**
      * Constructor
@@ -57,12 +67,38 @@ export class CdkComponenteDigitalCardComponent implements DoCheck {
     // @ Lifecycle hooks
     // -----------------------------------------------------------------------------------------------------
 
+    ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+        if (changes['uploadMode']) {
+            if (this.uploadMode === 'linear' && !this.uploading) {
+                this.fullTitle = this.componenteDigital.fileName;
+                this.title = !(this.fullTitle.length > 14) ?
+                    this.fullTitle :
+                    this.fullTitle.substr(0, 15) + "...";
+            }
+            if (this.uploadMode === 'linear' && this.uploading &&
+                (!this.componenteDigital.inProgress && !this.componenteDigital.canRetry)) {
+                this.title = 'AGUARDANDO';
+            }
+            if (this.uploadMode === 'linear' && this.uploading &&
+                (this.componenteDigital.inProgress && !this.componenteDigital.canRetry)) {
+                this.title = 'CARREGANDO';
+            }
+            this._changeDetectorRef.markForCheck();
+        }
+    }
+
     ngDoCheck(): void {
         const changes = this.differ.diff(this.componenteDigital);
 
         if (changes) {
             changes.forEachChangedItem((elt) => {
-                if (elt.key === 'progress' || elt.key === 'inProgress') {
+                if (elt.key === 'progress' || elt.key === 'inProgress' || elt.key === 'canRetry') {
+                    if (this.componenteDigital.canRetry) {
+                        this.fullTitle = this.componenteDigital.fileName;
+                        this.title = !(this.fullTitle.length > 14) ?
+                            this.fullTitle :
+                            this.fullTitle.substr(0, 15) + "...";
+                    }
                     this._changeDetectorRef.markForCheck();
                 }
             });

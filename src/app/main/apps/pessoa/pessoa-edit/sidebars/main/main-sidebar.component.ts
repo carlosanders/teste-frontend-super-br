@@ -5,6 +5,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../dados-pessoa-edit/store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {cdkAnimations} from '../../../../../../../@cdk/animations';
+import {CdkUtils} from "../../../../../../../@cdk/utils";
 
 @Component({
     selector: 'pessoa-edit-main-sidebar',
@@ -28,13 +29,6 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.DadosPessoaEditAppState>,
     ) {
         this.pessoa$ = this._store.pipe(select(fromStore.getPessoa));
-        const path = 'app/main/apps/pessoa/pessoa-edit/sidebars/main';
-
-        modulesConfig.forEach((module) => {
-            if (module.sidebars.hasOwnProperty(path)) {
-                module.sidebars[path].forEach((s => this.links.push(s)));
-            }
-        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -46,7 +40,16 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
 
-        this.links = [
+        this.links = [];
+        const path = 'app/main/apps/pessoa/pessoa-edit/sidebars/main';
+
+        modulesConfig.forEach((module) => {
+            if (module.sidebars.hasOwnProperty(path)) {
+                module.sidebars[path].forEach((s => this.links.push(s)));
+            }
+        });
+
+        this.links.push (
             {
                 nome: 'Dados Básicos',
                 link: 'dados-pessoa'
@@ -71,7 +74,9 @@ export class PessoaEditMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'nomes',
                 pessoa: true
             }
-        ];
+        );
+
+        this.links = CdkUtils.sortArraySideBar(this.links);
     }
 
     /**

@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit
         private store: Store<fromStore.LoginState>
     )
     {
-        // Configure the layout
         this.cdkConfigService.config = {
             layout: {
                 navbar   : {
@@ -111,13 +110,19 @@ export class LoginComponent implements OnInit
             this.certificadoDigital = environment.base_url_x509;
         }
 
-        if (this.routerState.params['token'] &&
-            this.routerState.params['exp'] &&
-            this.routerState.params['timestamp']) {
+        if (this.routerState.queryParams['token'] &&
+            this.routerState.queryParams['exp'] &&
+            this.routerState.queryParams['timestamp']) {
             this.store.dispatch(new fromStore.LoginSuccess({
-                token: this.routerState.params['token'],
-                exp: this.routerState.params['exp'],
-                timestamp: this.routerState.params['timestamp']
+                token: this.routerState.queryParams['token'],
+                exp: this.routerState.queryParams['exp'],
+                timestamp: this.routerState.queryParams['timestamp']
+            }));
+        }
+
+        if (this.routerState.queryParams['code']) {
+            this.store.dispatch(new fromStore.LoginGovBR({
+                code: this.routerState.queryParams['code']
             }));
         }
     }
@@ -133,5 +138,14 @@ export class LoginComponent implements OnInit
         };
         this.loading = true;
         this.store.dispatch(new fromStore.Login(payload));
+    }
+
+    onSubmitLdap(): void {
+        const payload = {
+            username: this.loginForm.controls.username.value,
+            password: this.loginForm.controls.password.value
+        };
+        this.loading = true;
+        this.store.dispatch(new fromStore.LoginLdap(payload));
     }
 }

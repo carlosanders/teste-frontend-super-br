@@ -27,6 +27,7 @@ import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {Usuario} from '@cdk/models';
+import {expandirTela} from "./store/selectors/processo.selectors";
 
 @Component({
     selector: 'protocolo-externo-detail',
@@ -58,6 +59,8 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
     maximizado$: Observable<boolean>;
     maximizado = false;
 
+    expandir$: Observable<boolean>;
+
     vinculacaoEtiquetaPagination: Pagination;
 
     private _profile: Usuario;
@@ -82,6 +85,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
+        this.expandir$ = this._store.pipe(select(expandirTela));
         this.screen$ = this._store.pipe(select(getScreenState));
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
@@ -124,11 +128,22 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         ).subscribe(screen => {
             this.mobileMode = screen.size !== 'desktop';
         });
+
+        this.expandir$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            expandir => {
+                this.doToggleMaximizado(expandir);
+            }
+        );
+
+        this.doToggleMaximizado(false);
     }
 
     ngOnDestroy(): void {
 
         // Unsubscribe from all subscriptions
+        this.doToggleMaximizado(false);
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
     }
@@ -184,7 +199,7 @@ export class ProtocoloExternoDetailComponent implements OnInit, OnDestroy, After
         this._router.navigate([this.routerState.url.split('/processo/')[0] + '/criar/' + this.processo.id]).then();
     }
 
-    doToggleMaximizado(): void {
-        this._store.dispatch(new ToggleMaximizado());
+    doToggleMaximizado(valor: boolean): void {
+        this._store.dispatch(new ToggleMaximizado(valor));
     }
 }

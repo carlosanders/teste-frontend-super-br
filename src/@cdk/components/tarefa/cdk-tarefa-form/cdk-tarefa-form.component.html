@@ -185,6 +185,22 @@
             </mat-error>
         </mat-form-field>
 
+        <mat-form-field *ngIf="form.get('blocoResponsaveis').value">
+            <input matInput placeholder="Grupo de Contatos"
+                   formControlName="grupoContato"
+                   [matAutocomplete]="grupoContato.autocomplete"
+                   (blur)="checkGrupoContato()">
+            <cdk-grupo-contato-autocomplete
+                #grupoContato="grupoContatoAutocomplete"
+                [control]="form.get('grupoContato')"
+                [pagination]="grupoContatoPagination">
+            </cdk-grupo-contato-autocomplete>
+            <button matSuffix mat-button mat-icon-button
+                    (click)="showGrupoContatoGRID()">
+                <mat-icon matTooltip="Procurar">search</mat-icon>
+            </button>
+        </mat-form-field>
+
         <div *ngIf="form.get('blocoResponsaveis').value" class="bloco-responsaveis">
             <cdk-bloco-responsaveis-grid
                 [(responsaveis)]="blocoResponsaveis"
@@ -370,3 +386,10 @@
     (selected)="selectSetorOrigem($event)"
     (cancel)="cancel()">
 </cdk-setor-tree>
+
+<cdk-grupo-contato-gridsearch
+    *ngIf="activeCard === 'grupo-contato-gridsearch'"
+    [pagination]="grupoContatoPagination"
+    (selected)="selectGrupoContato($event)"
+    (cancel)="cancel()">
+</cdk-grupo-contato-gridsearch>

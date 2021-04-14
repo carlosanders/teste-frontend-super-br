@@ -67,7 +67,11 @@ const routes: Routes = [
             {
                 path       : 'acompanhamentos',
                 loadChildren: () => import('./acompanhamentos/acompanhamentos.module').then(m => m.AcompanhamentosModule)
-            }
+            },
+            {
+                path       : 'grupo-contato',
+                loadChildren: () => import('./grupo-contato/grupo-contato.module').then(m => m.GrupoContatoModule)
+            },
         ]
     },
     {

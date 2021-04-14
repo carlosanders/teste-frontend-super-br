@@ -48,6 +48,7 @@ import {InteressadoService} from '../../../../@cdk/services/interessado.service'
 import {DocumentoService} from '../../../../@cdk/services/documento.service';
 import {SnackBarDesfazerComponent} from '../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {SnackBarDesfazerModule} from '../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module';
+import {MatBadgeModule} from "@angular/material/badge";
 
 const routes: Routes = [
     {
@@ -163,6 +164,7 @@ modulesConfig.forEach((module) => {
         TarefasStoreModule,
         AssuntoListStoreModule,
         SnackBarDesfazerModule,
+        MatBadgeModule,
     ],
     providers: [
         TarefaService,

@@ -29,7 +29,7 @@ export class FoldersEffect
         public _loginService: LoginService,
         private _router: Router
     ) {
-        this._profile = _loginService.getUserProfile();
+        this._profile = this._loginService.getUserProfile();
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -44,7 +44,6 @@ export class FoldersEffect
      * @type {Observable<any>}
      */
     @Effect()
-
     getFolders: Observable<any> =
         this._actions
             .pipe(
