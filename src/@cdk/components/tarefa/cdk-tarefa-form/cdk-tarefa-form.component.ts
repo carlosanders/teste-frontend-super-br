@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, Contato, GrupoContato, Lotacao, Tarefa} from '@cdk/models';
+import {Colaborador, GrupoContato, Lotacao, Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
