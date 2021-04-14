@@ -413,7 +413,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
     checkEspecieProcesso(): void {
         const value = this.form.get('especieProcesso').value;
-        console.log(value);
         if (!value || typeof value !== 'object') {
             this.form.get('especieProcesso').setValue(null);
         }
@@ -532,7 +531,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectConfiguracaoNup(configuracaoNup: ConfiguracaoNup): void {
-        console.log(configuracaoNup);
         if (configuracaoNup) {
             this.form.get('configuracaoNup').setValue(configuracaoNup);
         }

@@ -225,6 +225,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
             offset: 0,
             sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
             populate: [
+                'volume',
                 'documento',
                 'documento.origemDados',
                 'documento.tipoDocumento',

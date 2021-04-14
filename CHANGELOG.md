@@ -164,9 +164,25 @@
 * Ajuste form ofícios para salvar dados alterados - issue #266
 * Ajuste para criação de tarefas administrativas para setor de Arquivo
 * Ajuste para salvar dados do editor ao salvar form do documento avulso - issue #266
+* O formulário de tarefa não é limpo #270 **
+* Ajuste download zip #248
 * Ajuste do botão cancelar do form de tarefa - issue #270
 * Ajuste erro bloco de responsáveis - issue #269
 * Ajuste botão voltar form perfil - issue #263
 * Correção erro no cadastramento de processos utilizando opção de "Informar Protocolo Existente" #261
 * Correção Contador de caracteres do título contendo valores fixos #259
 * Correção Não é possível desclassificar um sigilo de um processo #245
+* Ajuste no componente de pessoas do módulo admin passando para o modo search
+* Correção em sidebar de vinculação de pessoa com barramento sendo chamada somente de dentro do módulo admin
+* Correção em bugs no dialog de assinatura eletrônica
+* Ajuste de css de separador de volumes no processo-view para ficar igual ao cabeçalho das juntadas
+* Correção de bug de não atualização de minutas ao remeter um ofício
+* Refactoring do login
+* Criação do cdk-login-form
+* Criados radio buttons para o tipo de login caso ldap esteja habilitado na configuração do sistema
+* Mudança de rótulos e títulos de botão caso seja selecionado login interno
+* Salvar tipo de login selecionado no localstorage
+* Ao fim do token, exibir um modal de login para que o usuário revalide o seu login sem perder o trabalho atual
+* Correção de erro ao tentar selecionar a configuração nup pela lupa
+* Correção Distribuidor não consegue distribuir tarefa automaticamente para outros colaboradores do setor #318
+* Correção Edição de tarefa em lote não modifica dados do responsável #310

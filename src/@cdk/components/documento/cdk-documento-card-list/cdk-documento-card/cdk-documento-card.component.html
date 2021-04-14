@@ -58,7 +58,7 @@
                     <mat-icon color="accent">delete</mat-icon>
                     <span>Apagar Minuta</span>
                 </button>
-                <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura(documento.id)" mat-menu-item>
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doAssinatura()" mat-menu-item>
                     <mat-icon color="accent">lock</mat-icon>
                     <span>Assinar</span>
                 </button>
@@ -83,7 +83,7 @@
                     <mat-icon color="accent">restore_page</mat-icon>
                     <span>Converter em HTML</span>
                 </button>
-                <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7s(documento.componentesDigitais[0]?.id)" mat-menu-item>
+                <button fxLayout="row" fxLayoutAlign="start center" (click)="doDownloadP7s(documento)" mat-menu-item>
                     <mat-icon color="accent">get_app</mat-icon>
                     <span>Download em P7S</span>
                 </button>

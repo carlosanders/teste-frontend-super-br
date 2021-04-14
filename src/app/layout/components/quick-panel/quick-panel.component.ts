@@ -1,7 +1,14 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit,
+    ViewEncapsulation
+} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
-import {takeUntil} from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, switchMap, takeUntil} from 'rxjs/operators';
 import {
     getCurrentLote, getLotes,
     getOperacoes, getOperacoesDesfazerLoteAtual,
@@ -9,14 +16,16 @@ import {
     getOperacoesLoteAtual, getOperacoesRefazerLoteAtual,
     SetCurrentLote
 } from 'app/store';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {CdkSidebarService} from '../../../../@cdk/components/sidebar/sidebar.service';
 import {Lote} from '../../../store/reducers/operacoes.reducer';
+import {FormControl} from "@angular/forms";
 
 @Component({
     selector: 'quick-panel',
     templateUrl: './quick-panel.component.html',
     styleUrls: ['./quick-panel.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
 export class QuickPanelComponent implements OnInit, OnDestroy {
@@ -30,8 +39,8 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
 
     operacoesProcessando = 0;
     operacoesPendentes = 0;
-    operacoes$: Observable<any>;
     operacoes = [];
+    displayedOperacoes = [];
     lotes: any;
     loteAtual$: Observable<any>;
     operacoesLoteAtual$: Observable<any>;
@@ -42,12 +51,19 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
     operacoesRefazerLoteAtual = [];
     loteAtual: Lote;
 
+    selectedIds: string[] = [];
+    isIndeterminate = false;
+
+    filtros = new FormControl();
+
     /**
      *
      * @param _store
+     * @param _changeDetectorRef
      * @param _cdkSidebarService
      */
     constructor(private _store: Store<fromStore.State>,
+                private _changeDetectorRef: ChangeDetectorRef,
                 private _cdkSidebarService: CdkSidebarService) {
         // Set the defaults
         this.date = new Date();
@@ -61,6 +77,29 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+        this.filtros.setValue('todas');
+        this.filtros.valueChanges.pipe(
+            debounceTime(100),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                if (value !== 'todas') {
+                    if (this.loteAtual) {
+                        this.displayedOperacoes = this.operacoesLoteAtual.filter(operacao => operacao.status == value);
+                    } else {
+                        this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == value);
+                    }
+                } else {
+                    if (this.loteAtual) {
+                        this.displayedOperacoes = this.operacoesLoteAtual;
+                    } else {
+                        this.displayedOperacoes = this.operacoes;
+                    }
+                }
+                this._changeDetectorRef.markForCheck();
+                return of([]);
+            })
+        ).subscribe();
+
         this._store.pipe(
             select(getOperacoes)
         ).subscribe((operacoes) => {
@@ -68,6 +107,22 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
             Object.keys(operacoes).forEach((operacaoId) => {
                 this.operacoes.push(operacoes[operacaoId]);
             });
+            if (!this.loteAtual) {
+                if (this.filtros.value !== 'todas') {
+                    if (this.loteAtual) {
+                        this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == this.filtros.value);
+                    } else {
+                        this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == this.filtros.value);
+                    }
+                } else {
+                    if (this.loteAtual) {
+                        this.displayedOperacoes = this.operacoes;
+                    } else {
+                        this.displayedOperacoes = this.operacoes;
+                    }
+                }
+            }
+            this._changeDetectorRef.markForCheck();
         });
 
         this._store.pipe(
@@ -91,6 +146,22 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
             Object.keys(operacoes).forEach((operacaoId) => {
                 this.operacoesLoteAtual.push(operacoes[operacaoId]);
             });
+            if (this.loteAtual) {
+                if (this.filtros.value !== 'todas') {
+                    if (this.loteAtual) {
+                        this.displayedOperacoes = this.operacoesLoteAtual.filter(operacao => operacao.status == this.filtros.value);
+                    } else {
+                        this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == this.filtros.value);
+                    }
+                } else {
+                    if (this.loteAtual) {
+                        this.displayedOperacoes = this.operacoesLoteAtual;
+                    } else {
+                        this.displayedOperacoes = this.operacoes;
+                    }
+                }
+            }
+            this._changeDetectorRef.markForCheck();
         });
 
         this.operacoesDesfazerLoteAtual$.pipe(
@@ -136,6 +207,15 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
+    doRefazerBloco(): void {
+        this.selectedIds.forEach((selectedId) => {
+            const operacao = this.operacoes.find((operacao) => operacao.id === selectedId);
+            if (operacao.status >= 2 && operacao.redo) {
+                this.refazer(operacao);
+            }
+        });
+    }
+
     refazer(operacao): void {
         if (Array.isArray(operacao.redo)) {
             operacao.redo.forEach((action) => {
@@ -144,6 +224,15 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
         } else {
             this._store.dispatch(operacao.redo);
         }
+    }
+
+    doDesfazerBloco(): void {
+        this.selectedIds.forEach((selectedId) => {
+            const operacao = this.operacoes.find((operacao) => operacao.id === selectedId);
+            if (operacao.status === 1 && operacao.undo) {
+                this.desfazer(operacao);
+            }
+        });
     }
 
     desfazer(operacao): void {
@@ -181,10 +270,12 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
     }
 
     verLote(lote): void {
+        this.deselectAll();
         this._store.dispatch(new SetCurrentLote(lote));
     }
 
     verOperacoes(): void {
+        this.deselectAll();
         this._store.dispatch(new SetCurrentLote(null));
     }
 
@@ -209,4 +300,61 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
     toggleSidebarLock(): void {
         this._cdkSidebarService.getSidebar('quickPanel').toggleFold();
     }
+
+    /**
+     * Toggle select all
+     *
+     * @param ev
+     */
+    toggleSelectAll(ev): void {
+        ev.preventDefault();
+
+        if (this.selectedIds.length && this.selectedIds.length > 0) {
+            this.deselectAll();
+        } else {
+            this.selectAll();
+        }
+    }
+
+    /**
+     * Select all
+     */
+    selectAll(): void {
+        let arr: any[];
+        if (this.loteAtual) {
+            arr = Object.keys(this.operacoesLoteAtual).map(k => this.operacoesLoteAtual[k]);
+        } else {
+            arr = Object.keys(this.operacoes).map(k => this.operacoes[k]);
+        }
+        this.selectedIds = arr.map(operacao => operacao.id);
+        this.recompute();
+    }
+
+    toggleInSelected(operacaoId): void {
+        const selectedOperacoesIds = [...this.selectedIds];
+
+        if (selectedOperacoesIds.find(id => id === operacaoId) !== undefined) {
+            this.selectedIds = selectedOperacoesIds.filter(id => id !== operacaoId);
+        } else {
+            this.selectedIds = [...selectedOperacoesIds, operacaoId];
+        }
+        this.recompute();
+    }
+
+    /**
+     * Deselect all tarefas
+     */
+    deselectAll(): void {
+        this.selectedIds = [];
+        this.recompute();
+    }
+
+    recompute(): void {
+        if (this.loteAtual) {
+            this.isIndeterminate = (this.selectedIds.length !== this.operacoesLoteAtual.length && this.selectedIds.length > 0);
+        } else {
+            this.isIndeterminate = (this.selectedIds.length !== this.operacoes.length && this.selectedIds.length > 0);
+        }
+    }
+
 }
