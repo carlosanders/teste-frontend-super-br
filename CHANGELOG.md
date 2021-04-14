@@ -195,3 +195,6 @@
 * Ajustes no gerenciamento de Etiquetas individuais #183
 * Ajustes nas colunas da página de Acompanhamento #185
 * Ajustes nas colunas da página de Remessas #214
+* Correção no alinhamento do form de login
+* Correção em bug de login em caso de erro na requisição por configurações do sistema
+* Ajuste no texto do Radio de login interno no formulário de login
