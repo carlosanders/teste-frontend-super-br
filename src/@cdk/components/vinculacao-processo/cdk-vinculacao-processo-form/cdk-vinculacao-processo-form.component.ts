@@ -13,7 +13,7 @@ import {VinculacaoProcesso} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {ModalidadeVinculacaoProcesso} from '@cdk/models';
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {distinctUntilChanged, switchMap} from "rxjs/operators";
 import {of} from "rxjs";
 
 @Component({

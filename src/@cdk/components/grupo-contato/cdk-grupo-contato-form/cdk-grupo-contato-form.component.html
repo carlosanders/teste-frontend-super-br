@@ -21,10 +21,6 @@
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
     </mat-form-field>
 
-    <mat-checkbox formControlName="ativo">
-        Ativo
-    </mat-checkbox>
-
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">

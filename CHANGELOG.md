@@ -186,6 +186,12 @@
 * Correção de erro ao tentar selecionar a configuração nup pela lupa
 * Correção Distribuidor não consegue distribuir tarefa automaticamente para outros colaboradores do setor #318
 * Correção Edição de tarefa em lote não modifica dados do responsável #310
+* Correção para exibir erros na criaçao de pastas para tarefas
+* Correção a validar sequencial de download parcial zip e pdf #249 #250
+* Correção não aparece os botões de salvar/cancelar ao editar vinculação de processo #240
+* Correção no erro intermitente ao copiar documentos de um processo para outro #231
+* Correção no erro intermitente ao anexar documentos em juntada do processo #229
+* Correção ofícios, editar um ofício pela tela de Processos, o botão 'Responder ofício' não gera ação #225
 * Correção Somente é possível executar a movimentação em lote 1 vez #317
 * Correção Redistribuição de tarefas está mantendo a tarefa para o mesmo usuário no setor #295
 * Correção Não é possível selecionar setores de unidades diferentes na distribuição em bloco #297
