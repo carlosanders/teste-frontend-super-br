@@ -3,7 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     ElementRef,
-    EventEmitter, OnChanges,
+    EventEmitter,
     OnDestroy,
     OnInit,
     Output,
@@ -16,9 +16,7 @@ import {Observable, Subject} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
 import {getCounterState, getRouterState} from 'app/store/reducers';
-import {Coordenador, Folder, Setor, Usuario, VinculacaoUsuario, Pagination, Lotacao} from '@cdk/models';
 import {
     Coordenador,
     Folder,
@@ -29,7 +27,6 @@ import {
     Lotacao,
     ModalidadeOrgaoCentral
 } from '@cdk/models';
-import {getRouterState} from 'app/store/reducers';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
@@ -39,7 +36,6 @@ import {CounterState} from "../../../../../store/reducers/counter.reducer";
 import {MatSort} from '@cdk/angular/material';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -61,10 +57,19 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     lotacoes$: Observable<Lotacao[]>;
     lotacoes: Lotacao[] = [];
     setorLotacaoId$: Observable<number>;
-    setorLotacaoId: number = 0;
-
+    setorLotacaoId: number = null;
+    setores$: Observable<Setor[]>;
+    setores: Setor[] = [];
+    unidadeId$: Observable<number>;
+    unidadeId: number = null;
+    unidades$: Observable<Setor[]>;
+    unidades: Setor[] = [];
+    orgaoCentralId$: Observable<number>;
+    orgaoCentralId: number = null;
 
     loading$: Observable<boolean>;
+    orgaoCentralLoading$: Observable<boolean>
+    unidadeLoading$: Observable<boolean>
     lotacaoLoading$: Observable<boolean>
 
     @ViewChild(MatSort, {static: true})
@@ -78,7 +83,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     listFilter = {};
 
     mode = 'Tarefas';
-
 
     links: any;
 
@@ -102,10 +106,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     snackSubscription: any;
 
     usuariosOpen = false;
+    orgaoCentralOpen = false;
+    unidadeOpen = false;
 
     tarefasPendentes = [];
     private counterState: CounterState;
-
 
     /**
      *
@@ -124,11 +129,21 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     ) {
         this.lotacoes$ = this._store.pipe(select(fromStore.getLotacaoList));
         this.setorLotacaoId$ = this._store.pipe(select(fromStore.getSetorId));
+        this.unidadeId$ = this._store.pipe(select(fromStore.getUnidadeId));
+        this.orgaoCentralId$ = this._store.pipe(select(fromStore.getOrgaoCentralId));
+        this.unidades$ = this._store.pipe(select(fromStore.getUnidades));
+        this.setores$ = this._store.pipe(select(fromStore.getSetores));
 
-        this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
 
         this.setorLotacaoId$.pipe(filter(setorId => !!setorId)).subscribe(id => this.setorLotacaoId = id);
+        this.unidadeId$.pipe(filter(setorId => !!setorId)).subscribe(id => this.unidadeId = id);
+        this.orgaoCentralId$.pipe(filter(id => !!id)).subscribe(id => this.orgaoCentralId = id);
+
+        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingFolder));
+        this.lotacaoLoading$ = this._store.pipe(select(fromStore.getLotacaoIsLoading));
+        this.unidadeLoading$ = this._store.pipe(select(fromStore.getUnidadeIsLoading));
+        this.orgaoCentralLoading$ = this._store.pipe(select(fromStore.getOrgaoCentralIsLoading));
 
         this.gridFilter = {};
         const path = 'app/main/apps/tarefas/sidebars/main';
@@ -173,14 +188,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         );
 
-        this._store
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
 
         this._store
-
-           this._store
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
@@ -198,17 +210,27 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.lotacoes$.subscribe(
-            lotacoes => {
-                this.lotacoes = lotacoes
+        this.unidades$.subscribe(
+            unidades => {
+                this.unidades = unidades;
+                this._changeDetectorRef.markForCheck();
             }
         );
 
-        this.loading$ = this._store.pipe(select(fromStore.getIsLoadingFolder));
-        this.lotacaoLoading$ = this._store.pipe(select(fromStore.getLotacaoIsLoading));
+        this.setores$.subscribe(
+            setores => {
+                this.setores = setores;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
 
+        this.lotacoes$.subscribe(
+            lotacoes => {
+                this.lotacoes = lotacoes;
+                this._changeDetectorRef.markForCheck();
+            }
+        );
 
-        this.setoresCoordenacao = [];
         this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
             if (coordenador.setor) {
                 this.setoresCoordenacao.push(coordenador.setor);
@@ -222,7 +244,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         });
 
         this.usuariosAssessor = [];
-
         this._loginService.getUserProfile().vinculacoesUsuariosPrincipais?.forEach((vinculacaoUsuario: VinculacaoUsuario) => {
             this.usuariosAssessor.push(vinculacaoUsuario.usuario);
         });
@@ -253,8 +274,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.CreateTarefa());
     }
 
-    fechaUsuarios(): void {
-        this.usuariosOpen = false;
+    fechaOrgaoCentral(): void {
+        this.orgaoCentralOpen = false;
     }
 
     listaUnidades(orgaoCentral: ModalidadeOrgaoCentral): void {
@@ -263,23 +284,62 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this._store.dispatch(new fromStore.GetUnidades({
                 ...this.pagination,
                 filter: {
-                    "setor.id": "eq:" + setor.id
+                    "modalidadeOrgaoCentral.id": "eq:" + orgaoCentral.id,
+                    "id": "notIn:" + this.unidadesCoordenacao.map(setor => setor.id).join(',')
                 },
                 gridFilter: {
                     ...this.gridFilter
                 },
                 limit: this.pagination.pageSize,
-                populate: ["populateAll", "colaborador.usuario"],
+                populate: ["populateAll", "setor"],
                 context: this.pagination.context,
                 offset: (this.pagination.pageSize * this.pagination.pageIndex),
                 sort: {},
-                setorId: setor.id
+                orgaoCentralId: orgaoCentral.id
             }));
         }
     }
 
-    listaUsuario(setor): void {
+    fechaUnidade(): void {
+        this.unidadeOpen = false;
+    }
+
+    listaSetores(unidade: Setor, closeOthers = false): void {
+        this.unidadeOpen = true;
+        if (closeOthers) {
+            this.orgaoCentralOpen = false;
+        }
+        if (unidade.id !== this.unidadeId) {
+            this._store.dispatch(new fromStore.GetSetores({
+                ...this.pagination,
+                filter: {
+                    "unidade.id": "eq:" + unidade.id,
+                    "id": "notIn:" + this.setoresCoordenacao.map(setor => setor.id).join(','),
+                    "parent": 'isNotNull'
+                },
+                gridFilter: {
+                    ...this.gridFilter
+                },
+                limit: this.pagination.pageSize,
+                populate: ["populateAll", "unidade", "parent"],
+                context: this.pagination.context,
+                offset: (this.pagination.pageSize * this.pagination.pageIndex),
+                sort: {},
+                unidadeId: unidade.id
+            }));
+        }
+    }
+
+    fechaUsuarios(): void {
+        this.usuariosOpen = false;
+    }
+
+    listaUsuario(setor: Setor, closeOthers = false): void {
         this.usuariosOpen = true;
+        if (closeOthers) {
+            this.unidadeOpen = false;
+            this.orgaoCentralOpen = false;
+        }
         if (setor.id !== this.setorLotacaoId) {
             this._store.dispatch(new fromStore.GetLotacoes({
                 ...this.pagination,
@@ -299,7 +359,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         }
     }
 
-    onDropUsuario($event): void {
+    onDropDistribuir($event, usuario: Usuario = null): void {
         if (this.snackSubscription) {
             this.snackSubscription.unsubscribe();
             this.sheetRef.dismiss();
@@ -319,34 +379,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             if (data.dismissedByAction === false) {
                 this._store.dispatch(new fromStore.SetSetorOnSelectedTarefas({
                     tarefa: $event[0].data, setorResponsavel: $event[1].id,
-                    usuarioResponsavel: $event[2].id
-                }));
-            }
-        });
-    }
-
-    onDropSetor($event): void {
-        if (this.snackSubscription) {
-            this.snackSubscription.unsubscribe();
-            this.sheetRef.dismiss();
-            this.snackSubscription = null;
-        }
-
-        this.sheetRef = this._snackBar.openFromComponent(SnackBarDesfazerComponent, {
-            duration: 3000,
-            panelClass: ['cdk-white-bg'],
-            data: {
-                icon: 'delete',
-                text: 'Desistir de enviar'
-            }
-        });
-
-        this.snackSubscription = this.sheetRef.afterDismissed().subscribe((data) => {
-            if (data.dismissedByAction === false) {
-                this._store.dispatch(new fromStore.SetSetorOnSelectedTarefas({
-                    tarefa: $event[0].data, setorResponsavel: $event[1].id,
-                    distribuicaoAutomatica: true,
-                    usuarioResponsavel: null
+                    distribuicaoAutomatica: !usuario,
+                    usuarioResponsavel: usuario? usuario.id : null
                 }));
             }
         });
@@ -360,7 +394,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     preencherContador() {
-        if(this.generoHandle && this.counterState) {
+        if (this.generoHandle && this.counterState) {
             if (this.folders) {
                 for (let folder of this.folders) {
                     let nomePasta = 'folder_' + this.generoHandle + '_' + folder.nome.toLowerCase();

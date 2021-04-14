@@ -75,7 +75,7 @@ tarefas-main-sidebar {
 
         .menu_content {
             display: flex;
-            flex: 1 1 auto;
+            flex: 0 1 auto;
             align-items: center;
 
             .menu_content_label {
@@ -83,6 +83,12 @@ tarefas-main-sidebar {
                 flex: 1 1 95%;
                 height: 30px;
                 align-items: center;
+
+                > div {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                }
 
                 > a {
                     color: currentColor;
@@ -93,10 +99,22 @@ tarefas-main-sidebar {
                 }
             }
 
-            .menu_content_button {
-                display: flex;
-                flex: 1 1 5%;
+            .menu_content.button {
+                cursor: pointer;
             }
+        }
+
+        .menu_content.unidade, .menu_content.orgao-central, .menu_content.setor {
+            cursor: default;
+            padding-left: 6px !important;
+            margin-right: 4px !important;
+            height: auto !important;
+            min-height: 32px !important;
+            padding-right: 4px !important;
+        }
+
+        .menu_content.setor {
+            cursor: pointer;
         }
 
         .menu_tarefa {
@@ -194,18 +212,7 @@ tarefas-main-sidebar {
                 margin-bottom: 4px;
             }
 
-            section {
-                height: 32px;
-                margin-top: 4px;
-                margin-left: 12px;
-                margin-bottom: 4px;
-                display: flex;
-                flex-direction: column;
-                flex: 1 1 auto;
-                align-content: center;
-                align-items: flex-start;
-                justify-content: center;
-            }
+
         }
     }
 
@@ -220,6 +227,33 @@ tarefas-main-sidebar {
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
+        }
+    }
+}
+
+section.setor, section.unidade, section.orgao-central, section.lotacao {
+    height: auto;
+    min-height: 32px;
+    margin-top: 4px;
+    margin-left: 12px;
+    margin-bottom: 4px;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    align-content: center;
+    align-items: flex-start;
+    justify-content: space-between;
+    white-space: pre-wrap;
+
+    > div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: nowrap;
+        white-space: pre-wrap;
+
+        mat-icon {
+            margin-right: 8px;
         }
     }
 }
