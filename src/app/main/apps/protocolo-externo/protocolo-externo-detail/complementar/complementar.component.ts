@@ -18,7 +18,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Documento } from '@cdk/models/documento.model';
 import { getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
-import {Assinatura, Processo, Usuario} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Processo, Usuario} from '@cdk/models';
 import { getProcesso } from '../store/selectors';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
@@ -228,7 +228,9 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
     }
 
-    doDownloadP7S(componenteDigitalId): void {
-        this._store.dispatch(new fromStore.DownloadToP7S(componenteDigitalId));
+    doDownloadP7S(documento: Documento): void {
+        documento.componentesDigitais.forEach((componenteDigital: ComponenteDigital) => {
+            this._store.dispatch(new fromStore.DownloadToP7S(componenteDigital.id));
+        });
     }
 }

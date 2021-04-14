@@ -1,0 +1,18 @@
+tour {
+  
+    .page {
+        display: flex;
+        justify-content: center;
+      }
+      
+      .container {
+        max-width: 5000px;
+        width: 100%;
+      }
+      .text{
+        color:rgba(0,0,0,.75);
+        font-size:2rem;
+        line-height:1.3em;
+        padding:.75em
+      }
+}    

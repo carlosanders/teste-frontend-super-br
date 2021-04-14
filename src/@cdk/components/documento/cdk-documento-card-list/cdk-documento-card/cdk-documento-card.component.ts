@@ -91,7 +91,7 @@ export class CdkDocumentoCardComponent implements OnInit {
     converteHtml = new EventEmitter<number>();
 
     @Output()
-    downloadP7s = new EventEmitter<number>();
+    downloadP7s = new EventEmitter<Documento>();
 
     @Output()
     clicked = new EventEmitter<number>();
@@ -159,7 +159,7 @@ export class CdkDocumentoCardComponent implements OnInit {
         this.verResposta.emit(documento);
     }
 
-    doAssinatura(documentoId): void {
+    doAssinatura(): void {
         const dialogRef = this.dialog.open(CdkAssinaturaEletronicaPluginComponent, {
             width: '600px'
         });
@@ -186,8 +186,8 @@ export class CdkDocumentoCardComponent implements OnInit {
         this.converteHtml.emit(documentoId);
     }
 
-    doDownloadP7s(documentoId): void {
-        this.downloadP7s.emit(documentoId);
+    doDownloadP7s(documento: Documento): void {
+        this.downloadP7s.emit(documento);
     }
 
     onClick(documento): void {

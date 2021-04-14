@@ -46,6 +46,7 @@ export class CdkDocumentoFilterComponent implements OnInit {
             processoOrigem: [null],
             documentoOrigem: [null],
             redator: [null],
+            destinatario: [null],
             procedencia: [null],
             tipoDocumento: [null],
             descricaoOutros: [null],
@@ -128,6 +129,25 @@ export class CdkDocumentoFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('redator')) {
                         delete this.filters['redator'];
+                    }
+                }
+            }
+        });
+
+        this.form.get('destinatario').valueChanges.subscribe(value => {
+            if (value !== null) {
+                const andxFilter = [];
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    andxFilter.push({destinatario: `like:%${bit}%`});
+                });
+                if (andxFilter.length > 0) {
+                    this.filters = {
+                        ...this.filters,
+                        andX: andxFilter
+                    };
+                } else {
+                    if (this.filters.hasOwnProperty('destinatario')) {
+                        delete this.filters['destinatario'];
                     }
                 }
             }

@@ -4,7 +4,7 @@
       fxLayoutAlign="start"
       name="form" [formGroup]="form" (keyup.enter)="close()">
     <div fxFlex="1 0 auto" fxLayout="column">
-        <mat-form-field fxFlex="100" [hidden]="form.get('certificadoDigital').value">
+        <mat-form-field fxFlex="100" *ngIf="!form.get('certificadoDigital').value">
             <mat-label>Senha</mat-label>
             <input type="password"
                    matInput #plainPassword
@@ -12,10 +12,14 @@
                    formControlName="plainPassword"
                    minlength="8"
                    maxlength="16">
-            <mat-error [hidden]="!form.get('plainPassword').hasError('required')">Campo obrigatório!</mat-error>
-            <mat-error [hidden]="!form.get('plainPassword').hasError('minlength')">Campo deve ter no mínimo 8 dígitos!
+            <mat-error *ngIf="form.get('plainPassword').hasError('required')">
+                Campo obrigatório!
             </mat-error>
-            <mat-error [hidden]="!form.get('plainPassword').hasError('maxlength')">Campo deve ter no máximo 16 dígitos!
+            <mat-error *ngIf="form.get('plainPassword').hasError('minlength')">
+                Campo deve ter no mínimo 8 dígitos!
+            </mat-error>
+            <mat-error *ngIf="form.get('plainPassword').hasError('maxlength')">
+                Campo deve ter no máximo 16 dígitos!
             </mat-error>
         </mat-form-field>
         <mat-slide-toggle class="mt-16" formControlName="certificadoDigital">
@@ -27,7 +31,9 @@
         <button mat-raised-button color="accent" [disabled]="form.invalid" [mat-dialog-close]="{
                 certificadoDigital: this.form.get('certificadoDigital').value,
                 plainPassword: this.form.get('plainPassword').value
-            }">Assinar</button>
+            }">
+            Assinar
+        </button>
         <button mat-raised-button class="warn ml-16" mat-dialog-close>Cancelar</button>
     </div>
 </form>

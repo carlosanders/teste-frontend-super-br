@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Processo, Pessoa, Usuario} from '@cdk/models';
+import {Processo, Pessoa, Usuario, Classificacao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
@@ -18,8 +18,10 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {getProcesso} from './store';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
-import {MercureService} from '../../../../../../@cdk/services/mercure.service';
+import {MercureService} from '@cdk/services/mercure.service';
 import {Back} from '../../../../../store';
+import {CdkProcessoModalClassificacaoRestritaComponent} from "@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component";
+import {MatDialog} from "@cdk/angular/material";
 
 @Component({
     selector: 'dados-basicos',
@@ -58,6 +60,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      * @param _store
      * @param _router
      * @param _loginService
+     * @param dialog
      * @param _mercureService
      */
     constructor(
@@ -65,6 +68,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         private _store: Store<fromStore.DadosBasicosAppState>,
         private _router: Router,
         public _loginService: LoginService,
+        public dialog: MatDialog,
         private _mercureService: MercureService
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
@@ -76,6 +80,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
         this.logEntryPagination = new Pagination();
         this.setorAtualPagination = new Pagination();
         this.classificacaoPagination = new Pagination();
+        this.configuracaoNupPagination = new Pagination();
         this._unsubscribeAll = new Subject();
     }
 
@@ -175,6 +180,16 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
     onDeactivate(componentReference): void  {
         if (componentReference.select) {
             componentReference.select.unsubscribe();
+        }
+    }
+
+    doSelectClassificacao(classificacao: Classificacao|null): void {
+        if (classificacao && classificacao.visibilidadeRestrita === true && this.processo.acessoRestrito !== true) {
+            this.dialog.open(CdkProcessoModalClassificacaoRestritaComponent, {
+                data: [this.processo],
+                hasBackdrop: false,
+                closeOnNavigation: true
+            });
         }
     }
 

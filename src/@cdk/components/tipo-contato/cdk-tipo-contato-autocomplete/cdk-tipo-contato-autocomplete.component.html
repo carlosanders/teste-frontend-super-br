@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayTipoContatoFn">
+    <mat-option *ngFor="let tipoContato of tipoContatoList"
+                [value]="tipoContato">
+        <span [innerHTML]="displayTipoContatoFn(tipoContato) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="tipoContatoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

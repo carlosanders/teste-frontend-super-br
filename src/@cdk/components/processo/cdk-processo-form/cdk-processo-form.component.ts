@@ -106,6 +106,9 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     gerirProcedencia = new EventEmitter();
 
     @Output()
+    classificacao = new EventEmitter<Classificacao|null>();
+
+    @Output()
     editProcedencia = new EventEmitter<number>();
 
     @Input()
@@ -208,6 +211,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             dataHoraDesarquivamento: [null],
             configuracaoNup: [null, [Validators.required]],
             nupInvalido: [null],
+            chaveAcesso: [null],
+            alterarChave: [false]
         });
 
         this.especieProcessoPagination = new Pagination();
@@ -222,6 +227,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.especieSetorPagination = new Pagination();
         this.configuracaoNupPagination = new Pagination();
         this.processoPagination.populate = ['configuracaoNup', 'especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
+        this.especieProcessoPagination.populate = ['generoProcesso', 'modalidadeMeio', 'classificacao']
         this._profile = this._loginService.getUserProfile();
 
         this.readonlyNUP = false;
@@ -379,7 +385,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
         if (this.form.valid) {
-            if (!this.form.get('nupInvalido')?.value && this.form.get('tipoProtocolo').value == 2) {
+            if (!this.nupIsValid && this.form.get('tipoProtocolo').value == 2) {
                 this.doValidateNup();
             } else {
                 this.save.emit(this.form.value);
@@ -478,12 +484,15 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         const value = this.form.get('classificacao').value;
         if (!value || typeof value !== 'object') {
             this.form.get('classificacao').setValue(null);
+        } else {
+            this.classificacao.emit(this.form.get('classificacao').value);
         }
     }
 
     selectClassificacao(classificacao: Classificacao): void {
         if (classificacao) {
             this.form.get('classificacao').setValue(classificacao);
+            this.classificacao.emit(classificacao);
         }
         this.activeCard = 'form';
     }
@@ -522,7 +531,6 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     selectConfiguracaoNup(configuracaoNup: ConfiguracaoNup): void {
-        console.log(configuracaoNup);
         if (configuracaoNup) {
             this.form.get('configuracaoNup').setValue(configuracaoNup);
         }

@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayContatoFn">
+    <mat-option *ngFor="let contato of contatoList"
+                [value]="contato">
+        <span [innerHTML]="displayContatoFn(contato) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="contatoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

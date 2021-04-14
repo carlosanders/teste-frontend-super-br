@@ -115,7 +115,7 @@
                         Desclassificado
                     </th>
                     <td mat-cell *matCellDef="let sigilo" class='has_label_on_mobile' data-label='Desclassificado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.desclassificado === 1 ? 'Sim' : 'Não'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(sigilo.id) > -1}"> {{sigilo.desclassificado ? 'Sim' : 'Não'}} </td>
                 </ng-container>
 
                 <!-- RazoesClassificacaoSigilo Column -->

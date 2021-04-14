@@ -14,10 +14,8 @@ import {
     MatProgressSpinnerModule, MatTooltipModule, MatRadioModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkSidebarModule} from '@cdk/components';
-
 import {EncaminhamentoComponent} from './encaminhamento.component';
 import {RouterModule, Routes} from '@angular/router';
 import {EncaminhamentoStoreModule} from './store/store.module';

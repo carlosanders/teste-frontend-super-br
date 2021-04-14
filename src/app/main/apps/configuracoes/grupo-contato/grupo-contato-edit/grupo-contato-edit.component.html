@@ -1,0 +1,15 @@
+<div class="header">
+    <path icone="event_busy"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="grupo-contato">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-grupo-contato-form
+        [grupoContato]="grupoContato"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        (save)="submit($event)"
+        (abort)="doAbort()">
+    </cdk-grupo-contato-form>
+</div>
