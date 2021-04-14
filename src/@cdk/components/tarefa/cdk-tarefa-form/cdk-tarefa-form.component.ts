@@ -307,7 +307,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('setorResponsavel').reset();
                         this.form.get('usuarioResponsavel').reset();
                         this.form.get('usuarioResponsavel').disable();
-                        this.form.get('distribuicaoAutomatica').reset();
+                        // this.form.get('distribuicaoAutomatica').reset();
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
                         this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
                         this.editable = true;
