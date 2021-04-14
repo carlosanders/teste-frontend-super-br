@@ -22,7 +22,6 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {NavigationEnd, Router} from '@angular/router';
-import forEach = CKEDITOR.tools.array.forEach;
 import {CounterState} from "../../../../../store/reducers/counter.reducer";
 
 @Component({
@@ -188,38 +187,28 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     onDrop($event): void {
         if (this.mode === 'Tarefas') {
             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: $event[0].data, folder: $event[1]}));
-            this._store.dispatch(new fromStore.ContarTarefaPastaUsuario({tarefa: $event[0].data, folder: $event[1]}));
         }
     }
 
     preencherContador() {
         this.tarefasPendentes = [];
-        console.log(this.tarefasPendentes);
-
         if(this.generoHandle && this.counterState) {
-            console.log('1');
             if (this.folders) {
-                console.log('2');
                 for (let folder of this.folders) {
                     let nomePasta = 'folder_' + this.generoHandle + '_' + folder.nome.toLowerCase();
                     if (this.counterState && this.counterState[nomePasta] !== undefined) {
-                        console.log(this.counterState[nomePasta]);
-                        console.log('3');
                         this.tarefasPendentes[folder.nome] = this.counterState[nomePasta];
                     } else {
-                        console.log('4');
                         this.tarefasPendentes[folder.nome] = 0;
                     }
                 }
             }
-            console.log('5');
             if (this.counterState['caixa_entrada_' + this.generoHandle] !== undefined) {
                 this.tarefasPendentes['caixa_entrada_' + this.generoHandle] = this.counterState['caixa_entrada_' + this.generoHandle];
             } else {
                 this.tarefasPendentes['caixa_entrada_' + this.generoHandle] = 0;
             }
         }
-        console.log('this._changeDetectorRef.detectChanges()');
         this._changeDetectorRef.detectChanges();
     }
 

@@ -31,7 +31,6 @@ import {AssuntoService} from '@cdk/services/assunto.service';
 import {getBufferingCiencia, getBufferingDelete, getCienciaTarefaIds, getDeletingTarefaIds} from '../selectors';
 import * as fromStore from '../index';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
-import {ContarTarefaPastaUsuario} from "../actions/tarefas.actions";
 
 @Injectable()
 export class TarefasEffect {
@@ -348,41 +347,18 @@ export class TarefasEffect {
                 ofType<TarefasActions.SetFolderOnSelectedTarefas>(TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS),
                 concatMap((action) => {
                     const folder = action.payload.folder ? action.payload.folder.id : null;
-                    const tarefa = this._tarefaService.patch(action.payload.tarefa, {folder: folder}).pipe(
+                    return this._tarefaService.patch(action.payload.tarefa, {folder: folder}).pipe(
                         mergeMap((response: any) => [
                             new TarefasActions.SetFolderOnSelectedTarefasSuccess(response),
                             new OperacoesActions.Resultado({
                                 type: 'tarefa',
                                 content: `Tarefa id ${response.id} editada com sucesso!`,
                                 dateTime: response.criadoEm
-                            }),
+                            })
                         ]),
                         catchError((err) => {
                             console.log(err);
                             return of(new TarefasActions.SetFolderOnSelectedTarefasFailed(err));
-                        })
-                    );
-
-
-
-                    return tarefa;
-                })
-            );
-
-    @Effect()
-    contarTarefaPastaUsuario: Observable<any> =
-        this._actions
-            .pipe(
-                ofType<TarefasActions.ContarTarefaPastaUsuario>(TarefasActions.CONTAR_TAREFA_PASTA_USUARIO),
-                concatMap((action) => {
-
-                    return this._tarefaService.contarTarefaPastaUsuario(action.payload.tarefa, {}).pipe(
-                        tap(x=> {console.log('aaaaaaa');}),
-                        mergeMap((response: any) => [
-                        ]),
-                        catchError((err) => {
-                            console.log(err);
-                            return of([]);
                         })
                     );
                 })
