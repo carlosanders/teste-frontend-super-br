@@ -19,7 +19,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getMercureState, getRouterState} from '../../../../../../store';
@@ -331,94 +331,100 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this.tarefa$.subscribe(value => {
-            this.tarefa = value;
-            if (value) {
-                this._unsubscribeDocs.next();
-                this._unsubscribeDocs.complete();
-                this._unsubscribeDocs = new Subject();
-                this._store.pipe(select(getTarefa)).pipe(
-                    takeUntil(this._unsubscribeDocs)
-                ).subscribe(tarefa => {
-                    this.tarefaOrigem = tarefa;
-                });
-                this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
-                this.minutasLoading$ = this._store.pipe(select(fromStore.getMinutasLoading));
-                this.minutasSaving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
-                this._store.pipe(select(getDocumentosHasLoaded)).pipe(
-                    takeUntil(this._unsubscribeDocs)
-                ).subscribe(
-                    loaded => this.loadedMinutas = loaded
-                );
-                this._changeDetectorRef.markForCheck();
-                this.lixeiraMinutas$.pipe(
-                    takeUntil(this._unsubscribeDocs)
-                ).subscribe(lixeira => {
-                    this.lixeiraMinutas = lixeira;
-                });
-                this.documentos$.pipe(
-                    filter(cd => !!cd),
-                    takeUntil(this._unsubscribeDocs)
-                ).subscribe(
-                    documentos => {
-                        this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && !documento.apagadoEm);
-                        this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && !documento.apagadoEm);
-
-                        if (this.lixeiraMinutas) {
-                            this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && documento.apagadoEm);
-                            this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && documento.apagadoEm);
-                        }
-
-                        this._changeDetectorRef.markForCheck();
-                    }
-                );
-                this._store
-                    .pipe(
-                        select(getMercureState),
+        this.tarefa$
+            .pipe(
+                distinctUntilChanged(),
+                takeUntil(this._unsubscribeAll)
+            )
+            .subscribe(value => {
+                this.tarefa = value;
+                if (value) {
+                    this._unsubscribeDocs.next();
+                    this._unsubscribeDocs.complete();
+                    this._unsubscribeDocs = new Subject();
+                    this._store.pipe(select(getTarefa)).pipe(
                         takeUntil(this._unsubscribeDocs)
-                    ).subscribe(message => {
-                    if (message && message.type === 'assinatura') {
-                        switch (message.content.action) {
-                            case 'assinatura_iniciada':
-                                this.javaWebStartOK = true;
-                                break;
-                            case 'assinatura_cancelada':
-                                this.javaWebStartOK = false;
-                                this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                                break;
-                            case 'assinatura_erro':
-                                this.javaWebStartOK = false;
-                                this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
-                                break;
-                            case 'assinatura_finalizada':
-                                this.javaWebStartOK = false;
-                                this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
-                                this._store.dispatch(new UpdateData<Documento>({
-                                    id: message.content.documentoId,
-                                    schema: documentoSchema,
-                                    changes: {assinado: true}
-                                }));
-                                break;
-                        }
-                    }
-                });
-                this.assinandoDocumentosId$.pipe(
-                    takeUntil(this._unsubscribeDocs)
-                ).subscribe(assinandoDocumentosId => {
-                    if (assinandoDocumentosId.length > 0) {
-                        setInterval(() => {
-                            // monitoramento do java
-                            if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
-                                assinandoDocumentosId.forEach(
-                                    documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
-                                );
+                    ).subscribe(tarefa => {
+                        this.tarefaOrigem = tarefa;
+                    });
+                    this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
+                    this.minutasLoading$ = this._store.pipe(select(fromStore.getMinutasLoading));
+                    this.minutasSaving$ = this._store.pipe(select(fromStore.getIsLoadingSaving));
+                    this._store.pipe(select(getDocumentosHasLoaded)).pipe(
+                        takeUntil(this._unsubscribeDocs)
+                    ).subscribe(
+                        loaded => this.loadedMinutas = loaded
+                    );
+                    this._changeDetectorRef.markForCheck();
+                    this.lixeiraMinutas$.pipe(
+                        takeUntil(this._unsubscribeDocs)
+                    ).subscribe(lixeira => {
+                        this.lixeiraMinutas = lixeira;
+                    });
+                    this.documentos$.pipe(
+                        distinctUntilChanged(),
+                        filter(cd => !!cd),
+                        takeUntil(this._unsubscribeDocs)
+                    ).subscribe(
+                        documentos => {
+                            this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && !documento.apagadoEm);
+                            this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && !documento.apagadoEm);
+
+                            if (this.lixeiraMinutas) {
+                                this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && documento.apagadoEm);
+                                this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && documento.apagadoEm);
                             }
-                        }, 30000);
-                    }
-                    this.assinandoDocumentosId = assinandoDocumentosId;
-                });
-            }
-        });
+
+                            this._changeDetectorRef.markForCheck();
+                        }
+                    );
+                    this._store
+                        .pipe(
+                            select(getMercureState),
+                            takeUntil(this._unsubscribeDocs)
+                        ).subscribe(message => {
+                        if (message && message.type === 'assinatura') {
+                            switch (message.content.action) {
+                                case 'assinatura_iniciada':
+                                    this.javaWebStartOK = true;
+                                    break;
+                                case 'assinatura_cancelada':
+                                    this.javaWebStartOK = false;
+                                    this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                                    break;
+                                case 'assinatura_erro':
+                                    this.javaWebStartOK = false;
+                                    this._store.dispatch(new fromStore.AssinaDocumentoFailed(message.content.documentoId));
+                                    break;
+                                case 'assinatura_finalizada':
+                                    this.javaWebStartOK = false;
+                                    this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                                    this._store.dispatch(new UpdateData<Documento>({
+                                        id: message.content.documentoId,
+                                        schema: documentoSchema,
+                                        changes: {assinado: true}
+                                    }));
+                                    break;
+                            }
+                        }
+                    });
+                    this.assinandoDocumentosId$.pipe(
+                        takeUntil(this._unsubscribeDocs)
+                    ).subscribe(assinandoDocumentosId => {
+                        if (assinandoDocumentosId.length > 0) {
+                            setInterval(() => {
+                                // monitoramento do java
+                                if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
+                                    assinandoDocumentosId.forEach(
+                                        documentoId => this._store.dispatch(new fromStore.AssinaDocumentoFailed(documentoId))
+                                    );
+                                }
+                            }, 30000);
+                        }
+                        this.assinandoDocumentosId = assinandoDocumentosId;
+                    });
+                }
+            });
 
         this.form.get('tipoDocumento').valueChanges.subscribe(value => {
             if (typeof value === 'object' && value) {

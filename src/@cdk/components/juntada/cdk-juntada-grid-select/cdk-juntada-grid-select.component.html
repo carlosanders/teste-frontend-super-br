@@ -1,5 +1,4 @@
-<div fxLayout="column">
-
+<div class="selecione">
     <div class="titulo">Selecione as juntadas que serão desentranhadas</div>
     <cdk-juntada-grid [loading]="loading"
                       [juntadas]="juntadas"
@@ -9,7 +8,8 @@
                       [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome', 'actions']"
                       (desentranharBloco)="desentranharBloco($event)">
     </cdk-juntada-grid>
-
+</div>
+<div class="selecionadas">
     <div class="div-tabela content responsive-grid" fxLayout="column">
         <div class="titulo">Juntada selecionadas</div>
 
