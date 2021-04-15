@@ -16,6 +16,7 @@ export interface ClassificacaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const ClassificacaoListInitialState: ClassificacaoListState = {
@@ -33,7 +34,8 @@ export const ClassificacaoListInitialState: ClassificacaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function ClassificacaoListReducer(
@@ -108,7 +110,7 @@ export function ClassificacaoListReducer(
         case ClassificacaoListActions.DELETE_CLASSIFICACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

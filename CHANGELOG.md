@@ -192,3 +192,18 @@
 * Correção no erro intermitente ao copiar documentos de um processo para outro #231
 * Correção no erro intermitente ao anexar documentos em juntada do processo #229
 * Correção ofícios, editar um ofício pela tela de Processos, o botão 'Responder ofício' não gera ação #225
+* Correção Somente é possível executar a movimentação em lote 1 vez #317
+* Correção Redistribuição de tarefas está mantendo a tarefa para o mesmo usuário no setor #295
+* Correção Não é possível selecionar setores de unidades diferentes na distribuição em bloco #297
+* Correção Campo Distribuição Automática sendo desmarcado automaticamente quando uma unidade é selecionada #293
+* Ajustes tamanho máximo da Etiqueta #123
+* Ajustes no delete dos critérios de regra de Etiqueta #150
+* Ajustes no gerenciamento de Etiquetas individuais #183
+* Ajustes nas colunas da página de Acompanhamento #185
+* Ajustes nas colunas da página de Remessas #214
+* Correção no alinhamento do form de login
+* Correção em bug de login em caso de erro na requisição por configurações do sistema
+* Ajuste no texto do Radio de login interno no formulário de login
+* Correção erro ao acrescentar lembretes em processos no Módulo Arquivista #274
+* Correção de erro na paginação das listas de rolagem infinitas
+* Correção ativar/desativar templates #97

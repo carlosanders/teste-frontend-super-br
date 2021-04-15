@@ -3,7 +3,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, withLatestFrom, switchMap, tap} from 'rxjs/operators';
+import {catchError, map, mergeMap, withLatestFrom, switchMap, tap, concatMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessoViewActions from 'app/main/apps/processo/processo-view/store/actions/processo-view.actions';
@@ -46,7 +46,7 @@ export class ProcessoViewEffect {
         this._actions
             .pipe(
                 ofType<ProcessoViewActions.GetJuntadas>(ProcessoViewActions.GET_JUNTADAS),
-                switchMap((action) => {
+                concatMap((action) => {
                     const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
                         chaveAcesso: this.routerState.params.chaveAcessoHandle
                     } : {};
@@ -63,7 +63,7 @@ export class ProcessoViewEffect {
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(chaveAcesso));
                 }),
-                mergeMap((response) => [
+                concatMap((response) => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
                     new ProcessoViewActions.GetJuntadasSuccess({
                         index: response['entities'].map(

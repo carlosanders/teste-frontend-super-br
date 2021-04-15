@@ -24,8 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
         return next.handle(request).pipe(catchError(err => {
             if (err.status !== 401 && err.status !== 422) {
                 const error = err.error.message || err.statusText;
-                this.snackBar.open(error, null, {
-                    duration: 5000,
+                this.snackBar.open(error, 'Fechar', {
                     horizontalPosition: this.horizontalPosition,
                     verticalPosition: this.verticalPosition,
                     panelClass: ['danger-snackbar']
