@@ -107,7 +107,7 @@ export class ComponenteDigitalService extends ParentGenericService<ComponenteDig
             );
     }
 
-    downloadP7S(id: number, changes: any, context: any = '{}'): Observable<any> {
+    downloadP7S(id: number, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams().set('context', context);
         return this.http.get(`${environment.api_url}administrativo/componente_digital/${id}/download_p7s` + environment.xdebug, {params});
     }

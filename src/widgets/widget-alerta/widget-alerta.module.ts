@@ -9,6 +9,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
+import {TourModule} from "../../ajuda/tour/tour.module";
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import {MatButtonModule} from '@angular/material/button';
         MatIconModule,
         MatCardModule,
         MatButtonModule,
+        TourModule,
     ],
     providers: [
         LoginService

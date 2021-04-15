@@ -26,7 +26,8 @@ export class LoginEffects {
                 switchMap((action) => {
                         return this.loginService.login(action.payload.username, action.payload.password)
                             .pipe(
-                                map((data) => {
+                                map((data: any) => {
+                                    data.redirect = action.payload.redirect?? true;
                                     return new LoginActions.LoginSuccess(data);
                                 }),
                                 catchError((error) => {
@@ -48,11 +49,12 @@ export class LoginEffects {
                 switchMap((action) => {
                         return this.loginService.loginLdap(action.payload.username, action.payload.password)
                             .pipe(
-                                map((data) => {
+                                map((data: any) => {
+                                    data.redirect = action.payload.redirect?? true;
                                     return new LoginActions.LoginSuccess(data);
                                 }),
                                 catchError((error) => {
-                                    console.log (error);
+                                    console.log(error);
 
                                     let msg = 'Sistema indisponível, tente mais tarde!';
                                     if (error && error.error && error.error.code && error.error.code === 401) {
@@ -72,7 +74,8 @@ export class LoginEffects {
                 switchMap((action) => {
                         return this.loginService.loginGovBr(action.payload.code)
                             .pipe(
-                                map((data) => {
+                                map((data: any) => {
+                                    data.redirect = action.payload.redirect?? true;
                                     return new LoginActions.LoginSuccess(data);
                                 }),
                                 catchError((error) => {
@@ -109,12 +112,12 @@ export class LoginEffects {
                 ));
 
     @Effect()
-    LoginSuccess: Observable<LoginActions.LoginProfile> =
+    LoginSuccess: Observable<LoginActions.LoginActionsAll> =
         this.actions.pipe(
-            ofType(LoginActions.LOGIN_SUCCESS),
+            ofType<LoginActions.LoginSuccess>(LoginActions.LOGIN_SUCCESS),
             map((action) => {
                 this.loginService.setToken(action);
-                return new LoginActions.LoginProfile({redirect: true});
+                return new LoginActions.LoginProfile({redirect: action.payload.redirect});
             })
         );
 
@@ -142,17 +145,19 @@ export class LoginEffects {
     public Logout: Observable<any> = this.actions.pipe(
         ofType<LoginActions.Logout>(LoginActions.LOGOUT),
         tap((action) => {
-            this.loginService.removeToken();
-            this.loginService.removeUserProfile();
-            this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-            this.router.onSameUrlNavigation = 'reload';
-            let url = '';
-            if (action.payload?.url && this.router.url.indexOf('/apps') > -1) {
-                url = '?url=' + this.router.url;
+            if (this.loginService.getToken()) {
+                this.loginService.removeToken();
+                this.loginService.removeUserProfile();
+                this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+                this.router.onSameUrlNavigation = 'reload';
+                let url = '';
+                if (action.payload?.url && action.payload?.url.indexOf('/apps') > -1) {
+                    url = '?url=' + action.payload.url;
+                }
+                this.router.navigateByUrl('/auth/login' + url).then(() => {
+                    window.location.reload();
+                });
             }
-            this.router.navigateByUrl('/auth/login' + url).then(() => {
-                window.location.reload();
-            });
         })
     );
 
@@ -198,7 +203,7 @@ export class LoginEffects {
                                     return new LoginActions.GetConfigSuccess(response);
                                 }),
                                 catchError((error) => {
-                                    return of(new LoginActions.LoginProfileFailure({error: error}));
+                                    return of(new LoginActions.GetConfigFailure({error: error}));
                                 })
                             );
                     }

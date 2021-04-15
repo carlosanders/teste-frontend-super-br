@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Assinatura, Documento, Juntada, Pagination, Processo, Tarefa, Volume} from '@cdk/models';
+import {Assinatura, ComponenteDigital, Documento, Juntada, Pagination, Processo, Tarefa, Volume} from '@cdk/models';
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {select, Store} from '@ngrx/store';
@@ -819,8 +819,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ConverteToHtml(documentoId));
     }
 
-    doDownloadP7S(documentoId): void {
-        this._store.dispatch(new fromStore.DownloadToP7S(documentoId));
+    doDownloadP7S(documento: Documento): void {
+        documento.componentesDigitais?.forEach((componenteDigital: ComponenteDigital) => {
+            this._store.dispatch(new fromStore.DownloadToP7S(componenteDigital.id));
+        });
     }
 
     onComplete(): void {

@@ -1,11 +1,11 @@
-    <div class="accent"> 
+    <div class="accent">
         <div class="header">
             <h1 class="m-16">Ajuda</h1>
         </div>
     </div>
-    
 
-    
+
+
     <div class="content">
 
         <div class="form">
@@ -21,8 +21,8 @@
                 </div>
             </form>
         </div>
-        
-        
+
+
 
         <div *ngIf="isSubmited && resultado.length === 0">
             <p>Nenhum resultado encontrado</p>
@@ -41,31 +41,57 @@
 
 
         <div>
-            <p>Utilize o campo de busca acima ou selecione uma categoria</p>
-            <div class="menuFAQ">
-                <div>
-                    <div class = "menu">
-                        <div>
-                            <div class="menuItem"> 
-                                <div class="menuLabel" (click)="pesquisarCat('processo')" >Processos</div>
-                            </div>
-                            <div id="CatProcessos" class="menuItemOver"></div>
-                        </div>
-                        <div>
-                            <div class="menuItem"> 
-                                <div class="menuLabel" (click)="pesquisarCat('tarefas')" >Tarefas</div>
-                            </div>
-                            <div id="Tarefa" class="menuItemOver"></div>
-                        </div>
-                        <div>
-                            <div class="menuItem"> 
-                                <div class="menuLabel" (click)="pesquisarCat('atividade')" >Atividades</div>
-                            </div>
-                            <div id="Atividade" class="MenuItemOver"></div>
+            <p>Utilize o campo de busca acima ou selecione uma categoria:</p>
+                <section>
+                    <div class="button-row">
+                        <div class="flex-container">
+                            <button mat-icon-button
+                                    aria-label="Painel"
+                                    color="primary"
+                                    title="Painel"
+                                    (click)="pesquisarCat('painel')">
+                                    <mat-icon>home</mat-icon>
+                                    <p>Painel</p>
+                            </button>
+                            <button mat-icon-button
+                                    aria-label="Processo"
+                                    color="primary"
+                                    title="Processo"
+                                    (click)="pesquisarCat('processo')">
+                                <mat-icon>book</mat-icon>
+                                <p >Processo</p>
+                            </button>
+                            <button mat-icon-button
+                                    color="primary"
+                                    aria-label="Tarefas"
+                                    title="Tarefas"
+                                    (click)="pesquisarCat('tarefas')">
+                                <mat-icon>assignment</mat-icon>
+                                <p>Tarefas</p>
+                            </button>
+                            <button mat-icon-button
+                                    color="primary"
+                                    aria-label="Atividades"
+                                    title="Atividades"
+                                    (click)="pesquisarCat('atividade')">
+                                <mat-icon>input</mat-icon>
+                                <p>Atividades</p>
+                            </button>
+                            <button mat-icon-button
+                                    color="primary"
+                                    aria-label="Tour"
+                                    title="Tour"
+                                    (click)="tour('IniciaTour')">
+                                <mat-icon>explore</mat-icon>
+                                <p >Tour</p>
+                            </button>
                         </div>
                     </div>
-                </div>
-            </div>
+                </section>
+
+            <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
+
+            <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
 
             <div class="mt-16" *ngIf="card === 'form'">
                 <table *ngIf="resultado.length > 0">
@@ -82,7 +108,7 @@
                     <tr>
                 </table>
             </div>
-            
+
 
             <p>Dúvidas mais frequentes:</p>
               <mat-accordion multi=false collapsedHeight='5px'>
@@ -94,11 +120,11 @@
                     </mat-expansion-panel-header>
                     <ul>
                         <li>Quando temos um processo com restrição de acesso, somente a pessoa que colocou a restrição poderá retira-la.</li>
-                        <li>Para colocar sigilo em documentos já juntados/prontos: Basta dar um duplo click na linha do documento no grid de juntadas do “Editar NUP”. 
-                            Será aberta uma janela que terá a opção “restrição de acesso”, basta marcá-la e clicar em salvar. 
-                            Para designar quem pode acessar o documento basta clicar no ícone de engrenagem que irá aparecer ao lado da restrição de acesso. 
+                        <li>Para colocar sigilo em documentos já juntados/prontos: Basta dar um duplo click na linha do documento no grid de juntadas do “Editar NUP”.
+                            Será aberta uma janela que terá a opção “restrição de acesso”, basta marcá-la e clicar em salvar.
+                            Para designar quem pode acessar o documento basta clicar no ícone de engrenagem que irá aparecer ao lado da restrição de acesso.
                             Se for caso de sigilo previsto na Lei de Acesso à Informação também deve ser preenchido o formulário na aba “sigilo” da mesma janela.</li>
-                        <li>Atualmente, para mandar tarefa para alguém, se o processo tem restrição de acesso, e o usuário destinatário não tem permissão para ver, 
+                        <li>Atualmente, para mandar tarefa para alguém, se o processo tem restrição de acesso, e o usuário destinatário não tem permissão para ver,
                             o sistema não permite completar a ação de mandar a tarefa. O sistema manda primeiro o usuário ir na restrição de acesso, conceder permissão e depois abrir a tarefa.</li>
                         <li>No caso de o processo ter vindo do limbo, então tem que mandar o NUP para o e-mail do suporte do sistema, solicitando a indicação de que quem colocou o acesso restrito. </li><br><br>
                     </ul>
@@ -201,23 +227,27 @@
                     </mat-expansion-panel-header>
                     <ul>
                         <li>
-                            Certifique-se de que o processo está em seu setor, pois como somente um 
-                            Arquivista pode arquivar um processo, as tarefas de arquivamento relacionadas só 
-                            podem ser tramitadas para o Arquivo. Caso o processo não esteja em seu setor, 
-                            peça a um usuário naquele setor que efetue o trâmite ou para seu setor ou para o 
-                            arquivo correspondente. Utilize a opção Editar NUP ou o pesquise para verificar 
+                            Certifique-se de que o processo está em seu setor, pois como somente um
+                            Arquivista pode arquivar um processo, as tarefas de arquivamento relacionadas só
+                            podem ser tramitadas para o Arquivo. Caso o processo não esteja em seu setor,
+                            peça a um usuário naquele setor que efetue o trâmite ou para seu setor ou para o
+                            arquivo correspondente. Utilize a opção Editar NUP ou o pesquise para verificar
                             qual o setor atualmente responsável pelo processo.
                         </li>
                     </ul>
                 </mat-expansion-panel>
               </mat-accordion>
         </div>
+        <div *ngIf="iniciatour === 'IniciaTour'">
+            <shepherd></shepherd>
+        </div>
     </div>
 
 
 
+
     <div class="footer">
-        <div class="options">      
+        <div class="options">
             <p style="text-align: center">
                 {{email}} | <a href={{wiki}} target="_blank">SapiensWiki</a>
             </p>

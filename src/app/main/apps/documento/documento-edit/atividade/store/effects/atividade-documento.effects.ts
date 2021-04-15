@@ -97,6 +97,7 @@ export class AtividadeDocumentoEffects {
                             offset: 0,
                             sort: {'volume.numeracaoSequencial': 'DESC', 'numeracaoSequencial': 'DESC'},
                             populate: [
+                                'volume',
                                 'documento',
                                 'documento.origemDados',
                                 'documento.tipoDocumento',

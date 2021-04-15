@@ -14,6 +14,9 @@ import {
     MatInputModule,
     MatTooltipModule
 } from '@cdk/angular/material';
+import {MatDividerModule} from "@angular/material/divider";
+import {MatCardModule} from "@angular/material/card";
+import {TourModule} from "./tour/tour.module";
 
 
 @NgModule({
@@ -28,6 +31,9 @@ import {
         MatIconModule,
         MatTooltipModule,
         MatExpansionModule,
+        MatDividerModule,
+        MatCardModule,
+        TourModule,
     ],
     exports: [
         AjudaComponent

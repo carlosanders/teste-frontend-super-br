@@ -16,6 +16,8 @@ import {ModalidadeGeneroPessoa} from '@cdk/models';
 import {Pais} from '@cdk/models';
 import {Municipio} from '@cdk/models';
 import {Pagination} from '@cdk/models';
+import {LoginService} from "../../../../app/main/auth/login/login.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'cdk-pessoa-form',
@@ -82,12 +84,15 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
     textoDataNascimento = 'Data de Nascimento';
 
     textoDataObito = 'Data de Óbito';
+
     /**
      * Constructor
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        public _loginService: LoginService,
+        private _router: Router
     ) {
 
         this.form = this._formBuilder.group({
@@ -103,6 +108,8 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
                 Validators.pattern('([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})')]],
             nomeGenitor: [null, [Validators.maxLength(255)]],
             nomeGenitora: [null, [Validators.maxLength(255)]],
+            pessoaConveniada: [null],
+            pessoaValidada: [null],
             naturalidade: [null],
             nacionalidade: [null]
         });
@@ -292,6 +299,10 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    showCheckboxes(): boolean {
+        return this._loginService.isGranted('ROLE_ADMIN') && this._router.url.indexOf('/admin/') !== -1;
     }
 
     showLogEntryGrid(target: string): void {

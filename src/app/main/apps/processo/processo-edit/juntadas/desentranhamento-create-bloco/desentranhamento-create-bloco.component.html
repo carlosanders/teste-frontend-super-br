@@ -7,7 +7,7 @@
 </div>
 
 <mat-horizontal-stepper linear *ngIf="!mobileMode">
-    <mat-step>
+    <mat-step [completed]="juntadasSelecionadas.length > 0">
         <ng-template matStepLabel class="secondary-text">Selecione as juntadas que serão desentranhadas</ng-template>
         <cdk-juntada-grid-select [loading]="(loading$ | async)"
                                  [juntadas]="juntadas"

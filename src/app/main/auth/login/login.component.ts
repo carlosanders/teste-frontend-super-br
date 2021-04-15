@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import { CdkConfigService } from '@cdk/services/config.service';
 import { cdkAnimations } from '@cdk/animations';
 import * as fromStore from 'app/main/auth/login/store';
@@ -9,6 +8,7 @@ import { getLoginAppState } from 'app/main/auth/login/store';
 import {environment} from "../../../../environments/environment";
 import {getRouterState} from "../../../store";
 import {getConfig, getErrorMessage, getLoadingConfig} from './store/selectors';
+import {LoginService} from "./login.service";
 
 @Component({
     selector     : 'login',
@@ -19,12 +19,10 @@ import {getConfig, getErrorMessage, getLoadingConfig} from './store/selectors';
 })
 export class LoginComponent implements OnInit
 {
-    loginForm: FormGroup;
     getLoginState: Observable<any>;
     errorMessage$: Observable<any>;
-    errorMessage: string | null;
     loadingConfig$: Observable<boolean>;
-    loading: boolean;
+    loading$: Subject<boolean> = new Subject<boolean>();
     certificadoDigital = '';
     routerState: any;
 
@@ -33,18 +31,16 @@ export class LoginComponent implements OnInit
     config: any;
 
     /**
-     * Constructor
      *
      * @param cdkConfigService
-     * @param formBuilder
      * @param store
+     * @param _loginService
      */
     constructor(
         private cdkConfigService: CdkConfigService,
-        private formBuilder: FormBuilder,
-        private store: Store<fromStore.LoginState>
-    )
-    {
+        private store: Store<fromStore.LoginState>,
+        public _loginService: LoginService
+    ) {
         this.cdkConfigService.config = {
             layout: {
                 navbar   : {
@@ -87,19 +83,10 @@ export class LoginComponent implements OnInit
     {
         this.store.dispatch(new fromStore.Unload());
 
-        this.loading = false;
-
-        this.loginForm = this.formBuilder.group({
-            username: ['', [Validators.required]],
-            password: ['', Validators.required]
-        });
-
-        this.errorMessage$.subscribe((errorMessage) => {
-            this.errorMessage = errorMessage;
-        });
+        this.loading$.next(false);
 
         this.getLoginState.subscribe((state) => {
-            this.loading = false;
+            this.loading$.next(false);
         });
 
         this.config$.subscribe((config) => {
@@ -131,21 +118,28 @@ export class LoginComponent implements OnInit
         this.store.dispatch(new fromStore.GetConfig());
     }
 
-    onSubmit(): void {
+    onSubmit(values): void {
+        this.loading$.next(true);
+        if (values.tipoLogin === 'externo') {
+            this.onSubmitExterno(values);
+        } else if (values.tipoLogin === 'ldap') {
+            this.onSubmitLdap(values);
+        }
+    }
+
+    onSubmitExterno(values): void {
         const payload = {
-            username: this.loginForm.controls.username.value.replace(/\D/g,''),
-            password: this.loginForm.controls.password.value
+            username: values.username.replace(/\D/g,''),
+            password: values.password
         };
-        this.loading = true;
         this.store.dispatch(new fromStore.Login(payload));
     }
 
-    onSubmitLdap(): void {
+    onSubmitLdap(values): void {
         const payload = {
-            username: this.loginForm.controls.username.value,
-            password: this.loginForm.controls.password.value
+            username: values.username,
+            password: values.password
         };
-        this.loading = true;
         this.store.dispatch(new fromStore.LoginLdap(payload));
     }
 }

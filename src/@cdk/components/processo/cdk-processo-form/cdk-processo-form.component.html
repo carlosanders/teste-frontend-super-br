@@ -61,14 +61,14 @@
             <div class="responsive-group">
         <mat-form-field>
             <input matInput placeholder="Configuração NUP" formControlName="configuracaoNup" required
-                   [matAutocomplete]="configuracaoNup.autocomplete" (blur)="checkConfiguracaoNup()">
+                   [matAutocomplete]="configuracaoNup.autocomplete" (blur)="checkConfiguracaoNup()" [readonly]="readonlyNUP">
             <cdk-configuracao-nup-autocomplete #configuracaoNup="configuracaoNupAutocomplete"
                                                [control]="form.get('configuracaoNup')"
                                                [configuracaoNupList]="configuracaoNupList"
                                                [configuracaoNupListIsLoading]="configuracaoNupListIsLoading"
                                                [pagination]="configuracaoNupPagination">
             </cdk-configuracao-nup-autocomplete>
-            <button matSuffix mat-button mat-icon-button (click)="showConfiguracaoNup()">
+            <button matSuffix mat-button mat-icon-button (click)="showConfiguracaoNup()" [disabled]="readonlyNUP">
                 <mat-icon matTooltip="Procurar">search</mat-icon>
             </button>
             <mat-error *ngIf="form.get('configuracaoNup').hasError('formError')">
@@ -84,11 +84,12 @@
             <mat-error>Campo obrigatório!</mat-error>
         </mat-form-field>
 
-        <mat-form-field *ngIf="!!this.form.get('id').value">
+        <mat-form-field *ngIf="this.processo.id">
             <mat-label>Chave de acesso</mat-label>
             <input matInput formControlName="chaveAcesso" readonly>
         </mat-form-field>
-        <mat-slide-toggle formControlName="alterarChave" class="alterar-chave" *ngIf="!!this.form.get('id').value">
+
+        <mat-slide-toggle formControlName="alterarChave" class="alterar-chave" *ngIf="this.processo.id">
             Alterar chave de acesso
         </mat-slide-toggle>
 

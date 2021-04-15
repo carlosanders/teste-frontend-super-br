@@ -13,7 +13,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="form.get('tipo').value === 'M'">
-        <input matInput placeholder="Modalidade de órgão central"
+        <input matInput placeholder="Órgão central"
                formControlName="orgaoCentral"
                [matAutocomplete]="orgaoCentral.autocomplete"
                (blur)="checkOrgaoCentral()">

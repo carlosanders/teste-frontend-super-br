@@ -76,11 +76,6 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
             fixed: false
         },
         {
-            id: 'assessor',
-            label: 'Assessor',
-            fixed: false
-        },
-        {
             id: 'criadoPor.nome',
             label: 'Criado Por',
             fixed: false

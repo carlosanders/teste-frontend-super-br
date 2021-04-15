@@ -53,7 +53,7 @@ export function LoginReducers(state = LoginInicialState, action: LoginActions.Lo
         case LoginActions.GET_CONFIG: {
             return {
                 ...state,
-                loadingConfig: false,
+                loadingConfig: true,
                 config: null
             };
         }

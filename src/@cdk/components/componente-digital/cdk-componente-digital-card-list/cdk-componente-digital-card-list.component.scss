@@ -26,6 +26,14 @@ cdk-componente-digital-card-list {
         }
     }
 
+    > .toolbar.processo {
+        flex-grow: 1;
+
+        > .grupo-componentes-digitais.processo {
+            flex-grow: 1;
+        }
+    }
+
     .cdk-drag-preview {
         box-sizing: border-box;
         border-radius: 4px;

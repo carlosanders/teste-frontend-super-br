@@ -153,3 +153,42 @@
 * Correção para nova entrada de menu no módulo pessoa
 * Correção para nova entrada de botão no módulo de listar remessas
 * Correção para nova entrada de botão no módulo de listar ofícios
+
+1.3.0
+
+* Feature criação do grupo de contatos
+* Feature criação de opção para alterar chave de acesso de processo
+* Correção erro ao cadastrar uma tarefa com bloco de responsáveis - issue #268
+* Correção de erro ao criar tarefa com bloco de processos - issues #267 #271
+* Ajuste do form de tarefas para tratamento de setores com apenas distribuidor e afastamentos
+* Ajuste form ofícios para salvar dados alterados - issue #266
+* Ajuste para criação de tarefas administrativas para setor de Arquivo
+* Ajuste para salvar dados do editor ao salvar form do documento avulso - issue #266
+* O formulário de tarefa não é limpo #270 **
+* Ajuste download zip #248
+* Ajuste do botão cancelar do form de tarefa - issue #270
+* Ajuste erro bloco de responsáveis - issue #269
+* Ajuste botão voltar form perfil - issue #263
+* Correção erro no cadastramento de processos utilizando opção de "Informar Protocolo Existente" #261
+* Correção Contador de caracteres do título contendo valores fixos #259
+* Correção Não é possível desclassificar um sigilo de um processo #245
+* Ajuste no componente de pessoas do módulo admin passando para o modo search
+* Correção em sidebar de vinculação de pessoa com barramento sendo chamada somente de dentro do módulo admin
+* Correção em bugs no dialog de assinatura eletrônica
+* Ajuste de css de separador de volumes no processo-view para ficar igual ao cabeçalho das juntadas
+* Correção de bug de não atualização de minutas ao remeter um ofício
+* Refactoring do login
+* Criação do cdk-login-form
+* Criados radio buttons para o tipo de login caso ldap esteja habilitado na configuração do sistema
+* Mudança de rótulos e títulos de botão caso seja selecionado login interno
+* Salvar tipo de login selecionado no localstorage
+* Ao fim do token, exibir um modal de login para que o usuário revalide o seu login sem perder o trabalho atual
+* Correção de erro ao tentar selecionar a configuração nup pela lupa
+* Correção Distribuidor não consegue distribuir tarefa automaticamente para outros colaboradores do setor #318
+* Correção Edição de tarefa em lote não modifica dados do responsável #310
+* Correção para exibir erros na criaçao de pastas para tarefas
+* Correção a validar sequencial de download parcial zip e pdf #249 #250
+* Correção não aparece os botões de salvar/cancelar ao editar vinculação de processo #240
+* Correção no erro intermitente ao copiar documentos de um processo para outro #231
+* Correção no erro intermitente ao anexar documentos em juntada do processo #229
+* Correção ofícios, editar um ofício pela tela de Processos, o botão 'Responder ofício' não gera ação #225
