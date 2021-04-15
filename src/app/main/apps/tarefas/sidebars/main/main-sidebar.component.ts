@@ -42,9 +42,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     errors$: Observable<any>;
     error = '';
 
-    errors$: Observable<any>;
-    error = '';
-
     loading$: Observable<boolean>;
 
     listFilter = {};
