@@ -36,6 +36,7 @@ export interface TarefasState {
     errorDelete: number[];
     errorCiencia: number[];
     errorRedistribuir: number[];
+    clearForm: boolean;
 }
 
 export const TarefasInitialState: TarefasState = {
@@ -72,7 +73,8 @@ export const TarefasInitialState: TarefasState = {
     error: null,
     errorDelete: [],
     errorCiencia: [],
-    errorRedistribuir: []
+    errorRedistribuir: [],
+    clearForm: false
 };
 
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
@@ -474,6 +476,20 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 ...state,
                 togglingUrgenteIds: state.togglingUrgenteIds.filter(id => id !== action.payload.id)
             }
+        }
+
+        case TarefasActions.CREATE_TAREFA: {
+            return {
+                ...state,
+                clearForm: true
+            };
+        }
+
+        case TarefasActions.CREATE_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                clearForm: false
+            };
         }
 
         default:
