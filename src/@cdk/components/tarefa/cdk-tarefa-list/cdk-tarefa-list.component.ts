@@ -19,7 +19,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
-import {Usuario} from "../../../models";
+import {Usuario, VinculacaoEtiqueta} from "../../../models";
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
@@ -166,6 +166,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Output()
     criaRelatorio = new EventEmitter<boolean>();
+
+    @Output()
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}>();
 
     @Input()
     loadingAssuntosProcessosId: number[];
@@ -503,6 +506,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     criarRelatorio() {
         this.criaRelatorio.emit(true);
+    }
+
+    doClickEtiqueta(event): void {
+        this.etiquetaClickHandler.emit(event);
     }
 
 }

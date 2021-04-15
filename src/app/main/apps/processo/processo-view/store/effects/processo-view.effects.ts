@@ -12,7 +12,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Juntada} from '@cdk/models';
 import {juntada as juntadaSchema} from '@cdk/normalizr';
 import {JuntadaService} from '@cdk/services/juntada.service';
-import {getCurrentStep, getIndex, getPagination} from '../selectors';
+import {getCurrentStep, getIndex, getPagination, getDocumentos} from '../selectors';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {ActivatedRoute, Router} from '@angular/router';
 
@@ -249,7 +249,12 @@ export class ProcessoViewEffect {
                                     url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                                 }
                                 url += '/visualizar/' + firstJuntada + '-0';
-                                this._router.navigateByUrl(url)
+                                let extras = {
+                                    queryParams: {
+                                        documentoEdit: this.routerState.queryParams.documentoEdit
+                                    }
+                                }
+                                this._router.navigate([url], extras)
                                     .then(() => {
                                         this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
                                             step: firstJuntada,

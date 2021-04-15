@@ -252,6 +252,7 @@
                     (loadAssuntos)="doLoadAssuntos($event)"
                     [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
+                    (etiquetaClickHandler)="doClickEtiqueta($event)"
                 >
                 </cdk-tarefa-list-item>
             </div>

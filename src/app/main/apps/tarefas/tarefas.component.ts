@@ -387,7 +387,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.GetTarefas(nparams));
     }
 
-    setCurrentTarefa(tarefa: Tarefa): void {
+    setCurrentTarefa(tarefa: Tarefa, documentoUuidEdit: string = null): void {
         if (!tarefa.apagadoEm) {
             if (!tarefa.dataHoraLeitura) {
                 this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
@@ -395,7 +395,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this._store.dispatch(new fromStore.SetCurrentTarefa({
                 tarefaId: tarefa.id,
                 processoId: tarefa.processo.id,
-                acessoNegado: tarefa.processo.acessoNegado
+                acessoNegado: tarefa.processo.acessoNegado,
+                documentoUuidEdit: documentoUuidEdit
             }));
         }
     }
@@ -694,5 +695,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.confirmDialogRef = null;
         });
+    }
+
+    doEditarDocumentoEtiqueta(event): void {
+        if (event.vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
+            this.setCurrentTarefa(event.tarefa, event.vinculacaoEtiqueta.objectUuid);
+        }
     }
 }

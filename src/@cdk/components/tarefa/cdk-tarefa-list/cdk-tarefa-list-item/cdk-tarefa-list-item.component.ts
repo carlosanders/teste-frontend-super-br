@@ -11,7 +11,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaListItemService} from './cdk-tarefa-list-item.service';
-import {Usuario} from "../../../../models";
+import {Usuario, VinculacaoEtiqueta} from "../../../../models";
 
 @Component({
     selector: 'cdk-tarefa-list-item',
@@ -78,6 +78,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Output()
     removeTarefa = new EventEmitter<Tarefa>();
+
+    @Output()
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}>();
 
     @Output()
     loadAssuntos = new EventEmitter<any>();
@@ -219,5 +222,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
             this.loadAssuntos.emit(this.tarefa.processo.id);
         }
         this.isOpen = !this.isOpen;
+    }
+
+    doClickEtiqueta(vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa): void {
+        this.etiquetaClickHandler.emit({vinculacaoEtiqueta, tarefa});
     }
 }
