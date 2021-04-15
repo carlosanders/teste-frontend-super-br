@@ -204,3 +204,6 @@
 * Correção no alinhamento do form de login
 * Correção em bug de login em caso de erro na requisição por configurações do sistema
 * Ajuste no texto do Radio de login interno no formulário de login
+* Correção erro ao acrescentar lembretes em processos no Módulo Arquivista #274
+* Correção de erro na paginação das listas de rolagem infinitas
+* Correção ativar/desativar templates #97

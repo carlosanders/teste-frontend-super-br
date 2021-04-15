@@ -46,7 +46,7 @@
                formControlName="confirmPass"
                [errorStateMatcher]="matcher"
                required
-               minlenth="8"
+               minlength="8"
                maxlength="16">
         <mat-hint align="end">{{confirmPass.value.length}} / 16</mat-hint>
         <mat-error *ngIf="form.get('confirmPass').hasError('required')">
@@ -57,7 +57,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+    <mat-error class="mt-8" *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">

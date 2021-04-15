@@ -22,7 +22,13 @@ mwlResizable {
 }
 
 .danger-snackbar {
-  background: #ff4444 !important;
+    background: #ff4444 !important;
+    color: white !important;
+
+    .mat-simple-snackbar-action {
+        color: white !important;
+        font-weight: bold !important;
+    }
 }
 
 .mat-datetimepicker-calendar-body-selected {

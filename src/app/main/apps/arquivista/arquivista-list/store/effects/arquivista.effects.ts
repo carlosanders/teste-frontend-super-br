@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, concatMap, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ArquivistaActions from '../actions/arquivista.actions';
@@ -46,7 +46,7 @@ export class ArquivistaEffect {
         this._actions
             .pipe(
                 ofType<ArquivistaActions.GetProcessos>(ArquivistaActions.GET_PROCESSOS),
-                switchMap((action) => {
+                concatMap((action) => {
                     return this._processoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
@@ -59,7 +59,7 @@ export class ArquivistaEffect {
                         JSON.stringify(action.payload.populate));
 
                 }),
-                mergeMap((response) => [
+                concatMap((response) => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
                     new ArquivistaActions.GetProcessosSuccess({
                         entitiesId: response['entities'].map(processo => processo.id),
