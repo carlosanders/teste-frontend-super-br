@@ -103,7 +103,7 @@ export class CdkCoordenadorFilterComponent {
     }
 
     buscar(): void {
-        
+
         this.emite();
     }
 
