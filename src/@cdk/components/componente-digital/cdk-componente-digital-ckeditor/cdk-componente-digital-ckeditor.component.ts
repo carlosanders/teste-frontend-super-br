@@ -83,13 +83,13 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         disableNativeSpellChecker: false,
         scayt_autoStartup: false,
         contentsCss: '/assets/ckeditor/contents.css',
-        justifyClasses: ['esquerda', 'centralizado', 'direita', ' '],
+        justifyClasses: ['esquerda', 'centralizado', 'direita', 'justificado', 'paragrafo'],
         resize_enabled: false,
 
         width: '100%',
         height: '100%',
 
-        allowedContent: 'p(esquerda,centralizado,direita,numerado); p strong; p em; p u; p s; p sub; p sup; ul li; ol li; div[id]{page-break-after}; ' +
+        allowedContent: 'p(esquerda,centralizado,direita,numerado,justificado,paragrafo); p strong; p em; p u; p s; p sub; p sup; ul li; ol li; div[id]{page-break-after}; ' +
             'img[!src];p span{display,color,background-color}[data-service,data-method,data-options]; table[*]{*}; tbody; th[*](*); td[*](*){width}; ' +
             'tr[*](*);col[*](*){*}; hr; blockquote; h1; h2; h3; h4; section[*](*); header[*](*);li[*];a[*];cite(*)[*];sup(*)[*]{*};ol{*}[start]',
         startupShowBorders: false,

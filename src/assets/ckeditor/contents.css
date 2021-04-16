@@ -21,13 +21,21 @@ body {
 }
 
 p {
-	text-indent: 25mm;
-	text-align: justify;
 	font-family: "Times New Roman, Times, serif";
 	font-size: 11pt;
 	margin-top: 0;
 	margin-bottom: 0.2em;
 	line-height: 1.2em;
+}
+
+.paragrafo {
+	text-indent: 25mm;
+	text-align: justify;
+}
+
+.justificado {
+	text-align: justify;
+	text-indent: 0;
 }
 
 h1:before {
