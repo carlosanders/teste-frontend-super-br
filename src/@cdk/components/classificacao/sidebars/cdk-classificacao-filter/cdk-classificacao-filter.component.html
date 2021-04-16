@@ -97,10 +97,6 @@
                    formControlName="observacao">
         </mat-form-field>
 
-        <mat-checkbox formControlName="permissaoUso">
-            Permissão de Uso
-        </mat-checkbox>
-
         <mat-form-field>
             <input matInput placeholder="Classificação"
                    formControlName="parent"
@@ -130,22 +126,6 @@
             <input matInput formControlName="atualizadoEm" [matDatetimepicker]="atualizadoEm">
             <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
             <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Apagado Por"
-                   formControlName="apagadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Apagado Em</mat-label>
-            <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
             </mat-datetimepicker>
         </mat-form-field>
 

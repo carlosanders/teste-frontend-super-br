@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    EventEmitter,
-    OnInit,
-    ViewEncapsulation,
-    Component,
-    Output,
-    Input
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -19,21 +11,16 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkEspecieRelevanciaFilterComponent implements OnInit {
+export class CdkEspecieRelevanciaFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    filters: any = {};
-
     @Input()
     mode = 'list';
 
-    /**
-     * Constructor
-     */
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -41,7 +28,6 @@ export class CdkEspecieRelevanciaFilterComponent implements OnInit {
         this.form = this._formBuilder.group({
             nome: [null],
             descricao: [null],
-            ativo: [null],
             generoRelevancia: [null],
             criadoPor: [null],
             criadoEm: [null],
@@ -50,129 +36,49 @@ export class CdkEspecieRelevanciaFilterComponent implements OnInit {
         });
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('nome').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({nome: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('nome')) {
-                        delete this.filters['nome'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('descricao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({descricao: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('descricao')) {
-                        delete this.filters['descricao'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('ativo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    ativo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('generoRelevancia').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'generoRelevancia.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('generoRelevancia.id')) {
-                        delete this.filters['generoRelevancia.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-    }
-
     emite(): void {
+        const andXFilter = {};
+
+        if (this.form.get('nome').value) {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['nome'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('descricao').value) {
+            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['descricao'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('generoRelevancia').value) {
+            andXFilter['generoRelevancia.id'] = `eq:${this.form.get('generoRelevancia').value.id}`;
+        }
+
+        if (this.form.get('criadoEm').value) {
+            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+        }
+
+        if (this.form.get('atualizadoEm').value) {
+            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+        }
+
         const request = {
-            filters: this.filters
+            filters: {},
         };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = [andXFilter];
+        }
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-especie-relevancia-filter').close();
     }
@@ -182,9 +88,8 @@ export class CdkEspecieRelevanciaFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = {};
-        this.emite();
         this.form.reset();
+        this.emite();
     }
 }
 

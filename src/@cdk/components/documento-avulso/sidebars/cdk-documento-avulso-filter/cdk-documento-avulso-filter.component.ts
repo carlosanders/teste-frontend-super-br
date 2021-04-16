@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    EventEmitter,
-    OnInit,
-    ViewEncapsulation,
-    Component,
-    Output,
-    Input
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -19,21 +11,16 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkDocumentoAvulsoFilterComponent implements OnInit {
+export class CdkDocumentoAvulsoFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    filters: any = {};
-
     @Input()
     mode = 'list';
 
-    /**
-     * Constructor
-     */
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -72,468 +59,138 @@ export class CdkDocumentoAvulsoFilterComponent implements OnInit {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
-        });
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('observacao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({observacao: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('observacao')) {
-                        delete this.filters['observacao'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('postIt').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({postIt: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('postIt')) {
-                        delete this.filters['postIt'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('auditoriaDistribuicao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({auditoriaDistribuicao: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('auditoriaDistribuicao')) {
-                        delete this.filters['auditoriaDistribuicao'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('urgente').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    urgente: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraEncerramento').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraEncerramento: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraInicioPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraInicioPrazo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraFinalPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraFinalPrazo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraConclusaoPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraConclusaoPrazo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraRemessa').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraRemessa: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraResposta').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraResposta: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraReiteracao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraReiteracao: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('distribuicaoAutomatica').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    distribuicaoAutomatica: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('livreBalanceamento').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    livreBalanceamento: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('setorOrigem').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setorOrigem.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('setorOrigem.id')) {
-                        delete this.filters['setorOrigem.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('especieDocumentoAvulso').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'especieDocumentoAvulso.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('especieDocumentoAvulso.id')) {
-                        delete this.filters['especieDocumentoAvulso.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('modelo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'modelo.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('modelo.id')) {
-                        delete this.filters['modelo.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('pessoaDestino').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'pessoaDestino.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('pessoaDestino.id')) {
-                        delete this.filters['pessoaDestino.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('setorDestino').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setorDestino.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('setorDestino.id')) {
-                        delete this.filters['setorDestino.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('documentoResposta').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'documentoResposta.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('documentoResposta.id')) {
-                        delete this.filters['documentoResposta.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('documentoRemessa').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'documentoRemessa.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('documentoRemessa.id')) {
-                        delete this.filters['documentoRemessa.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('usuarioResponsavel').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuarioResponsavel.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('usuarioResponsavel.id')) {
-                        delete this.filters['usuarioResponsavel.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('setorResponsavel').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setorResponsavel.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('setorResponsavel.id')) {
-                        delete this.filters['setorResponsavel.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('usuarioResposta').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuarioResposta.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('usuarioResposta.id')) {
-                        delete this.filters['usuarioResposta.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('usuarioRemessa').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuarioRemessa.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('usuarioRemessa.id')) {
-                        delete this.filters['usuarioRemessa.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('processo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'processo.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('processo.id')) {
-                        delete this.filters['processo.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('processoDestino').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'processoDestino.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('processoDestino.id')) {
-                        delete this.filters['processoDestino.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('documentoAvulsoOrigem').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'documentoAvulsoOrigem.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('documentoAvulsoOrigem.id')) {
-                        delete this.filters['documentoAvulsoOrigem.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('tarefaOrigem').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'tarefaOrigem.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('tarefaOrigem.id')) {
-                        delete this.filters['tarefaOrigem.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
-                    }
-                }
-            }
         });
     }
 
     emite(): void {
+        const andXFilter = {};
+
+        if (this.form.get('observacao').value) {
+            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['observacao'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('postIt').value) {
+            this.form.get('postIt').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['postIt'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('auditoriaDistribuicao').value) {
+            this.form.get('auditoriaDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['auditoriaDistribuicao'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('setorOrigem').value) {
+            andXFilter['setorOrigem.id'] = `eq:${this.form.get('setorOrigem').value.id}`;
+        }
+
+        if (this.form.get('especieDocumentoAvulso').value) {
+            andXFilter['especieDocumentoAvulso.id'] = `eq:${this.form.get('especieDocumentoAvulso').value.id}`;
+        }
+
+        if (this.form.get('modelo').value) {
+            andXFilter['modelo.id'] = `eq:${this.form.get('modelo').value.id}`;
+        }
+
+        if (this.form.get('pessoaDestino').value) {
+            andXFilter['pessoaDestino.id'] = `eq:${this.form.get('pessoaDestino').value.id}`;
+        }
+
+        if (this.form.get('setorDestino').value) {
+            andXFilter['setorDestino.id'] = `eq:${this.form.get('setorDestino').value.id}`;
+        }
+
+        if (this.form.get('documentoResposta').value) {
+            andXFilter['documentoResposta.id'] = `eq:${this.form.get('documentoResposta').value.id}`;
+        }
+
+        if (this.form.get('documentoRemessa').value) {
+            andXFilter['documentoRemessa.id'] = `eq:${this.form.get('documentoRemessa').value.id}`;
+        }
+
+        if (this.form.get('usuarioResponsavel').value) {
+            andXFilter['usuarioResponsavel.id'] = `eq:${this.form.get('usuarioResponsavel').value.id}`;
+        }
+
+        if (this.form.get('setorResponsavel').value) {
+            andXFilter['setorResponsavel.id'] = `eq:${this.form.get('setorResponsavel').value.id}`;
+        }
+
+        if (this.form.get('usuarioResposta').value) {
+            andXFilter['usuarioResposta.id'] = `eq:${this.form.get('usuarioResposta').value.id}`;
+        }
+
+        if (this.form.get('usuarioRemessa').value) {
+            andXFilter['usuarioRemessa.id'] = `eq:${this.form.get('usuarioRemessa').value.id}`;
+        }
+
+        if (this.form.get('processo').value) {
+            andXFilter['processo.id'] = `eq:${this.form.get('processo').value.id}`;
+        }
+
+        if (this.form.get('processoDestino').value) {
+            andXFilter['processoDestino.id'] = `eq:${this.form.get('processoDestino').value.id}`;
+        }
+
+        if (this.form.get('documentoAvulsoOrigem').value) {
+            andXFilter['documentoAvulsoOrigem.id'] = `eq:${this.form.get('documentoAvulsoOrigem').value.id}`;
+        }
+
+        if (this.form.get('tarefaOrigem').value) {
+            andXFilter['tarefaOrigem.id'] = `eq:${this.form.get('tarefaOrigem').value.id}`;
+        }
+
+        if (this.form.get('dataHoraEncerramento').value) {
+            andXFilter['dataHoraEncerramento'] = `eq:${this.form.get('dataHoraEncerramento').value}`;
+        }
+
+        if (this.form.get('dataHoraInicioPrazo').value) {
+            andXFilter['dataHoraInicioPrazo'] = `eq:${this.form.get('dataHoraInicioPrazo').value}`;
+        }
+
+        if (this.form.get('dataHoraFinalPrazo').value) {
+            andXFilter['dataHoraFinalPrazo'] = `eq:${this.form.get('dataHoraFinalPrazo').value}`;
+        }
+
+        if (this.form.get('dataHoraRemessa').value) {
+            andXFilter['dataHoraRemessa'] = `eq:${this.form.get('dataHoraRemessa').value}`;
+        }
+
+        if (this.form.get('dataHoraResposta').value) {
+            andXFilter['dataHoraResposta'] = `eq:${this.form.get('dataHoraResposta').value}`;
+        }
+
+        if (this.form.get('dataHoraReiteracao').value) {
+            andXFilter['dataHoraReiteracao'] = `eq:${this.form.get('dataHoraReiteracao').value}`;
+        }
+
+        if (this.form.get('criadoEm').value) {
+            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+        }
+
+        if (this.form.get('atualizadoEm').value) {
+            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+        }
+
         const request = {
-            filters: this.filters
+            filters: {},
         };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = [andXFilter];
+        }
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-documento-avulso-filter').close();
     }
@@ -543,8 +200,7 @@ export class CdkDocumentoAvulsoFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = {};
-        this.emite();
         this.form.reset();
+        this.emite();
     }
 }

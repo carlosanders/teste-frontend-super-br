@@ -64,32 +64,30 @@
         </mat-form-field>
 
         <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
-            <span [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">Criado Em</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">
+            <span>Criado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>
         <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
             <cdk-date-filter [datetime]="true" campo="criadoEm"
-                             [limparForm]="this.limparFormFiltroDatas$"
-                             (filtra)="this.filtraData($event, 'criadoEm')">
+                             [limparForm]="this.limparFormFiltroDatas$">
             </cdk-date-filter>
         </mat-menu>
 
         <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
-            <span [ngClass]="{'filtrado': hasDateFilter('documento.juntadaAtual.criadoEm')}">Juntado Em</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroJuntadoEm" [ngClass]="{'filtrado': hasDateFilter('documento.juntadaAtual.criadoEm')}">
+            <span >Juntado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroJuntadoEm">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>
         <mat-menu #filtroJuntadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
             <cdk-date-filter [datetime]="true" campo="documento.juntadaAtual.criadoEm"
-                             [limparForm]="this.limparFormFiltroDatas$"
-                             (filtra)="this.filtraData($event, 'documento.juntadaAtual.criadoEm')">
+                             [limparForm]="this.limparFormFiltroDatas$">
             </cdk-date-filter>
         </mat-menu>
 
-        <mat-checkbox *showIfRole="'ROLE_COLABORADOR'">
+        <mat-checkbox formControlName="editavel" *showIfRole="'ROLE_COLABORADOR'">
             Editor de Textos
         </mat-checkbox>
     </form>

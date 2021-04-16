@@ -33,15 +33,14 @@
             </mat-form-field>
 
             <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
-                <span [ngClass]="{'filtrado': hasDateFilter('dataHoraAbertura')}">Data da Abertura</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraAbertura" [ngClass]="{'filtrado': hasDateFilter('dataHoraAbertura')}">
+                <span>Data da Abertura</span>
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraAbertura">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
             </div>
             <mat-menu #filtroDataHoraAbertura="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
                 <cdk-date-filter [datetime]="true" campo="dataHoraAbertura"
-                                 [limparForm]="this.limparFormFiltroDatas$"
-                                 (filtra)="this.filtraData($event, 'dataHoraAbertura')">
+                                 [limparForm]="this.limparFormFiltroDatas$">
                 </cdk-date-filter>
             </mat-menu>
 
