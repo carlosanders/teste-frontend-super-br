@@ -13,7 +13,7 @@
             var format = {
                 element: "p",
                 attributes: {
-                    class: "",
+                    class: "paragrafo",
                 },
             };
             var style = new CKEDITOR.style(format);
