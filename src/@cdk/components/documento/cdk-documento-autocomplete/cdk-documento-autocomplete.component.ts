@@ -93,7 +93,7 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
             result += documento.tipoDocumento.nome;
         }
         if (documento && documento.juntadaAtual) {
-            result += (' - Juntada Sequencial ' + documento.juntadaAtual.numeracaoSequencial);
+            result += (' - JUNTADA SEQUENCIAL ' + documento.juntadaAtual.numeracaoSequencial);
         }
         return result;
     }

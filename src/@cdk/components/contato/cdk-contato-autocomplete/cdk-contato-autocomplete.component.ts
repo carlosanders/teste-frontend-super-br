@@ -63,7 +63,7 @@ export class CdkContatoAutocompleteComponent implements OnInit {
                     });
                     if (typeof value === 'string' && andxFilterUnidade.length > 0) {
                         this.contatoListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             orX: [

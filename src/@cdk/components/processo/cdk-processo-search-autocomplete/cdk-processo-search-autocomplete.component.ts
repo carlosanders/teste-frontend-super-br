@@ -75,7 +75,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
                     });
                     if (typeof value === 'string' && (termFilterNUP)) {
                         this.processoSearchListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             ...termFilterNUP

@@ -82,7 +82,7 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                     };
                     if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterNumeroDocumentoPrincipal.length > 0)) {
                         this.pessoaListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             ...termFilter
