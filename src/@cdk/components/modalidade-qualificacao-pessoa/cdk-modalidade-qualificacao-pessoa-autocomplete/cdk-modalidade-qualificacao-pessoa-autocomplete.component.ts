@@ -60,7 +60,7 @@ export class CdkModalidadeQualificacaoPessoaAutocompleteComponent implements OnI
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.modalidadeQualificacaoPessoaListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             andX: andxFilter

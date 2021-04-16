@@ -60,7 +60,7 @@ export class CdkModalidadeVinculacaoDocumentoAutocompleteComponent implements On
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.modalidadeVinculacaoDocumentoListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             andX: andxFilter

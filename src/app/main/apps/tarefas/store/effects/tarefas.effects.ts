@@ -63,7 +63,7 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.GetTarefas>(TarefasActions.GET_TAREFAS),
-                switchMap((action) => {
+                concatMap((action) => {
                     return this._tarefaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
@@ -77,7 +77,7 @@ export class TarefasEffect {
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context));
                 }),
-                mergeMap((response) => [
+                concatMap((response) => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
                     new TarefasActions.GetTarefasSuccess({
                         entitiesId: response['entities'].map(tarefa => tarefa.id),

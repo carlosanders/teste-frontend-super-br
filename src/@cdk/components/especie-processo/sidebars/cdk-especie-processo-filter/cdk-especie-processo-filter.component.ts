@@ -47,8 +47,6 @@ export class CdkEspecieProcessoFilterComponent implements OnInit {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
         });
     }
 
@@ -138,15 +136,6 @@ export class CdkEspecieProcessoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
         this.form.get('criadoPor').valueChanges.subscribe(value => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
@@ -172,21 +161,6 @@ export class CdkEspecieProcessoFilterComponent implements OnInit {
                 } else {
                     if (this.filters.hasOwnProperty('atualizadoPor.id')) {
                         delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
                     }
                 }
             }

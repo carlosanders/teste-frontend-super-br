@@ -172,6 +172,9 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
     deletingIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     deletedIds: number[] = [];
 
     @Input()
@@ -387,5 +390,12 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }
