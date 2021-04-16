@@ -76,7 +76,7 @@
                 Valor:
             </div>
             <div class="valor">
-                {{ processo.valorEconomico | number: 'pt-BR' }}
+                {{ processo?.valorEconomico | currency:'BRL':'symbol' }}
             </div>
         </div>
     </mat-card>
@@ -103,7 +103,7 @@
                 Outro Número:
             </div>
             <div class="valor">
-                {{ processo.outroNumero }}
+                {{ processo?.outroNumero }}
             </div>
         </div>
     </mat-card>

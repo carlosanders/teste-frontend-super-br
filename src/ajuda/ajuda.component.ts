@@ -116,7 +116,7 @@ export class AjudaComponent implements OnInit {
             this.aberto = true;
         }
         this._cdkSidebarService.getSidebar('ajudaPanel').toggleOpen();
-        
+
         this.iniciatour = tour;
 
         this.tourInicio = true;
