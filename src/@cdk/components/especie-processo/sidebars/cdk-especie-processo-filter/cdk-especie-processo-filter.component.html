@@ -66,22 +66,6 @@
             </mat-datetimepicker>
         </mat-form-field>
 
-        <mat-form-field>
-            <input matInput placeholder="Apagado Por"
-                   formControlName="apagadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Apagado Em</mat-label>
-            <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
-
     </form>
 </div>
 

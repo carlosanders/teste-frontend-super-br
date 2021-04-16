@@ -47,8 +47,6 @@ export class CdkEspecieAtividadeFilterComponent implements OnInit {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
         });
     }
 

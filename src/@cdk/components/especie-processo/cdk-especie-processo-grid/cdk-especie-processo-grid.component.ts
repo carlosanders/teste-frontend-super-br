@@ -103,16 +103,6 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
             fixed: false
         },
         {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
-        },
-        {
             id: 'actions',
             label: '',
             fixed: true

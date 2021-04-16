@@ -13,6 +13,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store';
 import {getRouterState} from '../../../../../../store/reducers';
+import forEach = CKEDITOR.tools.array.forEach;
 
 @Component({
     selector: 'interessado-list',
@@ -102,8 +103,15 @@ export class InteressadoListComponent implements OnInit {
         this._router.navigate([this.routerState.url.replace('listar', 'editar/') + interessadoId]);
     }
 
-    delete(interessadoId: number): void {
-        this._store.dispatch(new fromStore.DeleteInteressado(interessadoId));
+    delete(interessadoId: any): void {
+        if(interessadoId.length > 0){
+            interessadoId.forEach((i) => {
+                this._store.dispatch(new fromStore.DeleteInteressado(i));
+            });
+        } else{
+            this._store.dispatch(new fromStore.DeleteInteressado(interessadoId));
+        }
+
     }
 
 }
