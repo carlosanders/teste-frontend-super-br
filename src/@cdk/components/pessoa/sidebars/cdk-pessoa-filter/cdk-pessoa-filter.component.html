@@ -8,10 +8,6 @@
 <div class="content" cdkPerfectScrollbar>
     <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
-        <mat-checkbox formControlName="pessoaValidada">
-            Pessoa Validada
-        </mat-checkbox>
-
         <mat-form-field>
             <mat-label>Nome</mat-label>
             <input matInput #nome
@@ -53,28 +49,22 @@
         </mat-form-field>
 
         <div class="filtro-data">
-            <span [ngClass]="{'filtrado': hasDateFilter('dataNascimento')}">Data de Nascimento</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataNascimento" [ngClass]="{'filtrado': hasDateFilter('dataNascimento')}">
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataNascimento">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>
         <mat-menu #filtroDataNascimento="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="false" campo="dataNascimento"
-                             [limparForm]="this.limparFormFiltroDatas$"
-                             (filtra)="this.filtraData($event, 'dataNascimento')">
+            <cdk-date-filter [datetime]="false" campo="dataNascimento">
             </cdk-date-filter>
         </mat-menu>
 
         <div class="filtro-data">
-            <span [ngClass]="{'filtrado': hasDateFilter('dataObito')}">Data de Óbito</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataObito" [ngClass]="{'filtrado': hasDateFilter('dataObito')}">
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataObito">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>
         <mat-menu #filtroDataObito="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-            <cdk-date-filter [datetime]="false" campo="dataObito"
-                             [limparForm]="this.limparFormFiltroDatas$"
-                             (filtra)="this.filtraData($event, 'dataObito')">
+            <cdk-date-filter [datetime]="false" campo="dataObito">
             </cdk-date-filter>
         </mat-menu>
     </form>

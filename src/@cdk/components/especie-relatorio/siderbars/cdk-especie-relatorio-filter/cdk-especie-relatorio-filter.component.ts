@@ -1,49 +1,56 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
+
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {CdkSidebarService} from "../../../sidebar/sidebar.service";
 
 @Component({
-    selector: 'cdk-garantia-filter',
-    templateUrl: './cdk-garantia-filter.component.html',
-    styleUrls: ['./cdk-garantia-filter.component.scss'],
+    selector: 'cdk-especie-relatorio-grid-filter',
+    templateUrl: './cdk-especie-relatorio-filter.component.html',
+    styleUrls: ['./cdk-especie-relatorio-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkGarantiaFilterComponent {
+export class CdkEspecieRelatorioFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    @Input()
-    mode = 'list';
-
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
-            modalidadeGarantia: [null],
-            processo: [null],
+            nome: [null],
+            descricao: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            generoRelatorio: [null],
         });
     }
 
     emite(): void {
         const andXFilter = {};
 
-        if (this.form.get('modalidadeGarantia').value) {
-            andXFilter['modalidadeGarantia.id'] = `eq:${this.form.get('modalidadeGarantia').value.id}`;
+        if (this.form.get('nome').value) {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['nome'] = `like:%${bit}%`;
+            });
         }
 
-        if (this.form.get('processo').value) {
-            andXFilter['processo.id'] = `eq:${this.form.get('processo').value.id}`;
+        if (this.form.get('descricao').value) {
+            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['descricao'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('generoRelatorio').value) {
+            andXFilter['generoRelatorio.id'] = `eq:${this.form.get('generoRelatorio').value.id}`;
         }
 
         if (this.form.get('criadoEm').value) {
@@ -71,7 +78,7 @@ export class CdkGarantiaFilterComponent {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-garantia-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-especie-tarefa-filter').close();
     }
 
     buscar(): void {

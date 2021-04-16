@@ -10,24 +10,12 @@
    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
-            <input matInput placeholder="Usuário"
-                   formControlName="usuario"
-                   [matAutocomplete]="usuario.autocomplete">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuario')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
             <input matInput placeholder="Usuário Vinculado"
                    formControlName="usuarioVinculado"
                    [matAutocomplete]="usuario.autocomplete">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioVinculado')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
-
-        <mat-checkbox formControlName="encerraTarefa">
-            Encerra Tarefa
-        </mat-checkbox>
 
         <mat-form-field>
             <input matInput placeholder="Criado Por"

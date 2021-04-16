@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    EventEmitter,
-    OnInit,
-    ViewEncapsulation,
-    Component,
-    Output,
-    Input
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -19,21 +11,16 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkDistribuicaoFilterComponent implements OnInit {
+export class CdkDistribuicaoFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    filters: any = {};
-
     @Input()
     mode = 'list';
 
-    /**
-     * Constructor
-     */
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -46,249 +33,82 @@ export class CdkDistribuicaoFilterComponent implements OnInit {
             usuarioPosterior: [null],
             setorAnterior: [null],
             setorPosterior: [null],
-            distribuicaoAutomatica: [null],
-            livreBalanceamento: [null],
             auditoriaDistribuicao: [null],
             tipoDistribuicao: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
-        });
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('dataHoraFinalPrazo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraFinalPrazo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('auditoriaDistribuicao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({auditoriaDistribuicao: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('auditoriaDistribuicao')) {
-                        delete this.filters['auditoriaDistribuicao'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('tipoDistribuicao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    tipoDistribuicao: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('distribuicaoAutomatica').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    distribuicaoAutomatica: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('livreBalanceamento').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    livreBalanceamento: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('tarefa').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'tarefa.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('tarefa.id')) {
-                        delete this.filters['tarefa.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('documentoAvulso').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'documentoAvulso.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('documentoAvulso.id')) {
-                        delete this.filters['documentoAvulso.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('usuarioAnterior').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuarioAnterior.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('usuarioAnterior.id')) {
-                        delete this.filters['usuarioAnterior.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('usuarioPosterior').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'usuarioPosterior.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('usuarioPosterior.id')) {
-                        delete this.filters['usuarioPosterior.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('setorAnterior').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setorAnterior.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('setorAnterior.id')) {
-                        delete this.filters['setorAnterior.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('setorPosterior').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'setorPosterior.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('setorPosterior.id')) {
-                        delete this.filters['setorPosterior.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
-                    }
-                }
-            }
         });
     }
 
     emite(): void {
+        const andXFilter = {};
+
+        if (this.form.get('auditoriaDistribuicao').value) {
+            this.form.get('auditoriaDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['auditoriaDistribuicao'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('tipoDistribuicao').value) {
+            this.form.get('tipoDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['tipoDistribuicao'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('tarefa').value) {
+            andXFilter['tarefa.id'] = `eq:${this.form.get('tarefa').value.id}`;
+        }
+
+        if (this.form.get('documentoAvulso').value) {
+            andXFilter['documentoAvulso.id'] = `eq:${this.form.get('documentoAvulso').value.id}`;
+        }
+
+        if (this.form.get('usuarioAnterior').value) {
+            andXFilter['usuarioAnterior.id'] = `eq:${this.form.get('usuarioAnterior').value.id}`;
+        }
+
+        if (this.form.get('usuarioPosterior').value) {
+            andXFilter['usuarioPosterior.id'] = `eq:${this.form.get('usuarioPosterior').value.id}`;
+        }
+
+        if (this.form.get('setorAnterior').value) {
+            andXFilter['setorAnterior.id'] = `eq:${this.form.get('setorAnterior').value.id}`;
+        }
+
+        if (this.form.get('setorPosterior').value) {
+            andXFilter['setorPosterior.id'] = `eq:${this.form.get('setorPosterior').value.id}`;
+        }
+
+        if (this.form.get('dataHoraFinalPrazo').value) {
+            andXFilter['dataHoraFinalPrazo'] = `eq:${this.form.get('dataHoraFinalPrazo').value}`;
+        }
+
+        if (this.form.get('criadoEm').value) {
+            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+        }
+
+        if (this.form.get('atualizadoEm').value) {
+            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+        }
+
         const request = {
-            filters: this.filters
+            filters: {},
         };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = [andXFilter];
+        }
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-distribuicao-filter').close();
     }
@@ -298,8 +118,7 @@ export class CdkDistribuicaoFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = {};
-        this.emite();
         this.form.reset();
+        this.emite();
     }
 }

@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component, EventEmitter, Input,
-    OnInit, Output,
-    ViewEncapsulation
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {Pagination} from '@cdk/models';
@@ -17,7 +12,7 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkAfastamentoFilterComponent implements OnInit {
+export class CdkAfastamentoFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
@@ -27,14 +22,9 @@ export class CdkAfastamentoFilterComponent implements OnInit {
 
     form: FormGroup;
 
-    filters: any = {};
-
     @Input()
     mode = 'list';
 
-    /**
-     * Constructor
-     */
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -50,164 +40,60 @@ export class CdkAfastamentoFilterComponent implements OnInit {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
-        });
-
-        this.colaboradorPagination = new Pagination();
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('dataInicio').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataInicio: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataInicioBloqueio').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataInicioBloqueio: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataFim').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataFim: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataFimBloqueio').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataFimBloqueio: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('colaborador').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'colaborador.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('colaborador.id')) {
-                        delete this.filters['colaborador.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('modalidadeAfastamento').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'modalidadeAfastamento.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('modalidadeAfastamento.id')) {
-                        delete this.filters['modalidadeAfastamento.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
-                    }
-                }
-            }
         });
     }
 
     emite(): void {
+        const andXFilter = {};
+
+        if (this.form.get('colaborador').value) {
+            andXFilter['colaborador.id'] = `eq:${this.form.get('colaborador').value.id}`;
+        }
+
+        if (this.form.get('modalidadeAfastamento').value) {
+            andXFilter['modalidadeAfastamento.id'] = `eq:${this.form.get('modalidadeAfastamento').value.id}`;
+        }
+
+        if (this.form.get('dataInicio').value) {
+            andXFilter['dataInicio'] = `eq:${this.form.get('dataInicio').value}`;
+        }
+
+        if (this.form.get('dataInicioBloqueio').value) {
+            andXFilter['dataInicioBloqueio'] = `eq:${this.form.get('dataInicioBloqueio').value}`;
+        }
+
+        if (this.form.get('dataFim').value) {
+            andXFilter['dataFim'] = `eq:${this.form.get('dataFim').value}`;
+        }
+
+        if (this.form.get('dataFimBloqueio').value) {
+            andXFilter['dataFimBloqueio'] = `eq:${this.form.get('dataFimBloqueio').value}`;
+        }
+
+        if (this.form.get('criadoEm').value) {
+            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+        }
+
+        if (this.form.get('atualizadoEm').value) {
+            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+        }
+
         const request = {
-            filters: this.filters
+            filters: {},
         };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = [andXFilter];
+        }
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-afastamento-filter').close();
     }
@@ -217,9 +103,8 @@ export class CdkAfastamentoFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = {};
-        this.emite();
         this.form.reset();
+        this.emite();
     }
 }
 

@@ -17,7 +17,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 
 import {CdkEspecieRelatorioGridComponent} from './cdk-especie-relatorio-grid.component';
 import {CdkEspecieRelatorioAutocompleteModule} from '@cdk/components/especie-relatorio/cdk-especie-relatorio-autocomplete/cdk-especie-relatorio-autocomplete.module';
-import {CdkEspecieRelatorioGridFilterModule} from './cdk-especie-relatorio-grid-filter/cdk-especie-relatorio-grid-filter.module';
+import {CdkEspecieRelatorioFilterModule} from '../siderbars/cdk-especie-relatorio-filter/cdk-especie-relatorio-filter.module';
 import {CdkEspecieRelatorioMainSidebarComponent} from './sidebars/main/main.component';
 import {EspecieRelatorioService} from '../../../services/especie-relatorio.service';
 
@@ -39,7 +39,7 @@ import {EspecieRelatorioService} from '../../../services/especie-relatorio.servi
         MatSelectModule,
 
         CdkEspecieRelatorioAutocompleteModule,
-        CdkEspecieRelatorioGridFilterModule,
+        CdkEspecieRelatorioFilterModule,
 
         CdkSharedModule,
         CdkSidebarModule,

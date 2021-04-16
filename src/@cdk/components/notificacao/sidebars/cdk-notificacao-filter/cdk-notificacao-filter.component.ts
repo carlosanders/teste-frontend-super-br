@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    EventEmitter,
-    OnInit,
-    ViewEncapsulation,
-    Component,
-    Output,
-    Input
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -19,21 +11,16 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkNotificacaoFilterComponent implements OnInit {
+export class CdkNotificacaoFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    filters: any = {};
-
     @Input()
     mode = 'list';
 
-    /**
-     * Constructor
-     */
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -45,192 +32,66 @@ export class CdkNotificacaoFilterComponent implements OnInit {
             dataHoraExpiracao: [null],
             dataHoraLeitura: [null],
             conteudo: [null],
-            urgente: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
-        });
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('conteudo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({conteudo: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('conteudo')) {
-                        delete this.filters['conteudo'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('urgente').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    urgente: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraExpiracao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraExpiracao: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraLeitura').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraLeitura: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('remetente').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'remetente.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('remetente.id')) {
-                        delete this.filters['remetente.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('destinatario').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'destinatario.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('destinatario.id')) {
-                        delete this.filters['destinatario.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('modalidadeNotificacao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'modalidadeNotificacao.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('modalidadeNotificacao.id')) {
-                        delete this.filters['modalidadeNotificacao.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
-                    }
-                }
-            }
         });
     }
 
     emite(): void {
+        const andXFilter = {};
+
+        if (this.form.get('conteudo').value) {
+            this.form.get('conteudo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['conteudo'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('remetente').value) {
+            andXFilter['remetente.id'] = `eq:${this.form.get('remetente').value.id}`;
+        }
+
+        if (this.form.get('destinatario').value) {
+            andXFilter['destinatario.id'] = `eq:${this.form.get('destinatario').value.id}`;
+        }
+
+        if (this.form.get('modalidadeNotificacao').value) {
+            andXFilter['modalidadeNotificacao.id'] = `eq:${this.form.get('modalidadeNotificacao').value.id}`;
+        }
+
+        if (this.form.get('dataHoraExpiracao').value) {
+            andXFilter['dataHoraExpiracao'] = `eq:${this.form.get('dataHoraExpiracao').value}`;
+        }
+
+        if (this.form.get('dataHoraLeitura').value) {
+            andXFilter['dataHoraLeitura'] = `eq:${this.form.get('dataHoraLeitura').value}`;
+        }
+
+        if (this.form.get('criadoEm').value) {
+            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+        }
+
+        if (this.form.get('atualizadoEm').value) {
+            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+        }
+
         const request = {
-            filters: this.filters
+            filters: {},
         };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = [andXFilter];
+        }
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-notificacao-filter').close();
     }
@@ -240,9 +101,8 @@ export class CdkNotificacaoFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = {};
-        this.emite();
         this.form.reset();
+        this.emite();
     }
 }
 
