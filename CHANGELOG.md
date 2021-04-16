@@ -224,3 +224,10 @@
 * Correção Espécies de Relevâncias, não permite remover registros mais mostra as colunas de Apagado Por e Apagado Em #177
 * Correção Espécies de Processo, não permite remover registros mais mostra as colunas de Apagado Por e Apagado Em #172
 * Correção Erro na remoção de interessados do processo em lote #170
+* Correção erro ao acrescentar lembretes em processos no Módulo Arquivista #274
+* Correção de erro na paginação das listas de rolagem infinitas
+* Correção ativar/desativar templates #97
+* Correção erros nos modelos individuais #166
+* Correção erro ao remover uma classificação #53
+* Correção edição da lotação de um usuário de arquivo #117
+* Correção assessores, acessando com perfil 'Administrador' é possível visualizar registros dos outros usuários #283
