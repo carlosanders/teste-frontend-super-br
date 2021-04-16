@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Pagination} from "../../../../models";
 
 @Component({
     selector: 'cdk-coordenador-filter',
@@ -21,6 +22,18 @@ export class CdkCoordenadorFilterComponent {
     @Input()
     mode = 'list';
 
+    @Input()
+    orgaoCentralPagination: Pagination;
+
+    @Input()
+    unidadePagination: Pagination;
+
+    @Input()
+    setorPagination: Pagination;
+
+    @Input()
+    usuarioPagination: Pagination;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -35,6 +48,11 @@ export class CdkCoordenadorFilterComponent {
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
+
+        this.orgaoCentralPagination = new Pagination();
+        this.unidadePagination = new Pagination();
+        this.setorPagination = new Pagination();
+        this.usuarioPagination = new Pagination();
     }
 
     emite(): void {
