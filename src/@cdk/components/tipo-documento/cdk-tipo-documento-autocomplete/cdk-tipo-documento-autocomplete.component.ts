@@ -60,7 +60,7 @@ export class CdkTipoDocumentoAutocompleteComponent implements OnInit {
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.tipoDocumentoListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             andX: andxFilter
