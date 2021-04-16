@@ -10,7 +10,7 @@ import {ClassificacaoService} from '../../../../../../../../@cdk/services/classi
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {Classificacao} from '../../../../../../../../@cdk/models';
 import {classificacao as classificacaoSchema} from '../../../../../../../../@cdk/normalizr';
-
+import { CdkUtils } from '@cdk/utils';
 
 @Injectable()
 export class ClassificacaoListEffects {
@@ -87,8 +87,7 @@ export class ClassificacaoListEffects {
                             console.log(err);
                             return of(new ClassificacaoListActions.DeleteClassificacaoFailed(
                                 {
-                                        id: action.payload,
-                                        errors: err
+                                        [action.payload]: CdkUtils.errorsToString(err)
                                 })
                             );
                         })

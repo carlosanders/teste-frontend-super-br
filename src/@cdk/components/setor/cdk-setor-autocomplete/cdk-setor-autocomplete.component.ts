@@ -79,7 +79,7 @@ export class CdkSetorAutocompleteComponent implements OnInit {
                     };
                     if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterSigla.length > 0)) {
                         this.setorListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             ...termFilter

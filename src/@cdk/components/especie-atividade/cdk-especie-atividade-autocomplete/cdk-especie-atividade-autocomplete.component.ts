@@ -62,7 +62,7 @@ export class CdkEspecieAtividadeAutocompleteComponent implements OnInit {
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.especieAtividadeListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             andX: andxFilter

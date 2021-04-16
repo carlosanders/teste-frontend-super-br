@@ -206,22 +206,14 @@
 * Ajuste no texto do Radio de login interno no formulário de login
 * Correção Campos desabilitados na redistribuição de tarefas em lote #311
 * Correção Erro SQL INSERT ao criar tarefas em bloco #308
-* Correção Campo [Espécie de Tarefa] aparece desabilitado na criação de tarefas em bloco #307
+* Correção Campo Espécie de Tarefa aparece desabilitado na criação de tarefas em bloco #307
 * Correção Erro ao adicionar unidades em bloco a partir do botão favoritos #302
 * Correção Configuração de setor para Apenas Permitir Distribuidor não está funcionando adequadamente #291
 * Correção Erro ao criar tarefas em lote com processo em trâmite #334
-* Correção Somente é possível executar a movimentação em lote 1 vez #317
-* Correção Redistribuição de tarefas está mantendo a tarefa para o mesmo usuário no setor #295
-* Correção Não é possível selecionar setores de unidades diferentes na distribuição em bloco #297
-* Correção Campo Distribuição Automática sendo desmarcado automaticamente quando uma unidade é selecionada #293
-* Ajustes tamanho máximo da Etiqueta #123
-* Ajustes no delete dos critérios de regra de Etiqueta #150
-* Ajustes no gerenciamento de Etiquetas individuais #183
-* Ajustes nas colunas da página de Acompanhamento #185
-* Ajustes nas colunas da página de Remessas #214
-* Correção no alinhamento do form de login
-* Correção em bug de login em caso de erro na requisição por configurações do sistema
-* Ajuste no texto do Radio de login interno no formulário de login
 * Correção erro ao acrescentar lembretes em processos no Módulo Arquivista #274
 * Correção de erro na paginação das listas de rolagem infinitas
 * Correção ativar/desativar templates #97
+* Correção erros nos modelos individuais #166
+* Correção erro ao remover uma classificação #53
+* Correção edição da lotação de um usuário de arquivo #117
+* Correção assessores, acessando com perfil 'Administrador' é possível visualizar registros dos outros usuários #283
