@@ -15,6 +15,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 import {GrupoContato} from '@cdk/models/grupo-contato.model';
 import {GrupoContatoDataSource} from '@cdk/data-sources/grupo-contato-data-source';
 import {FormControl} from '@angular/forms';
+import {Pagination} from "../../../models";
 
 @Component({
     selector: 'cdk-grupo-contato-grid',
@@ -37,6 +38,9 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
 
     @Input()
     mode = 'list';
+
+    @Input()
+    unidadePagination: Pagination;
 
     @Output()
     create = new EventEmitter<any>();
@@ -172,6 +176,7 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
     ) {
         this.gridFilter = {};
         this.grupoContatos = [];
+        this.unidadePagination = new Pagination();
     }
 
     ngOnChanges(): void {

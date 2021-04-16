@@ -275,7 +275,7 @@ export class TarefasEffect {
                 ofType<TarefasActions.UndeleteTarefaSuccess>(TarefasActions.UNDELETE_TAREFA_SUCCESS),
                 tap((action) => {
                     if (this.routerState.params['targetHandle'] === 'lixeira') {
-                        this._store.dispatch(new fromStore.RemoveTarefa(action.payload.id));
+                        this._store.dispatch(new fromStore.RemoveTarefa(action.payload.tarefa.id));
                     }
                 })
             );

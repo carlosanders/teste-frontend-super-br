@@ -20,6 +20,8 @@ import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Tarefa} from '@cdk/models';
 import {Back} from '../../../../store/actions';
+import {Pagination, Usuario} from "../../../../../@cdk/models";
+import {LoginService} from "../../../auth/login/login.service";
 
 @Component({
     selector: 'documento-avulso-create',
@@ -40,6 +42,13 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
 
+    _profile: Usuario;
+
+    especieDocumentoAvulsoPagination: Pagination;
+    setorDestinoPagination: Pagination;
+    modeloPagination: Pagination;
+    modeloPaginationAndx: any;
+
     operacoes: any[] = [];
 
     routerState: any;
@@ -47,16 +56,69 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
     /**
      * @param _store
      * @param _router
+     * @param _loginService
      * @param _changeDetectorRef
      */
     constructor(
         private _store: Store<fromStore.DocumentoAvulsoCreateBlocoAppState>,
         private _router: Router,
+        public _loginService: LoginService,
         private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.tarefas$ = this._store.pipe(select(getSelectedTarefas));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+
+        this._profile = _loginService.getUserProfile();
+
+        this.especieDocumentoAvulsoPagination = new Pagination();
+        this.especieDocumentoAvulsoPagination.populate = ['generoDocumentoAvulso'];
+
+        this.setorDestinoPagination = new Pagination();
+        this.setorDestinoPagination.filter = {parent: 'isNull'};
+
+        this.modeloPagination = new Pagination();
+        this.modeloPagination.populate = ['modalidadeModelo'];
+        this.modeloPaginationAndx = [{'documento.tipoDocumento.nome': 'eq:OFÍCIO'}];
+        this.modeloPagination.filter = {
+            orX: [
+                {
+                    'modalidadeModelo.valor': 'eq:EM BRANCO',
+                },
+                {
+                    // Modelos individuais
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                },
+            ]
+        };
+        if (this._loginService.isGranted('ROLE_COLABORADOR')) {
+            this.modeloPagination.filter.orX = [
+                ...this.modeloPagination.filter.orX,
+                {
+                    // Modelos do setor
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.setor.id': 'in:' + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(',')
+                },
+                {
+                    // Modelos da unidade por especie de setor
+                    'modalidadeModelo.valor': 'eq:LOCAL',
+                    'vinculacoesModelos.unidade.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                },
+                {
+                    // Modelos nacionais
+                    'modalidadeModelo.valor': 'eq:NACIONAL',
+                    'vinculacoesModelos.modalidadeOrgaoCentral.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
+                    'vinculacoesModelos.especieSetor.id': 'in:'
+                        + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
+                }
+
+            ];
+        }
 
     }
 
