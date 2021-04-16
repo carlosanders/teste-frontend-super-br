@@ -159,22 +159,6 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
             andXFilter['especieProcesso.id'] = `eq:${this.form.get('especieProcesso').value.id}`;
         }
 
-        if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
-        }
-
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
-        }
-
-        if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
-        }
-
-        if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
-        }
-
         const request = {
             filters: {},
         };

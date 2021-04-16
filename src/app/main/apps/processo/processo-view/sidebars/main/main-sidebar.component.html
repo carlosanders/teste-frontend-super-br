@@ -142,7 +142,7 @@
                         <div class="loading" *ngIf="loadingVolumes$ | async">
                             <mat-spinner class="volumes-loading" diameter="22"></mat-spinner>
                         </div>
-                        <div class="index-volume" (click)="paginaVolumes()" *ngIf="this.volumes.length < this.volumesPagination.total">
+                        <div class="index-volume" (click)="paginaVolumes()" *ngIf="this.volumes && this.volumes.length < this.volumesPagination.total">
                             <span>+</span>
                         </div>
                     </div>

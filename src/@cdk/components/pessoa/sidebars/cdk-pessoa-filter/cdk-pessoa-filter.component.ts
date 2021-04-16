@@ -53,7 +53,7 @@ export class CdkPessoaFilterComponent {
         }
 
         if (this.form.get('numeroDocumentoPrincipal').value) {
-            this.form.get('numeroDocumentoPrincipal').value.split(' ').map(bit => bit.replace(/[^\\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('numeroDocumentoPrincipal').value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andXFilter['numeroDocumentoPrincipal'] = `like:%${bit}%`;
             });
         }
@@ -72,22 +72,6 @@ export class CdkPessoaFilterComponent {
 
         if (this.form.get('dataObito').value) {
             andXFilter['dataObito'] = `eq:${this.form.get('dataObito').value.format('YYYY-MM-DD')}`;
-        }
-
-        if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
-        }
-
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
-        }
-
-        if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
-        }
-
-        if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
         }
 
         const request = {

@@ -162,7 +162,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-especie-tarefa-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-tarefa-filter').close();
     }
 
     buscar(): void {

@@ -6,7 +6,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
@@ -36,7 +36,7 @@
                        formControlName="interessado"
                        [matAutocomplete]="interessado.autocomplete">
                 <cdk-pessoa-autocomplete #interessado="pessoaAutocomplete"
-                                          [control]="form.get('interessado')">
+                                         [control]="form.get('interessado')">
                 </cdk-pessoa-autocomplete>
             </mat-form-field>
 
@@ -45,8 +45,8 @@
                        formControlName="assunto"
                        [matAutocomplete]="assunto.autocomplete">
                 <cdk-assunto-administrativo-autocomplete #assunto="assuntoAdministrativoAutocomplete"
-                                          [pagination]="assuntoAdministrativoPagination"
-                                         [control]="form.get('assunto')">
+                                                         [pagination]="assuntoAdministrativoPagination"
+                                                         [control]="form.get('assunto')">
                 </cdk-assunto-administrativo-autocomplete>
             </mat-form-field>
 
@@ -85,6 +85,7 @@
             </mat-form-field>
 
             <div class="filtro-data">
+                <span>Data da Leitura</span>
                 <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraLeitura">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
@@ -95,6 +96,7 @@
             </mat-menu>
 
             <div class="filtro-data">
+                <span>Data do Início do Prazo</span>
                 <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraInicioPrazo">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
@@ -105,6 +107,7 @@
             </mat-menu>
 
             <div class="filtro-data">
+                <span>Data do Final do Prazo</span>
                 <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraFinalPrazo">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
@@ -115,6 +118,7 @@
             </mat-menu>
 
             <div class="filtro-data">
+                <span>Data da Conclusão do Prazo</span>
                 <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraConclusaoPrazo">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
@@ -131,6 +135,14 @@
                        formControlName="observacao">
             </mat-form-field>
 
+            <mat-checkbox formControlName="urgente">
+                Urgente
+            </mat-checkbox>
+
+            <mat-checkbox formControlName="redistribuida">
+                Redistribuída
+            </mat-checkbox>
+
             <mat-form-field>
                 <input matInput placeholder="Criado Por"
                        formControlName="criadoPor"
@@ -140,6 +152,7 @@
             </mat-form-field>
 
             <div class="filtro-data">
+                <span>Criado Em</span>
                 <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
@@ -158,6 +171,7 @@
             </mat-form-field>
 
             <div class="filtro-data">
+                <span>Atualizado Em</span>
                 <button mat-icon-button type="button" [matMenuTriggerFor]="filtroAtualizadoEm">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>

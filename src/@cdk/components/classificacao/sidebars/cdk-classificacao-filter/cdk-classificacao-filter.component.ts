@@ -82,7 +82,7 @@ export class CdkClassificacaoFilterComponent {
 
         if (this.form.get('prazoGuardaFaseCorrenteAno').value) {
             this.form.get('prazoGuardaFaseCorrenteAno').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['prazoGuardaFaseCorrenteAno'] = `like:%${bit}%`;
+                andXFilter['prazoGuardaFaseCorrenteAno'] = `eq:%${bit}%`;
             });
         }
 

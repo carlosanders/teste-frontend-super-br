@@ -1,11 +1,10 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output, ViewEncapsulation} from '@angular/core';
-
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from "../../../sidebar/sidebar.service";
 
 @Component({
-    selector: 'cdk-especie-relatorio-grid-filter',
+    selector: 'cdk-especie-relatorio-filter',
     templateUrl: './cdk-especie-relatorio-filter.component.html',
     styleUrls: ['./cdk-especie-relatorio-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -18,6 +17,9 @@ export class CdkEspecieRelatorioFilterComponent {
     selected = new EventEmitter<any>();
 
     form: FormGroup;
+
+    @Input()
+    mode = 'list';
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -78,7 +80,7 @@ export class CdkEspecieRelatorioFilterComponent {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-especie-tarefa-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-especie-relatorio-filter').close();
     }
 
     buscar(): void {
