@@ -85,7 +85,12 @@ export class ClassificacaoListEffects {
                         map((response) => new ClassificacaoListActions.DeleteClassificacaoSuccess(action.payload)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new ClassificacaoListActions.DeleteClassificacaoFailed(action.payload));
+                            return of(new ClassificacaoListActions.DeleteClassificacaoFailed(
+                                {
+                                        id: action.payload,
+                                        errors: err
+                                })
+                            );
                         })
                     );
                 })

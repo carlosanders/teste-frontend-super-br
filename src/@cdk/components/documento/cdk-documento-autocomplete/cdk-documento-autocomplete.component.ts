@@ -45,6 +45,7 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
         this.documentoListIsLoading = false;
 
         this.pagination = new Pagination();
+        this.pagination.populate = ['tipoDocumento', 'juntadaAtual']
     }
 
     ngOnInit(): void {
@@ -60,7 +61,7 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.documentoListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             andX: andxFilter
@@ -86,7 +87,14 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
         });
     }
 
-    displayDocumentoFn(documento): string {
-        return documento ? documento.tipoDocumento?.nome : null;
+    displayDocumentoFn(documento: Documento): string {
+        let result = '';
+        if (documento && documento.tipoDocumento) {
+            result += documento.tipoDocumento.nome;
+        }
+        if (documento && documento.juntadaAtual) {
+            result += (' - Juntada Sequencial ' + documento.juntadaAtual.numeracaoSequencial);
+        }
+        return result;
     }
 }

@@ -102,7 +102,7 @@ export class JuntadaCreateBlocoEffect {
                 buffer(this._store.pipe(select(getBufferingDesentranhamento))),
                 mergeAll(),
                 withLatestFrom(this._store.pipe(select(getSavingIds))),
-                mergeMap(([action, savingJuntadasIds]) => {
+                concatMap(([action, savingJuntadasIds]) => {
                     if (savingJuntadasIds.indexOf(action.payload.desentranhamento.juntada.id) === -1) {
                         this._store.dispatch(new OperacoesActions.Operacao({
                             id: action.payload.operacaoId,
@@ -155,7 +155,7 @@ export class JuntadaCreateBlocoEffect {
                             return of(new JuntadaCreateBlocoActions.SaveDesentranhamentoFailed(payload));
                         })
                     );
-                }, 25)
+                })
             );
 
 }

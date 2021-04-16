@@ -52,15 +52,6 @@ export function FoldersReducer(state = FoldersInitialState, action: FoldersActio
             };
         }
 
-        // case FoldersActions.CREATE_FOLDER: {
-        //     return {
-        //         ...state,
-        //         folderId: null,
-        //         loaded: true,
-        //         loading: false
-        //     };
-        // }
-
         case FoldersActions.SAVE_FOLDER: {
             return {
                 ...state,

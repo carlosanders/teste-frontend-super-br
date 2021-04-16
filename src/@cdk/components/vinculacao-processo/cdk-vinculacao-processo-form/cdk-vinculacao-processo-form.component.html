@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <input matInput placeholder="Processo Vinculado"
+        <input matInput placeholder="Processo Vinculado" [readonly]="!!vinculacaoProcesso.id"
                formControlName="processoVinculado"
                [matAutocomplete]="processoVinculado.autocomplete" required
                (blur)="checkProcessoVinculado()">
@@ -11,7 +11,7 @@
             [pagination]="processoVinculadoPagination">
         </cdk-processo-autocomplete>
         <button *ngIf="form.get('processoVinculado').enabled" matSuffix mat-button mat-icon-button
-                (click)="showProcessoVinculadoGrid()">
+                (click)="showProcessoVinculadoGrid()" [disabled]="!!vinculacaoProcesso.id">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('processoVinculado').hasError('formError')">
@@ -22,7 +22,7 @@
     <mat-form-field>
         <input matInput placeholder="Modalidade"
                formControlName="modalidadeVinculacaoProcesso"
-               [matAutocomplete]="modalidadeVinculacaoProcesso.autocomplete" required
+               [matAutocomplete]="modalidadeVinculacaoProcesso.autocomplete" required [readonly]="!!vinculacaoProcesso.id"
                (blur)="checkModalidadeVinculacaoProcesso()">
         <cdk-modalidade-vinculacao-processo-autocomplete
             #modalidadeVinculacaoProcesso="modalidadeVinculacaoProcessoAutocomplete"
@@ -30,7 +30,7 @@
             [pagination]="modalidadeVinculacaoProcessoPagination">
         </cdk-modalidade-vinculacao-processo-autocomplete>
         <button *ngIf="form.get('modalidadeVinculacaoProcesso').enabled" matSuffix mat-button mat-icon-button
-                (click)="showModalidadeVinculacaoProcessoGrid()">
+                (click)="showModalidadeVinculacaoProcessoGrid()" [disabled]="!!vinculacaoProcesso.id">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('modalidadeVinculacaoProcesso').hasError('formError')">

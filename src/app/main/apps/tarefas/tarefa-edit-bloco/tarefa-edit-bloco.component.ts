@@ -77,6 +77,9 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
+
+        this.operacoes = [];
+
         this.tarefas$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(tarefas => this.tarefas = tarefas);

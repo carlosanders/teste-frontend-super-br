@@ -24,9 +24,7 @@ export function VinculacaoProcessoEditReducer(
 
         case VinculacaoProcessoEditActions.GET_VINCULACAO_PROCESSO: {
             return {
-                ...state,
-                vinculacaoProcessoId: null,
-                loading: true
+                ...VinculacaoProcessoEditInitialState
             };
         }
 
@@ -48,14 +46,16 @@ export function VinculacaoProcessoEditReducer(
                     id: 'vinculacaoProcessoHandle',
                     value: 'criar'
                 },
-                loading: false
+                loading: false,
+                saving: false
             };
         }
 
         case VinculacaoProcessoEditActions.GET_VINCULACAO_PROCESSO_FAILED: {
             return {
                 ...state,
-                loading: false
+                loading: false,
+                errors: action.payload
             };
         }
 
@@ -70,7 +70,8 @@ export function VinculacaoProcessoEditReducer(
         case VinculacaoProcessoEditActions.SAVE_VINCULACAO_PROCESSO_SUCCESS: {
             return {
                 ...state,
-                errors: false
+                errors: false,
+                saving: false
             };
         }
 

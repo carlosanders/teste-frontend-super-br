@@ -118,3 +118,8 @@ export const getIsTogglingUrgenteIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.togglingUrgenteIds
 );
+
+export const getIsClearForm = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.clearForm
+);

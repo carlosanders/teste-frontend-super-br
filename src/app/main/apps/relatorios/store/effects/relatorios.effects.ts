@@ -47,7 +47,7 @@ export class RelatoriosEffect {
         this._actions
             .pipe(
                 ofType<RelatoriosActions.GetRelatorios>(RelatoriosActions.GET_RELATORIOS),
-                switchMap((action) => {
+                concatMap((action) => {
                     return this._relatorioService.query(
                         JSON.stringify({
                             ...action.payload.filter,
@@ -60,7 +60,7 @@ export class RelatoriosEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate));
                 }),
-                mergeMap((response) => [
+                concatMap((response) => [
                     new AddData<Relatorio>({data: response['entities'], schema: relatorioSchema}),
                     new RelatoriosActions.GetRelatoriosSuccess({
                         entitiesId: response['entities'].map(relatorio => relatorio.id),
