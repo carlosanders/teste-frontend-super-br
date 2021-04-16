@@ -111,7 +111,6 @@ export class CdkCompartilhamentoFormComponent implements OnChanges, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
     submit(): void {
-        console.log(this.form.value);
         if (this.form.valid) {
             this.save.emit(this.form.value);
         }
