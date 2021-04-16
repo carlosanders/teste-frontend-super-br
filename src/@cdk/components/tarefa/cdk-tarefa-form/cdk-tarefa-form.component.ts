@@ -1173,6 +1173,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     processaGrupoContato(grupoContato): void {
+        console.log(grupoContato);
         grupoContato.contatos.forEach(contato => {
             if (this.form.get('distribuicaoAutomatica').value && contato.setor) {
                 const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === contato.setor.id));
@@ -1184,7 +1185,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 const findDuplicate = this.blocoResponsaveis.some(item => (item.usuario.id === contato.usuario.id));
                 if (!findDuplicate) {
                     let usuario = contato.usuario;
-                    let setor = contato.usuario.colaborador.lotacoes[0].setor;
+                    let setor = contato.usuario.colaborador?.lotacoes[0]?.setor;
                     this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
                 }
             }

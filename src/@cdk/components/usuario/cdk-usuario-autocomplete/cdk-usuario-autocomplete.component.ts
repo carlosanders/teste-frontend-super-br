@@ -80,7 +80,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
                     if (typeof value === 'string') {
                         this.usuarioListIsLoading = true;
                         this.usuarioListIsLoadingEmit.emit(this.usuarioListIsLoading);
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             andX: andxFilter

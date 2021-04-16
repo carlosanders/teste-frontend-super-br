@@ -60,7 +60,7 @@ export class CdkModalidadeAfastamentoAutocompleteComponent implements OnInit {
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.modalidadeAfastamentoListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             andX: andxFilter

@@ -103,7 +103,10 @@ export class JuntadaListComponent implements OnInit {
             gridFilter: {
                 ...params.gridFilter
             },
-            sort: params.sort,
+            sort: {
+                ...this.pagination.sort,
+                ...params.sort
+            },
             limit: params.limit,
             offset: params.offset,
             populate: this.pagination.populate

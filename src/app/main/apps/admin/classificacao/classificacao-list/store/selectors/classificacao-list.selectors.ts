@@ -46,6 +46,11 @@ export const getDeletingIds = createSelector(
     (state: ClassificacaoListState) => state.deletingIds
 );
 
+export const getDeletingErrors = createSelector(
+    getClassificacaoListState,
+    (state: ClassificacaoListState) => state.deletingErrors
+);
+
 export const getDeletedIds = createSelector(
     getClassificacaoListState,
     (state: ClassificacaoListState) => state.deletedIds

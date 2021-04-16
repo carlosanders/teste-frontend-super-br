@@ -1,13 +1,10 @@
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap} from 'rxjs/operators';
-
+import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
 import * as JuntadaListActions from 'app/main/apps/processo/processo-edit/juntadas/juntada-list/store/actions';
-
 import {JuntadaService} from '@cdk/services/juntada.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Assinatura, Juntada} from '@cdk/models';
@@ -18,6 +15,7 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
+import {getPagination} from "../selectors";
 
 @Injectable()
 export class JuntadaListEffect {
@@ -160,7 +158,8 @@ export class JuntadaListEffect {
                                 type: 'assinatura',
                                 content: `Assinatura id ${response.id} criada com sucesso!`,
                                 dateTime: response.criadoEm
-                            })
+                            }),
+                            new JuntadaListActions.ReloadJuntadas()
                         ]),
                         catchError((err) => {
                             console.log(err);
@@ -180,6 +179,7 @@ export class JuntadaListEffect {
                             .pipe(
                                 mergeMap((response) => [
                                     new JuntadaListActions.RemoveAssinaturaDocumentoSuccess(action.payload),
+                                    new JuntadaListActions.ReloadJuntadas()
                                 ]),
                                 catchError((err, caught) => {
                                     console.log(err);
@@ -199,6 +199,7 @@ export class JuntadaListEffect {
                             .pipe(
                                 mergeMap((response) => [
                                     new JuntadaListActions.RemoveVinculacaoDocumentoSuccess(action.payload),
+                                    new JuntadaListActions.ReloadJuntadas()
                                 ]),
                                 catchError((err, caught) => {
                                     console.log(err);
@@ -207,4 +208,18 @@ export class JuntadaListEffect {
                             );
                     }
                 ));
+
+    /**
+     * Reload DocumentosAvulso
+     */
+    @Effect({dispatch: false})
+    reloadJuntadas: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<JuntadaListActions.ReloadJuntadas>(JuntadaListActions.RELOAD_JUNTADAS),
+                withLatestFrom(this._store.pipe(select(getPagination))),
+                tap(([action, pagination]) => {
+                    return this._store.dispatch(new JuntadaListActions.GetJuntadas(pagination));
+                })
+            );
 }

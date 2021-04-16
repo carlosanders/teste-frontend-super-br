@@ -10,6 +10,7 @@
         [mode]="'vertical'"
         [saving]="(atividadeIsSaving$ | async)"
         [errors]="(atividadeErrors$ | async)"
-        (save)="preSubmitAtividade($event)">
+        (save)="preSubmitAtividade($event)"
+        (abort)="doAbort()">
     </cdk-atividade-form>
 </div>

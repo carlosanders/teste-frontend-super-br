@@ -72,6 +72,7 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
 
         this.documentoPagination = new Pagination();
         this.documentoVinculadoPagination = new Pagination();
+        this.documentoVinculadoPagination.populate = ['tipoDocumento', 'juntadaAtual'];
         this.modalidadeVinculacaoDocumentoPagination = new Pagination();
     }
 
@@ -83,7 +84,6 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
      * On init
      */
     ngOnInit(): void {
-        this.form.get('documento').disable();
     }
 
     /**
@@ -136,24 +136,6 @@ export class CdkVinculacaoDocumentoFormComponent implements OnChanges, OnDestroy
 
     doAbort(): void {
         this.abort.emit();
-    }
-
-    checkDocumento(): void {
-        const value = this.form.get('documento').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('documento').setValue(null);
-        }
-    }
-
-    selectDocumento(documento: Documento): void {
-        if (documento) {
-            this.form.get('documento').setValue(documento);
-        }
-        this.activeCard = 'form';
-    }
-
-    showDocumentoGrid(): void {
-        this.activeCard = 'documento-gridsearch';
     }
 
     checkDocumentoVinculado(): void {

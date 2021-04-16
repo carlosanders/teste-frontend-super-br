@@ -156,33 +156,33 @@
 
 1.3.0
 
-* Feature criação do grupo de contatos
-* Feature criação de opção para alterar chave de acesso de processo
+* Melhoria Feature criação do grupo de contatos
+* Melhoria Feature criação de opção para alterar chave de acesso de processo
 * Correção erro ao cadastrar uma tarefa com bloco de responsáveis - issue #268
 * Correção de erro ao criar tarefa com bloco de processos - issues #267 #271
-* Ajuste do form de tarefas para tratamento de setores com apenas distribuidor e afastamentos
-* Ajuste form ofícios para salvar dados alterados - issue #266
-* Ajuste para criação de tarefas administrativas para setor de Arquivo
-* Ajuste para salvar dados do editor ao salvar form do documento avulso - issue #266
+* Correção do form de tarefas para tratamento de setores com apenas distribuidor e afastamentos
+* Correção form ofícios para salvar dados alterados - issue #266
+* Correção para criação de tarefas administrativas para setor de Arquivo
+* Correção para salvar dados do editor ao salvar form do documento avulso - issue #266
 * Correção o formulário de tarefa não é limpo #270
-* Ajuste download zip #248
+* Correção download zip #248
 * Correção O botão Cancelar ao editar tarefa não faz nada #304
-* Ajuste erro bloco de responsáveis - issue #269
-* Ajuste botão voltar form perfil - issue #263
+* Correção erro bloco de responsáveis - issue #269
+* Correção botão voltar form perfil - issue #263
 * Correção erro no cadastramento de processos utilizando opção de "Informar Protocolo Existente" #261
 * Correção Contador de caracteres do título contendo valores fixos #259
 * Correção Não é possível desclassificar um sigilo de um processo #245
-* Ajuste no componente de pessoas do módulo admin passando para o modo search
+* Correção no componente de pessoas do módulo admin passando para o modo search
 * Correção em sidebar de vinculação de pessoa com barramento sendo chamada somente de dentro do módulo admin
 * Correção em bugs no dialog de assinatura eletrônica
-* Ajuste de css de separador de volumes no processo-view para ficar igual ao cabeçalho das juntadas
+* Correção de css de separador de volumes no processo-view para ficar igual ao cabeçalho das juntadas
 * Correção de bug de não atualização de minutas ao remeter um ofício
-* Refactoring do login
-* Criação do cdk-login-form
-* Criados radio buttons para o tipo de login caso ldap esteja habilitado na configuração do sistema
-* Mudança de rótulos e títulos de botão caso seja selecionado login interno
-* Salvar tipo de login selecionado no localstorage
-* Ao fim do token, exibir um modal de login para que o usuário revalide o seu login sem perder o trabalho atual
+* Melhoria Refactoring do login
+* Melhoria Criação do cdk-login-form
+* Melhoria Criados radio buttons para o tipo de login caso ldap esteja habilitado na configuração do sistema
+* Melhoria Mudança de rótulos e títulos de botão caso seja selecionado login interno
+* Melhoria Salvar tipo de login selecionado no localstorage
+* Melhoria Ao fim do token, exibir um modal de login para que o usuário revalide o seu login sem perder o trabalho atual
 * Correção de erro ao tentar selecionar a configuração nup pela lupa
 * Correção Distribuidor não consegue distribuir tarefa automaticamente para outros colaboradores do setor #318
 * Correção Edição de tarefa em lote não modifica dados do responsável #310
@@ -196,17 +196,31 @@
 * Correção Redistribuição de tarefas está mantendo a tarefa para o mesmo usuário no setor #295
 * Correção Não é possível selecionar setores de unidades diferentes na distribuição em bloco #297
 * Correção Campo Distribuição Automática sendo desmarcado automaticamente quando uma unidade é selecionada #293
-* Ajustes tamanho máximo da Etiqueta #123
-* Ajustes no delete dos critérios de regra de Etiqueta #150
-* Ajustes no gerenciamento de Etiquetas individuais #183
-* Ajustes nas colunas da página de Acompanhamento #185
-* Ajustes nas colunas da página de Remessas #214
+* Correção tamanho máximo da Etiqueta #123
+* Correção no delete dos critérios de regra de Etiqueta #150
+* Correção no gerenciamento de Etiquetas individuais #183
+* Correção nas colunas da página de Acompanhamento #185
+* Correção nas colunas da página de Remessas #214
 * Correção no alinhamento do form de login
 * Correção em bug de login em caso de erro na requisição por configurações do sistema
-* Ajuste no texto do Radio de login interno no formulário de login
+* Correção no texto do Radio de login interno no formulário de login
 * Correção Campos desabilitados na redistribuição de tarefas em lote #311
 * Correção Erro SQL INSERT ao criar tarefas em bloco #308
 * Correção Campo [Espécie de Tarefa] aparece desabilitado na criação de tarefas em bloco #307
 * Correção Erro ao adicionar unidades em bloco a partir do botão favoritos #302
 * Correção Configuração de setor para Apenas Permitir Distribuidor não está funcionando adequadamente #291
 * Correção Erro ao criar tarefas em lote com processo em trâmite #334
+* Correção Erro ao remeter um ofício de uma tarefa #344
+* Correção Ao clicar em salvar o texto alterado de um ofício de uma tarefa não é salvo #341
+* Correção Tarefas, não é possível acessar o menu de ações de uma tarefa após ter um ofício remetido #226
+* Correção Ofícios, funcionalidade Remeter Ofício gerando 'Houve um erro indeterminado' #223
+* Correção Erro ao selecionar as unidades para criação de ofícios em lote #309
+* Correção Lixeira das tarefas, ao restaurar uma tarefa ela é duplicada indefinidamente na lista atual #321
+* Correção A ordenação por prazo final não está priorizando aqueles com prazo a vencer #305
+* Correção Assessor, esta permitindo 'Compartilhar Tarefa' sem ter esta permissão associada #286
+* Correção Não é possível selecionar um setor pela árvore na distribuição quando este possui setores filhos #236
+* Correção Remessas, coluna Setor de destino não parece ser parte dos metadados da tela #214
+* Correção Coluna Assessor da aba Acompanhamento #185
+* Correção Espécies de Relevâncias, não permite remover registros mais mostra as colunas de Apagado Por e Apagado Em #177
+* Correção Espécies de Processo, não permite remover registros mais mostra as colunas de Apagado Por e Apagado Em #172
+* Correção Erro na remoção de interessados do processo em lote #170

@@ -79,7 +79,7 @@ export const builtInButtons = {
       {
           attachTo: {
               element: 'widget-historico',
-              on: 'right'
+              on: 'top'
           },
           buttons: [
               builtInButtons.cancel,
