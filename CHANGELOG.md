@@ -231,3 +231,9 @@
 * Correção erro ao remover uma classificação #53
 * Correção edição da lotação de um usuário de arquivo #117
 * Correção assessores, acessando com perfil 'Administrador' é possível visualizar registros dos outros usuários #283
+* Melhoria feature distribuição de tarefas por coordenador através de arrastar e soltar na listagem
+* Melhoria no comportamento do arrastar e soltar de tarefas na listagem de tarefas
+* Correção Ocultar Coordenação da barra lateral quando usuário possui role de coordenador e nenhum setor/unidade/órgão central
+* Correção no CSS do ícone de carregando sobre o botão de operações em segundo plano
+* Correção em guardas de rota para evitar múltiplas requisições ao backend nas listagens com scroll infinito
+* Correção em componente de operações em segundo plano ao voltar de detalhamento de um lote

@@ -83,7 +83,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getProcessosLoaded),
             tap((loaded: any) => {
-                if (!loading && (!this.routerState.params['unidadeHandle'] || !this.routerState.params['typeHandle'] ||
+                if (!this.loading && (!this.routerState.params['unidadeHandle'] || !this.routerState.params['typeHandle'] ||
                     (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle']) !== loaded.value)) {
                     this._store.dispatch(new fromStore.UnloadProcessos({reset: true}));
 

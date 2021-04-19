@@ -23,7 +23,6 @@ import {
     Setor,
     Usuario,
     VinculacaoUsuario,
-    Pagination,
     Lotacao,
     ModalidadeOrgaoCentral, Tarefa
 } from '@cdk/models';
@@ -37,7 +36,6 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {CdkUtils} from "../../../../../../@cdk/utils";
 import {DndDropEvent} from "ngx-drag-drop";
-import {DndEvent} from "ngx-drag-drop/dnd-utils";
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -273,7 +271,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this._changeDetectorRef.markForCheck();
         });
 
-        this.setoresCoordenacao = [];
         this.setores$.subscribe(
             setores => {
                 this.setores = setores;

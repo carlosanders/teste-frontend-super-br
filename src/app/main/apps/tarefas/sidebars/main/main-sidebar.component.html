@@ -59,7 +59,9 @@
                             inbox
                         </mat-icon>
                         <span style="flex: 1 1 auto;">Entrada</span>
-                        <mat-icon class="place-holder" [hidden]="placeholderId !== element.id">assignment</mat-icon>
+                        <mat-icon class="place-holder">
+                            assignment_return
+                        </mat-icon>
                     </div>
                     <div class="menu_content_button">
                         <div class="mat-icon-button">
@@ -102,7 +104,8 @@
                         <a fxFlex matRipple>
                             <span>{{folder.nome | titlecase}}</span>
                         </a>
-                        <mat-icon class="place-holder" [hidden]="placeholderId !== elementFolder.id">assignment
+                        <mat-icon class="place-holder">
+                            assignment_return
                         </mat-icon>
                     </div>
                     <div class="menu_content_button">
@@ -224,7 +227,7 @@
                                                     <span>{{setor.nome | uppercase}}</span>
                                                 </div>
                                                 <mat-icon class="place-holder">
-                                                    assignment
+                                                    assignment_return
                                                 </mat-icon>
                                             </div>
                                         </section>
@@ -261,7 +264,7 @@
                                                 <mat-icon class="nav-link-icon">person</mat-icon>
                                                 <span class="nome-usuario">{{lotacao.colaborador.usuario.nome}}</span>
                                                 <mat-icon class="place-holder">
-                                                    assignment
+                                                    assignment_return
                                                 </mat-icon>
                                             </div>
                                         </section>
@@ -380,7 +383,7 @@
                                         <mat-icon class="nav-link-icon">person</mat-icon>
                                         <span class="nome-usuario">{{lotacao.colaborador.usuario.nome}}</span>
                                         <mat-icon class="place-holder">
-                                            assignment
+                                            assignment_return
                                         </mat-icon>
                                     </div>
                                 </section>
@@ -458,7 +461,7 @@
                                 <mat-icon class="nav-link-icon">person</mat-icon>
                                 <span class="nome-usuario">{{lotacao.colaborador.usuario.nome}}</span>
                                 <mat-icon class="place-holder">
-                                    assignment
+                                    assignment_return
                                 </mat-icon>
                             </div>
                         </section>

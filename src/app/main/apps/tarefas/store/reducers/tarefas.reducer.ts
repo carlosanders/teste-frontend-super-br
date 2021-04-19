@@ -304,8 +304,8 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         }
 
         case TarefasActions.DELETE_TAREFA: {
-            const entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
-            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id);
+            const entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefaId);
+            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefaId);
             return {
                 ...state,
                 entitiesId: entitiesId,
