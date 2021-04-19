@@ -8,7 +8,7 @@ import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {TarefasAppState} from 'app/main/apps/tarefas/store/reducers';
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {getFoldersLoaded, getTarefasLoaded} from 'app/main/apps/tarefas/store/selectors';
+import {getFoldersLoaded, getTarefasLoaded, getIsLoading} from 'app/main/apps/tarefas/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
@@ -36,6 +36,12 @@ export class ResolveGuard implements CanActivate {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
+            });
+
+        this._store
+            .pipe(select(getIsLoading))
+            .subscribe(loading => {
+                this.loadingTarefas = loading;
             });
 
         this._profile = _loginService.getUserProfile();

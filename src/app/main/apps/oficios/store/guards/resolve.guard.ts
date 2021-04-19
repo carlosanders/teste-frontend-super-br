@@ -12,6 +12,7 @@ import { getDocumentosAvulsoLoaded } from 'app/main/apps/oficios/store/selectors
 import { getRouterState } from 'app/store/reducers';
 import { LoginService } from '../../../../auth/login/login.service';
 import { Usuario, VinculacaoPessoaUsuario } from '@cdk/models';
+import {getIsLoading} from "app/main/apps/oficios/store";
 
 
 @Injectable()
@@ -41,6 +42,8 @@ export class ResolveGuard implements CanActivate {
                     this.routerState = routerState.state;
                 }
             });
+
+        this._store.pipe(select(getIsLoading)).subscribe(loading => this.loading = loading);
 
         this._profile = _loginService.getUserProfile();
         this.pessoasConveniadas = this._profile.vinculacoesPessoasUsuarios.filter((vinculacao) => {

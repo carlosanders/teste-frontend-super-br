@@ -10,6 +10,7 @@ import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {Colaborador, Usuario} from '@cdk/models';
 import * as moment from 'moment';
+import {getIsLoading} from "app/main/apps/arquivista/arquivista-list/store";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -40,6 +41,7 @@ export class ResolveGuard implements CanActivate {
                     this.routerState = routerState.state;
                 }
             });
+        this._store.pipe(select(getIsLoading)).subscribe(loading => this.loading = loading);
         this._profile = _loginService.getUserProfile();
         this.checkRole();
         this.setorAtual = this._loginService.getUserProfile().colaborador.lotacoes[0].setor.id;

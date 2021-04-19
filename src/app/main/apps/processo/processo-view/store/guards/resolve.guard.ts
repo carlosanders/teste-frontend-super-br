@@ -10,8 +10,12 @@ import {ProcessoViewAppState} from 'app/main/apps/processo/processo-view/store/r
 import * as fromStore from 'app/main/apps/processo/processo-view/store';
 import {getJuntadasLoaded} from 'app/main/apps/processo/processo-view/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getDocumentosHasLoaded, getIsLoading, getVolumesLoaded} from 'app/main/apps/processo/processo-view/store';
-
+import {
+    getDocumentosHasLoaded,
+    getIsLoading,
+    getIsLoadingVolumes, getMinutasLoading,
+    getVolumesLoaded
+} from 'app/main/apps/processo/processo-view/store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -48,6 +52,19 @@ export class ResolveGuard implements CanActivate {
             .pipe(select(getIsLoading))
             .subscribe(loading => {
                 this.loadingJuntadas = loading;
+            });
+
+
+        this._store
+            .pipe(select(getMinutasLoading))
+            .subscribe(loading => {
+                this.loadingDocumentos = loading;
+            });
+
+        this._store
+            .pipe(select(getIsLoadingVolumes))
+            .subscribe(loading => {
+                this.loadingVolumes = loading;
             });
     }
 
