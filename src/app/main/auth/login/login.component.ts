@@ -103,13 +103,15 @@ export class LoginComponent implements OnInit
             this.store.dispatch(new fromStore.LoginSuccess({
                 token: this.routerState.queryParams['token'],
                 exp: this.routerState.queryParams['exp'],
-                timestamp: this.routerState.queryParams['timestamp']
+                timestamp: this.routerState.queryParams['timestamp'],
+                redirect: true
             }));
         }
 
         if (this.routerState.queryParams['code']) {
             this.store.dispatch(new fromStore.LoginGovBR({
-                code: this.routerState.queryParams['code']
+                code: this.routerState.queryParams['code'],
+                redirect: true
             }));
         }
     }
