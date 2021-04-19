@@ -12,8 +12,7 @@ import {Interessado} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store';
-import {getRouterState} from '../../../../../../store/reducers';
-import forEach = CKEDITOR.tools.array.forEach;
+import {getRouterState} from '../../../../../../store';
 
 @Component({
     selector: 'interessado-list',
