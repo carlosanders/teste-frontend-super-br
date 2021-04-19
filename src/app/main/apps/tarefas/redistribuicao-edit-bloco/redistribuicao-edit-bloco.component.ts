@@ -86,6 +86,7 @@ export class RedistribuicaoEditBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     ngOnInit(): void {
+        this.blocoEditDistribuicao = true;
         let tarefasValidadas = true;
 
         this.tarefasProcessoRestritoValidadas$.pipe(

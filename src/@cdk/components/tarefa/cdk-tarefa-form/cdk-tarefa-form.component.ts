@@ -224,8 +224,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.evento = false;
 
-        this.clearValidators();
-
         if (this.form.get('processo').value && this.form.get('processo').value.NUP && this.form.get('processo').value.especieProcesso?.generoProcesso) {
             this.form.get('especieTarefa').enable();
             if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
@@ -1102,10 +1100,26 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     clearValidators(): void {
-        if (this.valid) {
+        if (this.valid && this.mode !== 'regular') {
+            const blocoCampos = {};
+            if (this.blocoEdit.blocoEditEspecie) {
+                blocoCampos['especieTarefa'] = true;
+            }
+            if (this.blocoEdit.blocoEditDistribuicao) {
+                blocoCampos['distribuicaoAutomatica'] = true;
+                blocoCampos['unidadeResponsavel'] = true;
+                blocoCampos['setorResponsavel'] = true;
+                blocoCampos['usuarioResponsavel'] = true;
+            }
+            if (this.blocoEdit.blocoEditInicioPrazo) {
+                blocoCampos['dataHoraInicioPrazo'] = true;
+            }
+            if (this.blocoEdit.blocoEditFinalPrazo) {
+                blocoCampos['dataHoraFinalPrazo'] = true;
+            }
             const controls = this.form.controls;
             for (const name in controls) {
-                if (controls[name].invalid) {
+                if (controls[name].invalid && !blocoCampos[name]) {
                     this.form.get(name).clearValidators();
                     this.form.get(name).setErrors(null);
                 }
