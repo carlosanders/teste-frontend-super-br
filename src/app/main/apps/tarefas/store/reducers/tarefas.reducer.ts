@@ -25,6 +25,7 @@ export interface TarefasState {
     bufferingDelete: number;
     bufferingCiencia: number;
     bufferingRedistribuir: number;
+    bufferingDistribuir: number;
     changingFolderTarefaIds: number[];
     togglingLidaTarefaIds: number[];
     currentTarefaId: number;
@@ -34,10 +35,12 @@ export interface TarefasState {
     loadingAssuntosProcessosId: number[];
     cienciaTarefaIds: number[];
     redistribuindoTarefaIds: number[];
+    distribuindoTarefaIds: number[];
     error: any;
     errorDelete: number[];
     errorCiencia: number[];
     errorRedistribuir: number[];
+    errorDistribuir: number[];
 }
 
 export const TarefasInitialState: TarefasState = {
@@ -65,6 +68,7 @@ export const TarefasInitialState: TarefasState = {
     bufferingDelete: 0,
     bufferingCiencia: 0,
     bufferingRedistribuir: 0,
+    bufferingDistribuir: 0,
     deletedTarefaIds: [],
     selectedTarefaIds: [],
     currentTarefaId: null,
@@ -72,10 +76,12 @@ export const TarefasInitialState: TarefasState = {
     loadingAssuntosProcessosId: [],
     cienciaTarefaIds: [],
     redistribuindoTarefaIds: [],
+    distribuindoTarefaIds: [],
     error: null,
     errorDelete: [],
     errorCiencia: [],
-    errorRedistribuir: []
+    errorRedistribuir: [],
+    errorDistribuir: []
 };
 
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
@@ -89,6 +95,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             } else {
                 return {
                     ...state,
+                    loading: false,
                     entitiesId: [],
                     pagination: {
                         ...state.pagination,
@@ -184,9 +191,119 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             };
         }
 
+        case TarefasActions.DISTRIBUIR_TAREFA: {
+            let entitiesId = state.entitiesId;
+            let selectedTarefaIds = state.selectedTarefaIds;
+            const navegacao = state.loaded.value.split('_');
+            let total = state.pagination.total;
+            // Checar se estamos visualizando tarefas do tipo coordenação
+            // E se o setor em questão é diferente do setorResponsável para onde foi distribuída a tarefa
+            if (navegacao[1] === 'coordenacao' && navegacao[2] != action.payload.setorResponsavel) {
+                // Caso afirmativo, remover a tarefa da lista
+                entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
+                selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id);
+                total = total > 0 ? total - 1 : 0;
+            } else if (navegacao[1] === 'minhas-tarefas' && action.payload.usuarioResponsavel) {
+                entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
+                selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id);
+                total = total > 0 ? total - 1 : 0;
+            }
+
+            return {
+                ...state,
+                entitiesId: entitiesId,
+                selectedTarefaIds: selectedTarefaIds,
+                pagination: {
+                    ...state.pagination,
+                    total: total
+                },
+                distribuindoTarefaIds: [...state.distribuindoTarefaIds, action.payload.tarefa.id]
+            };
+        }
+
+        case TarefasActions.DISTRIBUIR_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                distribuindoTarefaIds: state.distribuindoTarefaIds.filter(id => id !== action.payload),
+                errorDistribuir: [],
+                error: null
+            };
+        }
+
+        case TarefasActions.DISTRIBUIR_TAREFA_FAILED: {
+            const navegacao = state.loaded.value.split('_');
+            let entitiesId = state.entitiesId;
+            let total = state.pagination.total;
+            // Checar se estamos visualizando tarefas do tipo coordenação
+            // E se o setor em questão é diferente do setorResponsável para onde foi distribuída a tarefa
+            if (navegacao[1] === 'coordenacao' && navegacao[2] != action.payload.setorResponsavel) {
+                // Caso afirmativo, devolver a tarefa à lista
+                entitiesId = [...entitiesId, action.payload.id];
+                total++;
+            } else if (navegacao[1] === 'minhas-tarefas' && action.payload.usuarioResponsavel) {
+                // Devolver a tarefa à lista
+                entitiesId = [...entitiesId, action.payload.id];
+                total++;
+            }
+            return {
+                ...state,
+                errorDistribuir: [...state.errorDistribuir, action.payload.id],
+                distribuindoTarefaIds: state.distribuindoTarefaIds.filter(id => id !== action.payload.id),
+                entitiesId: entitiesId,
+                pagination: {
+                    ...state.pagination,
+                    total: total
+                },
+                error: action.payload.error
+            };
+        }
+
+        case TarefasActions.DISTRIBUIR_TAREFA_CANCEL: {
+            return {
+                ...state,
+                distribuindoTarefaIds: [],
+                bufferingDistribuir: state.bufferingDistribuir + 1,
+                errorDistribuir: [],
+                error: null
+            };
+        }
+
+        case TarefasActions.DISTRIBUIR_TAREFA_FLUSH: {
+            return {
+                ...state,
+                bufferingDistribuir: state.bufferingDistribuir + 1
+            };
+        }
+
+        case TarefasActions.DISTRIBUIR_TAREFA_CANCEL_SUCCESS: {
+            const navegacao = state.loaded.value.split('_');
+            let entitiesId = state.entitiesId;
+            let total = state.pagination.total;
+            // Checar se estamos visualizando tarefas do tipo coordenação
+            // E se o setor em questão é diferente do setorResponsável para onde foi distribuída a tarefa
+            if (navegacao[1] === 'coordenacao' && navegacao[2] != action.payload.setorResponsavel) {
+                // Caso afirmativo, devolver a tarefa à lista
+                entitiesId = [...entitiesId, action.payload.tarefa.id];
+                total++;
+            } else if (navegacao[1] === 'minhas-tarefas' && action.payload.usuarioResponsavel) {
+                // Devolver a tarefa à lista
+                entitiesId = [...entitiesId, action.payload.tarefa.id];
+                total++;
+            }
+
+            return {
+                ...state,
+                entitiesId: entitiesId,
+                pagination: {
+                    ...state.pagination,
+                    total: total
+                },
+            };
+        }
+
         case TarefasActions.DELETE_TAREFA: {
-            const entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefaId);
-            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefaId);
+            const entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
+            const selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id);
             return {
                 ...state,
                 entitiesId: entitiesId,

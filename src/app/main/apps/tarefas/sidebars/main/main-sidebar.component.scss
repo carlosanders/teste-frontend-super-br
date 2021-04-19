@@ -39,12 +39,55 @@ tarefas-main-sidebar {
     }
 
     > .content {
-
         display: flex;
         flex: 1 1 auto;
         flex-direction: column;
         height: 0;
         overflow-y: auto;
+
+        [dndDropzone] {
+            transition: all 300ms ease;
+            display: flex;
+            flex-direction: row;
+            flex: 1 1 auto;
+            align-items: center;
+
+            .nav-link {
+                flex: 1 1 auto;
+            }
+        }
+
+        .place-holder {
+            display: none;
+        }
+
+        [dndDropzone].custom-drag-over {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px;
+            transform: scale(1.05);
+
+            .place-holder {
+                display: flex;
+                flex: 0 0 auto;
+                align-items: flex-end;
+                align-content: flex-end;
+                align-self: center;
+            }
+        }
+
+        [dndDropzone].custom-drag-over.custom-drag-over-disabled {
+            transform: scale(1.0);
+            background-color: rgba(0, 0, 0, 0.05);
+            text-decoration: line-through;
+
+            .place-holder {
+                display: none !important;
+            }
+
+            .drag-tarefa.dndDraggingSource {
+                cursor: no-drop !important;
+            }
+        }
 
         > .progress-bar {
             flex: 0 1 auto;
@@ -81,8 +124,12 @@ tarefas-main-sidebar {
             .menu_content_label {
                 display: flex;
                 flex: 1 1 95%;
-                height: 30px;
+                height: auto;
                 align-items: center;
+
+                > .place-holder {
+                    margin-right: 2px;
+                }
 
                 > div {
                     display: flex;
@@ -111,6 +158,20 @@ tarefas-main-sidebar {
             height: auto !important;
             min-height: 32px !important;
             padding-right: 4px !important;
+
+            &.setor {
+                .menu_content_label {
+                    margin-left: 2px;
+
+                    > div {
+                        flex: 1 1 auto;
+                    }
+
+                    > .place-holder {
+                        margin-right: 12px;
+                    }
+                }
+            }
         }
 
         .menu_content.setor {
@@ -203,6 +264,19 @@ tarefas-main-sidebar {
             flex-direction: column;
             flex: 1 1 auto;
 
+            &.lotacao {
+                border: 1px solid;
+                border-radius: 0 20px 20px 0;
+
+                > section.indisponivel:before {
+                    content: '';
+                    position: absolute;
+                    border-top: 1px solid black;
+                    background: black;
+                    width: 90%;
+                }
+            }
+
             > .loading-wrapper {
                 display: flex;
                 flex-direction: column;
@@ -212,7 +286,33 @@ tarefas-main-sidebar {
                 margin-bottom: 4px;
             }
 
+            .mais-registros {
+                display: flex;
+                flex-direction: row;
+                margin-top: 4px;
+                margin-right: 2px;
+                margin-bottom: 2px;
+                width: 22px;
+                cursor: pointer;
+                align-self: center;
+                align-items: center;
 
+                span {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    position: relative;
+                    width: 22px;
+                    min-width: 22px;
+                    max-width: 22px;
+                    height: 22px;
+                    border-radius: 100%;
+                    border: 2px solid;
+                    font-weight: bold;
+                    font-size: 12px;
+                    z-index: 10;
+                }
+            }
         }
     }
 
@@ -238,12 +338,38 @@ section.setor, section.unidade, section.orgao-central, section.lotacao {
     margin-left: 12px;
     margin-bottom: 4px;
     display: flex;
-    flex-direction: column;
     flex: 1 1 auto;
     align-content: center;
     align-items: flex-start;
     justify-content: space-between;
     white-space: pre-wrap;
+
+    &.lotacao {
+        margin: 0;
+        padding-left: 12px;
+        padding-bottom: 4px;
+        padding-top: 4px;
+
+        &:first-of-type {
+            border-radius: 0 30px 0 0;
+        }
+
+        &:last-of-type {
+            border-radius: 0 0 30px 0;
+        }
+
+        > div.nav-link-badge {
+            flex: 1 1 auto;
+
+            > span.nome-usuario {
+                flex: 0.95 1;
+            }
+
+            > .place-holder {
+                margin-right: 14px;
+            }
+        }
+    }
 
     > div {
         display: flex;
@@ -251,6 +377,7 @@ section.setor, section.unidade, section.orgao-central, section.lotacao {
         align-items: center;
         flex-wrap: nowrap;
         white-space: pre-wrap;
+        align-self: center;
 
         mat-icon {
             margin-right: 8px;

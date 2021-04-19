@@ -20,7 +20,7 @@ export const RootSetorInitialState: RootSetorState = {
     entitiesId: [],
     unidadeId: null,
     pagination: {
-        limit: 0,
+        limit: 10,
         offset: 0,
         filter: {},
         gridFilter: {},
@@ -59,8 +59,7 @@ export function RootSetorReducer(
         case RootSetorActions.GET_SETORES_SUCCESS: {
             return {
                 ...state,
-                unidadeId: action.payload.unidadeId,
-                entitiesId: action.payload.entitiesId,
+                entitiesId: [...state.entitiesId, ...action.payload.entitiesId],
                 pagination: {
                     ...state.pagination,
                     total: action.payload.total
@@ -74,6 +73,12 @@ export function RootSetorReducer(
                 ...state,
                 unidadeId: null,
                 loading: false
+            };
+        }
+
+        case RootSetorActions.UNLOAD_SETORES: {
+            return {
+                ...RootSetorInitialState
             };
         }
 

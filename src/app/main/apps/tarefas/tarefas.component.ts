@@ -25,7 +25,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
@@ -126,6 +126,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     usuarioAtual: Usuario
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _cdkTranslationLoaderService
@@ -135,6 +136,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _loginService
      * @param _dynamicService
      * @param _snackBar
+     * @param _matDialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -239,6 +241,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.routerState$.pipe(
+            distinctUntilChanged(),
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
             this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);

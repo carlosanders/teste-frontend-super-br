@@ -14,16 +14,13 @@ export interface RootLotacaoListState {
         total: number;
     };
     loading: boolean;
-    loaded: any;
-    deletingIds: number[];
-    deletedIds: number[];
 }
 
 export const RootLotacaoListInitialState: RootLotacaoListState = {
     entitiesId: [],
-    setorId: 0,
+    setorId: null,
     pagination: {
-        limit: 0,
+        limit: 10,
         offset: 0,
         filter: {},
         gridFilter: {},
@@ -33,9 +30,6 @@ export const RootLotacaoListInitialState: RootLotacaoListState = {
         total: 0,
     },
     loading: false,
-    loaded: false,
-    deletedIds: [],
-    deletingIds: []
 };
 
 export function RootLotacaoListReducer(
@@ -64,35 +58,35 @@ export function RootLotacaoListReducer(
 
         case RootLotacaoListActions.GET_LOTACOES_SUCCESS: {
 
-            const loaded = action.payload.loaded;
-
             return {
                 ...state,
-                setorId: action.payload.setorId,
-                entitiesId: action.payload.entitiesId,
+                entitiesId: [...state.entitiesId, ...action.payload.entitiesId],
                 pagination: {
                     ...state.pagination,
                     total: action.payload.total
                 },
-                loading: false,
-                loaded
+                loading: false
             };
         }
 
         case RootLotacaoListActions.RELOAD_LOTACOES: {
             return {
                 ...state,
-                loading: false,
-                loaded: false
+                loading: false
             };
         }
 
         case RootLotacaoListActions.GET_LOTACOES_FAILED: {
             return {
                 ...state,
-                setorId: 0,
-                loading: false,
-                loaded: false
+                setorId: null,
+                loading: false
+            };
+        }
+
+        case RootLotacaoListActions.UNLOAD_LOTACOES: {
+            return {
+                ...RootLotacaoListInitialState
             };
         }
 

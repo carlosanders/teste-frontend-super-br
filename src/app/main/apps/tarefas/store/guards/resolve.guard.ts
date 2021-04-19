@@ -19,6 +19,8 @@ export class ResolveGuard implements CanActivate {
     private _profile: Usuario;
     routerState: any;
 
+    loadingTarefas: boolean = false;
+
     /**
      *
      * @param _store
@@ -97,11 +99,10 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getTarefasLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
+                if (!this.loadingTarefas && (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
                     !this.routerState.params['targetHandle'] ||
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] +
-                     '_' + this.routerState.params['targetHandle']) !==
-                    loaded.value) {
+                     '_' + this.routerState.params['targetHandle']) !== loaded.value)) {
 
                     this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
 
@@ -220,14 +221,15 @@ export class ResolveGuard implements CanActivate {
 
                     this._store.dispatch(new fromStore.GetTarefas(params));
                     this._store.dispatch(new fromStore.ChangeSelectedTarefas([]));
+                    this.loadingTarefas = true;
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
+                return this.loadingTarefas || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
                     this.routerState.params['targetHandle'] &&
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
                         this.routerState.params['targetHandle']) ===
-                    loaded.value;
+                    loaded.value);
             }),
             take(1)
         );

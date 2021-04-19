@@ -109,17 +109,9 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
             });
             if (!this.loteAtual) {
                 if (this.filtros.value !== 'todas') {
-                    if (this.loteAtual) {
-                        this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == this.filtros.value);
-                    } else {
-                        this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == this.filtros.value);
-                    }
+                    this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == this.filtros.value);
                 } else {
-                    if (this.loteAtual) {
-                        this.displayedOperacoes = this.operacoes;
-                    } else {
-                        this.displayedOperacoes = this.operacoes;
-                    }
+                    this.displayedOperacoes = this.operacoes;
                 }
             }
             this._changeDetectorRef.markForCheck();
@@ -133,11 +125,7 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
 
         this.loteAtual$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(lote => {
-            if (lote) {
-                this.loteAtual = this.lotes[lote];
-            }
-        });
+        ).subscribe(lote => this.loteAtual = !!lote ? this.lotes[lote] : null);
 
         this.operacoesLoteAtual$.pipe(
             takeUntil(this._unsubscribeAll),
@@ -148,17 +136,15 @@ export class QuickPanelComponent implements OnInit, OnDestroy {
             });
             if (this.loteAtual) {
                 if (this.filtros.value !== 'todas') {
-                    if (this.loteAtual) {
-                        this.displayedOperacoes = this.operacoesLoteAtual.filter(operacao => operacao.status == this.filtros.value);
-                    } else {
-                        this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == this.filtros.value);
-                    }
+                    this.displayedOperacoes = this.operacoesLoteAtual.filter(operacao => operacao.status == this.filtros.value);
                 } else {
-                    if (this.loteAtual) {
-                        this.displayedOperacoes = this.operacoesLoteAtual;
-                    } else {
-                        this.displayedOperacoes = this.operacoes;
-                    }
+                    this.displayedOperacoes = this.operacoesLoteAtual;
+                }
+            } else {
+                if (this.filtros.value !== 'todas') {
+                    this.displayedOperacoes = this.operacoes.filter(operacao => operacao.status == this.filtros.value);
+                } else {
+                    this.displayedOperacoes = this.operacoes;
                 }
             }
             this._changeDetectorRef.markForCheck();

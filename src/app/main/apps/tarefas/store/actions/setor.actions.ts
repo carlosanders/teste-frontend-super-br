@@ -4,6 +4,8 @@ export const GET_SETORES = '[TAREFAS COORDENADORES LIST] GET SETORES';
 export const GET_SETORES_SUCCESS = '[TAREFAS COORDENADORES LIST] GET SETORES SUCCESS';
 export const GET_SETORES_FAILED = '[TAREFAS COORDENADORES LIST] GET SETORES FAILED';
 
+export const UNLOAD_SETORES = '[TAREFAS COORDENADORES LIST] UNLOAD SETORES';
+
 /**
  * Get Setores
  */
@@ -40,7 +42,20 @@ export class GetSetoresFailed implements Action
     }
 }
 
+/**
+ * Unload Setores
+ */
+export class UnloadSetores implements Action
+{
+    readonly type = UNLOAD_SETORES;
+
+    constructor()
+    {
+    }
+}
+
 export type RootSetorActionsAll
     = GetSetores
     | GetSetoresSuccess
-    | GetSetoresFailed;
+    | GetSetoresFailed
+    | UnloadSetores;

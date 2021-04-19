@@ -21,6 +21,8 @@ export class ResolveGuard implements CanActivate {
     private pessoasConveniadas: VinculacaoPessoaUsuario[];
     routerState: any;
 
+    loading: boolean = false;
+
     /**
      *
      * @param _store
@@ -85,8 +87,8 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getDocumentosAvulsoLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params['oficioTargetHandle'] || !this.routerState.params['pessoaHandle']
-                    || this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] !== loaded.value) {
+                if (!this.loading && (!this.routerState.params['oficioTargetHandle'] || !this.routerState.params['pessoaHandle']
+                    || this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] !== loaded.value)) {
 
                     this._store.dispatch(new fromStore.UnloadDocumentosAvulso({reset: true}));
 
@@ -141,11 +143,12 @@ export class ResolveGuard implements CanActivate {
 
                     this._store.dispatch(new fromStore.GetDocumentosAvulso(params));
                     this._store.dispatch(new fromStore.ChangeSelectedDocumentosAvulso([]));
+                    this.loading = true;
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] === loaded.value
-                    && this.routerState.params['oficioTargetHandle'];
+                return this.loading || (this.routerState.params['oficioTargetHandle'] + '_' + this.routerState.params['pessoaHandle'] === loaded.value
+                    && this.routerState.params['oficioTargetHandle']);
             }),
             take(1)
         );

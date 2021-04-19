@@ -23,6 +23,11 @@ export const getUnidades = createSelector(
     schemaSelectors.entitiesProjector
 );
 
+export const getPaginationUnidades = createSelector(
+    getRootUnidadeState,
+    (state: RootUnidadeState) => state.pagination
+);
+
 export const getOrgaoCentralId = createSelector(
     getRootUnidadeState,
     (state: RootUnidadeState) => state.orgaoCentralId

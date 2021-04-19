@@ -20,7 +20,7 @@ export const RootUnidadeInitialState: RootUnidadeState = {
     entitiesId: [],
     orgaoCentralId: null,
     pagination: {
-        limit: 0,
+        limit: 10,
         offset: 0,
         filter: {},
         gridFilter: {},
@@ -59,8 +59,7 @@ export function RootUnidadeReducer(
         case RootUnidadeActions.GET_UNIDADES_SUCCESS: {
             return {
                 ...state,
-                orgaoCentralId: action.payload.orgaoCentralId,
-                entitiesId: action.payload.entitiesId,
+                entitiesId: [...state.entitiesId, ...action.payload.entitiesId],
                 pagination: {
                     ...state.pagination,
                     total: action.payload.total
@@ -74,6 +73,12 @@ export function RootUnidadeReducer(
                 ...state,
                 orgaoCentralId: null,
                 loading: false
+            };
+        }
+
+        case RootUnidadeActions.UNLOAD_UNIDADES: {
+            return {
+                ...RootUnidadeInitialState
             };
         }
 
