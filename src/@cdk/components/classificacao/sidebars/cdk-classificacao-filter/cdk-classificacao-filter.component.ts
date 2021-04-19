@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    EventEmitter,
-    OnInit,
-    ViewEncapsulation,
-    Component,
-    Output,
-    Input
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -19,21 +11,16 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkClassificacaoFilterComponent implements OnInit {
+export class CdkClassificacaoFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    filters: any = {};
-
     @Input()
     mode = 'list';
 
-    /**
-     * Constructor
-     */
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -53,258 +40,114 @@ export class CdkClassificacaoFilterComponent implements OnInit {
             permissaoUso: [null],
             observacao: [null],
             parent: [null],
-            ativo: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
-        });
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('nome').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({nome: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('nome')) {
-                        delete this.filters['nome'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('prazoGuardaFaseCorrenteEvento').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    prazoGuardaFaseCorrenteEvento: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('prazoGuardaFaseIntermediariaEvento').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    prazoGuardaFaseIntermediariaEvento: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('codigo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    codigo: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('observacao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    observacao: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('prazoGuardaFaseCorrenteAno').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    prazoGuardaFaseCorrenteAno: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('prazoGuardaFaseCorrenteMes').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    prazoGuardaFaseCorrenteMes: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('prazoGuardaFaseCorrenteDia').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    prazoGuardaFaseCorrenteDia: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('prazoGuardaFaseIntermediariaAno').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    prazoGuardaFaseIntermediariaAno: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('prazoGuardaFaseIntermediariaMes').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    prazoGuardaFaseIntermediariaMes: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('prazoGuardaFaseIntermediariaDia').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    prazoGuardaFaseIntermediariaDia: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('permissaoUso').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    permissaoUso: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('parent').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'parent.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('parent.id')) {
-                        delete this.filters['parent.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('modalidadeDestinacao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'modalidadeDestinacao.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('modalidadeDestinacao.id')) {
-                        delete this.filters['modalidadeDestinacao.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('ativo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    ativo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
-                    }
-                }
-            }
         });
     }
 
     emite(): void {
+        const andXFilter = {};
+
+        if (this.form.get('nome').value) {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['nome'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('prazoGuardaFaseCorrenteEvento').value) {
+            this.form.get('prazoGuardaFaseCorrenteEvento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['prazoGuardaFaseCorrenteEvento'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('prazoGuardaFaseIntermediariaEvento').value) {
+            this.form.get('prazoGuardaFaseIntermediariaEvento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['prazoGuardaFaseIntermediariaEvento'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('codigo').value) {
+            this.form.get('codigo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['codigo'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('observacao').value) {
+            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['observacao'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('prazoGuardaFaseCorrenteAno').value) {
+            this.form.get('prazoGuardaFaseCorrenteAno').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['prazoGuardaFaseCorrenteAno'] = `eq:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('prazoGuardaFaseCorrenteMes').value) {
+            this.form.get('prazoGuardaFaseCorrenteMes').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['prazoGuardaFaseCorrenteMes'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('prazoGuardaFaseCorrenteDia').value) {
+            this.form.get('prazoGuardaFaseCorrenteDia').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['prazoGuardaFaseCorrenteDia'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('prazoGuardaFaseIntermediariaAno').value) {
+            this.form.get('prazoGuardaFaseIntermediariaAno').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['prazoGuardaFaseIntermediariaAno'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('prazoGuardaFaseIntermediariaMes').value) {
+            this.form.get('prazoGuardaFaseIntermediariaMes').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['prazoGuardaFaseIntermediariaMes'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('prazoGuardaFaseIntermediariaDia').value) {
+            this.form.get('prazoGuardaFaseIntermediariaDia').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['prazoGuardaFaseIntermediariaDia'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('parent').value) {
+            andXFilter['parent.id'] = `eq:${this.form.get('parent').value.id}`;
+        }
+
+        if (this.form.get('modalidadeDestinacao').value) {
+            andXFilter['modalidadeDestinacao.id'] = `eq:${this.form.get('modalidadeDestinacao').value.id}`;
+        }
+
+        if (this.form.get('criadoEm').value) {
+            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+        }
+
+        if (this.form.get('atualizadoEm').value) {
+            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+        }
+
         const request = {
-            filters: this.filters
+            filters: {},
         };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = [andXFilter];
+        }
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-classificacao-filter').close();
     }
@@ -314,9 +157,8 @@ export class CdkClassificacaoFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = {};
-        this.emite();
         this.form.reset();
+        this.emite();
     }
 }
 

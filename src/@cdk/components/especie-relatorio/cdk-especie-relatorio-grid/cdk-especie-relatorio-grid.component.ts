@@ -36,6 +36,9 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
     total = 0;
 
     @Input()
+    mode = 'list';
+
+    @Input()
     displayedColumns: string[] = ['select', 'id', 'nome', 'descricao', 'generoRelatorio.nome', 'actions'];
 
     allColumns: any[] = [
@@ -214,7 +217,7 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
     }
 
     toggleFilter(): void {
-        this._cdkSidebarService.getSidebar('cdk-especie-relatorio-main-sidebar').toggleOpen();
+        this._cdkSidebarService.getSidebar('cdk-especie-relatorio-filter').toggleOpen();
         this.showFilter = !this.showFilter;
     }
 
@@ -291,7 +294,7 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
         this.isIndeterminate = (this.selectedIds.length !== this.especieRelatorios.length && this.selectedIds.length > 0);
     }
 
-    setGridFilter(gridFilter): void {
+    setFilter(gridFilter): void {
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
         this.loadPage();

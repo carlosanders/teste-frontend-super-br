@@ -1,17 +1,17 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {CdkSidebarService} from "../../../sidebar/sidebar.service";
 
 @Component({
-    selector: 'cdk-documento-identificador-filter',
-    templateUrl: './cdk-documento-identificador-filter.component.html',
-    styleUrls: ['./cdk-documento-identificador-filter.component.scss'],
+    selector: 'cdk-especie-relatorio-filter',
+    templateUrl: './cdk-especie-relatorio-filter.component.html',
+    styleUrls: ['./cdk-especie-relatorio-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkDocumentoIdentificadorFilterComponent {
+export class CdkEspecieRelatorioFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
@@ -26,48 +26,33 @@ export class CdkDocumentoIdentificadorFilterComponent {
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
-            codigoDocumento: [null],
-            emissorDocumento: [null],
-            dataEmissao: [null],
-            modalidadeDocumentoIdentificador: [null],
-            origemDados: [null],
-            pessoa: [null],
+            nome: [null],
+            descricao: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
+            generoRelatorio: [null],
         });
     }
 
     emite(): void {
         const andXFilter = {};
 
-        if (this.form.get('codigoDocumento').value) {
-            this.form.get('codigoDocumento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['codigoDocumento'] = `like:%${bit}%`;
+        if (this.form.get('nome').value) {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['nome'] = `like:%${bit}%`;
             });
         }
 
-        if (this.form.get('emissorDocumento').value) {
-            this.form.get('emissorDocumento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['emissorDocumento'] = `like:%${bit}%`;
+        if (this.form.get('descricao').value) {
+            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['descricao'] = `like:%${bit}%`;
             });
         }
 
-        if (this.form.get('modalidadeDocumentoIdentificador').value) {
-            andXFilter['modalidadeDocumentoIdentificador.id'] = `eq:${this.form.get('modalidadeDocumentoIdentificador').value.id}`;
-        }
-
-        if (this.form.get('origemDados').value) {
-            andXFilter['origemDados.id'] = `eq:${this.form.get('origemDados').value.id}`;
-        }
-
-        if (this.form.get('pessoa').value) {
-            andXFilter['pessoa.id'] = `eq:${this.form.get('pessoa').value.id}`;
-        }
-
-        if (this.form.get('dataEmissao').value) {
-            andXFilter['dataEmissao'] = `eq:${this.form.get('dataEmissao').value}`;
+        if (this.form.get('generoRelatorio').value) {
+            andXFilter['generoRelatorio.id'] = `eq:${this.form.get('generoRelatorio').value.id}`;
         }
 
         if (this.form.get('criadoEm').value) {
@@ -95,7 +80,7 @@ export class CdkDocumentoIdentificadorFilterComponent {
         }
 
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-documento-identificador-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-especie-relatorio-filter').close();
     }
 
     buscar(): void {

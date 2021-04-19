@@ -49,9 +49,6 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
 
     filtroEm: any = [];
 
-    /**
-     * Constructor
-     */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder

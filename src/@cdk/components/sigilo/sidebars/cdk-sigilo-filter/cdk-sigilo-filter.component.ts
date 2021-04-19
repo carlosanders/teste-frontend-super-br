@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    EventEmitter,
-    OnInit,
-    ViewEncapsulation,
-    Component,
-    Output,
-    Input
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -19,21 +11,16 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkSigiloFilterComponent implements OnInit {
+export class CdkSigiloFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    filters: any = {};
-
     @Input()
     mode = 'list';
 
-    /**
-     * Constructor
-     */
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -56,283 +43,94 @@ export class CdkSigiloFilterComponent implements OnInit {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
-        });
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('observacao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({observacao: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('observacao')) {
-                        delete this.filters['observacao'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('codigoIndexacao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({codigoIndexacao: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('codigoIndexacao')) {
-                        delete this.filters['codigoIndexacao'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('fundamentoLegal').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({fundamentoLegal: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('fundamentoLegal')) {
-                        delete this.filters['fundamentoLegal'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('razoesClassificacaoSigilo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({razoesClassificacaoSigilo: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('razoesClassificacaoSigilo')) {
-                        delete this.filters['razoesClassificacaoSigilo'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('nivelAcesso').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    nivelAcesso: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('desclassificado').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    desclassificado: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraValidadeSigilo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraValidadeSigilo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('dataHoraInicioSigilo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    dataHoraInicioSigilo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('modalidadeCategoriaSigilo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'modalidadeCategoriaSigilo.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('modalidadeCategoriaSigilo.id')) {
-                        delete this.filters['modalidadeCategoriaSigilo.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('tipoSigilo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'tipoSigilo.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('tipoSigilo.id')) {
-                        delete this.filters['tipoSigilo.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('processo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'processo.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('processo.id')) {
-                        delete this.filters['processo.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('documento').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'documento.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('documento.id')) {
-                        delete this.filters['documento.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('origemDados').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'origemDados.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('origemDados.id')) {
-                        delete this.filters['origemDados.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
-                    }
-                }
-            }
         });
     }
 
     emite(): void {
+        const andXFilter = {};
+
+        if (this.form.get('observacao').value) {
+            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['observacao'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('codigoIndexacao').value) {
+            this.form.get('codigoIndexacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['codigoIndexacao'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('fundamentoLegal').value) {
+            this.form.get('fundamentoLegal').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['fundamentoLegal'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('razoesClassificacaoSigilo').value) {
+            this.form.get('razoesClassificacaoSigilo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['razoesClassificacaoSigilo'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('nivelAcesso').value) {
+            this.form.get('nivelAcesso').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['nivelAcesso'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('modalidadeCategoriaSigilo').value) {
+            andXFilter['modalidadeCategoriaSigilo.id'] = `eq:${this.form.get('modalidadeCategoriaSigilo').value.id}`;
+        }
+
+        if (this.form.get('tipoSigilo').value) {
+            andXFilter['tipoSigilo.id'] = `eq:${this.form.get('tipoSigilo').value.id}`;
+        }
+
+        if (this.form.get('processo').value) {
+            andXFilter['processo.id'] = `eq:${this.form.get('processo').value.id}`;
+        }
+
+        if (this.form.get('documento').value) {
+            andXFilter['documento.id'] = `eq:${this.form.get('documento').value.id}`;
+        }
+
+        if (this.form.get('origemDados').value) {
+            andXFilter['origemDados.id'] = `eq:${this.form.get('origemDados').value.id}`;
+        }
+
+        if (this.form.get('dataHoraValidadeSigilo').value) {
+            andXFilter['dataHoraValidadeSigilo'] = `eq:${this.form.get('dataHoraValidadeSigilo').value}`;
+        }
+
+        if (this.form.get('dataHoraInicioSigilo').value) {
+            andXFilter['dataHoraInicioSigilo'] = `eq:${this.form.get('criadoEm').value}`;
+        }
+
+        if (this.form.get('criadoEm').value) {
+            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+        }
+
+        if (this.form.get('atualizadoEm').value) {
+            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+        }
+
         const request = {
-            filters: this.filters
+            filters: {},
         };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = [andXFilter];
+        }
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-sigilo-filter').close();
     }
@@ -342,9 +140,8 @@ export class CdkSigiloFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = {};
-        this.emite();
         this.form.reset();
+        this.emite();
     }
 }
 
