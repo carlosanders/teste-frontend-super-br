@@ -1187,7 +1187,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     processaGrupoContato(grupoContato): void {
-        console.log(grupoContato);
         grupoContato.contatos.forEach(contato => {
             if (this.form.get('distribuicaoAutomatica').value && contato.setor) {
                 const findDuplicate = this.blocoResponsaveis.some(item => (item.setor.id === contato.setor.id));
