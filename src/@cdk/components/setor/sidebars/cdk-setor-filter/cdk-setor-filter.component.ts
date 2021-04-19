@@ -1,12 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    EventEmitter,
-    OnInit,
-    ViewEncapsulation,
-    Component,
-    Output,
-    Input
-} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
@@ -19,21 +11,16 @@ import {CdkSidebarService} from '../../../sidebar/sidebar.service';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkSetorFilterComponent implements OnInit {
+export class CdkSetorFilterComponent {
 
     @Output()
     selected = new EventEmitter<any>();
 
     form: FormGroup;
 
-    filters: any = {};
-
     @Input()
     mode = 'list';
 
-    /**
-     * Constructor
-     */
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -42,7 +29,6 @@ export class CdkSetorFilterComponent implements OnInit {
             nome: [null],
             especieSetor: [null],
             generoSetor: [null],
-            ativo: [null],
             modalidadeOrgaoCentral: [null],
             endereco: [null],
             email: [null],
@@ -63,368 +49,106 @@ export class CdkSetorFilterComponent implements OnInit {
             criadoEm: [null],
             atualizadoPor: [null],
             atualizadoEm: [null],
-            apagadoPor: [null],
-            apagadoEm: [null],
-        });
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
-    ngOnInit(): void {
-        this.form.get('nome').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({nome: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('nome')) {
-                        delete this.filters['nome'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('endereco').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({endereco: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('endereco')) {
-                        delete this.filters['endereco'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('email').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({email: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('email')) {
-                        delete this.filters['email'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('sigla').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({sigla: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('sigla')) {
-                        delete this.filters['sigla'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('prefixoNUP').valueChanges.subscribe(value => {
-            if (value !== null) {
-                const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                    andxFilter.push({prefixoNUP: `like:%${bit}%`});
-                });
-                if (andxFilter.length > 0) {
-                    this.filters = {
-                        ...this.filters,
-                        andX: andxFilter
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('prefixoNUP')) {
-                        delete this.filters['prefixoNUP'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('prazoEqualizacao').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    prazoEqualizacao: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('sequenciaInicialNUP').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    sequenciaInicialNUP: `like:${value}%`
-                };
-            }
-        });
-
-        this.form.get('apenasProtocolo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apenasProtocolo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apenasDistribuidor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apenasDistribuidor: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('ativo').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    ativo: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('gerenciamento').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    gerenciamento: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('numeracaoDocumentoUnidade').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    numeracaoDocumentoUnidade: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('distribuicaoCentena').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    distribuicaoCentena: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('unidade').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'unidade.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('unidade.id')) {
-                        delete this.filters['unidade.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('parent').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'parent.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('parent.id')) {
-                        delete this.filters['parent.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('unidadePai').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'unidadePai.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('unidadePai.id')) {
-                        delete this.filters['unidadePai.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('municipio').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'municipio.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('municipio.id')) {
-                        delete this.filters['municipio.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('generoSetor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'generoSetor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('generoSetor.id')) {
-                        delete this.filters['generoSetor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('especieSetor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'especieSetor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('especieSetor.id')) {
-                        delete this.filters['especieSetor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('modalidadeOrgaoCentral').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'modalidadeOrgaoCentral.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('modalidadeOrgaoCentral.id')) {
-                        delete this.filters['modalidadeOrgaoCentral.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    criadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    atualizadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
-            if (value !== null) {
-                this.filters = {
-                    ...this.filters,
-                    apagadoEm: `eq:${value}`
-                };
-            }
-        });
-
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'criadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('criadoPor.id')) {
-                        delete this.filters['criadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'atualizadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('atualizadoPor.id')) {
-                        delete this.filters['atualizadoPor.id'];
-                    }
-                }
-            }
-        });
-
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
-            if (value !== null) {
-                if (typeof value === 'object' && value) {
-                    this.filters = {
-                        ...this.filters,
-                        'apagadoPor.id': `eq:${value.id}`
-                    };
-                } else {
-                    if (this.filters.hasOwnProperty('apagadoPor.id')) {
-                        delete this.filters['apagadoPor.id'];
-                    }
-                }
-            }
         });
     }
 
     emite(): void {
+        const andXFilter = {};
+
+        if (this.form.get('nome').value) {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['nome'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('endereco').value) {
+            this.form.get('endereco').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['endereco'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('email').value) {
+            this.form.get('email').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['email'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('sigla').value) {
+            this.form.get('sigla').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['sigla'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('prefixoNUP').value) {
+            this.form.get('prefixoNUP').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['prefixoNUP'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('prazoEqualizacao').value) {
+            this.form.get('prazoEqualizacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['prazoEqualizacao'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('sequenciaInicialNUP').value) {
+            this.form.get('sequenciaInicialNUP').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter['sequenciaInicialNUP'] = `like:%${bit}%`;
+            });
+        }
+
+        if (this.form.get('unidade').value) {
+            andXFilter['unidade.id'] = `eq:${this.form.get('unidade').value.id}`;
+        }
+
+        if (this.form.get('parent').value) {
+            andXFilter['parent.id'] = `eq:${this.form.get('parent').value.id}`;
+        }
+
+        if (this.form.get('unidadePai').value) {
+            andXFilter['unidadePai.id'] = `eq:${this.form.get('unidadePai').value.id}`;
+        }
+
+        if (this.form.get('municipio').value) {
+            andXFilter['municipio.id'] = `eq:${this.form.get('municipio').value.id}`;
+        }
+
+        if (this.form.get('generoSetor').value) {
+            andXFilter['generoSetor.id'] = `eq:${this.form.get('generoSetor').value.id}`;
+        }
+
+        if (this.form.get('especieSetor').value) {
+            andXFilter['especieSetor.id'] = `eq:${this.form.get('especieSetor').value.id}`;
+        }
+
+        if (this.form.get('modalidadeOrgaoCentral').value) {
+            andXFilter['modalidadeOrgaoCentral.id'] = `eq:${this.form.get('modalidadeOrgaoCentral').value.id}`;
+        }
+
+        if (this.form.get('criadoEm').value) {
+            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+        }
+
+        if (this.form.get('atualizadoEm').value) {
+            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+        }
+
+        if (this.form.get('criadoPor').value) {
+            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+        }
+
+        if (this.form.get('atualizadoPor').value) {
+            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+        }
+
         const request = {
-            filters: this.filters
+            filters: {},
         };
+
+        if (Object.keys(andXFilter).length) {
+            request['filters']['andX'] = [andXFilter];
+        }
+
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-setor-filter').close();
     }
@@ -434,8 +158,7 @@ export class CdkSetorFilterComponent implements OnInit {
     }
 
     limpar(): void {
-        this.filters = {};
-        this.emite();
         this.form.reset();
+        this.emite();
     }
 }

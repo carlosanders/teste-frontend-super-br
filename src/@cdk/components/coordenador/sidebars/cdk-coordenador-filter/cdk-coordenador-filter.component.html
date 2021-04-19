@@ -14,7 +14,6 @@
                    formControlName="orgaoCentral"
                    [matAutocomplete]="orgaoCentral.autocomplete">
             <cdk-modalidade-orgao-central-autocomplete #orgaoCentral="modalidadeOrgaoCentralAutocomplete"
-                                                       [pagination]="orgaoCentralPagination"
                                                        [control]="form.get('orgaoCentral')">
             </cdk-modalidade-orgao-central-autocomplete>
         </mat-form-field>
@@ -23,7 +22,7 @@
             <input matInput placeholder="Unidade"
                    formControlName="unidade"
                    [matAutocomplete]="unidade.autocomplete">
-            <cdk-setor-autocomplete #unidade="setorAutocomplete" [pagination]="unidadePagination"
+            <cdk-setor-autocomplete #unidade="setorAutocomplete"
                                     [control]="form.get('unidade')">
             </cdk-setor-autocomplete>
         </mat-form-field>
@@ -32,7 +31,7 @@
             <input matInput placeholder="Setor"
                    formControlName="setor"
                    [matAutocomplete]="setor.autocomplete">
-            <cdk-setor-autocomplete #setor="setorAutocomplete" [pagination]="setorPagination"
+            <cdk-setor-autocomplete #setor="setorAutocomplete"
                                     [control]="form.get('setor')">
             </cdk-setor-autocomplete>
         </mat-form-field>
@@ -41,7 +40,7 @@
             <input matInput placeholder="Usuário"
                    formControlName="usuario"
                    [matAutocomplete]="usuario.autocomplete">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [pagination]="usuarioPagination"
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete"
                                       [control]="form.get('usuario')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
@@ -74,22 +73,6 @@
             <input matInput formControlName="atualizadoEm" [matDatetimepicker]="atualizadoEm">
             <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
             <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
-            </mat-datetimepicker>
-        </mat-form-field>
-
-        <mat-form-field>
-            <input matInput placeholder="Apagado Por"
-                   formControlName="apagadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
-            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('apagadoPor')">
-            </cdk-usuario-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Apagado Em</mat-label>
-            <input matInput formControlName="apagadoEm" [matDatetimepicker]="apagadoEm">
-            <mat-datetimepicker-toggle matSuffix [for]="apagadoEm"></mat-datetimepicker-toggle>
-            <mat-datetimepicker #apagadoEm type="datetime" openOnFocus="true" timeInterval="5">
             </mat-datetimepicker>
         </mat-form-field>
 

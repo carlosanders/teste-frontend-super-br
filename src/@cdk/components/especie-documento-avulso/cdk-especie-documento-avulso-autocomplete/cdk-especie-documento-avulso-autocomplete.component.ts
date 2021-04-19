@@ -63,7 +63,7 @@ export class CdkEspecieDocumentoAvulsoAutocompleteComponent implements OnInit {
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.especieDocumentoAvulsoListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             andX: andxFilter

@@ -5,7 +5,7 @@
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         (responder)="responder($event)"
-        [actions]="['edit', 'responder', 'showDeleted']"
+        [actions]="['showDeleted']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"

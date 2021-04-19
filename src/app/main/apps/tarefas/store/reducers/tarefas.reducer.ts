@@ -40,6 +40,7 @@ export interface TarefasState {
     errorDelete: number[];
     errorCiencia: number[];
     errorRedistribuir: number[];
+    clearForm: boolean;
     errorDistribuir: number[];
 }
 
@@ -81,7 +82,8 @@ export const TarefasInitialState: TarefasState = {
     errorDelete: [],
     errorCiencia: [],
     errorRedistribuir: [],
-    errorDistribuir: []
+    errorDistribuir: [],
+    clearForm: false
 };
 
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
@@ -597,6 +599,19 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             }
         }
 
+        case TarefasActions.CREATE_TAREFA: {
+            return {
+                ...state,
+                clearForm: true
+            };
+        }
+
+        case TarefasActions.CREATE_TAREFA_SUCCESS: {
+            return {
+                ...state,
+                clearForm: false
+            };
+        }
 
         default:
             return state;

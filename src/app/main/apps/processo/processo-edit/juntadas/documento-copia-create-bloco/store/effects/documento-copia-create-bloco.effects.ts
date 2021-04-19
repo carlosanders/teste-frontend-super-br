@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap} from 'rxjs/operators';
+import {catchError, concatMap, mergeMap} from 'rxjs/operators';
 
 import * as DocumentoCopiaCreateBlocoActions from '../actions/documento-copia-create-bloco.actions';
 
@@ -43,7 +43,7 @@ export class DocumentoCopiaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoCopiaCreateBlocoActions.SaveDocumentoCopia>(DocumentoCopiaCreateBlocoActions.SAVE_DOCUMENTO_COPIA),
-                mergeMap((action) => {
+                concatMap((action) => {
                     return this._documentoService.save(action.payload.documento).pipe(
                         mergeMap((response: Documento) => [
                             new DocumentoCopiaCreateBlocoActions.SaveDocumentoCopiaSuccess({juntadaId: action.payload.juntadaId, documento: action.payload.documento}),

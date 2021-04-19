@@ -27,7 +27,6 @@ import {
 } from '../processo/processo-view/store/actions';
 import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
-import {ToggleMaximizado} from '../oficios/store/actions';
 import {UnloadComponenteDigital} from './componente-digital/store';
 import * as ProcessoViewActions from "../processo/processo-view/store/actions/processo-view.actions";
 
@@ -200,6 +199,9 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                 if (editor.instances.hasOwnProperty(editorInstance) &&
                     editor.instances[editorInstance]) {
                     editor.instances[editorInstance].destroy();
+                    editor.instances[editorInstance] = {
+                        destroy: () => true,
+                    };
                 }
             }
         }

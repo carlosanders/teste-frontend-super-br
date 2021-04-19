@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Colaborador, Contato, GrupoContato, Lotacao, Tarefa} from '@cdk/models';
+import {Colaborador, GrupoContato, Lotacao, Tarefa} from '@cdk/models';
 import {EspecieTarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
@@ -143,6 +143,9 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
     generoProcessos: any[] = [];
 
+    @Input()
+    clearForm = false;
+
     /**
      * Constructor
      */
@@ -221,15 +224,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.evento = false;
 
-        this.clearValidators();
-
         if (this.form.get('processo').value && this.form.get('processo').value.NUP && this.form.get('processo').value.especieProcesso?.generoProcesso) {
             this.form.get('especieTarefa').enable();
             if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
-                this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
+                this.especieTarefaPagination.filter = {'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO'};
             } else {
                 this.especieTarefaPagination.filter = {
-                    'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
+                    'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO,' +
                         this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
                 };
             }
@@ -307,7 +308,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('setorResponsavel').reset();
                         this.form.get('usuarioResponsavel').reset();
                         this.form.get('usuarioResponsavel').disable();
-                        this.form.get('distribuicaoAutomatica').reset();
+                        // this.form.get('distribuicaoAutomatica').reset();
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
                         this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
                         this.editable = true;
@@ -373,6 +374,11 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         }
                     }
 
+                    // se for bloco de redistribuicao libera controls
+                    if (this.blocoEdit.blocoEditDistribuicao) {
+                        this.clearValidators();
+                    }
+
                     this._changeDetectorRef.markForCheck();
 
                     return of([]);
@@ -425,17 +431,17 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.processo.emit(this.form.get('processo').value);
                         this.form.get('especieTarefa').enable();
                         if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
-                            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
+                            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO'};
                         } else {
                             this.especieTarefaPagination.filter = {
-                                'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
+                                'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO,' +
                                     this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
                             };
                         }
 
                         if (this.form.get('blocoProcessos').value && this.processos.length > 0) {
                             this.especieTarefaPagination.filter = {
-                                'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
+                                'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO,' +
                                     this.generoProcessos[0].toUpperCase()
                             };
                         }
@@ -546,10 +552,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     this.especieTarefaPagination['context'] = {};
                     if (this.form.get('processo').value?.especieProcesso?.workflow) {
                         if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
-                            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
+                            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO,'};
                         } else {
                             this.especieTarefaPagination.filter = {
-                                'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
+                                'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO,' +
                                     this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
                             };
                         }
@@ -699,6 +705,13 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
+
+        // se clicar no botao de criar novamente limpa o form
+        if (this.clearForm) {
+            this.form.reset();
+            this.clearForm = false;
+        }
+
         if (changes['tarefa'] && this.tarefa && (!this.tarefa.id || (this.tarefa.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.tarefa});
 
@@ -732,14 +745,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             } catch (e) {
                 this.form.setErrors({rulesError: this.errors.error.message});
             }
-        }
-
-        if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
-                this.form.get(key).setErrors(null);
-            });
-
-            this.form.setErrors(null);
         }
 
         this._changeDetectorRef.markForCheck();
@@ -1087,12 +1092,29 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     clearValidators(): void {
-
-        if (this.valid) {
+        if (this.valid && this.mode !== 'regular') {
+            const blocoCampos = {};
+            if (this.blocoEdit.blocoEditEspecie) {
+                blocoCampos['especieTarefa'] = true;
+            }
+            if (this.blocoEdit.blocoEditDistribuicao) {
+                blocoCampos['distribuicaoAutomatica'] = true;
+                blocoCampos['unidadeResponsavel'] = true;
+                blocoCampos['setorResponsavel'] = true;
+                blocoCampos['usuarioResponsavel'] = true;
+            }
+            if (this.blocoEdit.blocoEditInicioPrazo) {
+                blocoCampos['dataHoraInicioPrazo'] = true;
+            }
+            if (this.blocoEdit.blocoEditFinalPrazo) {
+                blocoCampos['dataHoraFinalPrazo'] = true;
+            }
             const controls = this.form.controls;
             for (const name in controls) {
-                if (controls[name].invalid) {
-                    controls[name].clearValidators();
+                if (controls[name].invalid && !blocoCampos[name]) {
+                    console.log(name);
+                    this.form.get(name).clearValidators();
+                    this.form.get(name).setErrors(null);
                 }
             }
         }
@@ -1169,7 +1191,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                 const findDuplicate = this.blocoResponsaveis.some(item => (item.usuario.id === contato.usuario.id));
                 if (!findDuplicate) {
                     let usuario = contato.usuario;
-                    let setor = contato.usuario.colaborador.lotacoes[0].setor;
+                    let setor = contato.usuario.colaborador?.lotacoes[0]?.setor;
                     this.blocoResponsaveis = [...this.blocoResponsaveis, {setor, usuario}];
                 }
             }

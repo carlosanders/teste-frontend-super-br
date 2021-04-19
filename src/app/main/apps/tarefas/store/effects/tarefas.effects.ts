@@ -85,7 +85,7 @@ export class TarefasEffect {
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context));
                 }),
-                mergeMap((response) => [
+                concatMap((response) => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
                     new TarefasActions.GetTarefasSuccess({
                         entitiesId: response['entities'].map(tarefa => tarefa.id),
@@ -287,7 +287,7 @@ export class TarefasEffect {
                 ofType<TarefasActions.UndeleteTarefaSuccess>(TarefasActions.UNDELETE_TAREFA_SUCCESS),
                 tap((action) => {
                     if (this.routerState.params['targetHandle'] === 'lixeira') {
-                        this._store.dispatch(new fromStore.RemoveTarefa(action.payload.id));
+                        this._store.dispatch(new fromStore.RemoveTarefa(action.payload.tarefa.id));
                     }
                 })
             );

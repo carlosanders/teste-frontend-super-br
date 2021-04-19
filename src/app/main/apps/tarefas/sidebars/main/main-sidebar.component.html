@@ -10,9 +10,13 @@
 <!-- SIDEBAR CONTENT -->
 <div class="content" cdkPerfectScrollbar>
 
-    <div class="progress-bar">
+    <div class="progress-bar mt-8">
         <mat-progress-bar [mode]="'indeterminate'" *ngIf="(loading$ | async)"></mat-progress-bar>
     </div>
+
+    <mat-error class="m-4" *ngIf="error">
+        {{ error }}
+    </mat-error>
 
     <div class="create-button">
         <button mat-raised-button
@@ -65,6 +69,7 @@
                 </div>
             </section>
         </div>
+
         <mat-menu #menuMain="matMenu">
             <button mat-menu-item aria-label="Criar Pasta" (click)="showFolderComponent()">
                 <ng-container>

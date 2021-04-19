@@ -108,6 +108,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
      * On destroy
      */
     ngOnDestroy(): void {
+        this.remeterDocAvulso = false;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -144,6 +145,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     submit(values): void {
 
         if (!this.documento.assinado && this.documento.componentesDigitais[0].editavel) {
+            this.remeterDocAvulso = false;
             this._componenteDigitalService.doEditorSave.next(this.documento.id);
         }
 

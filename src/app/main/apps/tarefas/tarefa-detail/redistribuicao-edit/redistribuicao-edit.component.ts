@@ -32,6 +32,7 @@ import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {MatDialog} from "@cdk/angular/material";
 import {CdkVisibilidadePluginComponent} from "@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component";
 import {getTarefasProcessoRestritoValidadas} from "../../redistribuicao-edit-bloco/store";
+import {Back} from "../../../../../store";
 
 @Component({
     selector: 'redistribuicao-edit',
@@ -267,5 +268,9 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
                 this._store.dispatch(new RedistribuirTarefaFlush());
             }
         });
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new Back());
     }
 }

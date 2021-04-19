@@ -31,7 +31,6 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {NavigationEnd, Router} from '@angular/router';
-import forEach = CKEDITOR.tools.array.forEach;
 import {CounterState} from "../../../../../store/reducers/counter.reducer";
 import {MatSort} from '@cdk/angular/material';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
@@ -69,6 +68,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     unidades: Setor[] = [];
     orgaoCentralId$: Observable<number>;
     orgaoCentralId: number = null;
+
+    errors$: Observable<any>;
+    error = '';
 
     loading$: Observable<boolean>;
     orgaoCentralLoading$: Observable<boolean>
@@ -140,6 +142,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         private router: Router,
         private _snackBar: MatSnackBar
     ) {
+        this.folders$ = this._store.pipe(select(fromStore.getFolders));
+        this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.lotacoes$ = this._store.pipe(select(fromStore.getLotacaoList));
         this.setorLotacaoId$ = this._store.pipe(select(fromStore.getSetorId));
         this.unidadeId$ = this._store.pipe(select(fromStore.getUnidadeId));
@@ -252,6 +256,24 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         );
 
+        this.errors$.subscribe((errors) => {
+            this.error = '';
+            if (errors && errors.status && (errors.status === 400 || errors.status === 422)) {
+                try {
+                    const data = JSON.parse(errors.error.message);
+                    const fields = Object.keys(data || {});
+                    fields.forEach((field) => {
+                        this.error += data[field].join(' - ');
+                    });
+                } catch (e) {
+                    this.error = errors.error.message;
+                }
+            }
+
+            this._changeDetectorRef.markForCheck();
+        });
+
+        this.setoresCoordenacao = [];
         this.setores$.subscribe(
             setores => {
                 this.setores = setores;
@@ -514,7 +536,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     preencherContador() {
-        if (this.generoHandle && this.counterState) {
+        this.tarefasPendentes = [];
+        if(this.generoHandle && this.counterState) {
             if (this.folders) {
                 for (let folder of this.folders) {
                     let nomePasta = 'folder_' + this.generoHandle + '_' + folder.nome.toLowerCase();

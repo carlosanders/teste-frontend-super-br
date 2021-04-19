@@ -203,7 +203,7 @@ export class LoginEffects {
                                     return new LoginActions.GetConfigSuccess(response);
                                 }),
                                 catchError((error) => {
-                                    return of(new LoginActions.LoginProfileFailure({error: error}));
+                                    return of(new LoginActions.GetConfigFailure({error: error}));
                                 })
                             );
                     }

@@ -5,7 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, concatMap, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ProcessosActions from '../actions/protocolos-externos.actions';
@@ -59,7 +59,7 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.GetProcessos>(ProcessosActions.GET_PROCESSOS),
-                switchMap((action) => {
+                concatMap((action) => {
                     return this._processoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
@@ -72,7 +72,7 @@ export class ProcessosEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate));
                 }),
-                mergeMap((response) => [
+                concatMap((response) => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
                     new ProcessosActions.GetProcessosSuccess({
                         entitiesId: response['entities'].map(processo => processo.id),

@@ -1,5 +1,5 @@
 <div class="header">
-    <path icone="event_busy"
+    <path icone="contacts"
           [caminhoAbsoluto]="routerState.url"
           inicioCaminho="contato">
     </path>
@@ -8,6 +8,7 @@
     <cdk-contato-form
         [contato]="contato"
         [saving]="(isSaving$ | async)"
+        [unidadePagination]="unidadePagination"
         [errors]="(errors$ | async)"
         (save)="submit($event)"
         (abort)="doAbort()">

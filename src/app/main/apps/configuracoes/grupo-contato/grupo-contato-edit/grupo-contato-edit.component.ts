@@ -104,7 +104,7 @@ export class GrupoContatoEditComponent implements OnInit, OnDestroy {
         );
 
         grupoContato.usuario = this.usuario;
-
+        grupoContato.ativo = true;
         this._store.dispatch(new fromStore.SaveGrupoContato(grupoContato));
 
     }

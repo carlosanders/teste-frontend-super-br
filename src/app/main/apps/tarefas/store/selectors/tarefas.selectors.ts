@@ -119,6 +119,11 @@ export const getIsTogglingUrgenteIds = createSelector(
     (state: TarefasState) => state.togglingUrgenteIds
 );
 
+export const getIsClearForm = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.clearForm
+);
+
 export const getBufferingDistribuir = createSelector(
     getTarefasState,
     (state: TarefasState) => state.bufferingDistribuir
