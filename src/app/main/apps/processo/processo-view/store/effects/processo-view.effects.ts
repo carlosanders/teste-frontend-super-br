@@ -46,7 +46,7 @@ export class ProcessoViewEffect {
         this._actions
             .pipe(
                 ofType<ProcessoViewActions.GetJuntadas>(ProcessoViewActions.GET_JUNTADAS),
-                concatMap((action) => {
+                switchMap((action) => {
                     const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
                         chaveAcesso: this.routerState.params.chaveAcessoHandle
                     } : {};

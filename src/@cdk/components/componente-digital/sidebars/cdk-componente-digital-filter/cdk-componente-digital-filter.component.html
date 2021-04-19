@@ -64,8 +64,8 @@
         </mat-form-field>
 
         <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
-            <span [ngClass]="{'filtrado': filterCriadoEm.length}">Criado Em</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': filterCriadoEm.length}">
+            <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': filterCriadoEm?.length}">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>
@@ -77,8 +77,8 @@
         </mat-menu>
 
         <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
-            <span [ngClass]="{'filtrado': filterJuntadoEm.length}">Juntado Em</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroJuntadoEm" [ngClass]="{'filtrado': filterJuntadoEm.length}">
+            <span [ngClass]="{'filtrado': filterJuntadoEm?.length}">Juntado Em</span>
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroJuntadoEm" [ngClass]="{'filtrado': filterJuntadoEm?.length}">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>

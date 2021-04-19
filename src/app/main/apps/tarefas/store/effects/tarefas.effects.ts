@@ -63,7 +63,7 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.GetTarefas>(TarefasActions.GET_TAREFAS),
-                concatMap((action) => {
+                switchMap((action) => {
                     return this._tarefaService.query(
                         JSON.stringify({
                             ...action.payload.filter,

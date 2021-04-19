@@ -135,13 +135,13 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             andXFilter.push({'usuarioConclusaoPrazo.id': `eq:${this.form.get('usuarioConclusaoPrazo').value.id}`});
         }
 
-        if (this.filterCriadoEm.length) {
+        if (this.filterCriadoEm?.length) {
             this.filterCriadoEm.forEach((filter) => {
                 andXFilter.push(filter);
             });
         }
 
-        if (this.filterAtualizadoEm.length) {
+        if (this.filterAtualizadoEm?.length) {
             this.filterAtualizadoEm.forEach((filter) => {
                 andXFilter.push(filter);
             });

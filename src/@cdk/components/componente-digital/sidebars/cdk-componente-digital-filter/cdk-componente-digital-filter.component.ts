@@ -76,7 +76,7 @@ export class CdkComponenteDigitalFilterComponent {
             andXFilter.push({'documento.juntadaAtual.criadoPor.id': `eq:${this.form.get('juntadoPor').value.id}`});
         }
 
-        if (this.filterJuntadoEm.length) {
+        if (this.filterJuntadoEm?.length) {
             this.filterJuntadoEm.forEach((filter) => {
                 andXFilter.push(filter);
             });
@@ -86,7 +86,7 @@ export class CdkComponenteDigitalFilterComponent {
             andXFilter.push({'editavel': `eq:${this.form.get('editavel').value}`});
         }
 
-        if (this.filterCriadoEm.length) {
+        if (this.filterCriadoEm?.length) {
             this.filterCriadoEm.forEach((filter) => {
                 andXFilter.push(filter);
             });

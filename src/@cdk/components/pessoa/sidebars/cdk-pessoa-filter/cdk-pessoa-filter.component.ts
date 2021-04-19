@@ -76,13 +76,13 @@ export class CdkPessoaFilterComponent {
             andXFilter.push({'modalidadeQualificacaoPessoa.id': `eq:${this.form.get('modalidadeQualificacaoPessoa').value.id}`});
         }
 
-        if (this.filterDataObito.length) {
+        if (this.filterDataObito?.length) {
             this.filterDataObito.forEach((filter) => {
                 andXFilter.push(filter);
             });
         }
 
-        if (this.filterDataNascimento.length) {
+        if (this.filterDataNascimento?.length) {
             this.filterDataNascimento.forEach((filter) => {
                 andXFilter.push(filter);
             });
