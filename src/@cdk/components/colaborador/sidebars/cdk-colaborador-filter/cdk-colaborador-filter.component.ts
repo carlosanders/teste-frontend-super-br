@@ -192,7 +192,7 @@ export class CdkColaboradorFilterComponent implements OnInit {
             filters: this.filters
         };
         this.selected.emit(request);
-        this._cdkSidebarService.getSidebar('cdk-classificacao-filter').close();
+        this._cdkSidebarService.getSidebar('cdk-colaborador-filter').close();
     }
 
     buscar(): void {

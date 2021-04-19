@@ -88,7 +88,19 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
     reload(params): void {
         this._store.dispatch(new fromStore.GetComponentesDigitais({
             ...this.pagination,
-            gridFilter: params.gridFilter
+            filter: {
+                ...this.pagination.filter,
+            },
+            gridFilter: {
+                ...params.gridFilter
+            },
+            sort: params.sort,
+            limit: params.limit,
+            offset: params.offset,
+            populate: this.pagination.populate,
+            context: {
+                ...params.context
+            }
         }));
     }
 
