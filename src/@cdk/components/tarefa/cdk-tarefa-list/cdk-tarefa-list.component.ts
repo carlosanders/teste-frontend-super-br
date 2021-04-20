@@ -168,6 +168,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Output()
     criaRelatorio = new EventEmitter<boolean>();
 
+    @Output()
+    setDraggedTarefasIds = new EventEmitter<number[]>();
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -176,6 +179,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     errorDelete: number[] = [];
+
+    @Input()
+    errorDistribuir: number[] = [];
 
     @Input()
     targetHandle: any;
@@ -232,7 +238,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     campos = new FormControl();
 
-    draggingIds: Array<number> = [];
+    @Input()
+    draggingIds: number[] = [];
 
     /**
      * Constructor
@@ -292,19 +299,30 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     // -----------------------------------------------------------------------------------------------------
 
     onStartDrag(event: DragEvent, tarefa: Tarefa): void {
-        console.log("drag started", JSON.stringify(event, null, 2));
-        const customTarefa = JSON.stringify({
-            id: tarefa.id,
-            usuario: tarefa.usuarioResponsavel.id,
-            setor: tarefa.setorResponsavel.id,
-            distribuicao: tarefa.distribuicaoAutomatica
-        });
-        event.dataTransfer.setData(customTarefa, '');
         if (this.selectedIds.length > 0) {
-            this.draggingIds = this.selectedIds;
+            this.setDraggedTarefasIds.emit(this.selectedIds);
+            let tarefas = [];
+            this.tarefas.forEach(aTarefa => {
+                if (this.selectedIds.indexOf(aTarefa.id) > -1) {
+                    let tmpTarefa: any = {};
+                    tmpTarefa.id = aTarefa.id;
+                    tmpTarefa.usuario = aTarefa.usuarioResponsavel.id;
+                    tmpTarefa.setor = aTarefa.setorResponsavel.id;
+                    tmpTarefa.distribuicao = aTarefa.distribuicaoAutomatica;
+                    tarefas.push(tmpTarefa);
+                }
+            });
+            const type = JSON.stringify(tarefas);
+            event.dataTransfer.setData(type, '');
         } else {
-            this.draggingIds = [];
-            this.draggingIds.push(tarefa.id);
+            const customTarefa = JSON.stringify({
+                id: tarefa.id,
+                usuario: tarefa.usuarioResponsavel.id,
+                setor: tarefa.setorResponsavel.id,
+                distribuicao: tarefa.distribuicaoAutomatica
+            });
+            event.dataTransfer.setData(customTarefa, '');
+            this.setDraggedTarefasIds.emit([tarefa.id]);
         }
     }
 
@@ -313,17 +331,11 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     };
 
     onCancelDrag(event: DragEvent): void {
-        console.log("drag end", JSON.stringify(event, null, 2));
-        this.draggingIds = [];
-    }
-
-    onCancelDrag2(event: DragEvent): void {
-        console.log("drag cancel", JSON.stringify(event, null, 2));
-        this.draggingIds = [];
+        this.setDraggedTarefasIds.emit([]);
     }
 
     onCopied(event: DragEvent, tarefa: Tarefa): void {
-        console.log("drag copied", JSON.stringify(event, null, 2));
+        this.setDraggedTarefasIds.emit([]);
     }
 
     toggleFilter(): void {

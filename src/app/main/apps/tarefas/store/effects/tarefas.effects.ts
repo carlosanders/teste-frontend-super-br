@@ -1,4 +1,4 @@
-import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, SetData, UpdateData} from '@cdk/ngrx-normalizr';
 import {assunto as assuntoSchema, processo as processoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
@@ -387,6 +387,17 @@ export class TarefasEffect {
             .pipe(
                 ofType<TarefasActions.DistribuirTarefas>(TarefasActions.DISTRIBUIR_TAREFA),
                 tap((action) => {
+                    this._store.dispatch(new UpdateData<Tarefa>(
+                        {
+                            id: action.payload.tarefa.id,
+                            schema: tarefaSchema,
+                            changes: {
+                                setorResponsavel: action.payload.setorResponsavel,
+                                distribuicaoAutomatica: action.payload.distribuicaoAutomatica,
+                                usuarioResponsavel: action.payload.usuarioResponsavel
+                            }
+                        }
+                    ));
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacaoId,
                         type: 'tarefa',
@@ -402,6 +413,17 @@ export class TarefasEffect {
                 withLatestFrom(this._store.pipe(select(getDistribuindoTarefaIds))),
                 mergeMap(([action, distribuindoTarefasIds]) => {
                     if (distribuindoTarefasIds.indexOf(action.payload.tarefa.id) === -1) {
+                        this._store.dispatch(new UpdateData<Tarefa>(
+                            {
+                                id: action.payload.tarefa.id,
+                                schema: tarefaSchema,
+                                changes: {
+                                    setorResponsavel: action.payload.tarefa.setorResponsavel,
+                                    distribuicaoAutomatica: action.payload.tarefa.distribuicaoAutomatica,
+                                    usuarioResponsavel: action.payload.tarefa.usuarioResponsavel
+                                }
+                            }
+                        ));
                         this._store.dispatch(new OperacoesActions.Operacao({
                             id: action.payload.operacaoId,
                             type: 'tarefa',
@@ -419,6 +441,16 @@ export class TarefasEffect {
                         usuarioResponsavel: action.payload.usuarioResponsavel
                     }).pipe(
                         map((response) => {
+                            this._store.dispatch(new UpdateData<Tarefa>(
+                                {
+                                    id: response.id,
+                                    schema: tarefaSchema,
+                                    changes: {
+                                        distribuicaoAutomatica: response.distribuicaoAutomatica,
+                                        dataHoraDistribuicao: response.dataHoraDistribuicao
+                                    }
+                                }
+                            ));
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
                                 type: 'tarefa',
@@ -428,18 +460,6 @@ export class TarefasEffect {
                                 redo: 'inherent',
                                 undo: 'inherent'
                             }));
-                            new UpdateData<Tarefa>(
-                                {
-                                    id: response.id,
-                                    schema: tarefaSchema,
-                                    changes: {
-                                        setorResponsavel: response.setorResponsavel,
-                                        distribuicaoAutomatica: response.distribuicaoAutomatica,
-                                        usuarioResponsavel: response.usuarioResponsavel,
-                                        vinculacoesEtiquetas: response.vinculacoesEtiquetas
-                                    }
-                                }
-                            );
                             return new TarefasActions.DistribuirTarefasSuccess(response.id);
                         }),
                         catchError((err) => {
@@ -449,6 +469,17 @@ export class TarefasEffect {
                                 usuarioResponsavel: action.payload.usuarioResponsavel,
                                 error: err
                             };
+                            this._store.dispatch(new UpdateData<Tarefa>(
+                                {
+                                    id: action.payload.tarefa.id,
+                                    schema: tarefaSchema,
+                                    changes: {
+                                        setorResponsavel: action.payload.tarefa.setorResponsavel,
+                                        distribuicaoAutomatica: action.payload.tarefa.distribuicaoAutomatica,
+                                        usuarioResponsavel: action.payload.tarefa.usuarioResponsavel
+                                    }
+                                }
+                            ));
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
                                 type: 'tarefa',

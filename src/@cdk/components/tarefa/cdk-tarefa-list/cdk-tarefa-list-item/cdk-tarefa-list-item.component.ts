@@ -40,6 +40,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Input()
     togglingUrgente: boolean;
 
+    @Input()
+    countSelected: number = 0;
+
     @Output()
     toggleInSelectedTarefas = new EventEmitter();
 
@@ -87,6 +90,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Input()
     ciencia: boolean;
+
+    @Input()
+    dragging: boolean;
 
     isOpen: boolean;
     loadedAssuntos: boolean;
