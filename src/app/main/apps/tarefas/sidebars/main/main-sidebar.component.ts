@@ -67,6 +67,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     orgaoCentralId$: Observable<number>;
     orgaoCentralId: number = null;
 
+    setoresDistribuidor: Setor[] = [];
+
     errors$: Observable<any>;
     error = '';
 
@@ -294,6 +296,18 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
             if (coordenador.orgaoCentral) {
                 this.orgaoCentralCoordenacao.push(coordenador.orgaoCentral);
+            }
+        });
+
+        this._loginService.getUserProfile().colaborador.lotacoes.forEach((lotacao: Lotacao) => {
+            if (lotacao.distribuidor) {
+                const hasSetor = this.setoresCoordenacao.findIndex(setor => setor.id === lotacao.setor.id);
+                const hasUnidade = this.unidadesCoordenacao.findIndex(unidade => unidade.id === lotacao.setor.unidade.id);
+                const hasOrgao = this.orgaoCentralCoordenacao
+                    .findIndex(orgaoCentral => orgaoCentral.id === lotacao.setor.unidade.modalidadeOrgaoCentral.id);
+                if (hasSetor === -1 && hasUnidade === -1 && hasOrgao === -1) {
+                    this.setoresDistribuidor.push(lotacao.setor);
+                }
             }
         });
 
