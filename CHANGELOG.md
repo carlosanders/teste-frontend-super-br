@@ -231,3 +231,9 @@
 * Correção erro ao remover uma classificação #53
 * Correção edição da lotação de um usuário de arquivo #117
 * Correção assessores, acessando com perfil 'Administrador' é possível visualizar registros dos outros usuários #283
+
+1.3.1
+
+* Correção para adotação da fonte Calibri
+* Correção nas notas de rodapé do editor de textos
+* Correção para mostrar corretamente os contadores das pastas de tarefas

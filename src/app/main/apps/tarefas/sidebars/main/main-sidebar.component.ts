@@ -237,7 +237,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         this.showAddFolder = true;
         setTimeout(() => { // this will make the execution after the above boolean has changed
             this.inputFolder.nativeElement.focus();
-        }, 200);
+        }, 500);
     }
 
     addFolder(): void {
