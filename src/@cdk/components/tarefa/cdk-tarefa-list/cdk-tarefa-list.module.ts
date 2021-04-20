@@ -26,6 +26,7 @@ import {AssuntoService} from '@cdk/services/assunto.service';
 import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-filter.module';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
 import {MatSelectModule} from '@angular/material/select';
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 @NgModule({
     declarations: [
@@ -53,7 +54,8 @@ import {MatSelectModule} from '@angular/material/select';
         InfiniteScrollModule,
         MatExpansionModule,
         CdkTarefaFilterModule,
-        MatSelectModule
+        MatSelectModule,
+        DragDropModule
     ],
     providers: [
         EspecieTarefaService,

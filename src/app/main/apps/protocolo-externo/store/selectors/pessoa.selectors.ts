@@ -26,3 +26,8 @@ export const getPessoaLoaded = createSelector(
     getPessoaState,
     (state: PessoaState) => state.loaded
 );
+
+export const getPessoaLoading = createSelector(
+    getPessoaState,
+    (state: PessoaState) => state.loading
+);

@@ -23,6 +23,7 @@ import {Usuario} from "../../../models";
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {DndDragImageOffsetFunction} from "ngx-drag-drop";
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -231,6 +232,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     campos = new FormControl();
 
+    draggingIds: Array<number> = [];
+
     /**
      * Constructor
      */
@@ -287,6 +290,41 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    onStartDrag(event: DragEvent, tarefa: Tarefa): void {
+        console.log("drag started", JSON.stringify(event, null, 2));
+        const customTarefa = JSON.stringify({
+            id: tarefa.id,
+            usuario: tarefa.usuarioResponsavel.id,
+            setor: tarefa.setorResponsavel.id,
+            distribuicao: tarefa.distribuicaoAutomatica
+        });
+        event.dataTransfer.setData(customTarefa, '');
+        if (this.selectedIds.length > 0) {
+            this.draggingIds = this.selectedIds;
+        } else {
+            this.draggingIds = [];
+            this.draggingIds.push(tarefa.id);
+        }
+    }
+
+    offsetFunction: DndDragImageOffsetFunction = (event: DragEvent, dragImage: Element) => {
+        return {x: 0, y: 0};
+    };
+
+    onCancelDrag(event: DragEvent): void {
+        console.log("drag end", JSON.stringify(event, null, 2));
+        this.draggingIds = [];
+    }
+
+    onCancelDrag2(event: DragEvent): void {
+        console.log("drag cancel", JSON.stringify(event, null, 2));
+        this.draggingIds = [];
+    }
+
+    onCopied(event: DragEvent, tarefa: Tarefa): void {
+        console.log("drag copied", JSON.stringify(event, null, 2));
+    }
 
     toggleFilter(): void {
         this.toggleSidebar();
