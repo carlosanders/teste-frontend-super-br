@@ -27,6 +27,26 @@ cdk-tarefa-list-item {
             display: flex;
             flex-direction: column;
 
+            .drag-n-drop-ref {
+                display: flex;
+                flex: 0 1;
+                flex-direction: row;
+                background-color: transparent;
+
+                > div {
+                    border-radius: 6px;
+                    padding-top: 6px;
+                    padding-bottom: 6px;
+
+                    > span {
+                        margin: 4px;
+                        padding-left: 6px;
+                        padding-right: 6px;
+                        font-weight: normal;
+                    }
+                }
+            }
+
             &.nao-lido {
                 font-weight: bold;
             }
