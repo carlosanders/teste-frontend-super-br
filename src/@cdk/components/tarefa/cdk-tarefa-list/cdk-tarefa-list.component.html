@@ -219,12 +219,25 @@
             <mat-spinner class="loading" diameter="24"></mat-spinner>
         </div>
 
-        <div class="no-tarefas-text" *ngIf="tarefas?.length === 0 && !loading">
+        <div class="no-tarefas-text" *ngIf="(!tarefas || tarefas?.length === 0) && !loading">
             <span class="hint-text">{{ 'TAREFA.NO_MESSAGES' | translate }}</span>
         </div>
 
         <div *ngIf="tarefas?.length > 0">
-            <div *ngFor="let tarefa of tarefas">
+            <div *ngFor="let tarefa of tarefas"
+                 class="drag-tarefa"
+                 [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
+                 [dndDragImageOffsetFunction]="this.offsetFunction"
+                 (dndEnd)="onCancelDrag($event)"
+                 (dndCanceled)="onCancelDrag2($event)"
+                 (dndCopied)="onCopied($event, tarefa)"
+                 (dndStart)="onStartDrag($event, tarefa)">
+                <span dndDragImageRef
+                     class="custom-drag-over" *ngIf="false">
+                    <mat-icon *ngIf="selectedIds.length <= 1">assignment</mat-icon>
+                    <span *ngIf="selectedIds.length > 1">{{selectedIds.length}} tarefas selecionadas</span>
+                    <span *ngIf="selectedIds.length <= 1">NUP {{tarefa.processo?.NUP | formatNup}}</span>
+                </span>
                 <cdk-tarefa-list-item
                     matRipple
                     [tarefa]="tarefa"

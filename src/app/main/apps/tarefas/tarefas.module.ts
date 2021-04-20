@@ -27,6 +27,7 @@ import {TarefasStoreModule} from 'app/main/apps/tarefas/store/store.module';
 import {TarefasComponent} from './tarefas.component';
 import {TarefasMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {TarefaService} from '@cdk/services/tarefa.service';
+import {LotacaoService} from '@cdk/services/lotacao.service';
 import {FolderService} from '@cdk/services/folder.service';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
@@ -173,6 +174,7 @@ modulesConfig.forEach((module) => {
         SetorService,
         UsuarioService,
         LoginService,
+        LotacaoService,
         fromGuards.ResolveGuard,
         AssuntoService,
         InteressadoService,

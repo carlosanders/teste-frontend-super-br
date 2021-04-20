@@ -123,3 +123,13 @@ export const getIsClearForm = createSelector(
     getTarefasState,
     (state: TarefasState) => state.clearForm
 );
+
+export const getBufferingDistribuir = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.bufferingDistribuir
+);
+
+export const getDistribuindoTarefaIds = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.distribuindoTarefaIds
+);

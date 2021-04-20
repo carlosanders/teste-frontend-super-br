@@ -10,13 +10,23 @@ import {ProcessoViewAppState} from 'app/main/apps/processo/processo-view/store/r
 import * as fromStore from 'app/main/apps/processo/processo-view/store';
 import {getJuntadasLoaded} from 'app/main/apps/processo/processo-view/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getDocumentosHasLoaded, getVolumesLoaded} from 'app/main/apps/processo/processo-view/store';
-
+import {
+    getDocumentosHasLoaded,
+    getIsLoading,
+    getIsLoadingVolumes, getMinutasLoading,
+    getVolumesLoaded
+} from 'app/main/apps/processo/processo-view/store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+
+    loadingJuntadas: boolean = false;
+
+    loadingDocumentos: boolean = false;
+
+    loadingVolumes: boolean = false;
 
     /**
      * Constructor
@@ -36,6 +46,25 @@ export class ResolveGuard implements CanActivate {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
+            });
+
+        this._store
+            .pipe(select(getIsLoading))
+            .subscribe(loading => {
+                this.loadingJuntadas = loading;
+            });
+
+
+        this._store
+            .pipe(select(getMinutasLoading))
+            .subscribe(loading => {
+                this.loadingDocumentos = loading;
+            });
+
+        this._store
+            .pipe(select(getIsLoadingVolumes))
+            .subscribe(loading => {
+                this.loadingVolumes = loading;
             });
     }
 
@@ -73,7 +102,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getJuntadasLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                if (!this.loadingJuntadas && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
                     this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
 
                     let processoFilter = null;
@@ -108,10 +137,11 @@ export class ResolveGuard implements CanActivate {
                     };
 
                     this._store.dispatch(new fromStore.GetJuntadas(params));
+                    this.loadingJuntadas = true;
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+                return this.loadingJuntadas || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value);
             }),
             take(1)
         );
@@ -127,12 +157,13 @@ export class ResolveGuard implements CanActivate {
             return this._store.pipe(
                 select(getDocumentosHasLoaded),
                 tap((loaded: any) => {
-                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    if (!this.loadingDocumentos && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
                         this._store.dispatch(new fromStore.GetDocumentos());
+                        this.loadingDocumentos = true;
                     }
                 }),
                 filter((loaded: any) => {
-                    return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+                    return this.loadingDocumentos || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value);
                 }),
                 take(1)
             );
@@ -142,6 +173,7 @@ export class ResolveGuard implements CanActivate {
                 tap((loaded: any) => {
                     if (loaded) {
                         this._store.dispatch(new fromStore.UnloadDocumentos());
+                        this.loadingDocumentos = false;
                     }
                 }),
                 filter((loaded: any) => {
@@ -161,7 +193,7 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getVolumesLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                if (!this.loadingVolumes && (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value)) {
                     this._store.dispatch(new fromStore.UnloadVolumes({reset: true}));
 
                     let processoFilter = null;
@@ -183,10 +215,11 @@ export class ResolveGuard implements CanActivate {
                     };
 
                     this._store.dispatch(new fromStore.GetVolumes(params));
+                    this.loadingVolumes = true;
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+                return this.loadingVolumes || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value);
             }),
             take(1)
         );
