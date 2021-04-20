@@ -31,6 +31,7 @@ export interface TarefasState {
     currentTarefaId: number;
     deletedTarefaIds: number[];
     selectedTarefaIds: number[];
+    draggingIds: number[];
     maximizado: boolean;
     loadingAssuntosProcessosId: number[];
     cienciaTarefaIds: number[];
@@ -72,6 +73,7 @@ export const TarefasInitialState: TarefasState = {
     bufferingDistribuir: 0,
     deletedTarefaIds: [],
     selectedTarefaIds: [],
+    draggingIds: [],
     currentTarefaId: null,
     maximizado: false,
     loadingAssuntosProcessosId: [],
@@ -164,6 +166,13 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             };
         }
 
+        case TarefasActions.CHANGE_DRAGGED_TAREFAS: {
+            return {
+                ...state,
+                draggingIds: action.payload,
+            };
+        }
+
         case TarefasActions.SET_FOLDER_ON_SELECTED_TAREFAS: {
             return {
                 ...state,
@@ -195,7 +204,6 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
 
         case TarefasActions.DISTRIBUIR_TAREFA: {
             let entitiesId = state.entitiesId;
-            let selectedTarefaIds = state.selectedTarefaIds;
             const navegacao = state.loaded.value.split('_');
             let total = state.pagination.total;
             // Checar se estamos visualizando tarefas do tipo coordenação
@@ -203,18 +211,16 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             if (navegacao[1] === 'coordenacao' && navegacao[2] != action.payload.setorResponsavel) {
                 // Caso afirmativo, remover a tarefa da lista
                 entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
-                selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id);
                 total = total > 0 ? total - 1 : 0;
             } else if (navegacao[1] === 'minhas-tarefas' && action.payload.usuarioResponsavel) {
                 entitiesId = state.entitiesId.filter(id => id !== action.payload.tarefa.id);
-                selectedTarefaIds = state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id);
                 total = total > 0 ? total - 1 : 0;
             }
 
             return {
                 ...state,
                 entitiesId: entitiesId,
-                selectedTarefaIds: selectedTarefaIds,
+                selectedTarefaIds: state.selectedTarefaIds.filter(id => id !== action.payload.tarefa.id),
                 pagination: {
                     ...state.pagination,
                     total: total

@@ -73,9 +73,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     error$: Observable<any>;
     errorDelete$: Observable<any>;
+    errorDistribuir$: Observable<any>;
 
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
+    draggingIds$: Observable<number[]>;
 
     selectedTarefas$: Observable<Tarefa[]>;
 
@@ -158,6 +160,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
         this.error$ = this._store.pipe(select(fromStore.getError));
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
+        this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -166,6 +169,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.selectedTarefas$ = this._store.pipe(select(fromStore.getSelectedTarefas));
         this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedTarefaIds));
+        this.draggingIds$ = this._store.pipe(select(fromStore.getDraggedTarefasIds));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
@@ -497,6 +501,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     changeSelectedIds(ids: number[]): void {
         this._store.dispatch(new fromStore.ChangeSelectedTarefas(ids));
+    }
+
+    changeDraggedIds(ids: number[]): void {
+        this._store.dispatch(new fromStore.ChangeDraggedTarefas(ids));
     }
 
     setFolderOnSelectedTarefas(folder): void {

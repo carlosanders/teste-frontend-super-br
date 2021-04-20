@@ -24,6 +24,24 @@ cdk-tarefa-list {
 
             border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 
+            .drag-n-drop-ref {
+                display: flex;
+                flex: 1 1 auto;
+                flex-direction: row;
+                background-color: transparent;
+
+                > div {
+                    border-radius: 6px;
+                    padding-top: 6px;
+                    padding-bottom: 6px;
+
+                    > span {
+                        margin: 10px;
+                        font-weight: normal;
+                    }
+                }
+            }
+
             > .toolbar-separator {
                 height: 32px;
                 width: 1px;

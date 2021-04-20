@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" *ngIf="tarefa">
 
     <div class="check">
         <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
@@ -7,7 +7,6 @@
     </div>
 
     <div class="info" [ngClass]="{'nao-lido': !tarefa.dataHoraLeitura}">
-
         <ng-template #dynamicText></ng-template>
 
         <div class="mb-4">
@@ -19,7 +18,9 @@
                 <mat-icon *ngIf="tarefa.processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
                 </mat-icon>
                 <mat-icon *ngIf="tarefa.processo?.documentoAvulsoOrigem">mail</mat-icon>
-                <span dndDragImageRef>NUP {{tarefa.processo?.NUP | formatNup}}</span>
+                <span>
+                    NUP {{tarefa.processo?.NUP | formatNup}}
+                </span>
                 <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
                           *ngIf="!tarefa.processo?.acessoNegado && !isOpen">keyboard_arrow_down
                 </mat-icon>
@@ -68,8 +69,8 @@
                 {{tarefa.setorResponsavel?.nome | titleCasePipe}} ({{tarefa.setorResponsavel?.unidade?.sigla}})
             </div>
 
-            <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel.id !== usuarioAtual.id))">
-                {{tarefa.usuarioResponsavel.nome | titleCasePipe}}
+            <div *ngIf="(!usuarioAtual || (tarefa.usuarioResponsavel?.id !== usuarioAtual.id))">
+                {{tarefa.usuarioResponsavel?.nome | titleCasePipe}}
             </div>
 
             <div *ngIf="tarefa.dataHoraDistribuicao && displayedCampos.indexOf('dataHoraDistribuicao') > -1">
@@ -97,6 +98,17 @@
                      [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
                 <div
                     class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+            </div>
+        </div>
+
+        <div class="drag-n-drop-ref">
+            <div dndDragImageRef class="accent">
+                <span *ngIf="countSelected > 1 && selected && dragging">
+                    {{countSelected}} tarefas selecionadas
+                </span>
+                <span *ngIf="dragging && (countSelected === 0 || countSelected === 1 && selected)">
+                    Movendo tarefa
+                </span>
             </div>
         </div>
     </div>

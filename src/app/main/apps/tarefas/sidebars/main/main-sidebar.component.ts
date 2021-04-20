@@ -464,6 +464,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         }
         this.placeholderId = null;
+        this._store.dispatch(new fromStore.ChangeDraggedTarefas([]))
     }
 
     doDistribuir(tarefa: Tarefa, setor: number, usuario: number, loteId: string = ''): void {
@@ -504,7 +505,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Desistir de distribuir'
+                text: 'Distribuição'
             }
         });
 
@@ -530,6 +531,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             }
         }
         this.placeholderId = null;
+        this._store.dispatch(new fromStore.ChangeDraggedTarefas([]))
     }
 
     preencherContador() {
@@ -618,6 +620,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * Caso a tarefa já esteja no setor, não permitir
      */
     dropzoneEnabledSetor(event: DragEvent, setor: Setor): boolean {
+        if (this.selectedTarefas.length > 1) {
+            return true;
+        }
         const dataTarefa = JSON.parse(event.dataTransfer.types[0]);
         return !(dataTarefa.setor === setor.id && dataTarefa.distribuicao);
     }
@@ -629,6 +634,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * @param setor: Setor
      */
     dropEnabledSetor(event: DndDropEvent, setor: Setor): boolean {
+        if (this.selectedTarefas.length > 1) {
+            return true;
+        }
         const tarefa = event.data;
         return !(tarefa.setorResponsavel.id == setor.id && tarefa.distribuicaoAutomatica);
     }
@@ -639,6 +647,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * Caso o usuário esteja indisponível, retorna falso
      */
     dropzoneEnabledUsuario(event: DragEvent, usuario: Usuario): boolean {
+        if (this.selectedTarefas.length > 1) {
+            return usuario.isDisponivel;
+        }
         const dataTarefa = JSON.parse(event.dataTransfer.types[0]);
         return usuario.isDisponivel && dataTarefa.usuario != usuario.id;
     }
@@ -649,6 +660,9 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * Caso o usuário esteja indisponível, desabilitar o drop nele
      */
     dropEnabledUsuario(event: DndDropEvent, usuario: Usuario): boolean {
+        if (this.selectedTarefas.length > 1) {
+            return usuario.isDisponivel;
+        }
         const tarefa = event.data;
         return usuario.isDisponivel && tarefa.usuarioResponsavel.id !== usuario.id;
     }

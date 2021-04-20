@@ -22,13 +22,13 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds.length"></div>
 
-        <div *ngIf="selectedIds?.length">
+        <div *ngIf="selectedIds?.length && draggingIds.length === 0">
             {{selectedIds?.length}}
         </div>
 
         <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
-        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length">
+        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length && draggingIds.length === 0">
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
         <mat-menu #folderMenu="matMenu">
@@ -42,7 +42,7 @@
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                *ngIf="selectedIds?.length > 1">
+                *ngIf="selectedIds?.length > 1 && draggingIds.length === 0">
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>
 
@@ -148,8 +148,15 @@
                     </ng-container>
                 </button>
             </ng-template>
-
         </mat-menu>
+
+        <div class="drag-n-drop-ref" *ngIf="draggingIds.length > 1">
+            <div class="accent">
+                <span *ngIf="selectedIds.length > 1">
+                    Movendo {{selectedIds.length}} tarefas
+                </span>
+            </div>
+        </div>
 
         <div class="tarefa-list-control" fxLayout="row" fxLayoutAlign="start center">
 
@@ -229,15 +236,8 @@
                  [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
                  [dndDragImageOffsetFunction]="this.offsetFunction"
                  (dndEnd)="onCancelDrag($event)"
-                 (dndCanceled)="onCancelDrag2($event)"
                  (dndCopied)="onCopied($event, tarefa)"
                  (dndStart)="onStartDrag($event, tarefa)">
-                <span dndDragImageRef
-                     class="custom-drag-over" *ngIf="false">
-                    <mat-icon *ngIf="selectedIds.length <= 1">assignment</mat-icon>
-                    <span *ngIf="selectedIds.length > 1">{{selectedIds.length}} tarefas selecionadas</span>
-                    <span *ngIf="selectedIds.length <= 1">NUP {{tarefa.processo?.NUP | formatNup}}</span>
-                </span>
                 <cdk-tarefa-list-item
                     matRipple
                     [tarefa]="tarefa"
@@ -247,6 +247,8 @@
                     (click)="selectTarefa(tarefa);"
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
+                    [dragging]="draggingIds.length > 0 && draggingIds.indexOf(tarefa.id) > -1"
+                    [countSelected]="selectedIds.length"
                     [undeleting]="unDeletingIds.length > 0 && unDeletingIds.indexOf(tarefa.id) > -1"
                     (toggleInSelectedTarefas)="toggleInSelected($event)"
                     (delete)="doDeleteTarefa($event)"
@@ -261,7 +263,10 @@
                     (redistribuirTarefa)="doRedistribuirTarefa($event)"
                     (cienciaTarefa)="doCienciaTarefa($event)"
                     (editProcesso)="doEditProcesso($event)"
-                    [ngClass]="{'selected':tarefa.id === currentTarefaId, 'error': errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1}"
+                    [ngClass]="{
+                        'selected':tarefa.id === currentTarefaId,
+                        'error': (errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1) || (errorDistribuir.length > 0 && errorDistribuir.indexOf(tarefa.id) > -1)
+                    }"
                     (loadAssuntos)="doLoadAssuntos($event)"
                     [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"

@@ -25,6 +25,7 @@ export const DELETE_TAREFA_CANCEL = '[TAREFAS] DELETE TAREFA CANCEL';
 export const DELETE_TAREFA_CANCEL_SUCCESS = '[TAREFAS] DELETE TAREFA CANCEL SUCCESS';
 
 export const CHANGE_SELECTED_TAREFAS = '[TAREFAS] CHANGE SELECTED TAREFAS';
+export const CHANGE_DRAGGED_TAREFAS = '[TAREFAS] CHANGE DRAGGED TAREFAS';
 
 export const REMOVE_TAREFA = '[TAREFAS] REMOVE TAREFA';
 
@@ -178,6 +179,16 @@ export class CreateTarefaSuccess implements Action {
  */
 export class ChangeSelectedTarefas implements Action {
     readonly type = CHANGE_SELECTED_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Change Dragged Tarefas
+ */
+export class ChangeDraggedTarefas implements Action {
+    readonly type = CHANGE_DRAGGED_TAREFAS;
 
     constructor(public payload: any) {
     }
@@ -800,6 +811,7 @@ export type TarefasActionsAll
     | SetCurrentTarefa
     | SetCurrentTarefaSuccess
     | ChangeSelectedTarefas
+    | ChangeDraggedTarefas
     | SetFolderOnSelectedTarefas
     | SetFolderOnSelectedTarefasSuccess
     | SetFolderOnSelectedTarefasFailed
