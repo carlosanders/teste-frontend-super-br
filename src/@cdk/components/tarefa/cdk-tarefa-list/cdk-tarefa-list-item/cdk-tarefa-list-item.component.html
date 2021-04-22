@@ -47,11 +47,21 @@
             </div>
 
             <div class="subtitle" *ngIf="isOpen">
-                <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
+                <div class="assunto">
+                    <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
+                        <mat-spinner diameter=16></mat-spinner>
+                    </div>
+                    <div *ngIf="tarefa.processo?.assuntos?.length > 0">
+                        <span>{{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome | titleCasePipe}}</span>
+                    </div>
+                </div>
+                <div *ngIf="loadingInteressados">
                     <mat-spinner diameter=16></mat-spinner>
                 </div>
-                <div *ngIf="tarefa.processo?.assuntos?.length > 0">
-                    <span>{{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome | titleCasePipe}}</span>
+                <div class="interessados" *ngIf="!loadingInteressados && tarefa.processo?.interessados?.length > 0">
+                    <span *ngFor="let nomeInteressado of (tarefa.processo?.interessados | formatInteressados: totalInteressados)">
+                        {{nomeInteressado}}
+                    </span>
                 </div>
             </div>
         </div>
@@ -89,6 +99,10 @@
                     lock
                 </mat-icon>
             </div>
+
+            <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao">
+                <span>{{tarefa.observacao}}</span>
+            </div>
         </div>
 
         <div class="etiquetas" fxHide fxShow.gt-sm>
@@ -103,12 +117,12 @@
 
         <div class="drag-n-drop-ref">
             <div dndDragImageRef class="accent">
-                <span *ngIf="countSelected > 1 && selected && dragging">
+                <div *ngIf="countSelected > 1 && selected && dragging">
                     {{countSelected}} tarefas selecionadas
-                </span>
-                <span *ngIf="dragging && (countSelected === 0 || countSelected === 1 && selected)">
+                </div>
+                <div *ngIf="dragging && (countSelected === 0 || countSelected === 1 && selected)">
                     Movendo tarefa
-                </span>
+                </div>
             </div>
         </div>
     </div>

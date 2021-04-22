@@ -1,5 +1,10 @@
 import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
-import {assunto as assuntoSchema, processo as processoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
+import {
+    assunto as assuntoSchema,
+    interessado as interessadoSchema,
+    processo as processoSchema,
+    tarefa as tarefaSchema
+} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
@@ -30,12 +35,15 @@ import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 import {Assunto} from '@cdk/models/assunto.model';
 import {AssuntoService} from '@cdk/services/assunto.service';
+import {Interessado} from '@cdk/models/interessado.model';
+import {InteressadoService} from '@cdk/services/interessado.service';
 import {
     getBufferingCiencia,
     getBufferingDelete,
     getBufferingDistribuir,
     getCienciaTarefaIds,
-    getDeletingTarefaIds, getDistribuindoTarefaIds
+    getDeletingTarefaIds,
+    getDistribuindoTarefaIds
 } from '../selectors';
 import * as fromStore from '../index';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
@@ -50,7 +58,8 @@ export class TarefasEffect {
         public _loginService: LoginService,
         private _store: Store<State>,
         private _router: Router,
-        private _assuntoService: AssuntoService
+        private _assuntoService: AssuntoService,
+        private _interessadoService: InteressadoService
     ) {
         this._store
             .pipe(
@@ -527,6 +536,47 @@ export class TarefasEffect {
                         catchError((err, caught) => {
                             console.log(err);
                             this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(action.payload.processoId));
+                            return caught;
+                        })
+                    );
+
+                }),
+            );
+
+    /**
+     * ISSUE-183
+     * Get Interessados Processo tarefa from input parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getInteressadosProcessoTarefa: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<TarefasActions.GetInteressadosProcessoTarefa>(TarefasActions.GET_INTERESSADOS_PROCESSO_TAREFA),
+                mergeMap((action) => {
+                    return this._interessadoService.query(
+                        JSON.stringify({
+                            ...action.payload.params.filter
+                        }),
+                        action.payload.params.limit,
+                        action.payload.params.offset,
+                        JSON.stringify(action.payload.params.sort),
+                        JSON.stringify(action.payload.params.populate)).pipe(
+                        mergeMap((response) => [
+                            new TarefasActions.GetInteressadosProcessoTarefaSuccess({
+                                processoId: action.payload.processoId,
+                                total: response['total']
+                            }),
+                            new AddChildData<Interessado>({
+                                data: response['entities'],
+                                childSchema: interessadoSchema,
+                                parentSchema: processoSchema,
+                                parentId: action.payload.processoId
+                            }),
+                        ]),
+                        catchError((err, caught) => {
+                            console.log(err);
+                            this._store.dispatch(new TarefasActions.GetInteressadosProcessoTarefaFailed(action.payload.processoId));
                             return caught;
                         })
                     );

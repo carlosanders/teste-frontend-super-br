@@ -35,13 +35,9 @@ cdk-tarefa-list-item {
 
                 > div {
                     border-radius: 6px;
-                    padding-top: 6px;
-                    padding-bottom: 6px;
 
-                    > span {
-                        margin: 4px;
-                        padding-left: 6px;
-                        padding-right: 6px;
+                    > div {
+                        padding: 5px;
                         font-weight: normal;
                     }
                 }
@@ -64,13 +60,35 @@ cdk-tarefa-list-item {
             .subtitle {
                 flex: 1 1 auto;
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 font-style: italic;
                 font-size: 12px;
+
+                > .assunto {
+                    display: flex;
+                    flex-direction: row;
+                    flex: 1 1 auto;
+                }
+
+                > .interessados {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 auto;
+                }
             }
 
             .body {
                 margin-top: 6px;
+
+                .observacao {
+                    margin-left: 10px;
+                    white-space: pre-wrap;
+
+                    > span {
+                        font-style: italic;
+                        font-size: smaller;
+                    }
+                }
             }
 
             .etiquetas {
