@@ -1,4 +1,4 @@
-import * as RootSetorActions from '../actions';
+import * as RootSetorActions from '../actions/setor.actions';
 
 export interface RootSetorState {
     unidadeId: number;
