@@ -44,66 +44,70 @@ export class CdkAtividadeFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('observacao').value) {
             this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['observacao'] = `like:%${bit}%`;
+                andXFilter.push({'observacao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('destinacaoMinutas').value) {
             this.form.get('destinacaoMinutas').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['destinacaoMinutas'] = `like:%${bit}%`;
+                andXFilter.push({'destinacaoMinutas': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('especieAtividade').value) {
-            andXFilter['especieAtividade.id'] = `eq:${this.form.get('especieAtividade').value.id}`;
+            andXFilter.push({'especieAtividade.id': `eq:${this.form.get('especieAtividade').value.id}`});
         }
 
         if (this.form.get('setor').value) {
-            andXFilter['setor.id'] = `eq:${this.form.get('setor').value.id}`;
+            andXFilter.push({'setor.id': `eq:${this.form.get('setor').value.id}`});
         }
 
         if (this.form.get('usuario').value) {
-            andXFilter['usuario.id'] = `eq:${this.form.get('usuario').value.id}`;
+            andXFilter.push({'usuario.id': `eq:${this.form.get('usuario').value.id}`});
         }
 
         if (this.form.get('usuarioAprovacao').value) {
-            andXFilter['usuarioAprovacao.id'] = `eq:${this.form.get('usuarioAprovacao').value.id}`;
+            andXFilter.push({'usuarioAprovacao.id': `eq:${this.form.get('usuarioAprovacao').value.id}`});
         }
 
         if (this.form.get('setorAprovacao').value) {
-            andXFilter['setorAprovacao.id'] = `eq:${this.form.get('setorAprovacao').value.id}`;
+            andXFilter.push({'setorAprovacao.id': `eq:${this.form.get('setorAprovacao').value.id}`});
         }
 
         if (this.form.get('tarefa').value) {
-            andXFilter['tarefa.id'] = `eq:${this.form.get('tarefa').value.id}`;
+            andXFilter.push({'tarefa.id': `eq:${this.form.get('tarefa').value.id}`});
         }
 
         if (this.form.get('documentos').value) {
-            andXFilter['documentos.id'] = `eq:${this.form.get('documentos').value.id}`;
+            andXFilter.push({'documentos.id': `eq:${this.form.get('documentos').value.id}`});
         }
 
         if (this.form.get('dataHoraConclusao').value) {
-            andXFilter['dataHoraConclusao'] = `eq:${this.form.get('dataHoraConclusao').value}`;
+            andXFilter.push({'dataHoraConclusao': `eq:${this.form.get('dataHoraConclusao').value}`});
         }
 
         if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
 
         if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
         const request = {
@@ -111,11 +115,18 @@ export class CdkAtividadeFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-atividade-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

@@ -68,8 +68,8 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
                     });
                     const termFilter = {
                         orX: [
-                            {andX: termFilterNUP},
-                            {andX: termFilterOutroNumero}
+                            {orX: termFilterNUP},
+                            {orX: termFilterOutroNumero}
                         ]
                     };
                     if (typeof value === 'string' && (termFilterNUP.length > 0 || termFilterOutroNumero.length > 0)) {

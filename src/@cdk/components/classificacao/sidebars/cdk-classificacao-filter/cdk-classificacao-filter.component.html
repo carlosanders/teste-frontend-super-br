@@ -7,7 +7,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
             <mat-label>Nome</mat-label>
@@ -21,7 +21,8 @@
         <mat-form-field>
             <input matInput placeholder="Modalidade de Destinação"
                    formControlName="modalidadeDestinacao"
-                   [matAutocomplete]="modalidadeDestinacao.autocomplete">
+                   [matAutocomplete]="modalidadeDestinacao.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-modalidade-destinacao-autocomplete #modalidadeDestinacao="modalidadeDestinacaoAutocomplete"
                                                     [control]="form.get('modalidadeDestinacao')">
             </cdk-modalidade-destinacao-autocomplete>
@@ -100,7 +101,8 @@
         <mat-form-field>
             <input matInput placeholder="Classificação"
                    formControlName="parent"
-                   [matAutocomplete]="classificacao.autocomplete">
+                   [matAutocomplete]="classificacao.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-classificacao-autocomplete #classificacao="classificacaoAutocomplete"
                                             [control]="form.get('parent')">
             </cdk-classificacao-autocomplete>
@@ -116,7 +118,8 @@
         <mat-form-field>
             <input matInput placeholder="Atualizado Por"
                    formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

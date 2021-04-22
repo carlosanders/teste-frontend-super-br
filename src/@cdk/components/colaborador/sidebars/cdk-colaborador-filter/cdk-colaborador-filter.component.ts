@@ -33,36 +33,24 @@ export class CdkColaboradorFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('cargo').value) {
             this.form.get('cargo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['cargo'] = `like:%${bit}%`;
+                andXFilter.push({'cargo': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('modalidadeColaborador').value) {
-            andXFilter['modalidadeColaborador.id'] = `eq:${this.form.get('modalidadeColaborador').value.id}`;
+            andXFilter.push({'modalidadeColaborador.id': `eq:${this.form.get('modalidadeColaborador').value.id}`});
         }
 
         if (this.form.get('usuario').value) {
-            andXFilter['usuario.id'] = `eq:${this.form.get('usuario').value.id}`;
-        }
-
-        if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
-        }
-
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
-        }
-
-        if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
-        }
-
-        if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'usuario.id': `eq:${this.form.get('usuario').value.id}`});
         }
 
         const request = {
@@ -70,11 +58,18 @@ export class CdkColaboradorFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-colaborador-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

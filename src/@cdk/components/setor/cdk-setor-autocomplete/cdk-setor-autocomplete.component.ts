@@ -73,8 +73,8 @@ export class CdkSetorAutocompleteComponent implements OnInit {
                     });
                     const termFilter = {
                         orX: [
-                            {andX: termFilterNome},
-                            {andX: termFilterSigla}
+                            {orX: termFilterNome},
+                            {orX: termFilterSigla}
                         ]
                     };
                     if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterSigla.length > 0)) {

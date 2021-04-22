@@ -7,7 +7,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
             <mat-label>Nome</mat-label>
@@ -40,7 +40,8 @@
         <mat-form-field>
             <input matInput placeholder="Assunto Administrativo"
                    formControlName="parent"
-                   [matAutocomplete]="assuntoAdministrativo.autocomplete">
+                   [matAutocomplete]="assuntoAdministrativo.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-assunto-administrativo-autocomplete #assuntoAdministrativo="assuntoAdministrativoAutocomplete"
                                                      [control]="form.get('parent')">
             </cdk-assunto-administrativo-autocomplete>

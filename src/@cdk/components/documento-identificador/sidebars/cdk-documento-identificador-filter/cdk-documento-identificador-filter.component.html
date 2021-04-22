@@ -6,7 +6,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
         <mat-form-field>
             <mat-label>Cóodigo do Documento</mat-label>
             <input matInput #codigoDocumento
@@ -24,7 +24,8 @@
         <mat-form-field>
             <input matInput placeholder="Modalidade do Documento Identificador"
                    formControlName="modalidadeDocumentoIdentificador"
-                   [matAutocomplete]="modalidadeDocumentoIdentificador.autocomplete">
+                   [matAutocomplete]="modalidadeDocumentoIdentificador.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-modalidade-documento-identificador-autocomplete
                 #modalidadeDocumentoIdentificador="modalidadeDocumentoIdentificadorAutocomplete"
                 [control]="form.get('modalidadeDocumentoIdentificador')">
@@ -34,7 +35,8 @@
         <mat-form-field>
             <input matInput placeholder="Origem de Dados"
                    formControlName="origemDados"
-                   [matAutocomplete]="origemDados.autocomplete">
+                   [matAutocomplete]="origemDados.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
                                            [control]="form.get('origemDados')">
             </cdk-origem-dados-autocomplete>
@@ -58,7 +60,8 @@
         <mat-form-field>
             <input matInput placeholder="Atualizado Por"
                    formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

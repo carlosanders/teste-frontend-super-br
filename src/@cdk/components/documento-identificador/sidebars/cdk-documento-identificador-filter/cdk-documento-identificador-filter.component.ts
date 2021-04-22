@@ -40,50 +40,54 @@ export class CdkDocumentoIdentificadorFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('codigoDocumento').value) {
             this.form.get('codigoDocumento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['codigoDocumento'] = `like:%${bit}%`;
+                andXFilter.push({'codigoDocumento': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('emissorDocumento').value) {
             this.form.get('emissorDocumento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['emissorDocumento'] = `like:%${bit}%`;
+                andXFilter.push({'emissorDocumento': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('modalidadeDocumentoIdentificador').value) {
-            andXFilter['modalidadeDocumentoIdentificador.id'] = `eq:${this.form.get('modalidadeDocumentoIdentificador').value.id}`;
+            andXFilter.push({'modalidadeDocumentoIdentificador.id': `eq:${this.form.get('modalidadeDocumentoIdentificador').value.id}`});
         }
 
         if (this.form.get('origemDados').value) {
-            andXFilter['origemDados.id'] = `eq:${this.form.get('origemDados').value.id}`;
+            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.form.get('pessoa').value) {
-            andXFilter['pessoa.id'] = `eq:${this.form.get('pessoa').value.id}`;
+            andXFilter.push({'pessoa.id': `eq:${this.form.get('pessoa').value.id}`});
         }
 
         if (this.form.get('dataEmissao').value) {
-            andXFilter['dataEmissao'] = `eq:${this.form.get('dataEmissao').value}`;
+            andXFilter.push({'dataEmissao': `eq:${this.form.get('dataEmissao').value}`});
         }
 
         if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
 
         if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
         const request = {
@@ -91,11 +95,18 @@ export class CdkDocumentoIdentificadorFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-documento-identificador-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

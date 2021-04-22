@@ -17,7 +17,8 @@
             <mat-form-field>
                 <input matInput placeholder="Processo"
                        formControlName="processo"
-                       [matAutocomplete]="processo.autocomplete">
+                       [matAutocomplete]="processo.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
                 </cdk-processo-autocomplete>
             </mat-form-field>
@@ -25,7 +26,8 @@
             <mat-form-field>
                 <input matInput placeholder="Espécie de Tarefa"
                        formControlName="especieTarefa"
-                       [matAutocomplete]="especieTarefa.autocomplete">
+                       [matAutocomplete]="especieTarefa.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-especie-tarefa-autocomplete #especieTarefa="especieTarefaAutocomplete"
                                                  [control]="form.get('especieTarefa')">
                 </cdk-especie-tarefa-autocomplete>
@@ -34,7 +36,8 @@
             <mat-form-field>
                 <input matInput placeholder="Interessado"
                        formControlName="interessado"
-                       [matAutocomplete]="interessado.autocomplete">
+                       [matAutocomplete]="interessado.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-pessoa-autocomplete #interessado="pessoaAutocomplete"
                                          [control]="form.get('interessado')">
                 </cdk-pessoa-autocomplete>
@@ -43,7 +46,8 @@
             <mat-form-field>
                 <input matInput placeholder="Assunto"
                        formControlName="assunto"
-                       [matAutocomplete]="assunto.autocomplete">
+                       [matAutocomplete]="assunto.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-assunto-administrativo-autocomplete #assunto="assuntoAdministrativoAutocomplete"
                                                          [control]="form.get('assunto')">
                 </cdk-assunto-administrativo-autocomplete>
@@ -52,7 +56,8 @@
             <mat-form-field>
                 <input matInput placeholder="Usuário Responsável"
                        formControlName="usuarioResponsavel"
-                       [matAutocomplete]="usuario.autocomplete">
+                       [matAutocomplete]="usuario.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-usuario-autocomplete #usuario="usuarioAutocomplete"
                                           [control]="form.get('usuarioResponsavel')">
                 </cdk-usuario-autocomplete>
@@ -61,7 +66,8 @@
             <mat-form-field>
                 <input matInput placeholder="Usuário da Conclusão do Prazo"
                        formControlName="usuarioConclusaoPrazo"
-                       [matAutocomplete]="usuarioConclusao.autocomplete">
+                       [matAutocomplete]="usuarioConclusao.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-usuario-autocomplete #usuarioConclusao="usuarioAutocomplete"
                                           [control]="form.get('usuarioResponsavel')">
                 </cdk-usuario-autocomplete>
@@ -70,7 +76,8 @@
             <mat-form-field>
                 <input matInput placeholder="Setor de Origem"
                        formControlName="setorOrigem"
-                       [matAutocomplete]="setor.autocomplete">
+                       [matAutocomplete]="setor.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorOrigem')">
                 </cdk-setor-autocomplete>
             </mat-form-field>
@@ -78,7 +85,8 @@
             <mat-form-field>
                 <input matInput placeholder="Unidade Responsável"
                        formControlName="unidadeResponsavel"
-                       [matAutocomplete]="unidade.autocomplete">
+                       [matAutocomplete]="unidade.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-setor-autocomplete #unidade="setorAutocomplete" [control]="form.get('unidadeResponsavel')">
                 </cdk-setor-autocomplete>
             </mat-form-field>
@@ -122,7 +130,8 @@
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
             </div>
-            <mat-menu #filtroDataHoraConclusaoPrazo="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
+            <mat-menu #filtroDataHoraConclusaoPrazo="matMenu" class="menuDatas" [overlapTrigger]="false"
+                      xPosition="after">
                 <cdk-date-filter [datetime]="true" campo="dataHoraConclusaoPrazo">
                 </cdk-date-filter>
             </mat-menu>
@@ -145,14 +154,16 @@
             <mat-form-field>
                 <input matInput placeholder="Criado Por"
                        formControlName="criadoPor"
-                       [matAutocomplete]="usuarioCriadoPor.autocomplete">
+                       [matAutocomplete]="usuarioCriadoPor.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-usuario-autocomplete #usuarioCriadoPor="usuarioAutocomplete" [control]="form.get('criadoPor')">
                 </cdk-usuario-autocomplete>
             </mat-form-field>
 
             <div class="filtro-data">
                 <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': filterCriadoEm?.length}">
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"
+                        [ngClass]="{'filtrado': filterCriadoEm?.length}">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
             </div>
@@ -166,14 +177,17 @@
             <mat-form-field>
                 <input matInput placeholder="Atualizado Por"
                        formControlName="atualizadoPor"
-                       [matAutocomplete]="usuarioAtualizadoPor.autocomplete">
-                <cdk-usuario-autocomplete #usuarioAtualizadoPor="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+                       [matAutocomplete]="usuarioAtualizadoPor.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-usuario-autocomplete #usuarioAtualizadoPor="usuarioAutocomplete"
+                                          [control]="form.get('atualizadoPor')">
                 </cdk-usuario-autocomplete>
             </mat-form-field>
 
             <div class="filtro-data">
                 <span [ngClass]="{'filtrado': filterAtualizadoEm?.length}">Atualizado Em</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroAtualizadoEm" [ngClass]="{'filtrado': filterAtualizadoEm?.length}">
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroAtualizadoEm"
+                        [ngClass]="{'filtrado': filterAtualizadoEm?.length}">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
             </div>

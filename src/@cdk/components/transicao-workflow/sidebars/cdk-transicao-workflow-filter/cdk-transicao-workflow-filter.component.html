@@ -7,40 +7,43 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Especie Atividade Lançada"
-                           formControlName="especieAtividade"
-                           [matAutocomplete]="especieAtividade.autocomplete">
-                </div>
-                <cdk-especie-atividade-autocomplete #especieAtividade="especieAtividadeAutocomplete"
-                                                   [control]="form.get('especieAtividade')">
-                </cdk-especie-atividade-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Especie Atividade Lançada"
+                       formControlName="especieAtividade"
+                       [matAutocomplete]="especieAtividade.autocomplete"
+                       (change)="verificarValor($event)">
+            </div>
+            <cdk-especie-atividade-autocomplete #especieAtividade="especieAtividadeAutocomplete"
+                                                [control]="form.get('especieAtividade')">
+            </cdk-especie-atividade-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Especie Tarefa De"
-                           formControlName="especieTarefaFrom"
-                           [matAutocomplete]="especieTarefa.autocomplete">
-                </div>
-                <cdk-especie-tarefa-autocomplete #especieTarefa="especieTarefaAutocomplete"
-                                                    [control]="form.get('especieTarefaFrom')">
-                </cdk-especie-tarefa-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Especie Tarefa De"
+                       formControlName="especieTarefaFrom"
+                       [matAutocomplete]="especieTarefa.autocomplete"
+                       (change)="verificarValor($event)">
+            </div>
+            <cdk-especie-tarefa-autocomplete #especieTarefa="especieTarefaAutocomplete"
+                                             [control]="form.get('especieTarefaFrom')">
+            </cdk-especie-tarefa-autocomplete>
+        </mat-form-field>
 
-            <mat-form-field>
-                <div fxLayout="row" fxLayoutAlign="start center">
-                    <input matInput placeholder="Especie Tarefa Para"
-                           formControlName="especieTarefaTo"
-                           [matAutocomplete]="especieTarefa.autocomplete">
-                </div>
-                <cdk-especie-tarefa-autocomplete #especieTarefa="especieTarefaAutocomplete"
-                                                 [control]="form.get('especieTarefaTo')">
-                </cdk-especie-tarefa-autocomplete>
-            </mat-form-field>
+        <mat-form-field>
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <input matInput placeholder="Especie Tarefa Para"
+                       formControlName="especieTarefaTo"
+                       [matAutocomplete]="especieTarefa.autocomplete"
+                       (change)="verificarValor($event)">
+            </div>
+            <cdk-especie-tarefa-autocomplete #especieTarefa="especieTarefaAutocomplete"
+                                             [control]="form.get('especieTarefaTo')">
+            </cdk-especie-tarefa-autocomplete>
+        </mat-form-field>
 
         <mat-form-field>
             <mat-label>Criado Em</mat-label>
@@ -52,7 +55,8 @@
         <mat-form-field>
             <input matInput placeholder="Atualizado Por"
                    formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

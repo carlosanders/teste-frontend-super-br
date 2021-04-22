@@ -53,92 +53,96 @@ export class CdkSetorFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('nome').value) {
             this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['nome'] = `like:%${bit}%`;
+                andXFilter.push({'nome': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('endereco').value) {
             this.form.get('endereco').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['endereco'] = `like:%${bit}%`;
+                andXFilter.push({'endereco': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('email').value) {
             this.form.get('email').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['email'] = `like:%${bit}%`;
+                andXFilter.push({'email': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('sigla').value) {
             this.form.get('sigla').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['sigla'] = `like:%${bit}%`;
+                andXFilter.push({'sigla': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('prefixoNUP').value) {
             this.form.get('prefixoNUP').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['prefixoNUP'] = `like:%${bit}%`;
+                andXFilter.push({'prefixoNUP': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('prazoEqualizacao').value) {
             this.form.get('prazoEqualizacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['prazoEqualizacao'] = `like:%${bit}%`;
+                andXFilter.push({'prazoEqualizacao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('sequenciaInicialNUP').value) {
             this.form.get('sequenciaInicialNUP').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['sequenciaInicialNUP'] = `like:%${bit}%`;
+                andXFilter.push({'sequenciaInicialNUP': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('unidade').value) {
-            andXFilter['unidade.id'] = `eq:${this.form.get('unidade').value.id}`;
+            andXFilter.push({'unidade.id': `eq:${this.form.get('unidade').value.id}`});
         }
 
         if (this.form.get('parent').value) {
-            andXFilter['parent.id'] = `eq:${this.form.get('parent').value.id}`;
+            andXFilter.push({'parent.id': `eq:${this.form.get('parent').value.id}`});
         }
 
         if (this.form.get('unidadePai').value) {
-            andXFilter['unidadePai.id'] = `eq:${this.form.get('unidadePai').value.id}`;
+            andXFilter.push({'unidadePai.id': `eq:${this.form.get('unidadePai').value.id}`});
         }
 
         if (this.form.get('municipio').value) {
-            andXFilter['municipio.id'] = `eq:${this.form.get('municipio').value.id}`;
+            andXFilter.push({'municipio.id': `eq:${this.form.get('municipio').value.id}`});
         }
 
         if (this.form.get('generoSetor').value) {
-            andXFilter['generoSetor.id'] = `eq:${this.form.get('generoSetor').value.id}`;
+            andXFilter.push({'generoSetor.id': `eq:${this.form.get('generoSetor').value.id}`});
         }
 
         if (this.form.get('especieSetor').value) {
-            andXFilter['especieSetor.id'] = `eq:${this.form.get('especieSetor').value.id}`;
+            andXFilter.push({'especieSetor.id': `eq:${this.form.get('especieSetor').value.id}`});
         }
 
         if (this.form.get('modalidadeOrgaoCentral').value) {
-            andXFilter['modalidadeOrgaoCentral.id'] = `eq:${this.form.get('modalidadeOrgaoCentral').value.id}`;
+            andXFilter.push({'modalidadeOrgaoCentral.id': `eq:${this.form.get('modalidadeOrgaoCentral').value.id}`});
         }
 
         if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
 
         if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
         const request = {
@@ -146,11 +150,18 @@ export class CdkSetorFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-setor-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

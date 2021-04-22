@@ -7,12 +7,13 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
             <input matInput placeholder="Documento"
                    formControlName="documento"
-                   [matAutocomplete]="documento.autocomplete">
+                   [matAutocomplete]="documento.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-documento-autocomplete #documento="documentoAutocomplete" [control]="form.get('documento')">
             </cdk-documento-autocomplete>
         </mat-form-field>
@@ -20,7 +21,8 @@
         <mat-form-field>
             <input matInput placeholder="Usuário"
                    formControlName="usuario"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuario')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

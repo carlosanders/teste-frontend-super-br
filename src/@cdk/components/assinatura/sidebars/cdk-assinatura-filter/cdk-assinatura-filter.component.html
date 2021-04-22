@@ -7,7 +7,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
             <mat-label>Algoritmo Hash</mat-label>
@@ -48,7 +48,8 @@
         <mat-form-field>
             <input matInput placeholder="Componente Digital"
                    formControlName="componenteDigital"
-                   [matAutocomplete]="componenteDigital.autocomplete">
+                   [matAutocomplete]="componenteDigital.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-componente-digital-autocomplete #componenteDigital="componenteDigitalAutocomplete"
                                                  [control]="form.get('componenteDigital')">
             </cdk-componente-digital-autocomplete>
@@ -57,7 +58,8 @@
         <mat-form-field>
             <input matInput placeholder="Origem de Dados"
                    formControlName="origemDados"
-                   [matAutocomplete]="origemDados.autocomplete">
+                   [matAutocomplete]="origemDados.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
                                            [control]="form.get('origemDados')">
             </cdk-origem-dados-autocomplete>

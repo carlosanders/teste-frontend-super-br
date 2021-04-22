@@ -27,15 +27,18 @@
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <input matInput placeholder="Tipo Documento"
                    formControlName="tipoDocumento"
-                   [matAutocomplete]="tipoDocumento.autocomplete">
-            <cdk-tipo-documento-autocomplete #tipoDocumento="tipoDocumentoAutocomplete" [control]="form.get('tipoDocumento')">
+                   [matAutocomplete]="tipoDocumento.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-tipo-documento-autocomplete #tipoDocumento="tipoDocumentoAutocomplete"
+                                             [control]="form.get('tipoDocumento')">
             </cdk-tipo-documento-autocomplete>
         </mat-form-field>
 
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <input matInput placeholder="Criado Por"
                    formControlName="criadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
@@ -43,7 +46,8 @@
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <input matInput placeholder="Juntado Por"
                    formControlName="juntadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('juntadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
@@ -58,14 +62,16 @@
         <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
             <input matInput placeholder="Processo"
                    formControlName="processo"
-                   [matAutocomplete]="processo.autocomplete">
+                   [matAutocomplete]="processo.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
             </cdk-processo-autocomplete>
         </mat-form-field>
 
         <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
             <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': filterCriadoEm?.length}">
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm"
+                    [ngClass]="{'filtrado': filterCriadoEm?.length}">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>
@@ -78,7 +84,8 @@
 
         <div class="filtro-data" *showIfRole="'ROLE_COLABORADOR'">
             <span [ngClass]="{'filtrado': filterJuntadoEm?.length}">Juntado Em</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroJuntadoEm" [ngClass]="{'filtrado': filterJuntadoEm?.length}">
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroJuntadoEm"
+                    [ngClass]="{'filtrado': filterJuntadoEm?.length}">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>

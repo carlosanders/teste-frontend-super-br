@@ -32,7 +32,8 @@
         <mat-form-field>
             <input matInput placeholder="Gênero"
                    formControlName="modalidadeGeneroPessoa"
-                   [matAutocomplete]="modalidadeGeneroPessoa.autocomplete">
+                   [matAutocomplete]="modalidadeGeneroPessoa.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-modalidade-genero-pessoa-autocomplete #modalidadeGeneroPessoa="modalidadeGeneroPessoaAutocomplete"
                                                        [control]="form.get('modalidadeGeneroPessoa')">
             </cdk-modalidade-genero-pessoa-autocomplete>
@@ -41,7 +42,8 @@
         <mat-form-field>
             <input matInput placeholder="Tipo"
                    formControlName="modalidadeQualificacaoPessoa"
-                   [matAutocomplete]="modalidadeQualificacaoPessoa.autocomplete">
+                   [matAutocomplete]="modalidadeQualificacaoPessoa.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-modalidade-qualificacao-pessoa-autocomplete
                 #modalidadeQualificacaoPessoa="modalidadeQualificacaoPessoaAutocomplete"
                 [control]="form.get('modalidadeQualificacaoPessoa')">
@@ -50,7 +52,8 @@
 
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterDataNascimento?.length}">Data Nascimento</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataNascimento" [ngClass]="{'filtrado': filterDataNascimento?.length}">
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataNascimento"
+                    [ngClass]="{'filtrado': filterDataNascimento?.length}">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>
@@ -63,7 +66,8 @@
 
         <div class="filtro-data">
             <span [ngClass]="{'filtrado': filterDataObito?.length}">Data Óbito</span>
-            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataObito" [ngClass]="{'filtrado': filterDataObito?.length}">
+            <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataObito"
+                    [ngClass]="{'filtrado': filterDataObito?.length}">
                 <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
             </button>
         </div>

@@ -108,11 +108,18 @@ export class CdkComponenteDigitalFilterComponent {
     }
 
     filtraCriadoEm(value: any): void {
-       this.filterCriadoEm = value;
+        this.filterCriadoEm = value;
     }
 
     filtraJuntadoEm(value: any): void {
         this.filterJuntadoEm = value;
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

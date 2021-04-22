@@ -7,7 +7,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
             <mat-label>Número</mat-label>
@@ -19,7 +19,8 @@
         <mat-form-field>
             <input matInput placeholder="Origem de Dados"
                    formControlName="origemDados"
-                   [matAutocomplete]="origemDados.autocomplete">
+                   [matAutocomplete]="origemDados.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-origem-dados-autocomplete #origemDados="origemDadosAutocomplete"
                                            [control]="form.get('origemDados')">
             </cdk-origem-dados-autocomplete>
@@ -28,7 +29,8 @@
         <mat-form-field>
             <input matInput placeholder="Pessoa"
                    formControlName="pessoa"
-                   [matAutocomplete]="pessoa.autocomplete">
+                   [matAutocomplete]="pessoa.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-pessoa-autocomplete #pessoa="pessoaAutocomplete" [control]="form.get('pessoa')">
             </cdk-pessoa-autocomplete>
         </mat-form-field>

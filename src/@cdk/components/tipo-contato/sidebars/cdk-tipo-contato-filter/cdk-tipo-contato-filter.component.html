@@ -7,7 +7,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
             <mat-label>Nome</mat-label>
@@ -23,36 +23,38 @@
                    formControlName="descricao">
         </mat-form-field>
 
-       <mat-form-field>
-           <input matInput placeholder="Criado Por"
-                  formControlName="criadoPor"
-                  [matAutocomplete]="usuario.autocomplete">
-           <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
-           </cdk-usuario-autocomplete>
-       </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Criado Por"
+                   formControlName="criadoPor"
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
-       <mat-form-field>
-           <mat-label>Criado Em</mat-label>
-           <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
-           <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
-           <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
-       </mat-form-field>
+        <mat-form-field>
+            <mat-label>Criado Em</mat-label>
+            <input matInput formControlName="criadoEm" [matDatetimepicker]="criadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="criadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #criadoEm type="datetime" openOnFocus="true" timeInterval="5"></mat-datetimepicker>
+        </mat-form-field>
 
-       <mat-form-field>
-           <input matInput placeholder="Atualizado Por"
-                  formControlName="atualizadoPor"
-                  [matAutocomplete]="usuario.autocomplete">
-           <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
-           </cdk-usuario-autocomplete>
-       </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Atualizado Por"
+                   formControlName="atualizadoPor"
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
-       <mat-form-field>
-           <mat-label>Atualizado Em</mat-label>
-           <input matInput formControlName="atualizadoEm" [matDatetimepicker]="atualizadoEm">
-           <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
-           <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
-           </mat-datetimepicker>
-       </mat-form-field>
+        <mat-form-field>
+            <mat-label>Atualizado Em</mat-label>
+            <input matInput formControlName="atualizadoEm" [matDatetimepicker]="atualizadoEm">
+            <mat-datetimepicker-toggle matSuffix [for]="atualizadoEm"></mat-datetimepicker-toggle>
+            <mat-datetimepicker #atualizadoEm type="datetime" openOnFocus="true" timeInterval="5">
+            </mat-datetimepicker>
+        </mat-form-field>
 
     </form>
 </div>

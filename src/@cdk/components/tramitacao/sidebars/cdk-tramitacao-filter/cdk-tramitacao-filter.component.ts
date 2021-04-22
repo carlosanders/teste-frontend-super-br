@@ -42,52 +42,56 @@ export class CdkTramitacaoFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('observacao').value) {
             this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['observacao'] = `like:%${bit}%`;
+                andXFilter.push({'observacao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('processo').value) {
-            andXFilter['processo.id'] = `eq:${this.form.get('processo').value.id}`;
+            andXFilter.push({'processo.id': `eq:${this.form.get('processo').value.id}`});
         }
 
         if (this.form.get('setorOrigem').value) {
-            andXFilter['setorOrigem.id'] = `eq:${this.form.get('setorOrigem').value.id}`;
+            andXFilter.push({'setorOrigem.id': `eq:${this.form.get('setorOrigem').value.id}`});
         }
 
         if (this.form.get('setorDestino').value) {
-            andXFilter['setorDestino.id'] = `eq:${this.form.get('setorDestino').value.id}`;
+            andXFilter.push({'setorDestino.id': `eq:${this.form.get('setorDestino').value.id}`});
         }
 
         if (this.form.get('pessoaDestino').value) {
-            andXFilter['pessoaDestino.id'] = `eq:${this.form.get('pessoaDestino').value.id}`;
+            andXFilter.push({'pessoaDestino.id': `eq:${this.form.get('pessoaDestino').value.id}`});
         }
 
         if (this.form.get('usuarioRecebimento').value) {
-            andXFilter['usuarioRecebimento.id'] = `eq:${this.form.get('usuarioRecebimento').value.id}`;
+            andXFilter.push({'usuarioRecebimento.id': `eq:${this.form.get('usuarioRecebimento').value.id}`});
         }
 
         if (this.form.get('dataHoraRecebimento').value) {
-            andXFilter['dataHoraRecebimento'] = `eq:${this.form.get('dataHoraRecebimento').value}`;
+            andXFilter.push({'dataHoraRecebimento': `eq:${this.form.get('dataHoraRecebimento').value}`});
         }
 
         if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
 
         if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
         const request = {
@@ -95,11 +99,18 @@ export class CdkTramitacaoFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-tramitacao-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

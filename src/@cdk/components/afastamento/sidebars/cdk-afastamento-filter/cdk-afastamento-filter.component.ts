@@ -44,46 +44,50 @@ export class CdkAfastamentoFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('colaborador').value) {
-            andXFilter['colaborador.id'] = `eq:${this.form.get('colaborador').value.id}`;
+            andXFilter.push({'colaborador.id': `eq:${this.form.get('colaborador').value.id}`});
         }
 
         if (this.form.get('modalidadeAfastamento').value) {
-            andXFilter['modalidadeAfastamento.id'] = `eq:${this.form.get('modalidadeAfastamento').value.id}`;
+            andXFilter.push({'modalidadeAfastamento.id': `eq:${this.form.get('modalidadeAfastamento').value.id}`});
         }
 
         if (this.form.get('dataInicio').value) {
-            andXFilter['dataInicio'] = `eq:${this.form.get('dataInicio').value}`;
+            andXFilter.push({'dataInicio': `eq:${this.form.get('dataInicio').value}`});
         }
 
         if (this.form.get('dataInicioBloqueio').value) {
-            andXFilter['dataInicioBloqueio'] = `eq:${this.form.get('dataInicioBloqueio').value}`;
+            andXFilter.push({'dataInicioBloqueio': `eq:${this.form.get('dataInicioBloqueio').value}`});
         }
 
         if (this.form.get('dataFim').value) {
-            andXFilter['dataFim'] = `eq:${this.form.get('dataFim').value}`;
+            andXFilter.push({'dataFim': `eq:${this.form.get('dataFim').value}`});
         }
 
         if (this.form.get('dataFimBloqueio').value) {
-            andXFilter['dataFimBloqueio'] = `eq:${this.form.get('dataFimBloqueio').value}`;
+            andXFilter.push({'dataFimBloqueio': `eq:${this.form.get('dataFimBloqueio').value}`});
         }
 
         if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
 
         if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
         const request = {
@@ -91,11 +95,18 @@ export class CdkAfastamentoFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-afastamento-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

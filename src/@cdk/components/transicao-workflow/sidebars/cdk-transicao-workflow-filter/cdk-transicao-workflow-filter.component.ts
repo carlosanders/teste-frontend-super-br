@@ -37,34 +37,38 @@ export class CdkTransicaoWorkflowFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('especieAtividade').value) {
-            andXFilter['especieAtividade.id'] = `eq:${this.form.get('especieAtividade').value.id}`;
+            andXFilter.push({'especieAtividade.id': `eq:${this.form.get('especieAtividade').value.id}`});
         }
 
         if (this.form.get('especieTarefaFrom').value) {
-            andXFilter['especieTarefaFrom.id'] = `eq:${this.form.get('especieTarefaFrom').value.id}`;
+            andXFilter.push({'especieTarefaFrom.id': `eq:${this.form.get('especieTarefaFrom').value.id}`});
         }
 
         if (this.form.get('especieTarefaTo').value) {
-            andXFilter['especieTarefaTo.id'] = `eq:${this.form.get('especieTarefaTo').value.id}`;
+            andXFilter.push({'especieTarefaTo.id': `eq:${this.form.get('especieTarefaTo').value.id}`});
         }
 
         if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
 
         if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
         const request = {
@@ -72,11 +76,18 @@ export class CdkTransicaoWorkflowFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-transicao-workflow-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

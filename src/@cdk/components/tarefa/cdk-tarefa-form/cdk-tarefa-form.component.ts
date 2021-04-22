@@ -552,10 +552,10 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     this.especieTarefaPagination['context'] = {};
                     if (this.form.get('processo').value?.especieProcesso?.workflow) {
                         if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
-                            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO,'};
+                            this.especieTarefaPagination.filter = {'generoTarefa.nome': 'eq:ADMINISTRATIVO'};
                         } else {
                             this.especieTarefaPagination.filter = {
-                                'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO,' +
+                                'generoTarefa.nome': 'in:ADMINISTRATIVO,' +
                                     this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
                             };
                         }
@@ -745,6 +745,14 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             } catch (e) {
                 this.form.setErrors({rulesError: this.errors.error.message});
             }
+        }
+
+        if (!this.errors) {
+            Object.keys(this.form.controls).forEach(key => {
+                this.form.get(key).setErrors(null);
+            });
+
+            this.form.setErrors(null);
         }
 
         this._changeDetectorRef.markForCheck();
@@ -1112,7 +1120,6 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             const controls = this.form.controls;
             for (const name in controls) {
                 if (controls[name].invalid && !blocoCampos[name]) {
-                    console.log(name);
                     this.form.get(name).clearValidators();
                     this.form.get(name).setErrors(null);
                 }
@@ -1145,7 +1152,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     addFilterProcessoWorfkflow(): void {
         // caso processo seja de workflow verificar espécies permitidas
         this.especieTarefaPagination['context'] = {};
-        if (this.form.get('processo').value && this.form.get('processo').value.especieProcesso.workflow) {
+        if (this.form.get('processo').value && this.form.get('processo').value.especieProcesso && this.form.get('processo').value.especieProcesso.workflow) {
 
             if (!this.form.get('processo').value.tarefaAtualWorkflow) {
                 this.especieTarefaPagination.filter['workflows.id'] = 'eq:'

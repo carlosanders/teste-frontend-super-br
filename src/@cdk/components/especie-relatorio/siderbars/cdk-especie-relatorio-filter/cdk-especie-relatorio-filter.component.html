@@ -6,7 +6,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
             <mat-label>Nome</mat-label>
@@ -29,7 +29,8 @@
         <mat-form-field>
             <input matInput placeholder="Gênero"
                    formControlName="generoRelatorio"
-                   [matAutocomplete]="generoRelatorio.autocomplete">
+                   [matAutocomplete]="generoRelatorio.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-genero-relatorio-autocomplete
                 #generoRelatorio="generoRelatorioAutocomplete"
                 [control]="form.get('generoRelatorio')">
@@ -39,7 +40,8 @@
         <mat-form-field>
             <input matInput placeholder="Criado Por"
                    formControlName="criadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
 
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
             </cdk-usuario-autocomplete>
@@ -55,7 +57,8 @@
         <mat-form-field>
             <input matInput placeholder="Atualizado Por"
                    formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

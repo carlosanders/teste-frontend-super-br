@@ -37,34 +37,38 @@ export class CdkVinculacaoDocumentoFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('documento').value) {
-            andXFilter['documento.id'] = `eq:${this.form.get('documento').value.id}`;
+            andXFilter.push({'documento.id': `eq:${this.form.get('documento').value.id}`});
         }
 
         if (this.form.get('documentoVinculado').value) {
-            andXFilter['documentoVinculado.id'] = `eq:${this.form.get('documentoVinculado').value.id}`;
+            andXFilter.push({'documentoVinculado.id': `eq:${this.form.get('documentoVinculado').value.id}`});
         }
 
         if (this.form.get('modalidadeVinculacaoDocumento').value) {
-            andXFilter['modalidadeVinculacaoDocumento.id'] = `eq:${this.form.get('modalidadeVinculacaoDocumento').value.id}`;
+            andXFilter.push({'modalidadeVinculacaoDocumento.id': `eq:${this.form.get('modalidadeVinculacaoDocumento').value.id}`});
         }
 
         if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
 
         if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
         const request = {
@@ -72,11 +76,18 @@ export class CdkVinculacaoDocumentoFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-vinculacao-documento-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

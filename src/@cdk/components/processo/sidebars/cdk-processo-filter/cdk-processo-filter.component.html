@@ -6,7 +6,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -47,7 +47,8 @@
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <input matInput placeholder="Processo de Trabalho"
                        formControlName="especieProcesso"
-                       [matAutocomplete]="especieProcesso.autocomplete">
+                       [matAutocomplete]="especieProcesso.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-especie-processo-autocomplete #especieProcesso="especieProcessoAutocomplete"
                                                    [control]="form.get('especieProcesso')">
                 </cdk-especie-processo-autocomplete>
@@ -110,7 +111,8 @@
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <input matInput placeholder="Classificação"
                        formControlName="classificacao"
-                       [matAutocomplete]="classificacao.autocomplete">
+                       [matAutocomplete]="classificacao.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-classificacao-autocomplete #classificacao="classificacaoAutocomplete"
                                                 [control]="form.get('classificacao')">
                 </cdk-classificacao-autocomplete>
@@ -119,7 +121,8 @@
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <input matInput placeholder="Procedência"
                        formControlName="procedencia"
-                       [matAutocomplete]="pessoa.autocomplete">
+                       [matAutocomplete]="pessoa.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-pessoa-autocomplete #pessoa="pessoaAutocomplete" [control]="form.get('procedencia')">
                 </cdk-pessoa-autocomplete>
             </mat-form-field>
@@ -127,7 +130,8 @@
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <input matInput placeholder="Modalidade da Fase"
                        formControlName="modalidadeFase"
-                       [matAutocomplete]="modalidadeFase.autocomplete">
+                       [matAutocomplete]="modalidadeFase.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-modalidade-fase-autocomplete #modalidadeFase="modalidadeFaseAutocomplete"
                                                   [control]="form.get('modalidadeFase')">
                 </cdk-modalidade-fase-autocomplete>
@@ -136,7 +140,8 @@
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <input matInput placeholder="Modalidade Meio"
                        formControlName="modalidadeMeio"
-                       [matAutocomplete]="modalidadeMeio.autocomplete">
+                       [matAutocomplete]="modalidadeMeio.autocomplete"
+                       (change)="verificarValor($event)">
                 <cdk-modalidade-meio-autocomplete #modalidadeMeio="modalidadeMeioAutocomplete"
                                                   [control]="form.get('modalidadeMeio')">
                 </cdk-modalidade-meio-autocomplete>
@@ -145,16 +150,20 @@
             <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
                 <input matInput placeholder="Unidade Responsável"
                        formControlName="unidade"
-                       [matAutocomplete]="setor.autocomplete">
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidade')" [pagination]="unidadePagination">
+                       [matAutocomplete]="setor.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('unidade')"
+                                        [pagination]="unidadePagination">
                 </cdk-setor-autocomplete>
             </mat-form-field>
 
             <mat-form-field *ngIf="form.get('unidade').value && form.get('unidade').value.id">
                 <input matInput placeholder="Setor Responsável"
                        formControlName="setorAtual"
-                       [matAutocomplete]="setor.autocomplete">
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')" [pagination]="setorPagination">
+                       [matAutocomplete]="setor.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAtual')"
+                                        [pagination]="setorPagination">
                 </cdk-setor-autocomplete>
             </mat-form-field>
 

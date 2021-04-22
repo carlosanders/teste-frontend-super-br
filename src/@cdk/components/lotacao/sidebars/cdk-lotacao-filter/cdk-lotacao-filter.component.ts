@@ -45,48 +45,52 @@ export class CdkLotacaoFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('peso').value) {
             this.form.get('peso').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['peso'] = `like:%${bit}%`;
+                andXFilter.push({'peso': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('digitosDistribuicao').value) {
             this.form.get('digitosDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['digitosDistribuicao'] = `like:%${bit}%`;
+                andXFilter.push({'digitosDistribuicao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('centenasDistribuicao').value) {
             this.form.get('centenasDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['centenasDistribuicao'] = `like:%${bit}%`;
+                andXFilter.push({'centenasDistribuicao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('colaborador').value) {
-            andXFilter['colaborador.id'] = `eq:${this.form.get('colaborador').value.id}`;
+            andXFilter.push({'colaborador.id': `eq:${this.form.get('colaborador').value.id}`});
         }
 
         if (this.form.get('setor').value) {
-            andXFilter['setor.id'] = `eq:${this.form.get('setor').value.id}`;
+            andXFilter.push({'setor.id': `eq:${this.form.get('setor').value.id}`});
         }
 
         if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
 
         if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
         const request = {
@@ -94,11 +98,18 @@ export class CdkLotacaoFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-lotacao-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

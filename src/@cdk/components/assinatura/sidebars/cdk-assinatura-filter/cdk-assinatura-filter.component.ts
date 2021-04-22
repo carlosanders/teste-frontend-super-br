@@ -41,64 +41,68 @@ export class CdkAssinaturaFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('algoritmoHash').value) {
             this.form.get('algoritmoHash').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['algoritmoHash'] = `like:%${bit}%`;
+                andXFilter.push({'algoritmoHash': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('assinatura').value) {
             this.form.get('assinatura').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['assinatura'] = `like:%${bit}%`;
+                andXFilter.push({'assinatura': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('cadeiaCertificadoPEM').value) {
             this.form.get('cadeiaCertificadoPEM').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['cadeiaCertificadoPEM'] = `like:%${bit}%`;
+                andXFilter.push({'cadeiaCertificadoPEM': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('cadeiaCertificadoPkiPath').value) {
             this.form.get('cadeiaCertificadoPkiPath').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['cadeiaCertificadoPkiPath'] = `like:%${bit}%`;
+                andXFilter.push({'cadeiaCertificadoPkiPath': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('assinatura').value) {
             this.form.get('assinatura').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['assinatura'] = `like:%${bit}%`;
+                andXFilter.push({'assinatura': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('componenteDigital').value) {
-            andXFilter['componenteDigital.id'] = `eq:${this.form.get('componenteDigital').value.id}`;
+            andXFilter.push({'componenteDigital.id': `eq:${this.form.get('componenteDigital').value.id}`});
         }
 
         if (this.form.get('origemDados').value) {
-            andXFilter['origemDados.id'] = `eq:${this.form.get('origemDados').value.id}`;
+            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.form.get('dataHoraAssinatura').value) {
-            andXFilter['dataHoraAssinatura'] = `eq:${this.form.get('dataHoraAssinatura').value}`;
+            andXFilter.push({'dataHoraAssinatura': `eq:${this.form.get('dataHoraAssinatura').value}`});
         }
 
         if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
 
         if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
         const request = {
@@ -106,11 +110,18 @@ export class CdkAssinaturaFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-assinatura-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

@@ -36,62 +36,50 @@ export class CdkLogentryFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('action').value) {
             this.form.get('action').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['action'] = `like:%${bit}%`;
+                andXFilter.push({'action': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('objectId').value) {
             this.form.get('objectId').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['objectId'] = `like:%${bit}%`;
+                andXFilter.push({'objectId': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('loggedAt').value) {
             this.form.get('loggedAt').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['loggedAt'] = `like:%${bit}%`;
+                andXFilter.push({'loggedAt': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('objectClass').value) {
             this.form.get('objectClass').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['objectClass'] = `like:%${bit}%`;
+                andXFilter.push({'objectClass': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('valor').value) {
             this.form.get('valor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['valor'] = `like:%${bit}%`;
+                andXFilter.push({'valor': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('username').value) {
             this.form.get('username').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['username'] = `like:%${bit}%`;
+                andXFilter.push({'username': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('loggedAt').value) {
-            andXFilter['loggedAt'] = `eq:${this.form.get('loggedAt').value}`;
-        }
-
-        if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
-        }
-
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
-        }
-
-        if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
-        }
-
-        if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'loggedAt': `eq:${this.form.get('loggedAt').value}`});
         }
 
         const request = {
@@ -99,11 +87,18 @@ export class CdkLogentryFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-logentry-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

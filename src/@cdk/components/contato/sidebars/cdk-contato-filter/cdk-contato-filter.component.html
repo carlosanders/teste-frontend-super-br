@@ -7,32 +7,34 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
-       <mat-form-field>
-           <mat-label>Contato</mat-label>
-           <input matInput #contato
-                  name="contato"
-                  formControlName="contato"
-                  maxlength="255">
-           <mat-hint align="end">{{contato.value.length}} / 255</mat-hint>
-       </mat-form-field>
+        <mat-form-field>
+            <mat-label>Contato</mat-label>
+            <input matInput #contato
+                   name="contato"
+                   formControlName="contato"
+                   maxlength="255">
+            <mat-hint align="end">{{contato.value.length}} / 255</mat-hint>
+        </mat-form-field>
 
-       <mat-form-field>
-           <input matInput placeholder="Tipo Contato"
-                  formControlName="tipoContato"
-                  [matAutocomplete]="tipoContato.autocomplete">
-           <cdk-tipo-contato-autocomplete #tipoContato="tipoContatoAutocomplete" [control]="form.get('tipoContato')">
-           </cdk-tipo-contato-autocomplete>
-       </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Tipo Contato"
+                   formControlName="tipoContato"
+                   [matAutocomplete]="tipoContato.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-tipo-contato-autocomplete #tipoContato="tipoContatoAutocomplete" [control]="form.get('tipoContato')">
+            </cdk-tipo-contato-autocomplete>
+        </mat-form-field>
 
-       <mat-form-field>
-           <input matInput placeholder="Criado Por"
-                  formControlName="criadoPor"
-                  [matAutocomplete]="usuario.autocomplete">
-           <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
-           </cdk-usuario-autocomplete>
-       </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Criado Por"
+                   formControlName="criadoPor"
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
+            <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('criadoPor')">
+            </cdk-usuario-autocomplete>
+        </mat-form-field>
 
         <mat-form-field>
             <mat-label>Criado Em</mat-label>
@@ -44,7 +46,8 @@
         <mat-form-field>
             <input matInput placeholder="Atualizado Por"
                    formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

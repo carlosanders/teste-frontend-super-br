@@ -7,12 +7,13 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
             <input matInput placeholder="Juntada"
                    formControlName="juntada"
-                   [matAutocomplete]="juntada.autocomplete">
+                   [matAutocomplete]="juntada.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-juntada-autocomplete #juntada="juntadaAutocomplete" [control]="form.get('juntada')">
             </cdk-juntada-autocomplete>
         </mat-form-field>
@@ -20,7 +21,8 @@
         <mat-form-field>
             <input matInput placeholder="Processo de Destino"
                    formControlName="processoDestino"
-                   [matAutocomplete]="processo.autocomplete">
+                   [matAutocomplete]="processo.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processoDestino')">
             </cdk-processo-autocomplete>
         </mat-form-field>
@@ -42,7 +44,8 @@
         <mat-form-field>
             <input matInput placeholder="Atualizado Por"
                    formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

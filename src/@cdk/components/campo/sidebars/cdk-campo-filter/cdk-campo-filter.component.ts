@@ -33,40 +33,28 @@ export class CdkCampoFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('nome').value) {
             this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['nome'] = `like:%${bit}%`;
+                andXFilter.push({'nome': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('descricao').value) {
             this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['descricao'] = `like:%${bit}%`;
+                andXFilter.push({'descricao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('html').value) {
             this.form.get('html').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['html'] = `like:%${bit}%`;
+                andXFilter.push({'html': `like:%${bit}%`});
             });
-        }
-
-        if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
-        }
-
-        if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
-        }
-
-        if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
-        }
-
-        if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
         }
 
         const request = {
@@ -74,7 +62,7 @@ export class CdkCampoFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);

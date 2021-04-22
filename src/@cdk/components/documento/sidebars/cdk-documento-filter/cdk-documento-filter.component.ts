@@ -58,124 +58,128 @@ export class CdkDocumentoFilterComponent {
     }
 
     emite(): void {
-        const andXFilter = {};
+        if (!this.form.valid) {
+            return;
+        }
+
+        const andXFilter = [];
 
         if (this.form.get('descricaoOutros').value) {
             this.form.get('descricaoOutros').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['descricaoOutros'] = `like:%${bit}%`;
+                andXFilter.push({'descricaoOutros': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('outroNumero').value) {
             this.form.get('outroNumero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['outroNumero'] = `like:%${bit}%`;
+                andXFilter.push({'outroNumero': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('redator').value) {
             this.form.get('redator').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['redator'] = `like:%${bit}%`;
+                andXFilter.push({'redator': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('destinatario').value) {
             this.form.get('destinatario').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['destinatario'] = `like:%${bit}%`;
+                andXFilter.push({'destinatario': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('localizadorOriginal').value) {
             this.form.get('localizadorOriginal').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['localizadorOriginal'] = `like:%${bit}%`;
+                andXFilter.push({'localizadorOriginal': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('localProducao').value) {
             this.form.get('localProducao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['localProducao'] = `like:%${bit}%`;
+                andXFilter.push({'localProducao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('autor').value) {
             this.form.get('autor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['autor'] = `like:%${bit}%`;
+                andXFilter.push({'autor': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('observacao').value) {
             this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['observacao'] = `like:%${bit}%`;
+                andXFilter.push({'observacao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('numeroFolhas').value) {
             this.form.get('numeroFolhas').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                andXFilter['numeroFolhas'] = `like:%${bit}%`;
+                andXFilter.push({'numeroFolhas': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('processoOrigem').value) {
-            andXFilter['processoOrigem.id'] = `eq:${this.form.get('processoOrigem').value.id}`;
+            andXFilter.push({'processoOrigem.id': `eq:${this.form.get('processoOrigem').value.id}`});
         }
 
         if (this.form.get('documentoOrigem').value) {
-            andXFilter['documentoOrigem.id'] = `eq:${this.form.get('documentoOrigem').value.id}`;
+            andXFilter.push({'documentoOrigem.id': `eq:${this.form.get('documentoOrigem').value.id}`});
         }
 
         if (this.form.get('procedencia').value) {
-            andXFilter['procedencia.id'] = `eq:${this.form.get('procedencia').value.id}`;
+            andXFilter.push({'procedencia.id': `eq:${this.form.get('procedencia').value.id}`});
         }
 
         if (this.form.get('tipoDocumento').value) {
-            andXFilter['tipoDocumento.id'] = `eq:${this.form.get('tipoDocumento').value.id}`;
+            andXFilter.push({'tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value.id}`});
         }
 
         if (this.form.get('setorOrigem').value) {
-            andXFilter['setorOrigem.id'] = `eq:${this.form.get('setorOrigem').value.id}`;
+            andXFilter.push({'setorOrigem.id': `eq:${this.form.get('setorOrigem').value.id}`});
         }
 
         if (this.form.get('tarefaOrigem').value) {
-            andXFilter['tarefaOrigem.id'] = `eq:${this.form.get('tarefaOrigem').value.id}`;
+            andXFilter.push({'tarefaOrigem.id': `eq:${this.form.get('tarefaOrigem').value.id}`});
         }
 
         if (this.form.get('juntadaAtual').value) {
-            andXFilter['juntadaAtual.id'] = `eq:${this.form.get('juntadaAtual').value.id}`;
+            andXFilter.push({'juntadaAtual.id': `eq:${this.form.get('juntadaAtual').value.id}`});
         }
 
         if (this.form.get('origemDados').value) {
-            andXFilter['origemDados.id'] = `eq:${this.form.get('origemDados').value.id}`;
+            andXFilter.push({'origemDados.id': `eq:${this.form.get('origemDados').value.id}`});
         }
 
         if (this.form.get('documentoAvulsoRemessa').value) {
-            andXFilter['documentoAvulsoRemessa.id'] = `eq:${this.form.get('documentoAvulsoRemessa').value.id}`;
+            andXFilter.push({'documentoAvulsoRemessa.id': `eq:${this.form.get('documentoAvulsoRemessa').value.id}`});
         }
 
         if (this.form.get('modelo').value) {
-            andXFilter['modelo.id'] = `eq:${this.form.get('modelo').value.id}`;
+            andXFilter.push({'modelo.id': `eq:${this.form.get('modelo').value.id}`});
         }
 
         if (this.form.get('repositorio').value) {
-            andXFilter['repositorio.id'] = `eq:${this.form.get('repositorio').value.id}`;
+            andXFilter.push({'repositorio.id': `eq:${this.form.get('repositorio').value.id}`});
         }
 
         if (this.form.get('dataHoraProducao').value) {
-            andXFilter['dataHoraProducao'] = `eq:${this.form.get('dataHoraProducao').value}`;
+            andXFilter.push({'dataHoraProducao': `eq:${this.form.get('dataHoraProducao').value}`});
         }
 
         if (this.form.get('criadoEm').value) {
-            andXFilter['criadoEm'] = `eq:${this.form.get('criadoEm').value}`;
+            andXFilter.push({'criadoEm': `eq:${this.form.get('criadoEm').value}`});
         }
 
         if (this.form.get('atualizadoEm').value) {
-            andXFilter['atualizadoEm'] = `eq:${this.form.get('atualizadoEm').value}`;
+            andXFilter.push({'atualizadoEm': `eq:${this.form.get('atualizadoEm').value}`});
         }
 
         if (this.form.get('criadoPor').value) {
-            andXFilter['criadoPor.id'] = `eq:${this.form.get('criadoPor').value.id}`;
+            andXFilter.push({'criadoPor.id': `eq:${this.form.get('criadoPor').value.id}`});
         }
 
         if (this.form.get('atualizadoPor').value) {
-            andXFilter['atualizadoPor.id'] = `eq:${this.form.get('atualizadoPor').value.id}`;
+            andXFilter.push({'atualizadoPor.id': `eq:${this.form.get('atualizadoPor').value.id}`});
         }
 
         const request = {
@@ -183,11 +187,18 @@ export class CdkDocumentoFilterComponent {
         };
 
         if (Object.keys(andXFilter).length) {
-            request['filters']['andX'] = [andXFilter];
+            request['filters']['andX'] = andXFilter;
         }
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-documento-filter').close();
+    }
+
+    verificarValor(objeto): void {
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
     }
 
     buscar(): void {

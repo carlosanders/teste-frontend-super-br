@@ -7,12 +7,13 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-form-field>
             <input matInput placeholder="Tarefa"
                    formControlName="tarefa"
-                   [matAutocomplete]="tarefa.autocomplete">
+                   [matAutocomplete]="tarefa.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-tarefa-autocomplete #tarefa="tarefaAutocomplete" [control]="form.get('tarefa')">
             </cdk-tarefa-autocomplete>
         </mat-form-field>
@@ -20,7 +21,8 @@
         <mat-form-field>
             <input matInput placeholder="Documento Avulso"
                    formControlName="documentoAvulso"
-                   [matAutocomplete]="documento.autocomplete">
+                   [matAutocomplete]="documento.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-documento-autocomplete #documento="documentoAutocomplete" [control]="form.get('documentoAvulso')">
             </cdk-documento-autocomplete>
         </mat-form-field>
@@ -28,7 +30,8 @@
         <mat-form-field>
             <input matInput placeholder="Usuário Anterior"
                    formControlName="usuarioAnterior"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioAnterior')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
@@ -36,7 +39,8 @@
         <mat-form-field>
             <input matInput placeholder="Usuário Posterior"
                    formControlName="usuarioPosterior"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('usuarioPosterior')">
             </cdk-usuario-autocomplete>
         </mat-form-field>
@@ -44,7 +48,8 @@
         <mat-form-field>
             <input matInput placeholder="Setor Anterior"
                    formControlName="setorAnterior"
-                   [matAutocomplete]="setor.autocomplete">
+                   [matAutocomplete]="setor.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorAnterior')">
             </cdk-setor-autocomplete>
         </mat-form-field>
@@ -52,7 +57,8 @@
         <mat-form-field>
             <input matInput placeholder="Setor Posterior"
                    formControlName="setorPosterior"
-                   [matAutocomplete]="setor.autocomplete">
+                   [matAutocomplete]="setor.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorPosterior')">
             </cdk-setor-autocomplete>
         </mat-form-field>
@@ -90,7 +96,8 @@
         <mat-form-field>
             <input matInput placeholder="Atualizado Por"
                    formControlName="atualizadoPor"
-                   [matAutocomplete]="usuario.autocomplete">
+                   [matAutocomplete]="usuario.autocomplete"
+                   (change)="verificarValor($event)">
             <cdk-usuario-autocomplete #usuario="usuarioAutocomplete" [control]="form.get('atualizadoPor')">
             </cdk-usuario-autocomplete>
         </mat-form-field>

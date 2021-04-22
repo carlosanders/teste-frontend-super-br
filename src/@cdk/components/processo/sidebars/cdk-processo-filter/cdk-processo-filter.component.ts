@@ -174,6 +174,15 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
         this.selected.emit(request);
     }
 
+    verificarValor(objeto): void {
+        console.log('teste');
+
+        const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
+        if (!objetoForm.value || typeof objetoForm.value !== 'object') {
+            objetoForm.setValue(null);
+        }
+    }
+
     buscar(): void {
         this.emite();
     }
