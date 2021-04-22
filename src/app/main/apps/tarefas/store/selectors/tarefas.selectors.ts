@@ -39,6 +39,11 @@ export const getSelectedTarefas = createSelector(
     schemaSelectors.entitiesProjector
 );
 
+export const getDraggedTarefasIds = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.draggingIds
+);
+
 export const getPagination = createSelector(
     getTarefasState,
     (state: TarefasState) => state.pagination
@@ -62,6 +67,11 @@ export const getError = createSelector(
 export const getErrorDelete = createSelector(
     getTarefasState,
     (state: TarefasState) => state.errorDelete
+);
+
+export const getErrorDistribuir = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.errorDistribuir
 );
 
 export const getDeletingTarefaIds = createSelector(
@@ -117,4 +127,19 @@ export const getRedistribuindoTarefaIds = createSelector(
 export const getIsTogglingUrgenteIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.togglingUrgenteIds
+);
+
+export const getIsClearForm = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.clearForm
+);
+
+export const getBufferingDistribuir = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.bufferingDistribuir
+);
+
+export const getDistribuindoTarefaIds = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.distribuindoTarefaIds
 );

@@ -8,7 +8,7 @@ import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {ProcessosAppState} from '../reducers';
 import * as fromStore from '../../store';
-import {getProcessosLoaded, getPessoaLoaded} from '../selectors';
+import {getProcessosLoaded, getPessoaLoaded, getIsLoading, getPessoaLoading} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
@@ -19,6 +19,9 @@ export class ResolveGuard implements CanActivate {
     private _profile: Usuario;
     private unidadeArquivistica = 2;
     routerState: any;
+
+    loading: boolean = false;
+    loadingPessoa: boolean = false;
 
     /**
      *
@@ -39,6 +42,10 @@ export class ResolveGuard implements CanActivate {
                 }
             });
 
+        this._store.pipe(select(getIsLoading)).subscribe(loading => this.loading = loading);
+
+        this._store.pipe(select(getPessoaLoading)).subscribe(loading => this.loadingPessoa = loading);
+
         this._profile = _loginService.getUserProfile();
     }
 
@@ -52,7 +59,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkRole(this.checkStore()).pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -93,68 +103,69 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     getProcessos(): any {
-        this._store.dispatch(new fromStore.UnloadProcessos({reset: true}));
-
         return this._store.pipe(
             select(getProcessosLoaded),
             tap((loaded: any) => {
-                const params = {
-                    listFilter: {},
-                    etiquetaFilter: {},
-                    limit: 10,
-                    offset: 0,
-                    sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC'},
-                    populate: [
-                        'especieProcesso',
-                        'especieProcesso.generoProcesso',
-                        'modalidadeMeio',
-                        'modalidadeFase',
-                        'documentoAvulsoOrigem',
-                        'classificacao',
-                        'classificacao.modalidadeDestinacao',
-                        'setorInicial',
-                        'setorAtual',
-                        'lembretes',
-                        'vinculacoesEtiquetas',
-                        'vinculacoesEtiquetas.etiqueta',
-                        'assuntos'
-                    ]
-                };
+                if (!this.loading && (!this.routerState.params['typeHandle'] || !this.routerState.params['targetHandle'] ||
+                    (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] + '_' + this._profile.id) !== loaded.value)) {
+                    this._store.dispatch(new fromStore.UnloadProcessos({reset: true}));
 
-                const routeTypeParam = of('typeHandle');
-                routeTypeParam.subscribe(typeParam => {
-                    let processoFilter = {};
-                    if (this.routerState.params[typeParam] === 'meus-processos') {
-                        processoFilter = {
-                            'criadoPor.id': `eq:${this._profile.id}`,
-                            'unidadeArquivistica': `eq:${this.unidadeArquivistica}`,
-                            'protocoloEletronico': 'eq:true'
-                        };
-                    }
+                    const params = {
+                        listFilter: {},
+                        etiquetaFilter: {},
+                        limit: 10,
+                        offset: 0,
+                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC'},
+                        populate: [
+                            'especieProcesso',
+                            'especieProcesso.generoProcesso',
+                            'modalidadeMeio',
+                            'modalidadeFase',
+                            'documentoAvulsoOrigem',
+                            'classificacao',
+                            'classificacao.modalidadeDestinacao',
+                            'setorInicial',
+                            'setorAtual',
+                            'lembretes',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta',
+                            'assuntos'
+                        ]
+                    };
 
-                    if (this.routerState.params[typeParam] === 'interessados') {
-                        const routeTargetParam = of('targetHandle');
-                        routeTargetParam.subscribe(targetParam => {
+                    const routeTypeParam = of('typeHandle');
+                    routeTypeParam.subscribe(typeParam => {
+                        let processoFilter = {};
+                        if (this.routerState.params[typeParam] === 'meus-processos') {
                             processoFilter = {
-                                'interessados.pessoa.id': `eq:${this.routerState.params[targetParam]}`,
+                                'criadoPor.id': `eq:${this._profile.id}`,
                                 'unidadeArquivistica': `eq:${this.unidadeArquivistica}`,
                                 'protocoloEletronico': 'eq:true'
                             };
-                        });
-                    }
+                        }
 
-                    params['filter'] = processoFilter;
-                });
+                        if (this.routerState.params[typeParam] === 'interessados') {
+                            const routeTargetParam = of('targetHandle');
+                            routeTargetParam.subscribe(targetParam => {
+                                processoFilter = {
+                                    'interessados.pessoa.id': `eq:${this.routerState.params[targetParam]}`,
+                                    'unidadeArquivistica': `eq:${this.unidadeArquivistica}`,
+                                    'protocoloEletronico': 'eq:true'
+                                };
+                            });
+                        }
 
-                if (!this.routerState.params['typeHandle'] || !this.routerState.params['targetHandle'] ||
-                    (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] + '_' + this._profile.id) !== loaded.value) {
+                        params['filter'] = processoFilter;
+                    });
+
                     this._store.dispatch(new fromStore.GetProcessos(params));
                     this._store.dispatch(new fromStore.ChangeSelectedProcessos([]));
+                    this.loading = true;
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params['typeHandle'] && this.routerState.params['targetHandle'] &&
-                (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle']  + '_' + this._profile.id) === loaded.value;
+                return this.loading || (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle'] &&
+                    (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] + '_' + this._profile.id) === loaded.value);
             }),
             take(1)
         );
@@ -169,9 +180,10 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getPessoaLoaded),
             tap((loaded: any) => {
-                if (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
-                    && this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] !== loaded.value) {
-                    const routerParam = this.routerState.params['targetHandle'] === 'entrada' ? this._profile.vinculacoesPessoasUsuarios[0].pessoa.id : this.routerState.params['targetHandle'];
+                if (!this.loadingPessoa && (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
+                    && this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] !== loaded.value)) {
+                    const routerParam = this.routerState.params['targetHandle'] === 'entrada' ?
+                        this._profile.vinculacoesPessoasUsuarios[0].pessoa.id : this.routerState.params['targetHandle'];
 
                     const params = {
                         filter: {
@@ -184,11 +196,12 @@ export class ResolveGuard implements CanActivate {
                     };
 
                     this._store.dispatch(new fromStore.GetPessoa(params));
+                    this.loadingPessoa = true;
                 }
             }),
             filter((loaded: any) => {
-                 return this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
-                     && this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] === loaded.value;
+                return this.loadingPessoa || (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
+                    && this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] === loaded.value);
             }),
             take(1)
         );

@@ -3,7 +3,7 @@ html {
 }
 
 body {
-	font-family: "Times New Roman, Times, serif";
+	font-family: "Calibri, sans-serif";
 	font-size: 11pt;
 	counter-reset: H1 numerado;
 	line-height: 1.2em;
@@ -21,13 +21,21 @@ body {
 }
 
 p {
-	text-indent: 25mm;
-	text-align: justify;
-	font-family: "Times New Roman, Times, serif";
+	font-family: "Calibri, sans-serif";
 	font-size: 11pt;
 	margin-top: 0;
 	margin-bottom: 0.2em;
 	line-height: 1.2em;
+}
+
+.paragrafo {
+	text-indent: 25mm;
+	text-align: justify;
+}
+
+.justificado {
+	text-align: justify;
+	text-indent: 0;
 }
 
 h1:before {
@@ -39,7 +47,7 @@ h1:before {
 
 h1 {
 	counter-reset: H2;
-	font-family: "Times New Roman, Times, serif";
+	font-family: "Calibri, sans-serif";
 	font-size: 11pt;
 	text-align: justify;
 	font-weight: bold;
@@ -57,7 +65,7 @@ h2:before {
 }
 
 h2 {
-	font-family: "Times New Roman, Times, serif";
+	font-family: "Calibri, sans-serif";
 	font-size: 11pt;
 	text-align: justify;
 	font-weight: bold;
@@ -77,7 +85,7 @@ p.numerado:before {
 p.numerado {
 	text-indent: 0mm;
 	text-align: justify;
-	font-family: "Times New Roman, Times, serif";
+	font-family: "Calibri, sans-serif";
 	font-size: 11pt;
 	margin-top: 0;
 	margin-bottom: 0.2em;
@@ -118,7 +126,7 @@ table td p {
 }
 
 ul {
-	font-family: "Times New Roman, Times, serif";
+	font-family: "Calibri, sans-serif";
 	font-size: 11pt;
 	text-align: justify;
 	list-style-type: circle;
@@ -126,14 +134,14 @@ ul {
 }
 
 ol {
-	font-family: "Times New Roman, Times, serif";
+	font-family: "Calibri, sans-serif";
 	font-size: 11pt;
 	text-align: justify;
 	margin-left: 18mm;
 }
 
 blockquote {
-	font-family: "Times New Roman, Times, serif";
+	font-family: "Calibri, sans-serif";
 	font-size: 10pt;
 	text-align: justify;
 	padding-left: 40mm;
@@ -163,7 +171,7 @@ p span.cke_widget_inline {
 }
 
 section ol {
-	font-family: "Times New Roman, Times, serif";
+	font-family: "Calibri, sans-serif";
 	margin-left: 2mm !important;
 }
 

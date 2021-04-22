@@ -25,7 +25,7 @@ import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../auth/login/login.service';
 import {DynamicService} from 'modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
@@ -73,9 +73,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     error$: Observable<any>;
     errorDelete$: Observable<any>;
+    errorDistribuir$: Observable<any>;
 
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
+    draggingIds$: Observable<number[]>;
 
     selectedTarefas$: Observable<Tarefa[]>;
 
@@ -126,6 +128,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     usuarioAtual: Usuario
 
     /**
+     *
      * @param _changeDetectorRef
      * @param _cdkSidebarService
      * @param _cdkTranslationLoaderService
@@ -135,6 +138,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
      * @param _loginService
      * @param _dynamicService
      * @param _snackBar
+     * @param _matDialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -156,6 +160,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.tarefas$ = this._store.pipe(select(fromStore.getTarefas));
         this.error$ = this._store.pipe(select(fromStore.getError));
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
+        this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -164,6 +169,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.selectedTarefas$ = this._store.pipe(select(fromStore.getSelectedTarefas));
         this.selectedIds$ = this._store.pipe(select(fromStore.getSelectedTarefaIds));
+        this.draggingIds$ = this._store.pipe(select(fromStore.getDraggedTarefasIds));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
@@ -239,6 +245,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         });
 
         this.routerState$.pipe(
+            distinctUntilChanged(),
             takeUntil(this._unsubscribeAll)
         ).subscribe(routerState => {
             this.currentTarefaId = parseInt(routerState.state.params['tarefaHandle'], 0);
@@ -495,6 +502,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     changeSelectedIds(ids: number[]): void {
         this._store.dispatch(new fromStore.ChangeSelectedTarefas(ids));
+    }
+
+    changeDraggedIds(ids: number[]): void {
+        this._store.dispatch(new fromStore.ChangeDraggedTarefas(ids));
     }
 
     setFolderOnSelectedTarefas(folder): void {

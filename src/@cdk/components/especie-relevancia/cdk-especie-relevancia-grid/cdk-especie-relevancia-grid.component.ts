@@ -96,16 +96,6 @@ export class CdkEspecieRelevanciaGridComponent implements AfterViewInit, OnInit,
             fixed: false
         },
         {
-            id: 'apagadoPor.nome',
-            label: 'Apagado Por',
-            fixed: false
-        },
-        {
-            id: 'apagadoEm',
-            label: 'Apagado Em',
-            fixed: false
-        },
-        {
             id: 'actions',
             label: '',
             fixed: true

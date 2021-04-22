@@ -119,22 +119,31 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this.index$ = this._store.pipe(select(fromStore.getIndex));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
-        this.juntadas$.pipe(filter(juntadas => !!juntadas)).subscribe(
+        this.juntadas$
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                filter(juntadas => !!juntadas)
+            ).subscribe(
             juntadas => {
                 this.juntadas = juntadas;
                 this.totalSteps = juntadas.length;
             }
         );
 
-        this.currentStep$.subscribe(
-            currentStep => this.currentStep = currentStep
-        );
+        this.currentStep$
+            .pipe(
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(currentStep => this.currentStep = currentStep);
 
-        this.index$.subscribe(
-            index => this.index = index
-        );
+        this.index$
+            .pipe(
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(index => this.index = index);
 
-        this.binary$.subscribe(
+        this.binary$
+            .pipe(
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(
             binary => {
                 if (binary.src && binary.src.conteudo) {
                     const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
@@ -175,9 +184,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             }
         );
 
-        this.pagination$.subscribe(
-            pagination => this.pagination = pagination
-        );
+        this.pagination$
+            .pipe(
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(pagination => this.pagination = pagination);
 
         this.src = this._sanitizer.bypassSecurityTrustResourceUrl('about:blank');
     }

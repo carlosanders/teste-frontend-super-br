@@ -1,9 +1,10 @@
-import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, SetData, UpdateData} from '@cdk/ngrx-normalizr';
 import {assunto as assuntoSchema, processo as processoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
+import {LoginService} from 'app/main/auth/login/login.service';
 
 import {Observable, of} from 'rxjs';
 import {
@@ -22,13 +23,20 @@ import * as TarefasActions from '../actions/tarefas.actions';
 
 import {Tarefa} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
-import {LoginService} from 'app/main/auth/login/login.service';
+
+
 import {Router} from '@angular/router';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 
 import {Assunto} from '@cdk/models/assunto.model';
 import {AssuntoService} from '@cdk/services/assunto.service';
-import {getBufferingCiencia, getBufferingDelete, getCienciaTarefaIds, getDeletingTarefaIds} from '../selectors';
+import {
+    getBufferingCiencia,
+    getBufferingDelete,
+    getBufferingDistribuir,
+    getCienciaTarefaIds,
+    getDeletingTarefaIds, getDistribuindoTarefaIds
+} from '../selectors';
 import * as fromStore from '../index';
 import {UnloadDocumentos, UnloadJuntadas} from '../../../processo/processo-view/store';
 
@@ -77,7 +85,7 @@ export class TarefasEffect {
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context));
                 }),
-                mergeMap((response) => [
+                concatMap((response) => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
                     new TarefasActions.GetTarefasSuccess({
                         entitiesId: response['entities'].map(tarefa => tarefa.id),
@@ -200,7 +208,11 @@ export class TarefasEffect {
                                 redo: 'inherent',
                                 undo: 'inherent'
                             }));
-                            new UpdateData<Tarefa>({id: response.id, schema: tarefaSchema, changes: {apagadoEm: response.apagadoEm}});
+                            new UpdateData<Tarefa>({
+                                id: response.id,
+                                schema: tarefaSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
                             return new TarefasActions.DeleteTarefaSuccess(response.id);
                         }),
                         catchError((err) => {
@@ -276,14 +288,14 @@ export class TarefasEffect {
     /**
      * Undelete Tarefa Success
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     undeleteTarefaSuccess: any =
         this._actions
             .pipe(
                 ofType<TarefasActions.UndeleteTarefaSuccess>(TarefasActions.UNDELETE_TAREFA_SUCCESS),
                 tap((action) => {
                     if (this.routerState.params['targetHandle'] === 'lixeira') {
-                        this._store.dispatch(new fromStore.RemoveTarefa(action.payload.id));
+                        this._store.dispatch(new fromStore.RemoveTarefa(action.payload.tarefa.id));
                     }
                 })
             );
@@ -370,6 +382,126 @@ export class TarefasEffect {
                         })
                     );
                 })
+            );
+
+    /**
+     * ISSUE-176
+     * Set Setor On Selected Tarefas
+     * @type {Observable<any>}
+     */
+    @Effect()
+    distribuirSelectedTarefas: Observable<TarefasActions.TarefasActionsAll> =
+        this._actions
+            .pipe(
+                ofType<TarefasActions.DistribuirTarefas>(TarefasActions.DISTRIBUIR_TAREFA),
+                tap((action) => {
+                    this._store.dispatch(new UpdateData<Tarefa>(
+                        {
+                            id: action.payload.tarefa.id,
+                            schema: tarefaSchema,
+                            changes: {
+                                setorResponsavel: action.payload.setorResponsavel,
+                                distribuicaoAutomatica: action.payload.distribuicaoAutomatica,
+                                usuarioResponsavel: action.payload.usuarioResponsavel
+                            }
+                        }
+                    ));
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'tarefa',
+                        content: 'Distribuindo a tarefa id ' + action.payload.tarefa.id + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId,
+                        redo: action.payload.redo,
+                        undo: action.payload.undo
+                    }));
+                }),
+                buffer(this._store.pipe(select(getBufferingDistribuir))),
+                mergeAll(),
+                withLatestFrom(this._store.pipe(select(getDistribuindoTarefaIds))),
+                mergeMap(([action, distribuindoTarefasIds]) => {
+                    if (distribuindoTarefasIds.indexOf(action.payload.tarefa.id) === -1) {
+                        this._store.dispatch(new UpdateData<Tarefa>(
+                            {
+                                id: action.payload.tarefa.id,
+                                schema: tarefaSchema,
+                                changes: {
+                                    setorResponsavel: action.payload.tarefa.setorResponsavel,
+                                    distribuicaoAutomatica: action.payload.tarefa.distribuicaoAutomatica,
+                                    usuarioResponsavel: action.payload.tarefa.usuarioResponsavel
+                                }
+                            }
+                        ));
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'tarefa',
+                            content: 'Operação de distribuir a tarefa id ' + action.payload.tarefa.id + ' foi cancelada!',
+                            status: 3, // cancelada
+                            lote: action.payload.loteId,
+                            redo: 'inherent',
+                            undo: 'inherent'
+                        }));
+                        return of(new TarefasActions.DistribuirTarefasCancelSuccess(action.payload));
+                    }
+                    return this._tarefaService.patch(action.payload.tarefa, {
+                        setorResponsavel: action.payload.setorResponsavel,
+                        distribuicaoAutomatica: action.payload.distribuicaoAutomatica,
+                        usuarioResponsavel: action.payload.usuarioResponsavel
+                    }).pipe(
+                        map((response) => {
+                            this._store.dispatch(new UpdateData<Tarefa>(
+                                {
+                                    id: response.id,
+                                    schema: tarefaSchema,
+                                    changes: {
+                                        distribuicaoAutomatica: response.distribuicaoAutomatica,
+                                        dataHoraDistribuicao: response.dataHoraDistribuicao
+                                    }
+                                }
+                            ));
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Tarefa id ' + action.payload.tarefa.id + ' distribuída com sucesso.',
+                                status: 1, // sucesso
+                                lote: action.payload.loteId,
+                                redo: 'inherent',
+                                undo: 'inherent'
+                            }));
+                            return new TarefasActions.DistribuirTarefasSuccess(response.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.tarefa.id,
+                                setorResponsavel: action.payload.setorResponsavel,
+                                usuarioResponsavel: action.payload.usuarioResponsavel,
+                                error: err
+                            };
+                            this._store.dispatch(new UpdateData<Tarefa>(
+                                {
+                                    id: action.payload.tarefa.id,
+                                    schema: tarefaSchema,
+                                    changes: {
+                                        setorResponsavel: action.payload.tarefa.setorResponsavel,
+                                        distribuicaoAutomatica: action.payload.tarefa.distribuicaoAutomatica,
+                                        usuarioResponsavel: action.payload.tarefa.usuarioResponsavel
+                                    }
+                                }
+                            ));
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'tarefa',
+                                content: 'Erro ao distribuir a tarefa id ' + action.payload.tarefa.id + '.',
+                                status: 2, // erro
+                                lote: action.payload.loteId,
+                                redo: 'inherent',
+                                undo: 'inherent'
+                            }));
+                            console.log(err);
+                            return of(new TarefasActions.DistribuirTarefasFailed(payload));
+                        })
+                    );
+                }, 25)
             );
 
     /**
@@ -483,7 +615,7 @@ export class TarefasEffect {
     /**
      * Change Selected Tarefas
      */
-    @Effect({ dispatch: false })
+    @Effect({dispatch: false})
     changeSelectedTarefas: any =
         this._actions
             .pipe(

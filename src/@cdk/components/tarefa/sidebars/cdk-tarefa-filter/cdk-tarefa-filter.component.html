@@ -6,7 +6,7 @@
 </div>
 
 <div class="content" cdkPerfectScrollbar>
-   <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
+    <form fxLayoutGap="16px" name="form" [formGroup]="form" (keyup.enter)="buscar()">
 
         <mat-expansion-panel expanded="true">
             <mat-expansion-panel-header>
@@ -36,7 +36,7 @@
                        formControlName="interessado"
                        [matAutocomplete]="interessado.autocomplete">
                 <cdk-pessoa-autocomplete #interessado="pessoaAutocomplete"
-                                          [control]="form.get('interessado')">
+                                         [control]="form.get('interessado')">
                 </cdk-pessoa-autocomplete>
             </mat-form-field>
 
@@ -45,8 +45,7 @@
                        formControlName="assunto"
                        [matAutocomplete]="assunto.autocomplete">
                 <cdk-assunto-administrativo-autocomplete #assunto="assuntoAdministrativoAutocomplete"
-                                          [pagination]="assuntoAdministrativoPagination"
-                                         [control]="form.get('assunto')">
+                                                         [control]="form.get('assunto')">
                 </cdk-assunto-administrativo-autocomplete>
             </mat-form-field>
 
@@ -85,54 +84,46 @@
             </mat-form-field>
 
             <div class="filtro-data">
-                <span [ngClass]="{'filtrado': hasDateFilter('dataHoraLeitura')}">Data da Leitura</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraLeitura" [ngClass]="{'filtrado': hasDateFilter('dataHoraLeitura')}">
+                <span>Data da Leitura</span>
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraLeitura">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
             </div>
             <mat-menu #filtroDataHoraLeitura="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-                <cdk-date-filter [datetime]="true" campo="dataHoraLeitura"
-                                 [limparForm]="this.limparFormFiltroDatas$"
-                                 (filtra)="this.filtraData($event, 'dataHoraLeitura')">
+                <cdk-date-filter [datetime]="true" campo="dataHoraLeitura">
                 </cdk-date-filter>
             </mat-menu>
 
             <div class="filtro-data">
-                <span [ngClass]="{'filtrado': hasDateFilter('dataHoraInicioPrazo')}">Data do Início do Prazo</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraInicioPrazo" [ngClass]="{'filtrado': hasDateFilter('dataHoraInicioPrazo')}">
+                <span>Data do Início do Prazo</span>
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraInicioPrazo">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
             </div>
             <mat-menu #filtroDataHoraInicioPrazo="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-                <cdk-date-filter [datetime]="true" campo="dataHoraInicioPrazo"
-                                 [limparForm]="this.limparFormFiltroDatas$"
-                                 (filtra)="this.filtraData($event, 'dataHoraInicioPrazo')">
+                <cdk-date-filter [datetime]="true" campo="dataHoraInicioPrazo">
                 </cdk-date-filter>
             </mat-menu>
 
             <div class="filtro-data">
-                <span [ngClass]="{'filtrado': hasDateFilter('dataHoraFinalPrazo')}">Data do Final do Prazo</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraFinalPrazo" [ngClass]="{'filtrado': hasDateFilter('dataHoraFinalPrazo')}">
+                <span>Data do Final do Prazo</span>
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraFinalPrazo">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
             </div>
             <mat-menu #filtroDataHoraFinalPrazo="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-                <cdk-date-filter [datetime]="true" campo="dataHoraFinalPrazo"
-                                 [limparForm]="this.limparFormFiltroDatas$"
-                                 (filtra)="this.filtraData($event, 'dataHoraFinalPrazo')">
+                <cdk-date-filter [datetime]="true" campo="dataHoraFinalPrazo">
                 </cdk-date-filter>
             </mat-menu>
 
             <div class="filtro-data">
-                <span [ngClass]="{'filtrado': hasDateFilter('dataHoraConclusaoPrazo')}">Data da Conclusão do Prazo</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraConclusaoPrazo" [ngClass]="{'filtrado': hasDateFilter('dataHoraConclusaoPrazo')}">
+                <span>Data da Conclusão do Prazo</span>
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroDataHoraConclusaoPrazo">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
             </div>
             <mat-menu #filtroDataHoraConclusaoPrazo="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
-                <cdk-date-filter [datetime]="true" campo="dataHoraConclusaoPrazo"
-                                 [limparForm]="this.limparFormFiltroDatas$"
-                                 (filtra)="this.filtraData($event, 'dataHoraConclusaoPrazo')">
+                <cdk-date-filter [datetime]="true" campo="dataHoraConclusaoPrazo">
                 </cdk-date-filter>
             </mat-menu>
 
@@ -160,15 +151,15 @@
             </mat-form-field>
 
             <div class="filtro-data">
-                <span [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">Criado Em</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': hasDateFilter('criadoEm')}">
+                <span [ngClass]="{'filtrado': filterCriadoEm?.length}">Criado Em</span>
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroCriadoEm" [ngClass]="{'filtrado': filterCriadoEm?.length}">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
             </div>
             <mat-menu #filtroCriadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
                 <cdk-date-filter [datetime]="true" campo="criadoEm"
                                  [limparForm]="this.limparFormFiltroDatas$"
-                                 (filtra)="this.filtraData($event, 'criadoEm')">
+                                 (filtra)="this.filtraCriadoEm($event)">
                 </cdk-date-filter>
             </mat-menu>
 
@@ -181,15 +172,15 @@
             </mat-form-field>
 
             <div class="filtro-data">
-                <span [ngClass]="{'filtrado': hasDateFilter('atualizadoEm')}">Atualizado Em</span>
-                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroAtualizadoEm" [ngClass]="{'filtrado': hasDateFilter('atualizadoEm')}">
+                <span [ngClass]="{'filtrado': filterAtualizadoEm?.length}">Atualizado Em</span>
+                <button mat-icon-button type="button" [matMenuTriggerFor]="filtroAtualizadoEm" [ngClass]="{'filtrado': filterAtualizadoEm?.length}">
                     <mat-icon class="s-16">keyboard_arrow_right</mat-icon>
                 </button>
             </div>
             <mat-menu #filtroAtualizadoEm="matMenu" class="menuDatas" [overlapTrigger]="false" xPosition="after">
                 <cdk-date-filter [datetime]="true" campo="atualizadoEm"
                                  [limparForm]="this.limparFormFiltroDatas$"
-                                 (filtra)="this.filtraData($event, 'atualizadoEm')">
+                                 (filtra)="this.filtraAtualizadoEm($event)">
                 </cdk-date-filter>
             </mat-menu>
         </mat-expansion-panel>

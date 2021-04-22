@@ -1,24 +1,4 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
-
-    <mat-form-field>
-        <input matInput placeholder="Documento"
-               formControlName="documento"
-               [matAutocomplete]="documento.autocomplete" required
-               (blur)="checkDocumento()" readonly>
-        <cdk-documento-autocomplete
-            #documento="documentoAutocomplete"
-            [control]="form.get('documento')"
-            [pagination]="documentoPagination">
-        </cdk-documento-autocomplete>
-        <button *ngIf="form.get('documento').enabled" matSuffix mat-button mat-icon-button
-                (click)="showDocumentoGrid()">
-            <mat-icon matTooltip="Procurar">search</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('documento').hasError('formError')">
-            {{form.get('documento').errors.formError}}
-        </mat-error>
-    </mat-form-field>
-
     <mat-form-field>
         <input matInput placeholder="Documento Vinculado"
                formControlName="documentoVinculado"
@@ -39,7 +19,7 @@
     </mat-form-field>
 
     <mat-form-field>
-        <input matInput placeholder="Modalidade da Vinculação do Documento"
+        <input matInput placeholder="Modalidade da Vinculação"
                formControlName="modalidadeVinculacaoDocumento"
                [matAutocomplete]="modalidadeVinculacaoDocumento.autocomplete" required
                (blur)="checkModalidadeVinculacaoDocumento()">
@@ -70,13 +50,6 @@
     </div>
 
 </form>
-
-<cdk-documento-gridsearch
-    *ngIf="activeCard === 'documento-gridsearch'"
-    [pagination]="documentoPagination"
-    (selected)="selectDocumento($event)"
-    (cancel)="cancel()">
-</cdk-documento-gridsearch>
 
 <cdk-documento-gridsearch
     *ngIf="activeCard === 'documento-vinculado-gridsearch'"

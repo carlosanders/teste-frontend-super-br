@@ -15,8 +15,8 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Pagination} from '@cdk/models';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../../store/reducers';
-import {Back} from '../../../../../../store/actions';
+import {getRouterState} from '../../../../../../store';
+import {Back} from '../../../../../../store';
 
 @Component({
     selector: 'vinculacao-documento-create',
@@ -60,20 +60,7 @@ export class VinculacaoDocumentoCreateComponent implements OnInit, OnDestroy {
         this.documentoVinculadoPagination = new Pagination();
         this.documentoVinculadoPagination.populate = [
             'tipoDocumento',
-            'tipoDocumento.especieDocumento',
             'juntadaAtual',
-            'documentoAvulsoRemessa',
-            'documentoAvulsoRemessa.documentoResposta',
-            'vinculacoesDocumentos',
-            'vinculacoesDocumentos.documentoVinculado',
-            'vinculacoesDocumentos.documentoVinculado.tipoDocumento',
-            'vinculacoesDocumentos.documentoVinculado.tipoDocumento.especieDocumento',
-            'vinculacoesDocumentos.documentoVinculado.componentesDigitais',
-            'vinculacoesDocumentos.documento',
-            'vinculacoesDocumentos.documento.tipoDocumento',
-            'vinculacoesDocumentos.documento.tipoDocumento.especieDocumento',
-            'vinculacoesDocumentos.documento.componentesDigitais',
-            'componentesDigitais'
         ];
     }
 

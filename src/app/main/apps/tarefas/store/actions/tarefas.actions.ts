@@ -25,6 +25,7 @@ export const DELETE_TAREFA_CANCEL = '[TAREFAS] DELETE TAREFA CANCEL';
 export const DELETE_TAREFA_CANCEL_SUCCESS = '[TAREFAS] DELETE TAREFA CANCEL SUCCESS';
 
 export const CHANGE_SELECTED_TAREFAS = '[TAREFAS] CHANGE SELECTED TAREFAS';
+export const CHANGE_DRAGGED_TAREFAS = '[TAREFAS] CHANGE DRAGGED TAREFAS';
 
 export const REMOVE_TAREFA = '[TAREFAS] REMOVE TAREFA';
 
@@ -41,6 +42,13 @@ export const TOGGLE_URGENTE_TAREFA_FAILED = '[TAREFAS] TOGGLE URGENTE TAREFA FAI
 export const SET_FOLDER_ON_SELECTED_TAREFAS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS';
 export const SET_FOLDER_ON_SELECTED_TAREFAS_SUCCESS = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS SUCCESS';
 export const SET_FOLDER_ON_SELECTED_TAREFAS_FAILED = '[TAREFAS] SET FOLDER ON SELECTED TAREFAS FAILED';
+
+export const DISTRIBUIR_TAREFA = '[TAREFAS] DISTRIBUIR TAREFA';
+export const DISTRIBUIR_TAREFA_SUCCESS = '[TAREFAS] DISTRIBUIR TAREFA SUCCESS';
+export const DISTRIBUIR_TAREFA_FAILED = '[TAREFAS] DISTRIBUIR TAREFA FAILED';
+export const DISTRIBUIR_TAREFA_FLUSH = '[TAREFAS] DISTRIBUIR TAREFA FLUSH';
+export const DISTRIBUIR_TAREFA_CANCEL = '[TAREFAS] DISTRIBUIR TAREFA CANCEL';
+export const DISTRIBUIR_TAREFA_CANCEL_SUCCESS = '[TAREFAS] DISTRIBUIR TAREFA CANCEL SUCCESS';
 
 export const SAVE_TAREFA = '[TAREFA] SAVE TAREFA';
 export const SAVE_TAREFA_SUCCESS = '[TAREFA] SAVE TAREFA SUCCESS';
@@ -177,6 +185,16 @@ export class ChangeSelectedTarefas implements Action {
 }
 
 /**
+ * Change Dragged Tarefas
+ */
+export class ChangeDraggedTarefas implements Action {
+    readonly type = CHANGE_DRAGGED_TAREFAS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
  * Set Folder on Selected Tarefas
  */
 export class SetFolderOnSelectedTarefas implements Action {
@@ -201,6 +219,66 @@ export class SetFolderOnSelectedTarefasSuccess implements Action {
  */
 export class SetFolderOnSelectedTarefasFailed implements Action {
     readonly type = SET_FOLDER_ON_SELECTED_TAREFAS_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Distribuir Tarefas
+ */
+export class DistribuirTarefas implements Action {
+    readonly type = DISTRIBUIR_TAREFA;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Distribuir Tarefas Success
+ */
+export class DistribuirTarefasSuccess implements Action {
+    readonly type = DISTRIBUIR_TAREFA_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Distribuir Tarefas Failed
+ */
+export class DistribuirTarefasFailed implements Action {
+    readonly type = DISTRIBUIR_TAREFA_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Distribuir Tarefas Flush
+ */
+export class DistribuirTarefasFlush implements Action {
+    readonly type = DISTRIBUIR_TAREFA_FLUSH;
+
+    constructor() {
+    }
+}
+
+/**
+ * Distribuir Tarefas Cancel
+ */
+export class DistribuirTarefasCancel implements Action {
+    readonly type = DISTRIBUIR_TAREFA_CANCEL;
+
+    constructor() {
+    }
+}
+
+/**
+ * Distribuir Tarefas Cancel Success
+ */
+export class DistribuirTarefasCancelSuccess implements Action {
+    readonly type = DISTRIBUIR_TAREFA_CANCEL_SUCCESS;
 
     constructor(public payload: any) {
     }
@@ -733,9 +811,16 @@ export type TarefasActionsAll
     | SetCurrentTarefa
     | SetCurrentTarefaSuccess
     | ChangeSelectedTarefas
+    | ChangeDraggedTarefas
     | SetFolderOnSelectedTarefas
     | SetFolderOnSelectedTarefasSuccess
     | SetFolderOnSelectedTarefasFailed
+    | DistribuirTarefas
+    | DistribuirTarefasSuccess
+    | DistribuirTarefasFailed
+    | DistribuirTarefasCancel
+    | DistribuirTarefasFlush
+    | DistribuirTarefasCancelSuccess
     | DeleteTarefa
     | DeleteTarefaSuccess
     | DeleteTarefaFailed

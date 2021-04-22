@@ -23,7 +23,7 @@
 
     <cdk-tarefa-form
             [tarefa]="tarefa"
-            [valid]="(tarefas$ | async)?.length > 0 && (blocoEditDistribuicao)"
+            [valid]="(tarefas$ | async)?.length > 0 && blocoEditDistribuicao"
             [saving]="(isSaving$ | async)"
             [mode]="'bloco-edit'"
             [blocoEdit]="{blocoEditDistribuicao: blocoEditDistribuicao}"

@@ -68,13 +68,13 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
                     });
                     const termFilter = {
                         orX: [
-                            {orX: termFilterNUP},
-                            {orX: termFilterOutroNumero}
+                            {andX: termFilterNUP},
+                            {andX: termFilterOutroNumero}
                         ]
                     };
                     if (typeof value === 'string' && (termFilterNUP.length > 0 || termFilterOutroNumero.length > 0)) {
                         this.processoListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             ...termFilter

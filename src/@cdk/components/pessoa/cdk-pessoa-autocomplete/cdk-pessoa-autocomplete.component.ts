@@ -76,13 +76,13 @@ export class CdkPessoaAutocompleteComponent implements OnInit {
                     });
                     const termFilter = {
                         orX: [
-                            {orX: termFilterNome},
-                            {orX: termFilterNumeroDocumentoPrincipal}
+                            {andX: termFilterNome},
+                            {andX: termFilterNumeroDocumentoPrincipal}
                         ]
                     };
                     if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterNumeroDocumentoPrincipal.length > 0)) {
                         this.pessoaListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             ...termFilter

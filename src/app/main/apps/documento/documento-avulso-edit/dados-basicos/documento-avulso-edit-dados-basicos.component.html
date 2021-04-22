@@ -2,7 +2,7 @@
     <div class="actions mb-8">
         <button mat-raised-button color="accent" class="mr-sm-12"
                 mat-icon-button (click)="remeterDocumentoAvulso()"
-                [disabled]="(documento$ | async)?.documentoAvulsoRemessa.dataHoraRemessa != null || (isRemetendo$ | async)"
+                [disabled]="(documento$ | async)?.documentoAvulsoRemessa.dataHoraRemessa != null || (isRemetendo$ | async) || remeterDocAvulso"
                 aria-label="remeter ofício"
                 matTooltip="Remeter Ofício">
             <mat-icon class="black-fg">send</mat-icon>

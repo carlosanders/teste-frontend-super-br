@@ -33,6 +33,7 @@ export class ContatoEditComponent implements OnInit, OnDestroy {
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
     templatePagination: Pagination;
+    unidadePagination: Pagination;
 
     /**
      *
@@ -47,6 +48,9 @@ export class ContatoEditComponent implements OnInit, OnDestroy {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.contato$ = this._store.pipe(select(fromStore.getContato));
+
+        this.unidadePagination = new Pagination();
+        this.unidadePagination.filter = {parent: 'isNull'};
 
         this._store
             .pipe(select(getRouterState))

@@ -120,6 +120,23 @@ export class CdkContatoFormComponent implements OnChanges, OnDestroy, OnInit {
     }
 
     ngOnInit(): void {
+
+        this.form.get('unidade').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        if (this.form.get('setor')) {
+                            this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
+                            this.setorPagination.filter['parent'] = `isNotNull`;
+                        }
+                        this._changeDetectorRef.markForCheck();
+                    }
+                 return of([]);
+                }
+            )
+        ).subscribe();
+
         this.form.get('tipoContato').valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
@@ -199,7 +216,7 @@ export class CdkContatoFormComponent implements OnChanges, OnDestroy, OnInit {
 
     selectUsuario(usuario: Usuario): void {
         if (usuario) {
-            this.form.get('setor').setValue(usuario);
+            this.form.get('usuario').setValue(usuario);
         }
         this.activeCard = 'form';
     }

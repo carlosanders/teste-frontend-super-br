@@ -8,7 +8,7 @@ import {switchMap, catchError, tap, take, filter} from 'rxjs/operators';
 
 import {TarefasAppState} from 'app/main/apps/tarefas/store/reducers';
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {getFoldersLoaded, getTarefasLoaded} from 'app/main/apps/tarefas/store/selectors';
+import {getFoldersLoaded, getTarefasLoaded, getIsLoading} from 'app/main/apps/tarefas/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
@@ -18,6 +18,8 @@ export class ResolveGuard implements CanActivate {
 
     private _profile: Usuario;
     routerState: any;
+
+    loadingTarefas: boolean = false;
 
     /**
      *
@@ -34,6 +36,12 @@ export class ResolveGuard implements CanActivate {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
+            });
+
+        this._store
+            .pipe(select(getIsLoading))
+            .subscribe(loading => {
+                this.loadingTarefas = loading;
             });
 
         this._profile = _loginService.getUserProfile();
@@ -97,11 +105,10 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getTarefasLoaded),
             tap((loaded: any) => {
-                if (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
+                if (!this.loadingTarefas && (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
                     !this.routerState.params['targetHandle'] ||
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] +
-                     '_' + this.routerState.params['targetHandle']) !==
-                    loaded.value) {
+                     '_' + this.routerState.params['targetHandle']) !== loaded.value)) {
 
                     this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
 
@@ -113,8 +120,11 @@ export class ResolveGuard implements CanActivate {
                         sort: {dataHoraDistribuicao: 'DESC'},
                         populate: [
                             'processo',
-                            'processo.setorAtual',
-                            'processo.unidade',
+                            'colaborador.usuario',
+                            'setor.especieSetor',
+                            'setor.generoSetor',
+                            'setor.parent',
+                            'setor.unidade',
                             'processo.especieProcesso',
                             'processo.especieProcesso.generoProcesso',
                             'processo.modalidadeMeio',
@@ -217,14 +227,15 @@ export class ResolveGuard implements CanActivate {
 
                     this._store.dispatch(new fromStore.GetTarefas(params));
                     this._store.dispatch(new fromStore.ChangeSelectedTarefas([]));
+                    this.loadingTarefas = true;
                 }
             }),
             filter((loaded: any) => {
-                return this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
+                return this.loadingTarefas || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
                     this.routerState.params['targetHandle'] &&
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
                         this.routerState.params['targetHandle']) ===
-                    loaded.value;
+                    loaded.value);
             }),
             take(1)
         );

@@ -73,13 +73,13 @@ export class CdkSetorAutocompleteComponent implements OnInit {
                     });
                     const termFilter = {
                         orX: [
-                            {orX: termFilterNome},
-                            {orX: termFilterSigla}
+                            {andX: termFilterNome},
+                            {andX: termFilterSigla}
                         ]
                     };
                     if (typeof value === 'string' && (termFilterNome.length > 0 || termFilterSigla.length > 0)) {
                         this.setorListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             ...termFilter

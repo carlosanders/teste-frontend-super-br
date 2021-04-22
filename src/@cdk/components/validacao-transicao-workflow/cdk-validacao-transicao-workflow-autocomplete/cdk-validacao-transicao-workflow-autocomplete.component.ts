@@ -61,7 +61,7 @@ export class CdkValidacaoTransicaoWorkflowAutocompleteComponent implements OnIni
                     });
                     if (typeof value === 'string' && andxFilter.length > 0) {
                         this.validacaoListIsLoading = true;
-                        this._changeDetectorRef.markForCheck();
+                        this._changeDetectorRef.detectChanges();
                         const filterParam = {
                             ...this.pagination.filter,
                             andX: andxFilter
@@ -86,7 +86,7 @@ export class CdkValidacaoTransicaoWorkflowAutocompleteComponent implements OnIni
             this._changeDetectorRef.markForCheck();
         });
     }
-    
+
 
     displayValidacaoFn(validacao): string {
         return validacao ? validacao.contexto : null;

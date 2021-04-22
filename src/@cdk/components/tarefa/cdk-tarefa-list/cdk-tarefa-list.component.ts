@@ -23,6 +23,7 @@ import {Usuario, VinculacaoEtiqueta} from "../../../models";
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
+import {DndDragImageOffsetFunction} from "ngx-drag-drop";
 
 @Component({
     selector: 'cdk-tarefa-list',
@@ -170,6 +171,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Output()
     etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}>();
 
+    @Output()
+    setDraggedTarefasIds = new EventEmitter<number[]>();
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -178,6 +182,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     errorDelete: number[] = [];
+
+    @Input()
+    errorDistribuir: number[] = [];
 
     @Input()
     targetHandle: any;
@@ -233,6 +240,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     ];
 
     campos = new FormControl();
+
+    @Input()
+    draggingIds: number[] = [];
 
     /**
      * Constructor
@@ -290,6 +300,46 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     // -----------------------------------------------------------------------------------------------------
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
+
+    onStartDrag(event: DragEvent, tarefa: Tarefa): void {
+        if (this.selectedIds.length > 0) {
+            this.setDraggedTarefasIds.emit(this.selectedIds);
+            let tarefas = [];
+            this.tarefas.forEach(aTarefa => {
+                if (this.selectedIds.indexOf(aTarefa.id) > -1) {
+                    let tmpTarefa: any = {};
+                    tmpTarefa.id = aTarefa.id;
+                    tmpTarefa.usuario = aTarefa.usuarioResponsavel.id;
+                    tmpTarefa.setor = aTarefa.setorResponsavel.id;
+                    tmpTarefa.distribuicao = aTarefa.distribuicaoAutomatica;
+                    tarefas.push(tmpTarefa);
+                }
+            });
+            const type = JSON.stringify(tarefas);
+            event.dataTransfer.setData(type, '');
+        } else {
+            const customTarefa = JSON.stringify({
+                id: tarefa.id,
+                usuario: tarefa.usuarioResponsavel.id,
+                setor: tarefa.setorResponsavel.id,
+                distribuicao: tarefa.distribuicaoAutomatica
+            });
+            event.dataTransfer.setData(customTarefa, '');
+            this.setDraggedTarefasIds.emit([tarefa.id]);
+        }
+    }
+
+    offsetFunction: DndDragImageOffsetFunction = (event: DragEvent, dragImage: Element) => {
+        return {x: 0, y: 0};
+    };
+
+    onCancelDrag(event: DragEvent): void {
+        this.setDraggedTarefasIds.emit([]);
+    }
+
+    onCopied(event: DragEvent, tarefa: Tarefa): void {
+        this.setDraggedTarefasIds.emit([]);
+    }
 
     toggleFilter(): void {
         this.toggleSidebar();

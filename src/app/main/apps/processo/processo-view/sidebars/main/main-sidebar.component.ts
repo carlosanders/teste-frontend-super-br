@@ -299,6 +299,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 },
             ]
         };
+        /*
         if (this._loginService.isGranted('ROLE_COLABORADOR')) {
             this.modeloPagination.filter.orX = [
                 ...this.modeloPagination.filter.orX,
@@ -326,6 +327,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
             ];
         }
+        */
     }
 
     /**

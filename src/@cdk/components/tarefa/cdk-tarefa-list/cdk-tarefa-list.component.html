@@ -22,13 +22,13 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds.length"></div>
 
-        <div *ngIf="selectedIds?.length">
+        <div *ngIf="selectedIds?.length && draggingIds.length === 0">
             {{selectedIds?.length}}
         </div>
 
         <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
-        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length">
+        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length && draggingIds.length === 0">
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
         <mat-menu #folderMenu="matMenu">
@@ -42,7 +42,7 @@
 
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
-                *ngIf="selectedIds?.length > 1">
+                *ngIf="selectedIds?.length > 1 && draggingIds.length === 0">
             <mat-icon class="secondary-text">more_vert</mat-icon>
         </button>
 
@@ -148,8 +148,15 @@
                     </ng-container>
                 </button>
             </ng-template>
-
         </mat-menu>
+
+        <div class="drag-n-drop-ref" *ngIf="draggingIds.length > 1">
+            <div class="accent">
+                <span *ngIf="selectedIds.length > 1">
+                    Movendo {{selectedIds.length}} tarefas
+                </span>
+            </div>
+        </div>
 
         <div class="tarefa-list-control" fxLayout="row" fxLayoutAlign="start center">
 
@@ -181,7 +188,7 @@
                 <mat-icon>sort</mat-icon>
             </button>
             <mat-menu fxHide #selectMenu="matMenu">
-                <button mat-menu-item (click)="doSort({'dataHoraFinalPrazo': 'DESC'})">Final do
+                <button mat-menu-item (click)="doSort({'dataHoraFinalPrazo': 'ASC'})">Final do
                     Prazo
                 </button>
                 <button mat-menu-item (click)="doSort({'dataHoraDistribuicao': 'DESC'})">Data da Distribuição</button>
@@ -219,12 +226,18 @@
             <mat-spinner class="loading" diameter="24"></mat-spinner>
         </div>
 
-        <div class="no-tarefas-text" *ngIf="tarefas?.length === 0 && !loading">
+        <div class="no-tarefas-text" *ngIf="(!tarefas || tarefas?.length === 0) && !loading">
             <span class="hint-text">{{ 'TAREFA.NO_MESSAGES' | translate }}</span>
         </div>
 
         <div *ngIf="tarefas?.length > 0">
-            <div *ngFor="let tarefa of tarefas">
+            <div *ngFor="let tarefa of tarefas"
+                 class="drag-tarefa"
+                 [dndDraggable]="tarefa" [dndEffectAllowed]="'copy'"
+                 [dndDragImageOffsetFunction]="this.offsetFunction"
+                 (dndEnd)="onCancelDrag($event)"
+                 (dndCopied)="onCopied($event, tarefa)"
+                 (dndStart)="onStartDrag($event, tarefa)">
                 <cdk-tarefa-list-item
                     matRipple
                     [tarefa]="tarefa"
@@ -234,6 +247,8 @@
                     (click)="selectTarefa(tarefa);"
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
+                    [dragging]="draggingIds.length > 0 && draggingIds.indexOf(tarefa.id) > -1"
+                    [countSelected]="selectedIds.length"
                     [undeleting]="unDeletingIds.length > 0 && unDeletingIds.indexOf(tarefa.id) > -1"
                     (toggleInSelectedTarefas)="toggleInSelected($event)"
                     (delete)="doDeleteTarefa($event)"
@@ -248,7 +263,10 @@
                     (redistribuirTarefa)="doRedistribuirTarefa($event)"
                     (cienciaTarefa)="doCienciaTarefa($event)"
                     (editProcesso)="doEditProcesso($event)"
-                    [ngClass]="{'selected':tarefa.id === currentTarefaId, 'error': errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1}"
+                    [ngClass]="{
+                        'selected':tarefa.id === currentTarefaId,
+                        'error': (errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1) || (errorDistribuir.length > 0 && errorDistribuir.indexOf(tarefa.id) > -1)
+                    }"
                     (loadAssuntos)="doLoadAssuntos($event)"
                     [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
