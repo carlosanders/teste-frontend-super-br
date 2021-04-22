@@ -2,8 +2,8 @@ import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/s
 import { TarefasReducer, TarefasState } from './tarefas.reducer';
 import { FoldersReducer, FoldersState } from './folders.reducer';
 import { RootLotacaoListReducer, RootLotacaoListState } from './lotacao.reducer';
-import {RootUnidadeReducer, RootUnidadeState} from "./unidade.reducer";
-import {RootSetorReducer, RootSetorState} from "./setor.reducer";
+import { RootUnidadeReducer, RootUnidadeState } from './unidade.reducer';
+import { RootSetorReducer, RootSetorState } from './setor.reducer';
 
 
 export interface TarefasAppState

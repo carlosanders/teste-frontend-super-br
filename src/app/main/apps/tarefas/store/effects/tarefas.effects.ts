@@ -1,4 +1,4 @@
-import {AddChildData, AddData, SetData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {assunto as assuntoSchema, processo as processoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
 
 import {Injectable} from '@angular/core';

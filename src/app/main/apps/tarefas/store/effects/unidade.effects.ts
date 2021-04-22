@@ -6,7 +6,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as RootSetorActions from '../actions';
+import * as RootSetorActions from '../actions/unidade.actions';
 
 import {SetorService} from '@cdk/services/setor.service';
 import {AddData} from '@cdk/ngrx-normalizr';
