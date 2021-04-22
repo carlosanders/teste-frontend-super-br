@@ -166,6 +166,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     loadAssuntos = new EventEmitter<any>();
 
     @Output()
+    loadInteressados = new EventEmitter<any>();
+
+    @Output()
     criaRelatorio = new EventEmitter<boolean>();
 
     @Output()
@@ -173,6 +176,12 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     loadingAssuntosProcessosId: number[];
+
+    @Input()
+    loadingInteressadosProcessosId: number[];
+
+    @Input()
+    totalInteressadosProcessosId: any[];
 
     @Input()
     cienciaIds: number[] = [];
@@ -202,7 +211,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         'especieTarefa.nome',
         'setorResponsavel.nome',
         'dataHoraDistribuicao',
-        'dataHoraPrazo'
+        'dataHoraPrazo',
+        'observacao'
     ];
 
     @Input()
@@ -232,6 +242,11 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         {
             id: 'dataHoraPrazo',
             label: 'Prazo',
+            fixed: false
+        },
+        {
+            id: 'observacao',
+            label: 'Observação',
             fixed: false
         }
     ];
@@ -545,6 +560,15 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doLoadAssuntos(processoId): void {
         this.loadAssuntos.emit(processoId);
+    }
+
+    doLoadInteressados(processoId): void {
+        this.loadInteressados.emit(processoId);
+    }
+
+    getTotalInteressados(processoId: number): number {
+        const objeto = this.totalInteressadosProcessosId.find(total => total.id === processoId);
+        return objeto ? objeto.total : 0;
     }
 
     doGerarRelatorioExcel(): void {

@@ -74,6 +74,18 @@ export const SET_ASSUNTOS_LOADED = '[TAREFA] SET ASSUNTOS LOADED';
 export const SET_ASSUNTOS_LOADED_SUCCESS = '[TAREFA] SET ASSUNTOS LOADED SUCCESS';
 export const SET_ASSUNTOS_LOADED_FAILED = '[TAREFA] SET ASSUNTOS LOADED FAILED';
 
+export const GET_INTERESSADOS_PROCESSO_TAREFA = '[TAREFA] GET INTERESSADOS PROCESSO';
+export const GET_INTERESSADOS_PROCESSO_TAREFA_SUCCESS = '[TAREFA] GET INTERESSADOS PROCESSO SUCCESS';
+export const GET_INTERESSADOS_PROCESSO_TAREFA_FAILED = '[TAREFA] GET INTERESSADOS PROCESSO FAILED';
+
+export const SET_LOADING_INTERESSADOS = '[TAREFA] SET LOADING INTERESSADOS';
+export const SET_LOADING_INTERESSADOS_SUCCESS = '[TAREFA] SET LOADING INTERESSADOS SUCCESS';
+export const SET_LOADING_INTERESSADOS_FAILED = '[TAREFA] SET LOADING INTERESSADOS FAILED';
+
+export const SET_INTERESSADOS_LOADED = '[TAREFA] SET INTERESSADOS LOADED';
+export const SET_INTERESSADOS_LOADED_SUCCESS = '[TAREFA] SET INTERESSADOS LOADED SUCCESS';
+export const SET_INTERESSADOS_LOADED_FAILED = '[TAREFA] SET INTERESSADOS LOADED FAILED';
+
 export const DAR_CIENCIA_TAREFA = '[TAREFA] DAR CIENCIA TAREFA';
 export const DAR_CIENCIA_TAREFA_SUCCESS = '[TAREFA] DAR CIENCIA TAREFA SUCCESS';
 export const DAR_CIENCIA_TAREFA_FAILED = '[TAREFA] DAR CIENCIA TAREFA FAILED';
@@ -630,6 +642,101 @@ export class SetAssuntosLoadedFailed implements Action {
 }
 
 /**
+ * ISSUE-183
+ */
+
+/**
+ * Get Interessados dos processo da tarefa
+ */
+export class GetInteressadosProcessoTarefa implements Action {
+    readonly type = GET_INTERESSADOS_PROCESSO_TAREFA;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Interessados dos processo da tarefa Success
+ */
+export class GetInteressadosProcessoTarefaSuccess implements Action {
+    readonly type = GET_INTERESSADOS_PROCESSO_TAREFA_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Interessados dos processo da tarefa Failed
+ */
+export class GetInteressadosProcessoTarefaFailed implements Action {
+    readonly type = GET_INTERESSADOS_PROCESSO_TAREFA_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+
+/**
+ * Seta o estado de carregando os Interessados do processo na tarefa
+ */
+export class SetLoadingInteressados implements Action {
+    readonly type = SET_LOADING_INTERESSADOS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de carregando os Interessados do processo na tarefa - sucesso
+ */
+export class SetLoadingInteressadosSuccess implements Action {
+    readonly type = SET_LOADING_INTERESSADOS_SUCCESS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de carregando os Interessados do processo na tarefa - erro
+ */
+export class SetLoadingInteressadosFailed implements Action {
+    readonly type = SET_LOADING_INTERESSADOS_FAILED;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de Interessados carregados no processo da tarefa
+ */
+export class SetInteressadosLoaded implements Action {
+    readonly type = SET_INTERESSADOS_LOADED;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de Interessados carregados no processo da tarefa - sucesso
+ */
+export class SetInteressadosLoadedSuccess implements Action {
+    readonly type = SET_INTERESSADOS_LOADED_SUCCESS;
+
+    constructor() {
+    }
+}
+
+/**
+ * Seta o estado de Interessados carregados no processo da tarefa - erro
+ */
+export class SetInteressadosLoadedFailed implements Action {
+    readonly type = SET_INTERESSADOS_LOADED_FAILED;
+
+    constructor() {
+    }
+}
+
+/**
  * Dar Ciencia Tarefa
  */
 export class DarCienciaTarefa implements Action
@@ -855,6 +962,15 @@ export type TarefasActionsAll
     | SetAssuntosLoaded
     | SetAssuntosLoadedSuccess
     | SetAssuntosLoadedFailed
+    | GetInteressadosProcessoTarefa
+    | GetInteressadosProcessoTarefaSuccess
+    | GetInteressadosProcessoTarefaFailed
+    | SetLoadingInteressados
+    | SetLoadingInteressadosSuccess
+    | SetLoadingInteressadosFailed
+    | SetInteressadosLoaded
+    | SetInteressadosLoadedSuccess
+    | SetInteressadosLoadedFailed
     | DarCienciaTarefa
     | DarCienciaTarefaSuccess
     | DarCienciaTarefaFailed

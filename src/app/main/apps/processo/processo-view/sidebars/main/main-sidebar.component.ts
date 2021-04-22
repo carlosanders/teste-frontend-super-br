@@ -20,7 +20,7 @@ import * as fromStore from '../../store';
 import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getMercureState, getRouterState} from '../../../../../../store';
 import {getProcesso} from '../../../store';
@@ -35,6 +35,8 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatDialog} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '../../../../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {CdkModeloAutocompleteComponent} from "../../../../../../../@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.component";
+import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -153,6 +155,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     @ViewChild('menuTriggerOficios') menuTriggerOficios: MatMenuTrigger;
 
+    @ViewChild('autoCompleteModelos', {static: false, read: MatAutocompleteTrigger})
+    autoCompleteModelos: MatAutocompleteTrigger;
+
     minutasLoading$: Observable<boolean>;
 
     minutasSaving$: Observable<boolean>;
@@ -162,6 +167,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
     lote: string;
+
+    formEditorValid = false;
 
     /**
      *
@@ -266,6 +273,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.volumes$.subscribe(
             volumes => this.volumes = volumes
         );
+
+        this.formEditor.get('modelo').valueChanges.subscribe(value => {
+            this.formEditorValid = value && typeof value === 'object';
+        });
 
         this._store
             .pipe(
@@ -642,12 +653,22 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     showModelosGrid(): void {
-        this.formEditor.get('modelo').setValue(null);
+        this.autoCompleteModelos.closePanel();
+        this._changeDetectorRef.markForCheck();
         this.menuTriggerList.closeMenu();
+        this._changeDetectorRef.markForCheck();
         this._router.navigate([
             this.routerState.url.split('/visualizar/' + this.routerState.params.stepHandle)[0] +
             '/visualizar/' + this.routerState.params.stepHandle + '/modelos'
-        ]).then();
+        ]).then(() => {
+            this.closeAutocomplete();
+        });
+    }
+
+    closeAutocomplete(): void {
+        this.autoCompleteModelos.closePanel();
+        this.formEditor.get('modelo').setValue(null);
+        this._changeDetectorRef.markForCheck();
     }
 
     doAssinatura(documento: Documento): void {

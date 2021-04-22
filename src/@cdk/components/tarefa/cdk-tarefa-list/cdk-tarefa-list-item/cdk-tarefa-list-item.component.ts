@@ -85,8 +85,17 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Output()
     loadAssuntos = new EventEmitter<any>();
 
+    @Output()
+    loadInteressados = new EventEmitter<any>();
+
     @Input()
     loadingAssuntosProcessosId: number[];
+
+    @Input()
+    loadingInteressados: boolean;
+
+    @Input()
+    totalInteressados: number;
 
     @Input()
     ciencia: boolean;
@@ -96,6 +105,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     isOpen: boolean;
     loadedAssuntos: boolean;
+    loadedInteressados: boolean;
 
     pluginLoading = false;
 
@@ -110,7 +120,8 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         'especieTarefa.nome',
         'setorResponsavel.nome',
         'dataHoraDistribuicao',
-        'dataHoraPrazo'
+        'dataHoraPrazo',
+        'observacao'
     ];
 
     constructor(
@@ -120,6 +131,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     ) {
         this.isOpen = false;
         this.loadedAssuntos = false;
+        this.loadedInteressados = false;
         this.deleting = false;
         this.ciencia = false;
         this.selected = false;
@@ -133,6 +145,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         if (this.tarefa.processo?.assuntos?.length > 0) {
             this.isOpen = true;
             this.loadedAssuntos = true;
+        }
+        if (this.tarefa.processo?.interessados?.length > 0) {
+            this.isOpen = true;
+            this.loadedInteressados = true;
         }
 
         this._cdkTarefaListItemService.loading.subscribe((loading) => {
@@ -223,6 +239,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     doTogglePanel(): void {
         if (!this.loadedAssuntos) {
             this.loadAssuntos.emit(this.tarefa.processo.id);
+        }
+        if (!this.loadedInteressados) {
+            this.loadInteressados.emit(this.tarefa.processo.id);
         }
         this.isOpen = !this.isOpen;
     }

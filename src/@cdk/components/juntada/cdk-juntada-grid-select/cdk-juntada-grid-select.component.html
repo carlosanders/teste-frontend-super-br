@@ -10,10 +10,10 @@
     </cdk-juntada-grid>
 </div>
 <div class="selecionadas">
-    <div class="div-tabela content responsive-grid" fxLayout="column">
+    <div class="div-tabela responsive-grid">
         <div class="titulo">Juntada selecionadas</div>
 
-        <div fxFlex="1 1 auto" fxLayout="column" cdkPerfectScrollbar>
+        <div class="content" cdkPerfectScrollbar>
             <table mat-table [dataSource]="dataSourceJuntadasAdicionadas" matSort [hidden]="loading">
                 <!-- Id Column -->
                 <ng-container matColumnDef="id">

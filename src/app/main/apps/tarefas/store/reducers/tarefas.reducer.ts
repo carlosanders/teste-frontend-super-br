@@ -34,6 +34,8 @@ export interface TarefasState {
     draggingIds: number[];
     maximizado: boolean;
     loadingAssuntosProcessosId: number[];
+    loadingInteressadosProcessosId: number[];
+    totalInteressadosProcessosId: any[];
     cienciaTarefaIds: number[];
     redistribuindoTarefaIds: number[];
     distribuindoTarefaIds: number[];
@@ -77,6 +79,8 @@ export const TarefasInitialState: TarefasState = {
     currentTarefaId: null,
     maximizado: false,
     loadingAssuntosProcessosId: [],
+    loadingInteressadosProcessosId: [],
+    totalInteressadosProcessosId: [],
     cienciaTarefaIds: [],
     redistribuindoTarefaIds: [],
     distribuindoTarefaIds: [],
@@ -445,7 +449,6 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
         }
 
         case TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA: {
-
             return {
                 ...state,
                 // tslint:disable-next-line:max-line-length
@@ -465,7 +468,43 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 ...state,
                 loadingAssuntosProcessosId: state.loadingAssuntosProcessosId.filter(id => id !== action.payload)
             };
+        }
 
+        case TarefasActions.GET_INTERESSADOS_PROCESSO_TAREFA: {
+            let total = state.totalInteressadosProcessosId;
+            if (state.loadingInteressadosProcessosId.indexOf(action.payload.processoId) === -1) {
+                total = total.filter(total => total.id !== action.payload.processoId);
+                total.push({
+                    id: action.payload.processoId,
+                    total: 0
+                });
+            }
+            return {
+                ...state,
+                // tslint:disable-next-line:max-line-length
+                loadingInteressadosProcessosId: (state.loadingInteressadosProcessosId.indexOf(action.payload.processoId) === -1 ? [...state.loadingInteressadosProcessosId, action.payload.processoId] : [...state.loadingInteressadosProcessosId]),
+                totalInteressadosProcessosId: total
+            };
+        }
+
+        case TarefasActions.GET_INTERESSADOS_PROCESSO_TAREFA_SUCCESS: {
+            const total = state.totalInteressadosProcessosId.filter(total => total.id !== action.payload.processoId);
+            total.push({
+                id: action.payload.processoId,
+                total: action.payload.total
+            });
+            return {
+                ...state,
+                loadingInteressadosProcessosId: state.loadingInteressadosProcessosId.filter(id => id !== action.payload.processoId),
+                totalInteressadosProcessosId: total
+            };
+        }
+
+        case TarefasActions.GET_INTERESSADOS_PROCESSO_TAREFA_FAILED: {
+            return {
+                ...state,
+                loadingInteressadosProcessosId: state.loadingInteressadosProcessosId.filter(id => id !== action.payload),
+            };
         }
 
         case TarefasActions.DAR_CIENCIA_TAREFA: {

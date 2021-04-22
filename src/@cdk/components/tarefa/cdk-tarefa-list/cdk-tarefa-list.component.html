@@ -268,7 +268,10 @@
                         'error': (errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1) || (errorDistribuir.length > 0 && errorDistribuir.indexOf(tarefa.id) > -1)
                     }"
                     (loadAssuntos)="doLoadAssuntos($event)"
+                    (loadInteressados)="doLoadInteressados($event)"
                     [loadingAssuntosProcessosId]="loadingAssuntosProcessosId"
+                    [loadingInteressados]="loadingInteressadosProcessosId.indexOf(tarefa.processo?.id) > -1"
+                    [totalInteressados]="getTotalInteressados(tarefa.processo?.id)"
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
                 >
                 </cdk-tarefa-list-item>

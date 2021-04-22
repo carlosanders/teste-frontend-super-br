@@ -107,6 +107,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     snackSubscription: any;
     lote: string;
 
+    formEditorValid = false;
+
     /**
      *
      * @param _store
@@ -159,7 +161,25 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             modelo: [null]
         });
 
+        this.formEditor.get('modelo').valueChanges.subscribe(value => {
+            this.formEditorValid = value && typeof value === 'object';
+        });
+
         this.modeloPagination = new Pagination();
+        this.modeloPagination.filter = {
+            orX: [
+                {
+                    'modalidadeModelo.valor': 'eq:EM BRANCO'
+                },
+                {
+                    // Modelos individuais
+                    'modalidadeModelo.valor': 'eq:INDIVIDUAL',
+                    'vinculacoesModelos.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+                },
+            ]
+        };
+
+        /*
         this.modeloPagination.filter = {
             orX: [
                 {
@@ -192,7 +212,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                         + this._loginService.getUserProfile().colaborador.lotacoes.map(lotacao => lotacao.setor.especieSetor.id).join(',')
                 }
             ]
-        };
+        }; */
     }
 
     // -----------------------------------------------------------------------------------------------------

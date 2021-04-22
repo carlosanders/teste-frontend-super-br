@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, Input,
+    Component, Input, OnDestroy,
     OnInit, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
@@ -14,6 +14,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
+import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
 
 @Component({
     selector: 'cdk-modelo-autocomplete',
@@ -52,6 +53,12 @@ export class CdkModeloAutocompleteComponent implements OnInit {
 
         this.pagination = new Pagination();
         this.andxFilter = [];
+    }
+
+    fechado(): void {
+        if (!this.control.value || typeof this.control.value === 'string') {
+            this.modeloList = [];
+        }
     }
 
     ngOnInit(): void {

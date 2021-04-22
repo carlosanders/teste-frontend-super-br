@@ -107,6 +107,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     loadingAssuntosProcessosId$: Observable<number[]>;
 
+    loadingInteressadosProcessosId$: Observable<number[]>;
+
+    totalInteressadosProcessosId$: Observable<any[]>;
+
     cienciaIds$: Observable<number[]>;
 
     PesquisaTarefa: string;
@@ -207,6 +211,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         };
 
         this.loadingAssuntosProcessosId$ = this._store.pipe(select(fromStore.getIsAssuntoLoading));
+        this.loadingInteressadosProcessosId$ = this._store.pipe(select(fromStore.getIsInteressadosLoading));
+        this.totalInteressadosProcessosId$ = this._store.pipe(select(fromStore.getTotalInteressadosProcessosId));
         this.cienciaIds$ = this._store.pipe(select(fromStore.getCienciaTarefaIds));
         this.usuarioAtual = this._loginService.getUserProfile();
     }
@@ -654,11 +660,34 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     /*
+    * Função que carrega os interessados do processo associado à tarefa
+    * @tarefa
+    * Recebe a referencia do processo carregada no componente de lista de tarefas
+    */
+    doLoadInteressados(processoId: number): void {
+
+        const processo = {
+            'processo.id': 'eq:' + processoId
+        };
+
+        const params = {
+            filter: processo,
+            sort: {},
+            limit: 2,
+            offset: 0,
+            populate: ['pessoa']
+        };
+
+        this._store.dispatch(new fromStore.GetInteressadosProcessoTarefa({processoId: processoId, params: params}));
+
+    }
+
+    /*
     * Função que carrega os assuntos do processo associado à tarefa
     * @tarefa
-    * Recebe a referencia da tarefa carregada no componente de lista de tarefas
+    * Recebe a referencia do processo carregado no componente de lista de tarefas
     */
-    doLoadAssuntos(processoId): void {
+    doLoadAssuntos(processoId: number): void {
 
         const processo = {
             'processo.id': 'eq:' + processoId,

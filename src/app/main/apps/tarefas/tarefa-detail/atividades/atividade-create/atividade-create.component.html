@@ -40,8 +40,10 @@
         </mat-menu>
 
         <mat-menu #modeloMenu="matMenu">
+            <h4 class="p-8">Modelos Individuais e em Branco (Outros na Lupa)</h4>
             <form class="p-8 mb-8" style="width: 400px !important" fxLayoutGap="16px" fxLayout="column"
                   fxLayoutAlign="start"
+                  (submit)="doEditor()"
                   fxFlex="1 0 auto" [formGroup]="formEditor" (click)="$event.stopPropagation()">
                 <mat-form-field fxFlex="100">
                     <div fxLayout="row" fxLayoutAlign="start center" mat-menu-item>
@@ -55,13 +57,13 @@
                         [control]="formEditor.get('modelo')"
                         [pagination]="modeloPagination">
                     </cdk-modelo-autocomplete>
-                    <button matSuffix mat-button mat-icon-button
+                    <button matSuffix mat-button mat-icon-button type="button"
                             (click)="goToModelo()">
                         <mat-icon matTooltip="Procurar">search</mat-icon>
                     </button>
                 </mat-form-field>
-                <button mat-raised-button color="accent" [disabled]="!formEditor.valid" (click)="doEditor()">
-                    EDITAR
+                <button mat-raised-button color="accent" type="submit" [disabled]="!formEditorValid">
+                    CRIAR MINUTA
                 </button>
             </form>
         </mat-menu>

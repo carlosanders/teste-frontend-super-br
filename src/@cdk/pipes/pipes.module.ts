@@ -9,7 +9,8 @@ import {HtmlToPlaintextPipe} from './htmlToPlaintext.pipe';
 import {FilterPipe} from './filter.pipe';
 import {CamelCaseToDashPipe} from './camelCaseToDash.pipe';
 import {BooleanoPipe} from './booleano.pipe';
-import {TitleCasePipe} from "./title-case.pipe";
+import {TitleCasePipe} from './title-case.pipe';
+import {FormatInteressadosPipe} from './format-interessados.pipe';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import {TitleCasePipe} from "./title-case.pipe";
         FilterPipe,
         CamelCaseToDashPipe,
         BooleanoPipe,
-        TitleCasePipe
+        TitleCasePipe,
+        FormatInteressadosPipe
     ],
     imports: [],
     exports: [
@@ -35,7 +37,8 @@ import {TitleCasePipe} from "./title-case.pipe";
         FilterPipe,
         CamelCaseToDashPipe,
         BooleanoPipe,
-        TitleCasePipe
+        TitleCasePipe,
+        FormatInteressadosPipe
     ]
 })
 export class PipesModule {
