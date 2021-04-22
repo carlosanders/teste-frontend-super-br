@@ -1,4 +1,4 @@
-import * as RootLotacaoListActions from '../actions';
+import * as RootLotacaoListActions from '../actions/lotacao.actions';
 
 export interface RootLotacaoListState {
     setorId: number;

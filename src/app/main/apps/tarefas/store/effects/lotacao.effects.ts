@@ -6,7 +6,7 @@ import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
-import * as RootLotacaoListActions from '../actions';
+import * as RootLotacaoListActions from '../actions/lotacao.actions';
 
 import {LotacaoService} from '@cdk/services/lotacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';

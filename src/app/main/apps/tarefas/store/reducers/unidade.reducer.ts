@@ -1,4 +1,4 @@
-import * as RootUnidadeActions from '../actions';
+import * as RootUnidadeActions from '../actions/unidade.actions';
 
 export interface RootUnidadeState {
     orgaoCentralId: number;
