@@ -103,8 +103,4 @@ export class CdkEtiquetaGridsearchComponent implements OnInit {
         this.cancel.emit();
     }
 
-    doCreate(): void {
-        this.create.emit();
-    }
-
 }

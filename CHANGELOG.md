@@ -250,3 +250,6 @@
 * Correção de comportamentos no Componente de autocomplete de modelo no processo-view
 * Correção botão editar renomeado pra Criar minuta
 * Correção filtro de modelos para o autocomplete no componente atividade-create do tarefa-detail
+* Correção Erro intermitente na distribuição de tarefas em bloco para unidades #300
+* Correção Erro ao cadastrar setor da unidade #154
+* Correção autocomplete modalidade etiqueta módulo coordenador
