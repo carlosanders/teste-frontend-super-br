@@ -253,3 +253,6 @@
 * Correção filtro aplicado em página de usuário não é desfeito ao sair #255
 * Correção não é possível criar/editar/apagar um usuário do setor #159
 * Correção inconsistência no campo de filtro de interessados no cadastro de processo #174
+* Correção Erro intermitente na distribuição de tarefas em bloco para unidades #300
+* Correção Erro ao cadastrar setor da unidade #154
+* Correção autocomplete modalidade etiqueta módulo coordenador
