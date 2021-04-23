@@ -7,6 +7,7 @@
 <div class="content" cdkPerfectScrollbar>
     <cdk-setor-form
         [setor]="setor"
+        [requiredParent]="false"
         [unidade]="(unidade$ | async)"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"

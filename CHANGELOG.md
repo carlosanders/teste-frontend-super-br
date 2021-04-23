@@ -243,3 +243,6 @@
 * Correção para adotação da fonte Calibri
 * Correção nas notas de rodapé do editor de textos
 * Correção para mostrar corretamente os contadores das pastas de tarefas
+* Correção Erro intermitente na distribuição de tarefas em bloco para unidades #300
+* Correção Erro ao cadastrar setor da unidade #154
+* Correção autocomplete modalidade etiqueta módulo coordenador
