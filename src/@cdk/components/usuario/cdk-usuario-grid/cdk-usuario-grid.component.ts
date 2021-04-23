@@ -36,7 +36,7 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
     externo: boolean;
 
     @Input()
-    total = 0;
+    pagination: any;
 
     @Input()
     mode = 'list';
@@ -227,7 +227,8 @@ export class CdkUsuarioGridComponent implements AfterViewInit, OnInit, OnChanges
             this.temDistribuidor = this.usuarios.some(item => item.isDisponivel);
         }
         this.dataSource = new UsuarioDataSource(of(this.usuarios));
-        this.paginator.length = this.total;
+        this.paginator.length = this.pagination?.total;
+        this.gridFilter = this.pagination?.gridFilter ?? {};
     }
 
     ngOnInit(): void {

@@ -26,7 +26,6 @@ export class CdkInteressadoFilterComponent {
         private _cdkSidebarService: CdkSidebarService,
     ) {
         this.form = this._formBuilder.group({
-            processo: [null],
             pessoa: [null],
             modalidadeInteressado: [null],
             origemDados: [null],
@@ -43,10 +42,6 @@ export class CdkInteressadoFilterComponent {
         }
 
         const andXFilter = [];
-
-        if (this.form.get('processo').value) {
-            andXFilter.push({'processo.id': `eq:${this.form.get('processo').value.id}`});
-        }
 
         if (this.form.get('pessoa').value) {
             andXFilter.push({'pessoa.id': `eq:${this.form.get('pessoa').value.id}`});

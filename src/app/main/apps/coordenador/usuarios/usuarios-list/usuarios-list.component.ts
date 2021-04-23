@@ -33,6 +33,7 @@ export class UsuariosListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     actions: Array<string> = [];
+    displayedColumns: Array<string> = [];
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
 
@@ -63,9 +64,11 @@ export class UsuariosListComponent implements OnInit {
                     if (this.routerState.params['generoHandle'] === 'nacional' ||
                         (this.routerState.params['generoHandle'] === 'unidade' && !this.routerState.params['setorHandle'])) {
                         this.actions = ['create', 'edit', 'lotacoes', 'afastamentos', 'resetaSenhaColaborador'];
+                        this.displayedColumns = ['select', 'id', 'username', 'nome', 'email', 'colaborador.modalidadeColaborador.valor', 'colaborador.cargo.nome', 'enabled', 'actions'];
                     }
                     if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
                         this.actions = ['afastamentos'];
+                        this.displayedColumns = ['id', 'username', 'nome', 'email', 'colaborador.modalidadeColaborador.valor', 'colaborador.cargo.nome', 'enabled', 'actions'];
                     }
                 }
             });

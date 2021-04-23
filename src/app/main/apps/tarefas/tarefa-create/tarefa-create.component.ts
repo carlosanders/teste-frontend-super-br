@@ -23,8 +23,8 @@ import {take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkVisibilidadePluginComponent} from '../../../../../@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
-import {Back} from '../../../../store/actions';
+import {getRouterState} from '../../../../store';
+import {Back} from '../../../../store';
 
 @Component({
     selector: 'tarefa-create',
@@ -177,6 +177,8 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+
+        this._store.dispatch(new fromStore.UnloadProcesso());
 
         if (this.dialog) {
             this.dialog.closeAll();

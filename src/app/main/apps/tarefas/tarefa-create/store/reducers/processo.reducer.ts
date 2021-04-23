@@ -26,8 +26,11 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             };
         }
 
-        case ProcessoActions.GET_PROCESSO_SUCCESS: {
+        case ProcessoActions.UNLOAD_PROCESSO: {
+            return ProcessoInitialState;
+        }
 
+        case ProcessoActions.GET_PROCESSO_SUCCESS: {
             return {
                 processoId: action.payload.processoId,
                 loading: false,

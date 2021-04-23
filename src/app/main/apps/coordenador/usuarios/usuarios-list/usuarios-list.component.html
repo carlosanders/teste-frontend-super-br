@@ -7,10 +7,10 @@
 <cdk-usuario-grid
     [loading]="(loading$ | async)"
     [usuarios]="(usuarios$ | async)"
-    [total]="(pagination$ | async)?.total"
+    [pagination]="(pagination$ | async)"
     [deletingIds]="(deletingIds$ | async)"
     [deletedIds]="(deletedIds$ | async)"
-    [displayedColumns]="['select', 'id', 'username', 'nome', 'email', 'colaborador.modalidadeColaborador.valor', 'colaborador.cargo.nome', 'enabled', 'actions']"
+    [displayedColumns]="displayedColumns"
     [actions]="actions"
     (reload)="reload($event)"
     (create)="create()"

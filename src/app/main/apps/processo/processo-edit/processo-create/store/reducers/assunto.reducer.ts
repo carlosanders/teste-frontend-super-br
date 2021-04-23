@@ -6,7 +6,7 @@ export interface AssuntoState {
         limit: number;
         offset: number;
         filter: any;
-        listFilter: any;
+        gridFilter: any;
         populate: any;
         sort: any;
         total: number;
@@ -25,7 +25,7 @@ export const AssuntoInitialState: AssuntoState = {
         limit: 0,
         offset: 0,
         filter: {},
-        listFilter: {},
+        gridFilter: {},
         populate: [],
         sort: {},
         total: 0,
@@ -50,7 +50,7 @@ export function AssuntoReducer(state = AssuntoInitialState, action: AssuntoActio
                     limit: action.payload.limit,
                     offset: action.payload.offset,
                     filter: action.payload.filter,
-                    listFilter: action.payload.listFilter,
+                    gridFilter: action.payload.gridFilter,
                     populate: action.payload.populate,
                     sort: action.payload.sort,
                     total: state.pagination.total

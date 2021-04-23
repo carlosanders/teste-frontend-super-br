@@ -6,7 +6,7 @@ export interface InteressadoState {
         limit: number;
         offset: number;
         filter: any;
-        listFilter: any;
+        gridFilter: any;
         populate: any;
         sort: any;
         total: number;
@@ -25,7 +25,7 @@ export const InteressadoInitialState: InteressadoState = {
         limit: 0,
         offset: 0,
         filter: {},
-        listFilter: {},
+        gridFilter: {},
         populate: [],
         sort: {},
         total: 0,
@@ -50,7 +50,7 @@ export function InteressadoReducer(state = InteressadoInitialState, action: Inte
                     limit: action.payload.limit,
                     offset: action.payload.offset,
                     filter: action.payload.filter,
-                    listFilter: action.payload.listFilter,
+                    gridFilter: action.payload.gridFilter,
                     populate: action.payload.populate,
                     sort: action.payload.sort,
                     total: state.pagination.total

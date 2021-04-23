@@ -9,10 +9,12 @@ export class Pagination {
     folderFilter: any;
     populate: any;
     sort: any;
+    total: number;
 
     constructor() {
         this.limit = 10;
         this.offset = 0;
+        this.total = 0;
         this.filter = {};
         this.listFilter = {};
         this.gridFilter = {};

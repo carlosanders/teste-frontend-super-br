@@ -623,7 +623,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this._store.dispatch(new fromStore.GetJuntadas({
             ...this.juntadasPagination,
             filter: {
-                ...this.juntadasPagination.filter,
+                ...this.juntadasPagination.filter
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
@@ -637,7 +639,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this._store.dispatch(new fromStore.GetJuntadas({
             ...this.juntadasPagination,
             filter: {
-                ...this.juntadasPagination.filter,
+                ...this.juntadasPagination.filter
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
@@ -652,7 +656,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this._store.dispatch(new fromStore.GetAssuntos({
             ...this.assuntosPagination,
             filter: {
-                ...this.assuntosPagination.filter,
+                ...this.assuntosPagination.filter
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
@@ -667,6 +673,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             ...this.assuntosPagination,
             filter: {
                 ...this.assuntosPagination.filter,
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
@@ -685,7 +693,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this._store.dispatch(new fromStore.GetInteressados({
             ...this.interessadosPagination,
             filter: {
-                ...this.interessadosPagination.filter,
+                ...this.interessadosPagination.filter
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
@@ -699,7 +709,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this._store.dispatch(new fromStore.GetInteressados({
             ...this.interessadosPagination,
             filter: {
-                ...this.interessadosPagination.filter,
+                ...this.interessadosPagination.filter
+            },
+            girdFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
@@ -718,7 +730,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this._store.dispatch(new fromStore.GetVinculacoesProcessos({
             ...this.vinculacoesProcessosPagination,
             filter: {
-                ...this.vinculacoesProcessosPagination.filter,
+                ...this.vinculacoesProcessosPagination.filter
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
@@ -732,7 +746,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         this._store.dispatch(new fromStore.GetVinculacoesProcessos({
             ...this.vinculacoesProcessosPagination,
             filter: {
-                ...this.vinculacoesProcessosPagination.filter,
+                ...this.vinculacoesProcessosPagination.filter
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,

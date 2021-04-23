@@ -43,7 +43,7 @@ export class AssuntoListComponent implements OnInit {
         private _router: Router,
         private _store: Store<fromStore.AssuntoListAppState>,
     ) {
-        
+
         this.assuntos$ = this._store.pipe(select(fromStore.getAssuntoList));
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
@@ -86,6 +86,8 @@ export class AssuntoListComponent implements OnInit {
             ...this.pagination,
             filter: {
                 ...this.pagination.filter,
+            },
+            gridFilter: {
                 ...params.gridFilter
             },
             sort: params.sort,
