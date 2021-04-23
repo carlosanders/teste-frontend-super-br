@@ -250,3 +250,6 @@
 * Correção de comportamentos no Componente de autocomplete de modelo no processo-view
 * Correção botão editar renomeado pra Criar minuta
 * Correção filtro de modelos para o autocomplete no componente atividade-create do tarefa-detail
+* Correção filtro aplicado em página de usuário não é desfeito ao sair #255
+* Correção não é possível criar/editar/apagar um usuário do setor #159
+* Correção inconsistência no campo de filtro de interessados no cadastro de processo #174
