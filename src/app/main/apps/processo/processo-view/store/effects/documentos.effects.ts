@@ -10,8 +10,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import {Assinatura, ComponenteDigital, Documento, Tarefa} from '@cdk/models';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {
-    assinatura as assinaturaSchema, documento as documentoSchema,
-    tarefa as tarefaSchema, componenteDigital as componenteDigitalSchema
+    assinatura as assinaturaSchema, documento as documentoSchema, componenteDigital as componenteDigitalSchema
 } from '@cdk/normalizr';
 import {ActivatedRoute, Router} from '@angular/router';
 import {environment} from 'environments/environment';
@@ -71,7 +70,7 @@ export class ProcessoViewDocumentosEffects {
                             'tarefaOrigem.id': tarefaId,
                             'juntadaAtual': 'isNull'
                         },
-                        limit: 10,
+                        limit: 25,
                         offset: 0,
                         sort: {
                             criadoEm: 'DESC'
