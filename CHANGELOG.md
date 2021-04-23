@@ -243,3 +243,10 @@
 * Correção para adotação da fonte Calibri
 * Correção nas notas de rodapé do editor de textos
 * Correção para mostrar corretamente os contadores das pastas de tarefas
+* Melhoria para trazer 2 interessados junto aos assuntos (e label 'e outros...' se houver mais do que 2)
+* Melhoria para trazer Observação na lista de colunas configuráveis, ativada por default
+* Melhoria para exibir observação de tarefa na listagem, caso exista e filtro esteja ativo
+* Correção do CSS do desentranhamento em bloco
+* Correção de comportamentos no Componente de autocomplete de modelo no processo-view
+* Correção botão editar renomeado pra Criar minuta
+* Correção filtro de modelos para o autocomplete no componente atividade-create do tarefa-detail
