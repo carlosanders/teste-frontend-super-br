@@ -108,7 +108,8 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
                 }
             });
 
-        this.templatePagination = new Pagination();
+        this.modalidadeEtiquetaPagination = new Pagination();
+        this.modalidadeEtiquetaPagination.populate = ['populateAll'];
     }
 
     // -----------------------------------------------------------------------------------------------------

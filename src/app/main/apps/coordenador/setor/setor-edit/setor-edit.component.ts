@@ -38,6 +38,7 @@ export class SetorEditComponent implements OnInit, OnDestroy {
     usuario: Usuario;
     setorPagination: Pagination;
     especieSetorPagination: Pagination;
+    unidade: Setor;
 
     /**
      *
@@ -87,9 +88,14 @@ export class SetorEditComponent implements OnInit, OnDestroy {
             setor => this.setor = setor
         );
 
+        this.unidade$.subscribe(
+            unidade => this.unidade = unidade
+        );
+
         if (!this.setor) {
             this.setor = new Setor();
             this.setor.ativo = true;
+            this.setor.prefixoNUP = this.unidade.prefixoNUP;
         }
     }
 
@@ -120,6 +126,7 @@ export class SetorEditComponent implements OnInit, OnDestroy {
             setor.sequenciaInicialNUP = 0;
         }
 
+        setor.parent = this.unidade;
         this._store.dispatch(new fromStore.SaveSetor(setor));
 
     }

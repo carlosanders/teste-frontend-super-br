@@ -62,7 +62,7 @@ export class CdkModalidadeEtiquetaAutocompleteComponent implements OnInit {
                         this.modalidadeEtiquetaListIsLoading = true;
                         this._changeDetectorRef.detectChanges();
                         const filterParam = {
-                            ...this.pagination.filter,
+                            ...this.pagination?.filter,
                             andX: andxFilter
                         };
                         return this._modalidadeEtiquetaService.query(
