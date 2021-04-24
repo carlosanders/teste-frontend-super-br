@@ -7,7 +7,7 @@
 <cdk-usuario-grid
     [loading]="(loading$ | async)"
     [usuarios]="(usuarios$ | async)"
-    [pagination]="(pagination$ | async)"
+    [total]="(pagination$ | async)?.total"
     [deletingIds]="(deletingIds$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="displayedColumns"
