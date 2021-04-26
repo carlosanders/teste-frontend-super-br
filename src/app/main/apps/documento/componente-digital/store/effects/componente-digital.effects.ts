@@ -89,7 +89,7 @@ export class ComponenteDigitalEffect {
             );
 
     /**
-     * Set Current Step
+     * Visualizar Versão ComponenteDigital
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -119,7 +119,7 @@ export class ComponenteDigitalEffect {
                             byteNumbers[i] = byteCharacters.charCodeAt(i);
                         }
                         const byteArray = new Uint8Array(byteNumbers);
-                        const blob = new Blob([byteArray], {type: response.mimetype});
+                        const blob = new Blob(["\ufeff", byteArray], {type: response.mimetype});
                         const URL = window.URL;
                         if (response.mimetype === 'application/pdf' || response.mimetype === 'text/html') {
                             const data = URL.createObjectURL(blob);

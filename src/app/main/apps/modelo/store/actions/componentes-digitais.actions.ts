@@ -11,6 +11,9 @@ export const GET_DOCUMENTO = '[DOCUMENTO MODELO] GET DOCUMENTO';
 export const GET_DOCUMENTO_SUCCESS = '[DOCUMENTO MODELO] GET DOCUMENTO SUCCESS';
 export const GET_DOCUMENTO_FAILED = '[DOCUMENTO MODELO] GET DOCUMENTO FAILED';
 
+export const VISUALIZAR_MODELO = '[DOCUMENTO MODELO] VISUALIZAR MODELO';
+export const VISUALIZAR_MODELO_FAILED = '[DOCUMENTO MODELO] VISUALIZAR MODELO FAILED';
+
 /**
  * Save Componente Digital
  */
@@ -107,6 +110,30 @@ export class GetDocumentoFailed implements Action
     }
 }
 
+/**
+ * Visualizar Modelo
+ */
+export class VisualizarModelo implements Action
+{
+    readonly type = VISUALIZAR_MODELO;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Visualizar Modelo Failed
+ */
+export class VisualizarModeloFailed implements Action
+{
+    readonly type = VISUALIZAR_MODELO_FAILED;
+
+    constructor(public payload: string)
+    {
+    }
+}
+
 export type ComponenteDigitalActionsAll
     = CreateComponenteDigital
     | CreateComponenteDigitalSuccess
@@ -115,4 +142,6 @@ export type ComponenteDigitalActionsAll
     | SaveComponenteDigitalFailed
     | GetDocumento
     | GetDocumentoSuccess
-    | GetDocumentoFailed;
+    | GetDocumentoFailed
+    | VisualizarModelo
+    | VisualizarModeloFailed;

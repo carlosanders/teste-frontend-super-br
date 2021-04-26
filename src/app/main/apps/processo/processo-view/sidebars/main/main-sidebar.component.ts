@@ -665,6 +665,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         });
     }
 
+    doVisualizarModelo(): void {
+        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.id));
+    }
+
     closeAutocomplete(): void {
         this.autoCompleteModelos.closePanel();
         this.formEditor.get('modelo').setValue(null);
