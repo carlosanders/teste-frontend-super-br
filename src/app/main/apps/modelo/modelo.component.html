@@ -3,9 +3,10 @@
         [loading]="(loading$ | async)"
         [modelos]="(modelos$ | async)"
         [total]="(pagination$ | async)?.total"
-        [actions]="['select']"
+        [actions]="['select', 'visualizar']"
         [mode]="'search'"
         (selected)="doSelect($event)"
+        (view)="doVisualizar($event)"
         [saving]="(saving$ | async)"
         (reload)="reload($event)">
     </cdk-modelo-grid>

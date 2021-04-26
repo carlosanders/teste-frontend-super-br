@@ -259,6 +259,14 @@
                     <td mat-cell *matCellDef="let modelo">
 
                         <button mat-icon-button
+                                *ngIf="actions.indexOf('visualizar') > -1"
+                                (click)="visualizarModelo(modelo.id)"
+                                aria-label="visualizar"
+                                matTooltip="Visualizar">
+                            <mat-icon>remove_red_eye</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
                                 *ngIf="actions.indexOf('select') > -1 && !hasExcluded"
                                 (click)="selectModelo(modelo)"
                                 [disabled]="saving"
