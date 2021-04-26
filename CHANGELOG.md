@@ -256,3 +256,8 @@
 * Correção Erro intermitente na distribuição de tarefas em bloco para unidades #300
 * Correção Erro ao cadastrar setor da unidade #154
 * Correção autocomplete modalidade etiqueta módulo coordenador
+
+1.3.2
+
+* Melhoria na busca de modelos para criação de minuta, permitindo pré-visualização do conteúdo
+* Melhoria no grid de modelos para criação de minuta, permitindo pré-visualização do conteúdo
