@@ -10,6 +10,9 @@ export const TOGGLE_LIDA_NOTIFICACAO = '[NOTIFICACAO] TOGGLE LIDA NOTIFICACAO';
 export const TOGGLE_LIDA_NOTIFICACAO_SUCCESS = '[NOTIFICACAO] TOGGLE LIDA NOTIFICACAO SUCCESS';
 export const TOGGLE_LIDA_NOTIFICACAO_FAILED = '[NOTIFICACAO] TOGGLE LIDA NOTIFICACAO FAILED';
 
+export const SNACKBAR_EXIBIR_NOTIFICACAO = '[NOTIFICACAO] EXIBIR NOTIFICACAO';
+export const BUTTON_TODAS_NOTIFICACOES_LIDAS = '[NOTIFICACAO] BUTTON TODAS NOTIFICACOES LIDAS';
+
 /**
  * Get Notificacoes
  */
@@ -80,6 +83,26 @@ export class ToggleLidaNotificacaoFailed implements Action
     constructor(public payload: any) { }
 }
 
+/**
+ * Exibir Snackbar de notificação
+ */
+export class SnackbarExibirNotificacao implements Action
+{
+    readonly type = SNACKBAR_EXIBIR_NOTIFICACAO;
+
+    constructor(public payload: any) { }
+}
+
+/**
+ * Marcar todas as notificações como lidas
+ */
+export class ButtonTodasNotificacoesLidas implements Action
+{
+    readonly type = BUTTON_TODAS_NOTIFICACOES_LIDAS;
+
+    constructor() { }
+}
+
 export type NotificacaoActionsAll
     = GetNotificacoes
     | GetNotificacoesSuccess
@@ -87,5 +110,6 @@ export type NotificacaoActionsAll
     | ToggleLidaNotificacao
     | ToggleLidaNotificacaoSuccess
     | ToggleLidaNotificacaoFailed
-    | ReloadNotificacoes;
+    | ReloadNotificacoes
+    | SnackbarExibirNotificacao;
 

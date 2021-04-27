@@ -47,3 +47,8 @@ export const getDeletedIds = createSelector(
     getNotificacoesState,
     (state: NotificacaoState) => state.deletedIds
 );
+
+export const getSnackbar = createSelector(
+    getNotificacoesState,
+    (state: NotificacaoState) => state.snackbar
+);
