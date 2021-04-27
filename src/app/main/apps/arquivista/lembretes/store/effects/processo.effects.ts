@@ -11,7 +11,7 @@ import {processo as processoSchema} from '@cdk/normalizr';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
 
-import {getRouterState, State} from '../../../../../../store/reducers';
+import {getRouterState, State} from '../../../../../../store';
 import * as ProcessoActions from '../actions/processo.actions';
 
 @Injectable()

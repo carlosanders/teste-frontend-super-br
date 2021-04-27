@@ -9,7 +9,7 @@ import {
 import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
 import {Observable, Subject} from 'rxjs';
 import {Lembrete, Pagination, Processo} from '../../../../../@cdk/models';
-import {getRouterState, RouterStateUrl} from '../../../../store/reducers';
+import {getRouterState, RouterStateUrl} from '../../../../store';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
@@ -38,6 +38,8 @@ export class LembretesComponent implements OnInit, OnDestroy {
     processos$: Observable<Processo[]>;
 
     lembretesPagination: Pagination;
+
+    logEntryPagination: Pagination;
 
     private routerState: RouterStateUrl;
 

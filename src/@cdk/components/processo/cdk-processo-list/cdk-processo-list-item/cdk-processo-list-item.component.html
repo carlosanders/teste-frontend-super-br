@@ -1,4 +1,4 @@
-<div fxLayout="row"  fxLayoutAlign="start center">
+<div fxLayout="row" fxLayoutAlign="start center">
 
     <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
                   (click)="$event.stopPropagation();">
@@ -13,8 +13,12 @@
                 <mat-icon *ngIf="processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
                 </mat-icon>
                 <span>PROCESSO {{processo?.NUP | formatNup}}</span>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!processo?.acessoNegado && !isOpen">keyboard_arrow_down</mat-icon>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!processo?.acessoNegado && isOpen">keyboard_arrow_up</mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                          *ngIf="!processo?.acessoNegado && !isOpen">keyboard_arrow_down
+                </mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                          *ngIf="!processo?.acessoNegado && isOpen">keyboard_arrow_up
+                </mat-icon>
             </div>
 
             <div class="subtitle" *ngIf="!processo?.acessoNegado">
@@ -64,7 +68,7 @@
                 </div>
             </div>
 
-            <mat-expansion-panel *ngIf="processo.lembretes[0]" (opened)="this.panelOpenState = true"
+            <mat-expansion-panel *ngIf="processo.lembreteArquivista" (opened)="this.panelOpenState = true"
                                  (closed)="this.panelOpenState = false"
                                  (click)="$event.stopPropagation();">
                 <mat-expansion-panel-header>
@@ -72,9 +76,11 @@
                         Lembrete
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <p *ngIf="editantoLembrete === false" (click)="doEditarLembrete()" class="lembrete">{{processo.lembretes[0].conteudo}}</p>
+                <p *ngIf="editantoLembrete === false" (click)="doEditarLembrete()"
+                   class="lembrete">{{processo.lembreteArquivista}}</p>
                 <mat-form-field *ngIf="editantoLembrete === true">
-                    <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembretes[0].conteudo" (blur)="doSalvarLembrete(processo, lembreteConteudo.value)" />
+                    <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembreteArquivista"
+                           upperCase (blur)="doSalvarLembrete(processo, lembreteConteudo.value)"/>
                 </mat-form-field>
             </mat-expansion-panel>
         </div>
