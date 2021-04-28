@@ -102,7 +102,10 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
         });
         this.orgaoCentralPagination = new Pagination();
         this.setorPagination = new Pagination();
+        this.setorPagination.filter = {parent: 'isNull'};
+
         this.unidadePagination = new Pagination();
+        this.unidadePagination.filter = {parent: 'isNull'};
     }
 
     // -----------------------------------------------------------------------------------------------------
