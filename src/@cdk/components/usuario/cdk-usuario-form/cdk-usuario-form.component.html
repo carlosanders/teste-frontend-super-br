@@ -3,6 +3,7 @@
     <mat-form-field>
         <input matInput placeholder="CPF"
                formControlName="username"
+               [readonly]="!!usuario.id"
                [matAutocomplete]="usuarioAutocomplete.autocomplete"
                required
                (blur)="checkUsuario()"
@@ -15,6 +16,7 @@
             (usuarioListIsLoadingEmit)="usuarioAutocompleteLoading($event)">
         </cdk-usuario-autocomplete>
         <button matSuffix mat-button mat-icon-button
+                [disabled]="!!usuario.id"
                 (click)="showUsuarioGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
