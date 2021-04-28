@@ -158,4 +158,8 @@ export class ModeloComponent implements OnInit, AfterViewInit, OnDestroy  {
         }));
     }
 
+    doVisualizar(modeloId): void {
+        this._store.dispatch(new fromStore.VisualizarModelo(modeloId));
+    }
+
 }

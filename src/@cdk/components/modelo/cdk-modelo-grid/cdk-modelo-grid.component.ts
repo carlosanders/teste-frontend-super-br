@@ -234,6 +234,9 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     selected = new EventEmitter<Modelo>();
 
     @Output()
+    view = new EventEmitter<number>();
+
+    @Output()
     selectedIds: number[] = [];
 
     dataSource: ModeloDataSource;
@@ -372,6 +375,10 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
     selectModelo(modelo: Modelo): void {
         this.loading = true;
         this.selected.emit(modelo);
+    }
+
+    visualizarModelo(modeloId: number): void {
+        this.view.emit(modeloId);
     }
 
     deleteModelo(modeloId): void {
