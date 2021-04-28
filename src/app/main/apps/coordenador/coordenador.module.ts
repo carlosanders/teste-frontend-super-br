@@ -20,6 +20,7 @@ import {UsuarioService} from '@cdk/services/usuario.service';
 import {SetorService} from '@cdk/services/setor.service';
 import {ModalidadeOrgaoCentralService} from '../../../../@cdk/services/modalidade-orgao-central.service';
 import {modulesConfig} from 'modules/modules-config';
+import {AvisoService} from "../../../../@cdk/services/aviso.service";
 
 const routes: Routes = [
     {
@@ -53,6 +54,10 @@ const routes: Routes = [
             {
                 path       : ':entidadeHandle/setor',
                 loadChildren: () => import('./setor/setor.module').then(m => m.SetorModule)
+            },
+            {
+                path       : ':entidadeHandle/avisos',
+                loadChildren: () => import('./avisos/aviso.module').then(m => m.AvisoModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
@@ -92,6 +97,7 @@ modulesConfig.forEach((module) => {
         ModeloService,
         SetorService,
         UsuarioService,
+        AvisoService,
         ModalidadeOrgaoCentralService,
         fromGuards.ResolveGuard
     ]

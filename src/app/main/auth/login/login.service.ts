@@ -127,6 +127,18 @@ export class LoginService {
         return hasAccess;
     }
 
+    isAdmin(): boolean {
+        const profile = this.getUserProfile();
+        let hasAccess = false;
+
+        if (profile && profile.roles && profile.roles.length > 0) {
+            hasAccess = profile.roles.findIndex((papel: string) => {
+                return papel.includes('ROLE_ADMIN');
+            }) !== -1;
+        }
+        return hasAccess;
+    }
+
     getConfig(): Observable<any> {
         const url = `${environment.base_url}config` + environment.xdebug;
         return this.http.get(url);
