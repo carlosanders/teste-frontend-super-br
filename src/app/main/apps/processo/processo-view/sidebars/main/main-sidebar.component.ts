@@ -692,10 +692,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.cadeiaCertificadoPEM = 'A1';
                     assinatura.cadeiaCertificadoPkiPath = 'A1';
                     assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
 
                     this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                        assinatura: assinatura,
-                        plainPassword: result.plainPassword
+                        assinatura: assinatura
                     }));
                 });
             }
@@ -719,10 +719,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.cadeiaCertificadoPEM = 'A1';
                     assinatura.cadeiaCertificadoPkiPath = 'A1';
                     assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
 
                     this._store.dispatch(new fromStore.AssinaJuntadaEletronicamente({
-                        assinatura: assinatura,
-                        plainPassword: result.plainPassword
+                        assinatura: assinatura
                     }));
                 });
             }

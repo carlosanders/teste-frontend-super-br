@@ -29,6 +29,8 @@ export class Usuario {
 
     plainPassword?: string;
 
+    currentPlainPassword?: string;
+
     jwt?: string;
 
     isDisponivel?: boolean;
@@ -106,6 +108,7 @@ export class Usuario {
         this.vinculacoesPessoasUsuarios = [];
         this.coordenadores = [];
         this.plainPassword = null;
+        this.currentPlainPassword = null;
         this.jwt = null;
         this.isDisponivel = null;
         this.primeiroAcesso = null;
