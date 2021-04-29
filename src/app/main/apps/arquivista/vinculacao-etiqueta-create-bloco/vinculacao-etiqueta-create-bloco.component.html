@@ -3,23 +3,25 @@
 
     <h2>Etiqueta em bloco de processos</h2>
 
-    <h3>{{(processos$ | async)?.length}} processo(s) selecionada(s) </h3>
+    <h3>{{(processos$ | async)?.length}} processo(s) selecionado(s)</h3>
 
     <cdk-etiqueta-chips [etiquetas]="etiquetas"
                         [pagination]="vinculacaoEtiquetaPagination"
                         (create)="addEtiqueta($event)"
                         (delete)="deleteEtiqueta($event)"></cdk-etiqueta-chips>
 
-    <div *ngIf="!(isSaving$ | async)" fxLayout="row" class="mr-sm-12 mt-8 mb-16" fxFlex
-         fxLayoutAlign="center center">
+    <div *ngIf="!(isSaving$ | async) && operacoes.length === 0" class="actions mr-sm-12 mt-8 mb-16">
         <button type="submit" mat-raised-button color="accent" class="mr-sm-12" (click)="submit()"
                 [disabled]="!(processos$ | async)?.length || !etiquetas.length">
             SALVAR
         </button>
+        <button class="mr-sm-12" mat-raised-button aria-label="cancelar" color="warn" type="button"
+                (click)="doAbort()">
+            CANCELAR
+        </button>
     </div>
 
-    <div *ngIf="(isSaving$ | async)" fxLayout="row" class="mr-sm-12 mt-16 mb-16" fxFlex
-         fxLayoutAlign="center center">
+    <div *ngIf="(isSaving$ | async)" fxLayout="row" class="actions mr-sm-12 mt-16 mb-16">
         <mat-spinner color="accent" diameter="24"></mat-spinner>
     </div>
 

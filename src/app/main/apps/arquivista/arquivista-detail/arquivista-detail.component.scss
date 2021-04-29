@@ -16,10 +16,12 @@ arquivista-detail {
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
+        }
 
-            cdk-vinculacao-etiqueta-chips {
-                margin-right: 8px;
-            }
+        > .navigation {
+            margin-left: auto;
+            display: flex;
+            flex: 0 1 auto;
         }
     }
 

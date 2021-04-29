@@ -1,29 +1,36 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 import {Router} from '@angular/router';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {buffer, catchError, map, mergeAll, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 
-import {Processo, Transicao} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr';
+import {Processo, Tarefa, Transicao} from '@cdk/models';
+import {processo as processoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
 import {transicao as transicaoSchema} from '@cdk/normalizr';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {TransicaoService} from '../../../../../../../@cdk/services/transicao.service';
 
-import {AddData, RemoveData, SetData} from '@cdk/ngrx-normalizr';
+import {AddData, RemoveData, SetData, UpdateData} from '@cdk/ngrx-normalizr';
 import * as TransicaoArquivistaBloco from '../actions/transicao-arquivista-bloco.actions';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../store';
 import {getRouterState, State} from '../../../../../../store/reducers';
+import {
+    ChangeProcessos,
+    ChangeSelectedProcessos,
+    getProcessosIds,
+    getSelectedProcessoIds,
+    ReloadProcessos
+} from "../../../arquivista-list/store";
+import {CdkUtils} from "../../../../../../../@cdk/utils";
+
 
 @Injectable()
 export class TransicaoArquivistaBlocoEffects {
     routerState: any;
-    private currentDate: any;
-    setorAtual: number;
 
     constructor(
         private _actions: Actions,
@@ -33,171 +40,6 @@ export class TransicaoArquivistaBlocoEffects {
         private _store: Store<State>,
         private _router: Router
     ) {
-        this.initRouterState();
-        this.setorAtual = this._loginService.getUserProfile().colaborador.lotacoes[0].setor.id;
-    }
-
-    /**
-     * Get Processos with router parameters
-     * @type {Observable<any>}
-     */
-    @Effect()
-    getProcessos: Observable<any> =
-        this._actions
-            .pipe(
-                ofType<TransicaoArquivistaBloco.GetProcessos>(TransicaoArquivistaBloco.GET_PROCESSOS),
-                switchMap((action) => {
-                    return this._processoService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
-                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
-
-                    new TransicaoArquivistaBloco.GetProcessosSuccess({
-                        entitiesId: response['entities'].map(processo => processo.id),
-                        loaded: {
-                            id: 'unidadeHandle_typeHandle',
-                            value: this.routerState.params.unidadeHandle + '_' +
-                                this.routerState.params.typeHandle
-                        },
-                        total: response['total']
-                    })
-                ]),
-                catchError((err, caught) => {
-                    console.log(err);
-                    this._store.dispatch(new TransicaoArquivistaBloco.GetProcessosFailed(err));
-                    return caught;
-                })
-            );
-
-
-    /**
-     * Save TransicaoArquivistaBloco
-     * @type {Observable<any>}
-     */
-    @Effect()
-    saveTransicaoArquivistaBloco: any =
-        this._actions
-            .pipe(
-                ofType<TransicaoArquivistaBloco.SaveTransicaoArquivistaBloco>(TransicaoArquivistaBloco.SAVE_TRANSICAO_ARQUIVISTA_BLOCO),
-                switchMap((action) => {
-                    new TransicaoArquivistaBloco.SaveTransicaoArquivistaBlocoSuccess(action.payload.processo.id);
-                    // new RemoveData({
-                    //     id: action.payload.processo.id,
-                    //     schema: processoSchema,
-                    //     removeChildren: processoSchema
-                    // });
-
-                    return this._transicaoService.save(action.payload).pipe(
-                        mergeMap((response: Transicao) => [
-                            new TransicaoArquivistaBloco.SaveTransicaoArquivistaBlocoSuccess(action.payload.processo.id),
-                            new OperacoesActions.Resultado({
-                                type: 'transicao',
-                                content: `Transições de processos realizadas com sucesso!`,
-                                dateTime: response.criadoEm,
-                                success: true
-                            })
-                        ]),
-                        catchError((err) => {
-                            this._store.dispatch(new OperacoesActions.Resultado({
-                                type: 'transicao',
-                                content: `Houve um erro ao realizar a transição para o processo id ${action.payload.processo.id}! ${err.error.message}`,
-                                success: false,
-                                dateTime: moment()
-                            }));
-                            return of(new TransicaoArquivistaBloco.SaveTransicaoArquivistaBlocoFailed(err));
-                        })
-                    );
-                })
-            );
-
-    /**
-     * Save ArquivistaClassificacao Success
-     */
-    @Effect({dispatch: false})
-    saveTransicaoArquivistaBlocoSuccess: any =
-        this._actions
-            .pipe(
-                ofType<TransicaoArquivistaBloco.SaveTransicaoArquivistaBlocoSuccess>(TransicaoArquivistaBloco.SAVE_TRANSICAO_ARQUIVISTA_BLOCO_SUCCESS),
-                tap(() => {
-                    const params = {
-                        listFilter: {},
-                        etiquetaFilter: {},
-                        limit: 10,
-                        offset: 0,
-                        sort: {dataHoraProximaTransicao: 'ASC', dataHoraAbertura: 'ASC'},
-                        populate: [
-                            'especieProcesso',
-                            'especieProcesso.generoProcesso',
-                            'modalidadeMeio',
-                            'modalidadeFase',
-                            'documentoAvulsoOrigem',
-                            'classificacao',
-                            'classificacao.modalidadeDestinacao',
-                            'setorInicial',
-                            'setorAtual',
-                            'lembretes',
-                            'vinculacoesEtiquetas',
-                            'vinculacoesEtiquetas.etiqueta'
-                        ]
-                    };
-
-                    const routeTypeParam = of('typeHandle');
-                    routeTypeParam.subscribe(typeParam => {
-                        let processoFilter = {};
-
-                        this.currentDate = moment().format('YYYY-MM-DD[T]H:mm:ss');
-
-                        if (this.routerState.params[typeParam] === 'pronto-transicao') {
-                            processoFilter = {
-                                'dataHoraProximaTransicao': 'lt:' + this.currentDate,
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual.id': 'eq:' + this.setorAtual
-
-                            };
-                        }
-
-                        if (this.routerState.params[typeParam] === 'aguardando-decurso') {
-                            processoFilter = {
-                                'dataHoraProximaTransicao': 'gte:' + this.currentDate,
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual.id': 'eq:' + this.setorAtual
-                            };
-                        }
-
-                        if (this.routerState.params[typeParam] === 'pendencia-analise') {
-                            processoFilter = {
-                                'dataHoraProximaTransicao': 'isNull',
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual.id': 'eq:' + this.setorAtual
-                            };
-
-                        }
-                        params['filter'] = processoFilter;
-                    });
-
-                    this._store.dispatch(new fromStore.GetProcessos(params));
-                    // Foi autorizado pelo Leo para ser refatorado esse codigo posteriormente.
-                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
-                    + '/aguardando-decurso']).then();
-                    setTimeout(() => {
-                        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle
-                        + '/pronto-transicao']).then();
-                    }, 100);
-
-                })
-            );
-
-
-    initRouterState(): void {
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -206,5 +48,140 @@ export class TransicaoArquivistaBlocoEffects {
                 }
             });
     }
+
+    /**
+     * Save TransicaoArquivista
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveTransicaoArquivista: any =
+        this._actions
+            .pipe(
+                ofType<TransicaoArquivistaBloco.SaveTransicaoArquivista>(TransicaoArquivistaBloco.SAVE_TRANSICAO_ARQUIVISTA),
+                tap((action) => {
+                    this._store.dispatch(new OperacoesActions.Operacao({
+                        id: action.payload.operacaoId,
+                        type: 'transição',
+                        content: 'Realizando transição arquivística no processo id ' + action.payload.transicao.processo.id + '...',
+                        status: 0, // carregando
+                        lote: action.payload.loteId,
+                        redo: action.payload.redo
+                    }));
+                }),
+                buffer(this._store.pipe(select(fromStore.getBufferingTransicao))),
+                mergeAll(),
+                withLatestFrom(this._store.pipe(select(fromStore.getTransicaoProcessoIds))),
+                mergeMap(([action, transicaoProcessoIds]) => {
+                    if (transicaoProcessoIds.indexOf(action.payload.transicao.processo.id) === -1) {
+                        this._store.dispatch(new OperacoesActions.Operacao({
+                            id: action.payload.operacaoId,
+                            type: 'transição',
+                            content: 'Transição arquivística no processo id ' + action.payload.transicao.processo.id + ' foi cancelada.',
+                            success: false,
+                            status: 3, // cancelada
+                            lote: action.payload.loteId,
+                            redo: 'inherent'
+                        }));
+                        return of(new TransicaoArquivistaBloco.SaveTransicaoArquivistaCancelSuccess(action.payload.transicao.processo.id));
+                    }
+                    return this._transicaoService.save(action.payload.transicao).pipe(
+                        map((response) => {
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'transição',
+                                content: 'Transição arquivística do processo id ' + action.payload.transicao.processo.id + ' realizada com sucesso.',
+                                status: 1, // sucesso
+                                success: true,
+                                lote: action.payload.loteId,
+                                redo: 'inherent'
+                            }));
+                            this._store.dispatch(new fromStore.GetProcesso(action.payload.transicao.processo));
+                            return new TransicaoArquivistaBloco.SaveTransicaoArquivistaSuccess(action.payload.transicao.processo.id);
+                        }),
+                        catchError((err) => {
+                            const payload = {
+                                id: action.payload.transicao.processo.id,
+                                error: err
+                            };
+                            const erroString = CdkUtils.errorsToString(err);
+                            this._store.dispatch(new OperacoesActions.Operacao({
+                                id: action.payload.operacaoId,
+                                type: 'transição',
+                                content: `Erro ao realizar transição arquivística no processo id ` + action.payload.transicao.processo.id + `! ${erroString}`,
+                                status: 2, // erro
+                                success: false,
+                                lote: action.payload.loteId,
+                                redo: 'inherent'
+                            }));
+                            console.log(err);
+                            return of(new TransicaoArquivistaBloco.SaveTransicaoArquivistaFailed(payload));
+                        })
+                    );
+                }, 25)
+            );
+
+    /**
+     * Get Processo with router parameters
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getProcesso: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<TransicaoArquivistaBloco.GetProcesso>(TransicaoArquivistaBloco.GET_PROCESSO),
+                mergeMap((action) => {
+                    const populate = JSON.stringify([
+                        'modalidadeFase'
+                    ]);
+                    return this._processoService.get(action.payload.id, populate).pipe(
+                        map((response) => {
+                            this._store.dispatch(new UpdateData<Processo>(
+                                {
+                                    id: response.id,
+                                    schema: processoSchema,
+                                    changes: {
+                                        modalidadeFase: response.modalidadeFase,
+                                        dataHoraProximaTransicao: response.dataHoraProximaTransicao
+                                    }
+                                }
+                            ));
+                            return new TransicaoArquivistaBloco.GetProcessoSuccess(response);
+                        }),
+                        catchError((err, caught) => {
+                            console.log(err);
+                            this._store.dispatch(new TransicaoArquivistaBloco.GetProcessoFailed(err));
+                            return caught;
+                        })
+                    );
+                }, 25)
+            );
+
+    /**
+     * Get Processo Success
+     */
+    @Effect({dispatch: false})
+    getProcessoSuccess: any =
+        this._actions
+            .pipe(
+                ofType<TransicaoArquivistaBloco.GetProcessoSuccess>(TransicaoArquivistaBloco.GET_PROCESSO_SUCCESS),
+                withLatestFrom(this._store.pipe(select(getSelectedProcessoIds)), this._store.pipe(select(getProcessosIds))),
+                tap(([action, selectedIds, entitiesId]) => {
+                    const currentDate = moment();
+                    let typeHandle = this.routerState.params['typeHandle'];
+                    if (!action.payload.dataHoraProximaTransicao) {
+                        typeHandle = 'pendencia-analise';
+                    } else if (action.payload.dataHoraProximaTransicao > currentDate) {
+                        typeHandle = 'aguardando-decurso';
+                    } else if (action.payload.dataHoraProximaTransicao <= currentDate) {
+                        typeHandle = 'pronto-transicao';
+                    }
+                    const newSelectedProcessos = selectedIds.filter(id => id !== action.payload.id);
+                    this._store.dispatch(new ChangeSelectedProcessos(newSelectedProcessos, false));
+                    if (typeHandle !== this.routerState.params['typeHandle']) {
+                        const newEntitiesId = entitiesId.filter(id => id !== action.payload.id);
+                        this._store.dispatch(new ChangeProcessos(newEntitiesId));
+                    }
+                })
+            );
 }
 

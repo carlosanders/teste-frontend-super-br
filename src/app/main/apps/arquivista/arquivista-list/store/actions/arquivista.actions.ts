@@ -10,6 +10,9 @@ export const GET_PROCESSOS_FAILED = '[ARQUIVISTA-LIST] GET PROCESSOS FAILED';
 export const SET_CURRENT_PROCESSO = '[ARQUIVISTA-LIST] SET CURRENT PROCESSO';
 export const SET_CURRENT_PROCESSO_SUCCESS = '[ARQUIVISTA-LIST] SET CURRENT PROCESSO SUCCESS';
 
+export const RELOAD_PROCESSOS = '[ARQUIVISTA-LIST] RELOAD PROCESSOS';
+
+export const CHANGE_PROCESSOS = '[ARQUIVISTA-LIST] CHANGE PROCESSOS';
 export const CHANGE_SELECTED_PROCESSOS = '[ARQUIVISTA-LIST] CHANGE SELECTED PROCESSOS';
 
 export const TOGGLE_MAXIMIZADO = '[ARQUIVISTA-DETAIL] TOGGLE MAXIMIZADO';
@@ -84,6 +87,13 @@ export class SetCurrentProcessoSuccess implements Action {
     }
 }
 
+export class ChangeProcessos implements Action {
+    readonly type = CHANGE_PROCESSOS;
+
+    constructor(public payload: any) {
+    }
+}
+
 
 /**
  * Change Selected Processos
@@ -91,7 +101,7 @@ export class SetCurrentProcessoSuccess implements Action {
 export class ChangeSelectedProcessos implements Action {
     readonly type = CHANGE_SELECTED_PROCESSOS;
 
-    constructor(public payload: any) {
+    constructor(public payload: any, public redirect: boolean = true) {
     }
 }
 
@@ -180,6 +190,16 @@ export class ToggleMaximizado implements Action
     }
 }
 
+/**
+ * Reload Processos
+ */
+export class ReloadProcessos implements Action {
+    readonly type = RELOAD_PROCESSOS;
+
+    constructor() {
+    }
+}
+
 export type ArquivistaActionsAll
     = UnloadProcessos
     | GetProcessos
@@ -187,6 +207,7 @@ export type ArquivistaActionsAll
     | GetProcessosFailed
     | SetCurrentProcesso
     | SetCurrentProcessoSuccess
+    | ChangeProcessos
     | ChangeSelectedProcessos
     | CreateVinculacaoEtiqueta
     | CreateVinculacaoEtiquetaSuccess
@@ -194,4 +215,5 @@ export type ArquivistaActionsAll
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
-    | ToggleMaximizado;
+    | ToggleMaximizado
+    | ReloadProcessos;

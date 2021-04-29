@@ -561,7 +561,7 @@
              *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;">
             <div class="juntada" matRipple
                  (click)="gotoStep(i, juntada.ativo)"
-                 [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': currentStep.step > i, 'last': last, 'first': first}">
+                 [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}">
                 <div class="index">
                     <span>{{juntada.numeracaoSequencial}}</span>
                 </div>

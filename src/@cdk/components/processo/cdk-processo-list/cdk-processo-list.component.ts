@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Assunto, Interessado, Processo} from '@cdk/models';
+import {Processo} from '@cdk/models';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
@@ -33,6 +33,9 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     deletedIds: number[] = [];
 
     @Input()
+    transicionandoIds: number[] = [];
+
+    @Input()
     selectedIds: number[] = [];
 
     @Output()
@@ -57,7 +60,7 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     selected = new EventEmitter<Processo>();
 
     @Output()
-    criarLembrete = new EventEmitter<any>();
+    editar = new EventEmitter<any>();
 
     @Output()
     realizarTransicao = new EventEmitter<any>();
@@ -66,16 +69,10 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     realizarTransicaoBloco = new EventEmitter<any>();
 
     @Output()
-    criarLembreteBloco = new EventEmitter<any>();
-
-    @Output()
-    classificacaoBloco = new EventEmitter<any>();
+    editarBloco = new EventEmitter<any>();
 
     @Output()
     etiquetarBloco = new EventEmitter<any>();
-
-    @Output()
-    lembreteBloco = new EventEmitter<any>();
 
     @Output()
     salvarLembrete = new EventEmitter<any>();
@@ -196,16 +193,12 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.loadPage();
     }
 
-    doClassificacaoBloco(): void {
-        this.classificacaoBloco.emit();
-    }
-
     doRealizarTransicaoBloco(): void {
         this.realizarTransicaoBloco.emit();
     }
 
-    doCriarLembreteBloco(): void {
-        this.lembreteBloco.emit();
+    doEditarBloco(): void {
+        this.editarBloco.emit();
     }
 
     doEtiquetarBloco(): void {
@@ -220,8 +213,8 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.salvarLembrete.emit(params);
     }
 
-    doCriarLembrete(params): void {
-        this.criarLembrete.emit(params);
+    doEditar(params): void {
+        this.editar.emit(params);
     }
 
     doRealizarTransicao(params): void {

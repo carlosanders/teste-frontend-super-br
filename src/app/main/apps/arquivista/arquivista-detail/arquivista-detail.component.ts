@@ -19,7 +19,7 @@ import {
     getMaximizado,
     SaveConteudoVinculacaoEtiqueta, ToggleMaximizado,
 } from './store';
-import {getRouterState, getScreenState} from '../../../../store/reducers';
+import {getRouterState, getScreenState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '../../../../../@cdk/animations';
 
@@ -189,6 +189,6 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
     }
 
     isPendenciaAnalise(): boolean {
-        return this.routerState.params.typeHandle === 'pendencia-analise' ? true : false;
+        return this.routerState.params.typeHandle === 'pendencia-analise';
     }
 }

@@ -1,23 +1,23 @@
 import {Action} from '@ngrx/store';
 
-export const SAVE_TRANSICAO_ARQUIVISTA_BLOCO = '[TRANSICAO_ARQUIVISTA_BLOCO] SAVE TRANSICAO_ARQUIVISTA_BLOCO';
-export const SAVE_TRANSICAO_ARQUIVISTA_BLOCO_SUCCESS = '[TRANSICAO_ARQUIVISTA_BLOCO] SAVE TRANSICAO_ARQUIVISTA_BLOCO SUCCESS';
-export const SAVE_TRANSICAO_ARQUIVISTA_BLOCO_FAILED = '[TRANSICAO_ARQUIVISTA_BLOCO] SAVE TRANSICAO_ARQUIVISTA_BLOCO FAILED';
+export const SAVE_TRANSICAO_ARQUIVISTA = '[TRANSICAO_ARQUIVISTA_BLOCO] SAVE TRANSICAO_ARQUIVISTA';
+export const SAVE_TRANSICAO_ARQUIVISTA_SUCCESS = '[TRANSICAO_ARQUIVISTA_BLOCO] SAVE TRANSICAO_ARQUIVISTA SUCCESS';
+export const SAVE_TRANSICAO_ARQUIVISTA_FAILED = '[TRANSICAO_ARQUIVISTA_BLOCO] SAVE TRANSICAO_ARQUIVISTA FAILED';
 
-export const GET_TRANSICAO_ARQUIVISTA_BLOCO = '[TRANSICAO_ARQUIVISTA_BLOCO] GET TRANSICAO_ARQUIVISTA_BLOCO';
-export const GET_TRANSICAO_ARQUIVISTA_BLOCO_SUCCESS = '[TRANSICAO_ARQUIVISTA_BLOCO] GET TRANSICAO_ARQUIVISTA_BLOCO SUCCESS';
-export const GET_TRANSICAO_ARQUIVISTA_BLOCO_FAILED = '[TRANSICAO_ARQUIVISTA_BLOCO] GET TRANSICAO_ARQUIVISTA_BLOCO FAILED';
+export const SAVE_TRANSICAO_ARQUIVISTA_CANCEL = '[TRANSICAO_ARQUIVISTA_BLOCO] SAVE TRANSICAO_ARQUIVISTA CANCEL';
+export const SAVE_TRANSICAO_ARQUIVISTA_CANCEL_SUCCESS = '[TRANSICAO_ARQUIVISTA_BLOCO] SAVE TRANSICAO_ARQUIVISTA CANCEL SUCCESS';
+export const SAVE_TRANSICAO_ARQUIVISTA_FLUSH = '[TRANSICAO_ARQUIVISTA_BLOCO] SAVE TRANSICAO_ARQUIVISTA FLUSH';
 
-export const GET_PROCESSOS = '[TRANSICAO_ARQUIVISTA_BLOCO] GET PROCESSOS';
-export const GET_PROCESSOS_SUCCESS = '[TRANSICAO_ARQUIVISTA_BLOCO] GET PROCESSOS SUCCESS';
-export const GET_PROCESSOS_FAILED = '[TRANSICAO_ARQUIVISTA_BLOCO] GET PROCESSOS FAILED';
+export const GET_PROCESSO = '[TRANSICAO_ARQUIVISTA_BLOCO] GET PROCESSO';
+export const GET_PROCESSO_SUCCESS = '[TRANSICAO_ARQUIVISTA_BLOCO] GET PROCESSO SUCCESS';
+export const GET_PROCESSO_FAILED = '[TRANSICAO_ARQUIVISTA_BLOCO] GET PROCESSO FAILED';
 
 /**
- * Get TransicaoArquivistaBloco
+ * Save TransicaoArquivista
  */
-export class GetTransicaoArquivistaBloco implements Action
+export class SaveTransicaoArquivista implements Action
 {
-    readonly type = GET_TRANSICAO_ARQUIVISTA_BLOCO;
+    readonly type = SAVE_TRANSICAO_ARQUIVISTA;
 
     constructor(public payload: any)
     {
@@ -25,11 +25,11 @@ export class GetTransicaoArquivistaBloco implements Action
 }
 
 /**
- * Get TransicaoArquivistaBloco Success
+ * Save TransicaoArquivista Success
  */
-export class GetTransicaoArquivistaBlocoSuccess implements Action
+export class SaveTransicaoArquivistaSuccess implements Action
 {
-    readonly type = GET_TRANSICAO_ARQUIVISTA_BLOCO_SUCCESS;
+    readonly type = SAVE_TRANSICAO_ARQUIVISTA_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -37,23 +37,11 @@ export class GetTransicaoArquivistaBlocoSuccess implements Action
 }
 
 /**
- * Get TransicaoArquivistaBloco Failed
+ * Save TransicaoArquivista Failed
  */
-export class GetTransicaoArquivistaBlocoFailed implements Action
+export class SaveTransicaoArquivistaFailed implements Action
 {
-    readonly type = GET_TRANSICAO_ARQUIVISTA_BLOCO_FAILED;
-
-    constructor(public payload: string)
-    {
-    }
-}
-
-/**
- * Save TransicaoArquivistaBloco
- */
-export class SaveTransicaoArquivistaBloco implements Action
-{
-    readonly type = SAVE_TRANSICAO_ARQUIVISTA_BLOCO;
+    readonly type = SAVE_TRANSICAO_ARQUIVISTA_FAILED;
 
     constructor(public payload: any)
     {
@@ -61,11 +49,23 @@ export class SaveTransicaoArquivistaBloco implements Action
 }
 
 /**
- * Save TransicaoArquivistaBloco Success
+ * Save TransicaoArquivista Cancel
  */
-export class SaveTransicaoArquivistaBlocoSuccess implements Action
+export class SaveTransicaoArquivistaCancel implements Action
 {
-    readonly type = SAVE_TRANSICAO_ARQUIVISTA_BLOCO_SUCCESS;
+    readonly type = SAVE_TRANSICAO_ARQUIVISTA_CANCEL;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Save TransicaoArquivista Cancel Success
+ */
+export class SaveTransicaoArquivistaCancelSuccess implements Action
+{
+    readonly type = SAVE_TRANSICAO_ARQUIVISTA_CANCEL_SUCCESS;
 
     constructor(public payload: any)
     {
@@ -73,56 +73,55 @@ export class SaveTransicaoArquivistaBlocoSuccess implements Action
 }
 
 /**
- * Save TransicaoArquivistaBloco Failed
+ * Save TransicaoArquivista Flush
  */
-export class SaveTransicaoArquivistaBlocoFailed implements Action
+export class SaveTransicaoArquivistaFlush implements Action
 {
-    readonly type = SAVE_TRANSICAO_ARQUIVISTA_BLOCO_FAILED;
+    readonly type = SAVE_TRANSICAO_ARQUIVISTA_FLUSH;
 
-    constructor(public payload: any)
+    constructor()
     {
     }
 }
 
-
 /**
- * Get Processos
+ * Get Processo
  */
-export class GetProcessos implements Action {
-    readonly type = GET_PROCESSOS;
-
-    constructor(public payload: any) {
-    }
-}
-
-
-/**
- * Get Processos Success
- */
-export class GetProcessosSuccess implements Action {
-    readonly type = GET_PROCESSOS_SUCCESS;
+export class GetProcesso implements Action {
+    readonly type = GET_PROCESSO;
 
     constructor(public payload: any) {
     }
 }
 
 /**
- * Get Processos Failed
+ * Get Processo Success
  */
-export class GetProcessosFailed implements Action {
-    readonly type = GET_PROCESSOS_FAILED;
+export class GetProcessoSuccess implements Action {
+    readonly type = GET_PROCESSO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Processo Failed
+ */
+export class GetProcessoFailed implements Action {
+    readonly type = GET_PROCESSO_FAILED;
 
     constructor(public payload: string) {
     }
 }
 
+
 export type TransicaoArquivistaBlocoActionsAll
-    = GetTransicaoArquivistaBloco
-    | GetTransicaoArquivistaBlocoSuccess
-    | GetTransicaoArquivistaBlocoFailed
-    | SaveTransicaoArquivistaBloco
-    | SaveTransicaoArquivistaBlocoSuccess
-    | SaveTransicaoArquivistaBlocoFailed
-    | GetProcessos
-    | GetProcessosFailed
-    | GetProcessosSuccess;
+    = SaveTransicaoArquivista
+    | SaveTransicaoArquivistaSuccess
+    | SaveTransicaoArquivistaFailed
+    | SaveTransicaoArquivistaCancel
+    | SaveTransicaoArquivistaCancelSuccess
+    | SaveTransicaoArquivistaFlush
+    | GetProcesso
+    | GetProcessoSuccess
+    | GetProcessoFailed;

@@ -37,7 +37,7 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
     usuariosAssessor: Usuario[] = [];
 
     colaborador: Colaborador;
-    unidades: Setor[] = [];
+    setores: Setor[] = [];
     links: any;
 
     /**
@@ -54,8 +54,8 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
 
         this.colaborador = this._loginService.getUserProfile().colaborador;
         this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
-            if (!this.unidades.includes(lotacao.setor.unidade) && lotacao.arquivista === true) {
-                this.unidades.push(lotacao.setor.unidade);
+            if (!this.setores.includes(lotacao.setor) && lotacao.arquivista === true) {
+                this.setores.push(lotacao.setor);
             }
         });
 
@@ -89,7 +89,6 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-
         this._store
             .pipe(
                 select(getRouterState),
@@ -102,28 +101,9 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
                     this.unidadeHandle = routerState.state.params['unidadeHandle'];
                 }
 
-
-                if (routerState.state.params['typeHandle']) {
-                    this.typeHandle = routerState.state.params['typeHandle'];
-                }
-                else{
-                    this.typeHandle = 'pronto-transicao';
-                }
-
-                this.typeHandle = routerState.state.params['typeHandle'];
+                this.typeHandle = routerState.state.params['typeHandle'] ?? 'pronto-transicao';
             }
         });
-
-        this.setoresCoordenacao = [];
-
-        this._loginService.getUserProfile().coordenadores.forEach((coordenador: Coordenador) => {
-            if (coordenador.setor) {
-                this.setoresCoordenacao.push(coordenador.setor);
-            }
-        });
-
-        this.usuariosAssessor = [];
-
     }
 
     /**

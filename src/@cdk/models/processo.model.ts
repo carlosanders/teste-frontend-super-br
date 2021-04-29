@@ -65,6 +65,8 @@ export class Processo {
 
     descricao?: string;
 
+    lembreteArquivista?: string;
+
     outroNumero?: string;
 
     requerimento?: string;
@@ -205,6 +207,7 @@ export class Processo {
         this.unidadeArquivistica = null;
         this.tipoProtocolo = null;
         this.descricao = null;
+        this.lembreteArquivista = null;
         this.valorEconomico = null;
         this.semValorEconomico = null;
         this.NUP = null;
