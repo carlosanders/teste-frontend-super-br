@@ -18,23 +18,33 @@
             </button>
 
             <div *ngIf="!capa && !vinculacao && !documentoAvulso" class="juntada-navigation">
-
-                <button mat-mini-fab class="previous accent cdk-white-fg"
-                        (click)="gotoPreviousStep()"
-                        [disabled]="disabledBack()">
-                    <mat-icon>chevron_left</mat-icon>
-                </button>
+                <div>
+                    <button mat-mini-fab class="previous accent cdk-white-fg"
+                            (click)="gotoPreviousStep()"
+                            [disabled]="disabledBack()">
+                        <mat-icon>chevron_left</mat-icon>
+                    </button>
+                </div>
 
                 <div>
                     <h3 *ngIf="!(loading$ | async)">{{fileName}}</h3>
                 </div>
 
-                <button mat-mini-fab class="next accent cdk-white-fg"
-                        (click)="gotoNextStep()"
-                        [disabled]="disabledNext()">
-                    <mat-icon>chevron_right</mat-icon>
-                </button>
-
+                <div class="right">
+                    <button mat-mini-fab (click)="zoomOut()" *ngIf="isHtml(fileName)">
+                        <mat-icon class="mat-18">zoom_out</mat-icon>
+                    </button>
+                    &nbsp;
+                    <button mat-mini-fab (click)="zoomIn()"  *ngIf="isHtml(fileName)">
+                        <mat-icon class="mat-18">zoom_in</mat-icon>
+                    </button>
+                    &nbsp;
+                    <button mat-mini-fab class="next accent cdk-white-fg"
+                            (click)="gotoNextStep()"
+                            [disabled]="disabledNext()">
+                        <mat-icon>chevron_right</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
 
@@ -51,7 +61,8 @@
                     <span class="no-juntadas-text hint-text"> Não há documentos juntados</span>
                 </div>
 
-                <div *ngIf="!(loading$ | async) && (juntadas)?.length > 0" class="processo-view-juntada-content">
+                <div *ngIf="!(loading$ | async) && (juntadas)?.length > 0"
+                     class="processo-view-juntada-content {{getZoomClass(fileName)}} {{getLayoutClass(fileName)}}">
                     <iframe id="iframe-juntadas" *ngIf="src"
                             [src]="src">
                     </iframe>
