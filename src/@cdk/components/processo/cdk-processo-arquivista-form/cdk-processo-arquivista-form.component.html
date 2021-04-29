@@ -1,6 +1,6 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
-    <mat-form-field>
-        <input matInput placeholder="Classificação" formControlName="classificacao" required
+    <mat-form-field *ngIf="mode === 'regular' || blocoEdit.blocoEditClassificacao">
+        <input matInput placeholder="Classificação" formControlName="classificacao"
                [matAutocomplete]="classificacao.autocomplete" (blur)="checkClassificacao()">
         <cdk-classificacao-autocomplete #classificacao="classificacaoAutocomplete" [control]="form.get('classificacao')"
                                         [pagination]="_classificacaoPagination">
@@ -8,10 +8,10 @@
         <button matSuffix mat-button mat-icon-button *ngIf="form.value.id" (click)="showLogEntryGrid('classificacao')">
             <mat-icon matTooltip="Histórico">history</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button (click)="showClassificacaoTree()">
+        <button matSuffix mat-button mat-icon-button (click)="showClassificacaoTree()" [disabled]="form.get('classificacao').disabled">
             <mat-icon matTooltip="Árvore de Classificações">subdirectory_arrow_right</mat-icon>
         </button>
-        <button matSuffix mat-button mat-icon-button (click)="showClassificacaoGrid()">
+        <button matSuffix mat-button mat-icon-button (click)="showClassificacaoGrid()" [disabled]="form.get('classificacao').disabled">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('classificacao').hasError('formError')">
@@ -19,7 +19,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="mode === 'regular' || blocoEdit.blocoEditDataHoraProximaTransicao">
         <mat-label>Data Próxima Transição</mat-label>
         <input matInput formControlName="dataHoraProximaTransicao" [matDatetimepicker]="dataHoraProximaTransicao">
         <mat-datetimepicker-toggle matSuffix [for]="dataHoraProximaTransicao"></mat-datetimepicker-toggle>
@@ -30,7 +30,7 @@
         </mat-error>
     </mat-form-field>
 
-    <mat-form-field>
+    <mat-form-field *ngIf="mode === 'regular' || blocoEdit.blocoEditLembrete">
         <mat-label>Lembrete Arquivista</mat-label>
         <textarea matInput
                   cdkTextareaAutosize
@@ -40,7 +40,6 @@
                   maxlength="255"
                   cdkAutosizeMinRows="5"
                   cdkAutosizeMaxRows="5"
-                  required
                   upperCase></textarea>
         <button matSuffix mat-button mat-icon-button
                 *ngIf="form.value.id"
@@ -56,7 +55,7 @@
     <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
 
     <div class="actions">
-        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid || !valid" *ngIf="!saving">
             SALVAR
         </button>
         <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">

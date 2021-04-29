@@ -1,0 +1,151 @@
+import {
+    AfterViewInit,
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    Component,
+    OnDestroy,
+    OnInit, ViewChild, ViewContainerRef,
+    ViewEncapsulation
+} from '@angular/core';
+
+import {cdkAnimations} from '@cdk/animations';
+import {Observable, Subject} from 'rxjs';
+
+import {Processo} from '@cdk/models';
+import {select, Store} from '@ngrx/store';
+
+import * as fromStore from 'app/store';
+import {LoginService} from 'app/main/auth/login/login.service';
+import {getRouterState} from 'app/store/reducers';
+import {Router} from '@angular/router';
+import {takeUntil} from 'rxjs/operators';
+import {modulesConfig} from 'modules/modules-config';
+import {DynamicService} from 'modules/dynamic.service';
+import * as fromStoreProcessos from '../arquivista-list/store';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+
+@Component({
+    selector: 'arquivista-operacoes-bloco',
+    templateUrl: './arquivista-operacoes-bloco.component.html',
+    styleUrls: ['./arquivista-operacoes-bloco.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    animations: cdkAnimations
+})
+export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, AfterViewInit {
+
+    private _unsubscribeAll: Subject<any> = new Subject();
+
+    processos$: Observable<Processo[]>;
+    processos: Processo[];
+
+    selectedIds$: Observable<number[]>;
+    selectedIds: number[];
+
+    private _profile: any;
+
+    routerState: any;
+
+    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    container: ViewContainerRef;
+
+    sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
+    snackSubscription: any;
+
+    /**
+     *
+     * @param _dynamicService
+     * @param _store
+     * @param _loginService
+     * @param _snackBar
+     * @param _router
+     * @param _changeDetectorRef
+     */
+    constructor(
+        private _dynamicService: DynamicService,
+        private _store: Store<fromStore.State>,
+        public _loginService: LoginService,
+        private _snackBar: MatSnackBar,
+        private _router: Router,
+        private _changeDetectorRef: ChangeDetectorRef
+    ) {
+        this.processos$ = this._store.pipe(select(fromStoreProcessos.getSelectedProcessos));
+        this.selectedIds$ = this._store.pipe(select(fromStoreProcessos.getSelectedProcessoIds));
+        this._profile = _loginService.getUserProfile().colaborador;
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Lifecycle hooks
+    // -----------------------------------------------------------------------------------------------------
+
+    ngOnInit(): void {
+        this.processos$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(processos => {
+            this.processos = processos;
+            if (!processos || processos.length <= 1) {
+                this._router.navigate([
+                    'apps',
+                    'arquivista',
+                    this.routerState.params.unidadeHandle,
+                    this.routerState.params.typeHandle
+                ]).then();
+            }
+        });
+
+        this.selectedIds$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(selected => this.selectedIds = selected);
+
+        this._store
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
+    }
+
+    ngAfterViewInit(): void {
+        const path = '@cdk/components/arquivista/operacoes-bloco';
+        modulesConfig.forEach((module) => {
+            if (module.components.hasOwnProperty(path)) {
+                module.components[path].forEach((c => {
+                    this._dynamicService.loadComponent(c)
+                        .then(componentFactory => this.container.createComponent(componentFactory));
+                }));
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+    // -----------------------------------------------------------------------------------------------------
+    // @ Public methods
+    // -----------------------------------------------------------------------------------------------------
+
+    doEtiquetarBloco(): void {
+        // tslint:disable-next-line:max-line-length
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/vinculacao-etiqueta-bloco']).then();
+    }
+
+    doEditarBloco(): void {
+        // tslint:disable-next-line:max-line-length
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/arquivista-editar-bloco']).then();
+    }
+
+    doTransicaoBloco(): void {
+        // tslint:disable-next-line:max-line-length
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/transicao-arquivista-bloco']).then();
+    }
+
+    doAbort(): void {
+        this._store.dispatch(new fromStoreProcessos.ChangeSelectedProcessos([]));
+    }
+}

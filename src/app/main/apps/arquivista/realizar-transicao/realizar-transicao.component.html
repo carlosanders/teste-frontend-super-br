@@ -3,9 +3,10 @@
     <cdk-realizar-transicao-form
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
-        [processoId]="this.processoId"
+        [processoId]="(processo$ | async)?.id"
         [modalidadeTransicaoPagination]="modalidadeTransicaoPagination"
         (save)="submit($event)"
+        (abort)="cancel()"
     >
     </cdk-realizar-transicao-form>
 </div>

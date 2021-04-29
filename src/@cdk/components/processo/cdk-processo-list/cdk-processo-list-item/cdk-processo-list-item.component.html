@@ -23,7 +23,7 @@
 
             <div class="subtitle" *ngIf="!processo?.acessoNegado">
                 <span>{{processo.especieProcesso?.nome}} / {{processo.modalidadeMeio?.valor}}
-                    / {{processo.modalidadeFase?.valor}}</span>
+                    / {{!transicionando ? processo.modalidadeFase?.valor : 'Em processo de transição arquivística'}}</span>
             </div>
 
             <div class="subtitle" *ngIf="processo?.acessoNegado">
@@ -45,8 +45,12 @@
                 </div>
 
                 <div *showIfRole="'ROLE_COLABORADOR'">
-                    <div>
+                    <div *ngIf="!transicionando">
                         Data Transição: {{processo.dataHoraProximaTransicao?.toDate() | date: 'dd/MM/yyyy'}}
+                    </div>
+
+                    <div *ngIf="transicionando" class="transicao-arquivistica">
+                        Data Transição: <mat-spinner diameter=16></mat-spinner>
                     </div>
 
                     <div *ngIf="processo.classificacao">
@@ -98,19 +102,19 @@
 
             <mat-menu #moreMenu="matMenu">
 
+                <button mat-menu-item aria-label="editar"
+                        (click)="doEditar(processo)">
+                    <ng-container>
+                        <mat-icon>edit</mat-icon>
+                        <span>Editar</span>
+                    </ng-container>
+                </button>
+
                 <button *ngIf="prontoTransicao === true" mat-menu-item aria-label="realizar transicao"
                         (click)="doRealizarTransicao(processo)">
                     <ng-container>
                         <mat-icon>check</mat-icon>
                         <span>Realizar Transição</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="criar lembrete"
-                        (click)="doCriarLembrete(processo)">
-                    <ng-container>
-                        <mat-icon>add</mat-icon>
-                        <span>Criar Lembrete</span>
                     </ng-container>
                 </button>
 

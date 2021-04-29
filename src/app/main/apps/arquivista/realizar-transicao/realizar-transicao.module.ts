@@ -8,8 +8,17 @@ import {RealizarTransacaoStoreModule} from './store/store.module';
 import {MatListModule} from '@angular/material/list';
 import {ProcessoService} from '../../../../../@cdk/services/processo.service';
 import {DirectivesModule} from '../../../../../@cdk/directives/directives';
+import {CdkConfirmDialogModule} from "../../../../../@cdk/components";
+import {CdkConfirmDialogComponent} from "../../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
+import {MatDialogModule} from "@angular/material/dialog";
+import {Routes} from "@angular/router";
 
-
+const routes: Routes = [
+    {
+        path: '',
+        component: RealizarTransicaoComponent
+    }
+];
 @NgModule({
     declarations: [RealizarTransicaoComponent],
     imports: [
@@ -17,12 +26,18 @@ import {DirectivesModule} from '../../../../../@cdk/directives/directives';
         CdkTransicaoFormModule,
         CdkRealizarTransicaoFormModule,
         RealizarTransacaoStoreModule,
+        MatDialogModule,
+
         MatListModule,
-        DirectivesModule
+        DirectivesModule,
+        CdkConfirmDialogModule
     ],
     providers: [
         TransicaoService,
         ProcessoService
+    ],
+    entryComponents: [
+        CdkConfirmDialogComponent
     ]
 })
 export class RealizarTransicaoModule {

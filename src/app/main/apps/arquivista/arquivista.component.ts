@@ -20,7 +20,7 @@ import {Observable, Subject} from 'rxjs';
 import {Usuario} from '@cdk/models/usuario.model';
 import {takeUntil} from 'rxjs/operators';
 import {ToggleMaximizado} from '../tarefas/store';
-import {getScreenState} from '../../../store';
+import {getRouterState, getScreenState} from '../../../store';
 
 @Component({
     selector: 'arquivista',
@@ -87,6 +87,14 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
 
+        this._store.pipe(select(getRouterState)).subscribe(routerState => {
+            if (routerState.state) {
+                this.routerState = routerState.state;
+
+                this.unidadeHandle = this.routerState.params['unidadeHandle'];
+            }
+        })
+
         this.vinculacaoEtiquetaPagination.filter = {
             orX: [
                 {
@@ -111,8 +119,8 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
 
         this.colaborador = this._profile.colaborador;
         this.colaborador.lotacoes.forEach((lotacao: Lotacao) => {
-            if (!this.unidades.includes(lotacao.setor.unidade) && lotacao.arquivista === true) {
-                this.unidades.push(lotacao.setor.unidade);
+            if (!this.unidades.includes(lotacao.setor) && lotacao.arquivista === true) {
+                this.unidades.push(lotacao.setor);
             }
         });
 
@@ -128,7 +136,9 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.setoresCoordenacao = [];
         this.usuariosAssessor = [];
-        this._router.navigate(['apps/arquivista/' + this.getUnidade() + '/pronto-transicao']).then();
+        if (!this.routerState.params['unidadeHandle']) {
+            this._router.navigate(['apps/arquivista/' + this.getUnidade() + '/pronto-transicao']).then();
+        }
 
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -161,7 +171,7 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
     }
 
     getUnidade(): number{
-        return this.colaborador.lotacoes[0].setor.unidade.id;
+        return this.unidades[0]?.id;
     }
 
     // -----------------------------------------------------------------------------------------------------

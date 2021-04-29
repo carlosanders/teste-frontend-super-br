@@ -1,44 +1,19 @@
 import * as TransicaoArquivistaBlocoActions from '../actions';
-import {Etiqueta} from '../../../../../../../@cdk/models';
 
 export interface TransicaoArquivistaBlocoState {
-    entitiesId: number;
-    pagination: {
-        limit: number;
-        offset: number;
-        filter: any;
-        listFilter: any;
-        etiquetaFilter: Etiqueta[];
-        populate: any;
-        sort: any;
-        total: number;
-    };
     saving: boolean;
     errors: any;
-    loading: boolean;
-    loaded: any;
-    deletingIds: number[];
-    deletedIds: number[];
+    bufferingTransicao: number;
+    transicaoProcessoIds: number[];
+    errorTransicao: number[];
 }
 
 export const TransicaoArquivistaBlocoInitialState: TransicaoArquivistaBlocoState = {
     errors: false,
-    pagination: {
-        limit: 0,
-        offset: 0,
-        filter: {},
-        listFilter: {},
-        etiquetaFilter: [],
-        populate: [],
-        sort: {},
-        total: 0,
-    },
-    entitiesId: null,
-    loaded: false,
-    loading: false,
     saving: false,
-    deletedIds: [],
-    deletingIds: []
+    bufferingTransicao: 0,
+    transicaoProcessoIds: [],
+    errorTransicao: []
 };
 
 export function TransicaoArquivistaBlocoReducer(
@@ -47,99 +22,56 @@ export function TransicaoArquivistaBlocoReducer(
 ): TransicaoArquivistaBlocoState {
     switch (action.type) {
 
-        case TransicaoArquivistaBlocoActions.GET_TRANSICAO_ARQUIVISTA_BLOCO : {
-            return {
-                ...state,
-                entitiesId: null,
-                loading: true
-            };
-        }
-
-        case TransicaoArquivistaBlocoActions.GET_TRANSICAO_ARQUIVISTA_BLOCO_SUCCESS: {
-
-            return {
-                ...state,
-                entitiesId: action.payload.entitiesId,
-                loaded: action.payload.loaded,
-            };
-        }
-
-
-        case TransicaoArquivistaBlocoActions.GET_TRANSICAO_ARQUIVISTA_BLOCO_FAILED: {
-            return {
-                ...state,
-                loading: false
-            };
-        }
-
-        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_BLOCO: {
+        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA: {
             return {
                 ...state,
                 saving: true,
                 errors: false,
-                deletingIds: [...state.deletingIds, action.payload.processo.id]
+                transicaoProcessoIds: [...state.transicaoProcessoIds, action.payload.transicao.processo.id]
             };
         }
 
-        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_BLOCO_SUCCESS: {
+        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_SUCCESS: {
             return {
                 ...state,
                 saving: false,
                 errors: false,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                transicaoProcessoIds: state.transicaoProcessoIds.filter(id => id !== action.payload),
+                errorTransicao: [],
             };
         }
 
-        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_BLOCO_FAILED: {
+        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_FAILED: {
             return {
                 ...state,
                 saving: false,
-                errors: action.payload,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                errors: action.payload.error,
+                errorTransicao: [...state.errorTransicao, action.payload.id],
+                transicaoProcessoIds: state.transicaoProcessoIds.filter(id => id !== action.payload.id),
             };
         }
 
-        case TransicaoArquivistaBlocoActions.GET_PROCESSOS: {
+        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_CANCEL: {
             return {
                 ...state,
-                loading: true,
-                pagination: {
-                    limit: action.payload.limit,
-                    offset: action.payload.offset,
-                    filter: action.payload.filter,
-                    listFilter: action.payload.listFilter,
-                    etiquetaFilter: action.payload.etiquetaFilter,
-                    populate: action.payload.populate,
-                    sort: action.payload.sort,
-                    total: state.pagination.total
-                }
+                transicaoProcessoIds: [],
+                bufferingTransicao: state.bufferingTransicao + 1,
+                errorTransicao: [],
+                errors: null
             };
         }
 
-        case TransicaoArquivistaBlocoActions.GET_PROCESSOS_SUCCESS: {
-
-            const loaded = action.payload.loaded;
-
+        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_FLUSH: {
             return {
                 ...state,
-                entitiesId: action.payload.entitiesId,
-                pagination: {
-                    ...state.pagination,
-                    total: action.payload.total
-                },
-                loading: false,
-                loaded,
-                saving: false
+                bufferingTransicao: state.bufferingTransicao + 1,
             };
         }
 
-        case TransicaoArquivistaBlocoActions.GET_PROCESSOS_FAILED: {
+        case TransicaoArquivistaBlocoActions.SAVE_TRANSICAO_ARQUIVISTA_CANCEL_SUCCESS: {
             return {
                 ...state,
-                loading: false,
-                loaded: false,
-                saving: false
+                saving: false,
             };
         }
 

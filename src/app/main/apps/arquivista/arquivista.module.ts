@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule, MatIconModule, MatProgressSpinnerModule} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {CdkSharedModule} from '@cdk/shared.module';
-import {CdkSidebarModule} from '@cdk/components';
+import {CdkConfirmDialogModule, CdkSidebarModule} from '@cdk/components';
 import {ArquivistaComponent} from './arquivista.component';
 import {CommonModule} from '@angular/common';
 import {ArquivistaMainSidebarComponent} from './sidebars/main/main-sidebar.component';
@@ -13,6 +13,8 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {modulesConfig} from 'modules/modules-config';
 import {MatRippleModule} from '@angular/material/core';
 import {ArquivistaStoreModule} from "./arquivista-list/store/store.module";
+import {SnackBarDesfazerComponent} from "../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component";
+import {SnackBarDesfazerModule} from "../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module";
 
 const routes: Routes = [
     {
@@ -52,11 +54,14 @@ modulesConfig.forEach((module) => {
         CdkSharedModule,
         CdkSidebarModule,
         MatRippleModule,
+        SnackBarDesfazerModule,
+        CdkConfirmDialogModule
     ],
     providers      : [
         fromGuards.ResolveGuard,
         ProcessoService,
-    ]
+    ],
+    entryComponents: [SnackBarDesfazerComponent],
 })
 // @ts-ignore
 export class ArquivistaModule {}

@@ -25,22 +25,22 @@ export function VinculacaoEtiquetaCreateBlocoReducer(
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA: {
             return {
                 ...state,
-                savingProcessosId: [...state.savingProcessosId, action.payload.processo.id]
+                savingProcessosId: [...state.savingProcessosId, action.payload.vinculacaoEtiqueta.processo.id]
             };
         }
 
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_SUCCESS: {
             return {
                 ...state,
-                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processo.id)
+                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.vinculacaoEtiqueta.processo.id)
             };
         }
 
         case VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
-                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.processo.id),
-                errors: action.payload
+                savingProcessosId: state.savingProcessosId.filter(id => id !== action.payload.id),
+                errors: action.payload.error
             };
         }
 

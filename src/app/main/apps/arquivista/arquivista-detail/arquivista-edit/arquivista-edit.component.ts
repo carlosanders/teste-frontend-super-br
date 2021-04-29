@@ -16,6 +16,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Back} from '../../../../../store';
+import {getProcesso} from "../../../processo/store";
 
 @Component({
     selector: 'arquivista-edit',
@@ -43,10 +44,10 @@ export class ArquivistaEditComponent implements OnInit, OnDestroy {
      * @param _loginService
      */
     constructor(
-        private _store: Store<fromStore.ProcessoDetailAppState>,
+        private _store: Store<fromStore.ArquivistaDetailAppState>,
         public _loginService: LoginService
     ) {
-        this.processo$ = this._store.pipe(select(fromStore.getProcesso));
+        this.processo$ = this._store.pipe(select(getProcesso));
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
 
@@ -64,13 +65,13 @@ export class ArquivistaEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.processo$.pipe(
-            filter(processo => !this.processo || (processo.id !== this.processo.id)),
+            filter(processo => !!processo && (!this.processo || processo.id !== this.processo.id)),
             takeUntil(this._unsubscribeAll)
         ).subscribe(processo => {
             this.processo = processo;
             this.logEntryPagination.filter = {
                 entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo',
-                id: +this.processo.id
+                id: + this.processo.id
             };
         });
     }
@@ -90,18 +91,18 @@ export class ArquivistaEditComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
-        const processo = new Processo();
+        const changes: any = {
+            classificacao: values['classificacao'] ? values['classificacao'].id : null,
+            dataHoraProximaTransicao: values['dataHoraProximaTransicao'] ?? null,
+            lembreteArquivista: values['lembreteArquivista'] ?? null
+        };
 
-        Object.entries(values).forEach(
-            ([key, value]) => {
-                processo[key] = value;
-            }
-        );
+        const payload: any = {
+            processo: this.processo,
+            changes: changes
+        }
 
-        processo.vinculacoesEtiquetas = this.processo.vinculacoesEtiquetas;
-
-        this._store.dispatch(new SaveProcesso(processo));
-
+        this._store.dispatch(new SaveProcesso(payload));
     }
 
     cancel(): void {

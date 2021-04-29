@@ -4,7 +4,7 @@
             [saving]="(isSaving$ | async)"
             [errors]="(errors$ | async)"
             [logEntryPagination]="logEntryPagination"
-            (cancel)="cancel()"
+            (abort)="cancel()"
             (save)="submit($event)">
     </cdk-processo-arquivista-form>
 </div>

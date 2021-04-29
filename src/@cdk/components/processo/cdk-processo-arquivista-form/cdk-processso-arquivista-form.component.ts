@@ -4,13 +4,14 @@ import {
     Component,
     EventEmitter,
     Input,
-    OnChanges,
+    OnChanges, OnInit,
     Output,
     SimpleChange, ViewEncapsulation
 } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators} from '@angular/forms';
 import {Classificacao, Lembrete, Pagination, Processo} from '../../../models';
 import {cdkAnimations} from '../../../animations';
+import {classificacao} from "../../../normalizr";
 
 @Component({
     selector: 'cdk-processo-arquivista-form',
@@ -20,7 +21,7 @@ import {cdkAnimations} from '../../../animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkProcesssoArquivistaFormComponent implements OnChanges {
+export class CdkProcesssoArquivistaFormComponent implements OnInit, OnChanges {
 
     activeCard = 'form';
     form: FormGroup;
@@ -36,6 +37,19 @@ export class CdkProcesssoArquivistaFormComponent implements OnChanges {
 
     @Input()
     saving: boolean;
+
+    @Input()
+    valid: boolean = true;
+
+    @Input()
+    blocoEdit = {
+        blocoEditClassificacao: false,
+        blocoEditDataHoraProximaTransicao: false,
+        blocoEditLembrete: false
+    };
+
+    @Input()
+    mode = 'regular';
 
     @Input()
     errors: any;
@@ -62,7 +76,7 @@ export class CdkProcesssoArquivistaFormComponent implements OnChanges {
             id: [null],
             dataHoraProximaTransicao: [null],
             classificacao: [null, [Validators.required]],
-            lembreteArquivista: [null, [Validators.required]]
+            lembreteArquivista: [null]
         });
         this._classificacaoPagination = new Pagination();
         this.logEntryPagination = new Pagination();
@@ -70,6 +84,23 @@ export class CdkProcesssoArquivistaFormComponent implements OnChanges {
 
     cancel(): void {
         this.activeCard = 'form';
+    }
+
+    ngOnInit(): void {
+        if (this.mode === 'bloco-edit') {
+            this.form.get('classificacao').disable();
+            this.form.get('dataHoraProximaTransicao').disable();
+            this.form.get('lembreteArquivista').disable();
+        }
+        if (this.blocoEdit.blocoEditClassificacao) {
+            this.form.get('classificacao').enable();
+        }
+        if (this.blocoEdit.blocoEditDataHoraProximaTransicao) {
+            this.form.get('dataHoraProximaTransicao').enable();
+        }
+        if (this.blocoEdit.blocoEditLembrete) {
+            this.form.get('lembreteArquivista').enable();
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -91,6 +122,28 @@ export class CdkProcesssoArquivistaFormComponent implements OnChanges {
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['processo'] && this.processo && ((!this.processo.id && !this.form.dirty) || (this.processo.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.processo});
+            if (this.processo) {
+                this.form.get('classificacao').setValidators(Validators.required);
+                this.form.get('classificacao').setErrors(null);
+            }
+        }
+
+        if (changes['blocoEdit']) {
+            if (this.blocoEdit.blocoEditClassificacao) {
+                this.form.get('classificacao').enable();
+            } else {
+                this.form.get('classificacao').disable();
+            }
+            if (this.blocoEdit.blocoEditDataHoraProximaTransicao) {
+                this.form.get('dataHoraProximaTransicao').enable();
+            } else {
+                this.form.get('dataHoraProximaTransicao').disable();
+            }
+            if (this.blocoEdit.blocoEditLembrete) {
+                this.form.get('lembreteArquivista').enable();
+            } else {
+                this.form.get('lembreteArquivista').disable();
+            }
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
