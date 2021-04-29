@@ -430,12 +430,12 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                     if (value && typeof value === 'object') {
                         this.processo.emit(this.form.get('processo').value);
                         this.form.get('especieTarefa').enable();
-                        if (this.form.get('processo').value.especieProcesso.generoProcesso.nome === 'ADMINISTRATIVO') {
+                        if (this.form.get('processo').value.especieProcesso?.generoProcesso?.nome === 'ADMINISTRATIVO') {
                             this.especieTarefaPagination.filter = {'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO'};
                         } else {
                             this.especieTarefaPagination.filter = {
                                 'generoTarefa.nome': 'in:ADMINISTRATIVO,ARQUIVISTICO,' +
-                                    this.form.get('processo').value.especieProcesso.generoProcesso.nome.toUpperCase()
+                                    this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase()
                             };
                         }
 

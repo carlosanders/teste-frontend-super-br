@@ -365,6 +365,11 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             this.form.setErrors(null);
         }
 
+        if (!this.nupIsValid) {
+            const control = this.form.get('NUP');
+            control.setErrors({formError: this.errors.error.message});
+        }
+
         if (changes['procedencia'] && this.procedencia) {
             this.form.get('procedencia').setValue(this.procedencia);
         }

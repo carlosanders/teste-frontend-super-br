@@ -24,7 +24,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
         case DadosBasicosActions.GET_PROCESSO: {
             return {
                 processoId: null,
-                nupInvalido: false,
+                nupInvalido: true,
                 loaded: false,
                 loading: true,
                 saving: false,
@@ -36,7 +36,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
 
             return {
                 processoId: action.payload.processoId,
-                nupInvalido: false,
+                nupInvalido: true,
                 loading: false,
                 loaded: action.payload.loaded,
                 saving: false,
@@ -47,7 +47,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
         case DadosBasicosActions.GET_PROCESSO_FAILED: {
             return {
                 processoId: null,
-                nupInvalido: false,
+                nupInvalido: true,
                 loading: false,
                 loaded: false,
                 saving: false,
@@ -58,7 +58,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
         case DadosBasicosActions.CREATE_PROCESSO: {
             return {
                 processoId: null,
-                nupInvalido: false,
+                nupInvalido: true,
                 loaded: {
                     id: 'processoHandle',
                     value: 'criar',
@@ -73,7 +73,7 @@ export function DadosBasicosReducer(state = DadosBasicosInitialState, action: Da
         case DadosBasicosActions.UNLOAD_PROCESSO: {
             return {
                 processoId: undefined,
-                nupInvalido: false,
+                nupInvalido: true,
                 loaded: {
                     id: undefined,
                     value: undefined,
