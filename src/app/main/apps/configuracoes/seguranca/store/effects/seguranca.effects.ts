@@ -42,7 +42,7 @@ export class SegurancaEffect {
             .pipe(
                 ofType<SegurancaActions.SaveSeguranca>(SegurancaActions.SAVE_SEGURANCA),
                 switchMap((action) => {
-                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes, action.payload.context).pipe(
+                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
                         mergeMap((response: Usuario) => [
                             new SegurancaActions.SaveSegurancaSuccess(),  new OperacoesActions.Resultado({
                                 type: 'usuario',

@@ -79,7 +79,11 @@
                         [pagination]="modeloPagination">
                     </cdk-modelo-autocomplete>
                     <button matSuffix mat-button mat-icon-button type="button"
-                            (click)="showModelosGrid()">
+                            (click)="$event.stopPropagation(); doVisualizarModelo()" [disabled]="!formEditorValid">
+                        <mat-icon matTooltip="Prévia do modelo">remove_red_eye</mat-icon>
+                    </button>
+                    <button matSuffix mat-button mat-icon-button type="button"
+                            (click)="$event.stopPropagation(); showModelosGrid()">
                         <mat-icon matTooltip="Procurar em todos os modelos">search</mat-icon>
                     </button>
                 </mat-form-field>

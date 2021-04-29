@@ -491,6 +491,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         Object.entries(values).forEach(
             ([key, value]) => {
                 processo[key] = value;
+                if (key === 'NUP') {
+                    processo[key] = values['NUP']
+                        .replace(/[^\w\-]+/g, '')
+                        .replace(/-+/g, '');
+                }
             }
         );
 

@@ -261,7 +261,7 @@ export class DocumentosEffects {
             .pipe(
                 ofType<DocumentosActions.AssinaDocumentoEletronicamente>(DocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
                 switchMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({plainPassword: action.payload.plainPassword})).pipe(
+                    return this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new DocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documentoId),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),

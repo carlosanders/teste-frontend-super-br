@@ -424,6 +424,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._router.navigate([this.routerState.url.split('/atividades/criar')[0] + '/modelo']).then();
     }
 
+    doVisualizarModelo(): void {
+        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.id));
+    }
+
     changedSelectedIds(selectedIds): void {
         this._store.dispatch(new fromStore.ChangeSelectedDocumentos(selectedIds));
     }
@@ -505,10 +509,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 assinatura.cadeiaCertificadoPEM = 'A1';
                 assinatura.cadeiaCertificadoPkiPath = 'A1';
                 assinatura.assinatura = 'A1';
+                assinatura.plainPassword = result.plainPassword;
 
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                    assinatura: assinatura,
-                    plainPassword: result.plainPassword
+                    assinatura: assinatura
                 }));
             });
         }
