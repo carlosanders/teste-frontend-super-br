@@ -13,6 +13,7 @@ import {getConfig, getErrorMessage, getLoadingConfig, getToken} from "./store/se
 import {environment} from "../../../../environments/environment";
 import {distinctUntilChanged, filter, switchMap, take} from "rxjs/operators";
 import {getRouterState} from "../../../store";
+import {MatSnackBar} from "../../../../@cdk/angular/material";
 
 @Injectable()
 export class LoginInterceptor implements HttpInterceptor {
@@ -24,6 +25,8 @@ export class LoginInterceptor implements HttpInterceptor {
     loading$: Subject<boolean> = new Subject<boolean>();
     certificadoDigital = '';
     errorMessage$: Observable<any>;
+
+    loginError: any;
 
     token$: Observable<string>;
     token: string;
@@ -41,6 +44,7 @@ export class LoginInterceptor implements HttpInterceptor {
         private store: Store<fromStore.LoginState>,
         private loginService: LoginService,
         public dialog: MatDialog,
+        private snackBar: MatSnackBar,
         private _router: Router
     ) {
         this.token = this.loginService.getToken();
@@ -61,7 +65,7 @@ export class LoginInterceptor implements HttpInterceptor {
                 filter(result => !!result),
             ).subscribe(token => {
                 this.token = token;
-                if (this.loginProgress) {
+                if (this.loginProgress && !this.loginError) {
                     this.loginProgress = false;
                     this.loginSubject.next(true);
                 }
@@ -80,6 +84,18 @@ export class LoginInterceptor implements HttpInterceptor {
             });
 
         this.loadingConfig$.pipe(filter(result => !!result)).subscribe(loading => this.loadingConfig = loading);
+
+        this.errorMessage$
+            .pipe(
+                distinctUntilChanged(),
+            )
+            .subscribe(error => {
+                this.loginError = error;
+                if (error && this.loginProgress) {
+                    this.snackBar.dismiss();
+                    this.openDialog();
+                }
+            });
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
