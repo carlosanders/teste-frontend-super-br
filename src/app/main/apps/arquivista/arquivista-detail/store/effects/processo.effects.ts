@@ -10,7 +10,7 @@ import {Processo} from '../../../../../../../@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
 import * as ProcessoActions from '../actions/processo.actions';
 import {of} from "rxjs";
-import {getPagination, ReloadProcessos} from "../../../arquivista-list/store";
+import {ChangeProcessos, getProcessosIds} from "../../../arquivista-list/store";
 import * as moment from "moment";
 
 @Injectable()
@@ -52,7 +52,7 @@ export class ProcessoEffects {
                                     dataHoraProximaTransicao: response.dataHoraProximaTransicao
                                 }
                             }),
-                            new ProcessoActions.SaveProcessoSuccess(action.payload.changes.dataHoraProximaTransicao)
+                            new ProcessoActions.SaveProcessoSuccess(action.payload)
                         ]),
                         catchError((err) => {
                             return of(new ProcessoActions.SaveProcessoFailed(err));
@@ -70,23 +70,23 @@ export class ProcessoEffects {
         this._actions
             .pipe(
                 ofType<ProcessoActions.SaveProcessoSuccess>(ProcessoActions.SAVE_PROCESSO_SUCCESS),
-                tap((action) => {
+                withLatestFrom(this._store.pipe(select(getProcessosIds))),
+                tap(([action, entitiesId]) => {
                     const currentDate = moment();
                     let typeHandle = this.routerState.params['typeHandle'];
-                    if (!action.payload) {
+                    if (!action.payload.changes.dataHoraProximaTransicao) {
                         typeHandle = 'pendencia-analise';
-                    } else if (action.payload > currentDate) {
+                    } else if (action.payload.changes.dataHoraProximaTransicao > currentDate) {
                         typeHandle = 'aguardando-decurso';
-                    } else if (action.payload <= currentDate) {
+                    } else if (action.payload.changes.dataHoraProximaTransicao <= currentDate) {
                         typeHandle = 'pronto-transicao';
                     }
-                    if (typeHandle === this.routerState.params['typeHandle']) {
-                        this._store.dispatch(new ReloadProcessos());
+                    if (typeHandle !== this.routerState.params['typeHandle']) {
+                        const newEntitiesId = entitiesId.filter(id => id !== action.payload.processo.id);
+                        this._store.dispatch(new ChangeProcessos(newEntitiesId));
                     }
-                    this._router.navigate([
-                        'apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
-                        typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar'
-                    ]).then();
+                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
+                    + this.routerState.params['typeHandle']]).then();
                 })
             );
 }
