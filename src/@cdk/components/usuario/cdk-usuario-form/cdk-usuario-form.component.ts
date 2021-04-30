@@ -149,7 +149,7 @@ export class CdkUsuarioFormComponent implements OnInit, OnChanges, OnDestroy {
 
     checkUsuario(): void {
         const value = this.form.get('username').value;
-        if (value && !this.usuario.id) {
+        if (value && !this.usuario) {
             if (typeof value === 'string') {
                 this.isCpfValido = value.trim().length === 11;
                 if (this.isCpfValido) {
