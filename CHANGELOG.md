@@ -263,3 +263,4 @@
 * Melhoria no grid de modelos para criação de minuta, permitindo pré-visualização do conteúdo
 * Refactor completo de módulo de arquivista
 * Suportar logo, nome e sigla do sistema por ambiente
+* Alteração da nomenclatura Fase e Modalidade da Fase para Idade [SUPERBR-400]

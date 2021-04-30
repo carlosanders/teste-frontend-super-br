@@ -158,7 +158,7 @@
 
     <ng-template *showIfRole="'ROLE_COLABORADOR'">
         <mat-form-field>
-            <input matInput placeholder="Fase" formControlName="modalidadeFase" required
+            <input matInput placeholder="Idade" formControlName="modalidadeFase" required
                 [matAutocomplete]="modalidadeFase.autocomplete" (blur)="checkModalidadeFase()">
             <cdk-modalidade-fase-autocomplete #modalidadeFase="modalidadeFaseAutocomplete"
                 [control]="form.get('modalidadeFase')" [pagination]="modalidadeFasePagination">
