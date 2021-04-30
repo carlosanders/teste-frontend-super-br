@@ -305,6 +305,10 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
     ngOnChanges(): void {
         this.dataSource = new DocumentoAvulsoDataSource(of(this.documentosAvulsos));
         this.paginator.length = this.total;
+
+        if (this.documentosAvulsos) {
+            this.carregaModulo();
+        }
     }
 
     ngOnInit(): void {
@@ -340,6 +344,21 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
 
     ngAfterViewInit(): void {
 
+        // reset the paginator after sorting
+        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+        merge(
+            this.sort.sortChange,
+            this.paginator.page
+        ).pipe(
+            tap(() => this.loadPage())
+        ).subscribe();
+    }
+
+    carregaModulo(): void {
+        if (this.btContainer) {
+            this.btContainer.reset([]);
+        }
         const path = '@cdk/components/documento-avulso/cdk-documento-avulso-grid/cdk-documento-avulso-grid#button';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
@@ -350,22 +369,13 @@ export class CdkDocumentoAvulsoGridComponent implements AfterViewInit, OnInit, O
                                 let componentRef = button.createComponent(componentFactory);
                                 componentRef.instance['documentoAvulsoId'] = this.documentosAvulsos[index]['id'];
                                 componentRef.instance['mecanismoRemessa'] = this.documentosAvulsos[index]['mecanismoRemessa'];
+                                componentRef.instance['apagadoEm'] = !!this.documentosAvulsos[index]['apagadoEm'];
                             });
                             this._changeDetectorRef.detectChanges();
                         });
                 }));
             }
         });
-
-        // reset the paginator after sorting
-        this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-        merge(
-            this.sort.sortChange,
-            this.paginator.page
-        ).pipe(
-            tap(() => this.loadPage())
-        ).subscribe();
     }
 
     toggleFilter(): void {
