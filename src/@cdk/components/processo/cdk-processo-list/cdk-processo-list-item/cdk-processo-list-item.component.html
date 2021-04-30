@@ -21,9 +21,10 @@
                 </mat-icon>
             </div>
 
-            <div class="subtitle" *ngIf="!processo?.acessoNegado">
+            <div class="subtitle transicao-arquivistica" *ngIf="!processo?.acessoNegado">
                 <span>{{processo.especieProcesso?.nome}} / {{processo.modalidadeMeio?.valor}}
-                    / {{!transicionando ? processo.modalidadeFase?.valor : 'Em processo de transição arquivística'}}</span>
+                    / {{!transicionando ? processo.modalidadeFase?.valor : ''}}</span>
+                <mat-spinner diameter=16 *ngIf="transicionando"></mat-spinner>
             </div>
 
             <div class="subtitle" *ngIf="processo?.acessoNegado">
