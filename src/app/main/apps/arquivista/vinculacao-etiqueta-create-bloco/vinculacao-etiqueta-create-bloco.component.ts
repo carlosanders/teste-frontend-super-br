@@ -1,4 +1,5 @@
 import {
+    AfterViewInit,
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
@@ -20,6 +21,8 @@ import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Etiqueta} from '@cdk/models';
+import {ChangeSelectedProcessos} from "../arquivista-list/store";
+import {CdkUtils} from "../../../../../@cdk/utils";
 
 @Component({
     selector: 'vinculacao-etiqueta-create',
@@ -29,7 +32,7 @@ import {Etiqueta} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy {
+export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy, AfterViewInit {
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -73,20 +76,20 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             orX: [
                 {
                     'vinculacoesEtiquetas.usuario.id': 'eq:' + this._profile.id,
-                    'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                 },
                 {
                     'vinculacoesEtiquetas.setor.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.id).join(','),
-                    'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                 },
                 {
                     'vinculacoesEtiquetas.unidade.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.id).join(','),
-                    'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                 },
                 {
                     // tslint:disable-next-line:max-line-length
                     'vinculacoesEtiquetas.modalidadeOrgaoCentral.id': 'in:' + this._profile.colaborador.lotacoes.map(lotacao => lotacao.setor.unidade.modalidadeOrgaoCentral.id).join(','),
-                    'modalidadeEtiqueta.valor': 'eq:ARQUIVO'
+                    'modalidadeEtiqueta.valor': 'eq:PROCESSO'
                 }
             ]
         };
@@ -100,7 +103,9 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
     ngOnInit(): void {
         this.processos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processos => this.processos = processos);
+        ).subscribe(processos => {
+            this.processos = processos;
+        });
 
         this._store
             .pipe(
@@ -127,6 +132,17 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
         });
     }
 
+    ngAfterViewInit(): void {
+        if (this.operacoes.length === 0 && (!this.processos || this.processos.length < 2)) {
+            this._router.navigate([
+                'apps',
+                'arquivista',
+                this.routerState.params.unidadeHandle,
+                this.routerState.params.typeHandle
+            ]).then();
+        }
+    }
+
     ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
@@ -145,13 +161,23 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
         this.etiquetas = this.etiquetas.filter(e => e.id !== etiqueta.id);
     }
 
-    submit(): void {
+    doAbort(): void {
+        this._router.navigate([
+            'apps',
+            'arquivista',
+            this.routerState.params.unidadeHandle,
+            this.routerState.params.typeHandle,
+            'operacoes-bloco'
+        ]).then();
+    }
 
+    submit(): void {
         this.operacoes = [];
+        const loteId = CdkUtils.makeId();
 
         this.processos.forEach(processo => {
+            const operacaoId = CdkUtils.makeId();
             const vinculacaoEtiqueta = new VinculacaoEtiqueta();
-
             Object.entries(this.etiquetas).forEach(
                 ([key, etiqueta]) => {
                     vinculacaoEtiqueta.etiqueta = etiqueta;
@@ -161,7 +187,23 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             vinculacaoEtiqueta.processo = processo;
             vinculacaoEtiqueta.privada = false;
 
-            this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta(vinculacaoEtiqueta));
+            const payload: any = {
+                operacaoId: operacaoId,
+                loteId: loteId,
+                vinculacaoEtiqueta: vinculacaoEtiqueta,
+                redo: [
+                    new fromStore.SaveVinculacaoEtiqueta({
+                        operacaoId: operacaoId,
+                        loteId: loteId,
+                        vinculacaoEtiqueta: vinculacaoEtiqueta,
+                        redo: 'inherent',
+                        undo: null
+                    })
+                ],
+                undo: null
+            }
+
+            this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta(payload));
         });
     }
 }

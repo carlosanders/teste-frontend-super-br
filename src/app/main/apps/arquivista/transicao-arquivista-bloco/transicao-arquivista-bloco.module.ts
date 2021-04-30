@@ -11,10 +11,11 @@ import {CdkRealizarTransicaoFormModule} from '../../../../../@cdk/components/tra
 import {MatListModule} from '@angular/material/list';
 import {modulesConfig} from 'modules/modules-config';
 import {DirectivesModule} from '../../../../../@cdk/directives/directives';
+import {CdkConfirmDialogModule} from "../../../../../@cdk/components";
 
 const routes: Routes = [
     {
-        path: 'criar',
+        path: '',
         component: TransicaoArquivistaBlocoComponent,
     }
 ];
@@ -35,6 +36,7 @@ modulesConfig.forEach((module) => {
         TransicaoArquivistaStoreModule,
         CdkRealizarTransicaoFormModule,
         MatListModule,
+        CdkConfirmDialogModule,
         DirectivesModule
     ],
     providers: [

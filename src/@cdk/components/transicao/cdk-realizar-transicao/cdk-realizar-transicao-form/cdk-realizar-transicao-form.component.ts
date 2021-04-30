@@ -135,9 +135,7 @@ export class CdkRealizarTransicaoFormComponent
     submit(): void {
         if (this.form.valid) {
             this.save.emit(this.form.value);
-            this.saving = true;
         }
-
     }
 
     cancel(): void {

@@ -17,20 +17,9 @@ export const getTransicaoArquivistaBlocoState = createSelector(
     (state: TransicaoArquivistaBlocoAppState) => state.transicaoArquivistaBloco
 );
 
-export const getProcessos = createSelector(
-    schemaTransicaoArquivistaBlocoSelectors.getNormalizedEntities,
-    getProcessosIds,
-    schemaTransicaoArquivistaBlocoSelectors.entitiesProjector
-);
-
 export const getIsSaving = createSelector(
     getTransicaoArquivistaBlocoState,
     (state: TransicaoArquivistaBlocoState) => state.saving
-);
-
-export const getHasLoaded = createSelector(
-    getTransicaoArquivistaBlocoState,
-    (state: TransicaoArquivistaBlocoState) => state.loaded
 );
 
 export const getErrors = createSelector(
@@ -38,12 +27,12 @@ export const getErrors = createSelector(
     (state: TransicaoArquivistaBlocoState) => state.errors
 );
 
-export const getDeletingIds = createSelector(
+export const getBufferingTransicao = createSelector(
     getTransicaoArquivistaBlocoState,
-    (state: TransicaoArquivistaBlocoState) => state.deletingIds
+    (state: TransicaoArquivistaBlocoState) => state.bufferingTransicao
 );
 
-export const getDeletedIds = createSelector(
+export const getTransicaoProcessoIds = createSelector(
     getTransicaoArquivistaBlocoState,
-    (state: TransicaoArquivistaBlocoState) => state.deletedIds
+    (state: TransicaoArquivistaBlocoState) => state.transicaoProcessoIds
 );

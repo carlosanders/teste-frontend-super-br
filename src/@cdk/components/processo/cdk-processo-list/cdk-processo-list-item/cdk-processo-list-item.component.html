@@ -1,4 +1,4 @@
-<div fxLayout="row"  fxLayoutAlign="start center">
+<div fxLayout="row" fxLayoutAlign="start center">
 
     <mat-checkbox class="mr-8" [checked]="selected" (change)="onSelectedChange()"
                   (click)="$event.stopPropagation();">
@@ -13,13 +13,17 @@
                 <mat-icon *ngIf="processo?.acessoRestrito" matTooltip="Acesso restrito!" class="red-fg">lock
                 </mat-icon>
                 <span>PROCESSO {{processo?.NUP | formatNup}}</span>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!processo?.acessoNegado && !isOpen">keyboard_arrow_down</mat-icon>
-                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();" *ngIf="!processo?.acessoNegado && isOpen">keyboard_arrow_up</mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                          *ngIf="!processo?.acessoNegado && !isOpen">keyboard_arrow_down
+                </mat-icon>
+                <mat-icon (click)="doTogglePanel(); $event.stopPropagation();"
+                          *ngIf="!processo?.acessoNegado && isOpen">keyboard_arrow_up
+                </mat-icon>
             </div>
 
             <div class="subtitle" *ngIf="!processo?.acessoNegado">
                 <span>{{processo.especieProcesso?.nome}} / {{processo.modalidadeMeio?.valor}}
-                    / {{processo.modalidadeFase?.valor}}</span>
+                    / {{!transicionando ? processo.modalidadeFase?.valor : 'Em processo de transição arquivística'}}</span>
             </div>
 
             <div class="subtitle" *ngIf="processo?.acessoNegado">
@@ -41,8 +45,12 @@
                 </div>
 
                 <div *showIfRole="'ROLE_COLABORADOR'">
-                    <div>
+                    <div *ngIf="!transicionando">
                         Data Transição: {{processo.dataHoraProximaTransicao?.toDate() | date: 'dd/MM/yyyy'}}
+                    </div>
+
+                    <div *ngIf="transicionando" class="transicao-arquivistica">
+                        Data Transição: <mat-spinner diameter=16></mat-spinner>
                     </div>
 
                     <div *ngIf="processo.classificacao">
@@ -64,7 +72,7 @@
                 </div>
             </div>
 
-            <mat-expansion-panel *ngIf="processo.lembretes[0]" (opened)="this.panelOpenState = true"
+            <mat-expansion-panel *ngIf="processo.lembreteArquivista" (opened)="this.panelOpenState = true"
                                  (closed)="this.panelOpenState = false"
                                  (click)="$event.stopPropagation();">
                 <mat-expansion-panel-header>
@@ -72,9 +80,11 @@
                         Lembrete
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <p *ngIf="editantoLembrete === false" (click)="doEditarLembrete()" class="lembrete">{{processo.lembretes[0].conteudo}}</p>
+                <p *ngIf="editantoLembrete === false" (click)="doEditarLembrete()"
+                   class="lembrete">{{processo.lembreteArquivista}}</p>
                 <mat-form-field *ngIf="editantoLembrete === true">
-                    <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembretes[0].conteudo" (blur)="doSalvarLembrete(processo, lembreteConteudo.value)" />
+                    <input #lembreteConteudo matInput placeholder="Lembrete" [value]="processo.lembreteArquivista"
+                           upperCase (blur)="doSalvarLembrete(processo, lembreteConteudo.value)"/>
                 </mat-form-field>
             </mat-expansion-panel>
         </div>
@@ -92,19 +102,19 @@
 
             <mat-menu #moreMenu="matMenu">
 
+                <button mat-menu-item aria-label="editar"
+                        (click)="doEditar(processo)">
+                    <ng-container>
+                        <mat-icon>edit</mat-icon>
+                        <span>Editar</span>
+                    </ng-container>
+                </button>
+
                 <button *ngIf="prontoTransicao === true" mat-menu-item aria-label="realizar transicao"
                         (click)="doRealizarTransicao(processo)">
                     <ng-container>
                         <mat-icon>check</mat-icon>
                         <span>Realizar Transição</span>
-                    </ng-container>
-                </button>
-
-                <button mat-menu-item aria-label="criar lembrete"
-                        (click)="doCriarLembrete(processo)">
-                    <ng-container>
-                        <mat-icon>add</mat-icon>
-                        <span>Criar Lembrete</span>
                     </ng-container>
                 </button>
 

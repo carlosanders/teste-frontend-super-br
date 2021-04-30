@@ -8,7 +8,7 @@ import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
 import {getProcessosLoaded} from 'app/main/apps/arquivista/arquivista-list/store/selectors';
 import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {Colaborador, Usuario} from '@cdk/models';
+import {Colaborador, Setor, Usuario} from '@cdk/models';
 import * as moment from 'moment';
 import {getIsLoading} from "app/main/apps/arquivista/arquivista-list/store";
 
@@ -19,7 +19,6 @@ export class ResolveGuard implements CanActivate {
     routerState: any;
     private currentDate: any;
     colaborador: Colaborador;
-    setorAtual: number;
 
     loading: boolean = false;
 
@@ -44,7 +43,6 @@ export class ResolveGuard implements CanActivate {
         this._store.pipe(select(getIsLoading)).subscribe(loading => this.loading = loading);
         this._profile = _loginService.getUserProfile();
         this.checkRole();
-        this.setorAtual = this._loginService.getUserProfile().colaborador.lotacoes[0].setor.id;
     }
 
     /**
@@ -111,35 +109,24 @@ export class ResolveGuard implements CanActivate {
                         ]
                     };
 
+                    let processoFilter = {
+                        'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
+                        'setorAtual.id': 'eq:' + this.routerState.params['unidadeHandle']
+                    };
                     const routeTypeParam = of('typeHandle');
                     routeTypeParam.subscribe(typeParam => {
-                        let processoFilter = {};
                         this.currentDate = moment().format('YYYY-MM-DD[T]H:mm:ss');
 
                         if (this.routerState.params[typeParam] === 'pronto-transicao') {
-                            processoFilter = {
-                                'dataHoraProximaTransicao': 'lte:' + this.currentDate,
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual.id': 'eq:' + this.setorAtual
-
-                            };
+                            processoFilter['dataHoraProximaTransicao'] = 'lte:' + this.currentDate;
                         }
 
                         if (this.routerState.params[typeParam] === 'aguardando-decurso') {
-                            processoFilter = {
-                                'dataHoraProximaTransicao': 'gt:' + this.currentDate,
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual.id': 'eq:' + this.setorAtual
-                            };
+                            processoFilter['dataHoraProximaTransicao'] = 'gt:' + this.currentDate;
                         }
 
                         if (this.routerState.params[typeParam] === 'pendencia-analise') {
-                            processoFilter = {
-                                'dataHoraProximaTransicao': 'isNull',
-                                'modalidadeFase.valor': 'in:CORRENTE,INTERMEDIÁRIA',
-                                'setorAtual.id': 'eq:' + this.setorAtual
-                            };
-
+                            processoFilter['dataHoraProximaTransicao'] = 'isNull';
                         }
 
                         params['filter'] = processoFilter;

@@ -3,11 +3,15 @@
 
     <h2>Transição em bloco de processos</h2>
 
+    <h3>{{(processos$ | async)?.length}} processo(s) selecionado(s)</h3>
+
     <cdk-realizar-transicao-form
+        *ngIf="operacoes.length === 0"
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
         [modalidadeTransicaoPagination]="modalidadeTransicaoPagination"
         (save)="submit($event)"
+        (abort)="cancel()"
     >
     </cdk-realizar-transicao-form>
 
@@ -18,7 +22,7 @@
 
         <mat-list-item *ngFor="let operacao of operacoes">
             <p matLine class="mb-4 p-8 secondary-text"
-               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+               [ngClass]="{'light-green-50': operacao.status === 1, 'pink-50': operacao.status > 1}">{{operacao.content}}</p>
         </mat-list-item>
     </mat-list>
 </div>

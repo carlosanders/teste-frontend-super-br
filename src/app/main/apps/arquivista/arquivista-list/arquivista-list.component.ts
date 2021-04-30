@@ -10,28 +10,21 @@ import {
 import {FormControl} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
-
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
-
 import {Lembrete, Processo} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
 import {getRouterState, getScreenState} from 'app/store/reducers';
-
 import {locale as english} from 'app/main/apps/arquivista/i18n/en';
-
-
 import {ResizeEvent} from 'angular-resizable-element';
 import {cdkAnimations} from '@cdk/animations';
-
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/arquivista/arquivista-list/store';
 import {Usuario} from '@cdk/models/usuario.model';
-
-
+import {getTransicaoProcessoIds} from "../transicao-arquivista-bloco/store";
 
 @Component({
     selector: 'arquivista-list',
@@ -62,6 +55,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
+    transicaoIds$: Observable<number[]>;
 
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
@@ -122,11 +116,10 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingProcessoIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedProcessoIds));
+        this.transicaoIds$ = this._store.pipe(select(getTransicaoProcessoIds));
         this.screen$ = this._store.pipe(select(getScreenState));
         this._profile = _loginService.getUserProfile();
         this.prontoTransicao = false;
-
-
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -145,17 +138,9 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-
-                if (this.routerState.params.typeHandle === 'pronto-transicao'){
-                    this.prontoTransicao = true;
-                }
-                else{
-                    this.prontoTransicao = false;
-                }
+                this.prontoTransicao = this.routerState.params.typeHandle === 'pronto-transicao';
             }
         });
-
-
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
@@ -270,7 +255,6 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
                 'classificacao.modalidadeDestinacao',
                 'setorInicial',
                 'setorAtual',
-                'lembretes',
                 'vinculacoesEtiquetas',
                 'vinculacoesEtiquetas.etiqueta'
 
@@ -300,7 +284,6 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         this._store.dispatch(new fromStore.ChangeSelectedProcessos(ids));
     }
 
-
     onResizeEndProcessoList(event: ResizeEvent): void {
         const potencialProcessoListSize = (event.rectangle.width * this.processoListSize) / this.processoListOriginalSize;
 
@@ -325,17 +308,12 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         this.processoListOriginalSize = event.rectangle.width;
     }
 
-
     doEtiquetarBloco(): void {
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/vinculacao-etiqueta-bloco']).then();
     }
 
-    doClassificacaoBloco(): void {
-        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/classificacao-bloco/editar']).then();
-    }
-
-    doLembreteBloco(): void {
-        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/lembrete-bloco/criar']).then();
+    doEditarBloco(): void {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/arquivista-editar-bloco']).then();
     }
 
     doTransicaoArquivistaBloco(): void {
@@ -343,29 +321,18 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     salvarLembrete(params): void {
-
-        const lembrete = new Lembrete();
-
-        Object.entries(params).forEach(
-            ([key, value]) => {
-                lembrete[key] = value;
-            }
-        );
-
-        this._store.dispatch(new fromStore.SaveLembrete(lembrete));
-
-
+        this._store.dispatch(new fromStore.SaveLembrete(params));
     }
 
-    criarLembrete(processoId): void {
+    editar(processoId): void {
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
-        + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/lembretes']).then();
+        + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/editar']).then();
         this.mostraCriar = true;
     }
 
     realizarTransicao(processoId): any {
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
-        + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/realizar-transicao/criar']).then();
+        + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/realizar-transicao']).then();
     }
 
     retornar() {

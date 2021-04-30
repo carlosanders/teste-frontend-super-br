@@ -9,12 +9,12 @@
 <!-- SIDEBAR CONTENT -->
 <div class="content" cdkPerfectScrollbar>
 
-    <div class="nav material2"*ngFor="let unidade of unidades">
+    <div class="nav material2"*ngFor="let setor of setores">
         <div class="nav-subheader">
-            <span>{{unidade.nome | uppercase}}</span>
+            <span>{{setor.unidade.nome | uppercase}}</span>
         </div>
         <div class="nav-item" *ngFor="let link of links">
-            <a class="nav-link" matRipple [routerLink]="unidade.id + '/' + link.link"
+            <a class="nav-link" matRipple [routerLink]="setor.id + '/' + link.link"
                [routerLinkActive]="['active', 'accent']">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
                 <span>{{link.nome}}</span>

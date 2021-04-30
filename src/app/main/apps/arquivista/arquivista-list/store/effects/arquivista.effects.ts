@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable} from 'rxjs';
-import {catchError, concatMap, map, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, concatMap, map, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as ArquivistaActions from '../actions/arquivista.actions';
@@ -15,6 +15,8 @@ import {Processo} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
+import {getPagination} from "../selectors";
+import * as moment from "moment";
 
 @Injectable()
 export class ArquivistaEffect {
@@ -99,7 +101,91 @@ export class ArquivistaEffect {
                 })
             );
 
+    /**
+     * Reload Processos
+     * @type {Observable<any>}
+     */
+    @Effect()
+    reloadProcessos: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<ArquivistaActions.ReloadProcessos>(ArquivistaActions.RELOAD_PROCESSOS),
+                withLatestFrom(this._store.pipe(select(getPagination))),
+                concatMap(([action, pagination]) => {
+                    const currentDate = moment().format('YYYY-MM-DD[T]H:mm:ss');
+                    let processoFilter = {
+                        ...pagination.filter
+                    };
+                    if (this.routerState.params['typeHandle'] === 'pronto-transicao') {
+                        processoFilter['dataHoraProximaTransicao'] = 'lte:' + currentDate;
+                    }
 
+                    if (this.routerState.params['typeHandle'] === 'aguardando-decurso') {
+                        processoFilter['dataHoraProximaTransicao'] = 'gt:' + currentDate;
+                    }
 
+                    if (this.routerState.params['typeHandle'] === 'pendencia-analise') {
+                        processoFilter['dataHoraProximaTransicao'] = 'isNull';
+                    }
 
+                    return this._processoService.query(
+                        JSON.stringify({
+                            ...processoFilter,
+                            ...pagination.listFilter,
+                            ...pagination.etiquetaFilter
+                        }),
+                        pagination.limit,
+                        pagination.offset,
+                        JSON.stringify(pagination.sort),
+                        JSON.stringify(pagination.populate));
+
+                }),
+                concatMap((response) => [
+                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
+                    new ArquivistaActions.GetProcessosSuccess({
+                        entitiesId: response['entities'].map(processo => processo.id),
+                        loaded: {
+                            id: 'unidadeHandle_typeHandle',
+                            value: this.routerState.params.unidadeHandle + '_' +
+                                this.routerState.params.typeHandle
+                        },
+                        total: response['total']
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ArquivistaActions.GetProcessosFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * Change Selected Processos
+     */
+    @Effect({dispatch: false})
+    changeSelectedProcessos: any =
+        this._actions
+            .pipe(
+                ofType<ArquivistaActions.ChangeSelectedProcessos>(ArquivistaActions.CHANGE_SELECTED_PROCESSOS),
+                tap((action) => {
+                    if (action.redirect) {
+                        if (action.payload.length > 1) {
+                            this._router.navigate([
+                                'apps',
+                                'arquivista',
+                                this.routerState.params.unidadeHandle,
+                                this.routerState.params.typeHandle,
+                                'operacoes-bloco'
+                            ]).then();
+                        } else if (this.routerState.url.indexOf('bloco') > 0) {
+                            this._router.navigate([
+                                'apps',
+                                'arquivista',
+                                this.routerState.params.unidadeHandle,
+                                this.routerState.params.typeHandle
+                            ]).then();
+                        }
+                    }
+                })
+            );
 }

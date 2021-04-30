@@ -19,8 +19,6 @@
             {{selectedIds?.length}}
         </div>
 
-        <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
-
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
                 *ngIf="selectedIds?.length > 1">
@@ -30,6 +28,7 @@
         <mat-menu #moreMenu="matMenu">
 
             <button mat-menu-item aria-label="realizar transicao"
+                    *ngIf="prontoTransicao"
                     (click)="doRealizarTransicaoBloco()">
                 <ng-container>
                     <mat-icon>check</mat-icon>
@@ -37,21 +36,11 @@
                 </ng-container>
             </button>
 
-
-            <button mat-menu-item aria-label="criar lembrete"
-                    (click)="doCriarLembreteBloco()">
+            <button mat-menu-item aria-label="editar"
+                    (click)="doEditarBloco()">
                 <ng-container>
-                    <mat-icon>add</mat-icon>
-                    <span>Criar Lembrete</span>
-                </ng-container>
-            </button>
-
-
-            <button mat-menu-item aria-label="realizar classificacao"
-                    (click)="doClassificacaoBloco()">
-                <ng-container>
-                    <mat-icon>playlist_add</mat-icon>
-                    <span>Realizar Classificação</span>
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
                 </ng-container>
             </button>
 
@@ -121,9 +110,10 @@
                                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(processo.id) > -1"
                                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(processo.id) > -1"
                                     (salvarLembrete)="doSalvarLembrete($event)"
-                                    (criarLembrete)="doCriarLembrete($event)"
+                                    (editar)="doEditar($event)"
                                     [prontoTransicao]="prontoTransicao"
                                     (realizarTransicao)="doRealizarTransicao($event)"
+                                    [transicionando]="transicionandoIds.indexOf(processo.id) > -1"
                                     (toggleInSelectedProcessos)="toggleInSelected($event)"
                                     (loadInteressados)="doLoadInteressados($event)"
                                     [loadingInteressadosProcessosId]="loadingInteressadosProcessosId"

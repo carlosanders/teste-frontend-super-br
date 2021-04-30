@@ -205,6 +205,10 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
     ngOnChanges(): void {
         this.dataSource = new TramitacaoDataSource(of(this.remessas));
         this.paginator.length = this.total;
+
+        if (this.remessas) {
+            this.carregaModulo();
+        }
     }
 
     ngOnInit(): void {
@@ -249,7 +253,12 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
         ).pipe(
             tap(() => this.loadPage())
         ).subscribe();
+    }
 
+    carregaModulo(): void {
+        if (this.btContainer) {
+            this.btContainer.reset([]);
+        }
         const path = '@cdk/components/remessa/cdk-remessa-grid/cdk-remessa-grid#button';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
@@ -260,6 +269,7 @@ export class CdkRemessaGridComponent implements AfterViewInit, OnInit, OnChanges
                                 let componentRef = button.createComponent(componentFactory);
                                 componentRef.instance['remessaId'] = this.remessas[index]['id'];
                                 componentRef.instance['mecanismoRemessa'] = this.remessas[index]['mecanismoRemessa'];
+                                componentRef.instance['apagadoEm'] = !!this.remessas[index]['apagadoEm'];
                             });
                             this._changeDetectorRef.markForCheck();
                         });

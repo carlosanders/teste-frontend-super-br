@@ -33,7 +33,7 @@ export class LoginEffects {
                                 catchError((error) => {
                                     let msg = 'Sistema indisponível, tente mais tarde!';
                                     if (error && error.error && error.error.code && error.error.code === 401) {
-                                        msg = 'Dados incorretos!';
+                                        msg = error.error.message;
                                     }
                                     return of(new LoginActions.LoginFailure({error: msg}));
                                 })
@@ -127,7 +127,7 @@ export class LoginEffects {
             ofType(LoginActions.LOGIN_REFRESH_TOKEN_SUCCESS),
             map((action) => {
                 this.loginService.setToken(action);
-                return new LoginActions.LoginProfile({redirect: true});
+                return new LoginActions.LoginProfile({redirect: false});
             })
         );
 
