@@ -64,6 +64,42 @@
             </mat-form-field>
 
             <mat-form-field>
+                <input matInput placeholder="Unidade Responsável"
+                       formControlName="unidadeResponsavel"
+                       [matAutocomplete]="unidade.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-setor-autocomplete #unidade="setorAutocomplete" [control]="form.get('unidadeResponsavel')"  [pagination]="unidadeResponsavelPagination">
+                </cdk-setor-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="this.form.get('unidadeResponsavel').value?.id">
+                <input matInput placeholder="Setor Responsável"
+                       formControlName="setorResponsavel"
+                       [matAutocomplete]="setorResponsavel.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-setor-autocomplete #setorResponsavel="setorAutocomplete" [control]="form.get('setorResponsavel')"  [pagination]="setorResponsavelPagination">
+                </cdk-setor-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput placeholder="Unidade de Origem"
+                       formControlName="unidadeOrigem"
+                       [matAutocomplete]="unidadeOrigem.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-setor-autocomplete #unidadeOrigem="setorAutocomplete" [control]="form.get('unidadeOrigem')"  [pagination]="unidadeOrigemPagination">
+                </cdk-setor-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field *ngIf="this.form.get('unidadeResponsavel').value?.id">
+                <input matInput placeholder="Setor de Origem"
+                       formControlName="setorOrigem"
+                       [matAutocomplete]="setor.autocomplete"
+                       (change)="verificarValor($event)">
+                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorOrigem')" [pagination]="setorOrigemPagination">
+                </cdk-setor-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field>
                 <input matInput placeholder="Usuário da Conclusão do Prazo"
                        formControlName="usuarioConclusaoPrazo"
                        [matAutocomplete]="usuarioConclusao.autocomplete"
@@ -71,24 +107,6 @@
                 <cdk-usuario-autocomplete #usuarioConclusao="usuarioAutocomplete"
                                           [control]="form.get('usuarioResponsavel')">
                 </cdk-usuario-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <input matInput placeholder="Setor de Origem"
-                       formControlName="setorOrigem"
-                       [matAutocomplete]="setor.autocomplete"
-                       (change)="verificarValor($event)">
-                <cdk-setor-autocomplete #setor="setorAutocomplete" [control]="form.get('setorOrigem')">
-                </cdk-setor-autocomplete>
-            </mat-form-field>
-
-            <mat-form-field>
-                <input matInput placeholder="Unidade Responsável"
-                       formControlName="unidadeResponsavel"
-                       [matAutocomplete]="unidade.autocomplete"
-                       (change)="verificarValor($event)">
-                <cdk-setor-autocomplete #unidade="setorAutocomplete" [control]="form.get('unidadeResponsavel')">
-                </cdk-setor-autocomplete>
             </mat-form-field>
 
             <div class="filtro-data">

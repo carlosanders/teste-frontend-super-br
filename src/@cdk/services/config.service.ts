@@ -18,6 +18,7 @@ export class CdkConfigService
     private readonly _defaultConfig: any;
 
     public logo = 'assets/images/logos/supp.png';
+    public icone = 'assets/images/logos/supp.png';
     public nome = 'SISTEMA ÚNICO DE PROCURADORIAS PÚBLICAS';
     public sigla = 'SUPP';
 
