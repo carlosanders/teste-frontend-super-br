@@ -85,10 +85,8 @@ export class ProcessoEffects {
                         const newEntitiesId = entitiesId.filter(id => id !== action.payload.processo.id);
                         this._store.dispatch(new ChangeProcessos(newEntitiesId));
                     }
-                    this._router.navigate([
-                        'apps/arquivista/' + this.routerState.params.unidadeHandle + '/' +
-                        typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar'
-                    ]).then();
+                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
+                    + this.routerState.params['typeHandle']]).then();
                 })
             );
 }

@@ -1,7 +1,7 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 import {Router} from '@angular/router';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
@@ -18,7 +18,7 @@ import {getRouterState, State} from '../../../../../../store';
 import * as RealizarTransicaoActions from '../actions/realizar-transicao.actions';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../store';
-import {ReloadProcessos} from "../../../arquivista-list/store";
+import {ChangeProcessos, getProcessosIds, ReloadProcessos} from "../../../arquivista-list/store";
 
 @Injectable()
 export class RealizarTransicaoEffects {
@@ -109,7 +109,8 @@ export class RealizarTransicaoEffects {
         this._actions
             .pipe(
                 ofType<RealizarTransicaoActions.GetProcessoSuccess>(RealizarTransicaoActions.GET_PROCESSO_SUCCESS),
-                tap((action) => {
+                withLatestFrom(this._store.pipe(select(getProcessosIds))),
+                tap(([action, entitiesId]) => {
                     const currentDate = moment();
                     let typeHandle = this.routerState.params['typeHandle'];
                     if (!action.payload.dataHoraProximaTransicao) {
@@ -119,11 +120,12 @@ export class RealizarTransicaoEffects {
                     } else if (action.payload.dataHoraProximaTransicao <= currentDate) {
                         typeHandle = 'pronto-transicao';
                     }
-                    if (typeHandle === this.routerState.params['typeHandle']) {
-                        this._store.dispatch(new ReloadProcessos());
+                    if (typeHandle !== this.routerState.params['typeHandle']) {
+                        const newEntitiesId = entitiesId.filter(id => id !== action.payload.id);
+                        this._store.dispatch(new ChangeProcessos(newEntitiesId));
                     }
                     this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
-                    + typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
+                    + this.routerState.params['typeHandle']]).then();
                 })
             );
 }
