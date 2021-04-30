@@ -13,10 +13,9 @@
 
             <div fxLayout="row" fxLayoutAlign="start center" *ngIf="horizontalNavbar">
                 <div class="logo ml-16">
-                    <img class="logo-icon" src="assets/images/logos/supp.png">
+                    <img class="logo-icon" [src]="_cdkConfigService.logo">
                 </div>
             </div>
-
         </div>
 
         <div class="" fxFlex="0 1 auto" fxLayout="row" fxLayoutAlign="start center">

@@ -33,7 +33,7 @@ export class RegisterComponent implements OnInit {
      * @param _changeDetectorRef
      */
     constructor(
-        private cdkConfigService: CdkConfigService,
+        public cdkConfigService: CdkConfigService,
         private formBuilder: FormBuilder,
         private _store: Store<fromStore.RegisterAppState>,
         private _changeDetectorRef: ChangeDetectorRef,

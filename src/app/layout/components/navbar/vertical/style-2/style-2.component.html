@@ -1,8 +1,8 @@
 <div class="navbar-header" [ngClass]="cdkConfig.layout.navbar.secondaryBackground">
 
     <div class="logo">
-        <img class="logo-icon" src="assets/images/logos/supp.png">
-        <span class="logo-text">SUPP</span>
+        <img class="logo-icon" [src]="_cdkConfigService.logo">
+        <span class="logo-text">{{_cdkConfigService.sigla}}</span>
     </div>
 
     <button mat-icon-button class="toggle-sidebar-folded"

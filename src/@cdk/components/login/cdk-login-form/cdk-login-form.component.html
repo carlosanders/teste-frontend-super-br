@@ -1,7 +1,7 @@
 <div class="login-form-wrapper" *ngIf="!loadingConfig && config && !config.error">
     <div class="login-form" [@animate]="{value:'*', params:{duration:'300ms',y:'100px'}}">
         <div class="logo">
-            <img src="assets/images/logos/supp.png">
+            <img [src]="config.logo">
         </div>
 
         <div class="title mb-8">{{config.name | uppercase}}</div>
