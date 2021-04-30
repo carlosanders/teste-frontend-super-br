@@ -1,5 +1,9 @@
 import {CdkNavigation} from '@cdk/types';
 
+export const navigationConverter = {
+    'arquivistico': 'arquivístico'
+}
+
 export const navigation: CdkNavigation[] = [
     {
         id: 'applications',
@@ -41,7 +45,7 @@ export const navigation: CdkNavigation[] = [
                         title: 'Arquivísticas',
                         type: 'item',
                         icon: 'archive',
-                        url: '/apps/tarefas/arquivístico/minhas-tarefas/entrada',
+                        url: '/apps/tarefas/arquivistico/minhas-tarefas/entrada',
                         badge: {
                             title: '0',
                             bg : '#F44336',

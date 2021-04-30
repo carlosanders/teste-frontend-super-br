@@ -9,7 +9,8 @@ arquivista-detail {
         display: flex;
         border-bottom: 1px solid;
         max-height: 56px;
-        padding: 24px;
+        padding-top: 24px;
+        padding-bottom: 24px;
 
         > .actions {
             flex: 1 1 auto;

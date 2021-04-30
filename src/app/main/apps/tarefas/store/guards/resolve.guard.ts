@@ -13,6 +13,8 @@ import {getRouterState} from 'app/store/reducers';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
 
+import {navigationConverter} from "../../../../../navigation/navigation";
+
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
@@ -57,7 +59,10 @@ export class ResolveGuard implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkStore().pipe(
             switchMap(() => of(true)),
-            catchError((err) => {console.log (err); return of(false);})
+            catchError((err) => {
+                console.log(err);
+                return of(false);
+            })
         );
     }
 
@@ -108,7 +113,7 @@ export class ResolveGuard implements CanActivate {
                 if (!this.loadingTarefas && (!this.routerState.params['generoHandle'] || !this.routerState.params['typeHandle'] ||
                     !this.routerState.params['targetHandle'] ||
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] +
-                     '_' + this.routerState.params['targetHandle']) !== loaded.value)) {
+                        '_' + this.routerState.params['targetHandle']) !== loaded.value)) {
 
                     this._store.dispatch(new fromStore.UnloadTarefas({reset: true}));
 
@@ -186,7 +191,7 @@ export class ResolveGuard implements CanActivate {
                                 if (
                                     this.routerState.params[targetParam] !== 'entrada' &&
                                     this.routerState.params[targetParam] !== 'lixeira'
-                                    ) {
+                                ) {
                                     const folderName = this.routerState.params[targetParam];
                                     folderFilter = `eq:${folderName.toUpperCase()}`;
                                 }
@@ -199,7 +204,7 @@ export class ResolveGuard implements CanActivate {
                                     };
                                 }
 
-                                });
+                            });
 
                             if (paramUrl !== 'lixeira') {
                                 params['folderFilter'] = {
@@ -218,10 +223,16 @@ export class ResolveGuard implements CanActivate {
                     });
 
                     const routeGeneroParams = of('generoHandle');
+
                     routeGeneroParams.subscribe(param => {
+                        let generoParam = this.routerState.params[param];
+                        if (navigationConverter.hasOwnProperty(this.routerState.params[param])) {
+                            generoParam = navigationConverter[this.routerState.params[param]];
+                        }
+
                         params['filter'] = {
                             ...params['filter'],
-                            'especieTarefa.generoTarefa.nome': `eq:${this.routerState.params[param].toUpperCase()}`
+                            'especieTarefa.generoTarefa.nome': `eq:${generoParam.toUpperCase()}`
                         };
                     });
 
