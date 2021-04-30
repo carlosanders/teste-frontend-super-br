@@ -12,11 +12,13 @@ import {MatListModule} from '@angular/material/list';
 import {modulesConfig} from 'modules/modules-config';
 import {DirectivesModule} from '../../../../../@cdk/directives/directives';
 import {CdkConfirmDialogModule} from "../../../../../@cdk/components";
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
         path: '',
         component: TransicaoArquivistaBlocoComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -42,7 +44,8 @@ modulesConfig.forEach((module) => {
     providers: [
         ProcessoService,
         TransicaoService,
-        LoginService
+        LoginService,
+        fromGuards.ResolveGuard
     ]
 })
 export class TransicaoArquivistaBlocoModule {

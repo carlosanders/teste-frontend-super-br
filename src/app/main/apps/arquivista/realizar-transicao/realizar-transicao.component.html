@@ -1,10 +1,12 @@
 <!-- CONTENT -->
 <div class="content" cdkPerfectScrollbar>
+    <h2>Realizar {{this.modalidadeTransicao.valor | titlecase}} do Processo</h2>
+
     <cdk-realizar-transicao-form
         [saving]="(isSaving$ | async)"
         [errors]="(errors$ | async)"
-        [processoId]="(processo$ | async)?.id"
-        [modalidadeTransicaoPagination]="modalidadeTransicaoPagination"
+        [processo]="(processo$ | async)"
+        [modalidadeTransicao]="modalidadeTransicao$ | async"
         (save)="submit($event)"
         (abort)="cancel()"
     >

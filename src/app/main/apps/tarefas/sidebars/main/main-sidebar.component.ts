@@ -36,6 +36,7 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {CdkUtils} from "../../../../../../@cdk/utils";
 import {DndDropEvent} from "ngx-drag-drop";
+import {navigationConverter} from "../../../../../navigation/navigation";
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -100,6 +101,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
     routerState: any;
 
     generoHandle = '';
+    generoHandleAcentuado = '';
     typeHandle = '';
 
     orgaoCentralCoordenacao: ModalidadeOrgaoCentral[] = [];
@@ -173,16 +175,6 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                 module.sidebars[path].forEach((s => this.links.push(s)));
             }
         });
-
-        this.router.events.pipe(
-            filter(event => event instanceof NavigationEnd),
-            takeUntil(this._unsubscribeAll)
-        ).subscribe((event: NavigationEnd) => {
-            if (this.router.url && this.router.url.split('/').length >= 3) {
-                this.modulo = (this.router.url.split('/')[3]);
-                this.modulo = decodeURIComponent((this.modulo[0].toUpperCase() + this.modulo.substr(1).toLowerCase()));
-            }
-        });
     }
 
     /**
@@ -244,6 +236,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                     this.mode = 'Tarefas';
                 }
                 this.generoHandle = routerState.state.params['generoHandle'];
+                this.generoHandleAcentuado = this.generoHandle;
+                if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
+                    this.generoHandleAcentuado = navigationConverter[this.routerState.params['generoHandle']];
+                }
+
                 this.typeHandle = routerState.state.params['typeHandle'];
                 this.preencherContador();
             }
@@ -561,10 +558,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
                     }
                 }
             }
-            if (this.counterState['caixa_entrada_' + this.generoHandle] !== undefined) {
-                this.tarefasPendentes['caixa_entrada_' + this.generoHandle] = this.counterState['caixa_entrada_' + this.generoHandle];
+
+            if (this.counterState['caixa_entrada_' + this.generoHandleAcentuado] !== undefined) {
+                this.tarefasPendentes['caixa_entrada_' + this.generoHandleAcentuado] = this.counterState['caixa_entrada_' + this.generoHandleAcentuado];
             } else {
-                this.tarefasPendentes['caixa_entrada_' + this.generoHandle] = 0;
+                this.tarefasPendentes['caixa_entrada_' + this.generoHandleAcentuado] = 0;
             }
         }
         this._changeDetectorRef.markForCheck();

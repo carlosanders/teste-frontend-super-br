@@ -11,7 +11,7 @@ const schemaRealizarTransicaoSelectors = createSchemaSelectors<Processo>(process
 
 export const getRealizarTransicaoState = createSelector(
     getRealizarTransicaoAppState,
-    (state: RealizarTransicaoAppState) => state.arquivistaClassificacao
+    (state: RealizarTransicaoAppState) => state.transicao
 );
 
 export const getProcessos = createSelector(

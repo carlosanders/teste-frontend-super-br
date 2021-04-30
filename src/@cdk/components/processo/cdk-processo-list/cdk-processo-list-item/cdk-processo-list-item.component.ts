@@ -6,7 +6,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {Processo} from '@cdk/models';
+import {ModalidadeTransicao, Processo} from '@cdk/models';
 
 @Component({
     selector: 'cdk-processo-list-item',
@@ -38,6 +38,9 @@ export class CdkProcessoListItemComponent implements OnInit {
     @Input()
     editantoLembrete: boolean;
 
+    @Input()
+    modalidadeTransicao: ModalidadeTransicao;
+
     @Output()
     toggleInSelectedProcessos = new EventEmitter();
 
@@ -49,6 +52,12 @@ export class CdkProcessoListItemComponent implements OnInit {
 
     @Output()
     realizarTransicao = new EventEmitter<any>();
+
+    @Output()
+    desarquivar = new EventEmitter<any>();
+
+    @Output()
+    registrarExtravio = new EventEmitter<any>();
 
     @Output()
     salvarLembrete = new EventEmitter<any>();
@@ -116,6 +125,14 @@ export class CdkProcessoListItemComponent implements OnInit {
 
     doRealizarTransicao(processo): void {
         this.realizarTransicao.emit(processo.id);
+    }
+
+    doDesarquivar(processo): void {
+        this.desarquivar.emit(processo.id);
+    }
+
+    doRegistrarExtravio(processo): void {
+        this.registrarExtravio.emit(processo.id);
     }
 
     doEditar(processo): void {

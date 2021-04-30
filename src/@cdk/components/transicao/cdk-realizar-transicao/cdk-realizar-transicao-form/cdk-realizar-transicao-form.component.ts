@@ -28,13 +28,16 @@ export class CdkRealizarTransicaoFormComponent
     transicao: Transicao;
 
     @Input()
-    processoId: number;
+    processo: Processo;
 
     @Input()
     saving: boolean;
 
     @Input()
     errors: any;
+
+    @Input()
+    mode = 'regular';
 
     @Output()
     save = new EventEmitter<Transicao>();
@@ -50,9 +53,7 @@ export class CdkRealizarTransicaoFormComponent
     processoPagination: Pagination;
 
     @Input()
-    modalidadeTransicaoPagination: Pagination;
-
-    private processo: Processo;
+    modalidadeTransicao: ModalidadeTransicao;
 
     @Input()
     deletingIds: number[] = [];
@@ -66,7 +67,6 @@ export class CdkRealizarTransicaoFormComponent
     ) {
         this.loadForm();
         this.processoPagination = new Pagination();
-        this.modalidadeTransicaoPagination = new Pagination();
     }
 
     loadForm(): void {
@@ -81,16 +81,11 @@ export class CdkRealizarTransicaoFormComponent
     }
 
     ngOnInit(): void {
-        this.setProcesso();
-    }
-
-    setProcesso(): void {
-        const processoId = parseInt(String(this.processoId), 10);
-        const processo = new Processo();
-
-        processo.id = processoId;
-        this.processo = processo;
-        this.form.get('processo').setValue(processo);
+        if (this.mode !== 'bloco') {
+            this.form.get('processo').enable();
+        } else {
+            this.form.get('processo').disable();
+        }
     }
 
     doAbort(): void {
@@ -101,8 +96,11 @@ export class CdkRealizarTransicaoFormComponent
      * On change
      */
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
-        if (changes['transicao'] && this.transicao && ((!this.transicao.id && !this.form.dirty) || (this.transicao.id !== this.form.get('id').value))) {
-            this.form.patchValue({...this.transicao});
+        if (changes['processo'] && this.processo && ((!this.processo.id && !this.form.dirty) || (this.processo.id !== this.form.get('processo').value?.id))) {
+            this.form.get('processo').setValue(this.processo);
+        }
+        if (changes['modalidadeTransicao'] && this.modalidadeTransicao) {
+            this.form.get('modalidadeTransicao').setValue(this.modalidadeTransicao);
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
@@ -139,24 +137,6 @@ export class CdkRealizarTransicaoFormComponent
     }
 
     cancel(): void {
-        this.activeCard = 'form';
-    }
-
-    checkModalidadeTransicao(): void {
-        const value = this.form.get('modalidadeTransicao').value;
-        if (!value || typeof value !== 'object') {
-            this.form.get('modalidadeTransicao').setValue(null);
-        }
-    }
-
-    showModalidadeTransicaoGrid(): void {
-        this.activeCard = 'modalidade-transicao-gridsearch';
-    }
-
-    selectModalidadeTransicao(modalidadeTransicao: ModalidadeTransicao): void {
-        if (modalidadeTransicao) {
-            this.form.get('modalidadeTransicao').setValue(modalidadeTransicao);
-        }
         this.activeCard = 'form';
     }
 

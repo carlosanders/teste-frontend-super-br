@@ -8,14 +8,14 @@ import {
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {Pagination, Processo, Transicao} from '../../../../../@cdk/models';
+import {ModalidadeTransicao, Pagination, Processo, Transicao} from '../../../../../@cdk/models';
 import * as fromStore from './store';
-import {getOperacoesState, RouterStateUrl, getRouterState, getOperacoes} from '../../../../store';
-import {filter, takeUntil} from 'rxjs/operators';
+import {RouterStateUrl, getRouterState, getOperacoes} from '../../../../store';
+import {takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '../../../../../@cdk/animations';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
-import {getSelectedProcessos} from "../arquivista-list/store";
+import {getModalidadeTransicao, getSelectedProcessos} from "../arquivista-list/store";
 import {Router} from "@angular/router";
 import {CdkUtils} from "../../../../../@cdk/utils";
 import {SnackBarDesfazerComponent} from "../../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component";
@@ -37,10 +37,11 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
     dialogRef: any;
     processos: Processo[] = [];
     processos$: Observable<Processo[]>;
-    modalidadeTransicaoPagination: Pagination;
+    modalidadeTransicao$: Observable<ModalidadeTransicao>;
+    modalidadeTransicao: ModalidadeTransicao;
+    modalidadeTransicaoExtravioDesarquivamento$: Observable<ModalidadeTransicao>;
+
     total = 0;
-    deletingIds$: Observable<any>;
-    deletedIds$: Observable<any>;
 
     private routerState: RouterStateUrl;
     isSaving$: Observable<boolean>;
@@ -60,13 +61,26 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processos$ = this._store.pipe(select(getSelectedProcessos));
-        this.modalidadeTransicaoPagination = new Pagination();
+        this.modalidadeTransicao$ = this._store.pipe(select(getModalidadeTransicao));
+        this.modalidadeTransicaoExtravioDesarquivamento$ = this._store.pipe(select(fromStore.getModalidadeTransicao));
     }
 
     ngOnInit(): void {
         this.processos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(processos => this.processos = processos);
+
+        this.modalidadeTransicao$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(modalidade => this.modalidadeTransicao = modalidade);
+
+        this.modalidadeTransicaoExtravioDesarquivamento$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(modalidadeTransicaoExtravioDesarquivamento => {
+            if (modalidadeTransicaoExtravioDesarquivamento) {
+                this.modalidadeTransicao = modalidadeTransicaoExtravioDesarquivamento;
+            }
+        });
 
         this._store
             .pipe(
@@ -75,7 +89,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
             )
             .subscribe(
                 operacoes => {
-                    this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'transição');
+                    this.operacoes = Object.values(operacoes).filter(operacao => operacao.type === 'temporalidade e destinação');
                     this._changeDetectorRef.markForCheck();
                 }
             );
@@ -101,6 +115,15 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
                 this.routerState.params.typeHandle
             ]).then();
         }
+
+        if (!this.modalidadeTransicao) {
+            this._router.navigate([
+                'apps',
+                'arquivista',
+                this.routerState.params.unidadeHandle,
+                this.routerState.params.typeHandle
+            ]).then();
+        }
     }
 
     submit(values): void {
@@ -115,7 +138,12 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente realizar as transições arquivístivas em bloco? NUPs apensos ou anexação sofrerão a mesma transição.';
+        const tituloModalidadeTransicao = this.modalidadeTransicao.valor.toLowerCase();
+
+        this.confirmDialogRef
+            .componentInstance
+            .confirmMessage = 'Deseja realmente realizar a ' + tituloModalidadeTransicao +
+            ' em bloco? NUPs apensos ou anexos sofrerão a mesma temporalidade e destinação.';
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
                 this.operacoes = [];

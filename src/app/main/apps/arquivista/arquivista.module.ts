@@ -15,6 +15,7 @@ import {MatRippleModule} from '@angular/material/core';
 import {ArquivistaStoreModule} from "./arquivista-list/store/store.module";
 import {SnackBarDesfazerComponent} from "../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component";
 import {SnackBarDesfazerModule} from "../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module";
+import {ModalidadeTransicaoService} from "../../../../@cdk/services/modalidade-transicao.service";
 
 const routes: Routes = [
     {
@@ -57,9 +58,10 @@ modulesConfig.forEach((module) => {
         SnackBarDesfazerModule,
         CdkConfirmDialogModule
     ],
-    providers      : [
+    providers: [
         fromGuards.ResolveGuard,
         ProcessoService,
+        ModalidadeTransicaoService
     ],
     entryComponents: [SnackBarDesfazerComponent],
 })

@@ -1,16 +1,10 @@
 import {createSelector} from '@ngrx/store';
 
-import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {Processo} from '@cdk/models';
-import {processo as processoShema} from '@cdk/normalizr';
 import {
     getTransicaoArquivistaBlocoAppState,
     TransicaoArquivistaBlocoAppState,
     TransicaoArquivistaBlocoState
 } from '../reducers';
-import {getProcessosIds} from '../../../arquivista-list/store/selectors';
-
-const schemaTransicaoArquivistaBlocoSelectors = createSchemaSelectors<Processo>(processoShema);
 
 export const getTransicaoArquivistaBlocoState = createSelector(
     getTransicaoArquivistaBlocoAppState,

@@ -16,6 +16,7 @@ import {LembreteService} from '@cdk/services/lembrete.service';
 import {modulesConfig} from 'modules/modules-config';
 import {TransicaoArquivistaStoreModule} from "../transicao-arquivista-bloco/store/store.module";
 import {TransicaoService} from "../../../../../@cdk/services/transicao.service";
+import {ModalidadeTransicaoService} from "../../../../../@cdk/services/modalidade-transicao.service";
 
 const routes: Routes = [
     {
@@ -35,15 +36,19 @@ const routes: Routes = [
                 loadChildren: () => import('../vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
             },
             {
-                path: 'lembrete-bloco',
-                loadChildren: () => import('../arquivista-lembrete-bloco/arquivista-lembrete-bloco.module').then(m => m.ArquivistaLembreteBlocoModule)
-            },
-            {
                 path: 'arquivista-editar-bloco',
                 loadChildren: () => import('../arquivista-edit-bloco/arquivista-edit-bloco.module').then(m => m.ArquivistaEditBlocoModule)
             },
             {
-                path: 'transicao-arquivista-bloco',
+                path: 'temporalidade-destinacao-bloco',
+                loadChildren: () => import('../transicao-arquivista-bloco/transicao-arquivista-bloco.module').then(m => m.TransicaoArquivistaBlocoModule)
+            },
+            {
+                path: 'desarquivar-bloco',
+                loadChildren: () => import('../transicao-arquivista-bloco/transicao-arquivista-bloco.module').then(m => m.TransicaoArquivistaBlocoModule)
+            },
+            {
+                path: 'registrar-extravio-bloco',
                 loadChildren: () => import('../transicao-arquivista-bloco/transicao-arquivista-bloco.module').then(m => m.TransicaoArquivistaBlocoModule)
             },
             {
@@ -85,6 +90,7 @@ modulesConfig.forEach((module) => {
         ProcessoService,
         TransicaoService,
         LembreteService,
+        ModalidadeTransicaoService,
         LoginService
     ]
 })

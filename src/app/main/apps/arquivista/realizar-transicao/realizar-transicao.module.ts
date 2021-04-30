@@ -11,7 +11,7 @@ import {DirectivesModule} from '../../../../../@cdk/directives/directives';
 import {CdkConfirmDialogModule} from "../../../../../@cdk/components";
 import {CdkConfirmDialogComponent} from "../../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
 import {MatDialogModule} from "@angular/material/dialog";
-import {Routes} from "@angular/router";
+import {RouterModule, Routes} from "@angular/router";
 
 const routes: Routes = [
     {
@@ -22,6 +22,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [RealizarTransicaoComponent],
     imports: [
+        RouterModule.forChild(routes),
         CommonModule,
         CdkTransicaoFormModule,
         CdkRealizarTransicaoFormModule,
@@ -34,7 +35,7 @@ const routes: Routes = [
     ],
     providers: [
         TransicaoService,
-        ProcessoService
+        ProcessoService,
     ],
     entryComponents: [
         CdkConfirmDialogComponent

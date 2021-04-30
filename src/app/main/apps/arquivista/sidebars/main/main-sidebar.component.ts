@@ -61,9 +61,19 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
 
         this.links = [
             {
-                nome: 'Pronto para Transição',
+                nome: 'Pronto para Transferência',
                 icon: 'check_circle',
-                link: 'pronto-transicao'
+                link: 'pronto-transferencia'
+            },
+            {
+                nome: 'Pronto para Eliminação',
+                icon: 'check_circle',
+                link: 'pronto-eliminacao'
+            },
+            {
+                nome: 'Pronto para Recolhimento',
+                icon: 'check_circle',
+                link: 'pronto-recolhimento'
             },
             {
                 nome: 'Aguardando Decurso',
@@ -101,7 +111,7 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
                     this.unidadeHandle = routerState.state.params['unidadeHandle'];
                 }
 
-                this.typeHandle = routerState.state.params['typeHandle'] ?? 'pronto-transicao';
+                this.typeHandle = routerState.state.params['typeHandle'] ?? 'pronto-transferencia';
             }
         });
     }

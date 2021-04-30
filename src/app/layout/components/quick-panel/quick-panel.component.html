@@ -85,7 +85,7 @@
                                       (click)="$event.stopPropagation();">
                         </mat-checkbox>
                     </div>
-                    <span class="secondary-text">{{operacao.type | titlecase}}</span>
+                    <span class="secondary-text pre-wrap">{{operacao.type | titlecase}}</span>
                     <span *ngIf="operacao.status === 0"><mat-spinner [diameter]="16"></mat-spinner></span>
                     <span *ngIf="operacao.status === 1"><mat-icon>check</mat-icon></span>
                     <span *ngIf="operacao.status === 2"><mat-icon class="warn">clear</mat-icon></span>

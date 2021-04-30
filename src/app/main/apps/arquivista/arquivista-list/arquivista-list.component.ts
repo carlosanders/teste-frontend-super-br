@@ -12,7 +12,7 @@ import {select, Store} from '@ngrx/store';
 import {Observable, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
-import {Lembrete, Processo} from '@cdk/models';
+import {Lembrete, ModalidadeTransicao, Processo} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromStore from 'app/main/apps/arquivista/arquivista-list/store';
 import {getRouterState, getScreenState} from 'app/store/reducers';
@@ -53,16 +53,15 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     processos$: Observable<Processo[]>;
     loading$: Observable<boolean>;
 
-    deletingIds$: Observable<number[]>;
-    deletedIds$: Observable<number[]>;
     transicaoIds$: Observable<number[]>;
 
     selectedIds$: Observable<number[]>;
     selectedIds: number[] = [];
 
     selectedProcessos$: Observable<Processo[]>;
-
     selectedProcessos: Processo[] = [];
+
+    modalidadeTransicao$: Observable<ModalidadeTransicao>;
 
     screen$: Observable<any>;
 
@@ -75,10 +74,6 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     maximizado$: Observable<boolean>;
     maximizado = false;
-
-    prontoTransicao: boolean;
-
-    mostraCriar = false;
 
     private _profile: Usuario;
 
@@ -114,12 +109,10 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
-        this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingProcessoIds));
-        this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedProcessoIds));
         this.transicaoIds$ = this._store.pipe(select(getTransicaoProcessoIds));
         this.screen$ = this._store.pipe(select(getScreenState));
+        this.modalidadeTransicao$ = this._store.pipe(select(fromStore.getModalidadeTransicao));
         this._profile = _loginService.getUserProfile();
-        this.prontoTransicao = false;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -138,7 +131,6 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
-                this.prontoTransicao = this.routerState.params.typeHandle === 'pronto-transicao';
             }
         });
 
@@ -317,7 +309,15 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     }
 
     doTransicaoArquivistaBloco(): void {
-        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/transicao-arquivista-bloco/criar']).then();
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/temporalidade-destinacao-bloco']).then();
+    }
+
+    doDesarquivarBloco(): void {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/desarquivar-bloco']).then();
+    }
+
+    doRegistrarExtravioBloco(): void {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/registrar-extravio-bloco']).then();
     }
 
     salvarLembrete(params): void {
@@ -327,16 +327,24 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
     editar(processoId): void {
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
         + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/editar']).then();
-        this.mostraCriar = true;
     }
 
     realizarTransicao(processoId): any {
         this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
-        + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/realizar-transicao']).then();
+        + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/temporalidade-destinacao']).then();
+    }
+
+    desarquivar(processoId): any {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
+        + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/desarquivar']).then();
+    }
+
+    registrarExtravio(processoId): any {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
+        + this.routerState.params.typeHandle + '/detalhe/' + processoId + '/registrar-extravio']).then();
     }
 
     retornar() {
-        this.mostraCriar = false;
         this.currentProcessoId = null;
     }
 }

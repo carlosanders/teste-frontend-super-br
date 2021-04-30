@@ -186,6 +186,10 @@ export class ResolveGuard implements CanActivate {
                             };
                             let folderFilter = 'isNull';
                             let paramUrl = '';
+                            let generoParam = this.routerState.params['generoHandle'];
+                            if (navigationConverter.hasOwnProperty(this.routerState.params['generoHandle'])) {
+                                generoParam = navigationConverter[this.routerState.params['generoHandle']];
+                            }
                             const routeTargetParam = of('targetHandle');
                             routeTargetParam.subscribe(targetParam => {
                                 if (
@@ -210,10 +214,10 @@ export class ResolveGuard implements CanActivate {
                                 params['folderFilter'] = {
                                     'folder.nome': folderFilter
                                 };
-                                params.context = {modulo: this.routerState.params['generoHandle']}
+                                params.context = {modulo: generoParam}
                             } else {
                                 params.context = {
-                                    modulo: this.routerState.params['generoHandle'],
+                                    modulo: generoParam,
                                     mostrarApagadas: true
                                 }
                             }

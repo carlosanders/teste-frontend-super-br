@@ -2,7 +2,7 @@ import {RealizarTransicaoReducer, RealizarTransicaoState} from './realizar-trans
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
 
 export interface RealizarTransicaoAppState {
-    arquivistaClassificacao: RealizarTransicaoState;
+    transicao: RealizarTransicaoState;
 }
 
 export const getRealizarTransicaoAppState = createFeatureSelector<RealizarTransicaoAppState>(
@@ -15,7 +15,7 @@ export const getAppState = createSelector(
 );
 
 export const reducers: ActionReducerMap<RealizarTransicaoAppState> = {
-    arquivistaClassificacao: RealizarTransicaoReducer
+    transicao: RealizarTransicaoReducer
 };
 
 export * from './realizar-transicao.reducer';

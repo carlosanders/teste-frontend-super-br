@@ -1,29 +1,27 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 import {Router} from '@angular/router';
-import {buffer, catchError, map, mergeAll, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {buffer, catchError, map, mergeAll, mergeMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 
-import {Processo, Tarefa, Transicao} from '@cdk/models';
-import {processo as processoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
-import {transicao as transicaoSchema} from '@cdk/normalizr';
+import {Processo} from '@cdk/models';
+import {processo as processoSchema} from '@cdk/normalizr';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {TransicaoService} from '../../../../../../../@cdk/services/transicao.service';
 
-import {AddData, RemoveData, SetData, UpdateData} from '@cdk/ngrx-normalizr';
+import {UpdateData} from '@cdk/ngrx-normalizr';
 import * as TransicaoArquivistaBloco from '../actions/transicao-arquivista-bloco.actions';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../store';
-import {getRouterState, State} from '../../../../../../store/reducers';
+import {getRouterState, State} from '../../../../../../store';
 import {
     ChangeProcessos,
     ChangeSelectedProcessos,
     getProcessosIds,
-    getSelectedProcessoIds,
-    ReloadProcessos
+    getSelectedProcessoIds
 } from "../../../arquivista-list/store";
 import {CdkUtils} from "../../../../../../../@cdk/utils";
 
@@ -61,8 +59,9 @@ export class TransicaoArquivistaBlocoEffects {
                 tap((action) => {
                     this._store.dispatch(new OperacoesActions.Operacao({
                         id: action.payload.operacaoId,
-                        type: 'transição',
-                        content: 'Realizando transição arquivística no processo id ' + action.payload.transicao.processo.id + '...',
+                        type: 'temporalidade e destinação',
+                        content: 'Realizando ' + action.payload.transicao.modalidadeTransicao.valor.toLowerCase() +
+                            ' do processo id ' + action.payload.transicao.processo.id + '...',
                         status: 0, // carregando
                         lote: action.payload.loteId,
                         redo: action.payload.redo
@@ -75,8 +74,9 @@ export class TransicaoArquivistaBlocoEffects {
                     if (transicaoProcessoIds.indexOf(action.payload.transicao.processo.id) === -1) {
                         this._store.dispatch(new OperacoesActions.Operacao({
                             id: action.payload.operacaoId,
-                            type: 'transição',
-                            content: 'Transição arquivística no processo id ' + action.payload.transicao.processo.id + ' foi cancelada.',
+                            type: 'temporalidade e destinação',
+                            content: 'Operação de ' + action.payload.transicao.modalidadeTransicao.valor.toLowerCase() +
+                                ' do processo id ' + action.payload.transicao.processo.id + ' foi cancelada.',
                             success: false,
                             status: 3, // cancelada
                             lote: action.payload.loteId,
@@ -88,8 +88,9 @@ export class TransicaoArquivistaBlocoEffects {
                         map((response) => {
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
-                                type: 'transição',
-                                content: 'Transição arquivística do processo id ' + action.payload.transicao.processo.id + ' realizada com sucesso.',
+                                type: 'temporalidade e destinação',
+                                content: 'Operação de ' + action.payload.transicao.modalidadeTransicao.valor.toLowerCase() +
+                                    ' do processo id ' + action.payload.transicao.processo.id + ' realizada com sucesso.',
                                 status: 1, // sucesso
                                 success: true,
                                 lote: action.payload.loteId,
@@ -106,8 +107,9 @@ export class TransicaoArquivistaBlocoEffects {
                             const erroString = CdkUtils.errorsToString(err);
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
-                                type: 'transição',
-                                content: `Erro ao realizar transição arquivística no processo id ` + action.payload.transicao.processo.id + `! ${erroString}`,
+                                type: 'temporalidade e destinação',
+                                content: `Erro ao realizar ${action.payload.transicao.modalidadeTransicao.valor.toLowerCase()} do processo id ` +
+                                    action.payload.transicao.processo.id + `! ${erroString}`,
                                 status: 2, // erro
                                 success: false,
                                 lote: action.payload.loteId,
@@ -131,7 +133,9 @@ export class TransicaoArquivistaBlocoEffects {
                 ofType<TransicaoArquivistaBloco.GetProcesso>(TransicaoArquivistaBloco.GET_PROCESSO),
                 mergeMap((action) => {
                     const populate = JSON.stringify([
-                        'modalidadeFase'
+                        'classificacao',
+                        'modalidadeFase',
+                        'classificacao.modalidadeDestinacao'
                     ]);
                     return this._processoService.get(action.payload.id, populate).pipe(
                         map((response) => {
@@ -173,7 +177,15 @@ export class TransicaoArquivistaBlocoEffects {
                     } else if (action.payload.dataHoraProximaTransicao > currentDate) {
                         typeHandle = 'aguardando-decurso';
                     } else if (action.payload.dataHoraProximaTransicao <= currentDate) {
-                        typeHandle = 'pronto-transicao';
+                        if (action.payload.modalidadeFase.valor === 'CORRENTE') {
+                            typeHandle = 'pronto-transferencia';
+                        }
+                        if (action.payload.modalidadeFase.valor === 'INTERMEDIÁRIA' && action.payload.classificacao.modalidadeDestinacao.valor === 'ELIMINAÇÃO') {
+                            typeHandle = 'pronto-eliminação';
+                        }
+                        if (action.payload.modalidadeFase.valor === 'INTERMEDIÁRIA' && action.payload.classificacao.modalidadeDestinacao.valor === 'RECOLHIMENTO') {
+                            typeHandle = 'pronto-recolhimento';
+                        }
                     }
                     const newSelectedProcessos = selectedIds.filter(id => id !== action.payload.id);
                     this._store.dispatch(new ChangeSelectedProcessos(newSelectedProcessos, false));

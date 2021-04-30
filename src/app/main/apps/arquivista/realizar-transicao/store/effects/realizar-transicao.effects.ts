@@ -89,7 +89,12 @@ export class RealizarTransicaoEffects {
             .pipe(
                 ofType<RealizarTransicaoActions.GetProcesso>(RealizarTransicaoActions.GET_PROCESSO),
                 switchMap((action) => {
-                    return this._processoService.get(action.payload.id);
+                    const populate = JSON.stringify([
+                        'classificacao',
+                        'modalidadeFase',
+                        'classificacao.modalidadeDestinacao'
+                    ]);
+                    return this._processoService.get(action.payload.id, populate);
                 }),
                 mergeMap((response) => [
                     new RealizarTransicaoActions.GetProcessoSuccess(response)
@@ -118,7 +123,15 @@ export class RealizarTransicaoEffects {
                     } else if (action.payload.dataHoraProximaTransicao > currentDate) {
                         typeHandle = 'aguardando-decurso';
                     } else if (action.payload.dataHoraProximaTransicao <= currentDate) {
-                        typeHandle = 'pronto-transicao';
+                        if (action.payload.modalidadeFase.valor === 'CORRENTE') {
+                            typeHandle = 'pronto-transferencia';
+                        }
+                        if (action.payload.modalidadeFase.valor === 'INTERMEDIÁRIA' && action.payload.classificacao.modalidadeDestinacao.valor === 'ELIMINAÇÃO') {
+                            typeHandle = 'pronto-eliminação';
+                        }
+                        if (action.payload.modalidadeFase.valor === 'INTERMEDIÁRIA' && action.payload.classificacao.modalidadeDestinacao.valor === 'RECOLHIMENTO') {
+                            typeHandle = 'pronto-recolhimento';
+                        }
                     }
                     if (typeHandle !== this.routerState.params['typeHandle']) {
                         const newEntitiesId = entitiesId.filter(id => id !== action.payload.id);
