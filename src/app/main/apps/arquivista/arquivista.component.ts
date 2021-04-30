@@ -137,7 +137,7 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
         this.setoresCoordenacao = [];
         this.usuariosAssessor = [];
         if (!this.routerState.params['unidadeHandle']) {
-            this._router.navigate(['apps/arquivista/' + this.getUnidade() + '/pronto-transicao']).then();
+            this._router.navigate(['apps/arquivista/' + this.getUnidade() + '/pronto-transferencia']).then();
         }
 
         this.maximizado$.pipe(

@@ -1,6 +1,5 @@
 import {Action} from '@ngrx/store';
 
-
 export const UNLOAD_PROCESSOS = '[ARQUIVISTA-LIST] UNLOAD PROCESSOS';
 
 export const GET_PROCESSOS = '[ARQUIVISTA-LIST] GET PROCESSOS';
@@ -35,7 +34,6 @@ export class UnloadProcessos implements Action {
     }
 }
 
-
 /**
  * Get Processos
  */
@@ -45,7 +43,6 @@ export class GetProcessos implements Action {
     constructor(public payload: any) {
     }
 }
-
 
 /**
  * Get Processos Success

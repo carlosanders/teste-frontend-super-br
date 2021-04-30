@@ -10,7 +10,7 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {Observable, Subject} from 'rxjs';
 
-import {Processo} from '@cdk/models';
+import {ModalidadeTransicao, Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 
 import * as fromStore from 'app/store';
@@ -23,6 +23,7 @@ import {DynamicService} from 'modules/dynamic.service';
 import * as fromStoreProcessos from '../arquivista-list/store';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
+import {getModalidadeTransicao} from "../arquivista-list/store";
 
 @Component({
     selector: 'arquivista-operacoes-bloco',
@@ -52,6 +53,8 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
 
+    modalidadeTransicao$: Observable<ModalidadeTransicao>;
+
     /**
      *
      * @param _dynamicService
@@ -71,7 +74,18 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
     ) {
         this.processos$ = this._store.pipe(select(fromStoreProcessos.getSelectedProcessos));
         this.selectedIds$ = this._store.pipe(select(fromStoreProcessos.getSelectedProcessoIds));
+        this.modalidadeTransicao$ = this._store.pipe(select(getModalidadeTransicao));
         this._profile = _loginService.getUserProfile().colaborador;
+
+        this._store
+            .pipe(
+                select(getRouterState),
+                takeUntil(this._unsubscribeAll)
+            ).subscribe(routerState => {
+            if (routerState) {
+                this.routerState = routerState.state;
+            }
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -96,16 +110,6 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
         this.selectedIds$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(selected => this.selectedIds = selected);
-
-        this._store
-            .pipe(
-                select(getRouterState),
-                takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
-        });
     }
 
     ngAfterViewInit(): void {
@@ -142,7 +146,15 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
 
     doTransicaoBloco(): void {
         // tslint:disable-next-line:max-line-length
-        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/transicao-arquivista-bloco']).then();
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/temporalidade-destinacao-bloco']).then();
+    }
+
+    doDesarquivarBloco(): void {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/desarquivar-bloco']).then();
+    }
+
+    doRegistrarExtravioBloco(): void {
+        this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/' + this.routerState.params.typeHandle + '/registrar-extravio-bloco']).then();
     }
 
     doAbort(): void {

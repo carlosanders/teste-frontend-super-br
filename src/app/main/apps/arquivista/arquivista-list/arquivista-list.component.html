@@ -17,11 +17,12 @@
     <cdk-processo-list (scrolled)="onScroll()"
                        [loading]="(loading$ | async)"
                        [processos]="processos"
-                       [prontoTransicao]="prontoTransicao"
                        [currentProcessoId]="currentProcessoId"
                        (salvarLembrete)="salvarLembrete($event)"
                        (editar)="editar($event)"
                        (realizarTransicao)="realizarTransicao($event)"
+                       (desarquivar)="desarquivar($event)"
+                       (registrarExtravio)="registrarExtravio($event)"
                        [pagination]="pagination"
                        [selectedIds]="(selectedIds$ | async)"
                        (changeSelectedIds)="changeSelectedIds($event)"
@@ -29,9 +30,10 @@
                        (etiquetarBloco)="doEtiquetarBloco()"
                        (editarBloco)="doEditarBloco()"
                        (realizarTransicaoBloco)="doTransicaoArquivistaBloco()"
-                       [deletingIds]="(deletingIds$ | async)"
-                       [deletedIds]="(deletedIds$ | async)"
+                       (desarquivarBloco)="doDesarquivarBloco()"
+                       (registrarExtravioBloco)="doRegistrarExtravioBloco()"
                        [transicionandoIds]="(transicaoIds$ | async)"
+                       [modalidadeTransicao]="modalidadeTransicao$ | async"
                        (selected)="setCurrentProcesso($event)">
     </cdk-processo-list>
 </div>

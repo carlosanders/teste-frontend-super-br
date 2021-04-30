@@ -1,8 +1,8 @@
 <div>
     <div *ngIf="titulo === 'transicoes'" class="content p-16" fxLayout="column">
-        <h3><strong>TRANSIÇÕES DE UM PROCESSO</strong></h3>
+        <h3><strong>TEMPORALIDADES E DESTINAÇÕES DE UM PROCESSO</strong></h3>
         <p style="text-align: justify;text-indent: 20px">
-            A passagem dos documentos de uma idade para outra é definida por meio do processo de avaliação <strong>(transição)</strong>,
+            A passagem dos documentos de uma idade para outra é definida por meio do processo de avaliação <strong>(temporalidade e destinação)</strong>,
             que leva em conta a frequência de uso dos documentos por seus produtores e a identificação de seus valores primário e secundário.
         </p>
         <mat-expansion-panel style="text-align: center;margin-left: 40px">
@@ -26,10 +26,10 @@
             para a implementação da gestão arquivística de documentos.
         </p>
         <p style="text-align: justify;text-indent: 20px">
-            Para o usuário realizar <strong>Transições Arquivísticas</strong> do processo, é necessário possuir o perfil de <strong>arquivista</strong>.
+            Para o usuário realizar <strong>Temporalidade e Destinação</strong> do processo, é necessário possuir o perfil de <strong>arquivista</strong>.
         </p>
         <p style="text-align: justify;margin-left: 20px">
-            As transições arquivísticas são:
+            As temporalidades e destinações do processo são:
         </p>
         <ul style="margin-left: 20px">
             <li><strong>Transferência</strong>:da idade corrente para a idade intermediária.</li>
@@ -39,38 +39,41 @@
             <li><strong>Desarquivamento</strong>:traz o processo/documento avulso novamente para a idade corrente.</li>
         </ul>
         <p style="text-align: justify;text-indent: 20px">
-            Os usuários que não possuem perfil de arquivista não poderão realizar transições.
-            Se perceber a necessidade de realizar uma transição, deverá abrir tarefa para o usuário arquivista de sua unidade.
+            Os usuários que não possuem perfil de arquivista não poderão realizar temporalidade e destinação.
+            Se perceber a necessidade de realizar uma temporalidade e destinação, deverá abrir tarefa para o usuário arquivista de sua unidade.
         </p>
         <p style="background-color: #d3d3d3;text-indent: 40px">
-            A simples remessa do processo/documento avulso para o arquivo corrente não requer uma transição.
-            Apenas quando houver a remessa para o arquivo intermediário é que deverá ocorrer a transição, da modalidade transferência.<br>
+            A simples remessa do processo/documento avulso para o arquivo corrente não requer uma temporalidade e destinação.
+            Apenas quando houver a remessa para o arquivo intermediário é que deverá ocorrer a temporalidade e destinação, da modalidade transferência.<br>
             NUPs que estejam fora da idade CORRENTE somente aceitam tarefas do gênero arquivístico, por exemplo, solicitação de desarquivamento.
         </p>
         <h3 style="text-align: justify;text-indent: 20px">
-            <strong>Criando uma transição na página de cadastramento de processos</strong>
+            <strong>Criando uma temporalidade e destinação na página de cadastramento de processos</strong>
         </h3>
         <p style="text-align: justify;margin-left: 40px">
-            1. No grid com opções de dados que podem/devem ser preenchidos, escolha o campo <strong>Transições</strong>
+            1. No grid com opções de dados que podem/devem ser preenchidos, escolha o campo <strong>Temporalidades e Destinações</strong>
         </p>
         <p style="text-align: center;margin-left: 40px">
             <img src="assets/images/ajuda/processotransicoes.png" style="width: 256px;" class="fr-fic fr-dib fr-fil">
         </p>
         <p style="text-align: justify;margin-left: 40px">
-            2. A página de transições é aberta.
-            É possível ver a lista de transições já cadastradas no NUP ou escolher uma nova transição a partir do botão
-            <img src="assets/images/ajuda/novo.png" class="fr-fic fr-dii">.
+            2. A página de temporalidades e destinações é aberta.
+            É possível ver a lista de temporalidades e destinações já cadastradas no NUP ou escolher uma nova temporalidade e destinação
+            a partir do botão <img src="assets/images/ajuda/novo.png" class="fr-fic fr-dii">.
         </p>
         <p style="text-align: justify;margin-left: 40px">
-            3. Apertando no botão Novo, indique a <strong>Modalidade de Transição</strong>. Clique na Lupa
+            3. Apertando no botão Novo, indique a <strong>Modalidade de Temporalidade e Destinação</strong>. Clique na Lupa
             <img src="assets/images/ajuda/lupa.png" class="fr-fic fr-dii">se precisar buscar
             entre as opções existentes
         </p>
         <p style="text-align: justify;margin-left: 40px">
-            4. É necessário indicar o <strong>Método</strong> da transição
+            4. É necessário indicar o <strong>Método</strong>
         </p>
         <p style="text-align: justify;margin-left: 40px">
-            5. Também é possível preencher os campos <strong>Edital</strong> e <strong>Observação</strong>
+            5. É necessário indicar o <strong>Edital</strong>
+        </p>
+        <p style="text-align: justify;margin-left: 40px">
+            6. Também é possível preencher o campo <strong>Observação</strong>
         </p>
         <mat-expansion-panel style="text-align: center;margin-left: 40px">
             <mat-expansion-panel-header>
@@ -89,7 +92,7 @@
                 <img src="assets/images/ajuda/atencao.png" style="width: 15px;"class="fr-fic fr-dii"><strong>FIQUE ATENTO:</strong>
             </p>
             <p style="text-indent: 20px">
-                Um NUP eliminado NÃO pode mais sofrer transições arquivísticas.
+                Um NUP eliminado NÃO pode mais sofrer temporalidades e destinações.
             </p>
             <p style="text-indent: 20px">
                 Um NUP só pode sofrer uma <strong>Transferência</strong> se estiver na idade <strong>Corrente</strong>.
@@ -110,7 +113,7 @@
         </div>
    </div>
 
-   <h4>Transições</h4>
+   <h4>Temporalidades e Destinações</h4>
    <iframe width="400" height="225"
         src="https://www.youtube.com/embed/EJiwc36eAVo" frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {Pagination, Processo, Transicao} from '@cdk/models';
+import {ModalidadeTransicao, Pagination, Processo, Transicao} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Back, getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store';
@@ -9,6 +9,7 @@ import {cdkAnimations} from '../../../../../@cdk/animations';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
 import {getProcesso} from "../../processo/store";
+import {getModalidadeTransicao} from "../arquivista-list/store";
 
 @Component({
     selector: 'realizar-transicao',
@@ -19,6 +20,8 @@ import {getProcesso} from "../../processo/store";
     animations: cdkAnimations
 })
 export class RealizarTransicaoComponent implements OnInit {
+    private _unsubscribeAll: Subject<any> = new Subject();
+    private routerState: RouterStateUrl;
 
     isSaving$: Observable<boolean>;
     errors$: Observable<any>;
@@ -29,12 +32,10 @@ export class RealizarTransicaoComponent implements OnInit {
     processo$: Observable<Processo>;
     processo: Processo;
 
-    processoId: number;
-    operacoes: any[] = [];
-    private _unsubscribeAll: Subject<any> = new Subject();
-    modalidadeTransicaoPagination: Pagination;
     transicao: Transicao;
-    private routerState: RouterStateUrl;
+
+    modalidadeTransicao$: Observable<ModalidadeTransicao>;
+    modalidadeTransicao: ModalidadeTransicao;
 
     constructor(
         private _store: Store<fromStore.RealizarTransicaoAppState>,
@@ -44,22 +45,10 @@ export class RealizarTransicaoComponent implements OnInit {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
         this.processo$ = this._store.pipe(select(getProcesso));
-        this.modalidadeTransicaoPagination = new Pagination();
+        this.modalidadeTransicao$ = this._store.pipe(select(getModalidadeTransicao));
     }
 
     ngOnInit(): void {
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'realizar-transicao')
-            )
-            .subscribe(
-                operacao => {
-                    this.operacoes.push(operacao);
-                    this._changeDetectorRef.markForCheck();
-                }
-            );
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -67,13 +56,19 @@ export class RealizarTransicaoComponent implements OnInit {
                     this.routerState = routerState.state;
                 }
             });
-        this.processoId = this.routerState.params.processoHandle;
 
         this.processo$.pipe(
             filter(processo => !!processo && (!this.processo || processo.id !== this.processo.id)),
             takeUntil(this._unsubscribeAll)
         ).subscribe(processo => {
             this.processo = processo;
+        });
+
+        this.modalidadeTransicao$.pipe(
+            filter(modalidadeTransicao => !!modalidadeTransicao && (!this.modalidadeTransicao || modalidadeTransicao.id !== this.modalidadeTransicao.id)),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(modalidadeTransicao => {
+            this.modalidadeTransicao = modalidadeTransicao;
         });
     }
 
@@ -87,7 +82,12 @@ export class RealizarTransicaoComponent implements OnInit {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente realizar a transição arquivística?  NUPs apensos ou anexação sofrerão a mesma transição.';
+        const tituloModalidadeTransicao = this.modalidadeTransicao.valor.toLowerCase();
+
+        this.confirmDialogRef
+            .componentInstance
+            .confirmMessage = 'Deseja realmente realizar a ' + tituloModalidadeTransicao +
+            '? NUPs apensos ou anexos sofrerão a mesma temporalidade e destinação.';
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
                 const transicao = new Transicao();

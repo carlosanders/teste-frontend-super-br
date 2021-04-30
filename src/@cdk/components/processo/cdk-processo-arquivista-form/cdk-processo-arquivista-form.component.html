@@ -20,7 +20,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="mode === 'regular' || blocoEdit.blocoEditDataHoraProximaTransicao">
-        <mat-label>Data Próxima Transição</mat-label>
+        <mat-label>Data Próxima Temporalidade e Destinação</mat-label>
         <input matInput formControlName="dataHoraProximaTransicao" [matDatetimepicker]="dataHoraProximaTransicao">
         <mat-datetimepicker-toggle matSuffix [for]="dataHoraProximaTransicao"></mat-datetimepicker-toggle>
         <mat-datetimepicker #dataHoraProximaTransicao type="datetime" openOnFocus="true" timeInterval="5">

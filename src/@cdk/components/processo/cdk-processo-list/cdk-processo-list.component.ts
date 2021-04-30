@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Processo} from '@cdk/models';
+import {ModalidadeTransicao, Processo} from '@cdk/models';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     processos: Processo[] = [];
 
     @Input()
-    prontoTransicao: boolean;
+    modalidadeTransicao: ModalidadeTransicao;
 
     @Input()
     currentProcessoId: number;
@@ -66,7 +66,19 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     realizarTransicao = new EventEmitter<any>();
 
     @Output()
+    desarquivar = new EventEmitter<any>();
+
+    @Output()
+    registrarExtravio = new EventEmitter<any>();
+
+    @Output()
     realizarTransicaoBloco = new EventEmitter<any>();
+
+    @Output()
+    desarquivarBloco = new EventEmitter<any>();
+
+    @Output()
+    registrarExtravioBloco = new EventEmitter<any>();
 
     @Output()
     editarBloco = new EventEmitter<any>();
@@ -197,6 +209,14 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.realizarTransicaoBloco.emit();
     }
 
+    doDesarquivarBloco(): void {
+        this.desarquivarBloco.emit();
+    }
+
+    doRegistrarExtravioBloco(): void {
+        this.registrarExtravioBloco.emit();
+    }
+
     doEditarBloco(): void {
         this.editarBloco.emit();
     }
@@ -219,6 +239,14 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
 
     doRealizarTransicao(params): void {
         this.realizarTransicao.emit(params);
+    }
+
+    doDesarquivar(params): void {
+        this.desarquivar.emit(params);
+    }
+
+    doRegistrarExtravio(params): void {
+        this.registrarExtravio.emit(params);
     }
 
     setFilter(gridFilter): void {

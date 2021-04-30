@@ -47,11 +47,11 @@
 
                 <div *showIfRole="'ROLE_COLABORADOR'">
                     <div *ngIf="!transicionando">
-                        Data Transição: {{processo.dataHoraProximaTransicao?.toDate() | date: 'dd/MM/yyyy'}}
+                        Data Temporalidade e Destinação: {{processo.dataHoraProximaTransicao?.toDate() | date: 'dd/MM/yyyy'}}
                     </div>
 
                     <div *ngIf="transicionando" class="transicao-arquivistica">
-                        Data Transição: <mat-spinner diameter=16></mat-spinner>
+                        Data Temporalidade e Destinação: <mat-spinner diameter=16></mat-spinner>
                     </div>
 
                     <div *ngIf="processo.classificacao">
@@ -111,11 +111,27 @@
                     </ng-container>
                 </button>
 
-                <button *ngIf="prontoTransicao === true" mat-menu-item aria-label="realizar transicao"
+                <button *ngIf="modalidadeTransicao" mat-menu-item aria-label="realizar temporalidade e destinação"
                         (click)="doRealizarTransicao(processo)">
                     <ng-container>
                         <mat-icon>check</mat-icon>
-                        <span>Realizar Transição</span>
+                        <span>Realizar {{this.modalidadeTransicao.valor | titlecase}}</span>
+                    </ng-container>
+                </button>
+
+                <button *ngIf="processo.modalidadeFase.valor === 'INTERMEDIÁRIA'" mat-menu-item aria-label="desarquivar"
+                        (click)="doDesarquivar(processo)">
+                    <ng-container>
+                        <mat-icon>check</mat-icon>
+                        <span>Desarquivar</span>
+                    </ng-container>
+                </button>
+
+                <button mat-menu-item aria-label="registrar extravio"
+                        (click)="doRegistrarExtravio(processo)">
+                    <ng-container>
+                        <mat-icon>check</mat-icon>
+                        <span>Registrar Extravio</span>
                     </ng-container>
                 </button>
 

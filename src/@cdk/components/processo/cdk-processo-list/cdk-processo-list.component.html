@@ -27,12 +27,29 @@
 
         <mat-menu #moreMenu="matMenu">
 
-            <button mat-menu-item aria-label="realizar transicao"
-                    *ngIf="prontoTransicao"
+            <button mat-menu-item aria-label="realizar temporalidade e destinação"
+                    *ngIf="modalidadeTransicao"
                     (click)="doRealizarTransicaoBloco()">
                 <ng-container>
                     <mat-icon>check</mat-icon>
-                    <span>Realizar Transição</span>
+                    <span>Realizar {{modalidadeTransicao.valor | titlecase}}</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="registrar extravio"
+                    (click)="doRegistrarExtravioBloco()">
+                <ng-container>
+                    <mat-icon>check</mat-icon>
+                    <span>Registrar Extravio</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="desarquivar"
+                    *ngIf="!modalidadeTransicao || modalidadeTransicao.valor !== 'TRANSFERÊNCIA'"
+                    (click)="doDesarquivarBloco()">
+                <ng-container>
+                    <mat-icon>check</mat-icon>
+                    <span>Desarquivar</span>
                 </ng-container>
             </button>
 
@@ -111,13 +128,15 @@
                                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(processo.id) > -1"
                                     (salvarLembrete)="doSalvarLembrete($event)"
                                     (editar)="doEditar($event)"
-                                    [prontoTransicao]="prontoTransicao"
                                     (realizarTransicao)="doRealizarTransicao($event)"
+                                    (desarquivar)="doDesarquivar($event)"
+                                    (registrarExtravio)="doRegistrarExtravio($event)"
                                     [transicionando]="transicionandoIds.indexOf(processo.id) > -1"
                                     (toggleInSelectedProcessos)="toggleInSelected($event)"
                                     (loadInteressados)="doLoadInteressados($event)"
                                     [loadingInteressadosProcessosId]="loadingInteressadosProcessosId"
                                     (loadAssuntos)="doLoadAssuntos($event)"
+                                    [modalidadeTransicao]="modalidadeTransicao"
                                     [loadingAssuntosProcessosId]="loadingAssuntosProcessosId">
             </cdk-processo-list-item>
         </div>

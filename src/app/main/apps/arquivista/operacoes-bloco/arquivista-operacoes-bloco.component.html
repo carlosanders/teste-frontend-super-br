@@ -19,14 +19,32 @@
         </ng-container>
     </button>
 
+    <button mat-menu-item aria-label="registrar extravio"
+            (click)="doRegistrarExtravioBloco()">
+        <ng-container>
+            <mat-icon>swap_horiz</mat-icon>
+            <span>Registrar Extravio</span>
+        </ng-container>
+    </button>
+
     <ng-template #dynamicComponent></ng-template>
 
-    <ng-template [ngIf]="this.routerState.params['typeHandle'] === 'pronto-transicao'">
-        <button mat-menu-item aria-label="realizar transição"
+    <ng-template [ngIf]="(modalidadeTransicao$ | async)">
+        <button mat-menu-item aria-label="realizar temporalidade e destinação"
                 (click)="doTransicaoBloco()">
             <ng-container>
                 <mat-icon>swap_horiz</mat-icon>
-                <span>Realizar Transição</span>
+                <span>Realizar {{(modalidadeTransicao$ | async).valor | titlecase}}</span>
+            </ng-container>
+        </button>
+    </ng-template>
+
+    <ng-template [ngIf]="!(modalidadeTransicao$ | async) || (modalidadeTransicao$ | async).valor !== 'TRANSFERÊNCIA'">
+        <button mat-menu-item aria-label="desarquivar"
+                (click)="doDesarquivarBloco()">
+            <ng-container>
+                <mat-icon>swap_horiz</mat-icon>
+                <span>Desarquivar</span>
             </ng-container>
         </button>
     </ng-template>

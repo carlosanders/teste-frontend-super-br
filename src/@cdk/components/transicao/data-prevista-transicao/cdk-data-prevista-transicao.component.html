@@ -1,7 +1,7 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <mat-label>Data da Próxima Transição</mat-label>
+        <mat-label>Data da Próxima Temporalidade e Destinação</mat-label>
         <input datetime="yyyy-MM-dd" readonly matInput [matDatepicker]="picker"
                formControlName="dataHoraProximaTransicao">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
