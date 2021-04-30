@@ -23,6 +23,8 @@ import {ArquivistaDetailStoreModule} from '../store/store.module';
 import {CdkTarefaFormModule} from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkProcessoArquivistaFormModule} from "../../../../../../@cdk/components/processo/cdk-processo-arquivista-form/cdk-processo-arquivista-form.module";
+import {CdkClassificacaoTreeService} from "../../../../../../@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service";
+import {CdkClassificacaoGridTreeService} from "../../../../../../@cdk/components/classificacao/cdk-classificacao-grid-tree/services/cdk-classificacao-grid-tree.service";
 
 const routes: Routes = [
     {
@@ -44,7 +46,6 @@ modulesConfig.forEach((module) => {
         ArquivistaEditComponent
     ],
     imports: [
-
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -73,7 +74,10 @@ modulesConfig.forEach((module) => {
         ArquivistaDetailStoreModule,
         CdkProcessoArquivistaFormModule,
     ],
-    providers: []
+    providers: [
+        CdkClassificacaoTreeService,
+        CdkClassificacaoGridTreeService
+    ]
 })
 export class ArquivistaEditModule {
 }
