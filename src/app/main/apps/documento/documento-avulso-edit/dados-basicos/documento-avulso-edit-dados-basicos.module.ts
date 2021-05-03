@@ -15,6 +15,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {CdkDocumentoAvulsoFormModule} from '@cdk/components/documento-avulso/cdk-documento-avulso-form/cdk-documento-avulso-form.module';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import {CdkConfirmDialogModule} from "../../../../../../@cdk/components";
+import {MatInputModule} from "@angular/material/input";
 
 const routes: Routes = [
     {
@@ -50,7 +51,8 @@ modulesConfig.forEach((module) => {
         MatProgressSpinnerModule,
         MatSlideToggleModule,
         CdkDocumentoAvulsoFormModule,
-        CdkConfirmDialogModule
+        CdkConfirmDialogModule,
+        MatInputModule
     ],
     providers: [
         DocumentoAvulsoService,

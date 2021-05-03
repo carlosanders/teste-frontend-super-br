@@ -18,6 +18,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {CdkUtils} from "../../../../../../@cdk/utils";
 
 @Component({
     selector: 'documento-avulso-edit-dados-basicos',
@@ -38,6 +39,8 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
     isSaving$: Observable<boolean>;
     isRemetendo$: Observable<boolean>;
     errors$: Observable<any>;
+    errorsRemetendo$: Observable<any>;
+    errorsRemetendo: any;
 
     remeterDocAvulso = false;
 
@@ -68,6 +71,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.isRemetendo$ = this._store.pipe(select(fromStore.getIsRemetendo));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.errorsRemetendo$ = this._store.pipe(select(fromStore.getErrorsRemetendo));
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -85,6 +89,8 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
                 this._store.dispatch(new fromStore.RemeterDocumentoAvulso(this.documento.documentoAvulsoRemessa));
             }
         });
+
+        this.errorsRemetendo$.subscribe((err) => this.errorsRemetendo = CdkUtils.errorsToString(err));
     }
 
     ngAfterViewInit(): void {}
@@ -109,6 +115,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
      */
     ngOnDestroy(): void {
         this.remeterDocAvulso = false;
+        this._store.dispatch(new fromStore.UnloadDocumentoAvulso());
     }
 
     // -----------------------------------------------------------------------------------------------------

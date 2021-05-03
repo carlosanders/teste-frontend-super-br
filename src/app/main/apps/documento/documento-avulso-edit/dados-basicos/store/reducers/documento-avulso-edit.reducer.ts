@@ -5,24 +5,33 @@ export interface DocumentoAvulsoEditDadosBasicosState {
     remetendo: boolean;
     encerrando: boolean;
     errors: any;
+    errorsRemetendo: any;
 }
 
 export const DocumentoAvulsoInitialState: DocumentoAvulsoEditDadosBasicosState = {
     saving: false,
     remetendo: false,
     encerrando: false,
-    errors: false
+    errors: false,
+    errorsRemetendo: false
 };
 
 export function DocumentoAvulsoEditDadosBasicosReducer(state = DocumentoAvulsoInitialState, action: DocumentoAvulsoEditActions.DocumentoAvulsoEditActionsAll): DocumentoAvulsoEditDadosBasicosState {
 
     switch (action.type) {
 
+        case DocumentoAvulsoEditActions.UNLOAD_DOCUMENTO_AVULSO: {
+            return {
+                ...DocumentoAvulsoInitialState
+            };
+        }
+
         case DocumentoAvulsoEditActions.SAVE_DOCUMENTO_AVULSO: {
             return {
                 ...state,
                 saving: true,
-                errors: false
+                errors: false,
+                errorsRemetendo: false
             };
         }
 
@@ -30,7 +39,8 @@ export function DocumentoAvulsoEditDadosBasicosReducer(state = DocumentoAvulsoIn
             return {
                 ...state,
                 saving: false,
-                errors: false
+                errors: false,
+                errorsRemetendo: false
             };
         }
 
@@ -46,7 +56,7 @@ export function DocumentoAvulsoEditDadosBasicosReducer(state = DocumentoAvulsoIn
             return {
                 ...state,
                 remetendo: true,
-                errors: false
+                errorsRemetendo: false
             };
         }
 
@@ -54,7 +64,7 @@ export function DocumentoAvulsoEditDadosBasicosReducer(state = DocumentoAvulsoIn
             return {
                 ...state,
                 remetendo: false,
-                errors: false
+                errorsRemetendo: false
             };
         }
 
@@ -62,7 +72,7 @@ export function DocumentoAvulsoEditDadosBasicosReducer(state = DocumentoAvulsoIn
             return {
                 ...state,
                 remetendo: false,
-                errors: action.payload
+                errorsRemetendo: action.payload
             };
         }
 
@@ -70,7 +80,8 @@ export function DocumentoAvulsoEditDadosBasicosReducer(state = DocumentoAvulsoIn
             return {
                 ...state,
                 encerrando: true,
-                errors: false
+                errors: false,
+                errorsRemetendo: false
             };
         }
 
@@ -78,7 +89,8 @@ export function DocumentoAvulsoEditDadosBasicosReducer(state = DocumentoAvulsoIn
             return {
                 ...state,
                 encerrando: false,
-                errors: false
+                errors: false,
+                errorsRemetendo: false
             };
         }
 
