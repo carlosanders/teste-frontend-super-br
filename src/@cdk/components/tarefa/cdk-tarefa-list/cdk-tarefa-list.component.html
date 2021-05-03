@@ -28,7 +28,7 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
-        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length && draggingIds.length === 0">
+        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length && draggingIds.length === 0 && targetHandle !== 'lixeira'">
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
         <mat-menu #folderMenu="matMenu">
