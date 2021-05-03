@@ -3,6 +3,7 @@
     <mat-form-field>
         <input matInput placeholder="Unidade"
                formControlName="unidade"
+               [readonly]="inputSetor"
                [matAutocomplete]="unidade.autocomplete" required
                (blur)="checkUnidade()">
         <cdk-setor-autocomplete
@@ -10,12 +11,9 @@
             [control]="form.get('unidade')"
             [pagination]="unidadePagination">
         </cdk-setor-autocomplete>
-        <button matSuffix mat-button mat-icon-button *ngIf="form.value.id"
-                (click)="showLogEntryGrid('unidade')">
-            <mat-icon matTooltip="Histórico">history</mat-icon>
-        </button>
         <button matSuffix mat-button mat-icon-button
-                (click)="showUnidadeGrid()">
+                (click)="showUnidadeGrid()"
+                [disabled]="inputSetor">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('unidade').hasError('formError')">
