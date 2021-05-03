@@ -26,7 +26,6 @@ import {LoginService} from '../../../../../auth/login/login.service';
 import {getBufferingCiencia, getBufferingRedistribuir, getCienciaId, getRedistribuindoId} from '../selectors';
 import {
     DarCienciaTarefa,
-    DarCienciaTarefaCancel,
     RedistribuirTarefa,
     RedistribuirTarefaCancelSuccess, RedistribuirTarefaFailed, RedistribuirTarefaSuccess
 } from '../../../store';
@@ -284,6 +283,7 @@ export class TarefaDetailEffect {
                             url: action.payload.url
                         }));
                     }
+                    return of(new TarefaDetailActions.DarCienciaTarefaSuccess(action.payload.tarefa.id));
                 }, 25)
             );
 

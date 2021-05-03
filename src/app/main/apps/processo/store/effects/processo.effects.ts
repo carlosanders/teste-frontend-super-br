@@ -233,9 +233,11 @@ export class ProcessoEffect {
             .pipe(
                 ofType<ProcessoActions.ArquivarProcesso>(ProcessoActions.ARQUIVAR_PROCESSO_SUCCESS),
                 tap(() => {
-                    this._router.navigate(['apps/processo/' +
-                    this.routerState.params.processoHandle +
-                    '/editar/tarefas']).then();
+                    if (this.routerState.params['tarefaHandle']) {
+                        this._router.navigate(['apps/tarefas/' +
+                            this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle +
+                            '/' + this.routerState.params.targetHandle]).then();
+                    }
                 })
             );
 }
