@@ -75,7 +75,7 @@ export class CdkRealizarTransicaoFormComponent
             processo: [null, [Validators.required]],
             modalidadeTransicao: [null, [Validators.required]],
             metodo: [null, [Validators.required, Validators.maxLength(255)]],
-            edital: [null, [Validators.required, Validators.maxLength(255)]],
+            edital: [null, [Validators.maxLength(255)]],
             observacao: [null, [Validators.maxLength(255)]]
         });
     }
@@ -101,6 +101,9 @@ export class CdkRealizarTransicaoFormComponent
         }
         if (changes['modalidadeTransicao'] && this.modalidadeTransicao) {
             this.form.get('modalidadeTransicao').setValue(this.modalidadeTransicao);
+            if (this.modalidadeTransicao.valor === 'ELIMINAÇÃO') {
+                this.form.get('edital').setValidators([Validators.required, Validators.maxLength(255)]);
+            }
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {

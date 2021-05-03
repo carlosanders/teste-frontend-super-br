@@ -201,7 +201,7 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     }
 
     setListFilter(listFilter): void {
-        this.listFilter = listFilter;
+        this.listFilter = listFilter?.filters;
         this.loadPage();
     }
 

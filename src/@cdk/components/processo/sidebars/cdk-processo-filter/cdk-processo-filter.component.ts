@@ -18,6 +18,7 @@ import {modulesConfig} from '../../../../../modules/modules-config';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 import {Subject} from 'rxjs';
 import {Pagination} from "../../../../models";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'cdk-processo-filter',
@@ -52,6 +53,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
         private _dynamicService: DynamicService,
         private _cdkProcessoFilterService: CdkProcessoFilterService,
         public _loginService: LoginService,
+        private _router: Router
     ) {
         this.form = this._formBuilder.group({
             processo: [null],
@@ -175,8 +177,6 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
     }
 
     verificarValor(objeto): void {
-        console.log('teste');
-
         const objetoForm = this.form.get(objeto.target.getAttribute('formControlName'));
         if (!objetoForm.value || typeof objetoForm.value !== 'object') {
             objetoForm.setValue(null);
@@ -190,5 +190,26 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
     limpar(): void {
         this.form.reset();
         this.emite();
+    }
+
+    showClassificacao(): boolean {
+        if (!this._loginService.isGranted('ROLE_COLABORADOR')) {
+            return false;
+        }
+        return !(this._router.url.indexOf('pronto-eliminacao') > -1 || this._router.url.indexOf('pronto-recolhimento') > -1);
+    }
+
+    showModalidadeFase(): boolean {
+        if (!this._loginService.isGranted('ROLE_COLABORADOR')) {
+            return false;
+        }
+        return !(this._router.url.indexOf('/apps/arquivista/') > -1 && this._router.url.indexOf('pronto-') > -1);
+    }
+
+    showUnidade(): boolean {
+        if (!this._loginService.isGranted('ROLE_COLABORADOR')) {
+            return false;
+        }
+        return !(this._router.url.indexOf('/apps/arquivista/') > -1);
     }
 }

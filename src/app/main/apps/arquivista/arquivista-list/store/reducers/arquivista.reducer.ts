@@ -97,7 +97,7 @@ export function ArquivistaReducer(state = ArquivistaInitialState, action: Arquiv
 
             return {
                 ...state,
-                entitiesId: action.payload.entitiesId,
+                entitiesId: [...state.entitiesId, ...action.payload.entitiesId],
                 pagination: {
                     ...state.pagination,
                     total: action.payload.total

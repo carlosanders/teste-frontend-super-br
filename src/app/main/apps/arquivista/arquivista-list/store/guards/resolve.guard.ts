@@ -103,6 +103,7 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
                 if (!this.loading && (!this.routerState.params['unidadeHandle'] || !this.routerState.params['typeHandle'] ||
                     (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle']) !== loaded.value)) {
+                    this.loading = true;
                     this._store.dispatch(new fromStore.UnloadProcessos({reset: true}));
 
                     const params = {
@@ -165,7 +166,6 @@ export class ResolveGuard implements CanActivate {
                     });
 
                     this._store.dispatch(new fromStore.GetProcessos(params));
-                    this.loading = true;
                 }
             }),
             filter((loaded: any) => {

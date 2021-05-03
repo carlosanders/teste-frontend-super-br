@@ -108,7 +108,7 @@
                 <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <mat-form-field *ngIf="showClassificacao()">
                 <input matInput placeholder="Classificação"
                        formControlName="classificacao"
                        [matAutocomplete]="classificacao.autocomplete"
@@ -127,7 +127,7 @@
                 </cdk-pessoa-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <mat-form-field *ngIf="showModalidadeFase()">
                 <input matInput placeholder="Idade"
                        formControlName="modalidadeFase"
                        [matAutocomplete]="modalidadeFase.autocomplete"
@@ -147,7 +147,7 @@
                 </cdk-modalidade-meio-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *showIfRole="'ROLE_COLABORADOR'">
+            <mat-form-field *ngIf="showUnidade()">
                 <input matInput placeholder="Unidade Responsável"
                        formControlName="unidade"
                        [matAutocomplete]="setor.autocomplete"
