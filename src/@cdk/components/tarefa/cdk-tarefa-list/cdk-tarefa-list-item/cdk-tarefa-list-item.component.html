@@ -139,7 +139,7 @@
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button *ngIf="tarefa.apagadoEm" matTooltip="Restaurar tarefa"
+        <button *ngIf="tarefa.apagadoEm && !undeleting" matTooltip="Restaurar tarefa"
                 mat-icon-button (click)="doRestauraTarefa(); $event.stopPropagation();"
                 aria-label="Restaurar tarefa" fxHide.xs>
             <mat-icon class="secondary-text">undo</mat-icon>
