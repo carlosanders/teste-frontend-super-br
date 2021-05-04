@@ -3,7 +3,7 @@
     <mat-form-field>
         <input matInput placeholder="Unidade"
                formControlName="unidade"
-               [readonly]="inputSetor"
+               [readonly]="!!lotacao && !!lotacao.id"
                [matAutocomplete]="unidade.autocomplete" required
                (blur)="checkUnidade()">
         <cdk-setor-autocomplete
@@ -13,7 +13,7 @@
         </cdk-setor-autocomplete>
         <button matSuffix mat-button mat-icon-button
                 (click)="showUnidadeGrid()"
-                [disabled]="inputSetor">
+                [disabled]="!!lotacao && !!lotacao.id">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
         <mat-error *ngIf="form.get('unidade').hasError('formError')">
