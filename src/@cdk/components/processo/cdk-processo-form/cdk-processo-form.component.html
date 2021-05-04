@@ -58,23 +58,23 @@
         </div>
 
         <div [hidden]="!this.exibirNup">
-            <div class="responsive-group">
-        <mat-form-field>
-            <input matInput placeholder="Configuração NUP" formControlName="configuracaoNup" required
-                   [matAutocomplete]="configuracaoNup.autocomplete" (blur)="checkConfiguracaoNup()" [readonly]="readonlyNUP">
-            <cdk-configuracao-nup-autocomplete #configuracaoNup="configuracaoNupAutocomplete"
-                                               [control]="form.get('configuracaoNup')"
-                                               [configuracaoNupList]="configuracaoNupList"
-                                               [configuracaoNupListIsLoading]="configuracaoNupListIsLoading"
-                                               [pagination]="configuracaoNupPagination">
-            </cdk-configuracao-nup-autocomplete>
-            <button matSuffix mat-button mat-icon-button (click)="showConfiguracaoNup()" [disabled]="readonlyNUP">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('configuracaoNup').hasError('formError')">
-                {{form.get('configuracaoNup').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+            <div class="responsive-group" *ngIf="!form.value.id">
+                <mat-form-field>
+                    <input matInput placeholder="Configuração NUP" formControlName="configuracaoNup" required
+                           [matAutocomplete]="configuracaoNup.autocomplete" (blur)="checkConfiguracaoNup()" [readonly]="readonlyNUP">
+                    <cdk-configuracao-nup-autocomplete #configuracaoNup="configuracaoNupAutocomplete"
+                                                       [control]="form.get('configuracaoNup')"
+                                                       [configuracaoNupList]="configuracaoNupList"
+                                                       [configuracaoNupListIsLoading]="configuracaoNupListIsLoading"
+                                                       [pagination]="configuracaoNupPagination">
+                    </cdk-configuracao-nup-autocomplete>
+                    <button matSuffix mat-button mat-icon-button (click)="showConfiguracaoNup()" [disabled]="readonlyNUP">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('configuracaoNup').hasError('formError')">
+                        {{form.get('configuracaoNup').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
             </div>
         </div>
         <mat-form-field *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && form.get('configuracaoNup').value">
