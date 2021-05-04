@@ -198,6 +198,23 @@
             background: map-get($background, background);
             border-bottom-color: map-get($foreground, divider);
 
+            > .actions {
+
+                > cdk-vinculacao-etiqueta-chips {
+
+                    > div.campo {
+                        mat-form-field.error {
+                            label {
+                                color: map-get($warn, 400);
+                            }
+                            .mat-form-field-underline {
+                                background-color: map-get($warn, 500);
+                            }
+                        }
+                    }
+                }
+            }
+
             .etiqueta {
                 background-color: rgba(0, 0, 0, 0.08);
             }
