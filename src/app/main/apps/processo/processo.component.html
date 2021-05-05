@@ -76,6 +76,12 @@
                             <span>Abrir nova aba</span>
                         </ng-container>
                     </button>
+                    <button mat-menu-item aria-label="abrir nova aba" (click)="acompanharProcesso(processo)">
+                        <ng-container>
+                            <mat-icon>done</mat-icon>
+                            <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo'  : 'Acompanhar Processo'}}</span>
+                        </ng-container>
+                    </button>
                     <ng-template #dynamicComponent></ng-template>
 
                 </mat-menu>

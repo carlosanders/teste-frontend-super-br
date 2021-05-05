@@ -15,7 +15,7 @@ import {Observable, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '@cdk/models';
+import {Compartilhamento, Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '@cdk/models';
 import * as fromStore from 'app/main/apps/processo/store';
 
 import {locale as english} from 'app/main/apps/processo/i18n/en';
@@ -23,7 +23,7 @@ import {cdkAnimations} from '@cdk/animations';
 import {getRouterState} from '../../../store/reducers';
 import {LoginService} from '../../auth/login/login.service';
 import {Router} from '@angular/router';
-import {takeUntil} from 'rxjs/operators';
+import {filter, take, takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {CdkConfirmDialogComponent} from '../../../../@cdk/components/confirm-dialog/confirm-dialog.component';
@@ -65,6 +65,10 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     private _profile: Usuario;
     expandir$: Observable<boolean>;
 
+    acompanhamento$: Observable<Compartilhamento[]>;
+    acompanhamento: number = 0;
+    loadingAcompanhamento$: Observable<boolean>;
+
     /**
      *
      * @param _changeDetectorRef
@@ -88,6 +92,9 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
     ) {
         // Set the defaults
         this._profile = _loginService.getUserProfile();
+        // this.acompanhamento$ = this._store.pipe(select(fromStore.getAcompanhamento));
+        this.loadingAcompanhamento$ = this._store.pipe(select(fromStore.getIsAcompanhamentoLoading));
+
         this._cdkTranslationLoaderService.loadTranslations(english);
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.loading$ = this._store.pipe(select(fromStore.getProcessoIsLoading));
@@ -115,7 +122,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                 ]
             };
         }
-
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -224,7 +230,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             + '/visualizar', '_blank');
     }
 
-    imprimirEtiqueta(): void {
+   imprimirEtiqueta(): void {
         this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'etiqueta']).then();
     }
 
@@ -246,5 +252,17 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.confirmDialogRef = null;
         });
+    }
+
+    acompanharProcesso(processo): void {
+        if (!this.processo.compartilhamentoUsuario) {
+            this._store.dispatch(new fromStore.SaveAcompanhamento(processo));
+        } else {
+            const payload = {
+                'acompanhamentoId': processo.compartilhamentoUsuario.id,
+                'processoId': processo.id
+            }
+            this._store.dispatch(new fromStore.DeleteAcompanhamento(payload));
+        }
     }
 }

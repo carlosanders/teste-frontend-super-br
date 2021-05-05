@@ -2,7 +2,7 @@
     <div class="title">{{processo?.especieProcesso?.nome}} ({{processo?.especieProcesso?.generoProcesso?.nome}})</div>
 </div>
 
-<div class="content" cdkPerfectScrollbar *ngIf="(processo$ | async)">
+<div class="content" cdkPerfectScrollbar *ngIf="(processo !== null)">
     <mat-card class="card">
         <div class="linha">
             <div class="titulo">
@@ -44,6 +44,11 @@
                 {{ processo.modalidadeFase.valor }}
             </div>
         </div>
+
+        <mat-slide-toggle [checked]="!!processo.compartilhamentoUsuario"
+                          (change)="acompanharProcesso($event.checked, processo)">
+            Acompanhar processo
+        </mat-slide-toggle>
     </mat-card>
 
     <mat-card>

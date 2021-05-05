@@ -232,5 +232,17 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         const chaveAcesso = emissao.chaveAcesso ? '/' + emissao.chaveAcesso : '';
         this._router.navigate(['apps/processo/' + emissao.id + '/visualizar' + chaveAcesso]);
     }
+
+    acompanharProcesso(checked, processo): void {
+        if (checked) {
+            this._store.dispatch(new fromStore.SaveAcompanhamento(processo));
+        } else {
+            const payload = {
+                'acompanhamentoId': processo.compartilhamentoUsuario.id,
+                'processoId': processo.id
+            }
+            this._store.dispatch(new fromStore.DeleteAcompanhamento(payload));
+        }
+    }
 }
 
