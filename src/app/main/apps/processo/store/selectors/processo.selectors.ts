@@ -1,13 +1,13 @@
 import {createSelector} from '@ngrx/store';
 import {getProcessoAppState, ProcessoAppState, ProcessoState} from 'app/main/apps/processo/store/reducers';
 import {Compartilhamento, Processo} from '@cdk/models';
-import {compartilhamento as AcompanhamentoSchema, processo as processoSchema} from '@cdk/normalizr';
+import {compartilhamento as acompanhamentoSchema, processo as processoSchema} from '@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {AcompanhamentoState} from "../../processo-capa/store";
 
 
 const schemaProcessoSelectors = createSchemaSelectors<Processo>(processoSchema);
-const schemaAcompanhamentoSelectors = createSchemaSelectors<Compartilhamento>(AcompanhamentoSchema);
+const schemaAcompanhamentoSelectors = createSchemaSelectors<Compartilhamento>(acompanhamentoSchema);
 
 export const getProcessoState = createSelector(
     getProcessoAppState,

@@ -6,10 +6,10 @@ import {
 } from '../reducers';
 
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
-import {compartilhamento as AcompanhamentoSchema} from '@cdk/normalizr';
+import {compartilhamento as acompanhamentoSchema} from '@cdk/normalizr';
 import {Compartilhamento} from '@cdk/models';
 
-const schemaSelectors = createSchemaSelectors<Compartilhamento>(AcompanhamentoSchema);
+const schemaSelectors = createSchemaSelectors<Compartilhamento>(acompanhamentoSchema);
 
 export const getAcompanhamentoAppState = createSelector(
     getProcessoCapaAppState,
