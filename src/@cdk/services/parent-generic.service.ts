@@ -72,10 +72,13 @@ export class ParentGenericService<T> {
         }
     }
 
-    patch(t: T, changes: any): Observable<T> {
-        return this.modelService.http.patch(
-            `${environment.api_url}${this.path}/${t['id']}` + environment.xdebug,
-            JSON.stringify(changes)
+    patch(t: T, changes: any, populate: any = '[]', context: any = '{}'): Observable<T> {
+        const params = {};
+        params['populate'] = populate;
+        params['context'] = context;
+        return this.modelService.patch(
+            `${environment.api_url}${this.path}` + environment.xdebug,
+            t['id'], JSON.stringify(changes), new HttpParams({fromObject: params})
         ).pipe(
             map(response => {
                 response = plainToClass(this.clz, response);
