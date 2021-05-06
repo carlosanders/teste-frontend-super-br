@@ -47,7 +47,7 @@ export class RelatoriosEffect {
         this._actions
             .pipe(
                 ofType<RelatoriosActions.GetRelatorios>(RelatoriosActions.GET_RELATORIOS),
-                concatMap((action) => {
+                switchMap((action) => {
                     return this._relatorioService.query(
                         JSON.stringify({
                             ...action.payload.filter,

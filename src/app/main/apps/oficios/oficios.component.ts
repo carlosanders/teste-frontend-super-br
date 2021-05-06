@@ -55,6 +55,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     documentosAvulso$: Observable<DocumentoAvulso[]>;
     loading$: Observable<boolean>;
+    loading: boolean;
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
@@ -205,6 +206,12 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             this.selectedDocumentosAvulso = selectedDocumentosAvulso;
         });
 
+        this.loading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loading => {
+            this.loading = loading;
+        });
+
         this.selectedIds$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(selectedIds => {
@@ -282,6 +289,10 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onScroll(): void {
         if (this.documentosAvulso.length >= this.pagination.total) {
+            return;
+        }
+
+        if (this.loading) {
             return;
         }
 
