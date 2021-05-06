@@ -56,7 +56,7 @@ export class ProcessoEffect {
                     const populate = action.payload.populate ? [...action.payload.populate] : [];
                     return this._processoService.get(
                         action.payload.id,
-                        JSON.stringify([...populate, 'vinculacoesEtiquetas', 'vinculacoesEtiquetas.etiqueta']),
+                        JSON.stringify([...populate, 'especieProcesso', 'especieProcesso.generoProcesso', 'vinculacoesEtiquetas', 'vinculacoesEtiquetas.etiqueta']),
                         JSON.stringify(chaveAcesso));
                 }),
                 switchMap(response => [
