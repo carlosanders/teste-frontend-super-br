@@ -61,6 +61,10 @@ export class ProcessoCapaEffect {
 
                     contexto['compartilhamentoUsuario'] = 'processo';
 
+                    this._store.dispatch(new ProcessoCapaActions.SetToggleAcompanhamento({
+                        loadingAcompanhamento: true
+                    }));
+
                     return this._processoService.get(
                         action.payload.id,
                         JSON.stringify([
@@ -83,8 +87,9 @@ export class ProcessoCapaEffect {
                                 this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
                         },
                         processoId: this.routerState.params['processoCopiaHandle'] ?
-                            this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
-                    })
+                            this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle'],
+                        loadingAcompanhamento: false
+                    }),
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
@@ -292,6 +297,9 @@ export class ProcessoCapaEffect {
             .pipe(
                 ofType<ProcessoCapaActions.DeleteAcompanhamento>(ProcessoCapaActions.DELETE_ACOMPANHAMENTO),
                 mergeMap((action) => {
+                    this._store.dispatch(new ProcessoCapaActions.SetToggleAcompanhamento({
+                        loadingAcompanhamento: true
+                    }));
                     return this._acompanhamentoService.destroy(action.payload.acompanhamentoId).pipe(
                         mergeMap((response) =>
                             [
@@ -302,6 +310,11 @@ export class ProcessoCapaEffect {
                                     parentId: action.payload.processoId
                                 }),
                                 new ProcessoCapaActions.DeleteAcompanhamentoSuccess(response.id),
+                                new ProcessoCapaActions.SetToggleAcompanhamentoSuccess(
+                                    {
+                                        loadingAcompanhamento: false
+                                    }
+                                )
                             ]
                         ),
                         catchError((err) => {

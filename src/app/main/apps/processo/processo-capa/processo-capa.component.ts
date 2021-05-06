@@ -66,6 +66,8 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
     paginationVinculacoesProcessos: any;
     loadingVinculacoesProcessos$: Observable<boolean>;
 
+    togglingAcompanharProcesso$: Observable<boolean>;
+
     chaveAcesso: string;
     estaNumProcessoWorkflow: string;
     /**
@@ -94,6 +96,7 @@ export class ProcessoCapaComponent implements OnInit, OnDestroy {
         this.paginationAssuntos$ = this._store.pipe(select(fromStore.getPaginationAssuntos));
         this.paginationInteressados$ = this._store.pipe(select(fromStore.getPaginationInteressados));
         this.paginationVinculacoesProcessos$ = this._store.pipe(select(fromStore.getPaginationVinculacoesProcessos));
+        this.togglingAcompanharProcesso$ = this._store.pipe(select(fromStore.getTogglingAcompanharProcesso))
     }
 
     ngOnInit(): void {

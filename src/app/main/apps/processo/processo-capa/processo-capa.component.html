@@ -45,10 +45,15 @@
             </div>
         </div>
 
-        <mat-slide-toggle [checked]="!!processo.compartilhamentoUsuario"
-                          (change)="acompanharProcesso($event.checked, processo)">
+        <mat-slide-toggle *ngIf="!(togglingAcompanharProcesso$ | async)"
+            [checked]="!!processo.compartilhamentoUsuario"
+                          (change)="acompanharProcesso($event.checked, processo);">
             Acompanhar processo
         </mat-slide-toggle>
+
+        <div class="spinner-container m-8" *ngIf="(togglingAcompanharProcesso$ | async)">
+            <mat-spinner diameter="20"></mat-spinner>
+        </div>
     </mat-card>
 
     <mat-card>
