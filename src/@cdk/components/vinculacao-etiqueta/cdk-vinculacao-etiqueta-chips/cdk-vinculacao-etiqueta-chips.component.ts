@@ -9,7 +9,7 @@ import {
     ViewChild,
     ViewEncapsulation,
     SimpleChange,
-    ChangeDetectorRef
+    ChangeDetectorRef, OnInit, OnChanges
 } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {
@@ -24,6 +24,8 @@ import {Etiqueta} from '@cdk/models';
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etiqueta-edit-dialog/cdk-vinculacao-etiqueta-edit-dialog.component';
+import {CdkUtils} from "../../../utils";
+import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
 
 
 @Component({
@@ -34,7 +36,7 @@ import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etique
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CdkVinculacaoEtiquetaChipsComponent {
+export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
 
     visible = true;
     selectable = true;
@@ -53,6 +55,9 @@ export class CdkVinculacaoEtiquetaChipsComponent {
 
     @Input()
     errors: any;
+
+    @Input()
+    errorsAddEtiqueta: any;
 
     @Input()
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
@@ -81,9 +86,14 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     @ViewChild('etiquetaInput', {static: false}) etiquetaInput: ElementRef<HTMLInputElement>;
     @ViewChild('etiqueta', {static: false}) matAutocomplete: MatAutocomplete;
 
+    @ViewChild('etiquetaInput', {static: false, read: MatAutocompleteTrigger})
+    autoCompleteEtiquetas: MatAutocompleteTrigger;
+
     showBtnAddEtiqueta = false;
 
     etiqueta: Etiqueta = null;
+
+    creating: boolean = false;
 
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -93,6 +103,7 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     }
 
     add(event: MatChipInputEvent): void {
+        this.creating = false;
         // Add etiqueta only when MatAutocomplete is not open
         // To make sure this does not conflict with OptionSelected Event
         if (!this.matAutocomplete.isOpen) {
@@ -106,11 +117,15 @@ export class CdkVinculacaoEtiquetaChipsComponent {
             }
 
             this.etiquetaCtrl.setValue(null);
+        } else {
+            console.log('is open');
+            this.autoCompleteEtiquetas.closePanel();
         }
     }
 
     remove(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
-
+        this.creating = false;
+        this.autoCompleteEtiquetas.closePanel();
         const index = this.vinculacoesEtiquetas.indexOf(vinculacaoEtiqueta);
 
         if (index >= 0) {
@@ -121,11 +136,14 @@ export class CdkVinculacaoEtiquetaChipsComponent {
     }
 
     selected(event: MatAutocompleteSelectedEvent): void {
+        this.creating = false;
         this.create.emit(event.option.value);
         // this.vinculacoesEtiquetas.push(event.option.value);
         this.etiquetaInput.nativeElement.value = '';
         this.etiquetaCtrl.setValue(null);
     }
+
+    ngOnInit(): void {}
 
     /**
      * On change
@@ -168,10 +186,17 @@ export class CdkVinculacaoEtiquetaChipsComponent {
                 }
             }
         }
+
+        if (this.errorsAddEtiqueta && this.errorsAddEtiqueta.status && this.errorsAddEtiqueta.status === 422) {
+            this.etiquetaCtrl.setErrors({
+                addEtiqueta: CdkUtils.errorsToString(this.errorsAddEtiqueta)
+            });
+        }
         this._changeDetectorRef.markForCheck();
     }
 
     openDialogEdit(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
+        this.creating = false;
         // abre o diálogo de edição do conteúdo da etiqueta caso ela não esteja com status de saving (nesse estado ela vai ser ready-only)
         if (this.savingVinculacaoEtiquetaId !== vinculacaoEtiqueta.id) {
             this.dialogRef = this.dialog.open(CdkVinculacaoEtiquetaEditDialogComponent, {
@@ -197,10 +222,12 @@ export class CdkVinculacaoEtiquetaChipsComponent {
                     this.dialogRef = null;
                 });
         }
-
     }
 
     newEtiqueta(): void {
+        this.creating = false;
+        this.etiquetaCtrl.setErrors(null);
+
         this.showBtnAddEtiqueta = false;
 
         if (this.etiquetaInput.nativeElement.value.length > 2) {
@@ -214,9 +241,17 @@ export class CdkVinculacaoEtiquetaChipsComponent {
         }
     }
 
+    limpaErros(): void {
+        this.creating = false;
+        this.etiquetaCtrl.setErrors(null);
+    }
+
     sendEtiqueta(): void {
+        this.autoCompleteEtiquetas.closePanel();
         this.etiquetaInput.nativeElement.value = '';
+        this._changeDetectorRef.markForCheck();
         this.addEtiqueta.emit(this.etiqueta);
+        this.creating = true;
         this.showBtnAddEtiqueta = false;
     }
 }

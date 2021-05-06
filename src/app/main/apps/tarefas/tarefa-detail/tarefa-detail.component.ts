@@ -19,7 +19,7 @@ import * as fromStore from './store';
 import {
     CreateVinculacaoEtiqueta,
     DeleteVinculacaoEtiqueta,
-    getEtiqueta,
+    getEtiqueta, getEtiquetaError,
     SaveConteudoVinculacaoEtiqueta,
     SaveEtiqueta
 } from './store';
@@ -51,6 +51,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
     savingVinculacaoEtiquetaId$: Observable<any>;
     errors$: Observable<any>;
+    errorsAddEtiqueta$: Observable<any>;
     vinculacoesEtiquetas: VinculacaoEtiqueta[] = [];
     vinculacaoEtiquetaPagination: Pagination;
 
@@ -144,6 +145,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
+        this.errorsAddEtiqueta$ = this._store.pipe(select(fromStore.getEtiquetaError));
         this.pluginLoading$ = this._store.pipe(select(fromStore.getPluginLoading));
     }
 

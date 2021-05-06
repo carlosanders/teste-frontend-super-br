@@ -67,6 +67,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     loading = false;
 
     loading$: Observable<boolean>;
+    loadingJuntadas: boolean;
 
     pagination$: any;
     pagination: any;
@@ -214,6 +215,12 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.modelos = routerState.state.url.indexOf('/modelos') !== -1;
                 this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
             }
+        });
+
+        this.loading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loading => {
+            this.loadingJuntadas = loading;
         });
 
         this.routerState$.pipe(
@@ -401,6 +408,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     onScroll(): void {
 
         if (this.juntadas.length >= this.pagination.total) {
+            return;
+        }
+        if (this.loadingJuntadas) {
             return;
         }
 
