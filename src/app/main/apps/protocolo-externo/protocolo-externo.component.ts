@@ -46,13 +46,14 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
 
     currentProcessoId: number;
     processos: Processo[] = [];
-    
+
     processoListSize = 35;
     processoListOriginalSize: number;
 
     processos$: Observable<Processo[]>;
-    
+
     loading$: Observable<boolean>;
+    loading: boolean;
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
@@ -157,6 +158,12 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
             if (routerState) {
                 this.routerState = routerState.state;
             }
+        });
+
+        this.loading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loading => {
+            this.loading = loading;
         });
 
         this.routerState$.pipe(
@@ -275,6 +282,10 @@ export class ProtocoloExternoComponent implements OnInit, OnDestroy, AfterViewIn
 
     onScroll(): void {
         if (this.processos.length >= this.pagination.total) {
+            return;
+        }
+
+        if (this.loading) {
             return;
         }
 

@@ -65,6 +65,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     tarefas$: Observable<Tarefa[]>;
 
     loading$: Observable<boolean>;
+    loading: boolean;
+
     togglingUrgenteIds$: Observable<number[]>;
 
     deletingIds$: Observable<number[]>;
@@ -294,6 +296,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.selectedIds = selectedIds;
         });
 
+        this.loading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loading => {
+            this.loading = loading;
+        });
+
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
@@ -389,6 +397,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onScroll(): void {
         if (this.tarefas.length >= this.pagination.total) {
+            return;
+        }
+
+        if (this.loading) {
             return;
         }
 

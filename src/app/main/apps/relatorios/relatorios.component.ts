@@ -59,6 +59,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     relatorios$: Observable<Relatorio[]>;
     loading$: Observable<boolean>;
+    loading: boolean;
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
@@ -193,6 +194,12 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
                 }
         });
 
+        this.loading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loading => {
+            this.loading = loading;
+        });
+
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(pagination => {
@@ -312,6 +319,10 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onScroll(): void {
         if (this.relatorios.length >= this.pagination.total) {
+            return;
+        }
+
+        if (this.loading) {
             return;
         }
 

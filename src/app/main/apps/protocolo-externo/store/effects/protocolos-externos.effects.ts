@@ -59,7 +59,7 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.GetProcessos>(ProcessosActions.GET_PROCESSOS),
-                concatMap((action) => {
+                switchMap((action) => {
                     return this._processoService.query(
                         JSON.stringify({
                             ...action.payload.filter,

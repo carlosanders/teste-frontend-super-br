@@ -52,6 +52,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     processos$: Observable<Processo[]>;
     loading$: Observable<boolean>;
+    loading: boolean;
 
     transicaoIds$: Observable<number[]>;
 
@@ -140,6 +141,12 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
             this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 0);
         });
 
+        this.loading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loading => {
+            this.loading = loading;
+        });
+
         this.processos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(processos => !!processos)
@@ -223,6 +230,10 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
     onScroll(): void {
         if (this.processos.length >= this.pagination.total) {
+            return;
+        }
+
+        if (this.loading) {
             return;
         }
 
