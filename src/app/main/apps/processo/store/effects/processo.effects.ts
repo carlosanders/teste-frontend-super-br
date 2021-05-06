@@ -8,13 +8,17 @@ import * as ProcessoActions from 'app/main/apps/processo/store/actions/processo.
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {AddChildData, AddData, RemoveChildData, UpdateData} from '@cdk/ngrx-normalizr';
-import {Processo} from '@cdk/models';
-import {processo as processoSchema} from '@cdk/normalizr';
+import {Compartilhamento, Processo} from '@cdk/models';
+import {
+    compartilhamento as acompanhamentoSchema,
+    processo as processoSchema
+} from '@cdk/normalizr';
 import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {vinculacaoEtiqueta as vinculacaoEtiquetaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../store/actions/operacoes.actions';
 import {Router} from '@angular/router';
+import {AcompanhamentoService} from "@cdk/services/acompanhamento.service";
 
 @Injectable()
 export class ProcessoEffect {
@@ -27,7 +31,8 @@ export class ProcessoEffect {
         public _loginService: LoginService,
         private _vinculacaoEtiquetaService: VinculacaoEtiquetaService,
         private _store: Store<State>,
-        private _router: Router
+        private _router: Router,
+        private _acompanhamentoService: AcompanhamentoService
     ) {
         this._store
             .pipe(select(getRouterState))
@@ -50,14 +55,17 @@ export class ProcessoEffect {
             .pipe(
                 ofType<ProcessoActions.GetProcesso>(ProcessoActions.GET_PROCESSO),
                 switchMap((action) => {
-                    const chaveAcesso = this.routerState.params.chaveAcessoHandle ? {
+                    const contexto = this.routerState.params.chaveAcessoHandle ? {
                         chaveAcesso: this.routerState.params.chaveAcessoHandle
                     } : {};
+
+                    contexto['compartilhamentoUsuario'] = 'processo';
+
                     const populate = action.payload.populate ? [...action.payload.populate] : [];
                     return this._processoService.get(
                         action.payload.id,
                         JSON.stringify([...populate, 'especieProcesso', 'especieProcesso.generoProcesso', 'vinculacoesEtiquetas', 'vinculacoesEtiquetas.etiqueta']),
-                        JSON.stringify(chaveAcesso));
+                        JSON.stringify(contexto));
                 }),
                 switchMap(response => [
                     new AddData<Processo>({data: [response], schema: processoSchema}),
@@ -238,6 +246,104 @@ export class ProcessoEffect {
                             this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle +
                             '/' + this.routerState.params.targetHandle]).then();
                     }
+                })
+            );
+
+    /**
+     * Get Acompanhamento do Processo
+     * @type {Observable<any>}
+     */
+    @Effect()
+    getAcompanhamento: Observable<any> =
+        this._actions
+            .pipe(
+                ofType<ProcessoActions.GetAcompanhamento>(ProcessoActions.GET_ACOMPANHAMENTO),
+                switchMap((action) => {
+                    return this._acompanhamentoService.query(
+                        JSON.stringify({
+                            ...action.payload.filter,
+                            ...action.payload.listFilter
+                        }),
+                        action.payload.imit,
+                        action.payload.offset,
+                        JSON.stringify(action.payload.sort),
+                        JSON.stringify(action.payload.populate))
+                }),
+                mergeMap((response) => [
+                    new AddData<Compartilhamento>({data: response['entities'], schema: acompanhamentoSchema}),
+                    new ProcessoActions.GetAcompanhamentoSuccess({
+                        entitiesId: response['entities'].map(acompanhamento => acompanhamento.id),
+                        loaded: {
+                            id: this.routerState.params['processoCopiaHandle'] ?
+                                'processoCopiaHandle' : 'processoHandle',
+                            value: this.routerState.params['processoCopiaHandle'] ?
+                                this.routerState.params['processoCopiaHandle'] : this.routerState.params['processoHandle']
+                        },
+                        total: response['total']
+                    })
+                ]),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessoActions.GetAcompanhamentoFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * Save Acompanhamento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    saveAcompanhamento: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoActions.SaveAcompanhamento>(ProcessoActions.SAVE_ACOMPANHAMENTO),
+                switchMap((action) => {
+                    const acompanhamento = new Compartilhamento();
+                    acompanhamento.usuario = this._loginService.getUserProfile();
+                    acompanhamento.processo = action.payload;
+                    return this._acompanhamentoService.save(acompanhamento).pipe(
+                        mergeMap((response: Compartilhamento) => [
+                            new AddData<Compartilhamento>({data: [response], schema: acompanhamentoSchema}),
+                            new ProcessoActions.SaveAcompanhamentoSuccess(response),
+                            new ProcessoActions.GetProcesso(action.payload)
+                        ])
+                    );
+                }),
+                catchError((err, caught) => {
+                    console.log(err);
+                    this._store.dispatch(new ProcessoActions.SaveAcompanhamentoFailed(err));
+                    return caught;
+                })
+            );
+
+    /**
+     * Delete Acompanhamento
+     * @type {Observable<any>}
+     */
+    @Effect()
+    deleteAcompanhamento: any =
+        this._actions
+            .pipe(
+                ofType<ProcessoActions.DeleteAcompanhamento>(ProcessoActions.DELETE_ACOMPANHAMENTO),
+                mergeMap((action) => {
+                    return this._acompanhamentoService.destroy(action.payload.acompanhamentoId).pipe(
+                        mergeMap((response) =>
+                            [
+                                new RemoveChildData({
+                                    id: action.payload.acompanhamentoId,
+                                    childSchema: acompanhamentoSchema,
+                                    parentSchema: processoSchema,
+                                    parentId: action.payload.processoId
+                                }),
+                                new ProcessoActions.DeleteAcompanhamentoSuccess(response.id),
+                            ],
+                        ),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new ProcessoActions.DeleteAcompanhamentoFailed(action.payload.acompanhamentoId));
+                        })
+                    );
                 })
             );
 }

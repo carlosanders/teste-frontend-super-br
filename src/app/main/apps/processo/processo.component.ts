@@ -115,7 +115,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
                 ]
             };
         }
-
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.savingVinculacaoEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVinculacaoEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -224,7 +223,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             + '/visualizar', '_blank');
     }
 
-    imprimirEtiqueta(): void {
+   imprimirEtiqueta(): void {
         this._router.navigate([this.routerState.url.split('processo/' + this.processo.id)[0] + 'processo/' + this.processo.id + '/' + 'etiqueta']).then();
     }
 
@@ -246,5 +245,17 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.confirmDialogRef = null;
         });
+    }
+
+    acompanharProcesso(processo): void {
+        if (!this.processo.compartilhamentoUsuario) {
+            this._store.dispatch(new fromStore.SaveAcompanhamento(processo));
+        } else {
+            const payload = {
+                'acompanhamentoId': processo.compartilhamentoUsuario.id,
+                'processoId': processo.id
+            }
+            this._store.dispatch(new fromStore.DeleteAcompanhamento(payload));
+        }
     }
 }
