@@ -101,6 +101,8 @@ processo-view-main-sidebar {
         flex-direction: column;
 
         .minutas {
+            max-height: 155px;
+
             .loading {
                 flex: 1 0 auto;
                 display: flex;

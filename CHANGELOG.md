@@ -264,3 +264,11 @@
 * Refactor completo de módulo de arquivista
 * Suportar logo, nome e sigla do sistema por ambiente
 * Alteração da nomenclatura Fase e Modalidade da Fase para Idade [SUPERBR-400]
+
+1.4.0
+
+* Correção para o scroll de listas em dispositivos móveis
+* Correção no carregamento de listas de rolagem infinita (tarefas, processos, juntadas)
+* Correção para exibir o filtro de etiquetas e o hamburgues de ações na tarefa em dispositivo mobile
+* Uma barra de rolagem aparece por cima de minuta da tarefa #370
+* Tarefas, lista de documentos juntados, barra de rolagem impede acesso aos menus de ação dos documentos #361
