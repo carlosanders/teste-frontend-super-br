@@ -267,3 +267,8 @@
 * Correção de bug em placeholder de drag and drop de tarefa perdendo sincronia
 * Adicionando sigla da unidade aos setores na sidebar da listagem de tarefas
 * Implementação de possiblidade de edição de observação das tarefas dentro da listagem
+
+1.4.0
+
+* Correção bloco de processo criação de ofícios
+* Correção botão cancelar ao editar tarefa
