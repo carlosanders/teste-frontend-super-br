@@ -16,6 +16,7 @@ import {Logout} from '../../../main/auth/login/store';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
 import {getIsLoading, getNormalizedNotificacaoEntities, getOperacoesEmProcessamento} from '../../../store';
+import {getChatIsLoading} from "../chat-panel/store";
 
 @Component({
     selector: 'toolbar',
@@ -36,6 +37,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     notificacoes: Notificacao[] = [];
     notificacoesCount: string;
     carregandoNotificacao = true;
+    carregandoChat = true;
     cdkConfig: any;
 
     quickPanelLockedOpen: boolean;
@@ -155,6 +157,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(
+                select(getChatIsLoading),
+                takeUntil(this._unsubscribeAll),
+            ).subscribe(carregandoChat => this.carregandoChat = carregandoChat);
+
+        this._store
+            .pipe(
                 select(getCounterState),
                 takeUntil(this._unsubscribeAll)
             ).subscribe(value => {
@@ -217,6 +225,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             this._cdkSidebarService.getSidebar('quickPanel').toggleOpen();
         } else {
             this._cdkSidebarService.getSidebar('quickPanel').toggleFold();
+        }
+    }
+
+    toggleChatPanel(): void {
+        if (!this._cdkSidebarService.getSidebar('chatPanel').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('chatPanel').toggleOpen();
+        } else {
+            this._cdkSidebarService.getSidebar('chatPanel').toggleFold();
         }
     }
 

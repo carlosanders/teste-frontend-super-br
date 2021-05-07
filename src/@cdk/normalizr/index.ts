@@ -121,6 +121,9 @@ export const configuracaoNup = new schema.Entity('configuracaoNup');
 export const tipoContato = new schema.Entity('tipo-contato');
 export const grupoContato = new schema.Entity('grupo-contato');
 export const contato = new schema.Entity('contato');
+export const chat = new schema.Entity('chat');
+export const chatMensagem = new schema.Entity('chat-mensagem');
+export const chatParticipante = new schema.Entity('chat-participante');
 
 acao.define({
     criadoPor: usuario,
@@ -1036,4 +1039,26 @@ grupoContato.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
+});
+
+chat.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario,
+    ultimaMensagem: chatMensagem,
+    capa: componenteDigital
+});
+
+chatMensagem.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario,
+    chat: chat
+});
+
+chatParticipante.define({
+    criadoPor: usuario,
+    atualizadoPor: usuario,
+    apagadoPor: usuario,
+    chat: chat
 });

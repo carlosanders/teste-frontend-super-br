@@ -11,6 +11,7 @@ import {CamelCaseToDashPipe} from './camelCaseToDash.pipe';
 import {BooleanoPipe} from './booleano.pipe';
 import {TitleCasePipe} from './title-case.pipe';
 import {FormatInteressadosPipe} from './format-interessados.pipe';
+import {SortByDatePipe} from "./sort-by-date.pipe";
 
 @NgModule({
     declarations: [
@@ -24,7 +25,8 @@ import {FormatInteressadosPipe} from './format-interessados.pipe';
         CamelCaseToDashPipe,
         BooleanoPipe,
         TitleCasePipe,
-        FormatInteressadosPipe
+        FormatInteressadosPipe,
+        SortByDatePipe
     ],
     imports: [],
     exports: [
@@ -38,7 +40,8 @@ import {FormatInteressadosPipe} from './format-interessados.pipe';
         CamelCaseToDashPipe,
         BooleanoPipe,
         TitleCasePipe,
-        FormatInteressadosPipe
+        FormatInteressadosPipe,
+        SortByDatePipe
     ]
 })
 export class PipesModule {

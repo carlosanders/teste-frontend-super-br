@@ -10,6 +10,7 @@ import {AjudaComponent} from '../../../../ajuda/ajuda.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { TourModule } from 'ajuda/tour/tour.module';
 import {NavbarVerticalStyle1Module} from "../navbar/vertical/style-1/style-1.module";
+import {ChatPanelModule} from "../chat-panel/chat-panel.module";
 
 
 @NgModule({
@@ -31,6 +32,7 @@ import {NavbarVerticalStyle1Module} from "../navbar/vertical/style-1/style-1.mod
         MatTooltipModule,
         TourModule,
         NavbarVerticalStyle1Module,
+        ChatPanelModule
     ],
     providers: [
         LoginService,

@@ -1,0 +1,50 @@
+chat-header {
+    display: flex;
+
+    mat-toolbar {
+        border-bottom: 1px solid;
+        min-height: 64px;
+        max-height: 64px;
+        height: 64px;
+
+        .chat-profile {
+            .avatar-wrapper {
+                .avatar,
+                .status {
+                    cursor: pointer;
+                }
+            }
+            .chat-profile-name {
+                font-size: 16px;
+                box-sizing: border-box;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                max-width: 190px;
+                font-weight: lighter;
+            }
+        }
+
+        mat-toolbar-row {
+            .search {
+                height: 36px;
+                line-height: 36px;
+                padding: 8px;
+                font-size: 13px;
+                border-radius: 18px;
+                border: 1px solid;
+                overflow: hidden;
+
+                .mat-icon {
+                    margin: 0;
+                }
+
+                input {
+                    padding: 0 12px 0 8px;
+                    height: 36px;
+                    border: none;
+                }
+            }
+        }
+    }
+}

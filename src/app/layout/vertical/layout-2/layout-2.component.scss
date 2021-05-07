@@ -7,11 +7,27 @@ vertical-layout-2 {
     height: 100%;
 
     .ajuda-panel {
-        min-width: 500px !important;
+        min-width: 600px !important;
         padding-right: 0 !important;
     }
 
     .ajuda-panel-mobile {
+        min-width: 90% !important;
+        padding-right: 0 !important;
+    }
+
+    .chat-panel {
+        min-width: 300px !important;
+        max-width: 300px !important;
+        padding-right: 0 !important;
+
+        &.chat-open {
+            min-width: 600px !important;
+            max-width: 600px !important;
+        }
+    }
+
+    .chat-panel-mobile {
         min-width: 90% !important;
         padding-right: 0 !important;
     }

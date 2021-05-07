@@ -16,6 +16,22 @@ vertical-layout-1 {
         padding-right: 0 !important;
     }
 
+    .chat-panel {
+        min-width: 300px !important;
+        max-width: 300px !important;
+        padding-right: 0 !important;
+
+        &.chat-open {
+            min-width: 600px !important;
+            max-width: 600px !important;
+        }
+    }
+
+    .chat-panel-mobile {
+        min-width: 90% !important;
+        padding-right: 0 !important;
+    }
+
     .quick-panel.folded:not(.unfolded) {
         max-height: 50px;
         z-index: -1;
