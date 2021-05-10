@@ -26,12 +26,27 @@
             <mat-icon class="black-fg">edit</mat-icon>
         </button>
 
-        <button mat-icon-button
-                aria-label="Realizar Transição" matTooltip="Realizar Transição"
-                [routerLink]="[(processo$ | async)?.id, 'realizar-transicao']"
+        <button mat-icon-button *ngIf="!!(modalidadeTransicao$ | async)"
+                aria-label="Realizar Temporalidade e Destinação" [matTooltip]="'Realizar ' + (modalidadeTransicao$ | async).valor | titlecase"
+                [routerLink]="[(processo$ | async)?.id, 'temporalidade-destinacao']"
                 [routerLinkActive]="['active', 'accent']">
             <mat-icon class="black-fg">swap_horiz</mat-icon>
         </button>
+
+        <button mat-icon-button *ngIf="(processo$ | async).modalidadeFase.valor === 'INTERMEDIÁRIA'"
+                aria-label="Desarquivar" matTooltip="Desarquivar"
+                [routerLink]="[(processo$ | async)?.id, 'desarquivar']"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">unarchive</mat-icon>
+        </button>
+
+        <button mat-icon-button
+                aria-label="Registrar Extravio" matTooltip="Registrar Extravio"
+                [routerLink]="[(processo$ | async)?.id, 'registrar-extravio']"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">error_outline</mat-icon>
+        </button>
+
     </div>
 </div>
 

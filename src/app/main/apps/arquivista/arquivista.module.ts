@@ -16,6 +16,7 @@ import {ArquivistaStoreModule} from "./arquivista-list/store/store.module";
 import {SnackBarDesfazerComponent} from "../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component";
 import {SnackBarDesfazerModule} from "../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module";
 import {ModalidadeTransicaoService} from "../../../../@cdk/services/modalidade-transicao.service";
+import {AcompanhamentoService} from "../../../../@cdk/services/acompanhamento.service";
 
 const routes: Routes = [
     {
@@ -61,6 +62,7 @@ modulesConfig.forEach((module) => {
     providers: [
         fromGuards.ResolveGuard,
         ProcessoService,
+        AcompanhamentoService,
         ModalidadeTransicaoService
     ],
     entryComponents: [SnackBarDesfazerComponent],
