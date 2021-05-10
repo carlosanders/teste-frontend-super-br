@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
+        <div class="body mt-4">
             <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
                 {{tarefa.especieTarefa?.nome | titleCasePipe}}
             </div>
