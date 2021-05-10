@@ -267,6 +267,11 @@
 
 1.4.0
 
+* Correção de bug em placeholder de drag and drop de tarefa perdendo sincronia
+* Adicionando sigla da unidade aos setores na sidebar da listagem de tarefas
+* Implementação de possiblidade de edição de observação das tarefas dentro da listagem
+* Correção bloco de processo criação de ofícios
+* Correção botão cancelar ao editar tarefa
 * Correção para o scroll de listas em dispositivos móveis
 * Correção no carregamento de listas de rolagem infinita (tarefas, processos, juntadas)
 * Correção para exibir o filtro de etiquetas e o hamburgues de ações na tarefa em dispositivo mobile

@@ -7,25 +7,35 @@ import {ProcessoAppState} from 'app/main/apps/processo/store/reducers';
 import * as fromStore from 'app/main/apps/processo/store';
 import {getProcessoLoaded} from 'app/main/apps/processo/store/selectors';
 import {getRouterState} from 'app/store/reducers';
+import {Usuario} from "../../../../../../@cdk/models";
+import {LoginService} from "../../../../auth/login/login.service";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
 
     routerState: any;
+    processoId: number;
+
+    usuario: Usuario;
 
     /**
+     *
      * @param _store
      * @param _router
+     * @param _loginService
      */
     constructor(
         private _store: Store<ProcessoAppState>,
-        private _router: Router
+        private _router: Router,
+        private _loginService: LoginService
     ) {
+        this.usuario = this._loginService.getUserProfile();
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
                 if (routerState) {
                     this.routerState = routerState.state;
+                    this.processoId = this.routerState.params['processoCopiaHandle'] ?? this.routerState.params['processoHandle'];
                 }
             });
     }
@@ -43,6 +53,7 @@ export class ResolveGuard implements CanActivate {
             catchError((err) => {console.log (err); return of(false);})
         );
     }
+
     /**
      * Get Processo
      *
@@ -72,7 +83,6 @@ export class ResolveGuard implements CanActivate {
             take(1)
         );
     }
-
 }
 
 
