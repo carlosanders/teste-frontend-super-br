@@ -7,10 +7,10 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import { cdkAnimations } from '@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { Colaborador } from '@cdk/models';
-import { ModalidadeColaborador } from '@cdk/models';
+import {Colaborador} from '@cdk/models';
+import {ModalidadeColaborador} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {Cargo} from '@cdk/models';
 import {Pagination} from '@cdk/models';
@@ -52,7 +52,6 @@ export class CdkColaboradorFormComponent implements OnChanges, OnDestroy {
     @Output()
     abort = new EventEmitter<any>();
 
-    @Input()
     form: FormGroup;
 
     activeCard = 'form';
