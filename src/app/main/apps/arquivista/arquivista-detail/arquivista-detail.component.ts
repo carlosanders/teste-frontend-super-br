@@ -6,7 +6,14 @@ import {
     OnInit, ViewEncapsulation
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
-import {Etiqueta, Pagination, Processo, Usuario, VinculacaoEtiqueta} from '../../../../../@cdk/models';
+import {
+    Etiqueta,
+    ModalidadeTransicao,
+    Pagination,
+    Processo,
+    Usuario,
+    VinculacaoEtiqueta
+} from '../../../../../@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStoreProcesso from '../../processo/store';
@@ -22,6 +29,7 @@ import {
 import {getRouterState, getScreenState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '../../../../../@cdk/animations';
+import {getModalidadeTransicao} from "../arquivista-list/store";
 
 @Component({
     selector: 'arquivista-detail',
@@ -57,6 +65,8 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
 
     mobileMode = false;
 
+    modalidadeTransicao$: Observable<ModalidadeTransicao>;
+
     /**
      * @param _changeDetectorRef
      * @param _router
@@ -76,6 +86,9 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.expandir$ = this._store.pipe(select(expandirTela));
         this.screen$ = this._store.pipe(select(getScreenState));
+
+        this.modalidadeTransicao$ = this._store.pipe(select(getModalidadeTransicao));
+
         this.vinculacaoEtiquetaPagination = new Pagination();
         this.vinculacaoEtiquetaPagination.filter = {
             orX: [
