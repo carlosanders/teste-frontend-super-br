@@ -49,6 +49,10 @@ export const DELETE_ACOMPANHAMENTO = '[PROCESSO] DELETE ACOMPANHAMENTO PROCESSO'
 export const DELETE_ACOMPANHAMENTO_SUCCESS = '[PROCESSO] DELETE ACOMPANHAMENTO PROCESSO SUCCESS';
 export const DELETE_ACOMPANHAMENTO_FAILED = '[PROCESSO] DELETE ACOMPANHAMENTO PROCESSO FAILED';
 
+export const SET_TOGGLE_ACOMPANHAMENTO = '[PROCESSO] SET TOGGLE ACOMPANHAMENTO PROCESSO';
+export const SET_TOGGLE_ACOMPANHAMENTO_SUCCESS = '[PROCESSO] SET TOGGLE ACOMPANHAMENTO PROCESSO SUCCESS';
+
+
 /**
  * Expandir Processo
  */
@@ -451,6 +455,20 @@ export class DeleteAcompanhamentoFailed implements Action
     }
 }
 
+export class SetToggleAcompanhamento implements Action {
+    readonly type = SET_TOGGLE_ACOMPANHAMENTO
+
+    constructor(public payload: any) {
+    }
+}
+
+export class SetToggleAcompanhamentoSuccess implements Action {
+    readonly type = SET_TOGGLE_ACOMPANHAMENTO_SUCCESS
+
+    constructor(public payload: any) {
+    }
+}
+
 export type ProcessoActionsAll
     = CreateProcesso
     | UnloadProcesso
@@ -485,4 +503,6 @@ export type ProcessoActionsAll
     | SaveAcompanhamentoFailed
     | DeleteAcompanhamento
     | DeleteAcompanhamentoSuccess
-    | DeleteAcompanhamentoFailed;
+    | DeleteAcompanhamentoFailed
+    | SetToggleAcompanhamento
+    | SetToggleAcompanhamentoSuccess;

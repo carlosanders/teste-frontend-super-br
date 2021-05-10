@@ -14,7 +14,7 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="!(expandir$ | async)">
             <div class="search-wrapper"
-                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id">
+                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')">
                 <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
                         (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>
                     <mat-icon>menu</mat-icon>
@@ -39,9 +39,12 @@
 
             </div>
 
-            <div class="actions" *ngIf="(processo$ | async)?.id">
+            <div class="spinner-container m-8" *ngIf="!(processo$ | async)">
+                <mat-spinner diameter="20"></mat-spinner>
+            </div>
+            <div class="actions" *ngIf="processo !== null">
                 <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                        (click)="$event.stopPropagation()">
+                        (click)="$event.stopPropagation()" *ngIf="(processo$ | async)">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 

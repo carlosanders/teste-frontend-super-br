@@ -14,6 +14,7 @@ export interface ProcessoState {
     saving: boolean;
     deletingIds: number[];
     deletedIds: number[];
+    loadingAcompanhamento: boolean;
 }
 
 export const ProcessoInitialState: ProcessoState = {
@@ -30,6 +31,8 @@ export const ProcessoInitialState: ProcessoState = {
     saving: false,
     deletingIds: [],
     deletedIds: [],
+    loadingAcompanhamento: false,
+
 };
 
 export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoActions.ProcessoActionsAll): ProcessoState {
@@ -94,7 +97,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 loaded: action.payload.loaded,
                 errors: false,
                 savingVinculacaoEtiquetaId: null,
-                steps: false
+                steps: false,
+                loadingAcompanhamento: false
             };
         }
 
@@ -235,6 +239,19 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
+        }
+        case ProcessoActions.SET_TOGGLE_ACOMPANHAMENTO: {
+            return {
+                ...state,
+                loadingAcompanhamento: action.payload.loadingAcompanhamento
+            };
+        }
+
+        case ProcessoActions.SET_TOGGLE_ACOMPANHAMENTO_SUCCESS: {
+            return {
+                ...state,
+                loadingAcompanhamento: action.payload.loadingAcompanhamento
             };
         }
 
