@@ -94,11 +94,6 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.loading$ = this._store.pipe(select(fromStore.getProcessoIsLoading));
         this.togglingAcompanharProcesso$ = this._store.pipe(select(fromStore.getTogglingAcompanharProcesso))
-        this._store.pipe(select(fromStore.getProcessoIsLoading)).subscribe(
-            res => {
-                console.log(res);
-            }
-        )
 
         this.vinculacaoEtiquetaPagination = new Pagination();
         if (!_loginService.isGranted('ROLE_USUARIO_EXTERNO'))
