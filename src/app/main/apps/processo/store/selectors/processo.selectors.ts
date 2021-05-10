@@ -91,3 +91,8 @@ export const getIsAcompanhamentoLoading = createSelector(
     (state: ProcessoState) => state.loading
 );
 
+export const getTogglingAcompanharProcesso = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.loadingAcompanhamento
+);
+
