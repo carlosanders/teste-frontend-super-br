@@ -174,6 +174,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Output()
     setDraggedTarefasIds = new EventEmitter<number[]>();
 
+    @Output()
+    salvarObservacao = new EventEmitter<any>();
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -194,6 +197,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Input()
     targetHandle: any;
+
+    @Input()
+    editandoObservacaoIds: number[] = [];
 
     listFilter: any;
     listSort: {} = {};
@@ -575,8 +581,11 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.gerarRelatorioExcel.emit();
     }
 
-    criarRelatorio() {
+    criarRelatorio(): void {
         this.criaRelatorio.emit(true);
     }
 
+    doSalvarObservacao(observacao: any): void {
+        this.salvarObservacao.emit(observacao);
+    }
 }

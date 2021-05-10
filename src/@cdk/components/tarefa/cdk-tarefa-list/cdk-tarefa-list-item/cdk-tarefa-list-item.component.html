@@ -66,7 +66,7 @@
             </div>
         </div>
 
-        <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
+        <div class="body mt-4">
             <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
                 {{tarefa.especieTarefa?.nome | titleCasePipe}}
             </div>
@@ -100,8 +100,16 @@
                 </mat-icon>
             </div>
 
-            <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao">
-                <span>{{tarefa.observacao}}</span>
+            <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao" (click)="$event.stopPropagation()">
+                <span *ngIf="editandoObservacao === false">{{tarefa.observacao}}</span>
+                <mat-icon *ngIf="editandoObservacao === false" class="secondary-text" matTooltip="Editar observação"
+                          (click)="$event.stopPropagation(); doEditarObservacao()">
+                    edit
+                </mat-icon>
+                <mat-form-field *ngIf="editandoObservacao === true" (click)="$event.stopPropagation()">
+                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
+                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)" upperCase>{{tarefa.observacao}}</textarea>
+                </mat-form-field>
             </div>
         </div>
 

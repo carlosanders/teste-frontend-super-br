@@ -67,6 +67,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     loading = false;
 
     loading$: Observable<boolean>;
+
+    loadingJuntadas$: Observable<boolean>;
     loadingJuntadas: boolean;
 
     pagination$: any;
@@ -118,6 +120,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         }
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingBinary));
+        this.loadingJuntadas$ = this._store.pipe(select(fromStore.getIsLoading));
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
@@ -217,7 +220,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             }
         });
 
-        this.loading$.pipe(
+        this.loadingJuntadas$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(loading => {
             this.loadingJuntadas = loading;
@@ -406,7 +409,6 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     onScroll(): void {
-
         if (this.juntadas.length >= this.pagination.total) {
             return;
         }

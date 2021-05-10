@@ -24,6 +24,7 @@ import {ProcessoDownloadModule} from './processo-download/processo-download.modu
 import {MatMenuModule} from '@angular/material/menu';
 import {MatRippleModule} from '@angular/material/core';
 import {modulesConfig} from 'modules/modules-config';
+import {AcompanhamentoService} from "@cdk/services/acompanhamento.service";
 
 const routes: Routes = [
     {
@@ -119,6 +120,7 @@ routes[0].children.push({
         ProcessoService,
         VinculacaoEtiquetaService,
         LoginService,
+        AcompanhamentoService,
         fromGuards.ResolveGuard
     ],
 })
