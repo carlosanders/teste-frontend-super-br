@@ -105,6 +105,10 @@ export const GERAR_RELATORIO_TAREFA_EXCEL = '[TAREFAS] GERAR RELATORIO TAREFA EX
 export const GERAR_RELATORIO_TAREFA_EXCEL_FAILED = '[TAREFAS] GERAR RELATORIO TAREFA EXCEL FAILED';
 export const GERAR_RELATORIO_TAREFA_EXCEL_SUCCESS = '[TAREFAS] GERAR RELATORIO TAREFA EXCEL SUCCESS';
 
+export const SAVE_OBSERVACAO = '[TAREFAS] SAVE OBSERVACAO';
+export const SAVE_OBSERVACAO_SUCCESS = '[TAREFAS] SAVE OBSERVACAO SUCCESS';
+export const SAVE_OBSERVACAO_FAILED = '[TAREFAS] SAVE OBSERVACAO FAILED';
+
 
 /**
  * Unload Tarefas
@@ -908,6 +912,43 @@ export class RemoveTarefa implements Action {
     }
 }
 
+/**
+ * Save Observacao
+ */
+export class SaveObservacao implements Action
+{
+    readonly type = SAVE_OBSERVACAO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Observacao Success
+ */
+export class SaveObservacaoSuccess implements Action
+{
+    readonly type = SAVE_OBSERVACAO_SUCCESS;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Save Observacao Failed
+ */
+export class SaveObservacaoFailed implements Action
+{
+    readonly type = SAVE_OBSERVACAO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
 export type TarefasActionsAll
     = UnloadTarefas
     | GetTarefas
@@ -985,4 +1026,7 @@ export type TarefasActionsAll
     | RemoveTarefa
     | GerarRelatorioTarefaExcel
     | GerarRelatorioTarefaExcelFailed
-    | GerarRelatorioTarefaExcelSuccess;
+    | GerarRelatorioTarefaExcelSuccess
+    | SaveObservacao
+    | SaveObservacaoSuccess
+    | SaveObservacaoFailed;

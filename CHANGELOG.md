@@ -264,3 +264,6 @@
 * Refactor completo de módulo de arquivista
 * Suportar logo, nome e sigla do sistema por ambiente
 * Alteração da nomenclatura Fase e Modalidade da Fase para Idade [SUPERBR-400]
+* Correção de bug em placeholder de drag and drop de tarefa perdendo sincronia
+* Adicionando sigla da unidade aos setores na sidebar da listagem de tarefas
+* Implementação de possiblidade de edição de observação das tarefas dentro da listagem

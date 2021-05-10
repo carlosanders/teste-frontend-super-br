@@ -608,12 +608,12 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this.placeholderId = element.id;
             const elementClass = element.getAttribute('class').replace('custom-drag-over-disabled', '');
             element.setAttribute('class', elementClass + ' custom-drag-over');
-            this._changeDetectorRef.markForCheck();
+            this._changeDetectorRef.detectChanges();
         }
         if (!enabled && element.getAttribute('class').indexOf('custom-drag-over-disabled') === -1) {
             this.placeholderId = null;
             element.setAttribute('class', element.getAttribute('class') + ' custom-drag-over-disabled');
-            this._changeDetectorRef.markForCheck();
+            this._changeDetectorRef.detectChanges();
         }
     }
 
