@@ -51,6 +51,12 @@ export class CdkModeloFilterComponent {
             });
         }
 
+        if (this.form.get('nome').value) {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                andXFilter.push({'nome': `like:%${bit}%`});
+            });
+        }
+
         if (this.form.get('modalidadeModelo').value) {
             andXFilter.push({'modalidadeModelo.id': `eq:${this.form.get('modalidadeModelo').value.id}`});
         }
