@@ -306,6 +306,13 @@
                                 <span>Remover Assinatura</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
+                                    *ngIf="!minuta.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
+                                    (click)="doAbreMinutaOutraAba(minuta)"
+                                    mat-menu-item>
+                                <mat-icon color="accent">open_in_new</mat-icon>
+                                <span>Abrir Minuta em outra aba</span>
+                            </button>
+                            <button fxLayout="row" fxLayoutAlign="start center"
                                     *ngIf="!minuta.apagadoEm && minuta?.componentesDigitais[0]?.extensao === 'html'"
                                     (click)="doConverte(minuta.id)"
                                     mat-menu-item>
