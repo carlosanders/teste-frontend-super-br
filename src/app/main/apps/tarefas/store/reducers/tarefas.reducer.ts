@@ -45,6 +45,7 @@ export interface TarefasState {
     errorRedistribuir: number[];
     clearForm: boolean;
     errorDistribuir: number[];
+    savingObservacao: boolean;
 }
 
 export const TarefasInitialState: TarefasState = {
@@ -89,7 +90,8 @@ export const TarefasInitialState: TarefasState = {
     errorCiencia: [],
     errorRedistribuir: [],
     errorDistribuir: [],
-    clearForm: false
+    clearForm: false,
+    savingObservacao: false
 };
 
 export function TarefasReducer(state = TarefasInitialState, action: TarefasActions.TarefasActionsAll): TarefasState {
@@ -655,6 +657,27 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 clearForm: false
+            };
+        }
+
+        case TarefasActions.SAVE_OBSERVACAO: {
+            return {
+                ...state,
+                savingObservacao: true
+            };
+        }
+
+        case TarefasActions.SAVE_OBSERVACAO_SUCCESS: {
+            return {
+                ...state,
+                savingObservacao: false
+            };
+        }
+
+        case TarefasActions.SAVE_OBSERVACAO_FAILED: {
+            return {
+                ...state,
+                savingObservacao: false
             };
         }
 

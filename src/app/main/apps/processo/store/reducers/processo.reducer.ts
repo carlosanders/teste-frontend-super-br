@@ -1,5 +1,4 @@
 import * as ProcessoActions from '../actions/processo.actions';
-import * as ProcessoViewActions from '../../processo-view/store/actions/processo-view.actions';
 
 export interface ProcessoState {
     processoId: number;
@@ -9,6 +8,13 @@ export interface ProcessoState {
     savingVinculacaoEtiquetaId: number;
     steps: boolean;
     expandir: boolean;
+    acompanhamentoId: number;
+    entityId: number;
+    entitiesId: number[];
+    saving: boolean;
+    deletingIds: number[];
+    deletedIds: number[];
+    loadingAcompanhamento: boolean;
 }
 
 export const ProcessoInitialState: ProcessoState = {
@@ -18,7 +24,15 @@ export const ProcessoInitialState: ProcessoState = {
     errors: false,
     savingVinculacaoEtiquetaId: null,
     steps: false,
-    expandir: false
+    expandir: false,
+    entityId: null,
+    entitiesId: [],
+    acompanhamentoId: null,
+    saving: false,
+    deletingIds: [],
+    deletedIds: [],
+    loadingAcompanhamento: false,
+
 };
 
 export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoActions.ProcessoActionsAll): ProcessoState {
@@ -83,7 +97,8 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 loaded: action.payload.loaded,
                 errors: false,
                 savingVinculacaoEtiquetaId: null,
-                steps: false
+                steps: false,
+                loadingAcompanhamento: false
             };
         }
 
@@ -129,6 +144,117 @@ export function ProcessoReducer(state = ProcessoInitialState, action: ProcessoAc
                 steps: action.payload.steps
             };
         }
+
+        case ProcessoActions.GET_ACOMPANHAMENTO: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+
+        case ProcessoActions.GET_ACOMPANHAMENTO_SUCCESS: {
+
+            const loaded = action.payload.loaded;
+
+            return {
+                ...state,
+                entitiesId: [...state.entitiesId, ...action.payload.entitiesId],
+                entityId: [ ...action.payload.entitiesId].pop(),
+                loading: false,
+                loaded
+            };
+        }
+
+        case ProcessoActions.GET_ACOMPANHAMENTO_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
+            };
+        }
+
+        case ProcessoActions.UNLOAD_ACOMPANHAMENTO: {
+
+            if (action.payload.reset) {
+                return {
+                    ...ProcessoInitialState
+                };
+            } else {
+                return {
+                    ...state,
+                    entitiesId: []
+                };
+            }
+        }
+
+        case ProcessoActions.CREATE_ACOMPANHAMENTO: {
+            return {
+                ...state,
+                acompanhamentoId: null,
+                loading: false
+            };
+        }
+
+        case ProcessoActions.SAVE_ACOMPANHAMENTO: {
+            return {
+                ...state,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case ProcessoActions.SAVE_ACOMPANHAMENTO_SUCCESS: {
+            return {
+                ...state,
+                entityId: action.payload.id,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case ProcessoActions.SAVE_ACOMPANHAMENTO_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
+        }
+
+        case ProcessoActions.DELETE_ACOMPANHAMENTO: {
+            return {
+                ...state,
+                deletingIds: [...state.deletingIds, action.payload]
+            };
+        }
+
+        case ProcessoActions.DELETE_ACOMPANHAMENTO_SUCCESS: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload]
+            };
+        }
+
+        case ProcessoActions.DELETE_ACOMPANHAMENTO_FAILED: {
+            return {
+                ...state,
+                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+            };
+        }
+        case ProcessoActions.SET_TOGGLE_ACOMPANHAMENTO: {
+            return {
+                ...state,
+                loadingAcompanhamento: action.payload.loadingAcompanhamento
+            };
+        }
+
+        case ProcessoActions.SET_TOGGLE_ACOMPANHAMENTO_SUCCESS: {
+            return {
+                ...state,
+                loadingAcompanhamento: action.payload.loadingAcompanhamento
+            };
+        }
+
 
         default:
             return state;

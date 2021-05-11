@@ -82,11 +82,35 @@ cdk-tarefa-list-item {
 
                 .observacao {
                     margin-left: 10px;
-                    white-space: pre-wrap;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
 
                     > span {
                         font-style: italic;
                         font-size: smaller;
+                        white-space: pre-wrap;
+                    }
+
+                    > mat-icon {
+                        margin-left: 4px;
+                        font-size: 18px;
+                        align-items: center;
+                        line-height: 18px;
+                        min-width: 18px;
+                        min-height: 18px;
+                        width: 18px;
+                        height: 18px;
+                    }
+
+                    > mat-form-field {
+                        display: flex;
+                        flex: 1 1 auto;
+
+                        > div.mat-form-field-wrapper {
+                            display: flex;
+                            flex: 1 1 auto;
+                        }
                     }
                 }
             }

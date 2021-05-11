@@ -1,7 +1,7 @@
 import {
     AfterViewInit,
     ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, EventEmitter,
+    Component, ElementRef, EventEmitter,
     Input, OnChanges, OnInit,
     Output, SimpleChange, ViewChild, ViewContainerRef,
     ViewEncapsulation
@@ -83,6 +83,12 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     removeTarefa = new EventEmitter<Tarefa>();
 
     @Output()
+    editarObservacao = new EventEmitter<any>();
+
+    @Output()
+    salvarObservacao = new EventEmitter<any>();
+
+    @Output()
     loadAssuntos = new EventEmitter<any>();
 
     @Output()
@@ -103,6 +109,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Input()
     dragging: boolean;
 
+    @Input()
+    editandoObservacao: boolean = false;
+
     isOpen: boolean;
     loadedAssuntos: boolean;
     loadedInteressados: boolean;
@@ -114,6 +123,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
+
+    @ViewChild('observacaoConteudo', {static: false, read: ElementRef})
+    observacaoConteudo: ElementRef;
 
     @Input()
     displayedCampos: string[] = [
@@ -234,6 +246,19 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     doRestauraTarefa(): void {
         this.restauraTarefa.emit(this.tarefa);
+    }
+
+    doEditarObservacao(): void {
+        this.editandoObservacao = true;
+        this._changeDetectorRef.detectChanges();
+        setTimeout(()=> { // this will make the execution after the above boolean has changed
+            this.observacaoConteudo.nativeElement.focus();
+        },0);
+        this.editarObservacao.emit();
+    }
+
+    doSalvarObservacao(tarefa, conteudo): void {
+        this.salvarObservacao.emit({tarefa: tarefa, conteudo: conteudo});
     }
 
     doTogglePanel(): void {

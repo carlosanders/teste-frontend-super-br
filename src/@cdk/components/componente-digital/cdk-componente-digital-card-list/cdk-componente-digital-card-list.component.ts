@@ -217,15 +217,14 @@ export class CdkComponenteDigitalCardListComponent {
                 this.uploadFile(file);
             });
         } else {
-            this.files = this.files.reverse();
             this.uploadNext();
         }
     }
 
     uploadNext(): void {
         this.pending = this.files.filter((file) => (!file.canRetry && !file.retrying));
-        if (this.files.length) {
-            this.currentFile = this.files.pop();
+        if (this.files.length > 0) {
+            this.currentFile = this.files.shift();
             this.uploadFile(this.currentFile);
         } else {
             this.currentFile = null;

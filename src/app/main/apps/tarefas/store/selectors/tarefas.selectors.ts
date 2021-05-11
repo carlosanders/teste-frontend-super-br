@@ -153,3 +153,8 @@ export const getDistribuindoTarefaIds = createSelector(
     getTarefasState,
     (state: TarefasState) => state.distribuindoTarefaIds
 );
+
+export const getIsSavingObservacao = createSelector(
+    getTarefasState,
+    (state: TarefasState) => state.savingObservacao
+);

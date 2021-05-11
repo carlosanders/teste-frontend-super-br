@@ -214,8 +214,8 @@
          cdkPerfectScrollbar
          infiniteScroll
          [scrollWindow]="false"
-         [infiniteScrollDistance]="2"
-         [infiniteScrollThrottle]="50"
+         [infiniteScrollDistance]="5"
+         [infiniteScrollThrottle]="150"
          (scrolled)="onScroll()">
 
         <div (click)="loadPage()" fxFlex="0 1 auto" fxLayoutAlign="center center" class="nova-tarefa p-8 accent" *ngIf="novaTarefa">
@@ -273,6 +273,8 @@
                     [loadingInteressados]="loadingInteressadosProcessosId.indexOf(tarefa.processo?.id) > -1"
                     [totalInteressados]="getTotalInteressados(tarefa.processo?.id)"
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
+                    [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
+                    (salvarObservacao)="doSalvarObservacao($event)"
                 >
                 </cdk-tarefa-list-item>
             </div>

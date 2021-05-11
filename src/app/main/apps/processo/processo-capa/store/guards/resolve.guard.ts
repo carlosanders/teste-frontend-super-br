@@ -10,7 +10,9 @@ import {ProcessoCapaAppState} from '../reducers';
 import * as fromStore from '../index';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getAssuntosLoaded, getInteressadosLoaded, getVinculacoesProcessosLoaded} from '../index';
+import {getAcompanhamentoProcessoLoaded,getAssuntosLoaded,getInteressadosLoaded,getVinculacoesProcessosLoaded} from '../index';
+import {Usuario} from "../../../../../../../@cdk/models";
+import {LoginService} from "../../../../../auth/login/login.service";
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -19,14 +21,20 @@ export class ResolveGuard implements CanActivate {
 
     processoId: number;
 
+    usuario: Usuario;
+
     /**
+     *
      * @param _store
      * @param _router
+     * @param _loginService
      */
     constructor(
         private _store: Store<ProcessoCapaAppState>,
-        private _router: Router
+        private _router: Router,
+        private _loginService: LoginService
     ) {
+        this.usuario = this._loginService.getUserProfile();
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -180,6 +188,35 @@ export class ResolveGuard implements CanActivate {
 
                 if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
                     this._store.dispatch(new fromStore.GetVinculacoesProcessos(params));
+                }
+            }),
+            filter((loaded: any) => {
+                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
+            }),
+            take(1)
+        );
+    }
+
+    /**
+     * Get Acompanhamento
+     *
+     * @returns {Observable<any>}
+     */
+    getAcompanhamento(): any {
+        this._store.dispatch(new fromStore.UnloadAcompanhamento({reset: true}));
+        return this._store.pipe(
+            select(getAcompanhamentoProcessoLoaded),
+            tap(loaded => {
+                const params = {
+                    filter: {'processo.id': `eq:${this.processoId}`, 'usuario.id': `eq:${this.usuario.id}`},
+                    sort: {},
+                    limit: 10,
+                    offset: 0,
+                    populate: ['populateAll']
+                };
+
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    this._store.dispatch(new fromStore.GetAcompanhamento(params));
                 }
             }),
             filter((loaded: any) => {

@@ -705,4 +705,31 @@ export class TarefasEffect {
                     );
                 })
             );
+
+    /**
+     * Save Observacao
+     * @type {any}
+     */
+    @Effect()
+    saveObservacao: any =
+        this._actions
+            .pipe(
+                ofType<TarefasActions.SaveObservacao>(TarefasActions.SAVE_OBSERVACAO),
+                switchMap((action) => {
+                    return this._tarefaService.patch(action.payload.tarefa, {observacao: action.payload.conteudo}).pipe(
+                        mergeMap((response: Tarefa) => [
+                            new TarefasActions.SaveObservacaoSuccess(),
+                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
+                            new OperacoesActions.Resultado({
+                                type: 'observacao',
+                                content: `Observacao na tarefa ${response.id} atualizada com sucesso!`,
+                                dateTime: response.criadoEm
+                            })
+                        ]),
+                        catchError((err) => {
+                            return of(new TarefasActions.SaveObservacaoFailed(err));
+                        })
+                    );
+                })
+            );
 }
