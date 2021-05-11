@@ -1,4 +1,4 @@
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Usuario} from '@cdk/models';
@@ -6,6 +6,7 @@ import {Store} from '@ngrx/store';
 import {State} from 'app/store';
 import {environment} from '../../../../environments/environment';
 import * as fromLoginStore from 'app/main/auth/login/store';
+import * as moment from 'moment';
 
 @Injectable()
 export class LoginService {
@@ -30,6 +31,7 @@ export class LoginService {
         localStorage.setItem('token', action.payload.token);
         this.setTimestamp(action);
         this.setExp(action);
+        this.setLocalBrowserExpiration(action);
         this.startCountdown();
     }
 
@@ -45,6 +47,12 @@ export class LoginService {
         localStorage.setItem('timestamp', action.payload.timestamp);
     }
 
+    setLocalBrowserExpiration(action): void {
+        const duration = Number(action.payload.exp) - Number(action.payload.timestamp);
+        const expiration = moment().unix() + duration;
+        localStorage.setItem('localBrowserExp', expiration.toString());
+    }
+
     getLoginType(): string {
         return localStorage.getItem('loginType');
     }
@@ -57,6 +65,10 @@ export class LoginService {
         return Number(localStorage.getItem('timestamp'));
     }
 
+    getLocalBrowserExp(): number {
+        return Number(localStorage.getItem('localBrowserExp'));
+    }
+
     getToken(): string {
         return localStorage.getItem('token');
     }
@@ -65,6 +77,7 @@ export class LoginService {
         localStorage.removeItem('token');
         this.removeExp();
         this.removeTimestamp();
+        this.removeLocalBrowserExp();
     }
 
     removeExp(): void {
@@ -73,6 +86,10 @@ export class LoginService {
 
     removeTimestamp(): void {
         localStorage.removeItem('timestamp');
+    }
+
+    removeLocalBrowserExp(): void {
+        localStorage.removeItem('localBrowserExp');
     }
 
     login(username: string, password: string): Observable<any> {
@@ -130,6 +147,12 @@ export class LoginService {
     getConfig(): Observable<any> {
         const url = `${environment.base_url}config` + environment.xdebug;
         return this.http.get(url);
+    }
+
+    isExpired(): boolean {
+        const expiration = this.getLocalBrowserExp();
+        const timestamp = moment().unix();
+        return timestamp > expiration;
     }
 
     private startCountdown(): void {
