@@ -834,6 +834,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         });
     }
 
+    doAbreMinutaOutraAba(documento: Documento): void{
+        window.open(
+            this.routerState.url.split('/capa/')[0] + '/capa/documento/' + documento.id
+             + '/(componente-digital/' + documento.id + '/editor/ckeditor//sidebar:editar/atividade)'
+             );
+    }
+
     onComplete(): void {
         if (this.routerState.params['tarefaHandle']) {
             this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
