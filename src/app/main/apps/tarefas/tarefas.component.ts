@@ -738,7 +738,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.SaveObservacao(params));
     }
 
-    doGerarRelatorioTarefaExcel(){
+    doGerarRelatorioTarefaExcel() {
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
             data: {
                 title: 'Confirmação',
