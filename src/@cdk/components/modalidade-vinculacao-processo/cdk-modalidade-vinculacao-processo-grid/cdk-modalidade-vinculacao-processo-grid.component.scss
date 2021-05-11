@@ -56,6 +56,9 @@ cdk-modalidade-vinculacao-processo-grid {
                     &.deleted {
                         text-decoration: line-through;
                     }
+                    &.error {
+                        color: red;
+                    }
                 }
             }
         }

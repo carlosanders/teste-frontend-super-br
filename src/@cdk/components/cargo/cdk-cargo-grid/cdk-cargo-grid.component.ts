@@ -115,6 +115,9 @@ export class CdkCargoGridComponent implements AfterViewInit, OnInit, OnChanges {
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -327,5 +330,12 @@ export class CdkCargoGridComponent implements AfterViewInit, OnInit, OnChanges {
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

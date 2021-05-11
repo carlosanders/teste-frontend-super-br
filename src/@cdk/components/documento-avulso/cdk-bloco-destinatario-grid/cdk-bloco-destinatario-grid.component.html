@@ -51,7 +51,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(element.id) > -1}"> &nbsp;{{element.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(element.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> &nbsp;{{element.id}} </td>
                 </ng-container>
 
                 <!-- Nome Column -->
@@ -60,7 +60,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(element.id) > -1}"> {{element.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(element.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{element.nome}} </td>
                 </ng-container>
 
                 <!-- Tipo Column -->
@@ -69,7 +69,7 @@
                         Tipo
                     </th>
                     <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Tipo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(element.id) > -1}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(element.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
                         <span *ngIf="element.prefixoNUP">Interno</span>
                         <span *ngIf="!element.prefixoNUP">Externo</span>
                     </td>
@@ -92,6 +92,10 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
+                            {{ getProp(deletingErrors, xxx.id) }}
+                        </mat-error>
                     </td>
                 </ng-container>
 

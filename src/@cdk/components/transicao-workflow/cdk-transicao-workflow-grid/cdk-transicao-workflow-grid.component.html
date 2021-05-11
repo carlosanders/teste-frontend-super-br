@@ -93,7 +93,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{transicaoWorkflow.id}} </td>
                 </ng-container>
 
                 <!-- Column -->
@@ -102,7 +102,7 @@
                         Espécie Tarefa De
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Espécie Tarefa From: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow?.especieTarefaFrom?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{transicaoWorkflow?.especieTarefaFrom?.nome}} </td>
                 </ng-container>
 
                 <!-- Column -->
@@ -111,7 +111,7 @@
                         Espécie Atividade Lançada
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Espécie Atividade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow?.especieAtividade?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{transicaoWorkflow?.especieAtividade?.nome}} </td>
                 </ng-container>
 
                 <!--  Column -->
@@ -120,7 +120,7 @@
                         Espécie Tarefa Para
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Espécie Tarefa From: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow?.especieTarefaTo?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{transicaoWorkflow?.especieTarefaTo?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -130,7 +130,7 @@
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{transicaoWorkflow.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -139,7 +139,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{transicaoWorkflow.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -150,7 +150,7 @@
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{transicaoWorkflow.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -160,7 +160,7 @@
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{transicaoWorkflow.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -170,7 +170,7 @@
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{transicaoWorkflow.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -180,7 +180,7 @@
                     </th>
                     <td mat-cell *matCellDef="let transicaoWorkflow" class='has_label_on_mobile'
                         data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1}"> {{transicaoWorkflow.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(transicaoWorkflow.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{transicaoWorkflow.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -226,7 +226,11 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
-                        
+
+                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
+                            {{ getProp(deletingErrors, xxx.id) }}
+                        </mat-error>
+
                         <button mat-icon-button
                             *ngIf="actions.indexOf('regras') > -1 && !hasExcluded"
                             [disabled]="deletedIds?.indexOf(transicaoWorkflow.id) > -1"

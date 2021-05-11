@@ -527,6 +527,13 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
         this.create.emit();
     }
 
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
+    }
+
     cssPesquisaOn() {
         (<HTMLInputElement>document.getElementById("sidebarId")).classList.remove('mobile-processo-pesquisa-off');
         (<HTMLInputElement>document.getElementById("sidebarId")).classList.add('mobile-processo-pesquisa-on');

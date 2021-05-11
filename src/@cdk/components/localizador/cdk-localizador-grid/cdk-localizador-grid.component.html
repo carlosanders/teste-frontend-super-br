@@ -94,7 +94,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{localizador.id}} </td>
                 </ng-container>
 
                 <!-- Nome Column -->
@@ -103,7 +103,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{localizador.nome}} </td>
                 </ng-container>
 
                 <!-- Descricao do Localizador Column -->
@@ -112,7 +112,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{localizador.descricao}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -121,7 +121,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.setor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{localizador.setor?.nome}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -130,7 +130,7 @@
                         Ativo
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Ativo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
                         <mat-checkbox [disabled]="true" [checked]="localizador.ativo"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -141,7 +141,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{localizador.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -150,7 +150,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{localizador.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -160,7 +160,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{localizador.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -169,7 +169,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{localizador.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -178,7 +178,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{localizador.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -187,7 +187,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let localizador" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1}"> {{localizador.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(localizador.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{localizador.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -225,6 +225,10 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
+                            {{ getProp(deletingErrors, xxx.id) }}
+                        </mat-error>
                     </td>
                 </ng-container>
 

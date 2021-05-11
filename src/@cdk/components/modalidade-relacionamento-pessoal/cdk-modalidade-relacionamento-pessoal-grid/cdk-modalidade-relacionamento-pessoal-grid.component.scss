@@ -56,6 +56,9 @@ cdk-modalidade-relacionamento-pessoal-grid {
                     &.deleted {
                         text-decoration: line-through;
                     }
+                    &.error {
+                        color: red;
+                    }
                 }
             }
         }

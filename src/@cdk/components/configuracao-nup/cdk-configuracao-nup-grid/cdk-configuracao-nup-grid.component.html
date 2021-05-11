@@ -93,7 +93,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> &nbsp; Id
                     </th>
                     <td mat-cell *matCellDef="let configuracaonup" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
                         &nbsp;{{configuracaonup.id}} </td>
                 </ng-container>
 
@@ -103,7 +103,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let configuracaonup" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1}"> {{configuracaonup.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{configuracaonup.descricao}} </td>
                 </ng-container>
 
                 <!-- Nome Column -->
@@ -112,7 +112,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let configuracaonup" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1}"> {{configuracaonup.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{configuracaonup.nome}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -121,7 +121,7 @@
                         Ativo
                     </th>
                     <td mat-cell *matCellDef="let configuracaonup" class='has_label_on_mobile' data-label='Ativo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
                         <mat-checkbox [disabled]="true" [checked]="configuracaonup.ativo"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -132,7 +132,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let configuracaonup" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1}"> {{configuracaonup.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{configuracaonup.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -141,7 +141,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let configuracaonup" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1}"> {{configuracaonup.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{configuracaonup.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -152,7 +152,7 @@
                     </th>
                     <td mat-cell *matCellDef="let configuracaonup" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1}"> {{configuracaonup.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{configuracaonup.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -162,7 +162,7 @@
                     </th>
                     <td mat-cell *matCellDef="let configuracaonup" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1}"> {{configuracaonup.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{configuracaonup.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -171,7 +171,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let configuracaonup" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1}"> {{configuracaonup.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{configuracaonup.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -180,7 +180,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let configuracaonup" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1}"> {{configuracaonup.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(configuracaonup.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{configuracaonup.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -217,6 +217,10 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
+                            {{ getProp(deletingErrors, xxx.id) }}
+                        </mat-error>
                     </td>
                 </ng-container>
 

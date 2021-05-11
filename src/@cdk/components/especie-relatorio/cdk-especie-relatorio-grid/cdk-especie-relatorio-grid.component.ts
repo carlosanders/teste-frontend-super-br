@@ -118,6 +118,9 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()

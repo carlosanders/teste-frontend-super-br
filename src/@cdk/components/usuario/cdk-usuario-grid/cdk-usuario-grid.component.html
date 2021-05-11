@@ -356,6 +356,10 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
+                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
+                            {{ getProp(deletingErrors, xxx.id) }}
+                        </mat-error>
+
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('vincularPessoa') > -1 && usuario.id"
                                 [disabled]="deletedIds?.indexOf(usuario.id) > -1"
