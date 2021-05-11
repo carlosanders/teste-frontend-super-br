@@ -277,3 +277,4 @@
 * Correção para exibir o filtro de etiquetas e o hamburgues de ações na tarefa em dispositivo mobile
 * Uma barra de rolagem aparece por cima de minuta da tarefa #370
 * Tarefas, lista de documentos juntados, barra de rolagem impede acesso aos menus de ação dos documentos #361
+* Implementação de mensagem de confirmação ao fechar o editor com mudanças não salvas

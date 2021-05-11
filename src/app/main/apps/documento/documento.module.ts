@@ -70,7 +70,8 @@ const routes: Routes = [
                 loadChildren: () => import('./visualizar-processo/visualizar-processo.module').then(m => m.VisualizarProcessoModule)
             }
         ],
-        canActivate: [fromGuards.ResolveGuard]
+        canActivate: [fromGuards.ResolveGuard],
+        canDeactivate: [fromGuards.DeactivateGuard]
     }
 ];
 
@@ -113,7 +114,8 @@ modulesConfig.forEach((module) => {
         SigiloService,
         JuntadaService,
         RepositorioService,
-        fromGuards.ResolveGuard
+        fromGuards.ResolveGuard,
+        fromGuards.DeactivateGuard
     ],
     exports: [
         DocumentoComponent
