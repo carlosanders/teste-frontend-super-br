@@ -2,7 +2,7 @@ import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
 import { Usuario } from '@cdk/models';
-import {ModalidadeNotificacao} from '@cdk/models';
+import {ModalidadeNotificacao, TipoNotificacao} from '@cdk/models';
 
 export class Notificacao {
 
@@ -35,6 +35,14 @@ export class Notificacao {
     conteudo?: string;
 
     urgente?: boolean;
+
+    @Exclude({ toPlainOnly: true })
+    contexto?: string;
+
+    @Exclude({ toPlainOnly: true })
+    @Type(() => TipoNotificacao)
+    @Transform(value => value ? value.id : null, { toPlainOnly: true })
+    tipoNotificacao?: TipoNotificacao;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -82,5 +90,7 @@ export class Notificacao {
         this.atualizadoEm = null;
         this.apagadoPor = null;
         this.apagadoEm = null;
+        this.tipoNotificacao = null;
+        this.contexto = null;
     }
 }

@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Observable, of} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
 import * as NotificacaoListActions from '../actions';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
@@ -93,6 +93,18 @@ export class NotificacaoEffect {
                             return of(new NotificacaoListActions.ToggleLidaNotificacaoFailed(action.payload));
                         })
                     );
+                })
+            );
+
+    @Effect({dispatch: false})
+    marcarTodasComoLida: any =
+        this._actions
+            .pipe(
+                ofType<NotificacaoListActions.ButtonTodasNotificacoesLidas>(NotificacaoListActions.BUTTON_TODAS_NOTIFICACOES_LIDAS),
+                tap(() => {
+                    return this._notificacaoService
+                        .marcarTodas()
+                        .subscribe();
                 })
             );
 }
