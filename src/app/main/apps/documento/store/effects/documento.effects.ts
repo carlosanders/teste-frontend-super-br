@@ -305,7 +305,7 @@ export class DocumentoEffect {
                         return this._documentoService.preparaAssinatura(JSON.stringify([parseInt(documentoId, 0)]))
                             .pipe(
                                 tap((response: any) => {
-                                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + response.jwt + '/get_jnlp';
+                                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + response.secret + '/get_jnlp';
                                     const ifrm = document.createElement('iframe');
                                     ifrm.setAttribute('src', url);
                                     ifrm.style.width = '0';

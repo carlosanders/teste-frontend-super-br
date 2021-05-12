@@ -92,6 +92,7 @@
             </div>
 
             <cdk-juntada-grid
+                [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome']"
                 [loading]="(juntadasLoading$ | async)"
                 [juntadas]="(juntadas$ | async)"
                 [total]="(juntadasPagination$ | async)?.total"
@@ -231,6 +232,7 @@
             </div>
 
             <cdk-juntada-grid
+                [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome']"
                 [loading]="(juntadasLoading$ | async)"
                 [juntadas]="(juntadas$ | async)"
                 [total]="(juntadasPagination$ | async)?.total"

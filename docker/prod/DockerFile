@@ -11,7 +11,7 @@ RUN npm config set unsafe-perm true
 
 RUN npm install npm@6.14.11 -g
 
-RUN npm install -g @angular/cli@11.2.10
+RUN npm install -g @angular/cli@11.2.12
 
 RUN npm install --legacy-peer-deps
 

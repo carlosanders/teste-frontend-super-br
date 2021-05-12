@@ -268,13 +268,19 @@
 1.4.0
 
 * Correção de bug em placeholder de drag and drop de tarefa perdendo sincronia
-* Adicionando sigla da unidade aos setores na sidebar da listagem de tarefas
-* Implementação de possiblidade de edição de observação das tarefas dentro da listagem
+* Correçao Adicionando sigla da unidade aos setores na sidebar da listagem de tarefas
+* Melhoria Implementação de possiblidade de edição de observação das tarefas dentro da listagem
 * Correção bloco de processo criação de ofícios
 * Correção botão cancelar ao editar tarefa
 * Correção para o scroll de listas em dispositivos móveis
 * Correção no carregamento de listas de rolagem infinita (tarefas, processos, juntadas)
 * Correção para exibir o filtro de etiquetas e o hamburgues de ações na tarefa em dispositivo mobile
-* Uma barra de rolagem aparece por cima de minuta da tarefa #370
-* Tarefas, lista de documentos juntados, barra de rolagem impede acesso aos menus de ação dos documentos #361
-* Implementação de mensagem de confirmação ao fechar o editor com mudanças não salvas
+* Correção Uma barra de rolagem aparece por cima de minuta da tarefa #370
+* Correção Tarefas, lista de documentos juntados, barra de rolagem impede acesso aos menus de ação dos documentos #361
+* Melhoria Implementação de mensagem de confirmação ao fechar o editor com mudanças não salvas
+* Correção erro ao apagar em lote as regras de uma etiqueta #126
+* Correção colunas do Modelo Nacional não são exibidas #119
+* Correção filtros de classificação por datas 'Criado em', 'Atualizado em', 'Apagado em' falhando #110
+* Correção inconsistência no campo de filtro de assuntos no cadastro de processo #146
+* Correção Não é possível editar processo pela pesquisa #206
+* Correção assinatura digital com token dentro do editor de textos

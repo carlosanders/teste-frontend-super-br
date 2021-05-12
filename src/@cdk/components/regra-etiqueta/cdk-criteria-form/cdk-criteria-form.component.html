@@ -9,7 +9,7 @@
     </mat-form-field>
 
     <mat-form-field *ngIf="criteriaSelect.value?.id === 1">
-        <input matInput placeholder="Valor" formControlName="valor" required maxlength="255">
+        <input matInput placeholder="Valor" formControlName="valor" required upperCase maxlength="255">
     </mat-form-field>
 
     <div class="setor-recebido" *ngIf="criteriaSelect.value?.id === 2">

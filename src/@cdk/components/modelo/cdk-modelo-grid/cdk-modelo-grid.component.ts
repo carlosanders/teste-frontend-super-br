@@ -122,7 +122,7 @@ export class CdkModeloGridComponent implements AfterViewInit, OnInit, OnChanges 
             sort: 'list'
         },
         {
-            id: 'vinculacoesModelo.modalidadeOrgaoCentral.valor',
+            id: 'vinculacoesModelos.modalidadeOrgaoCentral.valor',
             label: 'Órgão Central',
             fixed: false,
             mode: 'all',
