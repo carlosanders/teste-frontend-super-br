@@ -13,10 +13,12 @@ export let notificationConfig = [
 ];
 
 modulesConfig.forEach((modulo) => {
-    modulo.notifications?.forEach((notificacao) => {
-        notificationConfig = [
-            ...notificationConfig,
-            notificacao
-        ];
-    });
+    if (modulo['notifications']) {
+        modulo['notifications']?.forEach((notificacao) => {
+            notificationConfig = [
+                ...notificationConfig,
+                notificacao
+            ];
+        });
+    }
 });
