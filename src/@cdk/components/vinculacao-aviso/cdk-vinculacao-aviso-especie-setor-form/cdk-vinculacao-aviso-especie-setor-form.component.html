@@ -1,0 +1,40 @@
+<form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
+    <mat-form-field>
+        <input matInput placeholder="Espécie Setor"
+               formControlName="especieSetor"
+               [matAutocomplete]="especieSetor.autocomplete" required
+               (blur)="checkEspecieSetor()">
+        <cdk-especie-setor-autocomplete
+            #especieSetor="especieSetorAutocomplete"
+            [control]="form.get('especieSetor')"
+            [pagination]="especieSetorPagination">
+        </cdk-especie-setor-autocomplete>
+        <button *ngIf="form.get('especieSetor').enabled" matSuffix mat-button mat-icon-button
+                (click)="showEspecieSetorGrid()">
+            <mat-icon matTooltip="Procurar">search</mat-icon>
+        </button>
+        <mat-error *ngIf="form.get('especieSetor').hasError('formError')">
+            {{form.get('especieSetor').errors.formError}}
+        </mat-error>
+    </mat-form-field>
+
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+
+    <div class="actions">
+        <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid" *ngIf="!saving">
+            SALVAR
+        </button>
+        <button mat-raised-button color="warn" type="button" (click)="doAbort()" *ngIf="!saving">
+            CANCELAR
+        </button>
+        <mat-spinner color="accent" diameter="24" *ngIf="saving"></mat-spinner>
+    </div>
+
+</form>
+
+<cdk-especie-setor-gridsearch
+    *ngIf="activeCard === 'especie-setor-gridsearch'"
+    [pagination]="especieSetorPagination"
+    (selected)="selectEspecieSetor($event)"
+    (cancel)="cancel()">
+</cdk-especie-setor-gridsearch>

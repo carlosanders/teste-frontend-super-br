@@ -89,6 +89,12 @@ const routes = [
         loadChildren: () => import('./relatorios/relatorios.module').then(m => m.RelatoriosModule),
         canActivate: [RoleGuard],
         data: {roles: ['ROLE_COLABORADOR']}
+    },
+    {
+        path        : 'tarefa',
+        loadChildren: () => import('./tarefas/tarefa-detail/tarefa-detail.module').then(m => m.TarefaDetailModule),
+        canActivate: [RoleGuard],
+        data: {roles: ['ROLE_COLABORADOR']}
     }
 ];
 

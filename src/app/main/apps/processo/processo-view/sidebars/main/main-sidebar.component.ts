@@ -897,4 +897,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
         this._store.dispatch(new fromStore.GetVolumes(nparams));
     }
+
+    doJuntadaOutraAba(documento: Documento): void {
+        this._store.dispatch(new fromStore.VisualizarJuntada(documento.id));
+    }
 }
