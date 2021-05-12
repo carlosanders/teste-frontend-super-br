@@ -2,7 +2,7 @@
 
     <!-- SIDEBAR -->
     <cdk-sidebar class="sidebar" name="cdk-processo-list-filter" position="left">
-        <cdk-processo-filter (selected)="setFilter($event)" [mode]="this.mode"></cdk-processo-filter>
+        <cdk-processo-filter (selected)="setListFilter($event)" [mode]="this.mode"></cdk-processo-filter>
     </cdk-sidebar>
     <!-- / SIDEBAR -->
 
@@ -19,8 +19,6 @@
             {{selectedIds?.length}}
         </div>
 
-        <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
-
         <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
                 *ngIf="selectedIds?.length > 1">
@@ -29,29 +27,37 @@
 
         <mat-menu #moreMenu="matMenu">
 
-            <button mat-menu-item aria-label="realizar transicao"
+            <button mat-menu-item aria-label="realizar temporalidade e destinação"
+                    *ngIf="modalidadeTransicao"
                     (click)="doRealizarTransicaoBloco()">
                 <ng-container>
                     <mat-icon>check</mat-icon>
-                    <span>Realizar Transição</span>
+                    <span>Realizar {{modalidadeTransicao.valor | titlecase}}</span>
                 </ng-container>
             </button>
 
-
-            <button mat-menu-item aria-label="criar lembrete"
-                    (click)="doCriarLembreteBloco()">
+            <button mat-menu-item aria-label="registrar extravio"
+                    (click)="doRegistrarExtravioBloco()">
                 <ng-container>
-                    <mat-icon>add</mat-icon>
-                    <span>Criar Lembrete</span>
+                    <mat-icon>check</mat-icon>
+                    <span>Registrar Extravio</span>
                 </ng-container>
             </button>
 
-
-            <button mat-menu-item aria-label="realizar classificacao"
-                    (click)="doClassificacaoBloco()">
+            <button mat-menu-item aria-label="desarquivar"
+                    *ngIf="!modalidadeTransicao || modalidadeTransicao.valor !== 'TRANSFERÊNCIA'"
+                    (click)="doDesarquivarBloco()">
                 <ng-container>
-                    <mat-icon>playlist_add</mat-icon>
-                    <span>Realizar Classificação</span>
+                    <mat-icon>check</mat-icon>
+                    <span>Desarquivar</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="editar"
+                    (click)="doEditarBloco()">
+                <ng-container>
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
                 </ng-container>
             </button>
 
@@ -102,8 +108,8 @@
          cdkPerfectScrollbar
          infiniteScroll
          [scrollWindow]="false"
-         [infiniteScrollDistance]="2"
-         [infiniteScrollThrottle]="50"
+         [infiniteScrollDistance]="5"
+         [infiniteScrollThrottle]="150"
          (scrolled)="onScroll()">
 
         <div class="loading-wrapper" *ngIf="loading">
@@ -121,13 +127,16 @@
                                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(processo.id) > -1"
                                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(processo.id) > -1"
                                     (salvarLembrete)="doSalvarLembrete($event)"
-                                    (criarLembrete)="doCriarLembrete($event)"
-                                    [prontoTransicao]="prontoTransicao"
+                                    (editar)="doEditar($event)"
                                     (realizarTransicao)="doRealizarTransicao($event)"
+                                    (desarquivar)="doDesarquivar($event)"
+                                    (registrarExtravio)="doRegistrarExtravio($event)"
+                                    [transicionando]="transicionandoIds.indexOf(processo.id) > -1"
                                     (toggleInSelectedProcessos)="toggleInSelected($event)"
                                     (loadInteressados)="doLoadInteressados($event)"
                                     [loadingInteressadosProcessosId]="loadingInteressadosProcessosId"
                                     (loadAssuntos)="doLoadAssuntos($event)"
+                                    [modalidadeTransicao]="modalidadeTransicao"
                                     [loadingAssuntosProcessosId]="loadingAssuntosProcessosId">
             </cdk-processo-list-item>
         </div>

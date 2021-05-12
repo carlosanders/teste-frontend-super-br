@@ -89,8 +89,8 @@
              infiniteScroll
              fxFlex="1 1 auto" fxLayout="column"
              [scrollWindow]="false"
-             [infiniteScrollDistance]="2"
-             [infiniteScrollThrottle]="50"
+             [infiniteScrollDistance]="5"
+             [infiniteScrollThrottle]="150"
              (scrolled)="onScroll()">
 
             <cdk-documento-avulso-list-item matRipple *ngFor="let documentoAvulso of documentosAvulso"

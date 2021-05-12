@@ -36,3 +36,8 @@ export const getProcessoIsLoading = createSelector(
     getProcessoCapaState,
     (state: ProcessoCapaState) => state.loading
 );
+
+export const getTogglingAcompanharProcesso = createSelector(
+    getProcessoCapaState,
+    (state: ProcessoCapaState) => state.loadingAcompanhamento
+);

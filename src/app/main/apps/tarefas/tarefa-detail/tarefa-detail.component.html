@@ -19,6 +19,7 @@
             (edit)="onVinculacaoEtiquetaEdit($event)"
             [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
             [errors]="(errors$ | async)"
+            [errorsAddEtiqueta]="(errorsAddEtiqueta$ | async)"
             [pagination]="vinculacaoEtiquetaPagination"
             (delete)="onVinculacaoEtiquetaDelete($event)"
             (addEtiqueta)="addEtiqueta($event)"

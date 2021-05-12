@@ -134,7 +134,7 @@ export class AssinaturasEffects {
                         map((response) => new AssinaturaActions.DeleteAssinaturaSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new AssinaturaActions.DeleteAssinaturaFailed(action.payload));
+                            return of(new AssinaturaActions.DeleteAssinaturaFailed(action.payload.assinaturaId));
                         })
                     );
                 })

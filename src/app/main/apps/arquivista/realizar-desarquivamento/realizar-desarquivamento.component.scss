@@ -1,0 +1,16 @@
+realizar-desarquivamento {
+    flex: 1 1 auto;
+    display: flex;
+
+    > .content {
+        flex: 1 1 auto;
+        display: flex;
+        padding: 16px;
+        overflow-y: auto;
+        flex-direction: column;
+
+        .mat-list-base .mat-list-item .mat-line {
+            white-space: pre-wrap !important;
+        }
+    }
+}

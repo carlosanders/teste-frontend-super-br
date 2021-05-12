@@ -692,10 +692,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.cadeiaCertificadoPEM = 'A1';
                     assinatura.cadeiaCertificadoPkiPath = 'A1';
                     assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
 
                     this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                        assinatura: assinatura,
-                        plainPassword: result.plainPassword
+                        assinatura: assinatura
                     }));
                 });
             }
@@ -719,10 +719,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.cadeiaCertificadoPEM = 'A1';
                     assinatura.cadeiaCertificadoPkiPath = 'A1';
                     assinatura.assinatura = 'A1';
+                    assinatura.plainPassword = result.plainPassword;
 
                     this._store.dispatch(new fromStore.AssinaJuntadaEletronicamente({
-                        assinatura: assinatura,
-                        plainPassword: result.plainPassword
+                        assinatura: assinatura
                     }));
                 });
             }
@@ -832,6 +832,13 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         documento.componentesDigitais?.forEach((componenteDigital: ComponenteDigital) => {
             this._store.dispatch(new fromStore.DownloadToP7S(componenteDigital.id));
         });
+    }
+
+    doAbreMinutaOutraAba(documento: Documento): void{
+        window.open(
+            this.routerState.url.split('/capa/')[0] + '/capa/documento/' + documento.id
+             + '/(componente-digital/' + documento.id + '/editor/ckeditor//sidebar:editar/atividade)'
+             );
     }
 
     onComplete(): void {

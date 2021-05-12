@@ -17,6 +17,8 @@ export class Assinatura {
 
     assinatura?: string;
 
+    plainPassword?: string;
+
     assinadoPor?: string;
 
     cadeiaCertificadoPEM?: string;
@@ -72,6 +74,7 @@ export class Assinatura {
         this.algoritmoHash = null;
         this.assinatura = null;
         this.assinadoPor = null;
+        this.plainPassword = null;
         this.cadeiaCertificadoPEM = null;
         this.cadeiaCertificadoPkiPath = null;
         this.dataHoraAssinatura = null;

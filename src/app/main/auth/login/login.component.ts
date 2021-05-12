@@ -91,6 +91,11 @@ export class LoginComponent implements OnInit
 
         this.config$.subscribe((config) => {
             this.config = config;
+            window.document.title = config.sigla;
+            this.cdkConfigService.logo = config.logo;
+            this.cdkConfigService.icone = config.icone;
+            this.cdkConfigService.nome = config.name;
+            this.cdkConfigService.sigla = config.sigla;
         });
 
         if (environment.base_url_x509) {

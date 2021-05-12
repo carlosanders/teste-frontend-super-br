@@ -1,6 +1,5 @@
-import {ProcessoState} from '../reducers/processo.reducer';
 import {createSelector} from '@ngrx/store';
-import {ArquivistaDetailAppState, getArquivistaDetailAppState} from '../reducers';
+import {ArquivistaDetailAppState, getArquivistaDetailAppState, ProcessoState} from '../reducers';
 
 export const getProcessoState = createSelector(
     getArquivistaDetailAppState,
@@ -10,5 +9,15 @@ export const getProcessoState = createSelector(
 export const expandirTela = createSelector(
     getProcessoState,
     (state: ProcessoState) => state.expandir
+);
+
+export const getIsSaving = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.saving
+);
+
+export const getErrors = createSelector(
+    getProcessoState,
+    (state: ProcessoState) => state.errors
 );
 

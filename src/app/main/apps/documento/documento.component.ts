@@ -57,6 +57,12 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     destroying = false;
     mobileMode: boolean;
 
+    deveRecarregarJuntadas: boolean = false;
+    unloadDocumentosTarefas: boolean = false;
+    getDocumentosAtividades: boolean = false;
+    getDocumentosAvulsos: boolean = false;
+    getDocumentosProcesso: boolean = false;
+
     /**
      *
      * @param _changeDetectorRef
@@ -132,6 +138,30 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+
+        this._store.dispatch(new UnloadComponenteDigital());
+        this._store.dispatch(new fromStore.UnloadDocumento());
+        if (this.unloadDocumentosTarefas) {
+            this._store.dispatch(new UnloadDocumentos());
+        }
+        if (this.getDocumentosAtividades) {
+            this._store.dispatch(new GetDocumentosAtividade());
+        } else if (this.getDocumentosAvulsos) {
+            this._store.dispatch(new GetDocumentosAvulsos());
+        } else if (this.getDocumentosProcesso) {
+            this._store.dispatch(new GetDocumentosProcesso());
+        }
+        if (this.deveRecarregarJuntadas) {
+            this.reloadJuntadas();
+            return;
+        }
+        if (this.routerState.params.stepHandle) {
+            const steps = this.routerState.params['stepHandle'].split('-');
+            this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
+                step: steps[0],
+                subStep: steps[1]
+            }));
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -155,41 +185,27 @@ export class DocumentoComponent implements OnInit, OnDestroy {
     }
 
     back(): void {
-        let reloadJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
+        this.deveRecarregarJuntadas = this.routerState.params['processoCopiaHandle'] && this.routerState.params['processoHandle'] !== this.routerState.params['processoCopiaHandle'];
         this.destroying = true;
-        this._store.dispatch(new UnloadComponenteDigital());
-        this._store.dispatch(new fromStore.UnloadDocumento());
         let url = this.routerState.url.split('/documento/')[0];
-        if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
-            this._store.dispatch(new UnloadDocumentos());
-        }
+        this.unloadDocumentosTarefas = url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1;
+
         if (url.indexOf('/capa') !== -1) {
             url += '/mostrar';
         }
+        if (url.indexOf('/atividades') !== -1) {
+            this.getDocumentosAtividades = true;
+        } else if (url.indexOf('/oficios') !== -1) {
+            this.getDocumentosAvulsos = true;
+        } else if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
+            this.getDocumentosProcesso = true;
+        }
+
         if (this.routerState.queryParams.pesquisa) {
             this._router.navigate(['apps/pesquisa/documentos/']);
             return;
         }
-        this._router.navigate([url]).then(() => {
-            if (url.indexOf('/atividades') !== -1) {
-                this._store.dispatch(new GetDocumentosAtividade());
-            } else if (url.indexOf('/oficios') !== -1) {
-                this._store.dispatch(new GetDocumentosAvulsos());
-            } else if (url.indexOf('/processo') !== -1 && url.indexOf('tarefa') !== -1) {
-                this._store.dispatch(new GetDocumentosProcesso());
-            }
-            if (reloadJuntadas) {
-                this.reloadJuntadas();
-                return;
-            }
-            if (this.routerState.params.stepHandle) {
-                const steps = this.routerState.params['stepHandle'].split('-');
-                this._store.dispatch(new ProcessoViewActions.SetCurrentStep({
-                    step: steps[0],
-                    subStep: steps[1]
-                }));
-            }
-        });
+        this._router.navigate([url]);
     }
 
     public destroyEditor(): void {
@@ -280,6 +296,20 @@ export class DocumentoComponent implements OnInit, OnDestroy {
                 editavel: prevComponenteDigital.editavel && this.documento.minuta
             }));
         }
+    }
+
+    hasChanges(): boolean {
+        const editor = window['CKEDITOR'];
+        if (editor && editor.instances) {
+            for (const editorInstance in editor.instances) {
+                if (editor.instances.hasOwnProperty(editorInstance) && editor.instances[editorInstance]) {
+                    if (editor.instances[editorInstance].checkDirty()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     visualizarProcessoNovaAba(): void {

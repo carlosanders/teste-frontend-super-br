@@ -7,5 +7,11 @@ realizar-transicao {
         display: flex;
         padding: 16px;
         overflow-y: auto;
+        flex-direction: column;
+
+
+        .mat-list-base .mat-list-item .mat-line {
+            white-space: pre-wrap !important;
+        }
     }
 }

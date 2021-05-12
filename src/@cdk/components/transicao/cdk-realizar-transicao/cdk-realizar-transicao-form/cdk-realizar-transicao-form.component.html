@@ -1,31 +1,13 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
     <mat-form-field>
-        <input matInput placeholder="Modalidade de Transição"
-               formControlName="modalidadeTransicao"
-               [matAutocomplete]="modalidadeTransicao.autocomplete" required
-               (blur)="checkModalidadeTransicao()">
-        <cdk-modalidade-transicao-autocomplete
-            #modalidadeTransicao="modalidadeTransicaoAutocomplete"
-            [control]="form.get('modalidadeTransicao')"
-            [pagination]="modalidadeTransicaoPagination">
-        </cdk-modalidade-transicao-autocomplete>
-        <button *ngIf="form.get('modalidadeTransicao').enabled" matSuffix mat-button mat-icon-button
-                (click)="showModalidadeTransicaoGrid()">
-            <mat-icon matTooltip="Procurar">search</mat-icon>
-        </button>
-        <mat-error *ngIf="form.get('modalidadeTransicao').hasError('formError')">
-            {{form.get('modalidadeTransicao').errors.formError}}
-        </mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
         <mat-label>Método</mat-label>
-        <input matInput #metodo
-               name="metodo"
-               formControlName="metodo"
-               maxlength="255" upperCase required>
-        <mat-hint align="end">{{metodo.value.length}} / 255</mat-hint>
+        <mat-select name="metodo"
+                    formControlName="metodo" required>
+            <mat-option value="ELETRÔNICO">Eletrônico</mat-option>
+            <mat-option value="FÍSICO">Físico</mat-option>
+            <mat-option value="ELETRÔNICO E FÍSICO">Eletrônico e físico</mat-option>
+        </mat-select>
     </mat-form-field>
 
     <mat-form-field>
@@ -33,7 +15,8 @@
         <input matInput #edital
                name="edital"
                formControlName="edital"
-               maxlength="255" upperCase required>
+               maxlength="255" upperCase
+               [required]="modalidadeTransicao.valor === 'ELIMINAÇÃO'">
         <mat-hint align="end">{{edital.value.length}} / 255</mat-hint>
     </mat-form-field>
 
@@ -58,10 +41,3 @@
     </div>
 
 </form>
-
-<cdk-modalidade-transicao-gridsearch
-    *ngIf="activeCard === 'modalidade-transicao-gridsearch'"
-    [pagination]="modalidadeTransicaoPagination"
-    (selected)="selectModalidadeTransicao($event)"
-    (cancel)="cancel()">
-</cdk-modalidade-transicao-gridsearch>

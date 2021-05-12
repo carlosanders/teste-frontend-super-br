@@ -19,7 +19,7 @@ import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.serv
 import {Etiqueta, Folder, Pagination, Tarefa, Usuario} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import {getIsSavingObservacao, ToggleMaximizado} from 'app/main/apps/tarefas/store';
 import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
@@ -65,7 +65,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     tarefas$: Observable<Tarefa[]>;
 
     loading$: Observable<boolean>;
+    loading: boolean;
+
     togglingUrgenteIds$: Observable<number[]>;
+    savingObservacao$: Observable<boolean>;
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
@@ -165,6 +168,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.error$ = this._store.pipe(select(fromStore.getError));
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
         this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
+        this.savingObservacao$ = this._store.pipe(select(fromStore.getIsSavingObservacao));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -294,6 +298,12 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.selectedIds = selectedIds;
         });
 
+        this.loading$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loading => {
+            this.loading = loading;
+        });
+
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(screen => {
@@ -389,6 +399,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     onScroll(): void {
         if (this.tarefas.length >= this.pagination.total) {
+            return;
+        }
+
+        if (this.loading) {
             return;
         }
 
@@ -564,6 +578,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/editar']).then();
     }
 
+    doEditProcesso(params): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/editar/dados-basicos']).then();
+    }
+
     doRedistribuirTarefa(tarefaId): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
     }
@@ -716,7 +734,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.currentTarefaId = null;
     }
 
-    doGerarRelatorioTarefaExcel(){
+    doSalvarObservacao(params: any): void {
+        this._store.dispatch(new fromStore.SaveObservacao(params));
+    }
+
+    doGerarRelatorioTarefaExcel() {
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
             data: {
                 title: 'Confirmação',
@@ -726,7 +748,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             disableClose: false
         });
 
-        this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja gerar um relatório com a listagem completa de tarefas? Você receberá uma notificação quando o relatório estiver disponível.';
+        this.confirmDialogRef
+            .componentInstance
+            .confirmMessage = 'Deseja gerar um relatório com a listagem completa de tarefas? Você receberá uma notificação quando o relatório estiver disponível.';
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {

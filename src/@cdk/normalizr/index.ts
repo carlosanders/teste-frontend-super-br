@@ -726,7 +726,8 @@ processo.define({
     vinculacoesEtiquetas: [vinculacaoEtiqueta],
     lembretes: [lembrete],
     assuntos: [assunto],
-    interessados: [interessado]
+    interessados: [interessado],
+    compartilhamentoUsuario: compartilhamento
 });
 
 regraEtiqueta.define({

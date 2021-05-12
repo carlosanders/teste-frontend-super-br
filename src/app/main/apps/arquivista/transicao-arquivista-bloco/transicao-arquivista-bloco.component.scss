@@ -1,8 +1,10 @@
 transicao-arquivista-bloco {
     display: flex;
     flex: 1 1 auto;
+
     > .content {
         display: flex;
+        flex-direction: column;
         flex: 1 1 auto;
         padding: 8px;
         overflow-y: auto;

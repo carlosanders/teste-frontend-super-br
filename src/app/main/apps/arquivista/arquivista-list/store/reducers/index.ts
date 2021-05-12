@@ -1,11 +1,11 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
 import { ArquivistaReducer, ArquivistaState } from './arquivista.reducer';
-
+import { ModalidadeTransicaoReducer, ModalidadeTransicaoState } from './modalidade-transicao.reducer';
 
 export interface ArquivistaAppState
 {
     arquivista: ArquivistaState;
-
+    modalidadeTransicao: ModalidadeTransicaoState
 }
 
 export const getArquivistaAppState = createFeatureSelector<ArquivistaAppState>(
@@ -19,8 +19,8 @@ export const getAppState = createSelector(
 
 export const reducers: ActionReducerMap<ArquivistaAppState> = {
     arquivista: ArquivistaReducer,
-
+    modalidadeTransicao: ModalidadeTransicaoReducer
 };
 
 export * from './arquivista.reducer';
-
+export * from './modalidade-transicao.reducer';

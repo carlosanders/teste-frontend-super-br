@@ -1,6 +1,6 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
-import {Interessado, Lembrete, Tarefa} from '@cdk/models';
+import {Compartilhamento, Interessado, Lembrete, Tarefa} from '@cdk/models';
 import {Usuario} from '@cdk/models';
 import {EspecieProcesso} from '@cdk/models';
 import {Setor} from '@cdk/models';
@@ -64,6 +64,8 @@ export class Processo {
     titulo?: string;
 
     descricao?: string;
+
+    lembreteArquivista?: string;
 
     outroNumero?: string;
 
@@ -142,6 +144,10 @@ export class Processo {
     @Type(() => VinculacaoEtiqueta)
     vinculacoesEtiquetas?: VinculacaoEtiqueta[];
 
+    @Exclude({toPlainOnly: true})
+    @Type(() => Compartilhamento)
+    compartilhamentoUsuario?: Compartilhamento;
+
     @Type(() => EspecieProcesso)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     especieProcesso?: EspecieProcesso;
@@ -205,6 +211,7 @@ export class Processo {
         this.unidadeArquivistica = null;
         this.tipoProtocolo = null;
         this.descricao = null;
+        this.lembreteArquivista = null;
         this.valorEconomico = null;
         this.semValorEconomico = null;
         this.NUP = null;
@@ -247,5 +254,6 @@ export class Processo {
         this.configuracaoNup = null;
         this.validaNup = null;
         this.alterarChave = null;
+        this.compartilhamentoUsuario = null;
     }
 }

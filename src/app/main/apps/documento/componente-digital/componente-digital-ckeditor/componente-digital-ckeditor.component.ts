@@ -232,10 +232,10 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
         assinatura.cadeiaCertificadoPEM = 'A1';
         assinatura.cadeiaCertificadoPkiPath = 'A1';
         assinatura.assinatura = 'A1';
+        assinatura.plainPassword = plainPassword;
 
         this._store.dispatch(new fromDocumentoStore.AssinaDocumentoEletronicamente({
-            assinatura: assinatura,
-            plainPassword: plainPassword
+            assinatura: assinatura
         }));
     }
 

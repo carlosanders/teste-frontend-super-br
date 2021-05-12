@@ -5,12 +5,11 @@ import {effects} from './effects';
 import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 
-
 @NgModule({
     declarations: [],
     imports: [
         CommonModule,
-        StoreModule.forFeature('arquivista-classificacao-bloco', reducers),
+        StoreModule.forFeature('arquivista-transicao-bloco', reducers),
         EffectsModule.forFeature(effects)
     ]
 })

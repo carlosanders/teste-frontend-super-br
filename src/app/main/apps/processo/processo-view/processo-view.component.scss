@@ -38,6 +38,15 @@ processo-view {
                     display: flex;
                     align-items: center;
                     justify-content: space-between;
+
+                    > div {
+                        min-width: 30%;
+                    }
+
+                    .right {
+                        display: flex;
+                        justify-content: flex-end;
+                    }
                 }
             }
 
@@ -45,6 +54,8 @@ processo-view {
                 flex: 1 1 auto;
                 display: flex;
                 margin-left: 6px;
+                overflow: auto;
+                justify-self: inherit;
 
                 > .processo-view-juntada {
                     flex: 1 1 auto;
@@ -59,10 +70,60 @@ processo-view {
                         align-items: center;
                     }
 
+                    > .zoom-0x {
+                        transform: scale(1);
+                    }
+
+                    > .zoom-1x {
+                        transform: scale(1.1);
+                    }
+
+                    > .zoom-2x {
+                        transform: scale(1.2);
+                    }
+
+                    > .zoom-3x {
+                        transform: scale(1.3);
+                    }
+
+                    > .zoom-4x {
+                        transform: scale(1.4);
+                    }
+
+                    > .zoom-5x {
+                        transform: scale(1.5);
+                    }
+
+                    > .zoom-6x {
+                        transform: scale(1.6);
+                    }
+
+                    > .zoom-7x {
+                        transform: scale(1.7);
+                    }
+
+                    > .zoom-8x {
+                        transform: scale(1.8);
+                    }
+
+                    > .zoom-9x {
+                        transform: scale(1.9);
+                    }
+
+                    > .zoom-10x {
+                        transform: scale(2);
+                    }
+
                     > .processo-view-juntada-content {
                         flex: 1 1 auto;
                         display: flex;
+                        flex-direction: column;
                         @include mat-elevation(1);
+
+                        > .html-tools {
+                            align-self: center;
+                            justify-content: center;
+                        }
 
                         > iframe {
                             flex: 1 1 auto;
@@ -85,4 +146,12 @@ processo-view {
             }
         }
     }
+}
+
+.compact-panel {
+    transform-origin: top left!important;
+}
+
+.expanded-panel {
+    transform-origin: top!important;
 }

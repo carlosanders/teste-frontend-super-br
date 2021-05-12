@@ -7,7 +7,7 @@
     <div class="login-form-wrapper" fxLayout="column" fxLayoutAlign="center center" *ngIf="!(loadingConfig$ | async) && config && config.error">
         <div class="login-form" [@animate]="{value:'*',params:{duration:'300ms',y:'100px'}}">
             <div class="logo">
-                <img src="assets/images/logos/supp.png">
+                <img [src]="config.logo">
             </div>
 
             <div class="subtitle">Sistema encontra-se indisponível no momento. Tente novamente mais tarde.</div>

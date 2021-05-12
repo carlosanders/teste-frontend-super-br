@@ -11,11 +11,14 @@ import {CdkRealizarTransicaoFormModule} from '../../../../../@cdk/components/tra
 import {MatListModule} from '@angular/material/list';
 import {modulesConfig} from 'modules/modules-config';
 import {DirectivesModule} from '../../../../../@cdk/directives/directives';
+import {CdkConfirmDialogModule} from "../../../../../@cdk/components";
+import * as fromGuards from './store/guards';
 
 const routes: Routes = [
     {
-        path: 'criar',
+        path: '',
         component: TransicaoArquivistaBlocoComponent,
+        canActivate: [fromGuards.ResolveGuard]
     }
 ];
 
@@ -35,12 +38,14 @@ modulesConfig.forEach((module) => {
         TransicaoArquivistaStoreModule,
         CdkRealizarTransicaoFormModule,
         MatListModule,
+        CdkConfirmDialogModule,
         DirectivesModule
     ],
     providers: [
         ProcessoService,
         TransicaoService,
-        LoginService
+        LoginService,
+        fromGuards.ResolveGuard
     ]
 })
 export class TransicaoArquivistaBlocoModule {

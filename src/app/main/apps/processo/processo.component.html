@@ -14,12 +14,14 @@
         <!-- CONTENT HEADER -->
         <div class="header" *ngIf="!(expandir$ | async)">
             <div class="search-wrapper"
-                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR') && (processo$ | async)?.id">
+                 *ngIf="this._loginService.isGranted('ROLE_COLABORADOR')">
                 <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') > -1"
+                        matTooltip="Menu do processo"
                         (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-md>
                     <mat-icon>menu</mat-icon>
                 </button>
                 <button class="sidebar-toggle" mat-icon-button *ngIf="routerState.url.indexOf('apps/processo') === -1"
+                        matTooltip="Menu do processo"
                         (click)="toggleSidebar('processo-main-sidebar')" fxHide.gt-xl>
                     <mat-icon>menu</mat-icon>
                 </button>
@@ -39,15 +41,19 @@
 
             </div>
 
-            <div class="actions" *ngIf="(processo$ | async)?.id">
+            <div class="spinner-container m-8" *ngIf="(togglingAcompanharProcesso$ | async)">
+                <mat-spinner diameter="20"></mat-spinner>
+            </div>
+
+            <div class="actions" *ngIf="processo !== null">
                 <button mat-icon-button [matMenuTriggerFor]="moreMenu" aria-label="Mais Ferramentas"
-                        (click)="$event.stopPropagation()">
+                        (click)="$event.stopPropagation()" *ngIf="(processo$ | async)">
                     <mat-icon class="secondary-text">more_vert</mat-icon>
                 </button>
 
                 <mat-menu #moreMenu="matMenu">
                     <button mat-menu-item aria-label="arquivar processo"
-                            *showIfNotRole="'ROLE_USUARIO_EXTERNO'"
+                            *ngIf="!this._loginService.isGranted('ROLE_USUARIO_EXTERNO') && (processo$ | async)?.setorAtual?.nome !== 'ARQUIVO'"
                             (click)="arquivarProcesso()">
                         <ng-container>
                             <mat-icon>archive</mat-icon>
@@ -74,6 +80,12 @@
                         <ng-container>
                             <mat-icon>open_in_new</mat-icon>
                             <span>Abrir nova aba</span>
+                        </ng-container>
+                    </button>
+                    <button mat-menu-item aria-label="abrir nova aba" *ngIf="processo" (click)="acompanharProcesso(processo)" >
+                        <ng-container>
+                            <mat-icon>done</mat-icon>
+                            <span>{{!!processo.compartilhamentoUsuario ? 'Desacompanhar Processo'  : 'Acompanhar Processo'}}</span>
                         </ng-container>
                     </button>
                     <ng-template #dynamicComponent></ng-template>

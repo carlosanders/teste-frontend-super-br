@@ -56,7 +56,9 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkStore(): Observable<any> {
-        if (this.routerState.params['processoHandle']) {
+        if (this.routerState.params['processoHandle'] &&
+            this.routerState.url.indexOf('acesso-negado') === -1 &&
+            this.routerState.url.indexOf('editar/dados-basicos') === -1) {
             return forkJoin([
                 this.getTarefa(),
                 this.getProcesso(),
@@ -103,17 +105,13 @@ export class ResolveGuard implements CanActivate {
         return this._store.pipe(
             select(getProcessoLoaded),
             tap((loaded: any) => {
-                if (loaded.acessoNegado) {
-                    this._router.navigate([this.routerState.url.split('/processo')[0] + '/processo/' + this.routerState.params.processoHandle + '/acesso-negado']).then();
-                } else {
-                    if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
-                        if (this.routerState.params['processoHandle'] === 'criar') {
-                            this._store.dispatch(new fromStoreProcesso.CreateProcesso());
-                        } else {
-                            this._store.dispatch(new fromStoreProcesso.GetProcesso({
-                                id: this.routerState.params['processoHandle']
-                            }));
-                        }
+                if (!this.routerState.params[loaded.id] || this.routerState.params[loaded.id] !== loaded.value) {
+                    if (this.routerState.params['processoHandle'] === 'criar') {
+                        this._store.dispatch(new fromStoreProcesso.CreateProcesso());
+                    } else {
+                        this._store.dispatch(new fromStoreProcesso.GetProcesso({
+                            id: this.routerState.params['processoHandle']
+                        }));
                     }
                 }
             }),

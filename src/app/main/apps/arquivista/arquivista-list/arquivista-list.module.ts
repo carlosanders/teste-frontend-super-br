@@ -14,6 +14,9 @@ import {InfiniteScrollModule} from 'ngx-infinite-scroll';
 import {LoginService} from '../../../auth/login/login.service';
 import {LembreteService} from '@cdk/services/lembrete.service';
 import {modulesConfig} from 'modules/modules-config';
+import {TransicaoArquivistaStoreModule} from "../transicao-arquivista-bloco/store/store.module";
+import {TransicaoService} from "../../../../../@cdk/services/transicao.service";
+import {ModalidadeTransicaoService} from "../../../../../@cdk/services/modalidade-transicao.service";
 
 const routes: Routes = [
     {
@@ -33,16 +36,24 @@ const routes: Routes = [
                 loadChildren: () => import('../vinculacao-etiqueta-create-bloco/vinculacao-etiqueta-create-bloco.module').then(m => m.VinculacaoEtiquetaCreateBlocoModule),
             },
             {
-                path: 'lembrete-bloco',
-                loadChildren: () => import('../arquivista-lembrete-bloco/arquivista-lembrete-bloco.module').then(m => m.ArquivistaLembreteBlocoModule)
+                path: 'arquivista-editar-bloco',
+                loadChildren: () => import('../arquivista-edit-bloco/arquivista-edit-bloco.module').then(m => m.ArquivistaEditBlocoModule)
             },
             {
-                path: 'classificacao-bloco',
-                loadChildren: () => import('../arquivista-classificacao-bloco/arquivista-classificacao-bloco.module').then(m => m.ArquivistaClassificacaoBlocoModule)
-            },
-            {
-                path: 'transicao-arquivista-bloco',
+                path: 'temporalidade-destinacao-bloco',
                 loadChildren: () => import('../transicao-arquivista-bloco/transicao-arquivista-bloco.module').then(m => m.TransicaoArquivistaBlocoModule)
+            },
+            {
+                path: 'desarquivar-bloco',
+                loadChildren: () => import('../transicao-arquivista-bloco/transicao-arquivista-bloco.module').then(m => m.TransicaoArquivistaBlocoModule)
+            },
+            {
+                path: 'registrar-extravio-bloco',
+                loadChildren: () => import('../transicao-arquivista-bloco/transicao-arquivista-bloco.module').then(m => m.TransicaoArquivistaBlocoModule)
+            },
+            {
+                path: 'operacoes-bloco',
+                loadChildren: () => import('../operacoes-bloco/arquivista-operacoes-bloco.module').then(m => m.ArquivistaOperacoesBlocoModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]
@@ -66,6 +77,7 @@ modulesConfig.forEach((module) => {
         ResizableModule,
         MatIconModule,
         ArquivistaStoreModule,
+        TransicaoArquivistaStoreModule,
         TranslateModule,
         CdkProcessoListModule,
         CdkSharedModule,
@@ -76,7 +88,9 @@ modulesConfig.forEach((module) => {
     providers: [
         fromGuards.ResolveGuard,
         ProcessoService,
+        TransicaoService,
         LembreteService,
+        ModalidadeTransicaoService,
         LoginService
     ]
 })

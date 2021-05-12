@@ -54,7 +54,6 @@ export function AtividadeCreateDocumentosReducer(
 
                 return {
                     ...state,
-                    documentosId: null,
                     loaded: false,
                     loadDocumentosExcluidos: true,
                     lixeiraMinutas: true
@@ -62,7 +61,6 @@ export function AtividadeCreateDocumentosReducer(
             } else {
                 return {
                     ...state,
-                    documentosId: null,
                     loaded: false,
                     loadDocumentosExcluidos: false,
                     lixeiraMinutas: false

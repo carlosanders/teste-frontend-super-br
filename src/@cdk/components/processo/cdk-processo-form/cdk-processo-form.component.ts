@@ -343,6 +343,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
 
         if (changes['processo'] && this.processo && (!this.processo.id || (this.processo.id !== this.form.get('id').value) || (this.processo.unidadeArquivistica !== this.form.get('unidadeArquivistica').value))) {
             this.form.patchValue({...this.processo});
+            this.form.get('configuracaoNup').clearValidators();
         }
 
         if (this.errors && this.errors.status && (this.errors.status === 400 || this.errors.status === 422)) {
@@ -363,6 +364,11 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             });
 
             this.form.setErrors(null);
+        }
+
+        if (!this.nupIsValid) {
+            const control = this.form.get('NUP');
+            control.setErrors({formError: this.errors.error.message});
         }
 
         if (changes['procedencia'] && this.procedencia) {

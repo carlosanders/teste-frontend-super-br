@@ -58,7 +58,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param _router
      */
     constructor(
-        private _cdkConfigService: CdkConfigService,
+        public _cdkConfigService: CdkConfigService,
         public _cdkSidebarService: CdkSidebarService,
         private _translateService: TranslateService,
         public _loginService: LoginService,

@@ -141,6 +141,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
 
+    generoProcessos: any[] = [];
+
     /**
      * Constructor
      */
@@ -226,8 +228,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             distinctUntilChanged(),
             switchMap((value) => {
                     if (value && typeof value === 'object' && this.form.get('blocoProcessos').value) {
-                        this.processos.push(value);
-                        this._changeDetectorRef.markForCheck();
+                        this.adicionaBlocoProcesso(value);
                     }
                     return of([]);
                 }
@@ -455,6 +456,7 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
     selectProcesso(processo: Processo): void {
         if (processo) {
             this.form.get('processo').setValue(processo);
+            this.adicionaBlocoProcesso(processo);
         }
         this.activeCard = 'form';
     }
@@ -625,6 +627,43 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
                 this._changeDetectorRef.markForCheck();
             }
         );
+    }
+
+    adicionaBlocoProcesso(value): void {
+        if (this.form.get('blocoProcessos').value && typeof value === 'object' && value) {
+            // bloco de processo so pode ser realizado por processos do mesmo genero
+            if (this.processos.length > 0) {
+
+                this.form.controls['processo'].setErrors(null);
+
+                // caso seja o mesmo genero dos processos existentes
+                if (this.generoProcessos.find(genero =>
+                    (genero === value.especieProcesso.generoProcesso.nome)
+                )) {
+                    const findDuplicate = this.processos.some(item => (item.id === value.id));
+                    if (!findDuplicate) {
+                        this.processos.push(value);
+                    }
+                }
+
+                // caso nao seja o mesmo genero mas ainda é um genero que nao existe no array
+                if (this.generoProcessos.find(genero =>
+                    (genero !== value.especieProcesso.generoProcesso.nome && this.generoProcessos.length === 0)
+                )) {
+                    this.processos.push(value);
+                    this.generoProcessos.push(value.especieProcesso.generoProcesso.nome);
+                }
+
+                // caso nao seja o mesmo genero e já existe generos iguais
+                if (this.generoProcessos.find(genero => genero !==
+                    value.especieProcesso.generoProcesso.nome && this.generoProcessos.length > 0)) {
+                    this.form.controls['processo'].setErrors({formError: 'Bloco de processos devem ser do mesmo gênero.'});
+                }
+            } else {
+                this.processos.push(value);
+                this.generoProcessos.push(value.especieProcesso.generoProcesso.nome);
+            }
+        }
     }
 
 }

@@ -158,7 +158,7 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
             },
             {
                 index: 140,
-                nome: 'Transições',
+                nome: 'Temporalidades e Destinações',
                 link: 'transicoes',
                 role: 'ROLE_COLABORADOR'
             },

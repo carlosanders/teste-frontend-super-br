@@ -83,12 +83,10 @@ export class SegurancaComponent implements OnInit, OnDestroy {
         const usuario = new Usuario();
         usuario.id = this.usuario.id;
         const changes = {
-            plainPassword: values.plainPassword
-        };
-        const context = {
+            plainPassword: values.plainPassword,
             currentPlainPassword: values.senhaAtual
         };
-        this._store.dispatch(new fromStore.SaveSeguranca({usuario: usuario, changes: changes, context: JSON.stringify(context)}));
+        this._store.dispatch(new fromStore.SaveSeguranca({usuario: usuario, changes: changes}));
 
     }
 

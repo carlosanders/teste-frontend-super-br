@@ -58,30 +58,32 @@
         </div>
 
         <div [hidden]="!this.exibirNup">
-            <div class="responsive-group">
-        <mat-form-field>
-            <input matInput placeholder="Configuração NUP" formControlName="configuracaoNup" required
-                   [matAutocomplete]="configuracaoNup.autocomplete" (blur)="checkConfiguracaoNup()" [readonly]="readonlyNUP">
-            <cdk-configuracao-nup-autocomplete #configuracaoNup="configuracaoNupAutocomplete"
-                                               [control]="form.get('configuracaoNup')"
-                                               [configuracaoNupList]="configuracaoNupList"
-                                               [configuracaoNupListIsLoading]="configuracaoNupListIsLoading"
-                                               [pagination]="configuracaoNupPagination">
-            </cdk-configuracao-nup-autocomplete>
-            <button matSuffix mat-button mat-icon-button (click)="showConfiguracaoNup()" [disabled]="readonlyNUP">
-                <mat-icon matTooltip="Procurar">search</mat-icon>
-            </button>
-            <mat-error *ngIf="form.get('configuracaoNup').hasError('formError')">
-                {{form.get('configuracaoNup').errors.formError}}
-            </mat-error>
-        </mat-form-field>
+            <div class="responsive-group" *ngIf="!form.value.id">
+                <mat-form-field>
+                    <input matInput placeholder="Configuração NUP" formControlName="configuracaoNup" required
+                           [matAutocomplete]="configuracaoNup.autocomplete" (blur)="checkConfiguracaoNup()" [readonly]="readonlyNUP">
+                    <cdk-configuracao-nup-autocomplete #configuracaoNup="configuracaoNupAutocomplete"
+                                                       [control]="form.get('configuracaoNup')"
+                                                       [configuracaoNupList]="configuracaoNupList"
+                                                       [configuracaoNupListIsLoading]="configuracaoNupListIsLoading"
+                                                       [pagination]="configuracaoNupPagination">
+                    </cdk-configuracao-nup-autocomplete>
+                    <button matSuffix mat-button mat-icon-button (click)="showConfiguracaoNup()" [disabled]="readonlyNUP">
+                        <mat-icon matTooltip="Procurar">search</mat-icon>
+                    </button>
+                    <mat-error *ngIf="form.get('configuracaoNup').hasError('formError')">
+                        {{form.get('configuracaoNup').errors.formError}}
+                    </mat-error>
+                </mat-form-field>
             </div>
         </div>
         <mat-form-field *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && form.get('configuracaoNup').value">
             <mat-label>{{form.value.unidadeArquivistica !== 3 ? 'NUP' : 'Dossiê'}}</mat-label>
             <input matInput #NUP name="NUP" formControlName="NUP" maxlength="21" [readonly]="readonlyNUP" (focusout)="doValidateNup()" required>
             <mat-hint align="end">{{NUP.value.length}} / 21</mat-hint>
-            <mat-error>Campo obrigatório!</mat-error>
+            <mat-error *ngIf="form.get('NUP').hasError('formError')">
+                {{form.get('NUP').errors.formError}}
+            </mat-error>
         </mat-form-field>
 
         <mat-form-field *ngIf="this.processo.id">
@@ -156,7 +158,7 @@
 
     <ng-template *showIfRole="'ROLE_COLABORADOR'">
         <mat-form-field>
-            <input matInput placeholder="Fase" formControlName="modalidadeFase" required
+            <input matInput placeholder="Idade" formControlName="modalidadeFase" required
                 [matAutocomplete]="modalidadeFase.autocomplete" (blur)="checkModalidadeFase()">
             <cdk-modalidade-fase-autocomplete #modalidadeFase="modalidadeFaseAutocomplete"
                 [control]="form.get('modalidadeFase')" [pagination]="modalidadeFasePagination">
@@ -300,7 +302,7 @@
         </mat-datetimepicker>
     </mat-form-field>
 
-    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors.rulesError}}</mat-error>
+    <mat-error *ngIf="form.hasError('rulesError')">{{form.errors?.rulesError}}</mat-error>
 
     <div class="actions">
         <button mat-raised-button color="accent" (click)="submit()" [disabled]="form.invalid || saving" *ngIf="!saving">

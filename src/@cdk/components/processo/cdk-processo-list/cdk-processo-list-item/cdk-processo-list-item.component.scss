@@ -47,6 +47,16 @@ cdk-processo-list-item {
 
         .body {
             margin-top: 6px;
+
+            .transicao-arquivistica {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                mat-spinner {
+                    margin-left: 5px;
+                }
+            }
         }
 
         .etiquetas {

@@ -1,0 +1,49 @@
+<!-- CONTENT -->
+<div class="content" cdkPerfectScrollbar>
+
+    <h2>Edição em bloco de processos</h2>
+
+    <h3>{{(processos$ | async)?.length}} processo(s) selecionado(s) </h3>
+
+    <div class="bloco-edit p-16 mb-16" fxLayout="column" *ngIf="operacoes.length === 0">
+        <mat-slide-toggle [(ngModel)]="blocoEditClassificacao"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Classificação
+        </mat-slide-toggle>
+
+        <mat-slide-toggle [(ngModel)]="blocoEditDataHoraProximaTransicao"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Data da próxima temporalidade e destinação
+        </mat-slide-toggle>
+
+        <mat-slide-toggle [(ngModel)]="blocoEditLembrete"
+                          class="mr-16 mb-16" fxFlex="0 1 auto">
+            Lembrete
+        </mat-slide-toggle>
+    </div>
+
+    <cdk-processo-arquivista-form
+        *ngIf="operacoes.length === 0"
+        [valid]="(processos$ | async)?.length > 0 && (blocoEditClassificacao || blocoEditDataHoraProximaTransicao || blocoEditLembrete)"
+        [saving]="(savingId$ | async).length > 0"
+        [mode]="'bloco-edit'"
+        [blocoEdit]="{
+            blocoEditClassificacao: blocoEditClassificacao,
+            blocoEditDataHoraProximaTransicao: blocoEditDataHoraProximaTransicao,
+            blocoEditLembrete: blocoEditLembrete
+        }"
+        (abort)="doAbort()"
+        (save)="submit($event)">
+    </cdk-processo-arquivista-form>
+
+    <mat-list *ngIf="operacoes.length > 0">
+        <h3 matSubheader>
+            <span>Resultado do Bloco</span>
+        </h3>
+
+        <mat-list-item *ngFor="let operacao of operacoes">
+            <p matLine class="mb-4 p-8 secondary-text"
+               [ngClass]="{'light-green-50': operacao.success, 'pink-50': !operacao.success}">{{operacao.content}}</p>
+        </mat-list-item>
+    </mat-list>
+</div>
