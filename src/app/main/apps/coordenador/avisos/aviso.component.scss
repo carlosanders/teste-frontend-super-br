@@ -1,0 +1,16 @@
+aviso {
+    display: flex;
+    flex: 1 1 auto;
+
+    .aviso-content {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+
+        > .content {
+            display: flex;
+            flex: 1 1 auto;
+            overflow-y: auto;
+        }
+    }
+}

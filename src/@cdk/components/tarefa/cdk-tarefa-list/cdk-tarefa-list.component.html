@@ -244,7 +244,7 @@
                     [togglingUrgente]="togglingUrgenteIds.length > 0 && togglingUrgenteIds.indexOf(tarefa.id) > -1"
                     [usuarioAtual]="usuarioAtual"
                     [displayedCampos]="displayedCampos"
-                    (click)="selectTarefa(tarefa);"
+                    (click)="selectTarefa($event, tarefa);"
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
                     [dragging]="draggingIds.length > 0 && draggingIds.indexOf(tarefa.id) > -1"

@@ -73,6 +73,11 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Unidades',
                 icon: 'location_city',
                 link: 'unidades'
+            },
+            {
+                nome: 'Avisos',
+                icon: 'info',
+                link: 'avisos'
             }
         ];
 
@@ -101,6 +106,11 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Setores da Unidade',
                 icon: 'domain',
                 link: 'setor'
+            },
+            {
+                nome: 'Avisos da Unidade',
+                icon: 'info',
+                link: 'avisos'
             }
         ];
 
@@ -124,6 +134,11 @@ export class CoordenadorMainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Usuários do Setor',
                 icon: 'person',
                 link: 'usuarios'
+            },
+            {
+                nome: 'Avisos do Setor',
+                icon: 'info',
+                link: 'avisos'
             }
         ];
         const path = 'app/main/apps/coordenador/sidebars/main';
