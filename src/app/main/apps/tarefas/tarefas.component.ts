@@ -578,6 +578,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/editar']).then();
     }
 
+    doEditProcesso(params): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/editar/dados-basicos']).then();
+    }
+
     doRedistribuirTarefa(tarefaId): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
     }
@@ -734,7 +738,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.SaveObservacao(params));
     }
 
-    doGerarRelatorioTarefaExcel(){
+    doGerarRelatorioTarefaExcel() {
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
             data: {
                 title: 'Confirmação',

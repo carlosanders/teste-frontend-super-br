@@ -56,7 +56,9 @@ export class ResolveGuard implements CanActivate {
      * @returns {Observable<any>}
      */
     checkStore(): Observable<any> {
-        if (this.routerState.params['processoHandle'] && this.routerState.url.indexOf('acesso-negado') === -1) {
+        if (this.routerState.params['processoHandle'] &&
+            this.routerState.url.indexOf('acesso-negado') === -1 &&
+            this.routerState.url.indexOf('editar/dados-basicos') === -1) {
             return forkJoin([
                 this.getTarefa(),
                 this.getProcesso(),

@@ -228,6 +228,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.editTarefa.emit(this.tarefa.id);
     }
 
+    doEditProcesso(): void {
+        this.editProcesso.emit(this.tarefa);
+    }
+
     doRedistribuirTarefa(): void {
         this.redistribuirTarefa.emit(this.tarefa.id);
     }
