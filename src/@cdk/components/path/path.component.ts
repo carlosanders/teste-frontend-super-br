@@ -70,6 +70,7 @@ export class PathComponent implements OnInit {
     carregarNomes() { //Adicionar nomes compostos, que tenha acento e ç
         this.mapaNome.set('acoes', 'ações');
         this.mapaNome.set('arvore', 'árvore');
+        this.mapaNome.set('avisos', 'avisos');
         this.mapaNome.set('classificacoes', 'classificações');
         this.mapaNome.set('especie-atividades', 'espécie atividades');
         this.mapaNome.set('especies-processo', 'espécie processos');

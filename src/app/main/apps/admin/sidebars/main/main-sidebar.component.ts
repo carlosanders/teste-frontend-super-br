@@ -136,6 +136,12 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 icon: 'low_priority',
                 link: 'workflows',
                 role: ['ROLE_ADMIN']
+            },
+            {
+                nome: 'Avisos',
+                icon: 'info',
+                link: 'avisos',
+                role: ['ROLE_ADMIN']
             }
         ];
 
