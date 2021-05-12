@@ -682,6 +682,14 @@
                             </ng-container>
                         </button>
 
+                        <button mat-menu-item aria-label="abrir em outra aba"
+                                (click)="doJuntadaOutraAba(juntada.documento)">
+                            <ng-container>
+                                <mat-icon>open_in_new</mat-icon>
+                                <span>Abrir Juntada em outra aba</span>
+                            </ng-container>
+                        </button>
+
                         <button fxLayout="row" fxLayoutAlign="start center"
                                 *ngIf="juntada.documento.assinado"
                                 (click)="doDownloadP7S(juntada.documento)"

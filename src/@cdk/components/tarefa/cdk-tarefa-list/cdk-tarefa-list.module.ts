@@ -56,7 +56,7 @@ import {RouterModule} from "@angular/router";
         MatExpansionModule,
         CdkTarefaFilterModule,
         MatSelectModule,
-        NgxUpperCaseDirectiveModule
+        NgxUpperCaseDirectiveModule,
         MatSelectModule,
         RouterModule
     ],
