@@ -68,14 +68,6 @@ export class AvisoListComponent implements OnInit {
         });
     }
 
-    /**
-     *
-     * colaborador.lotacoes.setor.id: eq:1
-     *
-     * nome: like:eduardo
-     *
-     */
-
     reload(params): void {
         this._store.dispatch(new fromStore.GetAviso({
             ...this.pagination,

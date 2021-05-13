@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {LoginService} from '../../../../auth/login/login.service';
 import {getRouterState} from '../../../../../store';
 import {Back} from '../../../../../store';
+import {takeUntil} from "rxjs/operators";
 
 @Component({
     selector: 'aviso-edit',
@@ -58,6 +59,22 @@ export class AvisoEditComponent implements OnInit {
                     this.routerState = routerState.state;
                 }
             });
+
+        this.aviso$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(
+            aviso => {
+                if (aviso) {
+                    this.aviso = aviso;
+                }
+            }
+        );
+
+        if (!this.aviso) {
+            this.aviso = new Aviso();
+            this.aviso.ativo = true;
+        }
+
         this.loadForm();
     }
 
@@ -76,7 +93,7 @@ export class AvisoEditComponent implements OnInit {
             ativo: [null],
             nome: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required, Validators.maxLength(255)]],
-            orgaoCentral:[null],
+            modalidadeOrgaoCentral:[null],
             unidade: [null],
             setor: [null],
             tipo: [null],
