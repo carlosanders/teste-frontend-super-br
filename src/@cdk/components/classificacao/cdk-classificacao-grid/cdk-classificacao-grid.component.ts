@@ -398,11 +398,4 @@ export class CdkClassificacaoGridComponent implements AfterViewInit, OnInit, OnC
         }
         return false;
     }
-
-    getProp(obj, prop) {
-        if (obj && obj.hasOwnProperty(prop)) {
-            return obj[prop];
-        }
-        return false;
-    }
 }

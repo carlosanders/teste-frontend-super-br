@@ -93,7 +93,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.id}} </td>
                 </ng-container>
 
                 <!-- Nome Column -->
@@ -102,7 +102,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.nome}} </td>
                 </ng-container>
 
                 <!-- Sigla Column -->
@@ -111,7 +111,7 @@
                         Sigla
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Sigla: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.sigla}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.sigla}} </td>
                 </ng-container>
 
                 <!-- EspecieSetor Column -->
@@ -121,7 +121,7 @@
                         Espécie Setor
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Espécie Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.especieSetor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.especieSetor?.nome}} </td>
                 </ng-container>
 
                 <!-- GeneroSetor Column -->
@@ -130,7 +130,7 @@
                         Gênero Setor
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Gênero Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.generoSetor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.generoSetor?.nome}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -139,7 +139,7 @@
                         Ativo
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Ativo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}">
                         <mat-checkbox [disabled]="true" [checked]="setor.ativo"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -152,7 +152,7 @@
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile'
                         data-label='Modalidade Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.modalidadeOrgaoCentral?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.modalidadeOrgaoCentral?.valor}} </td>
                 </ng-container>
 
                 <!-- Endereco Column -->
@@ -161,7 +161,7 @@
                         Endereço
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Endereço: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.endereco}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.endereco}} </td>
                 </ng-container>
 
                 <!-- Email Column -->
@@ -170,7 +170,7 @@
                         Email
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Email: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.email}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.email}} </td>
                 </ng-container>
 
                 <!-- Unidade Column -->
@@ -179,7 +179,7 @@
                         Unidade
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Unidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.unidade?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.unidade?.nome}} </td>
                 </ng-container>
 
                 <!-- UnidadePai Column -->
@@ -188,7 +188,7 @@
                         Unidade Pai
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Unidade Pai: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.unidadePai?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.unidadePai?.nome}} </td>
                 </ng-container>
 
                 <!-- Parent Column -->
@@ -197,7 +197,7 @@
                         Pai
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Pai: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.parent?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.parent?.nome}} </td>
                 </ng-container>
 
                 <!-- Municipio Column -->
@@ -206,7 +206,7 @@
                         Município
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Município: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.municipio?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.municipio?.nome}} </td>
                 </ng-container>
 
                 <!-- PrefixoNUP Column -->
@@ -215,7 +215,7 @@
                         Prefixo NUP
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Prefixo NUP: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.prefixoNUP}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.prefixoNUP}} </td>
                 </ng-container>
 
                 <!-- SequênciaInicialNUP Column -->
@@ -226,7 +226,7 @@
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile'
                         data-label='Sequência Inicial NUP: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.sequenciaInicialNUP}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.sequenciaInicialNUP}} </td>
                 </ng-container>
 
                 <!-- Gerenciamento Column -->
@@ -235,7 +235,7 @@
                         Gerenciamento
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Gerenciamento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}">
                         <mat-checkbox [disabled]="true" [checked]="setor.gerenciamento"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -246,7 +246,7 @@
                         Apenas Protocolo
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Apenas Protocolo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}">
                         <mat-checkbox [disabled]="true" [checked]="setor.apenasProtocolo"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -259,7 +259,7 @@
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile'
                         data-label='Numeração Documento Unidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}">
                         <mat-checkbox [disabled]="true" [checked]="setor.numeracaoDocumentoUnidade"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -271,7 +271,7 @@
                         Apenas Distribuidor
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Apenas Distribuidor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}">
                         <mat-checkbox [disabled]="true" [checked]="setor.apenasDistribuidor"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -283,7 +283,7 @@
                         Distribuição Centena
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Distribuição Centena: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}">
                         <mat-checkbox [disabled]="true" [checked]="setor.distribuicaoCentena"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -294,7 +294,7 @@
                         Prazo Equalização
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Prazo Equalização: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.prazoEqualizacao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.prazoEqualizacao}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -303,7 +303,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -312,7 +312,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -322,7 +322,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -331,7 +331,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -340,7 +340,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -349,7 +349,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let setor" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{setor.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(setor.id) > -1, 'error': getProp(deletingErrors, setor.id)}"> {{setor.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -441,8 +441,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, setor.id)">
+                            {{ getProp(deletingErrors, setor.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

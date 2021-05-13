@@ -95,7 +95,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Id: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}"> {{especieTarefa.id}} </td>
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.id}} </td>
                 </ng-container>
 
                 <!-- Nome Column -->
@@ -105,7 +105,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Nome: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}"> {{especieTarefa.nome}} </td>
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.nome}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -115,7 +115,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Descrição: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}"> {{especieTarefa.descricao}} </td>
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.descricao}} </td>
                 </ng-container>
 
                 <!-- GeneroTarefa Column -->
@@ -127,7 +127,7 @@
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile'
                         data-label='Gênero Tarefa: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}"> {{especieTarefa.generoTarefa?.nome}} </td>
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.generoTarefa?.nome}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -137,7 +137,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Ativo: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}">
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}">
                         <mat-checkbox [disabled]="true" [checked]="especieTarefa.ativo"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -149,7 +149,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Criado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}"> {{especieTarefa.criadoPor?.nome}} </td>
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -159,7 +159,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Criado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}"> {{especieTarefa.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -171,7 +171,7 @@
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}"> {{especieTarefa.atualizadoPor?.nome}} </td>
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -182,7 +182,7 @@
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}"> {{especieTarefa.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -192,7 +192,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Apagado Por: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}"> {{especieTarefa.apagadoPor?.nome}} </td>
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -202,7 +202,7 @@
                     </th>
                     <td mat-cell *matCellDef="let especieTarefa" class='has_label_on_mobile' data-label='Apagado Em: '
                         [ngClass]="{'deleted':deletedIds?.indexOf(especieTarefa.id) > -1 ||
-                                    (isWorflow && !especieTarefa.valida)}"> {{especieTarefa.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                                    (isWorflow && !especieTarefa.valida), 'error': getProp(deletingErrors, especieTarefa.id)}"> {{especieTarefa.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -241,8 +241,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, especieTarefa.id)">
+                            {{ getProp(deletingErrors, especieTarefa.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

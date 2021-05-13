@@ -93,7 +93,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.id}} </td>
                 </ng-container>
 
                 <!-- EspecieAtividade Column -->
@@ -103,7 +103,7 @@
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
                         data-label='Espécie Atividade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.especieAtividade?.nome}}
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.especieAtividade?.nome}}
                     </td>
                 </ng-container>
 
@@ -115,7 +115,7 @@
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
                         data-label='Data da Conclusão: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.dataHoraConclusao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.dataHoraConclusao}} </td>
                 </ng-container>
 
                 <!-- Observacao Column -->
@@ -124,7 +124,7 @@
                         Observação
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Observação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.observacao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.observacao}} </td>
                 </ng-container>
 
                 <!-- EncerraTarefa Column -->
@@ -133,7 +133,7 @@
                         Encerrou Tarefa
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Encerrou Tarefa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}">
                         <mat-checkbox [disabled]="true" [checked]="atividade.encerraTarefa"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -146,7 +146,7 @@
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
                         data-label='Destinação das Minutas: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.destinacaoMinutas}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.destinacaoMinutas}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -155,7 +155,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.setor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.setor}} </td>
                 </ng-container>
 
                 <!-- SetorAprovacao Column -->
@@ -166,7 +166,7 @@
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
                         data-label='Setor da Aprovação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.setorAprovacao?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.setorAprovacao?.nome}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->
@@ -175,7 +175,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.usuario?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.usuario?.nome}} </td>
                 </ng-container>
 
                 <!-- UsuarioAprovacao Column -->
@@ -186,7 +186,7 @@
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile'
                         data-label='Usuário Aprovação: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.usuarioAprovacao?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.usuarioAprovacao?.nome}} </td>
                 </ng-container>
 
                 <!-- Tarefa Column -->
@@ -196,7 +196,7 @@
                         Tarefa
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Tarefa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.tarefa?.especieTarefa?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.tarefa?.especieTarefa?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -205,7 +205,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -214,7 +214,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -224,7 +224,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -233,7 +233,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -242,7 +242,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -251,7 +251,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let atividade" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{atividade.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(atividade.id) > -1, 'error': getProp(deletingErrors, atividade.id)}"> {{atividade.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -289,8 +289,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, atividade.id)">
+                            {{ getProp(deletingErrors, atividade.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

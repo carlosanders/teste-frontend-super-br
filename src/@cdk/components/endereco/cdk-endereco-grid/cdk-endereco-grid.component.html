@@ -93,7 +93,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.id}} </td>
                 </ng-container>
 
                 <!-- logradouro Column -->
@@ -102,7 +102,7 @@
                         Logradouro
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Logradouro: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.logradouro}}
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.logradouro}}
                     </td>
                 </ng-container>
 
@@ -112,7 +112,7 @@
                         Município
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Município: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.municipio?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.municipio?.nome}} </td>
                 </ng-container>
 
                 <!--  Estado Column -->
@@ -122,7 +122,7 @@
                         Estado
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Estado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.municipio?.estado?.uf}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.municipio?.estado?.uf}} </td>
                 </ng-container>
 
                 <!-- Principal Column -->
@@ -143,7 +143,7 @@
                         Bairro
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Bairro: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.bairro}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.bairro}} </td>
                 </ng-container>
 
                 <!-- CEP Column -->
@@ -152,7 +152,7 @@
                         CEP
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='CEP: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.cep}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.cep}} </td>
                 </ng-container>
 
                 <!-- Complemento Column -->
@@ -161,7 +161,7 @@
                         Complemento
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Complemento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.complemento}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.complemento}} </td>
                 </ng-container>
 
                 <!-- Numero Column -->
@@ -170,7 +170,7 @@
                         Número
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Número: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.numero}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.numero}} </td>
                 </ng-container>
 
                 <!-- Pais Column -->
@@ -179,7 +179,7 @@
                         País
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='País: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.pais?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.pais?.nome}} </td>
                 </ng-container>
 
                 <!-- OrigemDados Column -->
@@ -188,7 +188,7 @@
                         Origem de Dados
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Origem de Dados: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.origemDados?.fonteDados}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.origemDados?.fonteDados}} </td>
                 </ng-container>
 
                 <!-- Pessoa Column -->
@@ -197,7 +197,7 @@
                         Pessoa
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Pessoa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.pessoa?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.pessoa?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -206,7 +206,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -215,7 +215,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -225,7 +225,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -234,7 +234,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -243,7 +243,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -252,7 +252,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let endereco" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{endereco.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(endereco.id) > -1, 'error': getProp(deletingErrors, endereco.id)}"> {{endereco.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -290,8 +290,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, endereco.id)">
+                            {{ getProp(deletingErrors, endereco.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

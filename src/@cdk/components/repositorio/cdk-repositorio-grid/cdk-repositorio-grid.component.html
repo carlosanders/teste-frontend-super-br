@@ -99,7 +99,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header [disabled]="getSort('id')"> Id
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.id}} </td>
                 </ng-container>
 
                 <!-- Nome Column -->
@@ -108,7 +108,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.nome}} </td>
                 </ng-container>
 
                 <!-- Setor Column -->
@@ -119,7 +119,7 @@
                         Setor
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Setor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.vinculacoesRepositorios[0]?.setor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.vinculacoesRepositorios[0]?.setor?.nome}} </td>
                 </ng-container>
 
                 <!-- Unidade Column -->
@@ -130,7 +130,7 @@
                         Unidade
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Unidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.vinculacoesRepositorios[0]?.unidade?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.vinculacoesRepositorios[0]?.unidade?.nome}} </td>
                 </ng-container>
 
                 <!-- Órgão Central Column -->
@@ -142,7 +142,7 @@
                         Órgão Central
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Órgão Central: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.vinculacoesRepositorios[0]?.modalidadeOrgaoCentral?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.vinculacoesRepositorios[0]?.modalidadeOrgaoCentral?.valor}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -151,7 +151,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.descricao}} </td>
                 </ng-container>
 
                 <!-- highlights Column -->
@@ -160,7 +160,7 @@
                         Resumo
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Resumo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"><span
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"><span
                         [innerHTML]="repositorio.highlights | safeHtml"></span></td>
                 </ng-container>
 
@@ -184,7 +184,7 @@
                         Modalidade
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Modalidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.modalidadeRepositorio?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.modalidadeRepositorio?.valor}} </td>
                 </ng-container>
 
                 <!-- Documento Column -->
@@ -195,7 +195,7 @@
                         Documento
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Documento: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.documento.tipoDocumento.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.documento.tipoDocumento.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -204,7 +204,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -213,7 +213,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -224,7 +224,7 @@
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -234,7 +234,7 @@
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -245,7 +245,7 @@
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -254,7 +254,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let repositorio" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{repositorio.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(repositorio.id) > -1, 'error': getProp(deletingErrors, repositorio.id)}"> {{repositorio.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -328,8 +328,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, repositorio.id)">
+                            {{ getProp(deletingErrors, repositorio.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

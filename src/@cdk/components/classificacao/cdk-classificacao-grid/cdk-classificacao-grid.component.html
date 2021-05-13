@@ -254,7 +254,7 @@
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile'
                         data-label='Restrição de Acesso: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}">
                         <mat-checkbox [disabled]="true" [checked]="classificacao.visibilidadeRestrita"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -273,7 +273,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let classificacao" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{classificacao.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(classificacao.id) > -1}"> {{classificacao.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -358,10 +358,6 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
-
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
-                        </mat-error>
 
                         <mat-error *ngIf="getProp(deletingErrors, classificacao.id)">
                             {{ getProp(deletingErrors, classificacao.id) }}

@@ -265,6 +265,9 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input() target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;

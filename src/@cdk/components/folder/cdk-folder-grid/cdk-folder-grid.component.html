@@ -93,7 +93,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.id}} </td>
                 </ng-container>
 
                 <!-- Nome Column -->
@@ -102,7 +102,7 @@
                         Nome
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Nome: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.nome}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -111,7 +111,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.descricao}} </td>
                 </ng-container>
 
                 <!-- Modalidade Folder Column -->
@@ -121,7 +121,7 @@
                         Modalidade
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Modalidade: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.modalidadeFolder?.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.modalidadeFolder?.valor}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->
@@ -130,7 +130,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.usuario.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.usuario.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -139,7 +139,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -148,7 +148,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -158,7 +158,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -167,7 +167,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -176,7 +176,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -185,7 +185,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let folder" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm}"> {{folder.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(folder.id) > -1 || folder.apagadoEm, 'error': getProp(deletingErrors, folder.id)}"> {{folder.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -224,8 +224,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, folder.id)">
+                            {{ getProp(deletingErrors, folder.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

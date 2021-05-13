@@ -94,7 +94,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let tipoAcaoWorkflows" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoAcaoWorkflows.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoAcaoWorkflows.id)}"> {{tipoAcaoWorkflows.id}} </td>
                 </ng-container>
 
                 <!-- Valor Column -->
@@ -103,7 +103,7 @@
                         Valor
                     </th>
                     <td mat-cell *matCellDef="let tipoAcaoWorkflows" class='has_label_on_mobile' data-label='Valor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoAcaoWorkflows.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoAcaoWorkflows.id)}"> {{tipoAcaoWorkflows.valor}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -112,7 +112,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let tipoAcaoWorkflows" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoAcaoWorkflows.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoAcaoWorkflows.id)}"> {{tipoAcaoWorkflows.descricao}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -121,7 +121,7 @@
                         Ativo
                     </th>
                     <td mat-cell *matCellDef="let tipoAcaoWorkflows" class='has_label_on_mobile' data-label='Ativo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoAcaoWorkflows.id)}">
                         <mat-checkbox [disabled]="true" [checked]="tipoAcaoWorkflows.ativo"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -132,7 +132,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let tipoAcaoWorkflows" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoAcaoWorkflows.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoAcaoWorkflows.id)}"> {{tipoAcaoWorkflows.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -141,7 +141,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let tipoAcaoWorkflows" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoAcaoWorkflows.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoAcaoWorkflows.id)}"> {{tipoAcaoWorkflows.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -152,7 +152,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoAcaoWorkflows" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoAcaoWorkflows.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoAcaoWorkflows.id)}"> {{tipoAcaoWorkflows.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -162,7 +162,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoAcaoWorkflows" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoAcaoWorkflows.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoAcaoWorkflows.id)}"> {{tipoAcaoWorkflows.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -172,7 +172,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoAcaoWorkflows" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoAcaoWorkflows.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoAcaoWorkflows.id)}"> {{tipoAcaoWorkflows.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -181,7 +181,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let tipoAcaoWorkflows" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoAcaoWorkflows.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoAcaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoAcaoWorkflows.id)}"> {{tipoAcaoWorkflows.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -219,8 +219,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, tipoAcaoWorkflows.id)">
+                            {{ getProp(deletingErrors, tipoAcaoWorkflows.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

@@ -131,7 +131,7 @@
                         Privada
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Privada: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1, 'error': getProp(deletingErrors, etiqueta.id)}">
                         <mat-checkbox [disabled]="true" [checked]="etiqueta.privada"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -142,7 +142,7 @@
                         Ativo
                     </th>
                     <td mat-cell *matCellDef="let etiqueta" class='has_label_on_mobile' data-label='Ativo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(etiqueta.id) > -1, 'error': getProp(deletingErrors, etiqueta.id)}">
                         <mat-checkbox [disabled]="true" [checked]="etiqueta.ativo"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -266,8 +266,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, etiqueta.id)">
+                            {{ getProp(deletingErrors, etiqueta.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

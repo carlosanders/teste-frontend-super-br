@@ -94,7 +94,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoValidacaoWorkflows.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.id}} </td>
                 </ng-container>
 
                 <!-- Valor Column -->
@@ -103,7 +103,7 @@
                         Valor
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='Valor: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoValidacaoWorkflows.valor}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.valor}} </td>
                 </ng-container>
 
                 <!-- Valor Column -->
@@ -112,7 +112,7 @@
                         Sigla
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='sigla: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoValidacaoWorkflows.sigla}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.sigla}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -121,7 +121,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoValidacaoWorkflows.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.descricao}} </td>
                 </ng-container>
 
                 <!-- Ativo Column -->
@@ -130,7 +130,7 @@
                         Ativo
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='Ativo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}">
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}">
                         <mat-checkbox [disabled]="true" [checked]="tipoValidacaoWorkflows.ativo"></mat-checkbox>
                     </td>
                 </ng-container>
@@ -141,7 +141,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoValidacaoWorkflows.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -150,7 +150,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoValidacaoWorkflows.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -161,7 +161,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoValidacaoWorkflows.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -171,7 +171,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoValidacaoWorkflows.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -181,7 +181,7 @@
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoValidacaoWorkflows.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -190,7 +190,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let tipoValidacaoWorkflows" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{tipoValidacaoWorkflows.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(tipoValidacaoWorkflows.id) > -1, 'error': getProp(deletingErrors, tipoValidacaoWorkflows.id)}"> {{tipoValidacaoWorkflows.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -228,8 +228,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, tipoValidacaoWorkflows.id)">
+                            {{ getProp(deletingErrors, tipoValidacaoWorkflows.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

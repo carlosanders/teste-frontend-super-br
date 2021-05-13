@@ -93,7 +93,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let historico" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{historico.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, historico.id)}"> {{historico.id}} </td>
                 </ng-container>
 
                 <!-- Descricao Column -->
@@ -102,7 +102,7 @@
                         Descrição
                     </th>
                     <td mat-cell *matCellDef="let historico" class='has_label_on_mobile' data-label='Descrição: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{historico.descricao}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, historico.id)}"> {{historico.descricao}} </td>
                 </ng-container>
 
                 <!-- Processo Column -->
@@ -111,7 +111,7 @@
                         Processo
                     </th>
                     <td mat-cell *matCellDef="let historico" class='has_label_on_mobile' data-label='Processo: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{historico.processo?.NUP}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, historico.id)}"> {{historico.processo?.NUP}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -120,7 +120,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let historico" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{historico.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, historico.id)}"> {{historico.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -129,7 +129,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let historico" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{historico.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, historico.id)}"> {{historico.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -139,7 +139,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let historico" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{historico.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, historico.id)}"> {{historico.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -148,7 +148,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let historico" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{historico.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, historico.id)}"> {{historico.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -157,7 +157,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let historico" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{historico.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, historico.id)}"> {{historico.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -166,7 +166,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let historico" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{historico.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(historico.id) > -1, 'error': getProp(deletingErrors, historico.id)}"> {{historico.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -205,8 +205,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, historico.id)">
+                            {{ getProp(deletingErrors, historico.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

@@ -93,7 +93,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{vinculacaoUsuario.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.id}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->
@@ -103,7 +103,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Usuário Vinculado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{vinculacaoUsuario.usuarioVinculado?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.usuarioVinculado?.nome}} </td>
                 </ng-container>
 
                 <!-- GeneroTarefa Column -->
@@ -114,7 +114,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Gênero Tarefa: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{vinculacaoUsuario.generoTarefa?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.generoTarefa?.nome}} </td>
                 </ng-container>
 
                 <!-- Usuario Column -->
@@ -123,7 +123,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{vinculacaoUsuario.usuario?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.usuario?.nome}} </td>
                 </ng-container>
 
                 <!-- Encerra Tarefa Column -->
@@ -185,7 +185,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{vinculacaoUsuario.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -195,7 +195,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{vinculacaoUsuario.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -206,7 +206,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{vinculacaoUsuario.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -216,7 +216,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{vinculacaoUsuario.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -226,7 +226,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{vinculacaoUsuario.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -236,7 +236,7 @@
                     </th>
                     <td mat-cell *matCellDef="let vinculacaoUsuario" class='has_label_on_mobile'
                         data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, xxx.id)}"> {{vinculacaoUsuario.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(vinculacaoUsuario.id) > -1, 'error': getProp(deletingErrors, vinculacaoUsuario.id)}"> {{vinculacaoUsuario.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -274,8 +274,8 @@
                             <mat-icon>delete</mat-icon>
                         </button>
 
-                        <mat-error *ngIf="getProp(deletingErrors, xxx.id)">
-                            {{ getProp(deletingErrors, xxx.id) }}
+                        <mat-error *ngIf="getProp(deletingErrors, vinculacaoUsuario.id)">
+                            {{ getProp(deletingErrors, vinculacaoUsuario.id) }}
                         </mat-error>
                     </td>
                 </ng-container>

@@ -306,4 +306,11 @@ export class CdkEspecieRelatorioGridComponent implements AfterViewInit, OnInit, 
     doCancel(): void {
         this.cancel.emit();
     }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
+    }
 }
