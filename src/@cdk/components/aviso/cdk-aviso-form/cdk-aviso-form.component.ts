@@ -13,6 +13,8 @@ import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
 import {of} from "rxjs";
 import {Pagination} from "../../../models";
 import {FavoritoService} from "../../../services/favorito.service";
+import {LoginService} from "../../../../app/main/auth/login/login.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'cdk-aviso-form',
@@ -86,14 +88,16 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _formBuilder: FormBuilder,
-        private _favoritoService: FavoritoService
+        private _favoritoService: FavoritoService,
+        public _loginService: LoginService,
+        private _router: Router
     ) {
         this.form = this._formBuilder.group({
             id: [null],
             ativo: [null],
             nome: [null],
             descricao: [null],
-            orgaoCentral: [null],
+            modalidadeOrgaoCentral: [null],
             notificacao: [null],
             unidade:[null],
             setor:[null],
@@ -124,13 +128,14 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
             this._changeDetectorRef.markForCheck();
         }
 
+
         this.form.get('tipo').valueChanges.pipe(
             debounceTime(100),
             distinctUntilChanged(),
             switchMap((value) => {
                     switch (value) {
                         case 'M':
-                            this.form.get('orgaoCentral').enable();
+                            this.form.get('modalidadeOrgaoCentral').enable();
                             this.form.get('unidade').setValue(null);
                             this.form.get('unidade').disable();
                             this.form.get('setor').setValue(null);
@@ -138,14 +143,14 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
                             break;
                         case 'U':
                             this.form.get('unidade').enable();
-                            this.form.get('orgaoCentral').setValue(null);
-                            this.form.get('orgaoCentral').disable();
+                            this.form.get('modalidadeOrgaoCentral').setValue(null);
+                            this.form.get('modalidadeOrgaoCentral').disable();
                             this.form.get('setor').setValue(null);
                             this.form.get('setor').disable();
                             break;
                         case 'S':
-                            this.form.get('orgaoCentral').setValue(null);
-                            this.form.get('orgaoCentral').disable();
+                            this.form.get('modalidadeOrgaoCentral').setValue(null);
+                            this.form.get('modalidadeOrgaoCentral').disable();
                             this.form.get('unidade').enable();
                             if (this.form.get('unidade').value && typeof this.form.get('unidade').value === 'object') {
                                 this.form.get('setor').enable();
@@ -155,8 +160,8 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
                             }
                             break;
                         default:
-                            this.form.get('orgaoCentral').setValue(null);
-                            this.form.get('orgaoCentral').disable();
+                            this.form.get('modalidadeOrgaoCentral').setValue(null);
+                            this.form.get('modalidadeOrgaoCentral').disable();
                             this.form.get('unidade').setValue(null);
                             this.form.get('unidade').disable();
                             this.form.get('setor').setValue(null);
@@ -199,9 +204,34 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
                 id: this.aviso.id,
                 nome: this.aviso.nome,
                 descricao: this.aviso.descricao,
-                // notificacao: this.aviso.notificacao,
                 ativo: this.aviso.ativo
             });
+        }
+
+        this.aviso?.vinculacoesAvisos?.forEach((vinculo) => {
+            if(vinculo.setor?.id)
+            {
+                this.form.get('tipo').setValue('S');
+                this.form.get('setor').setValue(vinculo.setor);
+                this.form.get('unidade').setValue(vinculo.setor.unidade);
+            }
+
+            if(vinculo.unidade?.id)
+            {
+                this.form.get('tipo').setValue('U');
+                this.form.get('unidade').setValue(vinculo.unidade);
+            }
+
+            if(vinculo.modalidadeOrgaoCentral?.id)
+            {
+                this.form.get('tipo').setValue('M');
+                this.form.get('modalidadeOrgaoCentral').setValue(vinculo.modalidadeOrgaoCentral);
+            }
+        })
+
+        if(this.aviso?.sistema)
+        {
+            this.form.get('tipo').setValue('SIS');
         }
 
         if (this.errors && this.errors.status && this.errors.status === 422) {
@@ -269,15 +299,15 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
 
 
     checkOrgaoCentral(): void {
-        const value = this.form.get('orgaoCentral').value;
+        const value = this.form.get('modalidadeOrgaoCentral').value;
         if (!value || typeof value !== 'object') {
-            this.form.get('orgaoCentral').setValue(null);
+            this.form.get('modalidadeOrgaoCentral').setValue(null);
         }
     }
 
     selectOrgaoCentral(orgaoCentral: ModalidadeOrgaoCentral): void {
         if (orgaoCentral) {
-            this.form.get('orgaoCentral').setValue(orgaoCentral);
+            this.form.get('modalidadeOrgaoCentral').setValue(orgaoCentral);
         }
         this.activeCard = 'form';
     }
@@ -302,5 +332,9 @@ export class CdkAvisoFormComponent implements OnChanges, OnDestroy {
 
     showSetorGrid(): void {
         this.activeCard = 'setor-gridsearch';
+    }
+
+    showSelectTipo(): boolean {
+        return this._loginService.isGranted('ROLE_ADMIN') && this._router.url.indexOf('/admin/') !== -1;
     }
 }
