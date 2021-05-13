@@ -11,6 +11,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {HistoricoService} from '../../@cdk/services/historico.service';
 import {CdkHistoricoTimelineModule} from '../../@cdk/components/historico/cdk-historico-timeline/cdk-historico-timeline.module';
 import {TourModule} from "../../ajuda/tour/tour.module";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import {TourModule} from "../../ajuda/tour/tour.module";
         MatButtonModule,
         CdkHistoricoTimelineModule,
         TourModule,
+        MatTooltipModule,
     ],
     providers: [
         LoginService,
