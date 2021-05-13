@@ -1,7 +1,7 @@
 import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
-import {Usuario} from '@cdk/models';
+import {TipoDocumento, Usuario} from '@cdk/models';
 import {ModalidadeAlvoInibidor} from '@cdk/models';
 import {ModalidadeTipoInibidor} from '@cdk/models';
 import {Modelo} from '@cdk/models';
@@ -158,6 +158,10 @@ export class ComponenteDigital {
     @Exclude()
     sub?: Subscription;
 
+    @Type(() => TipoDocumento)
+    @Transform(value => value ? value.id : null, {toPlainOnly: true})
+    tipoDocumento?: TipoDocumento;
+
     constructor() {
         this.id = null;
         this.uuid = null;
@@ -204,6 +208,6 @@ export class ComponenteDigital {
         this.canCancel = null;
         this.sub = null;
         this.complete = null;
-
+        this.tipoDocumento = null;
     }
 }
