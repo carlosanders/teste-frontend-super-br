@@ -185,7 +185,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
                         panelClass: ['cdk-white-bg'],
                         data: {
                             icon: 'check',
-                            text: 'Transição arquivística'
+                            text: 'Realizando transição'
                         }
                     });
 

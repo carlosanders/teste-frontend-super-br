@@ -295,7 +295,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletado(a)'
+                text: 'Deletando'
             }
         });
 

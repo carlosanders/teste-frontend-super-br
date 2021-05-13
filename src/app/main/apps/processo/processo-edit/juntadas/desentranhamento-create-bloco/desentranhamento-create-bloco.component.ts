@@ -170,7 +170,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
                 panelClass: ['cdk-white-bg'],
                 data: {
                     icon: 'low_priority',
-                    text: 'Desentranhadas'
+                    text: 'Desentranhando'
                 }
             });
 

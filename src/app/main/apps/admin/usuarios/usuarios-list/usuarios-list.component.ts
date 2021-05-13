@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
@@ -16,6 +16,7 @@ import {Usuario} from '@cdk/models';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import { take, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
+import {UnloadUsuarios} from "./store";
 
 @Component({
     selector: 'usuarios-list',
@@ -25,7 +26,7 @@ import { MatDialog } from '@angular/material/dialog';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class UsuariosListComponent implements OnInit {
+export class UsuariosListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     usuarios$: Observable<Usuario[]>;
@@ -40,6 +41,7 @@ export class UsuariosListComponent implements OnInit {
      * @param _changeDetectorRef
      * @param _router
      * @param _store
+     * @param dialog
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -66,6 +68,10 @@ export class UsuariosListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadUsuarios());
     }
 
     reload(params): void {

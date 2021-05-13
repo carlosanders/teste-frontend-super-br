@@ -184,7 +184,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletado(a)'
+                text: 'Deletando'
             }
         });
 
@@ -230,7 +230,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'check',
-                text: 'Ciência'
+                text: 'Dando ciência'
             }
         });
 

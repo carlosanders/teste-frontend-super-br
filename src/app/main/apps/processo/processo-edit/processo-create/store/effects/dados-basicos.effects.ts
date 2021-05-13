@@ -177,9 +177,9 @@ export class DadosBasicosEffect {
                         action.payload.unidadeArquivistica
                     );
                 }),
-                mergeMap((response) => [
-                    this._store.dispatch(new DadosBasicosActions.ValidaNupSuccess(response))
-                ]),
+                tap((response) => {
+                    this._store.dispatch(new DadosBasicosActions.ValidaNupSuccess(response));
+                }),
                 catchError((err, caught) => {
                     if (err.error.code == 422) {
                         this._store.dispatch(new DadosBasicosActions.ValidaNupInvalid(err));

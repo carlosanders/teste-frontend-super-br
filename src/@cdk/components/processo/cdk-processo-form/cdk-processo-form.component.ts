@@ -641,7 +641,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.especieProcessoPagination.populate)
         ).pipe(
             finalize(() => this.especieProcessoListIsLoading = false),
             catchError(() => of([]))

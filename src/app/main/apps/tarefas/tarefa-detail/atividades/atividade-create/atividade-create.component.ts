@@ -477,7 +477,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletado(a)'
+                text: 'Deletando'
             }
         });
 

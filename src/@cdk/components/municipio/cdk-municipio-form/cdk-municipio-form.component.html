@@ -19,6 +19,9 @@
                formControlName="codigoIBGE"
                maxlength="255" upperCase>
         <mat-hint align="end">{{codigoIBGE.value.length}} / 255</mat-hint>
+        <mat-error *ngIf="form.get('codigoIBGE').hasError('formError')">
+            {{form.get('codigoIBGE').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-form-field>
@@ -33,6 +36,9 @@
                 (click)="showEstadoGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
+        <mat-error *ngIf="form.get('estado').hasError('formError')">
+            {{form.get('estado').errors.formError}}
+        </mat-error>
     </mat-form-field>
 
     <mat-checkbox formControlName="ativo">
