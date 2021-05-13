@@ -16,22 +16,19 @@ import * as fromStore from 'app/main/apps/tarefas/tarefa-detail/store';
 import {
     RedistribuirTarefa,
     RedistribuirTarefaCancel,
-    RedistribuirTarefaFlush,
-    SaveTarefa
+    RedistribuirTarefaFlush
 } from 'app/main/apps/tarefas/tarefa-detail/store';
 import {filter, skip, take, takeUntil, tap} from 'rxjs/operators';
 import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
-import {getOperacoesState, getRouterState} from '../../../../../store/reducers';
+import {getOperacoesState, getRouterState} from '../../../../../store';
 import {Router} from '@angular/router';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {CdkUtils} from '@cdk/utils';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {MatDialog} from "@cdk/angular/material";
 import {CdkVisibilidadePluginComponent} from "@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component";
-import {getTarefasProcessoRestritoValidadas} from "../../redistribuicao-edit-bloco/store";
 import {Back} from "../../../../../store";
 
 @Component({
@@ -109,24 +106,6 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
         ).subscribe(pagination => {
             this.pagination = pagination;
         });
-
-        this._store
-            .pipe(
-                select(getOperacoesState),
-                skip(1),
-                takeUntil(this._unsubscribeAll),
-                filter(op => !!op && !!op.content && op.type === 'tarefa')
-            )
-            .subscribe(
-                operacao => {
-
-                    // this.reloadTarefas();
-                    //
-                    // this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' +
-                    // this.routerState.params.typeHandle + '/' +
-                    // '/' + this.routerState.params.targetHandle]).then();
-                }
-            );
 
         this.tarefaProcessoRestritoValidada$.pipe(
             takeUntil(this._unsubscribeAll)

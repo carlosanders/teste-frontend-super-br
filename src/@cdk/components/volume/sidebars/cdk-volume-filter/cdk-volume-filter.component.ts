@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'cdk-volume-filter',
@@ -21,6 +22,11 @@ export class CdkVolumeFilterComponent {
     @Input()
     mode = 'list';
 
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -29,7 +35,6 @@ export class CdkVolumeFilterComponent {
             numeracaoSequencial: [null],
             modalidadeMeio: [null],
             encerrado: [null],
-            processo: [null],
             origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
@@ -49,10 +54,6 @@ export class CdkVolumeFilterComponent {
             this.form.get('numeracaoSequencial').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
                 andXFilter.push({'numeracaoSequencial': `like:%${bit}%`});
             });
-        }
-
-        if (this.form.get('processo').value) {
-            andXFilter.push({'processo.id': `eq:${this.form.get('processo').value.id}`});
         }
 
         if (this.form.get('origemDados').value) {
@@ -85,6 +86,14 @@ export class CdkVolumeFilterComponent {
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-volume-filter').close();
+    }
+
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
     }
 
     verificarValor(objeto): void {

@@ -819,7 +819,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletado(a)'
+                text: 'Deletando'
             }
         });
 

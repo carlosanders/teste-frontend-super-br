@@ -1,4 +1,5 @@
 import * as AssinaturasActions from '../actions';
+import * as _ from "lodash";
 
 export interface AssinaturasState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface AssinaturasState {
     loading: boolean;
     loaded: any;
     deletingIds: number[];
+    deletingErrors: any;
     deletedIds: number[];
     assinaturasId: number;
     saving: boolean;
@@ -41,7 +43,8 @@ export const AssinaturasInitialState: AssinaturasState = {
     saving: false,
     errors: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function AssinaturasReducer(
@@ -63,6 +66,7 @@ export function AssinaturasReducer(
                 ...state,
                 assinaturaId: action.payload.assinaturaId,
                 loading: false,
+                deletingErrors: {},
                 loaded: action.payload.loaded
             };
         }
@@ -70,6 +74,7 @@ export function AssinaturasReducer(
         case AssinaturasActions.RELOAD_ASSINATURAS_DOCUMENTO: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -94,14 +99,19 @@ export function AssinaturasReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
             };
         }
 
         case AssinaturasActions.DELETE_ASSINATURA_DOCUMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

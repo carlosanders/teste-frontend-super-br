@@ -48,17 +48,13 @@
                 </a>
             </div>
 
-            <mat-radio-group *ngIf="!!config.ldap"
-                             formControlName="tipoLogin"
-                             aria-labelledby="tipo-login"
-                             (change)="onChangeTipoLogin($event)">
-                <mat-radio-button value='externo'>
-                    Login Externo
-                </mat-radio-button>
-                <mat-radio-button value='ldap'>
-                    Login Interno
-                </mat-radio-button>
-            </mat-radio-group>
+            <div *ngIf="!!config.ldap" class="remember-forgot-password" fxLayout="row" fxLayout.xs="column"
+                 fxLayoutAlign="space-between center">
+
+                <a class="forgot-password" (click)="onChangeTipoLogin(form.get('tipoLogin').value === 'ldap' ? 'externo' : 'ldap')">
+                    {{form.get('tipoLogin').value === 'ldap' ? 'Logar com credenciais do sistema?' : 'Logar com credenciais do ' + config.ldap + '?'}}
+                </a>
+            </div>
 
             <button (click)="submit()" mat-raised-button color="accent" class="submit-button" aria-label="login"
                     [disabled]="form.invalid">

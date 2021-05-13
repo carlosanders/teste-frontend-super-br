@@ -253,8 +253,6 @@ export class ComponentesDigitaisEffects {
                      id: 'documento',
                      value: action.payload
                  };
-                 console.log("Abrir em outra aba effect");
-                 console.log(handle.value);
                  return this._componenteDigitalService.download(handle.value);
              }),
              tap((response: any) => {

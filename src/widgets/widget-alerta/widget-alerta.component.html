@@ -11,11 +11,8 @@
                 Carregando
             </div>
         </div>
-        <h3>
-            Bem-vindo!
-        </h3>
-        <h3>
-            Os problemas encontrados devem ser enviados para sapiens@agu.gov.br
+        <h3 *ngIf="!avisoIsLoading && !avisos?.length">
+            Nenhum aviso disponível!
         </h3>
         <mat-list *ngIf="avisos?.length > 0">
             <mat-list-item *ngFor="let aviso of avisos">
