@@ -836,7 +836,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     doAbreMinutaOutraAba(documento: Documento): void{
         window.open(
-            this.routerState.url.split('/capa/')[0] + '/capa/documento/' + documento.id
+            this.routerState.url.split('/capa/')[0] + '/documento/' + documento.id
              + '/(componente-digital/' + documento.id + '/editor/ckeditor//sidebar:editar/atividade)'
              );
     }
