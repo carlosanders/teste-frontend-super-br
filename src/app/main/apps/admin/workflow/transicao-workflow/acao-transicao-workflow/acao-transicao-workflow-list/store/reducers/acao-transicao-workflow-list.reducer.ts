@@ -7,6 +7,7 @@ export interface AcaoTransicaoWorkflowListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const AcaoTransicaoWorkflowListInitialState: AcaoTransicaoWorkflowListState = {
@@ -15,7 +16,8 @@ export const AcaoTransicaoWorkflowListInitialState: AcaoTransicaoWorkflowListSta
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function AcaoTransicaoWorkflowListReducer(
@@ -79,7 +81,7 @@ export function AcaoTransicaoWorkflowListReducer(
         case AcaoTransicaoWorkflowListActions.DELETE_ACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

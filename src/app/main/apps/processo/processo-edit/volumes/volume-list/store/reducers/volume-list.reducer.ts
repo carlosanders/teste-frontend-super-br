@@ -15,6 +15,7 @@ export interface VolumeListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const VolumeListInitialState: VolumeListState = {
@@ -31,7 +32,8 @@ export const VolumeListInitialState: VolumeListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function VolumeListReducer(
@@ -106,7 +108,7 @@ export function VolumeListReducer(
         case VolumeListActions.DELETE_VOLUME_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

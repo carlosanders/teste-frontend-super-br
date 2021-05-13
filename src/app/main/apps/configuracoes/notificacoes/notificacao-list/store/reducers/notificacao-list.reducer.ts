@@ -15,6 +15,7 @@ export interface NotificacaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const NotificacaoListInitialState: NotificacaoListState = {
@@ -31,7 +32,8 @@ export const NotificacaoListInitialState: NotificacaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function NotificacaoListReducer(
@@ -106,7 +108,7 @@ export function NotificacaoListReducer(
         case NotificacaoListActions.DELETE_NOTIFICACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

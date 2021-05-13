@@ -15,6 +15,7 @@ export interface InteressadoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const InteressadoListInitialState: InteressadoListState = {
@@ -31,7 +32,8 @@ export const InteressadoListInitialState: InteressadoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function InteressadoListReducer(state = InteressadoListInitialState, action: InteressadoListActions.InteressadoListActionsAll): InteressadoListState {
@@ -103,7 +105,7 @@ export function InteressadoListReducer(state = InteressadoListInitialState, acti
         case InteressadoListActions.DELETE_INTERESSADO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

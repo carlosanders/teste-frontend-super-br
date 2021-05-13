@@ -16,6 +16,7 @@ export interface WorkflowEspecieProcessoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EspecieProcessoListInitialState: WorkflowEspecieProcessoListState = {
@@ -33,7 +34,8 @@ export const EspecieProcessoListInitialState: WorkflowEspecieProcessoListState =
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function WorkflowEspeciesProcessoListReducer(
@@ -108,7 +110,7 @@ export function WorkflowEspeciesProcessoListReducer(
         case EspecieProcessoListActions.UPDATE_ESPECIE_PROCESSO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

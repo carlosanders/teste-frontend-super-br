@@ -15,6 +15,7 @@ export interface FolderListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const FolderListInitialState: FolderListState = {
@@ -31,7 +32,8 @@ export const FolderListInitialState: FolderListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function FolderListReducer(
@@ -106,7 +108,7 @@ export function FolderListReducer(
         case FolderListActions.DELETE_FOLDER_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

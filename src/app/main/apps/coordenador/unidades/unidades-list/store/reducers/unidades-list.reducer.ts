@@ -16,6 +16,7 @@ export interface UnidadesOrgaoCentralListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const UnidadesOrgaoCentralListInitialState: UnidadesOrgaoCentralListState = {
@@ -33,7 +34,8 @@ export const UnidadesOrgaoCentralListInitialState: UnidadesOrgaoCentralListState
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function UnidadesOrgaoCentralListReducer(

@@ -15,6 +15,7 @@ export interface RelevanciaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RelevanciaListInitialState: RelevanciaListState = {
@@ -31,7 +32,8 @@ export const RelevanciaListInitialState: RelevanciaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RelevanciaListReducer(
@@ -106,7 +108,7 @@ export function RelevanciaListReducer(
         case RelevanciaListActions.DELETE_RELEVANCIA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

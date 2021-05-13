@@ -15,6 +15,7 @@ export interface TramitacaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const TramitacaoListInitialState: TramitacaoListState = {
@@ -31,7 +32,8 @@ export const TramitacaoListInitialState: TramitacaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function TramitacaoListReducer(
@@ -106,7 +108,7 @@ export function TramitacaoListReducer(
         case TramitacaoListActions.DELETE_TRAMITACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

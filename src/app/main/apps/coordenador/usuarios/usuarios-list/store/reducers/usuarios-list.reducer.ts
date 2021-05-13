@@ -16,6 +16,7 @@ export interface UsuariosListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const UsuariosListInitialState: UsuariosListState = {
@@ -33,7 +34,8 @@ export const UsuariosListInitialState: UsuariosListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function UsuariosListReducer(
@@ -108,7 +110,7 @@ export function UsuariosListReducer(
         case UsuariosListActions.DELETE_USUARIO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

@@ -15,6 +15,7 @@ export interface EnderecoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EnderecoListInitialState: EnderecoListState = {
@@ -31,7 +32,8 @@ export const EnderecoListInitialState: EnderecoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function EnderecoListReducer(
@@ -106,7 +108,7 @@ export function EnderecoListReducer(
         case EnderecoListActions.DELETE_ENDERECO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

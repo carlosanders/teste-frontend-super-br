@@ -16,6 +16,7 @@ export interface ModelosListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const ModelosListInitialState: ModelosListState = {
@@ -33,7 +34,8 @@ export const ModelosListInitialState: ModelosListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function ModelosListReducer(
@@ -109,7 +111,7 @@ export function ModelosListReducer(
         case ModelosListActions.DELETE_MODELO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

@@ -15,6 +15,7 @@ export interface GarantiaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const GarantiaListInitialState: GarantiaListState = {
@@ -31,7 +32,8 @@ export const GarantiaListInitialState: GarantiaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function GarantiaListReducer(
@@ -106,7 +108,7 @@ export function GarantiaListReducer(
         case GarantiaListActions.DELETE_GARANTIA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

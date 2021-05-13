@@ -15,6 +15,7 @@ export interface LotacaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const LotacaoListInitialState: LotacaoListState = {
@@ -31,7 +32,8 @@ export const LotacaoListInitialState: LotacaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function LotacaoListReducer(
@@ -106,7 +108,7 @@ export function LotacaoListReducer(
         case LotacaoListActions.DELETE_LOTACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

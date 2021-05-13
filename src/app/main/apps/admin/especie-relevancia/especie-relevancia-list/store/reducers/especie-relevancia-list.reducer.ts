@@ -16,6 +16,7 @@ export interface EspecieRelevanciaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EspecieRelevanciaListInitialState: EspecieRelevanciaListState = {
@@ -33,7 +34,8 @@ export const EspecieRelevanciaListInitialState: EspecieRelevanciaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function EspecieRelevanciaListReducer(

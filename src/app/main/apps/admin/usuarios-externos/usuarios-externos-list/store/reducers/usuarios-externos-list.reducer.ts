@@ -16,6 +16,7 @@ export interface UsuariosExternosListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const UsuariosExternosListInitialState: UsuariosExternosListState = {
@@ -33,7 +34,8 @@ export const UsuariosExternosListInitialState: UsuariosExternosListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 
 };
 
@@ -109,7 +111,7 @@ export function UsuariosExternosListReducer(
         case UsuariosExternosListActions.DELETE_USUARIO_EXTERNOS_LIST_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

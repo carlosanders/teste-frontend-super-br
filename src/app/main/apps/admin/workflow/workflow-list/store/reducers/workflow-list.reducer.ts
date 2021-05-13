@@ -16,6 +16,7 @@ export interface WorkflowListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const WorkflowListInitialState: WorkflowListState = {
@@ -33,7 +34,8 @@ export const WorkflowListInitialState: WorkflowListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function WorkflowListReducer(
@@ -110,7 +112,7 @@ export function WorkflowListReducer(
         case WorkflowListActions.DELETE_WORKFLOW_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

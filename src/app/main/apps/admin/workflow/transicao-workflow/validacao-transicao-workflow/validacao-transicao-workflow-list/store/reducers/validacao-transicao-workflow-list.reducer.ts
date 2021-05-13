@@ -7,6 +7,7 @@ export interface ValidacaoTransicaoWorkflowListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const ValidacaoTransicaoWorkflowListInitialState: ValidacaoTransicaoWorkflowListState = {
@@ -15,7 +16,8 @@ export const ValidacaoTransicaoWorkflowListInitialState: ValidacaoTransicaoWorkf
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function ValidacaoTransicaoWorkflowListReducer(
@@ -79,7 +81,7 @@ export function ValidacaoTransicaoWorkflowListReducer(
         case ValidacaoTransicaoWorkflowListActions.DELETE_VALIDACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

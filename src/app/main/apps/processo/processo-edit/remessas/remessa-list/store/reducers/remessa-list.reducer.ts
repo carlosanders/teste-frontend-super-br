@@ -15,6 +15,7 @@ export interface RemessaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RemessaListInitialState: RemessaListState = {
@@ -31,7 +32,8 @@ export const RemessaListInitialState: RemessaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RemessaListReducer(
@@ -106,7 +108,7 @@ export function RemessaListReducer(
         case RemessaListActions.DELETE_TRAMITACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

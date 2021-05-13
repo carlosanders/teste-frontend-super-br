@@ -15,6 +15,7 @@ export interface TransicaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const TransicaoListInitialState: TransicaoListState = {
@@ -31,7 +32,8 @@ export const TransicaoListInitialState: TransicaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function TransicaoListReducer(
@@ -106,7 +108,7 @@ export function TransicaoListReducer(
         case TransicaoListActions.DELETE_TRANSICAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

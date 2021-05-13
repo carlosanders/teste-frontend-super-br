@@ -16,6 +16,7 @@ export interface LocalizadorListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const LocalizadorListInitialState: LocalizadorListState = {
@@ -33,7 +34,8 @@ export const LocalizadorListInitialState: LocalizadorListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function LocalizadorListReducer(
@@ -109,7 +111,7 @@ export function LocalizadorListReducer(
         case LocalizadorListActions.DELETE_LOCALIZADOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

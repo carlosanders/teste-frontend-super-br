@@ -15,6 +15,7 @@ export interface FavoritoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const FavoritoListInitialState: FavoritoListState = {
@@ -31,7 +32,8 @@ export const FavoritoListInitialState: FavoritoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function FavoritoListReducer(
@@ -106,7 +108,7 @@ export function FavoritoListReducer(
         case FavoritoListActions.DELETE_FAVORITO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

@@ -16,6 +16,7 @@ export interface ModelosEspecieSetorListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const ModelosEspecieSetorListInitialState: ModelosEspecieSetorListState = {
@@ -33,7 +34,8 @@ export const ModelosEspecieSetorListInitialState: ModelosEspecieSetorListState =
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function ModelosEspecieSetorListReducer(
@@ -109,7 +111,7 @@ export function ModelosEspecieSetorListReducer(
         case ModelosEspecieSetorListActions.DELETE_MODELO_ESPECIE_SETOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

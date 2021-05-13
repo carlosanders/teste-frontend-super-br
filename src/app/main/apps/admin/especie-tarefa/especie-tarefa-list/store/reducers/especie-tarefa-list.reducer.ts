@@ -16,6 +16,7 @@ export interface EspecieTarefaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EspecieTarefaListInitialState: EspecieTarefaListState = {
@@ -33,7 +34,8 @@ export const EspecieTarefaListInitialState: EspecieTarefaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function EspecieTarefaListReducer(
@@ -108,7 +110,7 @@ export function EspecieTarefaListReducer(
         case EspecieTarefaListActions.DELETE_ESPECIE_TAREFA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

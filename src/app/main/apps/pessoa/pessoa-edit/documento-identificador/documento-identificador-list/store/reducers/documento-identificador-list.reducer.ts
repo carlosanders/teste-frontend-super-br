@@ -15,6 +15,7 @@ export interface DocumentoIdentificadorListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const DocumentoIdentificadorListInitialState: DocumentoIdentificadorListState = {
@@ -31,7 +32,8 @@ export const DocumentoIdentificadorListInitialState: DocumentoIdentificadorListS
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function DocumentoIdentificadorListReducer(
@@ -106,7 +108,7 @@ export function DocumentoIdentificadorListReducer(
         case DocumentoIdentificadorListActions.DELETE_DOCUMENTO_IDENTIFICADOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

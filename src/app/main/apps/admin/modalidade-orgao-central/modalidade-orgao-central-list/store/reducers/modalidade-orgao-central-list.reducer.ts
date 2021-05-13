@@ -16,6 +16,7 @@ export interface ModalidadeOrgaoCentralListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const ModalidadeOrgaoCentralListInitialState: ModalidadeOrgaoCentralListState = {
@@ -33,7 +34,8 @@ export const ModalidadeOrgaoCentralListInitialState: ModalidadeOrgaoCentralListS
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function ModalidadeOrgaoCentralListReducer(

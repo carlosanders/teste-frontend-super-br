@@ -16,6 +16,7 @@ export interface ModalidadeAcaoEtiquetaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const ModalidadeAcaoEtiquetaListInitialState: ModalidadeAcaoEtiquetaListState = {
@@ -33,7 +34,8 @@ export const ModalidadeAcaoEtiquetaListInitialState: ModalidadeAcaoEtiquetaListS
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function ModalidadeAcaoEtiquetaListReducer(
@@ -108,7 +110,7 @@ export function ModalidadeAcaoEtiquetaListReducer(
         case ModalidadeAcaoEtiquetaListActions.DELETE_MODALIDADE_ACAO_ETIQUETA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

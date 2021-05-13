@@ -7,6 +7,7 @@ export interface AcaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const AcaoListInitialState: AcaoListState = {
@@ -15,7 +16,8 @@ export const AcaoListInitialState: AcaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function AcaoListReducer(
@@ -79,7 +81,7 @@ export function AcaoListReducer(
         case AcaoListActions.DELETE_ACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

@@ -15,6 +15,7 @@ export interface PessoaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const PessoaListInitialState: PessoaListState = {
@@ -31,7 +32,8 @@ export const PessoaListInitialState: PessoaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function PessoaListReducer(state = PessoaListInitialState, action: PessoaListActions.PessoaListActionsAll): PessoaListState {
@@ -109,7 +111,7 @@ export function PessoaListReducer(state = PessoaListInitialState, action: Pessoa
         case PessoaListActions.DELETE_PESSOA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

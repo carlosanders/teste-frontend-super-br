@@ -15,6 +15,7 @@ export interface AcompanhamentoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const AcompanhamentoListInitialState: AcompanhamentoListState = {
@@ -31,7 +32,8 @@ export const AcompanhamentoListInitialState: AcompanhamentoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function AcompanhamentoListReducer(
@@ -106,7 +108,7 @@ export function AcompanhamentoListReducer(
         case AcompanhamentoListActions.DELETE_ACOMPANHAMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

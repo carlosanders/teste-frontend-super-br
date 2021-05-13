@@ -15,6 +15,7 @@ export interface AfastamentoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const AfastamentoListInitialState: AfastamentoListState = {
@@ -31,7 +32,8 @@ export const AfastamentoListInitialState: AfastamentoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function AfastamentoListReducer(
@@ -106,7 +108,7 @@ export function AfastamentoListReducer(
         case AfastamentoListActions.DELETE_AFASTAMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

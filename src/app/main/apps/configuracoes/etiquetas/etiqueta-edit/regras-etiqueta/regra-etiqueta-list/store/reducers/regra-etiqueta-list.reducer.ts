@@ -7,6 +7,7 @@ export interface RegraEtiquetaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RegraEtiquetaListInitialState: RegraEtiquetaListState = {
@@ -15,7 +16,8 @@ export const RegraEtiquetaListInitialState: RegraEtiquetaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RegraEtiquetaListReducer(
@@ -79,7 +81,7 @@ export function RegraEtiquetaListReducer(
         case RegraEtiquetaListActions.DELETE_REGRA_ETIQUETA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

@@ -16,6 +16,7 @@ export interface RepositoriosListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RepositoriosListInitialState: RepositoriosListState = {
@@ -33,7 +34,8 @@ export const RepositoriosListInitialState: RepositoriosListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RepositoriosListReducer(
@@ -109,7 +111,7 @@ export function RepositoriosListReducer(
         case RepositoriosListActions.DELETE_REPOSITORIO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

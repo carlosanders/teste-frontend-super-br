@@ -15,6 +15,7 @@ export interface AssuntoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const AssuntoListInitialState: AssuntoListState = {
@@ -31,7 +32,8 @@ export const AssuntoListInitialState: AssuntoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function AssuntoListReducer(
@@ -106,7 +108,7 @@ export function AssuntoListReducer(
         case AssuntoListActions.DELETE_ASSUNTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

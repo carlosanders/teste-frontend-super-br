@@ -15,6 +15,7 @@ export interface TarefaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const TarefaListInitialState: TarefaListState = {
@@ -31,7 +32,8 @@ export const TarefaListInitialState: TarefaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function TarefaListReducer(
@@ -106,7 +108,7 @@ export function TarefaListReducer(
         case TarefaListActions.DELETE_TAREFA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

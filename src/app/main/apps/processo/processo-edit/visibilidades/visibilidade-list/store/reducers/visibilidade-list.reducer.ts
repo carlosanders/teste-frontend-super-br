@@ -7,6 +7,7 @@ export interface VisibilidadeListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const VisibilidadeListInitialState: VisibilidadeListState = {
@@ -15,7 +16,8 @@ export const VisibilidadeListInitialState: VisibilidadeListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function VisibilidadeListReducer(
@@ -79,7 +81,7 @@ export function VisibilidadeListReducer(
         case VisibilidadeListActions.DELETE_VISIBILIDADE_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

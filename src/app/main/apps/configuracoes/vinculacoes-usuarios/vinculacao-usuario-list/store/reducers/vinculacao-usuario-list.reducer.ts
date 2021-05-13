@@ -15,6 +15,7 @@ export interface VinculacaoUsuarioListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const VinculacaoUsuarioListInitialState: VinculacaoUsuarioListState = {
@@ -31,7 +32,8 @@ export const VinculacaoUsuarioListInitialState: VinculacaoUsuarioListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function VinculacaoUsuarioListReducer(
@@ -106,7 +108,7 @@ export function VinculacaoUsuarioListReducer(
         case VinculacaoUsuarioListActions.DELETE_VINCULACAO_USUARIO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

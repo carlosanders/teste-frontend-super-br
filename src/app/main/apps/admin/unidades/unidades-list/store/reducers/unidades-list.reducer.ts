@@ -16,6 +16,7 @@ export interface UnidadesListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const UnidadesListInitialState: UnidadesListState = {
@@ -33,7 +34,8 @@ export const UnidadesListInitialState: UnidadesListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function UnidadesListReducer(

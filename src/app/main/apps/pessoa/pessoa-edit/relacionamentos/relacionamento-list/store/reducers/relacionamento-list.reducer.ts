@@ -15,6 +15,7 @@ export interface RelacionamentoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RelacionamentoListInitialState: RelacionamentoListState = {
@@ -31,7 +32,8 @@ export const RelacionamentoListInitialState: RelacionamentoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RelacionamentoListReducer(
@@ -106,7 +108,7 @@ export function RelacionamentoListReducer(
         case RelacionamentoListActions.DELETE_RELACIONAMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

@@ -14,6 +14,7 @@ export interface CompartilhamentoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
     bufferingDelete: number;
     error: any;
     errorDelete: number[];

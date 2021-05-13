@@ -16,6 +16,7 @@ export interface DocumentoAvulsoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
     respondendoIds: number[];
 }
 
@@ -34,6 +35,7 @@ export const DocumentoAvulsoListInitialState: DocumentoAvulsoListState = {
     loaded: false,
     deletedIds: [],
     deletingIds: [],
+    deletingErrors: {},
     respondendoIds: []
 };
 
@@ -109,7 +111,7 @@ export function DocumentoAvulsoListReducer(
         case DocumentoAvulsoListActions.DELETE_DOCUMENTO_AVULSO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

@@ -16,6 +16,7 @@ export interface TipoAcaoWorkflowListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const TipoAcaoWorkflowListInitialState: TipoAcaoWorkflowListState = {
@@ -33,7 +34,8 @@ export const TipoAcaoWorkflowListInitialState: TipoAcaoWorkflowListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function TipoAcaoWorkflowListReducer(
@@ -108,7 +110,7 @@ export function TipoAcaoWorkflowListReducer(
         case TipoAcaoWorkflowListActions.DELETE_TIPO_ACAO_WORKFLOW_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

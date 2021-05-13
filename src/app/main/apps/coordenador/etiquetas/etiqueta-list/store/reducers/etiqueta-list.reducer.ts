@@ -16,6 +16,7 @@ export interface EtiquetaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EtiquetaListInitialState: EtiquetaListState = {
@@ -33,7 +34,8 @@ export const EtiquetaListInitialState: EtiquetaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function EtiquetaListReducer(
@@ -109,7 +111,7 @@ export function EtiquetaListReducer(
         case EtiquetaListActions.DELETE_ETIQUETA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

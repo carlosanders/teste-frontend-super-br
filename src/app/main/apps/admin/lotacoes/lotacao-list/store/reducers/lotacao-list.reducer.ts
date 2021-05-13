@@ -16,6 +16,7 @@ export interface RootLotacaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RootLotacaoListInitialState: RootLotacaoListState = {
@@ -33,7 +34,8 @@ export const RootLotacaoListInitialState: RootLotacaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RootLotacaoListReducer(
@@ -109,7 +111,7 @@ export function RootLotacaoListReducer(
         case RootLotacaoListActions.DELETE_LOTACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

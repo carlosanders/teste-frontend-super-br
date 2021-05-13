@@ -16,6 +16,7 @@ export interface CargoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const CargoListInitialState: CargoListState = {
@@ -33,7 +34,8 @@ export const CargoListInitialState: CargoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function CargoListReducer(

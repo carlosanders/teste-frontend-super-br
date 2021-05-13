@@ -15,6 +15,7 @@ export interface VinculacaoProcessoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const VinculacaoProcessoListInitialState: VinculacaoProcessoListState = {
@@ -31,7 +32,8 @@ export const VinculacaoProcessoListInitialState: VinculacaoProcessoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function VinculacaoProcessoListReducer(
@@ -106,7 +108,7 @@ export function VinculacaoProcessoListReducer(
         case VinculacaoProcessoListActions.DELETE_VINCULACAO_PROCESSO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

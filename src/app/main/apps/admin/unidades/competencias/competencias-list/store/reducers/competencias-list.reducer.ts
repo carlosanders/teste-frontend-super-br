@@ -16,6 +16,7 @@ export interface CompetenciasListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const CompetenciasListInitialState: CompetenciasListState = {
@@ -33,7 +34,8 @@ export const CompetenciasListInitialState: CompetenciasListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function CompetenciasListReducer(
@@ -109,7 +111,7 @@ export function CompetenciasListReducer(
         case CompetenciasListActions.DELETE_COMPETENCIA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

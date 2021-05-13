@@ -16,6 +16,7 @@ export interface CoordenadoresListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const CoordenadoresListInitialState: CoordenadoresListState = {
@@ -33,7 +34,8 @@ export const CoordenadoresListInitialState: CoordenadoresListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function CoordenadoresListReducer(
@@ -109,7 +111,7 @@ export function CoordenadoresListReducer(
         case CoordenadoresListActions.DELETE_COORDENADOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

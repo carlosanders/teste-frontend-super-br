@@ -15,6 +15,7 @@ export interface SigiloListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const SigiloListInitialState: SigiloListState = {
@@ -31,7 +32,8 @@ export const SigiloListInitialState: SigiloListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function SigiloListReducer(
@@ -106,7 +108,7 @@ export function SigiloListReducer(
         case SigiloListActions.DELETE_SIGILO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

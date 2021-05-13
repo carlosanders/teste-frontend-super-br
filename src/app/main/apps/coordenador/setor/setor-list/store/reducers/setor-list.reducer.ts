@@ -16,6 +16,7 @@ export interface SetorListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const SetorListInitialState: SetorListState = {
@@ -33,7 +34,8 @@ export const SetorListInitialState: SetorListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function SetorListReducer(
@@ -109,7 +111,7 @@ export function SetorListReducer(
         case SetorListActions.DELETE_SETOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

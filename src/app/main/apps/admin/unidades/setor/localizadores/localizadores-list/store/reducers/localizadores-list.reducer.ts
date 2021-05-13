@@ -16,6 +16,7 @@ export interface RootLocalizadoresListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RootLocalizadoresListInitialState: RootLocalizadoresListState = {
@@ -33,7 +34,8 @@ export const RootLocalizadoresListInitialState: RootLocalizadoresListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RootLocalizadoresListReducer(
@@ -109,7 +111,7 @@ export function RootLocalizadoresListReducer(
         case RootLocalizadoresListActions.DELETE_LOCALIZADOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

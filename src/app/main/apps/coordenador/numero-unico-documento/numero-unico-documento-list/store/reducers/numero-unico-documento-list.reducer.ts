@@ -16,6 +16,7 @@ export interface NumeroUnicoDocumentoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const NumeroUnicoDocumentoListInitialState: NumeroUnicoDocumentoListState = {
@@ -33,7 +34,8 @@ export const NumeroUnicoDocumentoListInitialState: NumeroUnicoDocumentoListState
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function NumeroUnicoDocumentoListReducer(
@@ -109,7 +111,7 @@ export function NumeroUnicoDocumentoListReducer(
         case NumeroUnicoDocumentoListActions.DELETE_NUMERO_UNICO_DOCUMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

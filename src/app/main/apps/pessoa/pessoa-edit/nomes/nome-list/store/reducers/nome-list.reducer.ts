@@ -15,6 +15,7 @@ export interface NomeListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const NomeListInitialState: NomeListState = {
@@ -31,7 +32,8 @@ export const NomeListInitialState: NomeListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function NomeListReducer(
@@ -106,7 +108,7 @@ export function NomeListReducer(
         case NomeListActions.DELETE_NOME_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

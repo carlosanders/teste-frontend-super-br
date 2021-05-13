@@ -16,6 +16,7 @@ export interface TipoValidacaoWorkflowListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const TipoValidacaoWorkflowListInitialState: TipoValidacaoWorkflowListState = {
@@ -33,7 +34,8 @@ export const TipoValidacaoWorkflowListInitialState: TipoValidacaoWorkflowListSta
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function TipoValidacaoWorkflowListReducer(
@@ -108,7 +110,7 @@ export function TipoValidacaoWorkflowListReducer(
         case TipoValidacaoWorkflowListActions.DELETE_TIPO_VALIDACAO_WORKFLOW_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

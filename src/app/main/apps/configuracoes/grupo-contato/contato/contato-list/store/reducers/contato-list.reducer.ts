@@ -16,6 +16,7 @@ export interface ContatoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const ContatoListInitialState: ContatoListState = {
@@ -33,7 +34,8 @@ export const ContatoListInitialState: ContatoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function ContatoListReducer(
@@ -109,7 +111,7 @@ export function ContatoListReducer(
         case ContatoListActions.DELETE_CONTATO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

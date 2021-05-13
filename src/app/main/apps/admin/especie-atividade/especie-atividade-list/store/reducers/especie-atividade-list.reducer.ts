@@ -16,6 +16,7 @@ export interface EspecieAtividadeListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EspecieAtividadeListInitialState: EspecieAtividadeListState = {
@@ -33,7 +34,8 @@ export const EspecieAtividadeListInitialState: EspecieAtividadeListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function EspecieAtividadeListReducer(

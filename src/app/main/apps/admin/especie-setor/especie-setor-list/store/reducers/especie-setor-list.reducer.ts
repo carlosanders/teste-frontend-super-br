@@ -16,6 +16,7 @@ export interface EspecieSetorListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EspecieSetorListInitialState: EspecieSetorListState = {
@@ -33,7 +34,8 @@ export const EspecieSetorListInitialState: EspecieSetorListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function EspecieSetorListReducer(
@@ -108,7 +110,7 @@ export function EspecieSetorListReducer(
         case EspecieSetorListActions.DELETE_ESPECIE_SETOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

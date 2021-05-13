@@ -16,6 +16,7 @@ export interface GrupoContatoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const GrupoContatoListInitialState: GrupoContatoListState = {
@@ -33,7 +34,8 @@ export const GrupoContatoListInitialState: GrupoContatoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function GrupoContatoListReducer(
@@ -109,7 +111,7 @@ export function GrupoContatoListReducer(
         case GrupoContatoListActions.DELETE_GRUPO_CONTATO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 

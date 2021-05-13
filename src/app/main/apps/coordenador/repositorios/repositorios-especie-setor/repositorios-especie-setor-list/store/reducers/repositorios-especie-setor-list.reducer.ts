@@ -16,6 +16,7 @@ export interface RepositoriosEspecieSetorListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RepositoriosEspecieSetorListInitialState: RepositoriosEspecieSetorListState = {
@@ -33,7 +34,8 @@ export const RepositoriosEspecieSetorListInitialState: RepositoriosEspecieSetorL
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RepositoriosEspecieSetorListReducer(
@@ -109,7 +111,7 @@ export function RepositoriosEspecieSetorListReducer(
         case RepositoriosEspecieSetorListActions.DELETE_REPOSITORIO_ESPECIE_SETOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
             };
         }
 
