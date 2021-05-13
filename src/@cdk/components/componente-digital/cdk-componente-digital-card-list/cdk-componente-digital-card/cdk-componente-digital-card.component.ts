@@ -156,9 +156,9 @@ export class CdkComponenteDigitalCardComponent implements DoCheck, OnChanges {
 
     salvarTipoDocumento(): void {
         const novoTipo = this.form.get('tipoDocumento').value;
-        if (this.componenteDigital.tipoDocumento) {
+        if (novoTipo) {
             this.fullTitle = this.componenteDigital.fileName;
-            this.fullTitle += "\n Tipo de documento: " + this.componenteDigital.tipoDocumento.nome;
+            this.fullTitle += "\n Tipo de documento: " + novoTipo.nome;
         }
         this.form.get('tipoDocumento').setValue(null);
         this.autoCompleteTipo.closePanel();
