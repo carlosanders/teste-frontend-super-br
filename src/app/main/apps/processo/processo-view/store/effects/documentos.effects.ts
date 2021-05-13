@@ -462,15 +462,23 @@ export class ProcessoViewDocumentosEffects {
                 tap((action) => {
                     let primary: string;
                     primary = 'componente-digital/';
+                    let componenteDigital = null;
+
                     if (action.payload.documento.componentesDigitais[0]) {
-                        primary += action.payload.documento.componentesDigitais[0].id;
+                        componenteDigital = action.payload.documento.componentesDigitais[0]
+                        primary += componenteDigital.id;
                     } else {
                         primary += '0';
                     }
-                    if (action.payload.documento.apagadoEm) {
+
+                    if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
+                        primary += '/editor/ckeditor';
+                    } else {
                         primary += '/visualizar';
                     }
+
                     let sidebar = action.payload.routeOficio + '/dados-basicos';
+
                     if (!action.payload.documento.documentoAvulsoRemessa && !action.payload.documento.juntadaAtual) {
                         sidebar = 'editar/' + action.payload.routeAtividade;
                     } else if (action.payload.documento.juntadaAtual) {
