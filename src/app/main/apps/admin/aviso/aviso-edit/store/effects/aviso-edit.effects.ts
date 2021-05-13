@@ -52,7 +52,7 @@ export class AvisoEditEffects {
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            'populateAll'
+                            "aviso","vinculacoesAvisos","vinculacoesAvisos.setor","vinculacoesAvisos.modalidadeOrgaoCentral","vinculacoesAvisos.unidade","vinculacoesAvisos.setor.unidade"
                         ]),
                         JSON.stringify({isAdmin: true}));
                 }),

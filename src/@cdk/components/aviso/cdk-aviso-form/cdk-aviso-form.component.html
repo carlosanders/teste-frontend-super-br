@@ -19,9 +19,10 @@
         <mat-hint align="end">{{descricao.value.length}} / 255</mat-hint>
     </mat-form-field>
 
-    <mat-form-field  *showIfRole="'ROLE_ADMIN'">
+    <mat-form-field *ngIf="showSelectTipo()" >
         <mat-select placeholder="Tipo de notificação"
-                    formControlName="tipo" required>
+                    formControlName="tipo"
+                    required>
             <div *ngFor="let tipo of tipos">
                 <mat-option [value]="tipo.id">{{ tipo.label }}</mat-option>
             </div>
@@ -52,20 +53,20 @@
 
     <mat-form-field *ngIf="form.get('tipo').value === 'M'">
         <input matInput placeholder="Modalidade de órgão central"
-               formControlName="orgaoCentral"
+               formControlName="modalidadeOrgaoCentral"
                [matAutocomplete]="orgaoCentral.autocomplete"
                (blur)="checkOrgaoCentral()">
         <cdk-modalidade-orgao-central-autocomplete
             #orgaoCentral="modalidadeOrgaoCentralAutocomplete"
-            [control]="form.get('orgaoCentral')"
+            [control]="form.get('modalidadeOrgaoCentral')"
             [pagination]="orgaoCentralPagination">
         </cdk-modalidade-orgao-central-autocomplete>
         <button matSuffix mat-button mat-icon-button
                 (click)="showOrgaoCentralGrid()">
             <mat-icon matTooltip="Procurar">search</mat-icon>
         </button>
-        <mat-error *ngIf="form.get('orgaoCentral').hasError('formError')">
-            {{form.get('orgaoCentral').errors.formError}}
+        <mat-error *ngIf="form.get('modalidadeOrgaoCentral').hasError('formError')">
+            {{form.get('modalidadeOrgaoCentral').errors.formError}}
         </mat-error>
     </mat-form-field>
 
