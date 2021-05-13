@@ -274,6 +274,7 @@
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
                     [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
                     (salvarObservacao)="doSalvarObservacao($event)"
+                    (etiquetaClickHandler)="doClickEtiqueta($event)"
                 >
                 </cdk-tarefa-list-item>
             </div>

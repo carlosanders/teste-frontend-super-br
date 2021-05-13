@@ -767,4 +767,17 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             this.confirmDialogRef = null;
         });
     }
+
+    doEditarDocumentoEtiqueta(event): void {
+        let tarefa = event.tarefa;
+        let vinculacaoEtiqueta = event.vinculacaoEtiqueta;
+        if (!tarefa.apagadoEm && vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
+            this._store.dispatch(new fromStore.SetCurrentTarefa({
+                tarefaId: tarefa.id,
+                processoId: tarefa.processo.id,
+                acessoNegado: tarefa.processo.acessoNegado,
+                documentoUuidEdit: vinculacaoEtiqueta.objectUuid
+            }));
+        }
+    }
 }
