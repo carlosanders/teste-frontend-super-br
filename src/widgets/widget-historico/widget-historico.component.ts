@@ -44,7 +44,12 @@ export class WidgetHistoricoComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+        this.reload();
+    }
+
+    reload(): void {
         this.historicoIsLoding = true;
+        this.historicos = [];
         this._historicoService.query(
             `{"criadoPor.id": "eq:${this._profile.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
             5,
