@@ -13,7 +13,7 @@ import {
 import {plainToClass} from 'class-transformer';
 import {Store} from '@ngrx/store';
 import {State} from 'app/store/reducers';
-import {MensagemRecebida, NovoChatIniciado} from "../actions";
+import {ChatUpdatedBroadcast, MensagemRecebida} from "../actions";
 
 @Injectable()
 export class ChatMercureEffects {
@@ -37,15 +37,17 @@ export class ChatMercureEffects {
                                 // Mensagem recebida
                                 this._store.dispatch(new AddData<ChatMensagem>({data: [plainToClass(ChatMensagem, action.payload.content)], schema: chatMensagemSchema}));
                                 this._store.dispatch(new MensagemRecebida(plainToClass(ChatMensagem, action.payload.content)))
+                                this._store.dispatch(new ChatUpdatedBroadcast(plainToClass(ChatMensagem, action.payload.content).chat))
                                 break;
                             case 'Chat':
                                 // Chat atualizado
                                 this._store.dispatch(new AddData<Chat>({data: [plainToClass(Chat, action.payload.content)], schema: chatSchema}));
+                                this._store.dispatch(new ChatUpdatedBroadcast(plainToClass(ChatMensagem, action.payload.content)))
                                 break;
                             case 'ChatParticipante':
                                 // Foi iniciada uma nova conversa (individual/grupo) com o usuário
                                 this._store.dispatch(new AddData<ChatParticipante>({data: [plainToClass(ChatParticipante, action.payload.content)], schema: chatParticipanteSchema}));
-                                this._store.dispatch(new NovoChatIniciado(plainToClass(ChatParticipante, action.payload.content)))
+                                this._store.dispatch(new ChatUpdatedBroadcast(plainToClass(ChatParticipante, action.payload.content).chat))
                                 break;
                         }
                     }

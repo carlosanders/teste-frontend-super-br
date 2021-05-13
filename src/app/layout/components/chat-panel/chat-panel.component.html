@@ -13,18 +13,27 @@
     </button>
 
 </div>
-<div class="content-card">
+<div class="content-card"
+     *ngIf="usuarioAutenticado === true">
+
     <mat-sidenav-container>
         <!-- LEFT SIDENAV-->
         <mat-sidenav class="sidenav sidenav-left" position="start" opened="true" mode="side">
-            <chat-header class="sidenav-header">
+            <chat-header class="sidenav-header"
+                (pesquisaChatHandler)="pesquisaChat($event)">
             </chat-header>
-            <div class="sidenav-content" fxFlex>
+            <div class="sidenav-content" fxFlex
+                 infiniteScroll
+                 [scrollWindow]="false"
+                 [infiniteScrollDistance]="2"
+                 [infiniteScrollThrottle]="50"
+                 (scrolled)="onScrollChatList($event)">
                 <div *cdkIfOnDom [@animateStagger]="{value:'50'}">
                     <chat-list
                         fxLayout="column"
                         (chatClickHandler)="openChat($event)"
-                        [chatList]="chatList">
+                        [chatList]="chatList"
+                        [loading]="chatLoading">
                     </chat-list>
                 </div>
             </div>
@@ -32,23 +41,28 @@
         <!-- /LEFT SIDENAV-->
         <!-- RIGHT SIDENAV-->
         <mat-sidenav class="sidenav sidenav-right" position="end" opened="true" mode="side"
-                     *ngIf="chatOpen !== null">
-            <div class="chat" fxFlex fxLayout="column" *ngIf="chatOpen !== null">
+                     *ngIf="!!chatOpen">
+            <div class="chat" fxFlex fxLayout="column">
                 <chat-mensagem-header class="sidenav-header"
                     [chat]="chatOpen"
                     (fecharChatHandler)="fecharChat()">
                 </chat-mensagem-header>
-                <!--                    infiniteScroll-->
-                <!--                    (scrolled)="onScrollChatMensagemList()">-->
-                <chat-mensagem-list
-                    class="chat-content"
-                    cdkPerfectScrollbar
-                    [scrollBottom]="scrollBottom"
-                    [chat]="chatOpen"
-                    [loading]="(chatMensagemLoading$ | async)"
-                    [chatMensagens]="chatMensagens">
-                </chat-mensagem-list>
-
+                <div class="chat-content"
+                     #chatMensagemScroll
+                     CdkPerfectScrollbar
+                     infiniteScroll
+                     [scrollWindow]="false"
+                     [alwaysCallback]="true"
+                     [infiniteScrollUpDistance]="3"
+                     [infiniteScrollThrottle]="150"
+                     (scrolledUp)="onScrollUpChatMessageList($event)"
+                     (scroll)="onScrollChatMessageList($event)">
+                    <chat-mensagem-list
+                        [chat]="chatOpen"
+                        [loading]="(chatMensagemLoading$ | async)"
+                        [chatMensagens]="chatMensagens">
+                    </chat-mensagem-list>
+                </div>
                 <div class="chat-footer" fxFlex="0 0 auto" fxLayout="column">
 
                     <form class="chat-mensagem-form" name="chatMensagemForm" fxFlex="0 0 auto" fxLayout="row"

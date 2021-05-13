@@ -17,6 +17,8 @@ export class ChatListComponent implements OnInit
 {
     @Input()
     chatList: Chat[] = [];
+    @Input()
+    loading: boolean = true;
 
     @Output()
     chatClickHandler = new EventEmitter<Chat>();

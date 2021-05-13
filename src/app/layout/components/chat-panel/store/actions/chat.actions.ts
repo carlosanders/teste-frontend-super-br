@@ -7,13 +7,19 @@ export const CLOSE_CHAT = '[CHAT PANEL] CLOSE CHAT';
 export const CHAT_SAVE = '[CHAT PANEL] CHAT SAVE';
 export const CHAT_SAVE_SUCCESS = '[CHAT PANEL] CHAT SAVE SUCCESS';
 export const CHAT_SAVE_FAILED = '[CHAT PANEL] CHAT SAVE FAILED';
+export const CHAT_UPDATED_BROADCAST = '[CHAT PANEL] CHAT UPDATED BROADCAST';
 export const ADD_PARTICIPANT = '[CHAT PANEL] ADD PARTICIPANT';
 export const ADD_PARTICIPANT_SUCCESS = '[CHAT PANEL] ADD PARTICIPANT SUCCESS';
 export const ADD_PARTICIPANT_FAILED = '[CHAT PANEL] ADD PARTICIPANT FAILED';
 export const GET_CHAT = '[CHAT PANEL] GET CHAT';
 export const GET_CHAT_SUCCESS = '[CHAT PANEL] GET CHAT SUCCESS';
 export const GET_CHAT_FAILED = '[CHAT PANEL] GET CHAT FAILED';
-export const NOVO_CHAT_INICIADO = '[CHAT PANEL] CHAT INICIADO';
+export const CRIAR_OU_RETORNAR = '[CHAT PANEL] CRIAR OU RETORNAR';
+export const CRIAR_OU_RETORNAR_SUCCESS = '[CHAT PANEL] CRIAR OU RETORNAR SUCCESS';
+export const CRIAR_OU_RETORNAR_FAILED = '[CHAT PANEL] CRIAR OU RETORNAR FAILED';
+export const GET_CHAT_INCREMENT = '[CHAT PANEL] GET CHAT INCREMENT';
+export const GET_CHAT_INCREMENT_SUCCESS = '[CHAT PANEL] GET CHAT INCREMENT SUCCESS';
+export const GET_CHAT_INCREMENT_FAILED = '[CHAT PANEL] GET CHAT INCREMENT FAILED';
 
 export class OpenChat implements Action
 {
@@ -106,9 +112,51 @@ export class GetChatFailed implements Action
     constructor(public payload: any) { }
 }
 
-export class NovoChatIniciado implements Action
+export class CriarOuRetornar implements Action
 {
-    readonly type = NOVO_CHAT_INICIADO;
+    readonly type = CRIAR_OU_RETORNAR;
+
+    constructor(public payload: any) { }
+}
+
+export class CriarOuRetornarSuccess implements Action
+{
+    readonly type = CRIAR_OU_RETORNAR_SUCCESS;
+
+    constructor(public payload: any) { }
+}
+
+export class CriarOuRetornarFailed implements Action
+{
+    readonly type = CRIAR_OU_RETORNAR_FAILED;
+
+    constructor(public payload: any) { }
+}
+
+export class ChatUpdatedBroadcast implements Action
+{
+    readonly type = CHAT_UPDATED_BROADCAST;
+
+    constructor(public payload: any) { }
+}
+
+export class GetChatIncrement implements Action
+{
+    readonly type = GET_CHAT_INCREMENT;
+
+    constructor(public payload: any) { }
+}
+
+export class GetChatIncrementSuccess implements Action
+{
+    readonly type = GET_CHAT_INCREMENT_SUCCESS;
+
+    constructor(public payload: any) { }
+}
+
+export class GetChatIncrementFailed implements Action
+{
+    readonly type = GET_CHAT_INCREMENT_FAILED;
 
     constructor(public payload: any) { }
 }
@@ -127,6 +175,12 @@ export type ChatActionsAll
     | GetChat
     | GetChatSuccess
     | GetChatFailed
-    | NovoChatIniciado
+    | CriarOuRetornar
+    | CriarOuRetornarFailed
+    | CriarOuRetornarSuccess
+    | ChatUpdatedBroadcast
+    | GetChatIncrement
+    | GetChatIncrementSuccess
+    | GetChatIncrementFailed
     ;
 

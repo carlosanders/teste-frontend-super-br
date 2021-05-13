@@ -37,7 +37,6 @@ export class ChatMensagemEffects {
             .pipe(
                 ofType<ChatMensagemActions.GetMensagens>(ChatMensagemActions.GET_MENSAGENS),
                 switchMap((action) => {
-                    console.log('nova mensagem do mercure!',action)
                     return this._chatMensagemService.query(
                         JSON.stringify({
                             ...action.payload.filter,

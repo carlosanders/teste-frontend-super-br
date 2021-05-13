@@ -12,6 +12,7 @@ import {LoginService} from "../../../../main/auth/login/login.service";
 import {CdkSharedModule} from "@cdk/shared.module";
 import {ChatListComponent} from "./chat-list.component";
 import {PipesModule} from "../../../../../@cdk/pipes/pipes.module";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
     declarations: [
@@ -27,6 +28,7 @@ import {PipesModule} from "../../../../../@cdk/pipes/pipes.module";
         MatRippleModule,
         ChatStoreModule,
         CdkSharedModule,
+        MatProgressSpinnerModule,
         PipesModule
     ],
     providers: [

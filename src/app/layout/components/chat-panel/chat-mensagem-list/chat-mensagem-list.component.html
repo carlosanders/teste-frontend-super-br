@@ -1,25 +1,23 @@
-<div cdkPerfectScrollbar>
-    <div *ngIf="loading" class="loading">
-        <mat-spinner diameter="64"></mat-spinner>
-    </div>
+<div *ngIf="loading" class="loading">
+    <mat-spinner diameter="64"></mat-spinner>
+</div>
 
-    <div *ngFor="let chatMensagem of chatMensagens | sortByDate: 'criadoEm':'DESC':true; let i = index" class="message-row"
-         [ngClass]="{
+<div *ngFor="let chatMensagem of chatMensagens | sortByDate: 'criadoEm':'DESC':true; let i = index" class="message-row"
+     [ngClass]="{
                     'me': chatMensagem.usuario.id === usuarioLogado.id,
                     'contact': chatMensagem.usuario.id !== usuarioLogado.id,
                     'first-of-group': isFirstMessageOfGroup(chatMensagem, i),
                     'last-of-group': isLastMessageOfGroup(chatMensagem, i)
                 }">
 
-        <img src="assets/images/avatars/User.png" class="avatar"
-             *ngIf="shouldShowContactAvatar(chatMensagem, i)"
-             title="{{chatMensagem.usuario.nome}}">
+    <img src="assets/images/avatars/User.png" class="avatar"
+         *ngIf="shouldShowContactAvatar(chatMensagem, i)"
+         title="{{chatMensagem.usuario.nome}}">
 
-        <div class="bubble">
-            <div class="message">{{chatMensagem.mensagem}}{{chatMensagem?.componenteDigital?.fileName}}</div>
-            <div class="time secondary-text" *ngIf="chatMensagem.criadoEm">{{chatMensagem.criadoEm | date:'short'}}</div>
-            <div class="time secondary-text" *ngIf="!chatMensagem.criadoEm">Enviando...</div>
-        </div>
-
+    <div class="bubble">
+        <div class="message">{{chatMensagem.mensagem}}{{chatMensagem?.componenteDigital?.fileName}}</div>
     </div>
+    <div class="time secondary-text" *ngIf="chatMensagem.criadoEm">{{chatMensagem.criadoEm | date:'short'}}</div>
+    <div class="time secondary-text" *ngIf="!chatMensagem.criadoEm">Enviando...</div>
+
 </div>

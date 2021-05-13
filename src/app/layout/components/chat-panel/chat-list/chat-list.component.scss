@@ -1,6 +1,11 @@
 chat-list {
     display: flex;
 
+    .loading {
+        margin: 0 auto;
+        padding-bottom: 10px;
+    }
+
     .chat-list-item {
         display: flex;
         flex: 1 1 auto;

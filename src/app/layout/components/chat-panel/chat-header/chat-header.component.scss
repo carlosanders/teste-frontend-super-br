@@ -26,6 +26,11 @@ chat-header {
         }
 
         mat-toolbar-row {
+            form {
+                display: flex;
+                flex-direction: row;
+                flex: 1 1 auto;
+            }
             .search {
                 height: 36px;
                 line-height: 36px;

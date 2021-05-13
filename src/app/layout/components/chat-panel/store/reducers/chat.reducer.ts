@@ -93,18 +93,62 @@ export function ChatReducer(
             };
         }
 
-        // inclui o chat sem fazer refresh pelo backend
-        case ChatActions.NOVO_CHAT_INICIADO: {
+        case ChatActions.GET_CHAT_INCREMENT: {
             return {
                 ...state,
-                entitiesId: [...state.entitiesId, action.payload.chat.id],
+                loading: true,
+                pagination: {
+                    filter: action.payload.filter,
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    gridFilter: action.payload.gridFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
+            };
+        }
+
+        case ChatActions.GET_CHAT_INCREMENT_SUCCESS: {
+            let entitiesId = [...state.entitiesId, ...action.payload.entitiesId];
+            return {
+                ...state,
+                entitiesId: entitiesId.filter((item, pos) => entitiesId.indexOf(item) == pos),
                 pagination: {
                     ...state.pagination,
-                    total: state.entitiesId.length
+                    total: action.payload.total
                 },
                 loading: false,
                 loaded: true
             };
+        }
+
+        case ChatActions.GET_CHAT_INCREMENT_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
+            };
+        }
+
+        // Inclui/atualiza o item na lista do chat com a informação vinda do mercure
+        case ChatActions.CHAT_UPDATED_BROADCAST: {
+            // Validando se existe filtro setado para não incluir um chat que não atende os critérios
+            if (state.pagination.gridFilter && state.entitiesId.includes(action.payload.id)) {
+                return {
+                    ...state,
+                    entitiesId: state.entitiesId.includes(action.payload.id)
+                        ? state.entitiesId : [...state.entitiesId, action.payload.id],
+                    pagination: {
+                        ...state.pagination,
+                        total: action.payload.total
+                    },
+                    loading: false,
+                    loaded: true
+                };
+            }
+
+            return state;
         }
 
         default:

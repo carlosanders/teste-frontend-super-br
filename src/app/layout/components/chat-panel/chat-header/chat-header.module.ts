@@ -13,6 +13,9 @@ import {ChatHeaderComponent} from "./chat-header.component";
 import {PipesModule} from "@cdk/pipes/pipes.module";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatMenuModule} from "@angular/material/menu";
+import {CdkUsuarioAutocompleteModule} from "../../../../../@cdk/components/usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module";
+import {MatAutocompleteModule} from "../../../../../@cdk/angular/material";
+import {LoginService} from "../../../../main/auth/login/login.service";
 
 @NgModule({
     declarations: [
@@ -30,9 +33,12 @@ import {MatMenuModule} from "@angular/material/menu";
         MatRippleModule,
         ChatStoreModule,
         CdkSharedModule,
-        PipesModule
+        PipesModule,
+        MatAutocompleteModule,
+        CdkUsuarioAutocompleteModule
     ],
     providers: [
+        LoginService
     ],
     exports: [
         ChatHeaderComponent

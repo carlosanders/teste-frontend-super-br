@@ -3,7 +3,8 @@ import {Chat} from '@cdk/models';
 import {chat as chatSchema} from '@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ChatState} from '../reducers/chat.reducer';
-import {ChatAppState, getChatAppState} from '../reducers';
+import {ChatAppState, ChatMensagemState, getChatAppState} from '../reducers';
+import {getChatMensagemState} from "./chat-mensagem.selectors";
 
 const schemaSelectors = createSchemaSelectors<Chat>(chatSchema);
 
@@ -24,6 +25,17 @@ export const getChatList = createSelector(
     schemaSelectors.entitiesProjector
 );
 
+export const getChatOpenId = createSelector(
+    getChatState,
+    (state: ChatState) => state.chatOpenId
+);
+
+export const getChatOpen = createSelector(
+    schemaSelectors.getNormalizedEntities,
+    getChatOpenId,
+    schemaSelectors.entityProjector
+);
+
 export const getChatIsLoaded = createSelector(
     getChatState,
     (state: ChatState) => state.loaded
@@ -42,4 +54,10 @@ export const getChatDeletingIds = createSelector(
 export const getChatDeletedIds = createSelector(
     getChatState,
     (state: ChatState) => state.deletedIds
+);
+
+
+export const getChatPagination = createSelector(
+    getChatState,
+    (state: ChatState) => state.pagination
 );

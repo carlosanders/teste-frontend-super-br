@@ -100,13 +100,15 @@ chat-panel {
 
                     .sidenav-content {
                         margin-top: 10px;
+                        overflow: auto;
                     }
                 }
 
                 .chat-content {
                     display: flex;
-                    overflow: hidden;
+                    overflow: auto;
                     height: 0;
+                    flex: 1 0 auto;
                 }
 
                 .chat-footer {

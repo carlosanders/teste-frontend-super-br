@@ -5,26 +5,26 @@ import {
     ElementRef, EventEmitter,
     OnDestroy,
     OnInit, Output,
-    QueryList,
     ViewChild,
     ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
 import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
-import * as moment from 'moment';
 
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {Chat, ChatMensagem, Pagination, Usuario} from "@cdk/models";
 import {select, Store} from '@ngrx/store';
 import {Router} from "@angular/router";
 import * as fromStore from './store';
-import {EnviarMensagem, GetChat, GetMensagens, OpenChat} from "./store";
+import {CloseChat, EnviarMensagem, GetChat, GetChatIncrement, GetMensagens, OpenChat} from "./store";
 import {LoginService} from "../../../main/auth/login/login.service";
 import {CdkSidebarService} from "../../../../@cdk/components/sidebar/sidebar.service";
 import {cdkAnimations} from "@cdk/animations";
-import {filter, takeUntil} from "rxjs/operators";
+import {filter, takeUntil, tap} from "rxjs/operators";
 import {MercureService} from "../../../../@cdk/services/mercure.service";
 import * as loginStoreSelectores from "../../../main/auth/login/store/selectors";
+import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
+import {CdkPerfectScrollbarDirective} from "../../../../@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive";
 
 @Component({
     selector: 'chat-panel',
@@ -35,23 +35,43 @@ import * as loginStoreSelectores from "../../../main/auth/login/store/selectors"
 })
 export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
 {
+    @Output()
+    toogleChatHandler = new EventEmitter<boolean>();
+
+    /**
+     * Chat Variables
+     */
     chatList$: Observable<Chat[]>;
     chatList: Chat[] = [];
+    chatPaginator$: Observable<any>;
+    chatPaginator: any;
+    chatLoading: boolean = true;
+    chatOpen$: Observable<Chat>;
+    chatOpen: Chat = null;
+
+    /**
+     * Chat Mensagens Variables
+     */
     chatMensagens$: Observable<ChatMensagem[]>;
     chatMensagens: ChatMensagem[] = [];
     chatMensagemPaginator$: Observable<any>;
     chatMensagemPaginator: any;
     chatMensagemLoading$: Observable<boolean>;
-    chatOpen: Chat = null;
-    chatMensagemForm: FormGroup;
-    formState = 'chat-list';
-    scrollBottom = new BehaviorSubject(false);
+    chatMensagemScrollBottom:boolean = true;
 
-    @Output()
-    toogleChatHandler = new EventEmitter<boolean>();
+    /**
+     * Global controls
+     */
+    chatMensagemForm: FormGroup;
+    componentState = 'chat-list';
+    usuarioAutenticado:boolean = false;
+    usuarioLogado:Usuario;
 
     @ViewChild('mensagem')
     mensagemElementRef: ElementRef;
+
+    @ViewChild('chatMensagemScroll', {static: false})
+    chatMensagemScrollElRef: ElementRef;
 
     private _unsubscribeAll: Subject<any> = new Subject();
 
@@ -89,8 +109,23 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
             takeUntil(this._unsubscribeAll)
         );
 
+        this.chatOpen$ = this._store.pipe(
+            select(fromStore.getChatOpen),
+            takeUntil(this._unsubscribeAll)
+        );
+
         this.chatMensagemPaginator$ = this._store.pipe(
             select(fromStore.getChatMensagemPagination),
+            takeUntil(this._unsubscribeAll)
+        );
+
+        this._store.pipe(
+            select(fromStore.getChatIsLoading),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(isLoading => this.chatLoading = isLoading);
+
+        this.chatPaginator$ = this._store.pipe(
+            select(fromStore.getChatPagination),
             takeUntil(this._unsubscribeAll)
         );
 
@@ -114,11 +149,69 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
      */
     ngOnInit(): void
     {
-        this.chatList$.subscribe(chatList => this.chatList = chatList);
+        this.chatOpen$.subscribe(chat => {
+            if (!!this.chatOpen && this.chatOpen?.id != chat?.id) {
+                this._mercureService.unsubscribe('/v1/administrativo/chat/'+this.chatOpen.id);
+            }
+
+            if (chat?.id && chat?.id != this.chatOpen?.id) {
+                this.componentState = 'chat-list';
+                this.chatOpen = chat;
+                this._mercureService.subscribe('/v1/administrativo/chat/'+this.chatOpen.id);
+
+                this.getChatMensagens({
+                    ...this.chatMensagemPaginator,
+                    filter: {'chat.id': 'eq:'+chat.id},
+                    limit: 10,
+                    offset: 0,
+                    populate: [
+                        'populateAll',
+                        'chat.participantes',
+                        'chat.participantes.usuario',
+                        'chat.ultimaMensagem'
+                    ],
+                    sort: {'criadoEm':'DESC'}
+                });
+
+                setTimeout(() => this.mensagemElementRef.nativeElement.focus());
+
+                this.toogleChatHandler.emit(true);
+            }
+        });
+        this.chatList$.subscribe(chatList => {
+            this.chatList = chatList
+        });
+        this.chatPaginator$.subscribe(paginator => this.chatPaginator = paginator);
         this.chatMensagemPaginator$.subscribe(paginator => this.chatMensagemPaginator = paginator);
         this.chatMensagens$.subscribe(chatMensagens => {
-            this.chatMensagens = chatMensagens;
-            this._changeDetectorRef.markForCheck();
+            if (!this.chatMensagens || !this.chatMensagens.length) {
+                this.chatMensagens = chatMensagens;
+            } else {
+                // Tratamento para melhorar a experiência do usuário junto ao scroll no
+                // Envio de uma nova mensagem...
+                let recarregaMensagens = true;
+                if (chatMensagens.length) {
+                    let mensagensSemId = this.chatMensagens.filter(chatMensagem => !chatMensagem.id);
+
+                    mensagensSemId.forEach((chatMensagemSemId, index) => {
+                        let matchMensagem = chatMensagens.filter(chatMensagemRecebida => {
+                            return chatMensagemRecebida.mensagem === chatMensagemSemId.mensagem
+                                && chatMensagemRecebida.usuario.id === chatMensagemSemId.usuario.id
+                        })
+
+                        if (!matchMensagem.length) {
+                            // Espera a próxima atualização do subscribe para vir com a mensagem em questão
+                            // e vir como enviado (data/hora)
+                            recarregaMensagens = false;
+                        }
+                    });
+                }
+
+                if (recarregaMensagens) {
+                    this.chatMensagens = chatMensagens;
+                }
+            }
+            this.scrollChatMensagensToBottom();
         });
 
         this._cdkSidebarService.getSidebar('chatPanel').openedChanged.subscribe((isOpen) => {
@@ -132,23 +225,25 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
         }
     }
 
-    private getChatsUsuario(usuario: Usuario): void
+    private getChatsUsuario(usuario: Usuario, filter:any = {}): void
     {
+        this.usuarioLogado = usuario;
+        this.usuarioAutenticado = true;
         this._store.dispatch(new GetChat({
             filter: {
-                'participantes.usuario.id': 'eq:' + usuario.id
+                'outrosParticipantes.usuario.id': 'eq:' + usuario.id
             },
+            gridFilter: filter,
             populate: ['participantes.usuario', 'ultimaMensagem.usuario', 'populateAll'],
             limit: 10,
             offset: 0,
             sort: {atualizadoEm: 'DESC'}
-        }))
+        }));
     }
 
     onScrollChatMensagemList() : void
     {
         if (this.chatMensagens.length >= this.chatMensagemPaginator.total) {
-            console.log('no scroll')
             return;
         }
 
@@ -157,49 +252,21 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
             offset: this.chatMensagemPaginator.offset + this.chatMensagemPaginator.limit
         };
 
-        console.log('scroll load messages', paginator)
-
         this.getChatMensagens(paginator);
     }
 
     openChat(chat: Chat) : void
     {
         if (!this.chatOpen || this.chatOpen.id !== chat.id) {
-
-            if (this.chatOpen && this.chatOpen.id) {
-                this._mercureService.unsubscribe('/v1/administrativo/chat/'+this.chatOpen.id);
-            }
-
-            this.chatMensagens = [];
-            this.chatOpen = chat;
-            this.formState = 'chat-list';
             this._store.dispatch(new OpenChat(chat));
-            this.chatOpen = chat;
-
-            this._mercureService.subscribe('/v1/administrativo/chat/'+this.chatOpen.id);
-
-            this.getChatMensagens({
-                ...this.chatMensagemPaginator,
-                filter: {'chat.id': 'eq:'+chat.id},
-                limit: 10,
-                offset: 0,
-                populate: [
-                    'populateAll',
-                    'chat.participantes',
-                    'chat.participantes.usuario',
-                    'chat.ultimaMensagem'
-                ],
-                sort: {'criadoEm':'DESC'}
-            });
         }
-
-        setTimeout(() => this.mensagemElementRef.nativeElement.focus());
-
-        this.toogleChatHandler.emit(true);
     }
 
     getChatMensagens(paginator:any) : void
     {
+        this.chatMensagens = [];
+        this._changeDetectorRef.markForCheck();
+
         this._store.dispatch(new GetMensagens({
             ...paginator,
             filter: {'chat.id': 'eq:'+this.chatOpen.id},
@@ -219,9 +286,8 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.chatOpen && this.chatOpen.id) {
             this._mercureService.unsubscribe('/v1/administrativo/chat/'+this.chatOpen.id);
         }
+        this._store.dispatch(new CloseChat(this.chatOpen));
         this.chatOpen = null;
-        this.chatMensagens = [];
-        this.formState = 'chat-list';
     }
 
     closeContext() : void
@@ -268,9 +334,88 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
             this._store.dispatch(new EnviarMensagem(chatMensagem));
             // Inclusão falsa da mensagem no array para melhoria de experiência do usuário
             this.chatMensagens.push(chatMensagem);
-            this._changeDetectorRef.markForCheck();
-            this.scrollBottom.next(true);
             this.chatMensagemForm.reset();
+            this._changeDetectorRef.markForCheck();
+            this.scrollChatMensagensToBottom(true);
+        }
+    }
+
+    pesquisaChat(keyword: string = ''): void
+    {
+        const filter = {};
+        if (keyword) {
+            const criteria = [];
+            keyword.split(' ')
+                .filter(bit => !!bit && bit.length >= 2)
+                .forEach(bit => {
+                    criteria.push({'nome': `like:%${bit}%`});
+                    criteria.push({'descricao': `like:%${bit}%`});
+                    criteria.push({'participantes.usuario.nome': `like:%${bit}%`});
+            });
+
+            filter['orX'] = criteria;
+        }
+        this.getChatsUsuario(this.usuarioLogado, filter);
+    }
+
+    novoChatForm(): void
+    {
+        this.fecharChat();
+        this.componentState = 'chat-form';
+    }
+
+    onScrollChatList(scrollEvent: IInfiniteScrollEvent): void
+    {
+        if (this.chatList?.length >= this.chatPaginator?.total) {
+            return;
+        }
+
+        const nparams = {
+            ...this.chatPaginator,
+            filter: {
+                'participantes.usuario.id': 'eq:' + this._loginService.getUserProfile().id
+            },
+            offset: this.chatList.length
+        };
+        this._store.dispatch(new GetChatIncrement(nparams));
+    }
+
+    onScrollUpChatMessageList(scrollEvent: IInfiniteScrollEvent): void
+    {
+        //@todo carregar mais mensagens...
+        console.log('load more messages');
+    }
+
+    onScrollChatMessageList(scrollEvent: IInfiniteScrollEvent): void
+    {
+        const scrollContainer = this.chatMensagemScrollElRef.nativeElement;
+        const threshold = 150;
+        const position = scrollContainer.scrollTop + scrollContainer.offsetHeight;
+        const height = scrollContainer.scrollHeight;
+        this.chatMensagemScrollBottom = position > height - threshold;
+    }
+
+    /**
+     * Scroll to the bottom
+     *
+     */
+    scrollChatMensagensToBottom(ingoresScrollControl:boolean = false): void
+    {
+        if (this.chatMensagemScrollBottom && this.chatMensagemScrollElRef
+            || (this.chatMensagemScrollElRef && ingoresScrollControl)) {
+
+            this._changeDetectorRef.detectChanges();
+            this.chatMensagemScrollElRef.nativeElement.scroll({
+                top: this.chatMensagemScrollElRef.nativeElement.scrollHeight,
+                behavior: 'smooth'
+            });
+            // this._changeDetectorRef.markForCheck();
+            // setTimeout(() => {
+            //     this.chatMensagemScrollElRef.nativeElement.scroll({
+            //         top: this.chatMensagemScrollElRef.nativeElement.scrollHeight,
+            //         behavior: 'smooth'
+            //     });
+            // });
         }
     }
 

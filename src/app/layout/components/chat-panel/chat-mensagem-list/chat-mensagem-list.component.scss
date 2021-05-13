@@ -3,7 +3,6 @@
 chat-mensagem-list {
     display: flex;
     flex: 1 0 auto;
-    overflow: auto !important;
     max-width: 100%;
     flex-direction: column;
     position: relative;
@@ -26,8 +25,9 @@ chat-mensagem-list {
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-        justify-content: flex-end;
-        padding: 0 16px 4px 45px;
+        justify-content: flex-start;
+        padding: 0 16px 0px 45px;
+        margin-top: 5px;
 
         .avatar {
             position: absolute;
@@ -47,17 +47,17 @@ chat-mensagem-list {
                 white-space: pre-wrap;
                 line-height: 1.2;
             }
+        }
 
-            .time {
-                position: absolute;
-                display: none;
-                width: 100%;
-                font-size: 11px;
-                margin-top: 8px;
-                top: 100%;
-                left: 0;
-                white-space: nowrap;
-            }
+        .time {
+            display: none;
+            width: 100%;
+            font-size: 11px;
+            margin-top: 8px;
+            top: 100%;
+            left: 0;
+            white-space: nowrap;
+            padding-bottom: 5px;
         }
 
         &.contact {
@@ -68,10 +68,10 @@ chat-mensagem-list {
 
                 border-top-right-radius: 20px;
                 border-bottom-right-radius: 20px;
+            }
 
-                .time {
-                    margin-left: 12px;
-                }
+            .time {
+                margin-left: 12px;
             }
 
             &.first-of-group {
@@ -105,12 +105,12 @@ chat-mensagem-list {
 
                 border-top-right-radius: 5px;
                 border-bottom-right-radius: 5px;
+            }
 
-                .time {
-                    justify-content: flex-end;
-                    right: 0;
-                    margin-right: 12px;
-                }
+            .time {
+                justify-content: flex-end;
+                right: 0;
+                margin-right: 12px;
             }
 
             &.first-of-group {
@@ -130,8 +130,7 @@ chat-mensagem-list {
 
         &.contact + .me,
         &.me + .contact {
-            padding-top: 20px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         &.first-of-group {
@@ -147,10 +146,10 @@ chat-mensagem-list {
             .bubble {
                 border-bottom-left-radius: 20px;
                 padding-bottom: 13px;
+            }
 
-                .time {
-                    display: flex;
-                }
+            .time {
+                display: flex;
             }
         }
     }
