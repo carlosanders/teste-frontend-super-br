@@ -322,3 +322,6 @@
 * Melhoria Botao de editar processo tarefa-list
 * Melhoria edicao simplificada do tipo de documento no grid de juntadas
 * Correção erro ao adicionar unidades em bloco a partir do botão favoritos #302
+* Correção erro ao exibir espécies de tarefas ao movimentar uma tarefa em um workflow #440
+* Correção erro no passo 2 do workflow Elaboração de Ato Normativo #441
+* Correção erro no passo 3 do workflow Elaboração de ato administrativo #442

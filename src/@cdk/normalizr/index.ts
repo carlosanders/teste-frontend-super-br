@@ -363,6 +363,7 @@ especieProcesso.define({
     generoProcesso: generoProcesso,
     classificacao: classificacao,
     modalidadeMeio: modalidadeMeio,
+    workflow: workflow,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -715,6 +716,7 @@ processo.define({
     classificacao: classificacao,
     origemDados: origemDados,
     configuracaoNup: configuracaoNup,
+    tarefaAtualWorkflow: tarefa,
     processoOrigem: processo,
     documentoAvulsoOrigem: documentoAvulso,
     procedencia: pessoa,
@@ -970,7 +972,7 @@ volume.define({
 
 workflow.define({
     especieProcesso: especieProcesso,
-    especieTarefa: especieTarefa,
+    especieTarefaInicial: especieTarefa,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

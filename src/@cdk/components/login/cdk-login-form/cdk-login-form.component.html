@@ -52,7 +52,7 @@
                  fxLayoutAlign="space-between center">
 
                 <a class="forgot-password" (click)="onChangeTipoLogin(form.get('tipoLogin').value === 'ldap' ? 'externo' : 'ldap')">
-                    {{form.get('tipoLogin').value === 'ldap' ? 'Logar com credenciais do sistema?' : 'Logar com credenciais do(a) ' + config.ldap + '?'}}
+                    {{form.get('tipoLogin').value === 'ldap' ? 'Logar com credenciais do sistema?' : 'Logar com credenciais ' + config.ldap + '?'}}
                 </a>
             </div>
 
