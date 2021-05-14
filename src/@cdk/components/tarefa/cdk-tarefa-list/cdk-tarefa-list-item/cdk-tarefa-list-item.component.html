@@ -68,6 +68,10 @@
 
         <div class="body mt-4">
             <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                Id {{tarefa.id}}
+            </div>
+
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
                 {{tarefa.especieTarefa?.nome | titleCasePipe}}
             </div>
 
@@ -115,7 +119,8 @@
 
         <div class="etiquetas" fxHide fxShow.gt-sm>
             <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
-                 fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.conteudo">
+                 fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.conteudo"
+                 (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();">
                 <div class="etiqueta-color" *ngIf="vinculacaoEtiqueta.criadoEm"
                      [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
                 <div

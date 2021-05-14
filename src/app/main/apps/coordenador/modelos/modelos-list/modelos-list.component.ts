@@ -71,7 +71,7 @@ export class ModelosListComponent implements OnInit {
                     }
                     if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
                         this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.modalidadeOrgaoCentral.valor', 'template.nome', 'ativo', 'actions'];
+                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.modalidadeOrgaoCentral.nome', 'template.nome', 'ativo', 'actions'];
                     }
                 }
             });

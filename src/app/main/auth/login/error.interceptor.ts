@@ -27,7 +27,8 @@ export class ErrorInterceptor implements HttpInterceptor {
                 this.snackBar.open(error, 'Fechar', {
                     horizontalPosition: this.horizontalPosition,
                     verticalPosition: this.verticalPosition,
-                    panelClass: ['danger-snackbar']
+                    panelClass: ['danger-snackbar'],
+                    duration: 10000
                 });
             }
             return throwError(err);

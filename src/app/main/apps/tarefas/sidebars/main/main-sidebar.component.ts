@@ -516,7 +516,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Distribuição'
+                text: 'Distribuindo'
             }
         });
 

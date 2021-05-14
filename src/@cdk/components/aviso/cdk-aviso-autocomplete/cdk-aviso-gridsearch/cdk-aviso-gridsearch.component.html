@@ -1,0 +1,10 @@
+<cdk-aviso-grid
+        [loading]="loading"
+        [avisos]="avisos"
+        [displayedColumns]="['id', 'ativo', 'nome', 'descricao', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-aviso-grid>

@@ -133,11 +133,19 @@ export class TarefasEffect {
                     } else {
                         this._store.dispatch(new UnloadJuntadas({reset: true}));
                         this._store.dispatch(new UnloadDocumentos());
+
+                        let extras = {
+                            queryParams: {
+                                documentoEdit: action.payload.documentoUuidEdit
+                            }
+                        }
+
                         this._router.navigate([
                             'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
                             this.routerState.params.typeHandle + '/' +
                             this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
-                            '/processo/' + action.payload.processoId + '/visualizar']
+                            '/processo/' + action.payload.processoId + '/visualizar'],
+                            extras
                         ).then();
                     }
 

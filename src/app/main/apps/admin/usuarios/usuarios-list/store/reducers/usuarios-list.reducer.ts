@@ -82,6 +82,12 @@ export function UsuariosListReducer(
             };
         }
 
+        case UsuariosListActions.UNLOAD_USUARIOS: {
+            return {
+                ...UsuariosListInitialState
+            };
+        }
+
         case UsuariosListActions.RELOAD_USUARIOS: {
             return {
                 ...state,

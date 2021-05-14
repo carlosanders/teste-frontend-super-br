@@ -104,3 +104,7 @@ cdk-componente-digital-card.documento-edit-card {
     flex-grow: 0;
     flex-shrink: 1;
 }
+
+.multiline-tooltip {
+    white-space: pre-line !important;
+}

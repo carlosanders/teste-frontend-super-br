@@ -27,7 +27,6 @@ export class CdkAssuntoFilterComponent {
     ) {
         this.form = this._formBuilder.group({
             assuntoAdministrativo: [null],
-            processo: [null],
             origemDados: [null],
             criadoPor: [null],
             criadoEm: [null],
@@ -45,10 +44,6 @@ export class CdkAssuntoFilterComponent {
 
         if (this.form.get('assuntoAdministrativo').value) {
             andXFilter.push({'assuntoAdministrativo.id': `eq:${this.form.get('assuntoAdministrativo').value.id}`});
-        }
-
-        if (this.form.get('processo').value) {
-            andXFilter.push({'processo.id': `eq:${this.form.get('processo').value.id}`});
         }
 
         if (this.form.get('origemDados').value) {

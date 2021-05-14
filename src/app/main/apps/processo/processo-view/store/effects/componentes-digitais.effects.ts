@@ -236,4 +236,64 @@ export class ComponentesDigitaisEffects {
                 })
             );
 
+
+
+    /**
+     * Visualizar Juntada em outra aba
+     * @type {Observable<any>}
+     */
+    @Effect({ dispatch: false })
+    visualizarJuntada: any =
+        this._actions
+        .pipe(
+            ofType<ComponenteDigitalActions.VisualizarJuntada>(ComponenteDigitalActions.VISUALIZAR_JUNTADA),
+            switchMap((action) => {
+                 let handle = { id: '', value: '' };
+                 handle = {
+                     id: 'documento',
+                     value: action.payload
+                 };
+                 return this._componenteDigitalService.download(handle.value);
+             }),
+             tap((response: any) => {
+                 if (response && response.conteudo) {
+                     const byteCharacters = atob(response.conteudo.split(';base64,')[1]);
+                     const byteNumbers = new Array(byteCharacters.length);
+                     for (let i = 0; i < byteCharacters.length; i++) {
+                         byteNumbers[i] = byteCharacters.charCodeAt(i);
+                     }
+                     const byteArray = new Uint8Array(byteNumbers);
+                     // Adicionado \ufeff para criar o Blob como utf-8
+                     const blob = new Blob(["\ufeff", byteArray], {type: response.mimetype});
+                     const URL = window.URL;
+                     if (response.mimetype === 'application/pdf' || response.mimetype === 'text/html') {
+                         const data = URL.createObjectURL(blob);
+                         window.open(data, '_blank');
+                         setTimeout( () => {
+                             // For Firefox it is necessary to delay revoking the ObjectURL
+                             window.URL.revokeObjectURL(data);
+                         }, 100);
+                     } else {
+                         const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
+                             downloadLink = document.createElement('a');
+                         const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
+                         downloadLink.target = '_blank';
+                         downloadLink.href = sanitizedUrl;
+                         downloadLink.download = response.fileName;
+                         document.body.appendChild(downloadLink);
+                         downloadLink.click();
+                         document.body.removeChild(downloadLink);
+                         setTimeout( () => {
+                             // For Firefox it is necessary to delay revoking the ObjectURL
+                             window.URL.revokeObjectURL(sanitizedUrl);
+                         }, 100);
+                     }
+                 }
+             }),
+             catchError((err, caught) => {
+                 console.log(err);
+                 this._store.dispatch(new ComponenteDigitalActions.VisualizarModeloFailed(err));
+                 return caught;
+             })
+         );
 }

@@ -6,6 +6,10 @@ widget-historico {
     box-sizing: border-box;
     padding: 16px;
 
+    .refresh {
+        margin-left: auto;
+    }
+
     .mat-card.scrollable-content {
         height: 100%;
         width: 100%;

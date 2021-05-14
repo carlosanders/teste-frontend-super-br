@@ -20,15 +20,6 @@
         </mat-form-field>
 
         <mat-form-field>
-            <input matInput placeholder="Processo"
-                   formControlName="processo"
-                   [matAutocomplete]="processo.autocomplete"
-                   (change)="verificarValor($event)">
-            <cdk-processo-autocomplete #processo="processoAutocomplete" [control]="form.get('processo')">
-            </cdk-processo-autocomplete>
-        </mat-form-field>
-
-        <mat-form-field>
             <input matInput placeholder="Origem de Dados"
                    formControlName="origemDados"
                    [matAutocomplete]="origemDados.autocomplete"

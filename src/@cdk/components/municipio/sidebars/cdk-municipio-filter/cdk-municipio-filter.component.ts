@@ -27,6 +27,7 @@ export class CdkMunicipioFilterComponent {
     ) {
         this.form = this._formBuilder.group({
             nome: [null],
+            ativo: [null],
             codigoIBGE: [null],
             criadoPor: [null],
             criadoEm: [null],

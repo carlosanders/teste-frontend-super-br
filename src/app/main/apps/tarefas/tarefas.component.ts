@@ -414,16 +414,24 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.GetTarefas(nparams));
     }
 
-    setCurrentTarefa(tarefa: Tarefa): void {
+    setCurrentTarefa(event: {tarefa: Tarefa, event: any}): void {
+        let tarefa = event.tarefa;
         if (!tarefa.apagadoEm) {
             if (!tarefa.dataHoraLeitura) {
                 this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
             }
-            this._store.dispatch(new fromStore.SetCurrentTarefa({
-                tarefaId: tarefa.id,
-                processoId: tarefa.processo.id,
-                acessoNegado: tarefa.processo.acessoNegado
-            }));
+            if (event.event.ctrlKey) {
+                const url = this._router.createUrlTree([
+                    'apps/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar'
+                ]);
+                window.open(url.toString(), '_blank');
+            } else {
+                this._store.dispatch(new fromStore.SetCurrentTarefa({
+                    tarefaId: tarefa.id,
+                    processoId: tarefa.processo.id,
+                    acessoNegado: tarefa.processo.acessoNegado
+                }));
+            }
         }
     }
 
@@ -465,7 +473,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletado(a)'
+                text: 'Deletando'
             }
         });
 
@@ -619,7 +627,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'check',
-                text: 'Ciência'
+                text: 'Dando ciência'
             }
         });
 
@@ -758,5 +766,18 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.confirmDialogRef = null;
         });
+    }
+
+    doEditarDocumentoEtiqueta(event): void {
+        let tarefa = event.tarefa;
+        let vinculacaoEtiqueta = event.vinculacaoEtiqueta;
+        if (!tarefa.apagadoEm && vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
+            this._store.dispatch(new fromStore.SetCurrentTarefa({
+                tarefaId: tarefa.id,
+                processoId: tarefa.processo.id,
+                acessoNegado: tarefa.processo.acessoNegado,
+                documentoUuidEdit: vinculacaoEtiqueta.objectUuid
+            }));
+        }
     }
 }

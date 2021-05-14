@@ -101,6 +101,10 @@ const routes: Routes = [
             {
                 path: 'tipo-validacao-workflow',
                 loadChildren: () => import('./tipo-validacao-workflow/tipo-validacao-workflow.module').then(m => m.TipoValidacaoWorkflowModule)
+            },
+            {
+                path: 'avisos',
+                loadChildren: () => import('./aviso/aviso.module').then(m => m.AvisoModule)
             }
         ],
         canActivate: [fromGuards.ResolveGuard]

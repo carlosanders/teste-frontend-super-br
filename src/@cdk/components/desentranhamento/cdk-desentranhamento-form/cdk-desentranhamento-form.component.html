@@ -1,15 +1,15 @@
 <form fxLayoutGap="16px" name="form" [formGroup]="form" *ngIf="activeCard === 'form'">
 
-    <label id="tipo-rg">Selecione a destinação</label>
+    <label class="mb-8" id="tipo-rg">Selecione a destinação</label>
 
-    <mat-radio-group class="tipo-rg" formControlName="tipo" aria-labelledby="tipo-rg">
+    <mat-radio-group class="mb-8 tipo-rg" formControlName="tipo" aria-labelledby="tipo-rg">
         <mat-radio-button [value]="'processo_existente'">
             Processo existente
         </mat-radio-button>
-        <mat-radio-button [value]="'novo_processo'">
+        <mat-radio-button class="ml-8" [value]="'novo_processo'">
             Novo processo
         </mat-radio-button>
-        <mat-radio-button [value]="'arquivo'">
+        <mat-radio-button class="ml-8" [value]="'arquivo'">
             Arquivo
         </mat-radio-button>
     </mat-radio-group>

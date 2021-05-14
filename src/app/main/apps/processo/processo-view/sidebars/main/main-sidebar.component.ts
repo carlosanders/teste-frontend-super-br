@@ -19,7 +19,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../store';
 import {getDocumentosHasLoaded, getSelectedVolume, getVolumes} from '../../store';
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
-import {distinctUntilChanged, filter, takeUntil} from 'rxjs/operators';
+import {distinctUntilChanged, filter, take, takeUntil, tap, withLatestFrom} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {getMercureState, getRouterState} from '../../../../../../store';
@@ -167,6 +167,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     sheetRef: MatSnackBarRef<SnackBarDesfazerComponent>;
     snackSubscription: any;
     lote: string;
+    documentoEdit: any = {uuid: null, open: false};
 
     formEditorValid = false;
 
@@ -346,11 +347,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.tarefa$
             .pipe(
-                distinctUntilChanged(),
-                takeUntil(this._unsubscribeAll)
+                takeUntil(this._unsubscribeAll),
+                distinctUntilChanged((x, y) => {
+                    return x === y && this.documentoEdit.uuid === this.routerState.queryParams.documentoEdit;
+                }),
             )
-            .subscribe(value => {
+            .subscribe((value) => {
                 this.tarefa = value;
+                this.documentoEdit.uuid = this.routerState.queryParams.documentoEdit;
+                this.documentoEdit.open = false;
                 if (value) {
                     this._unsubscribeDocs.next();
                     this._unsubscribeDocs.complete();
@@ -375,7 +380,6 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                         this.lixeiraMinutas = lixeira;
                     });
                     this.documentos$.pipe(
-                        distinctUntilChanged(),
                         filter(cd => !!cd),
                         takeUntil(this._unsubscribeDocs)
                     ).subscribe(
@@ -389,6 +393,18 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                             }
 
                             this._changeDetectorRef.markForCheck();
+                            if (this.documentoEdit.uuid && !this.documentoEdit.open) {
+                                documentos.forEach(documento => {
+                                    if (documento.uuid === this.documentoEdit.uuid) {
+                                        this.documentoEdit.open = true;
+                                        this._store.dispatch(new fromStore.ClickedDocumento({
+                                            documento: documento,
+                                            routeAtividade: this.routeAtividadeDocumento,
+                                            routeOficio: this.routeOficioDocumento
+                                        }));
+                                    }
+                                })
+                            }
                         }
                     );
                     this._store
@@ -803,7 +819,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletado(a)'
+                text: 'Deletando'
             }
         });
 
@@ -836,7 +852,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     doAbreMinutaOutraAba(documento: Documento): void{
         window.open(
-            this.routerState.url.split('/capa/')[0] + '/capa/documento/' + documento.id
+            this.routerState.url.split('/capa/')[0] + '/documento/' + documento.id
              + '/(componente-digital/' + documento.id + '/editor/ckeditor//sidebar:editar/atividade)'
              );
     }
@@ -896,5 +912,9 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         };
 
         this._store.dispatch(new fromStore.GetVolumes(nparams));
+    }
+
+    doJuntadaOutraAba(documento: Documento): void {
+        this._store.dispatch(new fromStore.VisualizarJuntada(documento.id));
     }
 }

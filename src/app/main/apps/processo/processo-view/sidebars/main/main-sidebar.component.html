@@ -310,7 +310,7 @@
                                     (click)="doAbreMinutaOutraAba(minuta)"
                                     mat-menu-item>
                                 <mat-icon color="accent">open_in_new</mat-icon>
-                                <span>Abrir Minuta em outra aba</span>
+                                <span>Abrir em outra aba</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
                                     *ngIf="!minuta.apagadoEm && minuta?.componentesDigitais[0]?.extensao === 'html'"
@@ -648,7 +648,7 @@
                         </div>
                     </div>
                 </div>
-                <mat-icon *ngIf="juntada.documento.assinado" class="ml-8 mr-8">lock</mat-icon>
+                <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="ml-8 mr-8">lock</mat-icon>
                 <div class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                             *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1"
@@ -679,6 +679,14 @@
                             <ng-container>
                                 <mat-icon>lock</mat-icon>
                                 <span>Assinar</span>
+                            </ng-container>
+                        </button>
+
+                        <button mat-menu-item aria-label="abrir em outra aba"
+                                (click)="doJuntadaOutraAba(juntada.documento)">
+                            <ng-container>
+                                <mat-icon>open_in_new</mat-icon>
+                                <span>Abrir em outra aba</span>
                             </ng-container>
                         </button>
 

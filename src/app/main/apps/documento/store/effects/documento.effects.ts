@@ -260,18 +260,26 @@ export class DocumentoEffect {
                 withLatestFrom(this._store.pipe(select(DocumentoSelectors.getCurrentComponenteDigital))),
                 tap(([action, componenteDigital]) => {
                     let type = '/visualizar';
+                    let url = this.routerState.url;
+                    let sidebar = url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
+
                     if (action.payload.editavel && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
                         type = '/editor/ckeditor';
+                        if (!sidebar) {
+                            sidebar = 'editar/atividade';
+                        }
                     }
-                    let url = this.routerState.url;
+
                     if (url.indexOf('/assinaturas') > -1) {
                         type = '/assinaturas';
                     }
-                    let sidebar = url.replace(')', '').split('sidebar:')[1]?.split('?')[0];
+
                     if (componenteDigital.apagadoEm) {
                         sidebar = 'editar/restaurar';
                     }
+
                     const componenteDigitalHandle = action.payload.id ?? this.routerState.params['componenteDigitalHandle'];
+
                     this._router.navigate([
                             this.routerState.url.split('/documento/')[0] + '/documento/' + this.routerState.params['documentoHandle'],
                             {
@@ -305,7 +313,7 @@ export class DocumentoEffect {
                         return this._documentoService.preparaAssinatura(JSON.stringify([parseInt(documentoId, 0)]))
                             .pipe(
                                 tap((response: any) => {
-                                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + response.jwt + '/get_jnlp';
+                                    const url = environment.jnlp + 'v1/administrativo/assinatura/' + response.secret + '/get_jnlp';
                                     const ifrm = document.createElement('iframe');
                                     ifrm.setAttribute('src', url);
                                     ifrm.style.width = '0';

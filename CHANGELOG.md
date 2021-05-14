@@ -268,13 +268,36 @@
 1.4.0
 
 * Correção de bug em placeholder de drag and drop de tarefa perdendo sincronia
-* Adicionando sigla da unidade aos setores na sidebar da listagem de tarefas
-* Implementação de possiblidade de edição de observação das tarefas dentro da listagem
+* Correçao adicionando sigla da unidade aos setores na sidebar da listagem de tarefas
+* Melhoria implementação de possiblidade de edição de observação das tarefas dentro da listagem
 * Correção bloco de processo criação de ofícios
 * Correção botão cancelar ao editar tarefa
 * Correção para o scroll de listas em dispositivos móveis
 * Correção no carregamento de listas de rolagem infinita (tarefas, processos, juntadas)
 * Correção para exibir o filtro de etiquetas e o hamburgues de ações na tarefa em dispositivo mobile
-* Uma barra de rolagem aparece por cima de minuta da tarefa #370
-* Tarefas, lista de documentos juntados, barra de rolagem impede acesso aos menus de ação dos documentos #361
-* Implementação de mensagem de confirmação ao fechar o editor com mudanças não salvas
+* Correção uma barra de rolagem aparece por cima de minuta da tarefa #370
+* Correção tarefas, lista de documentos juntados, barra de rolagem impede acesso aos menus de ação dos documentos #361
+* Melhoria Implementação de mensagem de confirmação ao fechar o editor com mudanças não salvas
+* Correção erro ao apagar em lote as regras de uma etiqueta #126
+* Correção colunas do Modelo Nacional não são exibidas #119
+* Correção filtros de classificação por datas 'Criado em', 'Atualizado em', 'Apagado em' falhando #110
+* Correção inconsistência no campo de filtro de assuntos no cadastro de processo #146
+* Correção não é possível editar processo pela pesquisa #206
+* Correção assinatura digital com token dentro do editor de textos
+* Correção filtrar por "Criado em" de Volumes do Processo pede data/hora #218
+* Correção campos padrões da espécie de processo não estão sendo preenchidos automaticamente #260
+* Correção assessor, com permissão de 'Criar ofício' marcada, não consegue criar ofício na tarefa do outro usuário #284
+* Correção assessor com perfil normal de Usuário não vê o menu de Tarefas #289
+* Correção assinaturas, remover assinatura deixa a tela carregando e não completa #362
+* Correção editor, alterações somente de aparência/formatação não são reconhecidas pelo editor #374
+* Correção erro ao incluir lotação em usuário: sistema não permite a digitação da Unidade #438
+* Correção erro ao vincular/apensar processos #393
+* Correção erro ao tentar fechar um alerta #388
+* Correção campo adicionar etiqueta permite usuários criarem inúmeras tarefas com mesmo nome #306
+* Correção o botão Cancelar ao editar tarefa não faz nada #304
+* Correção colunas "Setor Responsável" e "Unidade" vazios na listagem de processos para vinculação #189
+* Correção erro ao fazer Download de um processo em ZIP/PDF #248
+* Correção de filtro aplicado em página de usuário não é desfeito ao sair #255
+* Correção depois que é clicado em "Criar Tarefa" de uma tarefa não é possível abrir o formulário de "Criar Tarefa" novamente #333
+* Correção favoritos não funciona corretamente no na página de redistribuição da tarefa #296
+* Correção erro ao usar bloco de processos para criar ofício de uma tarefa #338

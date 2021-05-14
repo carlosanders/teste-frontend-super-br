@@ -92,10 +92,11 @@
             </div>
 
             <cdk-juntada-grid
+                [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome']"
                 [loading]="(juntadasLoading$ | async)"
                 [juntadas]="(juntadas$ | async)"
                 [total]="(juntadasPagination$ | async)?.total"
-                [actions]="['showDeleted']"
+                [actions]="[]"
                 (reload)="reloadJuntadas($event)"
                 (excluded)="excludedJuntadas($event)">
             </cdk-juntada-grid>
@@ -231,10 +232,11 @@
             </div>
 
             <cdk-juntada-grid
+                [displayedColumns]="['id', 'numeracaoSequencial', 'descricao', 'documento.tipoDocumento.nome']"
                 [loading]="(juntadasLoading$ | async)"
                 [juntadas]="(juntadas$ | async)"
                 [total]="(juntadasPagination$ | async)?.total"
-                [actions]="['showDeleted']"
+                [actions]="[]"
                 (reload)="reloadJuntadas($event)"
                 (excluded)="excludedJuntadas($event)">
             </cdk-juntada-grid>

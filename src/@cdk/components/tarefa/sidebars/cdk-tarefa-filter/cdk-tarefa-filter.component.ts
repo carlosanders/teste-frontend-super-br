@@ -16,7 +16,7 @@ import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
 import {of, Subject} from "rxjs";
-import {Lotacao, Pagination} from "../../../../models";
+import {Pagination} from "../../../../models";
 import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
 
 @Component({
