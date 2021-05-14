@@ -265,6 +265,26 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         this._store.dispatch(new fromStore.ToggleLidaNotificacao(notificacao));
     }
 
+    sendToTarget(notificacao: Notificacao) {
+        const contexto = JSON.parse(notificacao.contexto);
+        switch (notificacao.tipoNotificacao.nome) {
+            case 'relatorio':
+                return this._router
+                    .navigate([
+                        `/apps/relatorios/administrativo/meus-relatorios/entrada/relatorio/${contexto.id}/visualizar`
+                    ]);
+            case 'processo':
+                return this._router.navigate([`/apps/processo/${contexto.id}/visualizar/capa/mostrar`]);
+            case 'tarefa':
+                return this._router
+                    .navigate([
+                    `/apps/tarefas/administrativo/minhas-tarefas/entrada/tarefa/${contexto.id}/processo/${contexto.id_processo}/visualizar/capa/mostrar`
+                ]);
+            default:
+                return;
+        }
+    }
+
     marcarTodasComoLida() {
         this._store.dispatch(new ButtonTodasNotificacoesLidas());
     }
