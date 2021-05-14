@@ -6,17 +6,24 @@ import {
     OnDestroy,
     OnInit, Output,
     ViewChild,
-    ViewChildren,
     ViewEncapsulation
 } from '@angular/core';
-import {FormBuilder, FormGroup, NgForm, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {Chat, ChatMensagem, Pagination, Usuario} from "@cdk/models";
 import {select, Store} from '@ngrx/store';
 import {Router} from "@angular/router";
 import * as fromStore from './store';
-import {CloseChat, EnviarMensagem, GetChat, GetChatIncrement, GetMensagens, OpenChat} from "./store";
+import {
+    CloseChat,
+    EnviarMensagem,
+    GetChat,
+    GetChatIncrement,
+    GetMensagens,
+    GetMensagensIncrement,
+    OpenChat
+} from "./store";
 import {LoginService} from "../../../main/auth/login/login.service";
 import {CdkSidebarService} from "../../../../@cdk/components/sidebar/sidebar.service";
 import {cdkAnimations} from "@cdk/animations";
@@ -24,7 +31,6 @@ import {filter, takeUntil, tap} from "rxjs/operators";
 import {MercureService} from "../../../../@cdk/services/mercure.service";
 import * as loginStoreSelectores from "../../../main/auth/login/store/selectors";
 import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
-import {CdkPerfectScrollbarDirective} from "../../../../@cdk/directives/cdk-perfect-scrollbar/cdk-perfect-scrollbar.directive";
 
 @Component({
     selector: 'chat-panel',
@@ -33,7 +39,7 @@ import {CdkPerfectScrollbarDirective} from "../../../../@cdk/directives/cdk-perf
     encapsulation: ViewEncapsulation.None,
     animations   : cdkAnimations
 })
-export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
+export class ChatPanelComponent implements OnInit, OnDestroy
 {
     @Output()
     toogleChatHandler = new EventEmitter<boolean>();
@@ -66,6 +72,7 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
     componentState = 'chat-list';
     usuarioAutenticado:boolean = false;
     usuarioLogado:Usuario;
+    lastScrollMensagemHeight:number;
 
     @ViewChild('mensagem')
     mensagemElementRef: ElementRef;
@@ -156,6 +163,8 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
 
             if (chat?.id && chat?.id != this.chatOpen?.id) {
                 this.componentState = 'chat-list';
+                this.lastScrollMensagemHeight = null;
+                this.chatMensagemScrollBottom = true;
                 this.chatOpen = chat;
                 this._mercureService.subscribe('/v1/administrativo/chat/'+this.chatOpen.id);
 
@@ -178,11 +187,6 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
                 this.toogleChatHandler.emit(true);
             }
         });
-        this.chatList$.subscribe(chatList => {
-            this.chatList = chatList
-        });
-        this.chatPaginator$.subscribe(paginator => this.chatPaginator = paginator);
-        this.chatMensagemPaginator$.subscribe(paginator => this.chatMensagemPaginator = paginator);
         this.chatMensagens$.subscribe(chatMensagens => {
             if (!this.chatMensagens || !this.chatMensagens.length) {
                 this.chatMensagens = chatMensagens;
@@ -219,6 +223,13 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
                 this.fecharChat();
             }
         });
+
+        this.chatList$.subscribe(chatList => {
+            this.chatList = chatList
+        });
+
+        this.chatPaginator$.subscribe(paginator => this.chatPaginator = paginator);
+        this.chatMensagemPaginator$.subscribe(paginator => this.chatMensagemPaginator = paginator);
 
         if (this._loginService.getUserProfile()) {
             this.getChatsUsuario(this._loginService.getUserProfile());
@@ -290,16 +301,6 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
         this.chatOpen = null;
     }
 
-    closeContext() : void
-    {
-        //@todo
-        if (!this._cdkSidebarService.getSidebar('chatPanel').isLockedOpen) {
-            this._cdkSidebarService.getSidebar('chatPanel').toggleOpen();
-        } else {
-            this._cdkSidebarService.getSidebar('chatPanel').toggleFold();
-        }
-    }
-
     closeSidebar() : void
     {
         if (!this._cdkSidebarService.getSidebar('chatPanel').isLockedOpen) {
@@ -307,20 +308,6 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
         } else {
             this._cdkSidebarService.getSidebar('chatPanel').toggleFold();
         }
-    }
-
-    getChatInfo(chat: Chat) : any
-    {
-        if (chat.grupo || chat.nome) {
-            return chat;
-        }
-
-        let chatParticipante = chat.participantes
-            .filter(chatParticipante => chatParticipante.usuario.id != this._loginService.getUserProfile().id)[0]
-
-        chat.nome = chatParticipante.usuario.nome;
-
-        return chat;
     }
 
     enviarMensagem(chat: Chat): void
@@ -358,12 +345,6 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
         this.getChatsUsuario(this.usuarioLogado, filter);
     }
 
-    novoChatForm(): void
-    {
-        this.fecharChat();
-        this.componentState = 'chat-form';
-    }
-
     onScrollChatList(scrollEvent: IInfiniteScrollEvent): void
     {
         if (this.chatList?.length >= this.chatPaginator?.total) {
@@ -382,8 +363,20 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
 
     onScrollUpChatMessageList(scrollEvent: IInfiniteScrollEvent): void
     {
-        //@todo carregar mais mensagens...
-        console.log('load more messages');
+        if (this.chatMensagens?.length >= this.chatMensagemPaginator?.total) {
+            return;
+        }
+
+        const nparams = {
+            ...this.chatMensagemPaginator,
+            filter: {
+                'chat.id': 'eq:' + this.chatOpen.id
+            },
+            offset: this.chatMensagens.length
+        };
+
+        this.lastScrollMensagemHeight = this.chatMensagemScrollElRef.nativeElement.scrollHeight;
+        this._store.dispatch(new GetMensagensIncrement(nparams));
     }
 
     onScrollChatMessageList(scrollEvent: IInfiniteScrollEvent): void
@@ -401,29 +394,23 @@ export class ChatPanelComponent implements OnInit, AfterViewInit, OnDestroy
      */
     scrollChatMensagensToBottom(ingoresScrollControl:boolean = false): void
     {
-        if (this.chatMensagemScrollBottom && this.chatMensagemScrollElRef
-            || (this.chatMensagemScrollElRef && ingoresScrollControl)) {
-
-            this._changeDetectorRef.detectChanges();
-            this.chatMensagemScrollElRef.nativeElement.scroll({
-                top: this.chatMensagemScrollElRef.nativeElement.scrollHeight,
-                behavior: 'smooth'
-            });
-            // this._changeDetectorRef.markForCheck();
-            // setTimeout(() => {
-            //     this.chatMensagemScrollElRef.nativeElement.scroll({
-            //         top: this.chatMensagemScrollElRef.nativeElement.scrollHeight,
-            //         behavior: 'smooth'
-            //     });
-            // });
+        if (this.chatMensagemScrollElRef) {
+            if (this.chatMensagemScrollBottom || ingoresScrollControl) {
+                this._changeDetectorRef.detectChanges();
+                this.chatMensagemScrollElRef.nativeElement.scroll({
+                    top: this.chatMensagemScrollElRef.nativeElement.scrollHeight,
+                    behavior: 'smooth'
+                });
+                this.lastScrollMensagemHeight = this.chatMensagemScrollElRef.nativeElement.scrollHeight;
+            } else if (this.chatMensagens?.length <= this.chatMensagemPaginator?.total) {
+                // Controle de alinhamento do topo
+                // para posicionamento da mensagem em que se estava antes do carregamento
+                this._changeDetectorRef.detectChanges();
+                this.chatMensagemScrollElRef.nativeElement.scroll({
+                    top: (this.chatMensagemScrollElRef.nativeElement.scrollHeight-this.lastScrollMensagemHeight)
+                });
+            }
         }
-    }
-
-    /**
-     * After view init
-     */
-    ngAfterViewInit(): void
-    {
     }
 
     /**

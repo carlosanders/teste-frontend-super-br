@@ -1059,6 +1059,5 @@ chatMensagem.define({
 chatParticipante.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
-    apagadoPor: usuario,
     chat: chat
 });

@@ -2,13 +2,12 @@ import {
     Component,
     OnInit,
     ViewEncapsulation,
-    EventEmitter, Output, Input, ChangeDetectorRef
+    EventEmitter, Output, ChangeDetectorRef, ViewChild, ElementRef
 } from '@angular/core';
-import {Chat, ChatParticipante, Pagination, Usuario} from "../../../../../@cdk/models";
+import {Pagination} from "@cdk/models";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import * as fromStore from "../store";
-import {OpenChat} from "../store";
 import {LoginService} from "../../../../main/auth/login/login.service";
 
 @Component({
@@ -25,6 +24,9 @@ export class ChatHeaderComponent implements OnInit
 
     @Output()
     pesquisaChatHandler = new EventEmitter<string>();
+
+    @ViewChild('usuarioInput', {static: false})
+    usuarioElementRef: ElementRef;
 
     activeCard: string = 'chat-list';
     usuarioFormPagination: Pagination;
@@ -71,6 +73,7 @@ export class ChatHeaderComponent implements OnInit
     novaConversa() : void
     {
         this.activeCard = 'chat-individual-form';
+        setTimeout(() => this.usuarioElementRef.nativeElement.focus());
     }
 
     checkUsuario(): void

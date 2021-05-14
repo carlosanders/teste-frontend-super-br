@@ -3,8 +3,7 @@ import {Chat} from '@cdk/models';
 import {chat as chatSchema} from '@cdk/normalizr';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {ChatState} from '../reducers/chat.reducer';
-import {ChatAppState, ChatMensagemState, getChatAppState} from '../reducers';
-import {getChatMensagemState} from "./chat-mensagem.selectors";
+import {ChatAppState, getChatAppState} from '../reducers';
 
 const schemaSelectors = createSchemaSelectors<Chat>(chatSchema);
 

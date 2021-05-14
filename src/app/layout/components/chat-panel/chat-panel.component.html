@@ -8,7 +8,7 @@
         </div>
     </ng-container>
 
-    <button mat-icon-button class="toggle-sidebar-open mr-8" (click)="closeContext()">
+    <button mat-icon-button class="toggle-sidebar-open mr-8" (click)="closeSidebar()">
         <mat-icon class="secondary-text">close</mat-icon>
     </button>
 
@@ -52,9 +52,8 @@
                      CdkPerfectScrollbar
                      infiniteScroll
                      [scrollWindow]="false"
-                     [alwaysCallback]="true"
-                     [infiniteScrollUpDistance]="3"
-                     [infiniteScrollThrottle]="150"
+                     [infiniteScrollUpDistance]="3.5"
+                     [infiniteScrollThrottle]="50"
                      (scrolledUp)="onScrollUpChatMessageList($event)"
                      (scroll)="onScrollChatMessageList($event)">
                     <chat-mensagem-list

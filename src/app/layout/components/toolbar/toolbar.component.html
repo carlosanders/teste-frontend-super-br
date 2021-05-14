@@ -94,6 +94,20 @@
                 <mat-icon class="secondary-text">live_help</mat-icon>
             </button>
 
+            <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
+
+            <button mat-icon-button
+                    class="quick-panel-toggle-button2"
+                    (click)="toggleChatPanel()"
+                    aria-label="Chat">
+                <mat-icon *ngIf="carregandoChat">
+                    <mat-spinner diameter="20"></mat-spinner>
+                </mat-icon>
+                <mat-icon class="secondary-text" *ngIf="!carregandoChat">
+                    chat
+                </mat-icon>
+            </button>
+
             <div class="toolbar-separator" *ngIf="!hiddenNavbar && rightNavbar" fxHide fxShow.gt-xs></div>
 
             <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
@@ -105,21 +119,6 @@
                     (click)="toggleQuickPanel()"
                     aria-label="Operações">
                 <mat-icon class="secondary-text">format_list_bulleted</mat-icon>
-            </button>
-
-            <div class="toolbar-separator" fxHide fxShow.gt-xs></div>
-
-<!--                    *ngIf="(!this._cdkSidebarService.getSidebar('quickPanel').isLockedOpen || this._cdkSidebarService.getSidebar('quickPanel').folded)"-->
-            <button mat-icon-button
-                    class="quick-panel-toggle-button4"
-                    (click)="toggleChatPanel()"
-                    aria-label="Chat">
-                <mat-icon *ngIf="carregandoChat">
-                    <mat-spinner diameter="20"></mat-spinner>
-                </mat-icon>
-                <mat-icon *ngIf="!carregandoChat">
-                    chat
-                </mat-icon>
             </button>
 
             <div fxLayoutAlign="center center" class="quick-panel-toggle-button3 mat-icon-button"

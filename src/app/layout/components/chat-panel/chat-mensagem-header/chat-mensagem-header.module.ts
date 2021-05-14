@@ -13,7 +13,6 @@ import {ChatMensagemHeaderComponent} from "./chat-mensagem-header.component";
 import {PipesModule} from "@cdk/pipes/pipes.module";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatMenuModule} from "@angular/material/menu";
-import {ChatUtilsModule} from "../utils/chat.utils.module";
 import {ChatUtils} from "../utils/chat.utils";
 
 @NgModule({

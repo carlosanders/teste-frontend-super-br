@@ -81,6 +81,44 @@ export function ChatMensagemReducer(
             };
         }
 
+        case ChatMensagemActions.GET_MENSAGENS_INCREMENT: {
+            return {
+                ...state,
+                loading: true,
+                pagination: {
+                    filter: action.payload.filter,
+                    limit: action.payload.limit,
+                    offset: action.payload.offset,
+                    gridFilter: action.payload.gridFilter,
+                    populate: action.payload.populate,
+                    sort: action.payload.sort,
+                    total: state.pagination.total
+                }
+            };
+        }
+
+        case ChatMensagemActions.GET_MENSAGENS_INCREMENT_SUCCESS: {
+            let entitiesId = [...state.entitiesId, ...action.payload.entitiesId];
+            return {
+                ...state,
+                entitiesId: entitiesId.filter((item, pos) => entitiesId.indexOf(item) == pos),
+                pagination: {
+                    ...state.pagination,
+                    total: action.payload.total
+                },
+                loading: false,
+                loaded: true
+            };
+        }
+
+        case ChatMensagemActions.GET_MENSAGENS_INCREMENT_FAILED: {
+            return {
+                ...state,
+                loading: false,
+                loaded: false
+            };
+        }
+
         case ChatMensagemActions.ENVIAR_MENSAGEM: {
             return {
                 ...state,

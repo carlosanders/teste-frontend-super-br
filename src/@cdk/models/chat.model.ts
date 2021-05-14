@@ -2,7 +2,6 @@ import * as moment from 'moment';
 import {Type, Transform, Exclude} from 'class-transformer';
 
 import {ComponenteDigital, Usuario} from '@cdk/models';
-import {Contato} from "./contato.model";
 import {ChatParticipante} from "./chat-participante.model";
 import {ChatMensagem} from "./chat-mensagem.model";
 

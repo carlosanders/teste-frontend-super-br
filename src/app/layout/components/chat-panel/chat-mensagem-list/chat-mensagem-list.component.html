@@ -1,5 +1,5 @@
 <div *ngIf="loading" class="loading">
-    <mat-spinner diameter="64"></mat-spinner>
+    <mat-spinner diameter="24"></mat-spinner>
 </div>
 
 <div *ngFor="let chatMensagem of chatMensagens | sortByDate: 'criadoEm':'DESC':true; let i = index" class="message-row"

@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import {Chat} from "@cdk/models";
 import {LoginService} from "../../../../main/auth/login/login.service";
+import {ChatUtils} from "../utils/chat.utils";
 
 @Component({
     selector: 'chat-list',
@@ -24,10 +25,13 @@ export class ChatListComponent implements OnInit
     chatClickHandler = new EventEmitter<Chat>();
 
     /**
-     *
      * @param _loginService
+     * @param chatUtils
      */
-    constructor(private _loginService: LoginService)
+    constructor(
+        private _loginService: LoginService,
+        public chatUtils: ChatUtils
+    )
     {
     }
 
@@ -45,19 +49,5 @@ export class ChatListComponent implements OnInit
     chatClick(chat: Chat) : void
     {
         this.chatClickHandler.emit(chat);
-    }
-
-    getChatInfo(chat: Chat) : any
-    {
-        if (chat.grupo || chat.nome) {
-            return chat;
-        }
-
-        let chatParticipante = chat.participantes
-            .filter(chatParticipante => chatParticipante.usuario.id != this._loginService.getUserProfile().id)[0];
-
-        chat.nome = chatParticipante.usuario.nome;
-
-        return chat;
     }
 }

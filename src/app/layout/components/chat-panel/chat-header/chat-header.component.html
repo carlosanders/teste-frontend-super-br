@@ -21,9 +21,9 @@
                     <button mat-menu-item (click)="novaConversa()">
                         Nova conversa
                     </button>
-                    <button mat-menu-item>
-                        Novo grupo
-                    </button>
+<!--                    <button mat-menu-item>-->
+<!--                        Novo grupo-->
+<!--                    </button>-->
                 </mat-menu>
             </div>
         </form>
@@ -39,7 +39,9 @@
 
                 <div class="search" fxFlex fxLayout="row" fxLayoutAlign="start center">
                     <mat-icon class="s-16 secondary-text">search</mat-icon>
-                    <input fxFlex
+                    <input
+                           #usuarioInput
+                           fxFlex
                            matInput placeholder="Pesquisar usuário..."
                            formControlName="usuario"
                            [matAutocomplete]="usuario.autocomplete"

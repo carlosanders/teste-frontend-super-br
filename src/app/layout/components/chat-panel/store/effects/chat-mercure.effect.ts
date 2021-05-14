@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Effect, Actions, ofType, createEffect} from '@ngrx/effects';
+import {Actions, ofType, createEffect} from '@ngrx/effects';
 import {tap} from 'rxjs/operators';
 import * as MercureActions from 'app/store/actions/mercure.action';
-import {Observable} from 'rxjs';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Chat, ChatMensagem, ChatParticipante} from '@cdk/models';
 import {

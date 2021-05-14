@@ -22,7 +22,6 @@ export class ChatService extends ParentGenericService<Chat> {
         const params = {};
         params['context'] = context;
         params['populate'] = populate;
-        console.log(environment.api_url + this.path + '/criar_ou_retornar/' + usuario.id + environment.xdebug)
         return this.http.post(
             environment.api_url + this.path + '/criar_ou_retornar/' + usuario.id + environment.xdebug,
             {},
