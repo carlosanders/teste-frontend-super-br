@@ -234,7 +234,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                         this.form.get('processo').value.especieProcesso?.generoProcesso?.nome.toUpperCase()
                 };
             }
-            if (this.form.get('processo').value.especieProcesso?.workflow) {
+            if (this.form.get('processo').value?.especieProcesso?.workflow) {
                 this.addFilterProcessoWorfkflow();
             }
         } else {
@@ -1158,18 +1158,22 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
     addFilterProcessoWorfkflow(): void {
         // caso processo seja de workflow verificar espécies permitidas
         this.especieTarefaPagination['context'] = {};
-        if (this.form.get('processo').value && this.form.get('processo').value.especieProcesso && this.form.get('processo').value.especieProcesso.workflow) {
+        if (this.form.get('processo').value?.especieProcesso?.workflow) {
 
-            if (!this.form.get('processo').value.tarefaAtualWorkflow) {
-                this.especieTarefaPagination.filter['workflows.id'] = 'eq:'
-                    + this.form.get('processo').value.especieProcesso.workflow.id;
-                this.especieTarefaPagination.filter['id'] = 'eq:'
-                    + this.form.get('processo').value.especieProcesso.workflow.especieTarefaInicial.id;
+            if (!this.form.get('id').value) {
+                if (!this.form.get('processo').value.tarefaAtualWorkflow) {
+                    this.especieTarefaPagination.filter['workflows.id'] = 'eq:'
+                        + this.form.get('processo').value.especieProcesso.workflow.id;
+                    this.especieTarefaPagination.filter['id'] = 'eq:'
+                        + this.form.get('processo').value.especieProcesso.workflow.especieTarefaInicial.id;
+                } else {
+                    this.especieTarefaPagination.filter['transicoesWorkflowTo.workflow.id'] = 'eq:'
+                        + this.form.get('processo').value.especieProcesso.workflow.id;
+                    this.especieTarefaPagination.filter['transicoesWorkflowTo.especieTarefaFrom.id'] = 'eq:'
+                        + this.form.get('processo').value.tarefaAtualWorkflow.especieTarefa.id;
+                }
             } else {
-                this.especieTarefaPagination.filter['transicoesWorkflowTo.workflow.id'] = 'eq:'
-                    + this.form.get('processo').value.especieProcesso.workflow.id;
-                this.especieTarefaPagination.filter['transicoesWorkflowTo.especieTarefaFrom.id'] = 'eq:'
-                    + this.form.get('processo').value.tarefaAtualWorkflow.especieTarefa.id;
+                this.form.get('especieTarefa').disable();
             }
 
             this.especieTarefaPagination['context'] = {processoId: this.form.get('processo').value.id};
