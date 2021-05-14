@@ -154,6 +154,7 @@ export class ResolveGuard implements CanActivate {
                             'volume',
                             'documento',
                             'documento.origemDados',
+                            'documento.juntadaAtual',
                             'documento.tipoDocumento',
                             'documento.componentesDigitais',
                             'documento.vinculacoesDocumentos',

@@ -50,13 +50,15 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         );
     }
 
-    undelete(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
-        const params: HttpParams = new HttpParams();
-        params['context'] = context;
+    undelete(tarefa: Tarefa, populate: any = '[]', context: any = '{}'): Observable<Tarefa> {
+        const tmpParams: any = {};
+        tmpParams['populate'] = populate;
+        tmpParams['context'] = context;
+        let params = new HttpParams({fromObject: tmpParams});
         return this.http.patch(
             `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}/${'undelete'}` + environment.xdebug,
             null,
-            {params}
+            { params }
         ).pipe(
             map(response => {
                 response = plainToClass(Tarefa, response);
@@ -103,8 +105,6 @@ export class TarefaService extends ParentGenericService<Tarefa> {
     }
 
     contarTarefaPastaUsuario(tarefa: Tarefa, context: any = '{}'): Observable<Tarefa> {
-        console.log('zzzzzzzzzzzzzzzzzzzzzzzzzz');
-        console.log(tarefa.usuarioResponsavel.id);
         const params: HttpParams = new HttpParams();
         params['context'] = context;
         return this.http.get(
