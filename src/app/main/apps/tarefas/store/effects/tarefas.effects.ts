@@ -263,7 +263,12 @@ export class TarefasEffect {
                     }));
                 }),
                 mergeMap((action) => {
-                    return this._tarefaService.undelete(action.payload.tarefa).pipe(
+                    const folder = action.payload.folder ? action.payload.folder.id : null;
+                    let context: any = {};
+                    if (folder) {
+                        context.folderId = folder;
+                    }
+                    return this._tarefaService.undelete(action.payload.tarefa, '[]', JSON.stringify(context)).pipe(
                         map((response) => {
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
