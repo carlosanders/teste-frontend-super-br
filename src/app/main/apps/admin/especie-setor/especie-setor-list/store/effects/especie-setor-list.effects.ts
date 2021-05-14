@@ -87,7 +87,11 @@ export class EspecieSetorListEffects {
                         map((response) => new EspecieSetorListActions.DeleteEspecieSetorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new EspecieSetorListActions.DeleteEspecieSetorFailed(action.payload));
+                            return of(new XxxListActions.DeleteXxxFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

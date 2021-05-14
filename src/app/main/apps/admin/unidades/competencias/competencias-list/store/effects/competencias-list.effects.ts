@@ -12,6 +12,7 @@ import {VinculacaoSetorMunicipioService} from '@cdk/services/vinculacao-setor-mu
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoSetorMunicipio} from '@cdk/models/vinculacao-setor-municipio.model';
 import {vinculacaoSetorMunicipio as vinculacaoSetorMunicipioSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class CompetenciasListEffects {
@@ -19,7 +20,7 @@ export class CompetenciasListEffects {
     routerState: any;
 
     /**
-     * 
+     *
      * @param _actions
      * @param _vinculacaoSetorMunicipioService
      * @param _store
@@ -91,7 +92,11 @@ export class CompetenciasListEffects {
                         map((response) => new CompetenciasListActions.DeleteCompetenciaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new CompetenciasListActions.DeleteCompetenciaFailed(action.payload));
+                            return of(new CompetenciasListActions.DeleteCompetenciaFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

@@ -1,4 +1,5 @@
 import * as DocumentoIdentificadorListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface DocumentoIdentificadorListState {
     entitiesId: number[];
@@ -69,6 +70,7 @@ export function DocumentoIdentificadorListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -77,6 +79,7 @@ export function DocumentoIdentificadorListReducer(
         case DocumentoIdentificadorListActions.RELOAD_DOCUMENTO_IDENTIFICADOR: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -101,14 +104,19 @@ export function DocumentoIdentificadorListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
             };
         }
 
         case DocumentoIdentificadorListActions.DELETE_DOCUMENTO_IDENTIFICADOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

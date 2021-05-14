@@ -14,10 +14,11 @@ import {Compartilhamento, Tarefa} from '@cdk/models';
 import {compartilhamento as compartilhamentoSchema, tarefa as tarefaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
 import {getBufferingDelete, getDeletingIds} from '../selectors';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class CompartilhamentoListEffect {
-    
+
     routerState: any;
 
     constructor(
@@ -135,7 +136,11 @@ export class CompartilhamentoListEffect {
                                 redo: 'inherent'
                             }));
                             console.log(err);
-                            return of(new CompartilhamentoListActions.DeleteCompartilhamentoFailed(payload));
+                            return of(new CompartilhamentoListActions.DeleteCompartilhamentoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 }, 25)

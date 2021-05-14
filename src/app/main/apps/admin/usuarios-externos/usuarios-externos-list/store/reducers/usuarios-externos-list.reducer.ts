@@ -1,4 +1,5 @@
 import * as UsuariosExternosListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface UsuariosExternosListState {
     entitiesId: number[];
@@ -72,6 +73,7 @@ export function UsuariosExternosListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -88,6 +90,7 @@ export function UsuariosExternosListReducer(
         case UsuariosExternosListActions.RELOAD_USUARIOS_EXTERNOS_LIST: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -104,14 +107,19 @@ export function UsuariosExternosListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
             };
         }
 
         case UsuariosExternosListActions.DELETE_USUARIO_EXTERNOS_LIST_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

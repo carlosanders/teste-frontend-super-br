@@ -14,6 +14,7 @@ import {Lotacao} from '@cdk/models';
 import {lotacao as lotacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class LotacaoListEffect {
@@ -88,7 +89,11 @@ export class LotacaoListEffect {
                         map((response) => new LotacaoListActions.DeleteLotacaoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new LotacaoListActions.DeleteLotacaoFailed(action.payload));
+                            return of(new LotacaoListActions.DeleteLotacaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

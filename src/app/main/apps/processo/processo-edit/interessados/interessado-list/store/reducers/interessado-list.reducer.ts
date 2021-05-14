@@ -1,4 +1,5 @@
 import * as InteressadoListActions from 'app/main/apps/processo/processo-edit/interessados/interessado-list/store/actions';
+import * as _ from 'lodash';
 
 export interface InteressadoListState {
     entitiesId: number[];
@@ -66,6 +67,7 @@ export function InteressadoListReducer(state = InteressadoListInitialState, acti
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -74,6 +76,7 @@ export function InteressadoListReducer(state = InteressadoListInitialState, acti
         case InteressadoListActions.RELOAD_INTERESSADOS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -98,14 +101,19 @@ export function InteressadoListReducer(state = InteressadoListInitialState, acti
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
             };
         }
 
         case InteressadoListActions.DELETE_INTERESSADO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

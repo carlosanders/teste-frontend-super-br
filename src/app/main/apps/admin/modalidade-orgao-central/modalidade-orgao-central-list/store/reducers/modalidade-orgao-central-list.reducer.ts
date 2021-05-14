@@ -71,6 +71,7 @@ export function ModalidadeOrgaoCentralListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -87,6 +88,7 @@ export function ModalidadeOrgaoCentralListReducer(
         case ModalidadeOrgaoCentralListActions.RELOAD_MODALIDADE_ORGAO_CENTRAL: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

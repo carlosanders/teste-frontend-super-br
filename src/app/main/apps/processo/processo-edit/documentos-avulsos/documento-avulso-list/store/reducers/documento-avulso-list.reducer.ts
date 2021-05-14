@@ -1,5 +1,6 @@
 import * as DocumentoAvulsoListActions from '../actions';
 import * as JuntadaListActions from '../../../../juntadas/juntada-list/store/actions';
+import * as _ from 'lodash';
 
 export interface DocumentoAvulsoListState {
     entitiesId: number[];
@@ -72,6 +73,7 @@ export function DocumentoAvulsoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -80,6 +82,7 @@ export function DocumentoAvulsoListReducer(
         case DocumentoAvulsoListActions.RELOAD_DOCUMENTOS_AVULSOS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -104,14 +107,20 @@ export function DocumentoAvulsoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
+
             };
         }
 
         case DocumentoAvulsoListActions.DELETE_DOCUMENTO_AVULSO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

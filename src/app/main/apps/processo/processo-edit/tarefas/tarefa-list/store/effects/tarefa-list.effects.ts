@@ -12,6 +12,7 @@ import {TarefaService} from '@cdk/services/tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Tarefa} from '@cdk/models';
 import {tarefa as tarefaSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class TarefaListEffect {
@@ -86,7 +87,11 @@ export class TarefaListEffect {
                         map((response) => new TarefaListActions.DeleteTarefaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TarefaListActions.DeleteTarefaFailed(action.payload));
+                            return of(new TarefaListActions.DeleteTarefaFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

@@ -87,7 +87,11 @@ export class EspecieProcessoListEffects {
                         map((response) => new EspecieProcessoListActions.DeleteEspecieProcessoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new EspecieProcessoListActions.DeleteEspecieProcessoFailed(action.payload));
+                            return of(new XxxListActions.DeleteXxxFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

@@ -1,4 +1,5 @@
 import * as VolumeListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface VolumeListState {
     entitiesId: number[];
@@ -69,6 +70,7 @@ export function VolumeListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -77,6 +79,7 @@ export function VolumeListReducer(
         case VolumeListActions.RELOAD_VOLUMES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -101,14 +104,19 @@ export function VolumeListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
             };
         }
 
         case VolumeListActions.DELETE_VOLUME_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

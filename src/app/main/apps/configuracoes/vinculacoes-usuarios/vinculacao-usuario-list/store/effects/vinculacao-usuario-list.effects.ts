@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
@@ -90,6 +90,11 @@ export class VinculacaoUsuarioListEffect {
                     console.log (err);
                     this._store.dispatch(new VinculacaoUsuarioListActions.DeleteVinculacaoUsuarioFailed(err));
                     return caught;
+                    return of(new XxxListActions.DeleteXxxFailed(
+                        {
+                            [action.payload]: CdkUtils.errorsToString(err)
+                        })
+                    );
                 })
             );
 }

@@ -71,6 +71,7 @@ export function AdminPessoaListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -87,6 +88,7 @@ export function AdminPessoaListReducer(
         case PessoaListActions.RELOAD_PESSOA: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

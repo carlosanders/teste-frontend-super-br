@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getDocumentoIdentificadorListState,
     (state: DocumentoIdentificadorListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getDocumentoIdentificadorListState,
+    (state: DocumentoIdentificadorListState) => state.deletingErrors
+);

@@ -12,6 +12,7 @@ import {TipoValidacaoWorkflowService} from '../../../../../../../../@cdk/service
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {TipoValidacaoWorkflow} from '../../../../../../../../@cdk/models';
 import {tipoValidacaoWorkflow as tipoValidacaoWorkflowSchema} from '../../../../../../../../@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 
 @Injectable()
@@ -87,7 +88,11 @@ export class TipoValidacaoWorkflowListEffects {
                         map((response) => new TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflowSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflowFailed(action.payload));
+                            return of(new TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflowFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

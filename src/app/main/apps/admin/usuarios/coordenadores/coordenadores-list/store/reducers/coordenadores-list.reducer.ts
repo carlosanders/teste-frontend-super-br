@@ -1,4 +1,5 @@
 import * as CoordenadoresListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface CoordenadoresListState {
     entitiesId: number[];
@@ -72,6 +73,7 @@ export function CoordenadoresListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -80,6 +82,7 @@ export function CoordenadoresListReducer(
         case CoordenadoresListActions.RELOAD_COORDENADORES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -104,14 +107,19 @@ export function CoordenadoresListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
             };
         }
 
         case CoordenadoresListActions.DELETE_COORDENADOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

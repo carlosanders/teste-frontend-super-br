@@ -47,3 +47,8 @@ export const getDeletedIds = createSelector(
     getWorkflowListState,
     (state: WorkflowListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getWorkflowListState,
+    (state: WorkflowListState) => state.deletingErrors
+);

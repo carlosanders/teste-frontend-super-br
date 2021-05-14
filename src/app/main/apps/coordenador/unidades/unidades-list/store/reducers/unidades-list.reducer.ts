@@ -72,6 +72,7 @@ export function UnidadesOrgaoCentralListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -80,6 +81,7 @@ export function UnidadesOrgaoCentralListReducer(
         case UnidadesOrgaoCentralListActions.RELOAD_UNIDADES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

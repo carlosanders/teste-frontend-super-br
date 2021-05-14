@@ -87,7 +87,11 @@ export class TipoAcaoWorkflowListEffects {
                         map((response) => new TipoAcaoWorkflowListActions.DeleteTipoAcaoWorkflowSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TipoAcaoWorkflowListActions.DeleteTipoAcaoWorkflowFailed(action.payload));
+                            return of(new XxxListActions.DeleteXxxFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

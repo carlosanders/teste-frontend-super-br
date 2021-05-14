@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getNotificacaoListState,
     (state: NotificacaoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getNotificacaoListState,
+    (state: NotificacaoListState) => state.deletingErrors
+);

@@ -87,7 +87,11 @@ export class TipoDocumentoListEffects {
                         map((response) => new TipoDocumentoListActions.DeleteTipoDocumentoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TipoDocumentoListActions.DeleteTipoDocumentoFailed(action.payload));
+                            return of(new XxxListActions.DeleteXxxFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

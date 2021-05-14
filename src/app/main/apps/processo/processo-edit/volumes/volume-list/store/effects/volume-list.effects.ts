@@ -12,6 +12,7 @@ import {VolumeService} from '@cdk/services/volume.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Volume} from '@cdk/models';
 import {volume as volumeSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class VolumeListEffect {
@@ -86,7 +87,11 @@ export class VolumeListEffect {
                         map((response) => new VolumeListActions.DeleteVolumeSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new VolumeListActions.DeleteVolumeFailed(action.payload));
+                            return of(new VolumeListActions.DeleteVolumeFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

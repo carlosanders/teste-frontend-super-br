@@ -1,4 +1,5 @@
 import * as TipoValidacaoWorkflowListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface TipoValidacaoWorkflowListState {
     entitiesId: number[];
@@ -71,6 +72,7 @@ export function TipoValidacaoWorkflowListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -87,6 +89,7 @@ export function TipoValidacaoWorkflowListReducer(
         case TipoValidacaoWorkflowListActions.RELOAD_TIPO_VALIDACAO_WORKFLOW: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -103,14 +106,19 @@ export function TipoValidacaoWorkflowListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
             };
         }
 
         case TipoValidacaoWorkflowListActions.DELETE_TIPO_VALIDACAO_WORKFLOW_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

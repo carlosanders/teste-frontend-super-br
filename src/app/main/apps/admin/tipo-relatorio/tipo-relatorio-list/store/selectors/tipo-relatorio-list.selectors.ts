@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getTipoRelatorioListState,
     (state: TipoRelatorioListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getTipoRelatorioListState,
+    (state: TipoRelatorioListState) => state.deletingErrors
+);

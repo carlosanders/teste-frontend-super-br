@@ -87,7 +87,11 @@ export class LotacaoListEffect {
                         map((response) => new RootLotacaoListActions.DeleteLotacaoSuccess(action.payload)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new RootLotacaoListActions.DeleteLotacaoFailed(action.payload));
+                            return of(new XxxListActions.DeleteXxxFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

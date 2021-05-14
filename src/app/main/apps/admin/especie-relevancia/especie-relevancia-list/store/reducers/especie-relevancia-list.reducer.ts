@@ -71,6 +71,7 @@ export function EspecieRelevanciaListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -87,6 +88,7 @@ export function EspecieRelevanciaListReducer(
         case EspecieRelevanciaListActions.RELOAD_ESPECIE_RELEVANCIA: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

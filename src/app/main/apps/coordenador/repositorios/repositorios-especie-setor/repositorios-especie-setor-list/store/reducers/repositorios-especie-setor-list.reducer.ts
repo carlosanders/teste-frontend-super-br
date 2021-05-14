@@ -1,4 +1,5 @@
 import * as RepositoriosEspecieSetorListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface RepositoriosEspecieSetorListState {
     entitiesId: number[];
@@ -72,6 +73,7 @@ export function RepositoriosEspecieSetorListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -80,6 +82,7 @@ export function RepositoriosEspecieSetorListReducer(
         case RepositoriosEspecieSetorListActions.RELOAD_REPOSITORIOS_ESPECIE_SETOR: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -104,14 +107,19 @@ export function RepositoriosEspecieSetorListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
             };
         }
 
         case RepositoriosEspecieSetorListActions.DELETE_REPOSITORIO_ESPECIE_SETOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

@@ -71,6 +71,7 @@ export function EspecieAtividadeListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -87,6 +88,7 @@ export function EspecieAtividadeListReducer(
         case EspecieAtividadeListActions.RELOAD_ESPECIE_ATIVIDADE: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

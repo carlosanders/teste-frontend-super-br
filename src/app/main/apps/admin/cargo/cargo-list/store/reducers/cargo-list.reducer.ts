@@ -71,6 +71,7 @@ export function CargoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -87,6 +88,7 @@ export function CargoListReducer(
         case CargoListActions.RELOAD_CARGO: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };

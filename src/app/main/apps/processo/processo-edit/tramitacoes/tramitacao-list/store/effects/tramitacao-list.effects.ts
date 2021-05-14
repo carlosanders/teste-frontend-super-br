@@ -12,6 +12,7 @@ import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Tramitacao} from '@cdk/models';
 import {tramitacao as tramitacaoSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class TramitacaoListEffect {
@@ -85,7 +86,11 @@ export class TramitacaoListEffect {
                         map((response) => new TramitacaoListActions.DeleteTramitacaoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TramitacaoListActions.DeleteTramitacaoFailed(action.payload));
+                            return of(new TramitacaoListActions.DeleteTramitacaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

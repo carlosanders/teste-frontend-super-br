@@ -87,7 +87,11 @@ export class EspecieTarefaListEffects {
                         map((response) => new EspecieTarefaListActions.DeleteEspecieTarefaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new EspecieTarefaListActions.DeleteEspecieTarefaFailed(action.payload));
+                            return of(new XxxListActions.DeleteXxxFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

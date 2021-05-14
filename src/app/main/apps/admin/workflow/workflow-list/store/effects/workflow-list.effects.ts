@@ -12,6 +12,7 @@ import {getRouterState, State} from '../../../../../../../store/reducers';
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {LoginService} from '../../../../../../auth/login/login.service';
 import {Workflow} from '../../../../../../../../@cdk/models';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 
 @Injectable()
@@ -87,7 +88,11 @@ export class WorkflowListEffects {
                         map((response) => new WorkflowListActions.DeleteWorkflowSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new WorkflowListActions.DeleteWorkflowFailed(action.payload));
+                            return of(new WorkflowListActions.DeleteWorkflowFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

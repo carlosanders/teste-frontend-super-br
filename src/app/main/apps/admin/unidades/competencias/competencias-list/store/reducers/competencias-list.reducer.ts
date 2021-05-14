@@ -1,4 +1,5 @@
 import * as CompetenciasListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface CompetenciasListState {
     entitiesId: number[];
@@ -72,6 +73,7 @@ export function CompetenciasListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -80,6 +82,7 @@ export function CompetenciasListReducer(
         case CompetenciasListActions.RELOAD_COMPETENCIAS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -104,14 +107,19 @@ export function CompetenciasListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
             };
         }
 
         case CompetenciasListActions.DELETE_COMPETENCIA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

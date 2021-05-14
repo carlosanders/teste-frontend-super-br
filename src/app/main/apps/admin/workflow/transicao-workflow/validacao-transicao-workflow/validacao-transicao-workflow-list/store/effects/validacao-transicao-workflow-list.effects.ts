@@ -11,6 +11,7 @@ import {ValidacaoTransicaoWorkflowService} from '@cdk/services/validacao-transic
 import {AddData} from '@cdk/ngrx-normalizr';
 import {ValidacaoTransicaoWorkflow} from '@cdk/models/validacao-transicao-workflow.model';
 import {validacaoTransicaoWorkflow as validacaoTransicaoWorkflowSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class ValidacaoTransicaoWorkflowListEffects {
@@ -81,7 +82,11 @@ export class ValidacaoTransicaoWorkflowListEffects {
                     return this._validacaoTransicaoWorkflowService.destroy(action.payload).pipe(
                         map((response) => new ValidacaoListActions.DeleteValidacaoSuccess(response.id)),
                         catchError((err) => {
-                            return of(new ValidacaoListActions.DeleteValidacaoFailed(action.payload));
+                            return of(new ValidacaoListActions.DeleteValidacaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

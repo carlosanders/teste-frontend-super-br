@@ -1,4 +1,5 @@
 import * as ValidacaoTransicaoWorkflowListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface ValidacaoTransicaoWorkflowListState {
     entitiesId: number[];
@@ -41,6 +42,7 @@ export function ValidacaoTransicaoWorkflowListReducer(
             return {
                 ...state,
                 entitiesId: action.payload.entitiesId,
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -49,6 +51,7 @@ export function ValidacaoTransicaoWorkflowListReducer(
         case ValidacaoTransicaoWorkflowListActions.RELOAD_VALIDACOES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -74,6 +77,7 @@ export function ValidacaoTransicaoWorkflowListReducer(
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload]),
                 entitiesId: state.entitiesId.filter(id => id !== action.payload)
             };
         }
@@ -81,7 +85,11 @@ export function ValidacaoTransicaoWorkflowListReducer(
         case ValidacaoTransicaoWorkflowListActions.DELETE_VALIDACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

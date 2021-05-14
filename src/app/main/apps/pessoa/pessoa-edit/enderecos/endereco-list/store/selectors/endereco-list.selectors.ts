@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getEnderecoListState,
     (state: EnderecoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getEnderecoListState,
+    (state: EnderecoListState) => state.deletingErrors
+);

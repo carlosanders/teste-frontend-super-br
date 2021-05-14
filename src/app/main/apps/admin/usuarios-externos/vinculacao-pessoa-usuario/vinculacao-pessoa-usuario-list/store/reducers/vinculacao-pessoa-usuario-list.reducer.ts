@@ -1,4 +1,5 @@
 import * as VinculacaoPessoaUsuarioListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface VinculacaoPessoaUsuarioListState {
     entitiesId: number[];
@@ -71,6 +72,7 @@ export function VinculacaoPessoaUsuarioListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded: action.payload.loaded,
             };
@@ -103,14 +105,19 @@ export function VinculacaoPessoaUsuarioListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
             };
         }
 
         case VinculacaoPessoaUsuarioListActions.DELETE_VINCULACAO_PESSOA_USUARIO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

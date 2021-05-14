@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getVinculacaoPessoaUsuarioListState,
     (state: VinculacaoPessoaUsuarioListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getVinculacaoPessoaUsuarioListState,
+    (state: VinculacaoPessoaUsuarioListState) => state.deletingErrors
+);

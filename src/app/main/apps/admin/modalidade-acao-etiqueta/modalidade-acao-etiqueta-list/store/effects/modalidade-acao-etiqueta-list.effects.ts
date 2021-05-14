@@ -87,7 +87,11 @@ export class ModalidadeAcaoEtiquetaListEffects {
                         map((response) => new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiquetaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiquetaFailed(action.payload));
+                            return of(new XxxListActions.DeleteXxxFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })
