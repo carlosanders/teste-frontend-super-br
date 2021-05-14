@@ -18,7 +18,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
-import {CdkUtils} from "../../../../../../@cdk/utils";
+import {CdkUtils} from "@cdk/utils";
 
 @Component({
     selector: 'documento-avulso-edit-dados-basicos',

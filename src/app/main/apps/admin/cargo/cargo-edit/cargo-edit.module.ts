@@ -16,18 +16,18 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatTooltipModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
-import {CdkSidebarModule} from '../../../../../../@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 import {MatStepperModule} from '@angular/material/stepper';
 import * as fromGuards from './store/guards';
 import {ResolveGuard} from './store/guards';
 import {CargoEditStoreModule} from './store/store.module';
-import {CargoService} from '../../../../../../@cdk/services/cargo.service';
-import {CdkCargoFormModule} from '../../../../../../@cdk/components/cargo/cdk-cargo-form/cdk-cargo-form.module';
+import {CargoService} from '@cdk/services/cargo.service';
+import {CdkCargoFormModule} from '@cdk/components/cargo/cdk-cargo-form/cdk-cargo-form.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

@@ -1,5 +1,5 @@
 import {
-    ChangeDetectionStrategy,
+    ChangeDetectionStrategy, ChangeDetectorRef,
     Component,
     OnDestroy,
     OnInit,
@@ -19,11 +19,11 @@ import * as moment from 'moment';
 import {Colaborador} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Processo} from '@cdk/models';
-import {take, takeUntil, tap} from 'rxjs/operators';
+import {filter, take, takeUntil, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
-import {CdkVisibilidadePluginComponent} from '../../../../../@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
+import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store';
+import {getOperacoesState, getRouterState} from '../../../../store';
 import {Back} from '../../../../store';
 
 @Component({
@@ -59,19 +59,23 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     isClearForm$: Observable<boolean>;
     isClearForm = false;
 
+    operacoes: any[] = [];
+
     /**
      * @param _store
      * @param _storeSideBar
      * @param _loginService
      * @param dialog
      * @param _router
+     * @param _changeDetectorRef
      */
     constructor(
         private _store: Store<fromStore.TarefaCreateAppState>,
         private _storeSideBar: Store<fromStoreSidebar.TarefasAppState>,
         public _loginService: LoginService,
         public dialog: MatDialog,
-        private _router: Router
+        private _router: Router,
+        private _changeDetectorRef: ChangeDetectorRef
     ) {
         this.isSaving$ = this._store.pipe(select(fromStore.getIsSaving));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -99,6 +103,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
+        this.operacoes = [];
 
         this._store
             .pipe(
@@ -107,6 +112,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             ).subscribe(routerState => {
             if (routerState) {
                 this.routerState = routerState.state;
+                this.operacoes = [];
             }
         });
 
@@ -164,6 +170,19 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
             }
         );
 
+        this._store
+            .pipe(
+                select(getOperacoesState),
+                takeUntil(this._unsubscribeAll),
+                filter(op => !!op && !!op.content && op.type === 'tarefa')
+            )
+            .subscribe(
+                operacao => {
+                    this.operacoes.push(operacao);
+                    this._changeDetectorRef.detectChanges();
+                }
+            );
+
         this.isClearForm$.subscribe(limpaForm => {
             if (limpaForm) {
                 this.isClearForm = true;
@@ -186,7 +205,6 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     }
 
     verificaVisibilidadeProcesso(value): void {
-
         this.NUP = value.NUP;
         this.processo = value;
         this._store.dispatch(new fromStore.GetVisibilidades(value.id));
@@ -198,6 +216,8 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
+
+        this.operacoes = [];
 
         const tarefa = new Tarefa();
 

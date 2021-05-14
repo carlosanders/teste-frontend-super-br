@@ -350,7 +350,8 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.unidadeResponsavelPagination.populate)
         ).pipe(
             finalize(() => this.unidadeResponsavelListIsLoading = false),
             catchError(() => of([]))
@@ -375,7 +376,8 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.setorResponsavelPagination.populate)
         ).pipe(
             finalize(() => this.setorResponsavelListIsLoading = false),
             catchError(() => of([]))
@@ -400,7 +402,8 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.usuarioResponsavelPagination.populate)
         ).pipe(
             finalize(() => this.usuarioResponsavelListIsLoading = false),
             catchError(() => of([]))

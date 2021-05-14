@@ -6,7 +6,7 @@ import {PainelComponent} from './painel.component';
 import {LoginService} from '../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
 import {WidgetsModule} from 'widgets/widgets.module';
-import {DirectivesModule} from '../../../../@cdk/directives/directives';
+import {DirectivesModule} from '@cdk/directives/directives';
 
 const routes: Routes = [
     {

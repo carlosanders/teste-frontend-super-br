@@ -8,7 +8,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Criteria, DocumentoAvulso} from '@cdk/models';
 import {EspecieDocumentoAvulso} from '@cdk/models';
 import {Processo} from '@cdk/models';
@@ -542,7 +542,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.especieDocumentoAvulsoPagination.populate)
         ).pipe(
             finalize(() => this.especieDocumentoAvulsoListIsLoading = false),
             catchError(() => of([]))
@@ -566,7 +567,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.modeloPagination.populate)
         ).pipe(
             finalize(() => this.modeloListIsLoading = false),
             catchError(() => of([]))
@@ -590,7 +592,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.pessoaDestinoPagination.populate)
         ).pipe(
             finalize(() => this.pessoaDestinoListIsLoading = false),
             catchError(() => of([]))
@@ -614,7 +617,8 @@ export class CdkDocumentoAvulsoFormComponent implements OnInit, OnChanges, OnDes
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.setorDestinoPagination.populate)
         ).pipe(
             finalize(() => this.setorDestinoListIsLoading = false),
             catchError(() => of([]))

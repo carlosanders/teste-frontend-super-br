@@ -16,16 +16,16 @@ import {
     MatSelectModule,
     MatToolbarModule,
     MatTooltipModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
-import {CdkSidebarModule} from '../../../../../../@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 import {MatStepperModule} from '@angular/material/stepper';
 import * as fromGuards from './store/guards';
 import {ClassificacaoEditStoreModule} from './store/store.module';
-import {ClassificacaoService} from '../../../../../../@cdk/services/classificacao.service';
+import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {CdkClassificacaoFormModule} from '@cdk/components/classificacao/cdk-classificacao-form/cdk-classificacao-form.module';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 
 const routes: Routes = [

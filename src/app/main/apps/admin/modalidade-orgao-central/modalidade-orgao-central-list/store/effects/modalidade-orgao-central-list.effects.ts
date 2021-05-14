@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as ModalidadeOrgaoCentralListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {ModalidadeOrgaoCentralService} from '../../../../../../../../@cdk/services/modalidade-orgao-central.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {ModalidadeOrgaoCentral} from '../../../../../../../../@cdk/models';
-import {modalidadeOrgaoCentral as modalidadeOrgaoCentralSchema} from '../../../../../../../../@cdk/normalizr';
+import {ModalidadeOrgaoCentralService} from '@cdk/services/modalidade-orgao-central.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {ModalidadeOrgaoCentral} from '@cdk/models';
+import {modalidadeOrgaoCentral as modalidadeOrgaoCentralSchema} from '@cdk/normalizr';
 
 
 @Injectable()

@@ -8,7 +8,7 @@ import {Aviso, Usuario} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {catchError} from "rxjs/operators";
 import {of} from "rxjs";
-import {AvisoService} from "../../@cdk/services/aviso.service";
+import {AvisoService} from "@cdk/services/aviso.service";
 
 @Component({
     selector: 'widget-alerta',

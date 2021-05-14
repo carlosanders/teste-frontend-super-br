@@ -2,7 +2,7 @@ import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/cor
 import {MatExpansionModule} from '@angular/material/expansion';
 
 import { AjudaRelevanciasComponent } from './ajuda-relevancias.component';
-import { CdkSharedModule } from '../../../../../../../@cdk/shared.module';
+import { CdkSharedModule } from '@cdk/shared.module';
 
 @NgModule({
     declarations: [

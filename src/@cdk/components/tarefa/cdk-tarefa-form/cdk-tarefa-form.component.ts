@@ -14,7 +14,7 @@ import {Usuario} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {MAT_DATETIME_FORMATS} from '@mat-datetimepicker/core';
 import {Setor} from '@cdk/models';
-import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap, tap} from 'rxjs/operators';
+import {catchError, debounceTime, distinctUntilChanged, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {Pagination} from '@cdk/models';
 import {FavoritoService} from '@cdk/services/favorito.service';
@@ -797,6 +797,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                                     usuarioResponsavel: responsavel.usuario
                                 };
                             }
+                            tarefa.bloco = true;
                             this.save.emit(tarefa);
                         });
 
@@ -807,6 +808,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             ...this.form.value,
                             processo: processo
                         };
+                        tarefa.bloco = true;
                         this.save.emit(tarefa);
                     }
                 });
@@ -834,7 +836,7 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
                             usuarioResponsavel: responsavel.usuario
                         };
                     }
-
+                    tarefa.bloco = true;
                     this.save.emit(tarefa);
                 });
             }
@@ -1010,7 +1012,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.especieTarefaPagination.populate)
         ).pipe(
             finalize(() => this.especieTarefaListIsLoading = false),
             catchError(() => of([]))
@@ -1034,7 +1037,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.unidadeResponsavelPagination.populate)
         ).pipe(
             finalize(() => this.unidadeResponsavelListIsLoading = false),
             catchError(() => of([]))
@@ -1059,7 +1063,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.setorResponsavelPagination.populate)
         ).pipe(
             finalize(() => this.setorResponsavelListIsLoading = false),
             catchError(() => of([]))
@@ -1084,7 +1089,8 @@ export class CdkTarefaFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.usuarioResponsavelPagination.populate)
         ).pipe(
             finalize(() => this.usuarioResponsavelListIsLoading = false),
             catchError(() => of([]))

@@ -16,7 +16,7 @@ import {getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
-import {Assinatura, Documento} from '../../../../../../@cdk/models';
+import {Assinatura, Documento} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
 
 @Component({

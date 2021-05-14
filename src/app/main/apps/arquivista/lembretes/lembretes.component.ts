@@ -6,14 +6,14 @@ import {
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
-import {LembreteService} from '../../../../../@cdk/services/lembrete.service';
+import {LembreteService} from '@cdk/services/lembrete.service';
 import {Observable, Subject} from 'rxjs';
-import {Lembrete, Pagination, Processo} from '../../../../../@cdk/models';
+import {Lembrete, Pagination, Processo} from '@cdk/models';
 import {getRouterState, RouterStateUrl} from '../../../../store';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'lembretes',

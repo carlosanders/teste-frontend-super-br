@@ -23,7 +23,7 @@ import * as fromGuards from './store/guards';
 import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';
 import {LoginService} from '../../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

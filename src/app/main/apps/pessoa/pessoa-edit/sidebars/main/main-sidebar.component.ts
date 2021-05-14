@@ -4,8 +4,8 @@ import {Pessoa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from '../../dados-pessoa-edit/store';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
-import {cdkAnimations} from '../../../../../../../@cdk/animations';
-import {CdkUtils} from "../../../../../../../@cdk/utils";
+import {cdkAnimations} from '@cdk/animations';
+import {CdkUtils} from "@cdk/utils";
 import {LoginService} from "../../../../../auth/login/login.service";
 import {Router} from "@angular/router";
 

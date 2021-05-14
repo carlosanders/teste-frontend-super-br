@@ -25,7 +25,7 @@ import {DadosBasicosStoreModule} from './store/store.module';
 import {ProcessoService} from '@cdk/services/processo.service';
 import * as fromGuards from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkProcessoModalClassificacaoRestritaModule} from "../../../../../../@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.module";
+import {CdkProcessoModalClassificacaoRestritaModule} from "@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.module";
 
 const routes: Routes = [
     {

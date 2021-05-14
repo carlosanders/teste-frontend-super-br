@@ -6,10 +6,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store';
 import * as AvisoListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {AvisoService} from '../../../../../../../../@cdk/services/aviso.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {Aviso} from '../../../../../../../../@cdk/models';
-import {aviso as avisoSchema} from '../../../../../../../../@cdk/normalizr';
+import {AvisoService} from '@cdk/services/aviso.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {Aviso} from '@cdk/models';
+import {aviso as avisoSchema} from '@cdk/normalizr';
 
 
 @Injectable()

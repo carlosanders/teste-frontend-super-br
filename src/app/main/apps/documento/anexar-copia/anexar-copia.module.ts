@@ -7,8 +7,8 @@ import {AnexarCopiaComponent} from './anexar-copia.component';
 import {RouterModule, Routes} from '@angular/router';
 import {MatButtonModule, MatIconModule, MatProgressSpinnerModule, MatTooltipModule} from '@cdk/angular/material';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkSearchBarModule} from "../../../../../@cdk/components";
-import {CdkProcessoSearchAutocompleteModule} from "../../../../../@cdk/components/processo/cdk-processo-search-autocomplete/cdk-processo-search-autocomplete.module";
+import {CdkSearchBarModule} from "@cdk/components";
+import {CdkProcessoSearchAutocompleteModule} from "@cdk/components/processo/cdk-processo-search-autocomplete/cdk-processo-search-autocomplete.module";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 
 const routes: Routes = [

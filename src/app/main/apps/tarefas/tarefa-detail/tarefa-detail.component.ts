@@ -33,7 +33,7 @@ import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
 import {expandirTela} from './store';
-import {CdkUtils} from '../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 

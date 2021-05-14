@@ -10,7 +10,7 @@ import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {TransicaoService} from '../../../../../../../@cdk/services/transicao.service';
+import {TransicaoService} from '@cdk/services/transicao.service';
 
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import * as TransicaoArquivistaBloco from '../actions/transicao-arquivista-bloco.actions';
@@ -23,7 +23,7 @@ import {
     getProcessosIds,
     getSelectedProcessoIds
 } from "../../../arquivista-list/store";
-import {CdkUtils} from "../../../../../../../@cdk/utils";
+import {CdkUtils} from "@cdk/utils";
 
 
 @Injectable()

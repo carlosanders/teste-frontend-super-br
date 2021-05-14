@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model.js';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'tipo-relatorio-list',

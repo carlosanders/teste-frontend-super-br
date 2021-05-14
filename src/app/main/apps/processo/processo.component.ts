@@ -26,7 +26,7 @@ import {Router} from '@angular/router';
 import {takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {DynamicService} from '../../../../modules/dynamic.service';
-import {CdkConfirmDialogComponent} from '../../../../@cdk/components/confirm-dialog/confirm-dialog.component';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({

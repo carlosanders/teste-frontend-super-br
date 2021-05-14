@@ -364,7 +364,8 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.especieAtividadePagination.populate)
         ).pipe(
             finalize(() => this.especieAtividadeListIsLoading = false),
             catchError(() => of([]))
@@ -388,7 +389,8 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.unidadeAprovacaoPagination.populate)
         ).pipe(
             finalize(() => this.unidadeAprovacaoListIsLoading = false),
             catchError(() => of([]))
@@ -413,7 +415,8 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.setorAprovacaoPagination.populate)
         ).pipe(
             finalize(() => this.setorAprovacaoListIsLoading = false),
             catchError(() => of([]))
@@ -438,7 +441,8 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.usuarioAprovacaoPagination.populate)
         ).pipe(
             finalize(() => this.usuarioAprovacaoListIsLoading = false),
             catchError(() => of([]))

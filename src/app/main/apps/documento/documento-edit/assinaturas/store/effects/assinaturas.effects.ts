@@ -14,7 +14,7 @@ import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from "@cdk/utils";
 
 @Injectable()
 export class AssinaturasEffects {

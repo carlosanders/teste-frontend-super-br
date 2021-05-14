@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as AssuntoAdministrativoTreeListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {AssuntoAdministrativoService} from '../../../../../../../../@cdk/services/assunto-administrativo.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {AssuntoAdministrativo} from '../../../../../../../../@cdk/models';
-import {assuntoAdministrativo as assuntoAdministrativoSchema} from '../../../../../../../../@cdk/normalizr';
+import {AssuntoAdministrativoService} from '@cdk/services/assunto-administrativo.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {AssuntoAdministrativo} from '@cdk/models';
+import {assuntoAdministrativo as assuntoAdministrativoSchema} from '@cdk/normalizr';
 import * as AssuntoAdministrativoEditActions
     from '../../../assunto-administrativo-edit/store/actions/assunto-administrativo-edit.actions';
 import * as AssuntoAdministrativoListActions

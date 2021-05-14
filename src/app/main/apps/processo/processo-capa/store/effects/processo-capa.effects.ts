@@ -18,7 +18,7 @@ import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
-import {AcompanhamentoService} from "../../../../../../../@cdk/services/acompanhamento.service";
+import {AcompanhamentoService} from "@cdk/services/acompanhamento.service";
 import {LoginService} from "../../../../../auth/login/login.service";
 
 @Injectable()

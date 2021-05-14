@@ -1,7 +1,7 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 
 import {AjudaRemessasComponent} from './ajuda-remessas.component';
-import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 @NgModule({
     declarations: [
@@ -9,7 +9,7 @@ import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
     ],
     imports: [
         CdkSharedModule,
-        
+
     ],
     providers: [
     ],

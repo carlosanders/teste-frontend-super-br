@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {ProcessoService} from '../../../../../../../@cdk/services/processo.service';
-import {VinculacaoEtiquetaService} from '../../../../../../../@cdk/services/vinculacao-etiqueta.service';
+import {ProcessoService} from '@cdk/services/processo.service';
+import {VinculacaoEtiquetaService} from '@cdk/services/vinculacao-etiqueta.service';
 import {select, Store} from '@ngrx/store';
 
 
 import {getRouterState, State} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {catchError, mergeMap, switchMap} from 'rxjs/operators';
-import {AddData} from '../../../../../../../@cdk/ngrx-normalizr';
-import {Processo} from '../../../../../../../@cdk/models';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
 
 @Injectable()

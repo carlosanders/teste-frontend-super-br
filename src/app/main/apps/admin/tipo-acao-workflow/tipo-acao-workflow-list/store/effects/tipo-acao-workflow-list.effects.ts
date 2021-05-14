@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as TipoAcaoWorkflowListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {TipoAcaoWorkflowService} from '../../../../../../../../@cdk/services/tipo-acao-workflow.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {TipoAcaoWorkflow} from '../../../../../../../../@cdk/models';
-import {tipoAcaoWorkflow as tipoAcaoWorkflowSchema} from '../../../../../../../../@cdk/normalizr';
+import {TipoAcaoWorkflowService} from '@cdk/services/tipo-acao-workflow.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {TipoAcaoWorkflow} from '@cdk/models';
+import {tipoAcaoWorkflow as tipoAcaoWorkflowSchema} from '@cdk/normalizr';
 
 
 @Injectable()

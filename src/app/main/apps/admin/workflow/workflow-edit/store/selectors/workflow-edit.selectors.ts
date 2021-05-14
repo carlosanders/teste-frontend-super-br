@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getWorkflowEditAppState, WorkflowEditAppState, WorkflowEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {workflow as workflowSchema} from '@cdk/normalizr/index';
-import {Workflow} from '../../../../../../../../@cdk/models';
+import {Workflow} from '@cdk/models';
 
 const schemaWorkflowSelectors = createSchemaSelectors<Workflow>(workflowSchema);
 

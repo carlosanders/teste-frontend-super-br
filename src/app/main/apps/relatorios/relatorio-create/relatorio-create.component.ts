@@ -19,7 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@cdk/angular/material';
 import { Router } from '@angular/router';
 import { getRouterState } from '../../../../store';
-import { GeneroRelatorio } from '../../../../../@cdk/models/genero-relatorio.model';
+import { GeneroRelatorio } from '@cdk/models/genero-relatorio.model';
 import { Back } from '../../../../store';
 
 @Component({

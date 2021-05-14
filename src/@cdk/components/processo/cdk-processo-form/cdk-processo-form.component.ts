@@ -666,7 +666,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.procedenciaPagination.populate)
         ).pipe(
             finalize(() => this.procedenciaListIsLoading = false),
             catchError(() => of([]))
@@ -690,7 +691,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this._classificacaoPagination.populate)
         ).pipe(
             finalize(() => this.classificacaoListIsLoading = false),
             catchError(() => of([]))
@@ -714,7 +716,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.modalidadeMeioPagination.populate)
         ).pipe(
             finalize(() => this.modalidadeMeioListIsLoading = false),
             catchError(() => of([]))
@@ -738,7 +741,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.setorAtualPagination.populate)
         ).pipe(
             finalize(() => this.setorAtualListIsLoading = false),
             catchError(() => of([]))
@@ -762,7 +766,8 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.configuracaoNupPagination.populate)
         ).pipe(
             finalize(() => this.configuracaoNupListIsLoading = false),
             catchError(() => of([]))

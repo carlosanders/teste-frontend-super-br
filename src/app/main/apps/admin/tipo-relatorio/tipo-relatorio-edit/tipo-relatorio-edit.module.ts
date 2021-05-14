@@ -26,7 +26,7 @@ import {ResolveGuard} from './store/guards';
 import {TipoRelatorioEditStoreModule} from './store/store.module';
 import {TipoRelatorioService} from '@cdk/services/tipo-relatorio.service';
 import {CdkTipoRelatorioFormModule} from '@cdk/components/tipo-relatorio/cdk-tipo-relatorio-form/cdk-tipo-relatorio-form.module';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 
 const routes: Routes = [

@@ -16,17 +16,17 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
 import {WorkflowStoreModule} from './store/store.module';
-import {CdkWorkflowGridModule} from '../../../../../../@cdk/components/workflow/cdk-workflow-grid/cdk-workflow-grid.module';
+import {CdkWorkflowGridModule} from '@cdk/components/workflow/cdk-workflow-grid/cdk-workflow-grid.module';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

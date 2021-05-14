@@ -11,7 +11,7 @@ import * as fromStore from '../index';
 import {getProcessoLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
 import {getAcompanhamentoProcessoLoaded,getAssuntosLoaded,getInteressadosLoaded,getVinculacoesProcessosLoaded} from '../index';
-import {Usuario} from "../../../../../../../@cdk/models";
+import {Usuario} from "@cdk/models";
 import {LoginService} from "../../../../../auth/login/login.service";
 
 @Injectable()

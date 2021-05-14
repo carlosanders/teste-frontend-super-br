@@ -9,8 +9,8 @@ import {MatButtonModule, MatIconModule, MatMenuModule, MatTooltipModule} from '@
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkDocumentoCardListModule} from '@cdk/components/documento/cdk-documento-card-list/cdk-documento-card-list.module';
 import {DocumentoTemplateEditComponent} from './documento-template-edit.component';
-import {CdkTemplateFormModule} from '../../../../../@cdk/components/template/cdk-template-form/cdk-template-form.module';
-import {TemplateService} from '../../../../../@cdk/services/template.service';
+import {CdkTemplateFormModule} from '@cdk/components/template/cdk-template-form/cdk-template-form.module';
+import {TemplateService} from '@cdk/services/template.service';
 
 const routes: Routes = [
     {

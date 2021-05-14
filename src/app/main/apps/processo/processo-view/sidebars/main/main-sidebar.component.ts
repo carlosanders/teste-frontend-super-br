@@ -30,12 +30,12 @@ import {GetTarefa, getTarefa} from '../../../../tarefas/tarefa-detail/store';
 import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema} from '@cdk/normalizr';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatDialog} from '@angular/material/dialog';
-import {CdkAssinaturaEletronicaPluginComponent} from '../../../../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {CdkModeloAutocompleteComponent} from "../../../../../../../@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.component";
+import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {CdkModeloAutocompleteComponent} from "@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.component";
 import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
 
 @Component({

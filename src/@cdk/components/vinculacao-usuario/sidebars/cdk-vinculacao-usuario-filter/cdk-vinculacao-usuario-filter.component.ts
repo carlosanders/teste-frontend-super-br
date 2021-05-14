@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'cdk-vinculacao-usuario-filter',
@@ -20,6 +21,11 @@ export class CdkVinculacaoUsuarioFilterComponent {
 
     @Input()
     mode = 'list';
+
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
     constructor(
         private _formBuilder: FormBuilder,
@@ -72,6 +78,14 @@ export class CdkVinculacaoUsuarioFilterComponent {
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-vinculacao-usuario-filter').close();
+    }
+
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
     }
 
     verificarValor(objeto): void {

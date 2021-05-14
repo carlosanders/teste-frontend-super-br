@@ -18,7 +18,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Documento } from '@cdk/models/documento.model';
 import { getRouterState } from 'app/store/reducers';
 import { Router } from '@angular/router';
-import {Assinatura, DocumentoAvulso, Usuario} from '../../../../../../@cdk/models';
+import {Assinatura, DocumentoAvulso, Usuario} from '@cdk/models';
 import { getDocumentoAvulso } from '../store/selectors';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../modules/dynamic.service';

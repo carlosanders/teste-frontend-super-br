@@ -33,7 +33,7 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {CdkUtils} from '@cdk/utils';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CdkConfirmDialogComponent} from "../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
+import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
 
 @Component({
     selector: 'tarefas',

@@ -33,7 +33,7 @@ import {MatMenuTrigger} from '@angular/material/menu';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {getDocumentosHasLoaded} from './store';
-import {CdkUtils} from '../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tarefa-detail-oficios',

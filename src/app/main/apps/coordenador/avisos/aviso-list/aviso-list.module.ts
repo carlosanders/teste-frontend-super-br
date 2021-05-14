@@ -16,18 +16,18 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
 import {AvisoStoreModule} from './store/store.module';
-import {CdkAvisoGridModule} from '../../../../../../@cdk/components/aviso/cdk-aviso-grid/cdk-aviso-grid.module';
+import {CdkAvisoGridModule} from '@cdk/components/aviso/cdk-aviso-grid/cdk-aviso-grid.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
-import {AvisoService} from '../../../../../../@cdk/services/aviso.service';
+import {PathModule} from '@cdk/components/path/path.module';
+import {AvisoService} from '@cdk/services/aviso.service';
 
 const routes: Routes = [
     {

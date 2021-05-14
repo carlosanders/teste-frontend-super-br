@@ -34,7 +34,7 @@ import {CounterState} from "../../../../../store/reducers/counter.reducer";
 import {MatSort} from '@cdk/angular/material';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
-import {CdkUtils} from "../../../../../../@cdk/utils";
+import {CdkUtils} from "@cdk/utils";
 import {DndDropEvent} from "ngx-drag-drop";
 import {navigationConverter} from "../../../../../navigation/navigation";
 

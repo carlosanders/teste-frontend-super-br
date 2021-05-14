@@ -2,7 +2,7 @@ import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/cor
 
 
 import {AjudaCompartilhamentoCreateBlocoComponent} from './ajuda-compartilhamento-create-bloco.component';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 @NgModule({
     declarations: [

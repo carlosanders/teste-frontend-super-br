@@ -21,7 +21,7 @@ import {Router} from '@angular/router';
 import {getMercureState, getRouterState} from '../../../../store/reducers';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {getPessoa} from '../store/selectors';
-import {UpdateData} from '../../../../../@cdk/ngrx-normalizr';
+import {UpdateData} from '@cdk/ngrx-normalizr';
 import {documento as documentoSchema } from '@cdk/normalizr';
 import {LoginService} from '../../../auth/login/login.service';
 import {modulesConfig} from '../../../../../modules/modules-config';

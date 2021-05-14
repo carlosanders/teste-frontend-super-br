@@ -2,10 +2,10 @@ import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncap
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {Classificacao} from '../../../../../../@cdk/models';
+import {Classificacao} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'classificacao-list',

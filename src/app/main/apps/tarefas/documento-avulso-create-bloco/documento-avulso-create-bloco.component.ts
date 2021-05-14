@@ -20,7 +20,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Tarefa} from '@cdk/models';
 import {Back} from '../../../../store/actions';
-import {Pagination, Usuario} from "../../../../../@cdk/models";
+import {Pagination, Usuario} from "@cdk/models";
 import {LoginService} from "../../../auth/login/login.service";
 
 @Component({

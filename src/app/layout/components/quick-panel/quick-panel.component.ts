@@ -17,7 +17,7 @@ import {
     SetCurrentLote
 } from 'app/store';
 import {Observable, of, Subject} from 'rxjs';
-import {CdkSidebarService} from '../../../../@cdk/components/sidebar/sidebar.service';
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {Lote} from '../../../store/reducers/operacoes.reducer';
 import {FormControl} from "@angular/forms";
 

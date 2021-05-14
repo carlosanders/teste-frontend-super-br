@@ -6,10 +6,10 @@ import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as CargoListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {CargoService} from '../../../../../../../../@cdk/services/cargo.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {Cargo} from '../../../../../../../../@cdk/models';
-import {cargo as cargoSchema} from '../../../../../../../../@cdk/normalizr';
+import {CargoService} from '@cdk/services/cargo.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {Cargo} from '@cdk/models';
+import {cargo as cargoSchema} from '@cdk/normalizr';
 
 
 @Injectable()

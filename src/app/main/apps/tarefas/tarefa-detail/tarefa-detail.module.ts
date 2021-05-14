@@ -22,8 +22,8 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {PipesModule} from '@cdk/pipes/pipes.module';
 import {LoginService} from '../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
-import {ModalidadeEtiquetaService} from '../../../../../@cdk/services/modalidade-etiqueta.service';
-import {EtiquetaService} from '../../../../../@cdk/services/etiqueta.service';
+import {ModalidadeEtiquetaService} from '@cdk/services/modalidade-etiqueta.service';
+import {EtiquetaService} from '@cdk/services/etiqueta.service';
 
 const routes: Routes = [
     {

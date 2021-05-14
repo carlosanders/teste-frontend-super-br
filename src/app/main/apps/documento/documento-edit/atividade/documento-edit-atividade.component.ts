@@ -14,7 +14,7 @@ import {Atividade, Documento, Pagination, Tarefa} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import * as moment from 'moment';
 import {getTarefa} from '../../../tarefas/tarefa-detail/store';
-import {ComponenteDigitalService} from "../../../../../../@cdk/services/componente-digital.service";
+import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
 import {Back} from "../../../../../store";
 
 @Component({

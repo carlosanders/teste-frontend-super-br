@@ -1,5 +1,5 @@
 import * as NotificacaoActions from '../actions';
-import {Notificacao} from "../../../@cdk/models";
+import {Notificacao} from "@cdk/models";
 
 export interface NotificacaoState {
     entitiesId: number[];

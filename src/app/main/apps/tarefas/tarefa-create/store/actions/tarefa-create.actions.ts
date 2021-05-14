@@ -26,7 +26,7 @@ export class SaveTarefaSuccess implements Action
 {
     readonly type = SAVE_TAREFA_SUCCESS;
 
-    constructor()
+    constructor(public payload: any)
     {
     }
 }

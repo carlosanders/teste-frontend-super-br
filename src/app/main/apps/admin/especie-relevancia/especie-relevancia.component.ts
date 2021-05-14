@@ -12,7 +12,7 @@ import * as fromStore from '../../../../store';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'especie-relevancia',

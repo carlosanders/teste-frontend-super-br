@@ -7,7 +7,7 @@ import {CdkWidgetModule} from '@cdk/components';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {MatCardModule} from '@angular/material/card';
 import {TourModule} from "../../ajuda/tour/tour.module";
-import {AvisoService} from "../../@cdk/services/aviso.service";
+import {AvisoService} from "@cdk/services/aviso.service";
 import {
     MatButtonModule,
     MatIconModule,

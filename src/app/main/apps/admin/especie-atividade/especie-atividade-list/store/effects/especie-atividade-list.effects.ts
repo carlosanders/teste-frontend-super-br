@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as EspecieAtividadeListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {EspecieAtividadeService} from '../../../../../../../../@cdk/services/especie-atividade.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {EspecieAtividade} from '../../../../../../../../@cdk/models';
-import {especieAtividade as especieAtividadeSchema} from '../../../../../../../../@cdk/normalizr';
+import {EspecieAtividadeService} from '@cdk/services/especie-atividade.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {EspecieAtividade} from '@cdk/models';
+import {especieAtividade as especieAtividadeSchema} from '@cdk/normalizr';
 
 
 @Injectable()

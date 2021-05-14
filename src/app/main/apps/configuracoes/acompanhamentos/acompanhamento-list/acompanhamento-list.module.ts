@@ -22,7 +22,7 @@ import {AcompanhamentoListStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {CdkAcompanhamentoGridModule} from '@cdk/components/acompanhamento/cdk-acompanhamento-grid/cdk-acompanhamento-grid.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

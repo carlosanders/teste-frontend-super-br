@@ -22,7 +22,7 @@ import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Etiqueta} from '@cdk/models';
 import {ChangeSelectedProcessos} from "../arquivista-list/store";
-import {CdkUtils} from "../../../../../@cdk/utils";
+import {CdkUtils} from "@cdk/utils";
 
 @Component({
     selector: 'vinculacao-etiqueta-create',

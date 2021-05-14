@@ -17,7 +17,7 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {getCompartilhamentoListLoaded} from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store';
-import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'compartilhamento-list',

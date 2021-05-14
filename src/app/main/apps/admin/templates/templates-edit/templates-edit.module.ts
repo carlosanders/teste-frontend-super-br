@@ -17,15 +17,15 @@ import {
     MatTooltipModule
 } from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
-import {CdkSidebarModule} from '../../../../../../@cdk/components';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkSidebarModule} from '@cdk/components';
 import {MatStepperModule} from '@angular/material/stepper';
 import {RouterModule, Routes} from '@angular/router';
 import * as fromGuards from './store/guards';
-import {TemplateService} from '../../../../../../@cdk/services/template.service';
-import {CdkTemplateFormModule} from '../../../../../../@cdk/components/template/cdk-template-form/cdk-template-form.module';
+import {TemplateService} from '@cdk/services/template.service';
+import {CdkTemplateFormModule} from '@cdk/components/template/cdk-template-form/cdk-template-form.module';
 import {TemplatesEditStoreModule} from './store/store.module';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

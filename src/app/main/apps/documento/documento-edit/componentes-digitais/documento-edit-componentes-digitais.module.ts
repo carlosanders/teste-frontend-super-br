@@ -14,7 +14,7 @@ import {DocumentoEditComponentesDigitaisComponent} from './documento-edit-compon
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkComponenteDigitalGridModule} from '@cdk/components/componente-digital/cdk-componente-digital-grid/cdk-componente-digital-grid.module';
 import * as fromGuards from './store/guards';
-import {CdkComponenteDigitalFormModule} from '../../../../../../@cdk/components/componente-digital/cdk-componente-digital-form/cdk-componente-digital-form.module';
+import {CdkComponenteDigitalFormModule} from '@cdk/components/componente-digital/cdk-componente-digital-form/cdk-componente-digital-form.module';
 
 const routes: Routes = [
     {
