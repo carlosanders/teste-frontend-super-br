@@ -28,7 +28,7 @@
 
         <div class="toolbar-separator" *ngIf="selectedIds?.length && folders?.length"></div>
 
-        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length && draggingIds.length === 0">
+        <button mat-icon-button [matMenuTriggerFor]="folderMenu" *ngIf="selectedIds?.length && draggingIds.length === 0 && targetHandle !== 'lixeira' && targetHandle !== 'outros-usuarios'">
             <mat-icon class="secondary-text">folder</mat-icon>
         </button>
         <mat-menu #folderMenu="matMenu">
@@ -214,8 +214,8 @@
          cdkPerfectScrollbar
          infiniteScroll
          [scrollWindow]="false"
-         [infiniteScrollDistance]="2"
-         [infiniteScrollThrottle]="50"
+         [infiniteScrollDistance]="5"
+         [infiniteScrollThrottle]="150"
          (scrolled)="onScroll()">
 
         <div (click)="loadPage()" fxFlex="0 1 auto" fxLayoutAlign="center center" class="nova-tarefa p-8 accent" *ngIf="novaTarefa">
@@ -239,12 +239,11 @@
                  (dndCopied)="onCopied($event, tarefa)"
                  (dndStart)="onStartDrag($event, tarefa)">
                 <cdk-tarefa-list-item
-                    matRipple
                     [tarefa]="tarefa"
                     [togglingUrgente]="togglingUrgenteIds.length > 0 && togglingUrgenteIds.indexOf(tarefa.id) > -1"
                     [usuarioAtual]="usuarioAtual"
                     [displayedCampos]="displayedCampos"
-                    (click)="selectTarefa(tarefa);"
+                    (click)="selectTarefa($event, tarefa);"
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
                     [dragging]="draggingIds.length > 0 && draggingIds.indexOf(tarefa.id) > -1"
@@ -273,6 +272,9 @@
                     [loadingInteressados]="loadingInteressadosProcessosId.indexOf(tarefa.processo?.id) > -1"
                     [totalInteressados]="getTotalInteressados(tarefa.processo?.id)"
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
+                    [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
+                    (salvarObservacao)="doSalvarObservacao($event)"
+                    (etiquetaClickHandler)="doClickEtiqueta($event)"
                 >
                 </cdk-tarefa-list-item>
             </div>

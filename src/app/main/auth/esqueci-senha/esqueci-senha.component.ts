@@ -32,7 +32,7 @@ export class EsqueciSenhaComponent implements OnInit
      * @param store
      */
     constructor(
-        private cdkConfigService: CdkConfigService,
+        public cdkConfigService: CdkConfigService,
         private formBuilder: FormBuilder,
         private store: Store<fromStore.EsqueciSenhaState>
     )

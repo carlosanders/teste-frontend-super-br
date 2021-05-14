@@ -1,0 +1,10 @@
+<cdk-vinculacao-aviso-grid
+        [loading]="loading"
+        [vinculacaoAvisos]="vinculacaoAvisos"
+        [displayedColumns]="['id', 'aviso.nome', 'especieSetor.nome', 'setor.nome', 'usuario.nome', 'actions']"
+        [total]="total"
+        [actions]="['select', 'cancel']"
+        (selected)="select($event)"
+        (cancel)="doCancel()"
+        (reload)="reload($event)">
+</cdk-vinculacao-aviso-grid>

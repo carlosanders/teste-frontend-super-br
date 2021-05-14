@@ -12,6 +12,20 @@ export const TOGGLE_ENCERRAMENTO_DOCUMENTO_AVULSO = '[DOCUMENTO AVULSO EDIT] TOG
 export const TOGGLE_ENCERRAMENTO_DOCUMENTO_AVULSO_SUCCESS = '[DOCUMENTO AVULSO EDIT] TOGGLE ENCERRAMENTO DOCUMENTO AVULSO SUCCESS';
 export const TOGGLE_ENCERRAMENTO_DOCUMENTO_AVULSO_FAILED = '[DOCUMENTO AVULSO EDIT] TOGGLE ENCERRAMENTO DOCUMENTO AVULSO FAILED';
 
+export const UNLOAD_DOCUMENTO_AVULSO = '[DOCUMENTO AVULSO EDIT] UNLOAD DOCUMENTO AVULSO';
+
+/**
+ * Unload DocumentoAvulso
+ */
+export class UnloadDocumentoAvulso implements Action
+{
+    readonly type = UNLOAD_DOCUMENTO_AVULSO;
+
+    constructor()
+    {
+    }
+}
+
 /**
  * Save DocumentoAvulso
  */
@@ -129,4 +143,5 @@ export type DocumentoAvulsoEditActionsAll
     | ToggleEncerramentoDocumentoAvulsoFailed
     | RemeterDocumentoAvulso
     | RemeterDocumentoAvulsoSuccess
-    | RemeterDocumentoAvulsoFailed;
+    | RemeterDocumentoAvulsoFailed
+    | UnloadDocumentoAvulso;

@@ -2,7 +2,7 @@
     <div class="title">{{processo?.especieProcesso?.nome}} ({{processo?.especieProcesso?.generoProcesso?.nome}})</div>
 </div>
 
-<div class="content" cdkPerfectScrollbar *ngIf="(processo$ | async)">
+<div class="content" cdkPerfectScrollbar *ngIf="(processo !== null)">
     <mat-card class="card">
         <div class="linha">
             <div class="titulo">
@@ -17,7 +17,7 @@
                 Tipo:
             </div>
             <div class="valor">
-                {{ (processo.tipoProtocolo === 1) ? 'PROCESSO' : ((processo.tipoProtocolo === 2) ? 'DOCUMENTO AVULSO' : 'UA DOSSIE') }}
+                {{ (processo.unidadeArquivistica === 1) ? 'PROCESSO' : ((processo.unidadeArquivistica === 2) ? 'DOCUMENTO AVULSO' : 'UA DOSSIE') }}
             </div>
         </div>
         <div class="linha">
@@ -38,11 +38,21 @@
         </div>
         <div class="linha">
             <div class="titulo">
-                Fase Atual:
+                Idade:
             </div>
             <div class="valor">
                 {{ processo.modalidadeFase.valor }}
             </div>
+        </div>
+
+        <mat-slide-toggle *ngIf="!(togglingAcompanharProcesso$ | async)"
+            [checked]="!!processo.compartilhamentoUsuario"
+                          (change)="acompanharProcesso($event.checked, processo);">
+            Acompanhar processo
+        </mat-slide-toggle>
+
+        <div class="spinner-container m-8" *ngIf="(togglingAcompanharProcesso$ | async)">
+            <mat-spinner diameter="20"></mat-spinner>
         </div>
     </mat-card>
 

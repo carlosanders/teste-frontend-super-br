@@ -9,6 +9,8 @@ arquivista-detail {
         display: flex;
         border-bottom: 1px solid;
         max-height: 56px;
+        padding-top: 24px;
+        padding-bottom: 24px;
 
         > .actions {
             flex: 1 1 auto;
@@ -16,10 +18,15 @@ arquivista-detail {
             flex-direction: row;
             justify-content: flex-start;
             align-items: center;
+        }
 
-            cdk-vinculacao-etiqueta-chips {
-                margin-right: 8px;
-            }
+        > .navigation {
+            margin-left: auto;
+            flex: 0 1 auto;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-start;
+            align-items: center;
         }
     }
 

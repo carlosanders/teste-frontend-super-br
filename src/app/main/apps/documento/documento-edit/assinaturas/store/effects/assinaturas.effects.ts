@@ -14,6 +14,7 @@ import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class AssinaturasEffects {
@@ -134,7 +135,9 @@ export class AssinaturasEffects {
                         map((response) => new AssinaturaActions.DeleteAssinaturaSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new AssinaturaActions.DeleteAssinaturaFailed(action.payload));
+                            return of(new AssinaturaActions.DeleteAssinaturaFailed({
+                                [action.payload.assinaturaId]: CdkUtils.errorsToString(err)
+                            }));
                         })
                     );
                 })

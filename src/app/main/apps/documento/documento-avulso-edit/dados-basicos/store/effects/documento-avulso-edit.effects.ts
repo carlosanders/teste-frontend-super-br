@@ -14,8 +14,7 @@ import {Router} from '@angular/router';
 import {DocumentoAvulso} from '@cdk/models';
 import {DocumentoAvulsoService} from '@cdk/services/documento-avulso.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as DocumentoActions from '../../../../store/actions/documento.actions';
-import {UnloadDocumento} from "../../../../store/actions/documento.actions";
+import {UnloadDocumento} from "../../../../store";
 import {
     GetDocumentos as GetDocumentosProcesso,
     GetJuntadas,

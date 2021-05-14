@@ -26,6 +26,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models';
 import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
+import {expandirTela} from "./store";
 
 @Component({
     selector: 'processo-view',
@@ -67,6 +68,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     loading$: Observable<boolean>;
 
+    loadingJuntadas$: Observable<boolean>;
+    loadingJuntadas: boolean;
+
     pagination$: any;
     pagination: any;
 
@@ -83,6 +87,9 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     documentoAvulso = false;
 
     modelos = false;
+
+    zoom: number = 0;
+    expandirTela: boolean = false;
 
     @Output()
     select: EventEmitter<ComponenteDigital> = new EventEmitter();
@@ -113,6 +120,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         }
         this.binary$ = this._store.pipe(select(fromStore.getBinary));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoadingBinary));
+        this.loadingJuntadas$ = this._store.pipe(select(fromStore.getIsLoading));
 
         this.juntadas$ = this._store.pipe(select(fromStore.getJuntadas));
         this.currentStep$ = this._store.pipe(select(fromStore.getCurrentStep));
@@ -194,6 +202,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this._store
+            .pipe(select(expandirTela))
+            .subscribe(res => this.expandirTela = res);
+
+        this._store
             .pipe(
                 select(getRouterState)
             ).subscribe(routerState => {
@@ -206,6 +218,12 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 this.modelos = routerState.state.url.indexOf('/modelos') !== -1;
                 this.tarefa = !!(this.routerState.params.tarefaHandle) && this.routerState.url.indexOf('/documento/') === -1;
             }
+        });
+
+        this.loadingJuntadas$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(loading => {
+            this.loadingJuntadas = loading;
         });
 
         this.routerState$.pipe(
@@ -391,8 +409,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     onScroll(): void {
-
         if (this.juntadas.length >= this.pagination.total) {
+            return;
+        }
+        if (this.loadingJuntadas) {
             return;
         }
 
@@ -402,5 +422,34 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         };
 
         this._store.dispatch(new fromStore.GetJuntadas(nparams));
+    }
+
+    zoomIn() {
+        if (this.zoom < 10) {
+            this.zoom++;
+        }
+    }
+
+    zoomOut() {
+        if (this.zoom > 0) {
+            this.zoom--;
+        }
+    }
+
+    getZoomClass(filename) {
+        return this.isHtml(filename) ? `zoom-${this.zoom}x` : '';
+    }
+
+    getLayoutClass(filename) {
+        if (!this.isHtml(filename)) {
+            return;
+        }
+
+        return this.expandirTela ? 'expanded-panel' : 'compact-panel';
+    }
+
+    isHtml(filename) {
+        const name = filename.split('.');
+        return 'HTML' == [...name].pop();
     }
 }

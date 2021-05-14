@@ -11,48 +11,43 @@
         <button *ngIf="!mobileMode && (maximizado$ | async)" mat-icon-button (click)="doToggleMaximizado(false)">
             <mat-icon class="secondary-text">fullscreen_exit</mat-icon>
         </button>
-
-        <cdk-vinculacao-etiqueta-chips [vinculacoesEtiquetas]="(processo$ | async)?.vinculacoesEtiquetas"
-                                       (create)="onEtiquetaCreate($event)"
-                                       (edit)="onEtiquetaEdit($event)"
-                                       [savingVinculacaoEtiquetaId]="(savingVinculacaoEtiquetaId$ | async)"
-                                       [errors]="(errors$ | async)"
-                                       [pagination]="vinculacaoEtiquetaPagination"
-                                       (delete)="onEtiquetaDelete($event)"></cdk-vinculacao-etiqueta-chips>
-
     </div>
 
-    <button mat-icon-button aria-label="Processo" matTooltip="Processo"
-            [routerLink]="['processo', (processo$ | async)?.id]"
-            [routerLinkActive]="['active', 'accent']">
-        <mat-icon class="black-fg">book</mat-icon>
-    </button>
+    <div class="navigation">
+        <button mat-icon-button aria-label="Processo" matTooltip="Processo"
+                [routerLink]="['processo', (processo$ | async)?.id, 'visualizar']"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">book</mat-icon>
+        </button>
 
-    <button mat-icon-button aria-label="Lembretes" matTooltip="Lembretes"
-            [routerLink]="[(processo$ | async)?.id, 'lembretes']"
-            [routerLinkActive]="['active', 'accent']">
-        <mat-icon class="black-fg">notes</mat-icon>
-    </button>
+        <button mat-icon-button aria-label="Lembretes" matTooltip="Editar"
+                [routerLink]="[(processo$ | async)?.id, 'editar']"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">edit</mat-icon>
+        </button>
 
-    <button mat-icon-button
-            aria-label="Realizar Transição" matTooltip="Data Prevista Transição"
-            [routerLink]="[(processo$ | async)?.id, 'criar-data-prevista-transicao']"
-            [routerLinkActive]="['active', 'accent']">
-        <mat-icon class="black-fg">date_range</mat-icon>
-    </button>
+        <button mat-icon-button *ngIf="!!(modalidadeTransicao$ | async)"
+                aria-label="Realizar Temporalidade e Destinação" [matTooltip]="'Realizar ' + (modalidadeTransicao$ | async).valor | titlecase"
+                [routerLink]="[(processo$ | async)?.id, 'temporalidade-destinacao']"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">swap_horiz</mat-icon>
+        </button>
 
-    <button mat-icon-button
-            aria-label="Realizar Transição" matTooltip="Realizar Transição"
-            [routerLink]="[(processo$ | async)?.id, 'realizar-transicao', 'criar']"
-            [routerLinkActive]="['active', 'accent']">
-        <mat-icon class="black-fg">swap_horiz</mat-icon>
-    </button>
+        <button mat-icon-button *ngIf="(processo$ | async).modalidadeFase.valor === 'INTERMEDIÁRIA'"
+                aria-label="Desarquivar" matTooltip="Desarquivar"
+                [routerLink]="[(processo$ | async)?.id, 'desarquivar']"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">unarchive</mat-icon>
+        </button>
 
-    <button mat-icon-button aria-label="Classificação" matTooltip="Classificação"
-            [routerLink]="[(processo$ | async)?.id, 'classificacao']"
-            [routerLinkActive]="['active', 'accent']">
-        <mat-icon class="black-fg">format_indent_increase</mat-icon>
-    </button>
+        <button mat-icon-button
+                aria-label="Registrar Extravio" matTooltip="Registrar Extravio"
+                [routerLink]="[(processo$ | async)?.id, 'registrar-extravio']"
+                [routerLinkActive]="['active', 'accent']">
+            <mat-icon class="black-fg">error_outline</mat-icon>
+        </button>
+
+    </div>
 </div>
 
 <div class="content" cdkPerfectScrollbar>

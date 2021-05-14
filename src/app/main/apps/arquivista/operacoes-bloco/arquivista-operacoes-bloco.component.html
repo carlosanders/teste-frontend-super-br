@@ -1,0 +1,56 @@
+<div class="actions" *ngIf="processos">
+
+    <mat-icon class="s-32">schedule</mat-icon>
+    <div class="mat-title mb-16">{{processos.length}} processos selecionados</div>
+
+    <button mat-menu-item aria-label="editar"
+            (click)="doEditarBloco()">
+        <ng-container>
+            <mat-icon>edit</mat-icon>
+            <span>Editar</span>
+        </ng-container>
+    </button>
+
+    <button mat-menu-item aria-label="etiquetar"
+            (click)="doEtiquetarBloco()">
+        <ng-container>
+            <mat-icon>label</mat-icon>
+            <span>Etiquetar</span>
+        </ng-container>
+    </button>
+
+    <button mat-menu-item aria-label="registrar extravio"
+            (click)="doRegistrarExtravioBloco()">
+        <ng-container>
+            <mat-icon>swap_horiz</mat-icon>
+            <span>Registrar Extravio</span>
+        </ng-container>
+    </button>
+
+    <ng-template #dynamicComponent></ng-template>
+
+    <ng-template [ngIf]="(modalidadeTransicao$ | async)">
+        <button mat-menu-item aria-label="realizar temporalidade e destinação"
+                (click)="doTransicaoBloco()">
+            <ng-container>
+                <mat-icon>swap_horiz</mat-icon>
+                <span>Realizar {{(modalidadeTransicao$ | async).valor | titlecase}}</span>
+            </ng-container>
+        </button>
+    </ng-template>
+
+    <ng-template [ngIf]="!(modalidadeTransicao$ | async) || (modalidadeTransicao$ | async).valor !== 'TRANSFERÊNCIA'">
+        <button mat-menu-item aria-label="desarquivar"
+                (click)="doDesarquivarBloco()">
+            <ng-container>
+                <mat-icon>swap_horiz</mat-icon>
+                <span>Desarquivar</span>
+            </ng-container>
+        </button>
+    </ng-template>
+
+    <button class="mt-16" mat-raised-button aria-label="cancelar" color="warn"
+            (click)="doAbort()">
+        Cancelar
+    </button>
+</div>

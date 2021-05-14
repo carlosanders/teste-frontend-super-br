@@ -1,7 +1,7 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component,
+    Component, OnDestroy,
     OnInit,
     ViewEncapsulation
 } from '@angular/core';
@@ -22,7 +22,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class EtiquetaListComponent implements OnInit {
+export class EtiquetaListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     etiquetas$: Observable<Etiqueta[]>;
@@ -61,6 +61,10 @@ export class EtiquetaListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy() {
+        this._store.dispatch(new fromStore.UnloadEtiquetas());
     }
 
     reload(params): void {

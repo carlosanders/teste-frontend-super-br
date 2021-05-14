@@ -67,6 +67,13 @@ export function ArquivistaReducer(state = ArquivistaInitialState, action: Arquiv
             }
         }
 
+        case ArquivistaActions.RELOAD_PROCESSOS: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+
         case ArquivistaActions.GET_PROCESSOS: {
             return {
                 ...state,
@@ -90,7 +97,7 @@ export function ArquivistaReducer(state = ArquivistaInitialState, action: Arquiv
 
             return {
                 ...state,
-                entitiesId: action.payload.entitiesId,
+                entitiesId: [...state.entitiesId, ...action.payload.entitiesId],
                 pagination: {
                     ...state.pagination,
                     total: action.payload.total
@@ -105,6 +112,18 @@ export function ArquivistaReducer(state = ArquivistaInitialState, action: Arquiv
                 ...state,
                 loading: false,
                 loaded: false
+            };
+        }
+
+        case ArquivistaActions.CHANGE_PROCESSOS: {
+            const newTotal = action.payload.length;
+            return {
+                ...state,
+                entitiesId: action.payload,
+                pagination: {
+                    ...state.pagination,
+                    total: newTotal
+                }
             };
         }
 

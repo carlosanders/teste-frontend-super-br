@@ -11,6 +11,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Transicao} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {ModalidadeTransicao} from '@cdk/models';
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
     selector: 'cdk-transicao-form',
@@ -76,6 +78,22 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
      * On init
      */
     ngOnInit(): void {
+        this.form.get('modalidadeTransicao').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.form.get('edital').setValidators([Validators.maxLength(255)]);
+                        if (value.valor === 'ELIMINAÇÃO') {
+                            this.form.get('edital').setValidators([Validators.required, Validators.maxLength(255)]);
+                        }
+                        this.form.get('edital').setErrors(null);
+                        this._changeDetectorRef.markForCheck();
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     /**

@@ -5,6 +5,7 @@
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'edit', 'delete', 'showDeleted']"
+        [displayedColumns]="['select', 'id', 'especieTarefa.nome', 'setorResponsavel.nome', 'usuarioResponsavel.nome', 'dataHoraInicioPrazo', 'dataHoraFinalPrazo', 'dataHoraConclusaoPrazo', 'actions']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"

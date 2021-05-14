@@ -5,6 +5,7 @@ export interface ProcessoCapaState {
     loading: boolean;
     loadingAssuntos: boolean;
     loadingInteressados: boolean;
+    loadingAcompanhamento: boolean;
     loaded: any;
     errors: any;
 }
@@ -14,6 +15,7 @@ export const ProcessoInitialState: ProcessoCapaState = {
     loading: false,
     loadingAssuntos: false,
     loadingInteressados: false,
+    loadingAcompanhamento: false,
     loaded: false,
     errors: false
 };
@@ -37,7 +39,8 @@ export function ProcessoCapaReducer(state = ProcessoInitialState, action: Proces
                 processoId: action.payload.processoId,
                 loading: false,
                 loaded: action.payload.loaded,
-                errors: false
+                errors: false,
+                loadingAcompanhamento: false
             };
         }
 
@@ -46,6 +49,20 @@ export function ProcessoCapaReducer(state = ProcessoInitialState, action: Proces
                 ...state,
                 loading: false,
                 loaded: false
+            };
+        }
+
+        case ProcessoCapaActions.SET_TOGGLE_ACOMPANHAMENTO: {
+            return {
+                ...state,
+                loadingAcompanhamento: action.payload.loadingAcompanhamento
+            };
+        }
+
+        case ProcessoCapaActions.SET_TOGGLE_ACOMPANHAMENTO_SUCCESS: {
+            return {
+                ...state,
+                loadingAcompanhamento: action.payload.loadingAcompanhamento
             };
         }
 

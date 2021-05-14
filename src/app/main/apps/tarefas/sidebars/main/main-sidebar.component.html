@@ -2,7 +2,7 @@
 <div class="header">
     <div class="logo">
         <div class="titulo" [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">Tarefas</div>
-        <div class="modulo">{{modulo}}</div>
+        <div class="modulo">{{generoHandleAcentuado | titlecase}}</div>
     </div>
 </div>
 <!-- / SIDEBAR HEADER -->
@@ -53,7 +53,7 @@
                    [routerLinkActive]="['active', 'accent']">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
-                                  matBadge="{{tarefasPendentes['caixa_entrada_' + generoHandle]}}"
+                                  matBadge="{{tarefasPendentes['caixa_entrada_' + generoHandleAcentuado]}}"
                                   matBadgeColor="warn"
                                   matBadgeSize="small">
                             inbox
@@ -432,7 +432,7 @@
                             <div class="menu_content_label">
                                 <div>
                                     <mat-icon class="nav-link-icon">domain</mat-icon>
-                                    <span>{{setor.nome | uppercase}}</span>
+                                    <span>{{setor?.unidade?.sigla}} - {{setor.nome | uppercase}}</span>
                                 </div>
                                 <mat-icon class="place-holder">
                                     assignment_return
@@ -502,7 +502,7 @@
                         <div class="menu_content_label">
                             <div>
                                 <mat-icon class="nav-link-icon">domain</mat-icon>
-                                <span>{{setor.nome | uppercase}}</span>
+                                <span>{{setor?.unidade?.sigla}} - {{setor.nome | uppercase}}</span>
                             </div>
                             <mat-icon class="place-holder">
                                 assignment_return

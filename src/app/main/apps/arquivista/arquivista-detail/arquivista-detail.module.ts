@@ -18,13 +18,10 @@ import {ArquivistaDetailStoreModule} from './store/store.module';
 import {ProcessoService} from '../../../../../@cdk/services/processo.service';
 import {VinculacaoEtiquetaService} from '../../../../../@cdk/services/vinculacao-etiqueta.service';
 import {LoginService} from '../../../auth/login/login.service';
-import {RealizarTransicaoComponent} from '../realizar-transicao/realizar-transicao.component';
+import * as fromGuards from './store/guards';
 import {RealizarTransicaoModule} from '../realizar-transicao/realizar-transicao.module';
-import {CriarDataPrevistaTransicaoModule} from '../criar-data-prevista-transicao/criar-data-prevista-transicao.module';
-import {CriarDataPrevistaTransicaoComponent} from '../criar-data-prevista-transicao/criar-data-prevista-transicao.component';
-import {ArquivistaClassificacaoEditComponent} from '../arquivista-classificacao-edit/arquivista-classificacao-edit.component';
-import {ArquivistaClassificacaoEditModule} from '../arquivista-classificacao-edit/arquivista-classificacao-edit.module';
 import {modulesConfig} from 'modules/modules-config';
+import {ProcessoStoreModule} from "../../processo/store/store.module";
 
 const routes: Routes = [
     {
@@ -33,24 +30,27 @@ const routes: Routes = [
         children: [
             {
                 path: 'processo',
-                loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule),
+                loadChildren: () => import('app/main/apps/processo/processo.module').then(m => m.ProcessoModule)
             },
             {
-                path: ':processoHandle/realizar-transicao/criar',
-                component: RealizarTransicaoComponent
+                path: ':processoHandle/temporalidade-destinacao',
+                loadChildren: () => import('../realizar-transicao/realizar-transicao.module').then(m => m.RealizarTransicaoModule),
+                canActivate: [fromGuards.ResolveGuard]
             },
             {
-
-                path: ':processoHandle/lembretes',
-                loadChildren: () => import('../lembretes/lembretes.module').then(m => m.LembretesModule),
+                path: ':processoHandle/desarquivar',
+                loadChildren: () => import('../realizar-desarquivamento/realizar-desarquivamento.module').then(m => m.RealizarDesarquivamentoModule),
+                canActivate: [fromGuards.ResolveGuard]
             },
             {
-                path: ':processoHandle/classificacao',
-                component: ArquivistaClassificacaoEditComponent
+                path: ':processoHandle/registrar-extravio',
+                loadChildren: () => import('../registrar-extravio/registrar-extravio.module').then(m => m.RegistrarExtravioModule),
+                canActivate: [fromGuards.ResolveGuard]
             },
             {
-                path: ':processoHandle/criar-data-prevista-transicao',
-                component: CriarDataPrevistaTransicaoComponent
+                path: ':processoHandle/editar',
+                loadChildren: () => import('./arquivista-edit/arquivista-edit.module').then(m => m.ArquivistaEditModule),
+                canActivate: [fromGuards.ResolveGuard]
             },
         ],
     }
@@ -89,9 +89,8 @@ modulesConfig.forEach((module) => {
         CdkAtividadeFormModule,
         MatBadgeModule,
         ArquivistaDetailStoreModule,
+        ProcessoStoreModule,
         RealizarTransicaoModule,
-        CriarDataPrevistaTransicaoModule,
-        ArquivistaClassificacaoEditModule
     ],
     exports: [
         ArquivistaDetailComponent
@@ -100,6 +99,7 @@ modulesConfig.forEach((module) => {
         ProcessoService,
         VinculacaoEtiquetaService,
         LoginService,
+        fromGuards.ResolveGuard
     ]
 })
 export class ArquivistaDetailModule {

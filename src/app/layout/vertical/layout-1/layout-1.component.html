@@ -8,6 +8,11 @@
 
 <div id="main">
 
+    <!-- NOTIFICACOES -->
+    <ng-container>
+        <notification></notification>
+    </ng-container>
+
     <!-- TOOLBAR: Above -->
     <ng-container *ngIf="cdkConfig.layout.toolbar.position === 'above'">
         <ng-container *ngTemplateOutlet="toolbar"></ng-container>

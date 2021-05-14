@@ -4,7 +4,7 @@ import {Observable, Subject} from 'rxjs';
 
 import {CdkConfigService} from '@cdk/services/config.service';
 import {cdkAnimations} from '@cdk/animations';
-import {getRouterState} from '../../../store/reducers';
+import {getRouterState} from '../../../store';
 import {Router} from '@angular/router';
 
 import * as fromStore from './store';
@@ -35,7 +35,7 @@ export class ActivateComponent implements OnInit, OnDestroy {
      * @param _store
      */
     constructor(
-        private cdkConfigService: CdkConfigService,
+        public cdkConfigService: CdkConfigService,
         private _router: Router,
         private _store: Store<fromStore.ActivateAppState>
     ) {

@@ -1,6 +1,6 @@
 import {AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
-import {Assunto, Interessado, Processo} from '@cdk/models';
+import {ModalidadeTransicao, Processo} from '@cdk/models';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 
 @Component({
@@ -21,7 +21,7 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     processos: Processo[] = [];
 
     @Input()
-    prontoTransicao: boolean;
+    modalidadeTransicao: ModalidadeTransicao;
 
     @Input()
     currentProcessoId: number;
@@ -31,6 +31,9 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
 
     @Input()
     deletedIds: number[] = [];
+
+    @Input()
+    transicionandoIds: number[] = [];
 
     @Input()
     selectedIds: number[] = [];
@@ -57,25 +60,31 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     selected = new EventEmitter<Processo>();
 
     @Output()
-    criarLembrete = new EventEmitter<any>();
+    editar = new EventEmitter<any>();
 
     @Output()
     realizarTransicao = new EventEmitter<any>();
 
     @Output()
+    desarquivar = new EventEmitter<any>();
+
+    @Output()
+    registrarExtravio = new EventEmitter<any>();
+
+    @Output()
     realizarTransicaoBloco = new EventEmitter<any>();
 
     @Output()
-    criarLembreteBloco = new EventEmitter<any>();
+    desarquivarBloco = new EventEmitter<any>();
 
     @Output()
-    classificacaoBloco = new EventEmitter<any>();
+    registrarExtravioBloco = new EventEmitter<any>();
+
+    @Output()
+    editarBloco = new EventEmitter<any>();
 
     @Output()
     etiquetarBloco = new EventEmitter<any>();
-
-    @Output()
-    lembreteBloco = new EventEmitter<any>();
 
     @Output()
     salvarLembrete = new EventEmitter<any>();
@@ -192,20 +201,24 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
     }
 
     setListFilter(listFilter): void {
-        this.listFilter = listFilter;
+        this.listFilter = listFilter?.filters;
         this.loadPage();
-    }
-
-    doClassificacaoBloco(): void {
-        this.classificacaoBloco.emit();
     }
 
     doRealizarTransicaoBloco(): void {
         this.realizarTransicaoBloco.emit();
     }
 
-    doCriarLembreteBloco(): void {
-        this.lembreteBloco.emit();
+    doDesarquivarBloco(): void {
+        this.desarquivarBloco.emit();
+    }
+
+    doRegistrarExtravioBloco(): void {
+        this.registrarExtravioBloco.emit();
+    }
+
+    doEditarBloco(): void {
+        this.editarBloco.emit();
     }
 
     doEtiquetarBloco(): void {
@@ -220,12 +233,20 @@ export class CdkProcessoListComponent implements AfterViewInit, OnInit, OnChange
         this.salvarLembrete.emit(params);
     }
 
-    doCriarLembrete(params): void {
-        this.criarLembrete.emit(params);
+    doEditar(params): void {
+        this.editar.emit(params);
     }
 
     doRealizarTransicao(params): void {
         this.realizarTransicao.emit(params);
+    }
+
+    doDesarquivar(params): void {
+        this.desarquivar.emit(params);
+    }
+
+    doRegistrarExtravio(params): void {
+        this.registrarExtravio.emit(params);
     }
 
     setFilter(gridFilter): void {

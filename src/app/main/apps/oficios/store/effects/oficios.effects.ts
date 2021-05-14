@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
 import {Observable, of} from 'rxjs';
-import {catchError, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, concatMap, map, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as DocumentosAvulsoActions from '../actions/oficios.actions';
@@ -68,7 +68,7 @@ export class OficiosEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate));
                 }),
-                mergeMap((response) => [
+                concatMap((response) => [
                     new AddData<DocumentoAvulso>({data: response['entities'], schema: documentoAvulsoSchema}),
                     new DocumentosAvulsoActions.GetDocumentosAvulsoSuccess({
                         entitiesId: response['entities'].map(documentoAvulso => documentoAvulso.id),

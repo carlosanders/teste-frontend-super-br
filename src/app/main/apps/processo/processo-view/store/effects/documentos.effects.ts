@@ -400,7 +400,7 @@ export class ProcessoViewDocumentosEffects {
             .pipe(
                 ofType<ProcessoViewDocumentosActions.AssinaDocumentoEletronicamente>(ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
                 switchMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({plainPassword: action.payload.plainPassword})).pipe(
+                    return this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -430,7 +430,7 @@ export class ProcessoViewDocumentosEffects {
                 ofType<ProcessoViewDocumentosActions.AssinaJuntadaEletronicamente>(ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE),
                 withLatestFrom(this._store.pipe(select(getPagination))),
                 switchMap(([action, pagination]) => {
-                    return this._assinaturaService.save(action.payload.assinatura, JSON.stringify({plainPassword: action.payload.plainPassword})).pipe(
+                    return this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -462,15 +462,23 @@ export class ProcessoViewDocumentosEffects {
                 tap((action) => {
                     let primary: string;
                     primary = 'componente-digital/';
+                    let componenteDigital = null;
+
                     if (action.payload.documento.componentesDigitais[0]) {
-                        primary += action.payload.documento.componentesDigitais[0].id;
+                        componenteDigital = action.payload.documento.componentesDigitais[0]
+                        primary += componenteDigital.id;
                     } else {
                         primary += '0';
                     }
-                    if (action.payload.documento.apagadoEm) {
+
+                    if (componenteDigital && componenteDigital.editavel && !componenteDigital.assinado && !componenteDigital.apagadoEm) {
+                        primary += '/editor/ckeditor';
+                    } else {
                         primary += '/visualizar';
                     }
+
                     let sidebar = action.payload.routeOficio + '/dados-basicos';
+
                     if (!action.payload.documento.documentoAvulsoRemessa && !action.payload.documento.juntadaAtual) {
                         sidebar = 'editar/' + action.payload.routeAtividade;
                     } else if (action.payload.documento.juntadaAtual) {

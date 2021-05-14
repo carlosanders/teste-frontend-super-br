@@ -23,7 +23,7 @@ export const getEtiqueta = createSelector(
 );
 
 export const getEtiquetaError = createSelector(
-    getEtiquetaId,
+    getEtiquetaState,
     (state: EtiquetaState) => state.errors
 );
 

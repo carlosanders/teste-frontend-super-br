@@ -18,6 +18,8 @@ import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocom
 import {ModalidadeDestinacao} from '@cdk/models';
 import {CdkClassificacaoAutocompleteModule} from '../../cdk-classificacao-autocomplete/cdk-classificacao-autocomplete.module';
 import {CdkModalidadeDestinacaoAutocompleteModule} from '../../../modalidade-destinacao/cdk-modalidade-destinacao-autocomplete/cdk-modalidade-destinacao-autocomplete.module';
+import {MatMenuModule} from "@angular/material/menu";
+import {CdkDateFilterModule} from "../../../date-filter/cdk-date-filter.module";
 
 @NgModule({
     declarations: [
@@ -40,6 +42,8 @@ import {CdkModalidadeDestinacaoAutocompleteModule} from '../../../modalidade-des
         CdkUsuarioAutocompleteModule,
         CdkModalidadeDestinacaoAutocompleteModule,
         CdkClassificacaoAutocompleteModule,
+        MatMenuModule,
+        CdkDateFilterModule,
     ],
     providers: [
         ModalidadeDestinacaoService,

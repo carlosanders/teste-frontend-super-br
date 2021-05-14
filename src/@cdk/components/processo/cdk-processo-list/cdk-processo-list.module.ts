@@ -33,6 +33,7 @@ import {CdkEtiquetaAutocompleteModule} from '../../etiqueta/cdk-etiqueta-autocom
 import {CdkInteressadoAutocompleteModule} from '../../interessado/cdk-interessado-autocomplete/cdk-interessado-autocomplete.module';
 import {CdkInteressadoGridsearchModule} from '../../interessado/cdk-interessado-autocomplete/cdk-interessado-gridsearch/cdk-interessado-gridsearch.module';
 import {CdkProcessoFilterModule} from '../sidebars/cdk-processo-filter/cdk-processo-filter.module';
+import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
 
 @NgModule({
     declarations: [
@@ -77,6 +78,7 @@ import {CdkProcessoFilterModule} from '../sidebars/cdk-processo-filter/cdk-proce
         CdkInteressadoAutocompleteModule,
         CdkInteressadoGridsearchModule,
         CdkProcessoFilterModule,
+        NgxUpperCaseDirectiveModule,
     ],
     providers: [
         EspecieProcessoService,

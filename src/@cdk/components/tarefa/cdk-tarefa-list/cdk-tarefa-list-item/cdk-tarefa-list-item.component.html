@@ -66,7 +66,11 @@
             </div>
         </div>
 
-        <div [matTooltip]="'Tarefa Id ' + tarefa.id.toString()" class="body mt-4">
+        <div class="body mt-4">
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                Id {{tarefa.id}}
+            </div>
+
             <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
                 {{tarefa.especieTarefa?.nome | titleCasePipe}}
             </div>
@@ -100,14 +104,23 @@
                 </mat-icon>
             </div>
 
-            <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao">
-                <span>{{tarefa.observacao}}</span>
+            <div *ngIf="tarefa.observacao && displayedCampos.indexOf('observacao') > -1" class="observacao" (click)="$event.stopPropagation()">
+                <span *ngIf="editandoObservacao === false">{{tarefa.observacao}}</span>
+                <mat-icon *ngIf="editandoObservacao === false" class="secondary-text" matTooltip="Editar observação"
+                          (click)="$event.stopPropagation(); doEditarObservacao()">
+                    edit
+                </mat-icon>
+                <mat-form-field *ngIf="editandoObservacao === true" (click)="$event.stopPropagation()">
+                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
+                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)" upperCase>{{tarefa.observacao}}</textarea>
+                </mat-form-field>
             </div>
         </div>
 
         <div class="etiquetas" fxHide fxShow.gt-sm>
             <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
-                 fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.conteudo">
+                 fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.conteudo"
+                 (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();">
                 <div class="etiqueta-color" *ngIf="vinculacaoEtiqueta.criadoEm"
                      [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
                 <div
@@ -139,7 +152,7 @@
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button *ngIf="tarefa.apagadoEm" matTooltip="Restaurar tarefa"
+        <button *ngIf="tarefa.apagadoEm && !undeleting" matTooltip="Restaurar tarefa"
                 mat-icon-button (click)="doRestauraTarefa(); $event.stopPropagation();"
                 aria-label="Restaurar tarefa" fxHide.xs>
             <mat-icon class="secondary-text">undo</mat-icon>
@@ -179,6 +192,14 @@
                 <ng-container>
                     <mat-icon>edit</mat-icon>
                     <span>Editar Tarefa</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="editar processo"
+                    (click)="doEditProcesso()">
+                <ng-container>
+                    <mat-icon>book</mat-icon>
+                    <span>Editar Processo</span>
                 </ng-container>
             </button>
 

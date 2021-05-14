@@ -15,7 +15,9 @@ import {cdkAnimations} from '@cdk/animations';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {CdkTarefaFilterService} from './cdk-tarefa-filter.service';
-import {Subject} from "rxjs";
+import {of, Subject} from "rxjs";
+import {Pagination} from "../../../../models";
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
 
 @Component({
     selector: 'cdk-tarefa-filter',
@@ -43,6 +45,18 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
 
     limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
 
+    @Input()
+    unidadeResponsavelPagination: Pagination;
+
+    @Input()
+    unidadeOrigemPagination: Pagination;
+
+    @Input()
+    setorResponsavelPagination: Pagination;
+
+    @Input()
+    setorOrigemPagination: Pagination;
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -59,6 +73,7 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             unidadeResponsavel: [null],
             interessado: [null],
             assunto: [null],
+            unidadeOrigem: [null],
             setorOrigem: [null],
             setorResponsavel: [null],
             usuarioConclusaoPrazo: [null],
@@ -72,6 +87,43 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             atualizadoPor: [null],
             atualizadoEm: [null],
         });
+
+        this.unidadeResponsavelPagination = new Pagination();
+        this.unidadeResponsavelPagination.filter = {parent: 'isNull'};
+        this.setorResponsavelPagination = new Pagination();
+        this.setorResponsavelPagination.filter = {parent: 'isNotNull'};
+        this.unidadeOrigemPagination = new Pagination();
+        this.unidadeOrigemPagination.filter = {parent: 'isNull'};
+        this.setorOrigemPagination = new Pagination();
+        this.setorOrigemPagination.filter = {parent: 'isNotNull'};
+
+        this.form.get('unidadeResponsavel').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
+                    } else {
+                        delete this.setorResponsavelPagination.filter['unidade.id'];
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
+        this.form.get('unidadeOrigem').valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    if (value && typeof value === 'object') {
+                        this.setorOrigemPagination.filter['unidade.id'] = `eq:${value.id}`;
+                    } else {
+                        delete this.setorOrigemPagination.filter['unidade.id'];
+                    }
+                    return of([]);
+                }
+            )
+        ).subscribe();
     }
 
     ngAfterViewInit(): void {
@@ -119,12 +171,16 @@ export class CdkTarefaFilterComponent implements AfterViewInit {
             andXFilter.push({'processo.assuntos.tarefa.id': `eq:${this.form.get('assunto').value.id}`});
         }
 
+        if (this.form.get('unidadeOrigem').value) {
+            andXFilter.push({'setorOrigem.unidade.id': `eq:${this.form.get('unidadeOrigem').value.id}`});
+        }
+
         if (this.form.get('setorOrigem').value) {
             andXFilter.push({'setorOrigem.id': `eq:${this.form.get('setorOrigem').value.id}`});
         }
 
         if (this.form.get('unidadeResponsavel').value) {
-            andXFilter.push({'unidadeResponsavel.id': `eq:${this.form.get('unidadeResponsavel').value.id}`});
+            andXFilter.push({'setorResponsavel.unidade.id': `eq:${this.form.get('unidadeResponsavel').value.id}`});
         }
 
         if (this.form.get('setorResponsavel').value) {

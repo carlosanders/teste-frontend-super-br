@@ -18,7 +18,7 @@ export class MaintenanceComponent
      * @param {CdkConfigService} _cdkConfigService
      */
     constructor(
-        private _cdkConfigService: CdkConfigService
+        public _cdkConfigService: CdkConfigService
     )
     {
         // Configure the layout

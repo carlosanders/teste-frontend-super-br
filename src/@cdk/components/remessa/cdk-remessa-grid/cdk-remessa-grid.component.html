@@ -248,10 +248,11 @@
                         </button>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('edit') > -1 &&
+                                *ngIf="actions.indexOf('recebe_remessa') > -1 &&
                                 recebendoIds?.indexOf(remessa.id) === -1 &&
                                 !hasExcluded &&
-                                !remessa.dataHoraRecebimento"
+                                !remessa.dataHoraRecebimento &&
+                                remessa.mecanismoRemessa !== 'barramento'"
                                 [disabled]="deletedIds?.indexOf(remessa.id) > -1"
                                 (click)="editRecebimento(remessa.id)"
                                 aria-label="receber"
@@ -264,7 +265,10 @@
                         </div>
 
                         <button mat-icon-button
-                                *ngIf="actions.indexOf('delete') > -1 && deletingIds?.indexOf(remessa.id) === -1 && !hasExcluded && !remessa.dataHoraRecebimento"
+                                *ngIf="actions.indexOf('delete') > -1 &&
+                                deletingIds?.indexOf(remessa.id) === -1 &&
+                                !hasExcluded && !remessa.dataHoraRecebimento &&
+                                remessa.mecanismoRemessa !== 'barramento'"
                                 [disabled]="deletedIds?.indexOf(remessa.id) > -1"
                                 (click)="deleteRemessa(remessa.id)"
                                 aria-label="remover"

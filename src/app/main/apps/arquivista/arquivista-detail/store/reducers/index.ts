@@ -1,6 +1,6 @@
 import {ArquivistaDetailReducer, ArquivistaDetailState} from './arquivista-detail.reducer';
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {ProcessoReducer, ProcessoState} from '../../../../tarefas/tarefa-detail/store/reducers';
+import {ProcessoReducer, ProcessoState} from "./processo.reducer";
 
 export interface ArquivistaDetailAppState {
     arquivistaDetail: ArquivistaDetailState;

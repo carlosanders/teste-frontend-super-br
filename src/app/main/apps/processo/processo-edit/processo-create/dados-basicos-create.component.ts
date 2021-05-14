@@ -89,7 +89,8 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     assuntosLoading$: Observable<boolean>;
     assuntosPagination$: Observable<any>;
     assuntosPagination: any;
-    assuntoActivated = 'from';
+    assuntoActivated = 'form';
+    temAssuntos = false;
 
     interessados$: Observable<Interessado[]>;
     interessados: Interessado[] = [];
@@ -102,6 +103,7 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
     interessadosPagination$: Observable<any>;
     interessadosPagination: any;
     interessadoActivated = 'from';
+    temInteressados = false;
 
     juntadas$: Observable<Juntada[]>;
     juntadas: Juntada[] = [];
@@ -364,7 +366,9 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             this.processo.tipoProtocolo = 1;
             this.selectedIndex = 0;
             this.assuntoActivated = 'form';
+            this.temAssuntos = false;
             this.interessadoActivated = 'form';
+            this.temInteressados = false;
             this.vinculacaoProcessoActivated = 'form';
         }
 
@@ -400,11 +404,12 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             assuntos => {
                 this.assuntos = assuntos;
 
-                if (this.assuntos.length > 0) {
-                    this.assuntoActivated = 'grid';
+                if (assuntos.length > 0) {
+                    this.temAssuntos = true;
+                }
 
-                    this.assunto = new Assunto();
-                    this.assunto.processo = this.processo;
+                if (this.temAssuntos) {
+                    this.assuntoActivated = 'grid';
                     this.formAssunto.reset();
                 }
             }
@@ -420,7 +425,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
             interessados => {
                 this.interessados = interessados;
 
-                if (this.interessados) {
+                if (interessados.length > 0) {
+                    this.temInteressados = true;
+                }
+
+                if (this.temInteressados) {
                     this.interessadoActivated = 'grid';
                     this.formInteressado.reset();
                 }
@@ -491,6 +500,11 @@ export class DadosBasicosCreateComponent implements OnInit, OnDestroy, AfterView
         Object.entries(values).forEach(
             ([key, value]) => {
                 processo[key] = value;
+                if (key === 'NUP') {
+                    processo[key] = values['NUP']
+                        .replace(/[^\w\-]+/g, '')
+                        .replace(/-+/g, '');
+                }
             }
         );
 

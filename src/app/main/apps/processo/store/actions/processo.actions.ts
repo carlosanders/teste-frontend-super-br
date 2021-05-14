@@ -31,6 +31,28 @@ export const SET_STEPS = '[PROCESSO] SET STEPS';
 
 export const EXPANDIR_PROCESSO = '[PROCESSO VIEW] EXPANDIR PROCESSO';
 
+
+export const GET_ACOMPANHAMENTO = '[PROCESSO] GET ACOMPANHAMENTO';
+export const GET_ACOMPANHAMENTO_SUCCESS = '[PROCESSO] GET ACOMPANHAMENTO SUCCESS';
+export const GET_ACOMPANHAMENTO_FAILED = '[PROCESSO] GET ACOMPANHAMENTO FAILED';
+
+export const UNLOAD_ACOMPANHAMENTO = '[PROCESSO] UNLOAD ACOMPANHAMENTO';
+
+export const SAVE_ACOMPANHAMENTO = '[PROCESSO] SAVE ACOMPANHAMENTO PROCESSO';
+export const SAVE_ACOMPANHAMENTO_FAILED = '[PROCESSO] SAVE ACOMPANHAMENTO PROCESSO FAILED';
+export const SAVE_ACOMPANHAMENTO_SUCCESS = '[PROCESSO] SAVE ACOMPANHAMENTO PROCESSO SUCCESS';
+
+export const CREATE_ACOMPANHAMENTO = '[PROCESSO] CREATE ACOMPANHAMENTO PROCESSO SUCCESS';
+export const CREATE_ACOMPANHAMENTO_SUCCESS = '[PROCESSO] CREATE ACOMPANHAMENTO PROCESSO SUCCESS';
+
+export const DELETE_ACOMPANHAMENTO = '[PROCESSO] DELETE ACOMPANHAMENTO PROCESSO';
+export const DELETE_ACOMPANHAMENTO_SUCCESS = '[PROCESSO] DELETE ACOMPANHAMENTO PROCESSO SUCCESS';
+export const DELETE_ACOMPANHAMENTO_FAILED = '[PROCESSO] DELETE ACOMPANHAMENTO PROCESSO FAILED';
+
+export const SET_TOGGLE_ACOMPANHAMENTO = '[PROCESSO] SET TOGGLE ACOMPANHAMENTO PROCESSO';
+export const SET_TOGGLE_ACOMPANHAMENTO_SUCCESS = '[PROCESSO] SET TOGGLE ACOMPANHAMENTO PROCESSO SUCCESS';
+
+
 /**
  * Expandir Processo
  */
@@ -294,6 +316,159 @@ export class ArquivarProcessoFailed implements Action
     }
 }
 
+/**
+ * Get Acompanhamento Processo
+ */
+export class GetAcompanhamento implements Action {
+    readonly type = GET_ACOMPANHAMENTO;
+
+    constructor(public payload: any) {
+
+    }
+}
+
+/**
+ * Get Acompanhamento Processo
+ */
+export class GetAcompanhamentoSuccess implements Action {
+    readonly type = GET_ACOMPANHAMENTO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Get Acompanhamento Processo
+ */
+export class GetAcompanhamentoFailed implements Action {
+    readonly type = GET_ACOMPANHAMENTO_FAILED;
+
+    constructor(public payload: any) {
+    }
+}
+
+/**
+ * Unload Acompanhamento
+ */
+export class UnloadAcompanhamento implements Action
+{
+    readonly type = UNLOAD_ACOMPANHAMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Acompanhamento
+ */
+export class SaveAcompanhamento implements Action
+{
+    readonly type = SAVE_ACOMPANHAMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Acompanhamento Success
+ */
+export class SaveAcompanhamentoSuccess implements Action
+{
+    readonly type = SAVE_ACOMPANHAMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Save Acompanhamento Failed
+ */
+export class SaveAcompanhamentoFailed implements Action
+{
+    readonly type = SAVE_ACOMPANHAMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+
+/**
+ * Create Acompanhamento
+ */
+export class CreateAcompanhamento implements Action
+{
+    readonly type = CREATE_ACOMPANHAMENTO;
+
+    constructor()
+    {
+    }
+}
+
+/**
+ * Create Acompanhamento Success
+ */
+export class CreateAcompanhamentoSuccess implements Action {
+    readonly type = CREATE_ACOMPANHAMENTO_SUCCESS;
+
+    constructor(public payload: any) {
+    }
+}
+
+
+/**
+ * Delete Acompanhamento
+ */
+export class DeleteAcompanhamento implements Action
+{
+    readonly type = DELETE_ACOMPANHAMENTO;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Acompanhamento Success
+ */
+export class DeleteAcompanhamentoSuccess implements Action
+{
+    readonly type = DELETE_ACOMPANHAMENTO_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Delete Acompanhamento Failed
+ */
+export class DeleteAcompanhamentoFailed implements Action
+{
+    readonly type = DELETE_ACOMPANHAMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+export class SetToggleAcompanhamento implements Action {
+    readonly type = SET_TOGGLE_ACOMPANHAMENTO
+
+    constructor(public payload: any) {
+    }
+}
+
+export class SetToggleAcompanhamentoSuccess implements Action {
+    readonly type = SET_TOGGLE_ACOMPANHAMENTO_SUCCESS
+
+    constructor(public payload: any) {
+    }
+}
+
 export type ProcessoActionsAll
     = CreateProcesso
     | UnloadProcesso
@@ -308,7 +483,7 @@ export type ProcessoActionsAll
     | CreateVinculacaoEtiquetaFailed
     | SaveConteudoVinculacaoEtiqueta
     | SaveConteudoVinculacaoEtiquetaSuccess
-    | SaveConteudoVinculacaoEtiquetaFailed     
+    | SaveConteudoVinculacaoEtiquetaFailed
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed
@@ -316,4 +491,18 @@ export type ProcessoActionsAll
     | ArquivarProcesso
     | ArquivarProcessoSuccess
     | ArquivarProcessoFailed
-    | ExpandirProcesso;
+    | ExpandirProcesso
+    | GetAcompanhamento
+    | GetAcompanhamentoSuccess
+    | GetAcompanhamentoFailed
+    | UnloadAcompanhamento
+    | CreateAcompanhamento
+    | CreateAcompanhamentoSuccess
+    | SaveAcompanhamento
+    | SaveAcompanhamentoSuccess
+    | SaveAcompanhamentoFailed
+    | DeleteAcompanhamento
+    | DeleteAcompanhamentoSuccess
+    | DeleteAcompanhamentoFailed
+    | SetToggleAcompanhamento
+    | SetToggleAcompanhamentoSuccess;

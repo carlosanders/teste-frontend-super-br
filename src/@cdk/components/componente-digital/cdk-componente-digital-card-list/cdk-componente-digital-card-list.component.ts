@@ -17,8 +17,7 @@ import {Processo} from '@cdk/models';
 import {Tarefa} from '@cdk/models';
 import {Documento} from '@cdk/models';
 import {DocumentoAvulso} from '@cdk/models';
-import {ObjectAssignBuiltinFn} from '@angular/compiler-cli/src/ngtsc/partial_evaluator/src/builtin';
-import {CdkDragDrop, CdkDragEnter, moveItemInArray} from "@angular/cdk/drag-drop";
+import {CdkDragEnter, moveItemInArray} from "@angular/cdk/drag-drop";
 
 @Component({
     selector: 'cdk-componente-digital-card-list',
@@ -203,7 +202,7 @@ export class CdkComponenteDigitalCardListComponent {
             }
             fileUpload.value = '';
 
-            if (this.uploadMode !== 'linear' || this.files.length === 1) {
+            if (this.uploadMode !== 'linear') {
                 this.start();
             }
         };
@@ -217,15 +216,14 @@ export class CdkComponenteDigitalCardListComponent {
                 this.uploadFile(file);
             });
         } else {
-            this.files = this.files.reverse();
             this.uploadNext();
         }
     }
 
     uploadNext(): void {
         this.pending = this.files.filter((file) => (!file.canRetry && !file.retrying));
-        if (this.files.length) {
-            this.currentFile = this.files.pop();
+        if (this.files.length > 0) {
+            this.currentFile = this.files.shift();
             this.uploadFile(this.currentFile);
         } else {
             this.currentFile = null;

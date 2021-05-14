@@ -11,7 +11,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
-import {getCounterState} from 'app/store';
+import {ButtonTodasNotificacoesLidas, getCounterState} from 'app/store';
 import {Logout} from '../../../main/auth/login/store';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
@@ -60,7 +60,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      * @param _router
      */
     constructor(
-        private _cdkConfigService: CdkConfigService,
+        public _cdkConfigService: CdkConfigService,
         public _cdkSidebarService: CdkSidebarService,
         private _translateService: TranslateService,
         public _loginService: LoginService,
@@ -279,5 +279,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     toggleLida(notificacao: Notificacao): void {
         this._store.dispatch(new fromStore.ToggleLidaNotificacao(notificacao));
+    }
+
+    marcarTodasComoLida() {
+        this._store.dispatch(new ButtonTodasNotificacoesLidas());
     }
 }

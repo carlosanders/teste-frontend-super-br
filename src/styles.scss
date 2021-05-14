@@ -5,13 +5,38 @@
 @import "app/app.theme";
 
 content {
-  &.full-screen {
-    z-index: 1001 !important;
-  }
+    &.full-screen {
+        z-index: 1001 !important;
+
+        .ps > .ps__rail-y {
+            z-index: 0;
+        }
+    }
 }
 
 mwlResizable {
-  box-sizing: border-box; // required for the enableGhostResize option to work
+    box-sizing: border-box; // required for the enableGhostResize option to work
+}
+
+mat-option.mat-option-text {
+    > span {
+        white-space: normal;
+    }
+}
+
+mat-option.mat-option {
+    height: unset;
+    line-height: 24px;
+}
+
+.mat-option-text.mat-option-text {
+    white-space: normal;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.mat-tooltip-trigger {
+    touch-action: auto !important;
 }
 
 .mat-expansion-panel-body {
@@ -32,22 +57,22 @@ mwlResizable {
 }
 
 .mat-datetimepicker-calendar-body-selected {
-  background-color: #039BE5;
+    background-color: #039BE5;
 }
 
 .mat-datetimepicker-calendar {
-  width: 350px !important;
-  height: 355px !important;
+    width: 350px !important;
+    height: 355px !important;
 }
 
-.mat-datetimepicker-calendar-header{
-  width: 0 !important;
-  min-width: 0 !important;
-  padding: 0 !important;
+.mat-datetimepicker-calendar-header {
+    width: 0 !important;
+    min-width: 0 !important;
+    padding: 0 !important;
 }
 
 .mat-datetimepicker-calendar-content {
-  width: 100% !important;
+    width: 100% !important;
 }
 
 .mat-menu-panel {
@@ -57,13 +82,13 @@ mwlResizable {
 mat-cell, .mat-cell,
 mat-footer-cell, .mat-footer-cell,
 mat-header-cell, .mat-header-cell {
-  padding: 0.75rem !important;
+    padding: 0.75rem !important;
 }
 
 div.menuNotificacao {
-    max-width:880px !important;
+    max-width: 880px !important;
     padding-bottom: 0 !important;
-    padding-top:  0 !important;
+    padding-top: 0 !important;
     top: 64px !important;
 }
 

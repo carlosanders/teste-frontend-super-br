@@ -1,7 +1,7 @@
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 import {Router} from '@angular/router';
-import {catchError, mergeMap, switchMap, tap} from 'rxjs/operators';
+import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
@@ -10,7 +10,7 @@ import {Processo, Transicao} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {TransicaoService} from '@cdk/services/transicao.service';
-import {AddData, RemoveData} from '@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {transicao as transicaoSchema} from '@cdk/normalizr';
 import {processo as processoSchema} from '@cdk/normalizr';
 
@@ -18,10 +18,12 @@ import {getRouterState, State} from '../../../../../../store';
 import * as RealizarTransicaoActions from '../actions/realizar-transicao.actions';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../store';
+import {ChangeProcessos, getProcessosIds, ReloadProcessos} from "../../../arquivista-list/store";
 
 @Injectable()
 export class RealizarTransicaoEffects {
 
+    routerState: any;
 
     constructor(
         private _actions: Actions,
@@ -30,9 +32,7 @@ export class RealizarTransicaoEffects {
         private _store: Store<State>,
         private _loginService: LoginService,
         private _router: Router
-
     ) {
-        this.setorAtual = this._loginService.getUserProfile().colaborador.lotacoes[0].setor.id;
         this._store
             .pipe(select(getRouterState))
             .subscribe(routerState => {
@@ -41,9 +41,6 @@ export class RealizarTransicaoEffects {
                 }
             });
     }
-    routerState: any;
-    private currentDate: any;
-    setorAtual: number;
 
     /**
      * Save RealizarTransicao
@@ -57,8 +54,8 @@ export class RealizarTransicaoEffects {
                 switchMap((action) => {
                     return this._transicaoService.save(action.payload).pipe(
                         mergeMap((response: Transicao) => [
-                            new RealizarTransicaoActions.SaveRealizarTransicaoSuccess(),
-                            new AddData<Transicao>({data: [response], schema: transicaoSchema})
+                            new AddData<Transicao>({data: [response], schema: transicaoSchema}),
+                            new RealizarTransicaoActions.SaveRealizarTransicaoSuccess(action.payload)
                         ])
                     );
                 }),
@@ -77,49 +74,71 @@ export class RealizarTransicaoEffects {
         this._actions
             .pipe(
                 ofType<RealizarTransicaoActions.SaveRealizarTransicaoSuccess>(RealizarTransicaoActions.SAVE_REALIZAR_TRANSICAO_SUCCESS),
-                tap(() => {
-                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
-                    + this.routerState.params.typeHandle + '/detalhe/processo/' + this.routerState.params.processoHandle + '/visualizar']).then();
+                tap((action) => {
+                    this._store.dispatch(new fromStore.GetProcesso(action.payload.processo));
                 })
             );
 
     /**
-     * Get Processos with router parameters
+     * Get Processo with router parameters
      * @type {Observable<any>}
      */
     @Effect()
-    getProcessos: Observable<any> =
+    getProcesso: Observable<any> =
         this._actions
             .pipe(
-                ofType<RealizarTransicaoActions.GetProcessos>(RealizarTransicaoActions.GET_PROCESSOS),
+                ofType<RealizarTransicaoActions.GetProcesso>(RealizarTransicaoActions.GET_PROCESSO),
                 switchMap((action) => {
-                    return this._processoService.query(
-                        JSON.stringify({
-                            ...action.payload.filter,
-                            ...action.payload.listFilter,
-                            ...action.payload.etiquetaFilter
-                        }),
-                        action.payload.limit,
-                        action.payload.offset,
-                        JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
+                    const populate = JSON.stringify([
+                        'classificacao',
+                        'modalidadeFase',
+                        'classificacao.modalidadeDestinacao'
+                    ]);
+                    return this._processoService.get(action.payload.id, populate);
                 }),
                 mergeMap((response) => [
-                    new AddData<Processo>({data: response['entities'], schema: processoSchema}),
-                    new RealizarTransicaoActions.GetProcessosSuccess({
-                        entitiesId: response['entities'].map(processo => processo.id),
-                        loaded: {
-                            id: 'unidadeHandle_typeHandle',
-                            value: this.routerState.params.unidadeHandle + '_' +
-                                this.routerState.params.typeHandle
-                        },
-                        total: response['total']
-                    })
+                    new RealizarTransicaoActions.GetProcessoSuccess(response)
                 ]),
                 catchError((err, caught) => {
                     console.log(err);
-                    this._store.dispatch(new RealizarTransicaoActions.GetProcessosFailed(err));
+                    this._store.dispatch(new RealizarTransicaoActions.GetProcessoFailed(err));
                     return caught;
+                })
+            );
+
+    /**
+     * Get Processo Success
+     */
+    @Effect({dispatch: false})
+    getProcessoSuccess: any =
+        this._actions
+            .pipe(
+                ofType<RealizarTransicaoActions.GetProcessoSuccess>(RealizarTransicaoActions.GET_PROCESSO_SUCCESS),
+                withLatestFrom(this._store.pipe(select(getProcessosIds))),
+                tap(([action, entitiesId]) => {
+                    const currentDate = moment();
+                    let typeHandle = this.routerState.params['typeHandle'];
+                    if (!action.payload.dataHoraProximaTransicao) {
+                        typeHandle = 'pendencia-analise';
+                    } else if (action.payload.dataHoraProximaTransicao > currentDate) {
+                        typeHandle = 'aguardando-decurso';
+                    } else if (action.payload.dataHoraProximaTransicao <= currentDate) {
+                        if (action.payload.modalidadeFase.valor === 'CORRENTE') {
+                            typeHandle = 'pronto-transferencia';
+                        }
+                        if (action.payload.modalidadeFase.valor === 'INTERMEDIÁRIA' && action.payload.classificacao.modalidadeDestinacao.valor === 'ELIMINAÇÃO') {
+                            typeHandle = 'pronto-eliminação';
+                        }
+                        if (action.payload.modalidadeFase.valor === 'INTERMEDIÁRIA' && action.payload.classificacao.modalidadeDestinacao.valor === 'RECOLHIMENTO') {
+                            typeHandle = 'pronto-recolhimento';
+                        }
+                    }
+                    if (typeHandle !== this.routerState.params['typeHandle']) {
+                        const newEntitiesId = entitiesId.filter(id => id !== action.payload.id);
+                        this._store.dispatch(new ChangeProcessos(newEntitiesId));
+                    }
+                    this._router.navigate(['apps/arquivista/' + this.routerState.params.unidadeHandle + '/'
+                    + this.routerState.params['typeHandle']]).then();
                 })
             );
 }

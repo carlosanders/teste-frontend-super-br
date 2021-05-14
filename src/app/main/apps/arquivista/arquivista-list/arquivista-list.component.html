@@ -5,33 +5,35 @@
      cdkPerfectScrollbar
      infiniteScroll
      [scrollWindow]="false"
-     [infiniteScrollDistance]="2"
-     [infiniteScrollThrottle]="50"
+     [infiniteScrollDistance]="5"
+     [infiniteScrollThrottle]="150"
      (scrolled)="onScroll()"
      [ngClass]="{
                         'mobile-mode': mobileMode,
                         'current-processo': currentProcessoId,
                         'no-current-processo': !currentProcessoId,
                         'maximizado': (maximizado$ | async)
-                     }">
+                 }">
     <cdk-processo-list (scrolled)="onScroll()"
                        [loading]="(loading$ | async)"
                        [processos]="processos"
-                       [prontoTransicao]="prontoTransicao"
                        [currentProcessoId]="currentProcessoId"
                        (salvarLembrete)="salvarLembrete($event)"
-                       (criarLembrete)="criarLembrete($event)"
+                       (editar)="editar($event)"
                        (realizarTransicao)="realizarTransicao($event)"
+                       (desarquivar)="desarquivar($event)"
+                       (registrarExtravio)="registrarExtravio($event)"
                        [pagination]="pagination"
                        [selectedIds]="(selectedIds$ | async)"
                        (changeSelectedIds)="changeSelectedIds($event)"
                        (reload)="reload($event)"
                        (etiquetarBloco)="doEtiquetarBloco()"
-                       (lembreteBloco)="doLembreteBloco()"
-                       (classificacaoBloco)="doClassificacaoBloco()"
+                       (editarBloco)="doEditarBloco()"
                        (realizarTransicaoBloco)="doTransicaoArquivistaBloco()"
-                       [deletingIds]="(deletingIds$ | async)"
-                       [deletedIds]="(deletedIds$ | async)"
+                       (desarquivarBloco)="doDesarquivarBloco()"
+                       (registrarExtravioBloco)="doRegistrarExtravioBloco()"
+                       [transicionandoIds]="(transicaoIds$ | async)"
+                       [modalidadeTransicao]="modalidadeTransicao$ | async"
                        (selected)="setCurrentProcesso($event)">
     </cdk-processo-list>
 </div>

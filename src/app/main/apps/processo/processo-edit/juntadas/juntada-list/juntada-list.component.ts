@@ -84,13 +84,15 @@ export class JuntadaListComponent implements OnInit {
 
         this.juntadas$.subscribe(juntadas => {
             this.juntadasIds = [];
-            let tmp = juntadas.filter((juntada) => {
-                return juntada.ativo;
-            });
+            if (juntadas) {
+                let tmp = juntadas?.filter((juntada) => {
+                    return juntada.ativo;
+                });
 
-            tmp.forEach((juntada) => {
-                this.juntadasIds.push(juntada.id);
-            });
+                tmp.forEach((juntada) => {
+                    this.juntadasIds.push(juntada.id);
+                });
+            }
         });
     }
 
@@ -155,10 +157,10 @@ export class JuntadaListComponent implements OnInit {
                 assinatura.cadeiaCertificadoPEM = 'A1';
                 assinatura.cadeiaCertificadoPkiPath = 'A1';
                 assinatura.assinatura = 'A1';
+                assinatura.plainPassword = result.plainPassword;
 
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                    assinatura: assinatura,
-                    plainPassword: result.plainPassword
+                    assinatura: assinatura
                 }));
             });
         }

@@ -1,0 +1,17 @@
+<div class="header">
+    <path icone="supervisor_account"
+          [caminhoAbsoluto]="routerState.url"
+          inicioCaminho="avisos">
+    </path>
+</div>
+<div class="content" cdkPerfectScrollbar>
+    <cdk-aviso-form
+        [aviso]="(aviso)"
+        [form]="formAviso"
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [orgaoCentralPagination]="orgaoCentralPagination"
+        (save)="submitAviso($event)"
+        (abort)="doAbort()">
+    </cdk-aviso-form>
+</div>

@@ -201,7 +201,7 @@
                     Minutas da Tarefa
                 </mat-panel-title>
             </mat-expansion-panel-header>
-            <div class="minutas"
+            <div class="minutas" cdkPerfectScrollbar
                  *ngIf="(!(minutasLoading$ | async) && !(minutasSaving$ | async) && !(loadingDocumentosExcluidos$ | async)) && tarefa">
 
                 <cdk-componente-digital-card-list #ckdUpload
@@ -304,6 +304,13 @@
                                     *ngIf="minuta.assinado && !minuta.apagadoEm">
                                 <mat-icon color="accent">lock_open</mat-icon>
                                 <span>Remover Assinatura</span>
+                            </button>
+                            <button fxLayout="row" fxLayoutAlign="start center"
+                                    *ngIf="!minuta.apagadoEm && _loginService.isGranted('ROLE_COLABORADOR')"
+                                    (click)="doAbreMinutaOutraAba(minuta)"
+                                    mat-menu-item>
+                                <mat-icon color="accent">open_in_new</mat-icon>
+                                <span>Abrir em outra aba</span>
                             </button>
                             <button fxLayout="row" fxLayoutAlign="start center"
                                     *ngIf="!minuta.apagadoEm && minuta?.componentesDigitais[0]?.extensao === 'html'"
@@ -534,8 +541,8 @@
 
     <div class="juntadas" cdkPerfectScrollbar infiniteScroll
          [scrollWindow]="false"
-         [infiniteScrollDistance]="2"
-         [infiniteScrollThrottle]="50"
+         [infiniteScrollDistance]="5"
+         [infiniteScrollThrottle]="150"
          (scrolled)="onScroll()">
 
         <div class="juntada capa" matRipple *ngIf="!(isLoading$ | async) && capaProcesso"
@@ -561,7 +568,7 @@
              *ngFor="let juntada of (juntadas); let i = index; let last = last; let first = first;">
             <div class="juntada" matRipple
                  (click)="gotoStep(i, juntada.ativo)"
-                 [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': currentStep.step > i, 'last': last, 'first': first}">
+                 [ngClass]="{'current': !capa && (currentStep.step === i), 'completed': !capa && currentStep.step > i, 'last': last, 'first': first}">
                 <div class="index">
                     <span>{{juntada.numeracaoSequencial}}</span>
                 </div>
@@ -641,7 +648,7 @@
                         </div>
                     </div>
                 </div>
-                <mat-icon *ngIf="juntada.documento.assinado" class="ml-8 mr-8">lock</mat-icon>
+                <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="ml-8 mr-8">lock</mat-icon>
                 <div class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu"
                             *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1"
@@ -672,6 +679,14 @@
                             <ng-container>
                                 <mat-icon>lock</mat-icon>
                                 <span>Assinar</span>
+                            </ng-container>
+                        </button>
+
+                        <button mat-menu-item aria-label="abrir em outra aba"
+                                (click)="doJuntadaOutraAba(juntada.documento)">
+                            <ng-container>
+                                <mat-icon>open_in_new</mat-icon>
+                                <span>Abrir em outra aba</span>
                             </ng-container>
                         </button>
 

@@ -477,7 +477,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletado(a)'
+                text: 'Deletando'
             }
         });
 
@@ -509,10 +509,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                 assinatura.cadeiaCertificadoPEM = 'A1';
                 assinatura.cadeiaCertificadoPkiPath = 'A1';
                 assinatura.assinatura = 'A1';
+                assinatura.plainPassword = result.plainPassword;
 
                 this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                    assinatura: assinatura,
-                    plainPassword: result.plainPassword
+                    assinatura: assinatura
                 }));
             });
         }

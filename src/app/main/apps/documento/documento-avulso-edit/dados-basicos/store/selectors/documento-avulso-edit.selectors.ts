@@ -25,3 +25,8 @@ export const getErrors = createSelector(
     getDocumentoAvulsoEditState,
     (state: DocumentoAvulsoEditDadosBasicosState) => state.errors
 );
+
+export const getErrorsRemetendo = createSelector(
+    getDocumentoAvulsoEditState,
+    (state: DocumentoAvulsoEditDadosBasicosState) => state.errorsRemetendo
+);

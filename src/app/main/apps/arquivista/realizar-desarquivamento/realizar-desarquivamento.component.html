@@ -1,0 +1,14 @@
+<!-- CONTENT -->
+<div class="content" cdkPerfectScrollbar>
+    <h2>Desarquivar processo</h2>
+
+    <cdk-realizar-transicao-form
+        [saving]="(isSaving$ | async)"
+        [errors]="(errors$ | async)"
+        [processo]="(processo$ | async)"
+        [modalidadeTransicao]="modalidadeTransicao$ | async"
+        (save)="submit($event)"
+        (abort)="cancel()"
+    >
+    </cdk-realizar-transicao-form>
+</div>

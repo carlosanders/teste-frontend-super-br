@@ -11,7 +11,7 @@
     <div class="center">
 
         <!-- CONTENT HEADER -->
-        <div class="header" fxHide.lt-md *ngIf="!(maximizado$ | async)">
+        <div class="header" *ngIf="!(maximizado$ | async)">
 
             <div class="search-wrapper">
 
@@ -85,6 +85,7 @@
                                      (createTarefa)="doCreateTarefa($event)"
                                      (movimentar)="doMovimentar($event)"
                                      (editTarefa)="doEditTarefa($event)"
+                                     (editProcesso)="doEditProcesso($event)"
                                      (removeTarefa)="doRemoveTarefa($event)"
                                      (redistribuirTarefa)="doRedistribuirTarefa($event)"
                                      (cienciaTarefa)="doCienciaTarefa($event)"
@@ -104,13 +105,15 @@
                                      (setDraggedTarefasIds)="changeDraggedIds($event)"
                                      (loadAssuntos)="doLoadAssuntos($event)"
                                      (loadInteressados)="doLoadInteressados($event)"
+                                     (salvarObservacao)="doSalvarObservacao($event)"
                                      [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)"
                                      [loadingInteressadosProcessosId]="(loadingInteressadosProcessosId$ | async)"
                                      [totalInteressadosProcessosId]="(totalInteressadosProcessosId$ | async)"
                                      [targetHandle]="targetHandle"
                                      [cienciaIds]="(cienciaIds$ | async)"
                                      [mobileMode]="mobileMode"
-                                     (criaRelatorio)="criarRelatorio()">
+                                     (criaRelatorio)="criarRelatorio()"
+                                     (etiquetaClickHandler)="doEditarDocumentoEtiqueta($event)">
                     </cdk-tarefa-list>
                 </div>
 
