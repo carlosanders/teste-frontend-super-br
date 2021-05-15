@@ -21,7 +21,7 @@ import {
 } from '@cdk/normalizr';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {GetDocumentos} from '../../atividades/atividade-create/store/actions';
+import {GetDocumentos} from '../../atividades/atividade-create/store';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {getBufferingCiencia, getBufferingRedistribuir, getCienciaId, getRedistribuindoId} from '../selectors';
 import {
@@ -73,6 +73,11 @@ export class TarefaDetailEffect {
                             'processo.especieProcesso.generoProcesso',
                             'processo.modalidadeMeio',
                             'processo.documentoAvulsoOrigem',
+                            'processo.especieProcesso.generoProcesso',
+                            'processo.especieProcesso.workflow',
+                            'processo.especieProcesso.workflow.especieTarefaInicial',
+                            'processo.tarefaAtualWorkflow',
+                            'processo.tarefaAtualWorkflow.especieTarefa',
                             'setorResponsavel.unidade',
                             'setorOrigem.unidade',
                             'especieTarefa.generoTarefa',

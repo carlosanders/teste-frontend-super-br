@@ -25,6 +25,7 @@ import {GetDocumentos as GetDocumentosAtividade} from "../../../../../tarefas/ta
 import {GetDocumentos as GetDocumentosAvulsos} from "../../../../../tarefas/tarefa-detail/oficios/store";
 import * as ProcessoViewActions from "../../../../../processo/processo-view/store/actions/processo-view.actions";
 import {UnloadComponenteDigital} from "../../../../componente-digital/store";
+import {GetTarefa} from "../../../../../tarefas/tarefa-detail/store";
 
 @Injectable()
 export class DocumentoAvulsoEditEffects {
@@ -99,7 +100,10 @@ export class DocumentoAvulsoEditEffects {
                                     usuarioRemessa: response.usuarioRemessa
                                 }
                             }),
-                            new DocumentoAvulsoEditActions.RemeterDocumentoAvulsoSuccess()
+                            new DocumentoAvulsoEditActions.RemeterDocumentoAvulsoSuccess(),
+                            new GetTarefa({
+                                id: this.routerState.params['tarefaHandle']
+                            })
                         ])
                     );
                 }),

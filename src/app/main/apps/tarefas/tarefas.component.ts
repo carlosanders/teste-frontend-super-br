@@ -496,10 +496,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         tarefas.forEach((tarefa: Tarefa) => this.doCienciaTarefa(tarefa.id, this.lote));
     }
 
-    doRestauraTarefa(tarefa: Tarefa): void {
+    doRestauraTarefa(tarefa: Tarefa, folder: Folder = null): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.UndeleteTarefa({
             tarefa: tarefa,
+            folder: folder,
             operacaoId: operacaoId,
             loaded: this.loaded,
             redo: null,
@@ -539,7 +540,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedTarefas.forEach((tarefa) => {
 
             if (this.targetHandle === 'lixeira') {
-                this.doRestauraTarefa(tarefa);
+                this.doRestauraTarefa(tarefa, folder);
+                return;
             }
 
             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: tarefa, folder: folder}));

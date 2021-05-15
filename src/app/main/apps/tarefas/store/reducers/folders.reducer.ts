@@ -75,7 +75,6 @@ export function FoldersReducer(state = FoldersInitialState, action: FoldersActio
         case FoldersActions.SAVE_FOLDER_FAILED: {
             return {
                 ...state,
-                saving: false,
                 errors: action.payload,
                 loaded: false,
                 loading: false

@@ -117,7 +117,8 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
         });
 
         this.processo$.pipe(
-            takeUntil(this._unsubscribeAll)
+            takeUntil(this._unsubscribeAll),
+            filter((processo) => !!processo)
         ).subscribe(p => {
             this.processo = p;
         });
@@ -196,6 +197,7 @@ export class TarefaCreateComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+        this.operacoes = [];
 
         this._store.dispatch(new fromStore.UnloadProcesso());
 

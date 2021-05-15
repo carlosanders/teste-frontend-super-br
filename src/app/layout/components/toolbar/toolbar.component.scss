@@ -80,3 +80,14 @@ toolbar {
         margin-right: 15px;
     }
 }
+
+.notification-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex: auto;
+
+    button {
+        margin-right: 15px;
+    }
+}
