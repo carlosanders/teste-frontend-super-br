@@ -82,6 +82,12 @@ export function ModalidadeOrgaoCentralListReducer(
             };
         }
 
+        case ModalidadeOrgaoCentralListActions.UNLOAD_MODALIDADE_ORGAO_CENTRAL: {
+            return {
+                ...ModalidadeOrgaoCentralListInitialState
+            };
+        }
+
         case ModalidadeOrgaoCentralListActions.RELOAD_MODALIDADE_ORGAO_CENTRAL: {
             return {
                 ...state,

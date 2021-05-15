@@ -78,6 +78,12 @@ export function AssuntoAdministrativoListReducer(
             };
         }
 
+        case AssuntoAdministrativoListActions.UNLOAD_ASSUNTO_ADMINISTRATIVO: {
+            return {
+                ...AssuntoAdministrativoListInitialState
+            };
+        }
+
         case AssuntoAdministrativoListActions.RELOAD_ASSUNTO_ADMINISTRATIVO: {
             return {
                 ...state,

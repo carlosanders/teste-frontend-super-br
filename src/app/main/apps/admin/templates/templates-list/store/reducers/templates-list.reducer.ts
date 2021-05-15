@@ -71,6 +71,12 @@ export function TemplatesListReducer(
             };
         }
 
+        case TemplatesListActions.UNLOAD_TEMPLATES: {
+            return {
+                ...TemplatesListInitialState
+            };
+        }
+
         case TemplatesListActions.RELOAD_TEMPLATES: {
             return {
                 ...state,

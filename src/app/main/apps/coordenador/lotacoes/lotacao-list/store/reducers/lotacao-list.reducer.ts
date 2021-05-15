@@ -75,6 +75,12 @@ export function LotacaoListReducer(
             };
         }
 
+        case LotacaoListActions.UNLOAD_LOTACOES: {
+            return {
+                ...LotacaoListInitialState
+            };
+        }
+
         case LotacaoListActions.RELOAD_LOTACOES: {
             return {
                 ...state,

@@ -5,6 +5,8 @@ export const GET_ESPECIE_ATIVIDADE_SUCCESS = '[SUPERADMIN ESPECIE ATIVIDADE LIST
 export const GET_ESPECIE_ATIVIDADE_FAILED = '[SUPERADMIN ESPECIE ATIVIDADE LIST] GET ESPECIE_ATIVIDADE FAILED';
 
 export const RELOAD_ESPECIE_ATIVIDADE = '[SUPERADMIN ESPECIE ATIVIDADE LIST] RELOAD ESPECIE_ATIVIDADE';
+export const UNLOAD_ESPECIE_ATIVIDADE = '[SUPERADMIN ESPECIE ATIVIDADE LIST] UNLOAD ESPECIE_ATIVIDADE';
+
 
 /**
  * Get EspecieAtividade
@@ -37,6 +39,16 @@ export class GetEspecieAtividadeFailed implements Action {
 }
 
 /**
+ * Unload EspecieAtividade
+ */
+ export class UnloadEspecieAtividade implements Action {
+    readonly type = UNLOAD_ESPECIE_ATIVIDADE;
+
+    constructor() {
+    }
+}
+
+/**
  * Reload EspecieAtividade
  */
 export class ReloadEspecieAtividade implements Action {
@@ -51,5 +63,6 @@ export type EspecieAtividadeListActionsAll
     = GetEspecieAtividade
     | GetEspecieAtividadeSuccess
     | GetEspecieAtividadeFailed
+    | UnloadEspecieAtividade
     | ReloadEspecieAtividade;
 

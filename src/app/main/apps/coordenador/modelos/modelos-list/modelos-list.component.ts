@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -15,6 +16,9 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
 
+import {UnloadModelos} from "./store";
+
+
 @Component({
     selector: 'modelos-list',
     templateUrl: './modelos-list.component.html',
@@ -23,7 +27,7 @@ import {Documento} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ModelosListComponent implements OnInit {
+export class ModelosListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     modelos$: Observable<Modelo[]>;
@@ -82,6 +86,10 @@ export class ModelosListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadModelos());
     }
 
     reload(params): void {

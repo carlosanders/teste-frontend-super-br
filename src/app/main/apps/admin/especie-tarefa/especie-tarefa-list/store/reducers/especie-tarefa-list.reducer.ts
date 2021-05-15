@@ -82,6 +82,14 @@ export function EspecieTarefaListReducer(
             };
         }
 
+        case EspecieTarefaListActions.UNLOAD_ESPECIE_TAREFA: {
+            return {
+                ...EspecieTarefaListInitialState
+            };
+        }
+
+
+
         case EspecieTarefaListActions.RELOAD_ESPECIE_TAREFA: {
             return {
                 ...state,

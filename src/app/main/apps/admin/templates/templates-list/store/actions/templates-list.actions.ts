@@ -5,6 +5,7 @@ export const GET_TEMPLATES_SUCCESS = '[TEMPLATES LIST] GET TEMPLATES SUCCESS';
 export const GET_TEMPLATES_FAILED = '[TEMPLATES LIST] GET TEMPLATES FAILED';
 
 export const RELOAD_TEMPLATES = '[TEMPLATES LIST] RELOAD TEMPLATES';
+export const UNLOAD_TEMPLATES = '[TEMPLATES LIST] UNLOAD TEMPLATES';
 
 /**
  * Get Templates
@@ -43,6 +44,18 @@ export class GetTemplatesFailed implements Action
 }
 
 /**
+ * Unload UsuariosExternos
+ */
+ export class UnloadTemplates implements Action
+ {
+     readonly type = UNLOAD_TEMPLATES;
+ 
+     constructor()
+     {
+     }
+ }
+
+/**
  * Reload Templates
  */
 export class ReloadTemplates implements Action
@@ -59,5 +72,6 @@ export type TemplatesListActionsAll
     = GetTemplates
     | GetTemplatesSuccess
     | GetTemplatesFailed
+    | UnloadTemplates
     | ReloadTemplates;
 

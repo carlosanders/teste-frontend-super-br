@@ -5,6 +5,8 @@ export const GET_ESPECIE_PROCESSO_SUCCESS = '[SUPERADMIN ESPECIE PROCESSO LIST] 
 export const GET_ESPECIE_PROCESSO_FAILED = '[SUPERADMIN ESPECIE PROCESSO LIST] GET ESPECIE_PROCESSO FAILED';
 
 export const RELOAD_ESPECIE_PROCESSO = '[SUPERADMIN ESPECIE PROCESSO LIST] RELOAD ESPECIE_PROCESSO';
+export const UNLOAD_ESPECIE_PROCESSO = '[SUPERADMIN ESPECIE PROCESSO LIST] UNLOAD ESPECIE_PROCESSO';
+
 
 export const DELETE_ESPECIE_PROCESSO = '[SUPERADMIN ESPECIE PROCESSO LIST] DELETE ESPECIE_PROCESSO';
 export const DELETE_ESPECIE_PROCESSO_SUCCESS = '[SUPERADMIN ESPECIE PROCESSO LIST] DELETE ESPECIE_PROCESSO SUCCESS';
@@ -45,6 +47,18 @@ export class GetEspecieProcessoFailed implements Action
     {
     }
 }
+
+/**
+ * Unload EspecieProcesso
+ */
+ export class UnloadEspecieProcesso implements Action
+ {
+     readonly type = UNLOAD_ESPECIE_PROCESSO;
+ 
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload EspecieProcesso
@@ -98,6 +112,7 @@ export type EspecieProcessoListActionsAll
     = GetEspecieProcesso
     | GetEspecieProcessoSuccess
     | GetEspecieProcessoFailed
+    | UnloadEspecieProcesso
     | ReloadEspecieProcesso
     | DeleteEspecieProcesso
     | DeleteEspecieProcessoSuccess

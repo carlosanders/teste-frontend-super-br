@@ -77,6 +77,12 @@ export function GrupoContatoListReducer(
 
         case GrupoContatoListActions.RELOAD_GRUPO_CONTATOS: {
             return {
+                ...GrupoContatoListInitialState
+            };
+        }
+
+        case GrupoContatoListActions.RELOAD_GRUPO_CONTATOS: {
+            return {
                 ...state,
                 loading: false,
                 loaded: false

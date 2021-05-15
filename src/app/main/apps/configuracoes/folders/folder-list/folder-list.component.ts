@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -14,6 +15,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
+import {UnloadFolders} from "./store";
+
+
 @Component({
     selector: 'folder-list',
     templateUrl: './folder-list.component.html',
@@ -22,7 +26,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class FolderListComponent implements OnInit {
+export class FolderListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     folders$: Observable<Folder[]>;
@@ -61,6 +65,11 @@ export class FolderListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadFolders());
     }
 
     reload(params): void {

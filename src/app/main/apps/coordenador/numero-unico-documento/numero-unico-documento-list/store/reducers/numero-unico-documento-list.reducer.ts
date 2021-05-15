@@ -75,6 +75,12 @@ export function NumeroUnicoDocumentoListReducer(
             };
         }
 
+        case NumeroUnicoDocumentoListActions.UNLOAD_NUMEROS_UNICOS_DOCUMENTOS: {
+            return {
+                ...NumeroUnicoDocumentoListInitialState
+            };
+        }
+
         case NumeroUnicoDocumentoListActions.RELOAD_NUMEROS_UNICOS_DOCUMENTOS: {
             return {
                 ...state,

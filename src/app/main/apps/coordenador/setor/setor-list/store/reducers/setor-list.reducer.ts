@@ -75,6 +75,12 @@ export function SetorListReducer(
             };
         }
 
+        case SetorListActions.UNLOAD_SETORES: {
+            return {
+                ...SetorListInitialState
+            };
+        }
+
         case SetorListActions.RELOAD_SETORES: {
             return {
                 ...state,

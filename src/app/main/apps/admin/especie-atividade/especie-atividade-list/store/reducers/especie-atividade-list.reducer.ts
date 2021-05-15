@@ -82,6 +82,13 @@ export function EspecieAtividadeListReducer(
             };
         }
 
+        case EspecieAtividadeListActions.UNLOAD_ESPECIE_ATIVIDADE: {
+            return {
+                ...EspecieAtividadeListInitialState
+            };
+        }
+
+
         case EspecieAtividadeListActions.RELOAD_ESPECIE_ATIVIDADE: {
             return {
                 ...state,

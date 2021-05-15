@@ -5,6 +5,7 @@ export const GET_TIPO_RELATORIO_SUCCESS = '[SUPERADMIN TIPO RELATORIO LIST] GET 
 export const GET_TIPO_RELATORIO_FAILED = '[SUPERADMIN TIPO RELATORIO LIST] GET TIPO_RELATORIO FAILED';
 
 export const RELOAD_TIPO_RELATORIO = '[SUPERADMIN TIPO RELATORIO LIST] RELOAD TIPO_RELATORIO';
+export const UNLOAD_TIPO_RELATORIO = '[SUPERADMIN TIPO RELATORIO LIST] UNLOAD TIPO_RELATORIO';
 
 export const DELETE_TIPO_RELATORIO = '[SUPERADMIN TIPO RELATORIO LIST] DELETE TIPO_RELATORIO';
 export const DELETE_TIPO_RELATORIO_SUCCESS = '[SUPERADMIN TIPO RELATORIO LIST] DELETE TIPO_RELATORIO SUCCESS';
@@ -45,6 +46,18 @@ export class GetTipoRelatorioFailed implements Action
     {
     }
 }
+
+/**
+ * Unload TipoRelatorio
+ */
+ export class UnloadTipoRelatorio implements Action
+ {
+     readonly type = UNLOAD_TIPO_RELATORIO;
+ 
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload TipoRelatorio
@@ -98,6 +111,7 @@ export type TipoRelatorioListActionsAll
     = GetTipoRelatorio
     | GetTipoRelatorioSuccess
     | GetTipoRelatorioFailed
+    | UnloadTipoRelatorio
     | ReloadTipoRelatorio
     | DeleteTipoRelatorio
     | DeleteTipoRelatorioSuccess

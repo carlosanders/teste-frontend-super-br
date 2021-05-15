@@ -75,6 +75,12 @@ export function ModelosEspecieSetorListReducer(
             };
         }
 
+        case ModelosEspecieSetorListActions.UNLOAD_MODELOS_ESPECIE_SETOR: {
+            return {
+                ...ModelosEspecieSetorListInitialState
+            };
+        }
+
         case ModelosEspecieSetorListActions.RELOAD_MODELOS_ESPECIE_SETOR: {
             return {
                 ...state,

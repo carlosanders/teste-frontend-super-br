@@ -5,6 +5,8 @@ export const GET_MODALIDADE_ORGAO_CENTRAL_SUCCESS = '[ADMIN MODALIDADE ORGAO CEN
 export const GET_MODALIDADE_ORGAO_CENTRAL_FAILED = '[ADMIN MODALIDADE ORGAO CENTRAL LIST] GET MODALIDADE_ORGAO_CENTRAL FAILED';
 
 export const RELOAD_MODALIDADE_ORGAO_CENTRAL = '[ADMIN MODALIDADE ORGAO CENTRAL LIST] RELOAD MODALIDADE_ORGAO_CENTRAL';
+export const UNLOAD_MODALIDADE_ORGAO_CENTRAL = '[ADMIN MODALIDADE ORGAO CENTRAL LIST] UNLOAD MODALIDADE_ORGAO_CENTRAL';
+
 
 /**
  * Get ModalidadeOrgaoCentral
@@ -37,6 +39,16 @@ export class GetModalidadeOrgaoCentralFailed implements Action {
 }
 
 /**
+ * Unload ModalidadeOrgaoCentral
+ */
+ export class UnloadModalidadeOrgaoCentral implements Action {
+    readonly type = UNLOAD_MODALIDADE_ORGAO_CENTRAL;
+
+    constructor() {
+    }
+}
+
+/**
  * Reload ModalidadeOrgaoCentral
  */
 export class ReloadModalidadeOrgaoCentral implements Action {
@@ -51,5 +63,6 @@ export type ModalidadeOrgaoCentralListActionsAll
     = GetModalidadeOrgaoCentral
     | GetModalidadeOrgaoCentralSuccess
     | GetModalidadeOrgaoCentralFailed
+    | UnloadModalidadeOrgaoCentral
     | ReloadModalidadeOrgaoCentral;
 
