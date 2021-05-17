@@ -140,6 +140,9 @@ export class CdkNotificacaoGridComponent implements AfterViewInit, OnInit, OnCha
     deletingErrors: {};
 
     @Input()
+    toggleLidaErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()

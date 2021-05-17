@@ -9,6 +9,7 @@
     [tiposRelatorios]="(tipoRelatorios$ | async)"
     [total]="(pagination$ | async)?.total"
     [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['select', 'id', 'nome', 'especieRelatorio.nome', 'ativo', 'actions']"
     [actions]="['edit', 'create']"

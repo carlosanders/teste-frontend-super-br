@@ -8,6 +8,10 @@ import {
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {especieProcesso as especieProcessoSchema} from '@cdk/normalizr';
 import {EspecieProcesso} from '@cdk/models';
+import {
+    AfastamentosListState,
+    getAfastamentosListState
+} from "../../../../usuarios/afastamentos/afastamentos-list/store";
 
 const schemaSelectors = createSchemaSelectors<EspecieProcesso>(especieProcessoSchema);
 
@@ -50,4 +54,9 @@ export const getDeletingIds = createSelector(
 export const getDeletedIds = createSelector(
     getEspecieProcessoListState,
     (state: EspecieProcessoListState) => state.deletedIds
+);
+
+export const getDeletingErrors = createSelector(
+    getAfastamentosListState,
+    (state: AfastamentosListState) => state.deletingErrors
 );

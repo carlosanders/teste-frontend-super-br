@@ -9,6 +9,7 @@
         [afastamentos]="(afastamentos$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="['select', 'id', 'dataInicio', 'dataInicioBloqueio', 'dataFim', 'dataFimBloqueio', 'modalidadeAfastamento.valor', 'actions']"
         [actions]="['create', 'edit', 'delete']"

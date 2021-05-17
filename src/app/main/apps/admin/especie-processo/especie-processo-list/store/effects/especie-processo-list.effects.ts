@@ -12,6 +12,7 @@ import {EspecieProcessoService} from '../../../../../../../../@cdk/services/espe
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {EspecieProcesso} from '../../../../../../../../@cdk/models';
 import {especieProcesso as especieProcessoSchema} from '../../../../../../../../@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 
 @Injectable()
@@ -87,7 +88,7 @@ export class EspecieProcessoListEffects {
                         map((response) => new EspecieProcessoListActions.DeleteEspecieProcessoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new XxxListActions.DeleteXxxFailed(
+                            return of(new EspecieProcessoListActions.DeleteEspecieProcesso(
                                 {
                                     [action.payload]: CdkUtils.errorsToString(err)
                                 })

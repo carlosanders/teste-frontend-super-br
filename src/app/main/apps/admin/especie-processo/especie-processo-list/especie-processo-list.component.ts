@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 
-import {EspecieProcesso, Usuario} from '../../../../../../@cdk/models';
+import {EspecieProcesso} from '../../../../../../@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '../../../../../../@cdk/animations';
@@ -24,6 +24,7 @@ export class EspecieProcessoListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     constructor(
@@ -35,6 +36,7 @@ export class EspecieProcessoListComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store

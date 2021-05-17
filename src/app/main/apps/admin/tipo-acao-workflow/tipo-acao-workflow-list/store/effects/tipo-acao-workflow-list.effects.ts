@@ -12,6 +12,7 @@ import {TipoAcaoWorkflowService} from '../../../../../../../../@cdk/services/tip
 import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
 import {TipoAcaoWorkflow} from '../../../../../../../../@cdk/models';
 import {tipoAcaoWorkflow as tipoAcaoWorkflowSchema} from '../../../../../../../../@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 
 @Injectable()
@@ -87,7 +88,7 @@ export class TipoAcaoWorkflowListEffects {
                         map((response) => new TipoAcaoWorkflowListActions.DeleteTipoAcaoWorkflowSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new XxxListActions.DeleteXxxFailed(
+                            return of(new TipoAcaoWorkflowListActions.DeleteTipoAcaoWorkflow(
                                 {
                                     [action.payload]: CdkUtils.errorsToString(err)
                                 })

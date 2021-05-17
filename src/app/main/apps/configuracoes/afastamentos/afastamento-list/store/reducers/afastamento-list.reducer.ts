@@ -101,6 +101,9 @@ export function AfastamentoListReducer(
         }
 
         case AfastamentoListActions.DELETE_AFASTAMENTO_SUCCESS: {
+
+            console.log(state);
+
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),

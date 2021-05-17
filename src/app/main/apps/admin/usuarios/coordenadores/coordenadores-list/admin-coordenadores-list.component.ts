@@ -30,12 +30,13 @@ export class AdminCoordenadoresListComponent implements OnInit {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     usuarioPagination: Pagination = new Pagination();
     orgaoCentralPagination: Pagination = new Pagination();
     unidadePagination: Pagination = new Pagination();
     setorPagination: Pagination = new Pagination();
-    
+
     /**
      * @param _changeDetectorRef
      * @param _router
@@ -50,6 +51,7 @@ export class AdminCoordenadoresListComponent implements OnInit {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store

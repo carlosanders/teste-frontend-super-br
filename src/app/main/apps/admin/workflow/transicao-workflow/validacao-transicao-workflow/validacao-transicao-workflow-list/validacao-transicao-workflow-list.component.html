@@ -2,6 +2,7 @@
         [loading]="(loading$ | async)"
         [validacoes]="validacoes"
         [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'delete']"
         (reload)="reload($event)"

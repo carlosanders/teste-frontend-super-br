@@ -9,6 +9,7 @@
     [usuarios]="(usuarios$ | async)"
     [total]="(pagination$ | async)?.total"
     [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['id', 'username', 'nome', 'email', 'colaborador.modalidadeColaborador.valor', 'colaborador.cargo.nome', 'enabled', 'actions']"
     [actions]="['create', 'edit', 'lotacoes', 'afastamentos', 'resetaSenha', 'coordenadores', 'distribuirTarefas']"
