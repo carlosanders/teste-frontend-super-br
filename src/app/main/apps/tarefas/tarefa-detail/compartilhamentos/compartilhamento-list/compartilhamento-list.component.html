@@ -5,8 +5,7 @@
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
-        [actions]="['create', 'delete']"
-        (create)="create()"
+        [actions]="['delete']"
         (delete)="delete($event)"
         (reload)="reload($event)">
     </cdk-compartilhamento-grid>
