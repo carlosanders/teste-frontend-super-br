@@ -134,7 +134,8 @@ export function ChatReducer(
         // Inclui/atualiza o item na lista do chat com a informação vinda do mercure
         case ChatActions.CHAT_UPDATED_BROADCAST: {
             // Validando se existe filtro setado para não incluir um chat que não atende os critérios
-            if (state.pagination.gridFilter && state.entitiesId.includes(action.payload.id)) {
+            const filters = (Object.values(state.pagination.gridFilter || {}));
+            if (!filters.length || state.entitiesId.includes(action.payload.id)) {
                 return {
                     ...state,
                     entitiesId: state.entitiesId.includes(action.payload.id)
