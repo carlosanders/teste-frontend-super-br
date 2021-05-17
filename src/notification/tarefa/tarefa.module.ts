@@ -32,7 +32,7 @@ export class TarefaModule implements NotificationInterface {
     constructor(private resolver: ComponentFactoryResolver) { }
 
     supports(notification): boolean {
-        return !!notification.tipoNotificacao && notification.tipoNotificacao.nome === 'tarefa';
+        return !!notification.tipoNotificacao && notification.tipoNotificacao.nome === 'TAREFA';
     }
 
     public resolveComponentFactory(): ComponentFactory<TarefaComponent> {

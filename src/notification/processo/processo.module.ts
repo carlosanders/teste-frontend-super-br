@@ -32,7 +32,7 @@ export class ProcessoModule implements NotificationInterface {
     constructor(private resolver: ComponentFactoryResolver) { }
 
     supports(notification): boolean {
-        return !!notification.tipoNotificacao && notification.tipoNotificacao.nome === 'processo';
+        return !!notification.tipoNotificacao && notification.tipoNotificacao.nome === 'PROCESSO';
     }
 
     public resolveComponentFactory(): ComponentFactory<ProcessoComponent> {

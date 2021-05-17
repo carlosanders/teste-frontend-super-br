@@ -33,7 +33,7 @@ export class RelatorioModule implements NotificationInterface {
     }
 
     supports(notification): boolean {
-        return !!notification.tipoNotificacao && notification.tipoNotificacao.nome === 'relatorio';
+        return !!notification.tipoNotificacao && notification.tipoNotificacao.nome === 'RELATORIO';
     }
 
     public resolveComponentFactory(): ComponentFactory<RelatorioComponent> {
