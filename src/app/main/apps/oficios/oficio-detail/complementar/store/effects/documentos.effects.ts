@@ -16,7 +16,7 @@ import {environment} from 'environments/environment';
 import {assinatura as assinaturaSchema} from '@cdk/normalizr';
 import * as OperacoesActions from '../../../../../../../store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
-import {ComponenteDigitalService} from "../../../../../../../../@cdk/services/componente-digital.service";
+import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
 
 @Injectable()
 export class DocumentosEffects {

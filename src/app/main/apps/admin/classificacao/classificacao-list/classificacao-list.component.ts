@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
-import {Classificacao} from '../../../../../../@cdk/models';
+import {Classificacao} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadClassificacao} from "./store";
+
 
 @Component({
     selector: 'classificacao-list',
@@ -15,7 +17,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ClassificacaoListComponent implements OnInit {
+export class ClassificacaoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     classificacoes$: Observable<Classificacao[]>;
@@ -51,6 +53,10 @@ export class ClassificacaoListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadClassificacao());
     }
 
     reload(params): void {

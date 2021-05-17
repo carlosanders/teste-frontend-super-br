@@ -5,6 +5,8 @@ export const GET_FOLDERS_SUCCESS = '[FOLDER LIST] GET FOLDERS SUCCESS';
 export const GET_FOLDERS_FAILED = '[FOLDER LIST] GET FOLDERS FAILED';
 
 export const RELOAD_FOLDERS = '[FOLDER LIST] RELOAD FOLDERS';
+export const UNLOAD_FOLDERS = '[FOLDER LIST] UNLOAD FOLDERS';
+
 
 export const DELETE_FOLDER = '[FOLDER LIST] DELETE FOLDER';
 export const DELETE_FOLDER_SUCCESS = '[FOLDER LIST] DELETE FOLDER SUCCESS';
@@ -45,6 +47,18 @@ export class GetFoldersFailed implements Action
     {
     }
 }
+
+/**
+ * Unload Folders
+ */
+ export class UnloadFolders implements Action
+ {
+     readonly type = UNLOAD_FOLDERS;
+ 
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload Folders
@@ -98,6 +112,7 @@ export type FolderListActionsAll
     = GetFolders
     | GetFoldersSuccess
     | GetFoldersFailed
+    | UnloadFolders
     | ReloadFolders
     | DeleteFolder
     | DeleteFolderSuccess

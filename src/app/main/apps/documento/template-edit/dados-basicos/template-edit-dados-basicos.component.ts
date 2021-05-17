@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {Location} from '@angular/common';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
-import {ComponenteDigitalService} from "../../../../../../@cdk/services/componente-digital.service";
+import {ComponenteDigitalService} from "@cdk/services/componente-digital.service";
 
 @Component({
     selector: 'template-edit-dados-basicos',

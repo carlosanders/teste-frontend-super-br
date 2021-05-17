@@ -27,7 +27,7 @@ import * as fromGuards from './store/guards';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {RegraEtiquetaService} from '@cdk/services/regra-etiqueta.service';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

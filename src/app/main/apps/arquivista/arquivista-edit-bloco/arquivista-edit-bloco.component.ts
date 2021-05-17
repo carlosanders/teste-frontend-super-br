@@ -8,14 +8,14 @@ import {
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {Processo} from '../../../../../@cdk/models';
+import {Processo} from '@cdk/models';
 import {RouterStateUrl, getRouterState,  getOperacoesState} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {getSelectedProcessos} from '../arquivista-list/store';
 import {Router} from "@angular/router";
 import * as fromStore from './store';
-import {CdkUtils} from "../../../../../@cdk/utils";
+import {CdkUtils} from "@cdk/utils";
 import * as OperacoesActions from "../../../../store/actions/operacoes.actions";
 
 @Component({

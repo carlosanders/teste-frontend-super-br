@@ -82,6 +82,13 @@ export function EspecieSetorListReducer(
             };
         }
 
+        case EspecieSetorListActions.UNLOAD_ESPECIE_SETOR: {
+            return {
+                ...EspecieSetorListInitialState
+            };
+        }
+
+
         case EspecieSetorListActions.RELOAD_ESPECIE_SETOR: {
             return {
                 ...state,

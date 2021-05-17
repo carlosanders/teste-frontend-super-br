@@ -19,7 +19,7 @@ import {Tarefa} from '@cdk/models/tarefa.model';
 import {DynamicService} from '../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../modules/modules-config';
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
-import {Usuario} from "../../../models";
+import {Usuario, VinculacaoEtiqueta} from "../../../models";
 import {FormControl} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
@@ -100,7 +100,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     folder = new EventEmitter<any>();
 
     @Output()
-    selected = new EventEmitter<Tarefa>();
+    selected = new EventEmitter<{tarefa: Tarefa, event: any}>();
 
     @Output()
     compartilhar = new EventEmitter<number>();
@@ -170,6 +170,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     @Output()
     criaRelatorio = new EventEmitter<boolean>();
+
+    @Output()
+    etiquetaClickHandler = new EventEmitter<{vinculacaoEtiqueta: VinculacaoEtiqueta, tarefa: Tarefa}>();
 
     @Output()
     setDraggedTarefasIds = new EventEmitter<number[]>();
@@ -375,8 +378,8 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
         this.loadPage();
     }
 
-    selectTarefa(tarefa: Tarefa): void {
-        this.selected.emit(tarefa);
+    selectTarefa(event, tarefa: Tarefa): void {
+        this.selected.emit({tarefa: tarefa, event: event});
     }
 
     doToggleUrgente(tarefa: Tarefa): void {
@@ -587,5 +590,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doSalvarObservacao(observacao: any): void {
         this.salvarObservacao.emit(observacao);
+    }
+
+    doClickEtiqueta(event): void {
+        this.etiquetaClickHandler.emit(event);
     }
 }

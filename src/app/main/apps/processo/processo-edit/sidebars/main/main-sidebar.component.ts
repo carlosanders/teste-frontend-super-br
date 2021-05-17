@@ -15,7 +15,7 @@ import {modulesConfig} from 'modules/modules-config';
 import {getProcesso} from '../../../store';
 import {filter, switchMap} from 'rxjs/operators';
 import {LoginService} from '../../../../../auth/login/login.service';
-import {cdkAnimations} from '../../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'processo-edit-main-sidebar',

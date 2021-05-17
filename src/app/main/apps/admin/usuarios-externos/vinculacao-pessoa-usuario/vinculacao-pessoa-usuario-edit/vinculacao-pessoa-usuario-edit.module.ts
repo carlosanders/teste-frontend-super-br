@@ -5,9 +5,9 @@ import {RouterModule, Routes} from '@angular/router';
 import {VinculacaoPessoaUsuarioEditStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {VinculacaoPessoaUsuarioService} from '@cdk/services/vinculacao-pessoa-usuario.service';
-import {CdkVinculacaoPessoaUsuarioFormModule} from '../../../../../../../@cdk/components/vinculacao-pessoa-usuario/cdk-vinculacao-pessoa-usuario-form/cdk-vinculacao-pessoa-usuario-form.module';
+import {CdkVinculacaoPessoaUsuarioFormModule} from '@cdk/components/vinculacao-pessoa-usuario/cdk-vinculacao-pessoa-usuario-form/cdk-vinculacao-pessoa-usuario-form.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

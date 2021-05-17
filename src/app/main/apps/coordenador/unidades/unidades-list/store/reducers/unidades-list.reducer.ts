@@ -77,6 +77,12 @@ export function UnidadesOrgaoCentralListReducer(
 
         case UnidadesOrgaoCentralListActions.RELOAD_UNIDADES: {
             return {
+                ...UnidadesOrgaoCentralListInitialState
+            };
+        }
+
+        case UnidadesOrgaoCentralListActions.RELOAD_UNIDADES: {
+            return {
                 ...state,
                 loading: false,
                 loaded: false

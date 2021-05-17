@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStoreRelatorio from '../../../store';
-import {Usuario} from '../../../../../../../@cdk/models';
+import {Usuario} from '@cdk/models';
 import {LoginService} from '../../../../../auth/login/login.service';
 
 @Injectable()

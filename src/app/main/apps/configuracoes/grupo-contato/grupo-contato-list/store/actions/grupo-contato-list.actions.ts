@@ -5,6 +5,8 @@ export const GET_GRUPO_CONTATOS_SUCCESS = '[GRUPO CONTATO LIST] GET GRUPO CONTAT
 export const GET_GRUPO_CONTATOS_FAILED = '[GRUPO CONTATO LIST] GET GRUPO CONTATOS FAILED';
 
 export const RELOAD_GRUPO_CONTATOS = '[GRUPO CONTATO LIST] RELOAD GRUPO CONTATOS';
+export const UNLOAD_GRUPO_CONTATOS = '[GRUPO CONTATO LIST] UNLOAD GRUPO CONTATOS';
+
 
 export const DELETE_GRUPO_CONTATO = '[GRUPO CONTATO LIST] DELETE GRUPO CONTATO';
 export const DELETE_GRUPO_CONTATO_SUCCESS = '[GRUPO CONTATO LIST] DELETE GRUPO CONTATO SUCCESS';
@@ -45,6 +47,18 @@ export class GetGrupoContatoFailed implements Action
     {
     }
 }
+
+/**
+ * Unload GrupoContato
+ */
+ export class UnloadGrupoContato implements Action
+ {
+     readonly type = UNLOAD_GRUPO_CONTATOS;
+ 
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload GrupoContato
@@ -98,6 +112,7 @@ export type GrupoContatoListActionsAll
     = GetGrupoContato
     | GetGrupoContatoSuccess
     | GetGrupoContatoFailed
+    | UnloadGrupoContato
     | ReloadGrupoContato
     | DeleteGrupoContato
     | DeleteGrupoContatoSuccess

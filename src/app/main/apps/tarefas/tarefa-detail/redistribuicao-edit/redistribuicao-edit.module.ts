@@ -24,7 +24,7 @@ import { RedistribuicaoEditComponent } from './redistribuicao-edit.component';
 import { RouterModule, Routes } from '@angular/router';
 import { TarefasStoreModule } from '../../store/store.module';
 import { CdkTarefaFormModule } from '@cdk/components/tarefa/cdk-tarefa-form/cdk-tarefa-form.module';
-import {CdkVisibilidadePluginModule} from "../../../../../../@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module";
+import {CdkVisibilidadePluginModule} from "@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.module";
 
 const routes: Routes = [
     {

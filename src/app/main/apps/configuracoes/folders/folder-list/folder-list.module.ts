@@ -23,7 +23,7 @@ import {ModalidadeFolderService} from '@cdk/services/modalidade-folder.service';
 import * as fromGuards from './store/guards';
 import {CdkFolderGridModule} from '@cdk/components/folder/cdk-folder-grid/cdk-folder-grid.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

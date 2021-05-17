@@ -10,6 +10,7 @@
     [displayedColumns]="['id', 'dataHoraAssinatura', 'assinadoPor', 'actions']"
     [deletingIds]="(deletingAssinaturaIds$ | async)"
     [deletedIds]="(deletedAssinaturaIds$ | async)"
+    [deletingErrors]="(deletingAssinaturaErrors$ | async)"
     (delete)="deleteAssinatura($event)"
     (reload)="reloadAssinaturas($event)">
 </cdk-assinatura-grid>

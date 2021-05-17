@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as ModalidadeAcaoEtiquetaListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {ModalidadeAcaoEtiquetaService} from '../../../../../../../../@cdk/services/modalidade-acao-etiqueta.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {ModalidadeAcaoEtiqueta} from '../../../../../../../../@cdk/models';
-import {modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '../../../../../../../../@cdk/normalizr';
+import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqueta.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {ModalidadeAcaoEtiqueta} from '@cdk/models';
+import {modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '@cdk/normalizr';
 
 
 @Injectable()

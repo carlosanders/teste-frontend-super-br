@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
 import * as fromGuards from './store/guards';
 import {EtiquetaStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

@@ -1,10 +1,14 @@
-@import "../../@cdk/scss/cdk";
+@import "@cdk/scss/cdk";
 
 widget-historico {
     height: 100%;
     width: 100%;
     box-sizing: border-box;
     padding: 16px;
+
+    .refresh {
+        margin-left: auto;
+    }
 
     .mat-card.scrollable-content {
         height: 100%;

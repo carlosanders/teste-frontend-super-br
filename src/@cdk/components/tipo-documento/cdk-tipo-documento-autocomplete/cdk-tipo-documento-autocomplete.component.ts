@@ -51,33 +51,37 @@ export class CdkTipoDocumentoAutocompleteComponent implements OnInit {
         this.control.valueChanges.pipe(
             debounceTime(300),
             distinctUntilChanged(),
-            filter(term => !!term && term.length >= 2),
             switchMap((value) => {
-                    const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        andxFilter.push({
-                            nome: `like:%${bit}%`});
-                    });
-                    if (typeof value === 'string' && andxFilter.length > 0) {
-                        this.tipoDocumentoListIsLoading = true;
-                        this._changeDetectorRef.detectChanges();
-                        const filterParam = {
-                            ...this.pagination.filter,
-                            andX: andxFilter
-                        };
-                        return this._tipoDocumentoService.query(
-                            JSON.stringify(filterParam),
-                            this.pagination.limit,
-                            this.pagination.offset,
-                            JSON.stringify(this.pagination.sort),
-                            JSON.stringify(this.pagination.populate))
-                            .pipe(
-                                finalize(() => this.tipoDocumentoListIsLoading = false),
-                                catchError(() => of([]))
-                            );
-                    } else {
-                        return of([]);
+                    if (value && typeof value === 'string') {
+                        if (value.length >= 2) {
+                            const andxFilter = [];
+                            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                                andxFilter.push({
+                                    nome: `like:%${bit}%`
+                                });
+                            });
+                            if (andxFilter.length > 0) {
+                                this.tipoDocumentoListIsLoading = true;
+                                this._changeDetectorRef.detectChanges();
+                                const filterParam = {
+                                    ...this.pagination.filter,
+                                    andX: andxFilter
+                                };
+                                return this._tipoDocumentoService.query(
+                                    JSON.stringify(filterParam),
+                                    this.pagination.limit,
+                                    this.pagination.offset,
+                                    JSON.stringify(this.pagination.sort),
+                                    JSON.stringify(this.pagination.populate))
+                                    .pipe(
+                                        finalize(() => this.tipoDocumentoListIsLoading = false),
+                                        catchError(() => of([]))
+                                    );
+                            }
+                        }
                     }
+                    this.tipoDocumentoList = [];
+                    return of([]);
                 }
             )
         ).subscribe(response => {

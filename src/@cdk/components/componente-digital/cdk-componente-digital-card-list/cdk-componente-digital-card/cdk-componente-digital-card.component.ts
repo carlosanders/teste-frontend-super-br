@@ -1,13 +1,24 @@
 import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
-    Component, DoCheck, EventEmitter, Input, KeyValueDiffers, OnChanges,
-    OnInit, Output, SimpleChange,
+    Component,
+    DoCheck,
+    EventEmitter,
+    Input,
+    KeyValueDiffers,
+    OnChanges,
+    Output,
+    SimpleChange, ViewChild,
     ViewEncapsulation
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {ComponenteDigital} from '@cdk/models';
+import {ComponenteDigital, Pagination} from '@cdk/models';
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {MatMenuTrigger} from "@angular/material/menu";
+import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
+import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Component({
     selector: 'cdk-componente-digital-card',
@@ -46,6 +57,19 @@ export class CdkComponenteDigitalCardComponent implements DoCheck, OnChanges {
     @Output()
     changedSelected = new EventEmitter<boolean>();
 
+    form: FormGroup;
+
+    tipoDocumentoPagination: Pagination;
+
+    habilitarTipoDocumentoSalvar: boolean = false;
+
+    @ViewChild('menuTrigger') menuTrigger: MatMenuTrigger;
+
+    @ViewChild('menuTriggerTipoDocumento') menuTriggerTipoDocumento: MatMenuTrigger;
+
+    @ViewChild('autoCompleteTipo', {static: false, read: MatAutocompleteTrigger})
+    autoCompleteTipo: MatAutocompleteTrigger;
+
     differ: any;
 
     title: string = 'CARREGANDO';
@@ -54,13 +78,35 @@ export class CdkComponenteDigitalCardComponent implements DoCheck, OnChanges {
 
     /**
      * Constructor
+     * @param _changeDetectorRef
+     * @param differs
+     * @param _formBuilder
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
-        differs: KeyValueDiffers
+        differs: KeyValueDiffers,
+        private _formBuilder: FormBuilder
     ) {
         this.differ = differs.find([]).create();
         this.mode = 'tarefa';
+
+        this.form = this._formBuilder.group({
+            tipoDocumento: [null]
+        });
+
+        this.tipoDocumentoPagination = new Pagination();
+
+        this.form.get('tipoDocumento').valueChanges.pipe(
+            debounceTime(100),
+            distinctUntilChanged(),
+            switchMap((value) => {
+                    this.habilitarTipoDocumentoSalvar = value && typeof value === 'object';
+                    this._changeDetectorRef.detectChanges();
+                    return of([]);
+                }
+            )
+        ).subscribe();
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -98,11 +144,28 @@ export class CdkComponenteDigitalCardComponent implements DoCheck, OnChanges {
                         this.title = !(this.fullTitle.length > 14) ?
                             this.fullTitle :
                             this.fullTitle.substr(0, 15) + "...";
+                        if (this.componenteDigital.tipoDocumento) {
+                            this.fullTitle += "\n Tipo de documento: " + this.componenteDigital.tipoDocumento.nome;
+                        }
                     }
                     this._changeDetectorRef.markForCheck();
                 }
             });
         }
+    }
+
+    salvarTipoDocumento(): void {
+        const novoTipo = this.form.get('tipoDocumento').value;
+        if (novoTipo) {
+            this.fullTitle = this.componenteDigital.fileName;
+            this.fullTitle += "\n Tipo de documento: " + novoTipo.nome;
+        }
+        this.form.get('tipoDocumento').setValue(null);
+        this.autoCompleteTipo.closePanel();
+        this.menuTriggerTipoDocumento.closeMenu();
+        this.menuTrigger.closeMenu();
+        this.componenteDigital.tipoDocumento = novoTipo;
+        this._changeDetectorRef.markForCheck();
     }
 
     toggleInSelected(componenteDigitalId): void {

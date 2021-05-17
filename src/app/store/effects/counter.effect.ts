@@ -5,7 +5,7 @@ import * as CounterActions from 'app/store/actions/counter.action';
 import {Observable} from 'rxjs';
 import {Store} from '@ngrx/store';
 import {State} from '../reducers';
-import {CdkNavigationService} from '../../../@cdk/components/navigation/navigation.service';
+import {CdkNavigationService} from '@cdk/components/navigation/navigation.service';
 
 @Injectable()
 export class CounterEffects {

@@ -5,6 +5,8 @@ export const GET_CARGO_SUCCESS = '[ADMIN CARGO LIST] GET CARGO SUCCESS';
 export const GET_CARGO_FAILED = '[ADMIN CARGO LIST] GET CARGO FAILED';
 
 export const RELOAD_CARGO = '[ADMIN CARGO LIST] RELOAD CARGO';
+export const UNLOAD_CARGO = '[ADMIN CARGO LIST] UNLOAD CARGO';
+
 
 /**
  * Get Cargo
@@ -37,6 +39,16 @@ export class GetCargoFailed implements Action {
 }
 
 /**
+ * Unload Cargo
+ */
+ export class UnloadCargo implements Action {
+    readonly type = UNLOAD_CARGO;
+
+    constructor() {
+    }
+}
+
+/**
  * Reload Cargo
  */
 export class ReloadCargo implements Action {
@@ -51,5 +63,6 @@ export type CargoListActionsAll
     = GetCargo
     | GetCargoSuccess
     | GetCargoFailed
+    | UnloadCargo
     | ReloadCargo;
 

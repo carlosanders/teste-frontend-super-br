@@ -6,10 +6,10 @@ import {catchError, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store';
 import * as ClassificacaoTreeListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {ClassificacaoService} from '../../../../../../../../@cdk/services/classificacao.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {Classificacao} from '../../../../../../../../@cdk/models';
-import {classificacao as classificacaoSchema} from '../../../../../../../../@cdk/normalizr';
+import {ClassificacaoService} from '@cdk/services/classificacao.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {Classificacao} from '@cdk/models';
+import {classificacao as classificacaoSchema} from '@cdk/normalizr';
 import * as ClassificacaoListActions
     from '../../../classificacao-list/store/actions/classificacao-list.actions';
 

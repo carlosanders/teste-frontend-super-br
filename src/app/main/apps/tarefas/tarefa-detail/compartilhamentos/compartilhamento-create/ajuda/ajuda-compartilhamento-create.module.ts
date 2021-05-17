@@ -3,7 +3,7 @@ import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/cor
 import {AjudaCompartilhamentoCreateComponent} from './ajuda-compartilhamento-create.component';
 import { AjudaVisibilidadesModule } from 'app/main/apps/processo/processo-edit/visibilidades/ajuda/ajuda-visibilidades.module';
 
-import {CdkSharedModule} from '../../../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import { AjudaCompartilhamentoCreateBlocoModule } from 'app/main/apps/tarefas/compartilhamento-create-bloco/ajuda/ajuda-compartilhamento-create-bloco.module';
 
 @NgModule({

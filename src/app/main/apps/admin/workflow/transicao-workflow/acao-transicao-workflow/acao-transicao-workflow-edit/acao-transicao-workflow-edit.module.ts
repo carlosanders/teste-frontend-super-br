@@ -22,7 +22,7 @@ import {AcaoTransicaoWorkflowEditStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {AcaoTransicaoWorkflowService} from '@cdk/services/acao-transicao-workflow.service';
 import {modulesConfig} from 'modules/modules-config';
-import {TipoAcaoWorkflowService} from "../../../../../../../../@cdk/services/tipo-acao-workflow.service";
+import {TipoAcaoWorkflowService} from "@cdk/services/tipo-acao-workflow.service";
 
 const routes: Routes = [
     {

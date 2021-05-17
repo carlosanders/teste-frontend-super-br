@@ -5,6 +5,8 @@ export const GET_ETIQUETAS_SUCCESS = '[ETIQUETA COORDENADOR LIST] GET ETIQUETAS 
 export const GET_ETIQUETAS_FAILED = '[ETIQUETA COORDENADOR LIST] GET ETIQUETAS FAILED';
 
 export const RELOAD_ETIQUETAS = '[ETIQUETA COORDENADOR LIST] RELOAD ETIQUETAS';
+export const UNLOAD_ETIQUETAS = '[ETIQUETA COORDENADOR LIST] UNLOAD ETIQUETAS';
+
 
 export const DELETE_ETIQUETA = '[ETIQUETA COORDENADOR LIST] DELETE ETIQUETA';
 export const DELETE_ETIQUETA_SUCCESS = '[ETIQUETA COORDENADOR LIST] DELETE ETIQUETA SUCCESS';
@@ -45,6 +47,18 @@ export class GetEtiquetasFailed implements Action
     {
     }
 }
+
+/**
+ * Unload Etiquetas
+ */
+ export class UnloadEtiquetas implements Action
+ {
+     readonly type = UNLOAD_ETIQUETAS;
+ 
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload Etiquetas
@@ -98,6 +112,7 @@ export type EtiquetaListActionsAll
     = GetEtiquetas
     | GetEtiquetasSuccess
     | GetEtiquetasFailed
+    | UnloadEtiquetas
     | ReloadEtiquetas
     | DeleteEtiqueta
     | DeleteEtiquetaSuccess

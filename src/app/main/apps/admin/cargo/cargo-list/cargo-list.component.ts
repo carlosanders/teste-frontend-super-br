@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Cargo} from '../../../../../../@cdk/models';
+import {Cargo} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadCargo} from "./store";
+
 
 @Component({
     selector: 'cargo-list',
@@ -15,7 +17,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CargoListComponent implements OnInit {
+export class CargoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     cargos$: Observable<Cargo[]>;
@@ -48,6 +50,11 @@ export class CargoListComponent implements OnInit {
             this.pagination = pagination;
         });
     }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadCargo());
+    }
+
 
     /**
      *

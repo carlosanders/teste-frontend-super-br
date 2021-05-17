@@ -15,21 +15,21 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
 import {LoginService} from '../../../../auth/login/login.service';
-import {ClassificacaoService} from '../../../../../../@cdk/services/classificacao.service';
+import {ClassificacaoService} from '@cdk/services/classificacao.service';
 import {ClassificacaoTreeStoreModule} from './store/store.module';
-import {CdkClassificacaoTreeModule} from '../../../../../../@cdk/components/classificacao/cdk-classificacao-tree/cdk-classificacao-tree.module';
-import {CdkClassificacaoTreeService} from '../../../../../../@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
+import {CdkClassificacaoTreeModule} from '@cdk/components/classificacao/cdk-classificacao-tree/cdk-classificacao-tree.module';
+import {CdkClassificacaoTreeService} from '@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
 import {ClassificacaoStoreModule} from '../classificacao-list/store/store.module';
-import {CdkClassificacaoTreeFormModule} from '../../../../../../@cdk/components/classificacao/cdk-classificacao-tree-form/cdk-classificacao-tree-form.module';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {CdkClassificacaoTreeFormModule} from '@cdk/components/classificacao/cdk-classificacao-tree-form/cdk-classificacao-tree-form.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

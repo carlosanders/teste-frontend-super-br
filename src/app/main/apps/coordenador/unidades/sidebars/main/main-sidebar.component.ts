@@ -7,7 +7,7 @@ import {filter} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {modulesConfig} from '../../../../../../../modules/modules-config';
-import {cdkAnimations} from '../../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'unidades-orgao-central-main-sidebar',

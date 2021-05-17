@@ -10,7 +10,7 @@ import { AjudaTramitacoesModule } from 'app/main/apps/processo/processo-edit/tra
 import { AjudaSigilosModule } from 'app/main/apps/processo/processo-edit/sigilos/ajuda/ajuda-sigilos.module';
 import { AjudaVisibilidadesModule } from 'app/main/apps/processo/processo-edit/visibilidades/ajuda/ajuda-visibilidades.module';
 
-import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 @NgModule({
     declarations: [
@@ -23,7 +23,7 @@ import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
         AjudaInteressadosModule,
         AjudaTramitacoesModule,
         AjudaSigilosModule,
-        AjudaVisibilidadesModule,        
+        AjudaVisibilidadesModule,
     ],
     providers: [
     ],

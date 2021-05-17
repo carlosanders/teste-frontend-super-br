@@ -6,7 +6,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 
 
 
-import {CdkSharedModule} from '../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {
     MatButtonModule,
     MatFormFieldModule,

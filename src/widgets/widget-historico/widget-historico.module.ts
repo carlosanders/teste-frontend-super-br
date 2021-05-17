@@ -8,9 +8,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
-import {HistoricoService} from '../../@cdk/services/historico.service';
-import {CdkHistoricoTimelineModule} from '../../@cdk/components/historico/cdk-historico-timeline/cdk-historico-timeline.module';
+import {HistoricoService} from '@cdk/services/historico.service';
+import {CdkHistoricoTimelineModule} from '@cdk/components/historico/cdk-historico-timeline/cdk-historico-timeline.module';
 import {TourModule} from "../../ajuda/tour/tour.module";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     declarations: [
@@ -26,6 +27,7 @@ import {TourModule} from "../../ajuda/tour/tour.module";
         MatButtonModule,
         CdkHistoricoTimelineModule,
         TourModule,
+        MatTooltipModule,
     ],
     providers: [
         LoginService,

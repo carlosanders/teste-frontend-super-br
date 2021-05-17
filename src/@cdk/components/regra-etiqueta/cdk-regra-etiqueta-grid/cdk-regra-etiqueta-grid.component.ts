@@ -270,7 +270,7 @@ export class CdkRegraEtiquetaGridComponent implements AfterViewInit, OnInit, OnC
     }
 
     deleteRegrasEtiqueta(regrasEtiquetaId): void {
-        regrasEtiquetaId.forEach(regraEtiquetaId => this.deleteRegrasEtiqueta(regraEtiquetaId));
+        regrasEtiquetaId.forEach(regraEtiquetaId => this.deleteRegra(regraEtiquetaId));
     }
 
     /**

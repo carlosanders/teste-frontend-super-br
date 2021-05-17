@@ -3,7 +3,8 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
-    ViewEncapsulation
+    ViewEncapsulation,
+    OnDestroy,
 } from '@angular/core';
 import {Observable} from 'rxjs';
 
@@ -13,6 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
+import {UnloadUnidades} from "./store";
 
 @Component({
     selector: 'unidades-list',
@@ -22,7 +24,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class UnidadesListComponent implements OnInit {
+export class UnidadesListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     unidades$: Observable<Setor[]>;
@@ -62,6 +64,11 @@ export class UnidadesListComponent implements OnInit {
             this.pagination = pagination;
         });
     }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadUnidades());
+    }
+
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetUnidades({

@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect, ofType} from '@ngrx/effects';
-import {ProcessoService} from '../../../../../../../@cdk/services/processo.service';
+import {ProcessoService} from '@cdk/services/processo.service';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {UpdateData} from '../../../../../../../@cdk/ngrx-normalizr';
-import {Processo} from '../../../../../../../@cdk/models';
+import {UpdateData} from '@cdk/ngrx-normalizr';
+import {Processo} from '@cdk/models';
 import {processo as processoSchema} from '@cdk/normalizr';
 import * as ProcessoActions from '../actions/processo.actions';
 import {of} from "rxjs";

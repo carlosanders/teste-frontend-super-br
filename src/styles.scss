@@ -18,6 +18,23 @@ mwlResizable {
     box-sizing: border-box; // required for the enableGhostResize option to work
 }
 
+mat-option.mat-option-text {
+    > span {
+        white-space: normal;
+    }
+}
+
+mat-option.mat-option {
+    height: unset;
+    line-height: 24px;
+}
+
+.mat-option-text.mat-option-text {
+    white-space: normal;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
 .mat-tooltip-trigger {
     touch-action: auto !important;
 }

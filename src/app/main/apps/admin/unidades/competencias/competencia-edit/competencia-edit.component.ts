@@ -12,7 +12,7 @@ import {Usuario} from '@cdk/models/usuario.model';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {getRouterState} from '../../../../../../store/reducers';
 import {Back} from '../../../../../../store/actions';
-import {Setor} from '../../../../../../../@cdk/models';
+import {Setor} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({

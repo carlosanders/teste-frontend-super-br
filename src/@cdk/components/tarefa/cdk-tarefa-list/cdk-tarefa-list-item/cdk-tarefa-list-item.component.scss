@@ -27,6 +27,11 @@ cdk-tarefa-list-item {
             display: flex;
             flex-direction: column;
 
+            word-break: break-word;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+            -moz-hyphens: auto;
+
             .drag-n-drop-ref {
                 display: flex;
                 flex: 0 1;
@@ -128,6 +133,7 @@ cdk-tarefa-list-item {
                     margin-bottom: 4px;
                     margin-right: 4px;
                     padding: 3px 8px;
+                    cursor: pointer;
 
                     .etiqueta-color {
                         width: 8px;

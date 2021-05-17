@@ -23,7 +23,7 @@ import {ModalidadeRepositorioService} from '@cdk/services/modalidade-repositorio
 import * as fromGuards from './store/guards';
 import {CdkRepositorioGridModule} from '@cdk/components/repositorio/cdk-repositorio-grid/cdk-repositorio-grid.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

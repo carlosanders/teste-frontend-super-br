@@ -17,7 +17,7 @@ import {getMercureState, getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CdkUtils} from "../../../../../../@cdk/utils";
+import {CdkUtils} from "@cdk/utils";
 
 @Component({
     selector: 'documento-edit-anexos',

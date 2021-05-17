@@ -35,10 +35,10 @@ import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk
 import {CdkAssuntoGridModule} from '@cdk/components/assunto/cdk-assunto-grid/cdk-assunto-grid.module';
 import {CdkInteressadoGridModule} from '@cdk/components/interessado/cdk-interessado-grid/cdk-interessado-grid.module';
 import {CdkVinculacaoProcessoGridModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-grid/cdk-vinculacao-processo-grid.module';
-import {AssuntoService} from '../../../../../../@cdk/services/assunto.service';
-import {InteressadoService} from '../../../../../../@cdk/services/interessado.service';
-import {VinculacaoProcessoService} from '../../../../../../@cdk/services/vinculacao-processo.service';
-import {TarefaService} from '../../../../../../@cdk/services/tarefa.service';
+import {AssuntoService} from '@cdk/services/assunto.service';
+import {InteressadoService} from '@cdk/services/interessado.service';
+import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
+import {TarefaService} from '@cdk/services/tarefa.service';
 import {ConfiguracaoNupService} from "@cdk/services/configuracao-nup.service";
 import {CdkProcessoModalClassificacaoRestritaModule} from "@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.module";
 

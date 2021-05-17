@@ -13,7 +13,7 @@ import {
     Processo,
     Usuario,
     VinculacaoEtiqueta
-} from '../../../../../@cdk/models';
+} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStoreProcesso from '../../processo/store';
@@ -28,7 +28,7 @@ import {
 } from './store';
 import {getRouterState, getScreenState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {getModalidadeTransicao} from "../arquivista-list/store";
 
 @Component({

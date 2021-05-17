@@ -16,7 +16,7 @@ import {getRouterState} from 'app/store/reducers';
 import {Pagination} from '@cdk/models';
 import {LoginService} from '../../../auth/login/login.service';
 import {takeUntil} from 'rxjs/operators';
-import {Usuario} from '../../../../../@cdk/models';
+import {Usuario} from '@cdk/models';
 import {Back} from "../../../../store";
 
 @Component({

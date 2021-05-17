@@ -1,11 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
-import {Pessoa} from '../../../../../../@cdk/models';
+import {Pessoa} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadPessoa} from "./store";
 
 @Component({
     selector: 'admin-pessoa-list',
@@ -15,7 +16,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class AdminPessoaListComponent implements OnInit {
+export class AdminPessoaListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     pessoas$: Observable<Pessoa[]>;
@@ -45,6 +46,10 @@ export class AdminPessoaListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadPessoa());
     }
 
     reload(params): void {

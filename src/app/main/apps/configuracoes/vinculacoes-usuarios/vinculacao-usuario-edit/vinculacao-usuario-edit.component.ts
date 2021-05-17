@@ -1,6 +1,6 @@
 import {
     ChangeDetectionStrategy,
-    Component, Input,
+    Component,
     OnDestroy,
     OnInit,
     ViewEncapsulation
@@ -16,9 +16,9 @@ import * as fromStore from './store';
 import {Usuario} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {Back} from '../../../../../store/actions';
+import {Back} from '../../../../../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../../store/reducers';
+import {getRouterState} from '../../../../../store';
 
 @Component({
     selector: 'vinculacao-usuario-edit',
@@ -41,8 +41,8 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
     logEntryPagination: Pagination;
 
     /**
-     *
      * @param _store
+     * @param _router
      * @param _loginService
      */
     constructor(
@@ -56,6 +56,7 @@ export class VinculacaoUsuarioEditComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
 
         this.usuarioVinculadoPagination = new Pagination();
+        this.usuarioVinculadoPagination.filter = {'colaborador.id': 'isNotNull'};
         this.logEntryPagination = new Pagination();
 
         this._store

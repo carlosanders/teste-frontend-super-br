@@ -5,6 +5,7 @@ export const GET_USUARIOS_SUCCESS = '[ADMIN USUARIO LIST] GET USUARIOS SUCCESS';
 export const GET_USUARIOS_FAILED = '[ADMIN USUARIO LIST] GET USUARIOS FAILED';
 
 export const RELOAD_USUARIOS = '[ADMIN USUARIO LIST] RELOAD USUARIOS';
+export const UNLOAD_USUARIOS = '[ADMIN USUARIO LIST] UNLOAD USUARIOS';
 
 export const DELETE_USUARIO = '[ADMIN USUARIO LIST] DELETE USUARIO';
 export const DELETE_USUARIO_SUCCESS = '[ADMIN USUARIO LIST] DELETE USUARIO SUCCESS';
@@ -45,6 +46,18 @@ export class GetUsuariosFailed implements Action
     readonly type = GET_USUARIOS_FAILED;
 
     constructor(public payload: string)
+    {
+    }
+}
+
+/**
+ * Unload Usuarios
+ */
+export class UnloadUsuarios implements Action
+{
+    readonly type = UNLOAD_USUARIOS;
+
+    constructor()
     {
     }
 }
@@ -138,6 +151,7 @@ export type UsuariosListActionsAll
     | GetUsuariosSuccess
     | GetUsuariosFailed
     | ReloadUsuarios
+    | UnloadUsuarios
     | DeleteUsuario
     | DeleteUsuarioSuccess
     | DeleteUsuarioFailed

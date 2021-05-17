@@ -75,6 +75,12 @@ export function RepositoriosListReducer(
             };
         }
 
+        case RepositoriosListActions.UNLOAD_REPOSITORIOS: {
+            return {
+                ...RepositoriosListInitialState
+            };
+        }
+
         case RepositoriosListActions.RELOAD_REPOSITORIOS: {
             return {
                 ...state,

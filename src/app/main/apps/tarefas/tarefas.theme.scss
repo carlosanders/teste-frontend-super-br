@@ -16,6 +16,17 @@
         .sidebar {
             tarefas-main-sidebar {
                 .content {
+                    .nova-pasta {
+                        mat-form-field.error {
+                            label {
+                                color: map-get($warn, 400);
+                            }
+                            .mat-form-field-underline {
+                                background-color: map-get($warn, 500);
+                            }
+                        }
+                    }
+
                     .lotacao-drop {
                         &.lotacao {
                             border-color: map-get($foreground, divider);

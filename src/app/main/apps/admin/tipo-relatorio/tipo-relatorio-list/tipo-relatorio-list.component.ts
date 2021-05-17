@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
@@ -6,7 +6,9 @@ import {select, Store} from '@ngrx/store';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model.js';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadTipoRelatorio} from "./store";
+
 
 @Component({
     selector: 'tipo-relatorio-list',
@@ -16,7 +18,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TipoRelatorioListComponent implements OnInit {
+export class TipoRelatorioListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     tipoRelatorios$: Observable<TipoRelatorio[]>;
@@ -50,6 +52,11 @@ export class TipoRelatorioListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadTipoRelatorio());
     }
 
     reload(params): void {

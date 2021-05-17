@@ -417,10 +417,11 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     }
 
     doSave(): void {
-        if (this.hashAntigo) {
+         if (this.hashAntigo) {
             this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
                 conteudo => {
                     this.save.emit({conteudo: conteudo, hashAntigo: this.hashAntigo});
+                    this.editor.resetDirty();
                 }
             );
         }

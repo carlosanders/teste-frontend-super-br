@@ -75,6 +75,12 @@ export function RepositoriosEspecieSetorListReducer(
             };
         }
 
+        case RepositoriosEspecieSetorListActions.UNLOAD_REPOSITORIOS_ESPECIE_SETOR: {
+            return {
+                ...RepositoriosEspecieSetorListInitialState
+            };
+        }
+
         case RepositoriosEspecieSetorListActions.RELOAD_REPOSITORIOS_ESPECIE_SETOR: {
             return {
                 ...state,

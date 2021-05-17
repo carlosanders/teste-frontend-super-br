@@ -217,6 +217,10 @@ processo-view-main-sidebar {
 
                 .descricao {
                     font-weight: bold;
+                    word-break: break-word;
+                    hyphens: auto;
+                    -webkit-hyphens: auto;
+                    -moz-hyphens: auto;
                 }
 
                 .numero {

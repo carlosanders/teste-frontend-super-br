@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -14,6 +15,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
+import {UnloadVinculacoesUsuarios} from "./store";
+
+
 @Component({
     selector: 'vinculacao-usuario-list',
     templateUrl: './vinculacao-usuario-list.component.html',
@@ -22,7 +26,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class VinculacaoUsuarioListComponent implements OnInit {
+    export class VinculacaoUsuarioListComponent implements OnInit, OnDestroy  {
 
     routerState: any;
     vinculacoesUsuarios$: Observable<VinculacaoUsuario[]>;
@@ -61,6 +65,10 @@ export class VinculacaoUsuarioListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadVinculacoesUsuarios());
     }
 
     reload(params): void {

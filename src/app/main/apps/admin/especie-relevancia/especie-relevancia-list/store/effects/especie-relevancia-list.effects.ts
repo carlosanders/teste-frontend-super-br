@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as EspecieRelevanciaListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {EspecieRelevanciaService} from '../../../../../../../../@cdk/services/especie-relevancia.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {EspecieRelevancia} from '../../../../../../../../@cdk/models';
-import {especieRelevancia as especieRelevanciaSchema} from '../../../../../../../../@cdk/normalizr';
+import {EspecieRelevanciaService} from '@cdk/services/especie-relevancia.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {EspecieRelevancia} from '@cdk/models';
+import {especieRelevancia as especieRelevanciaSchema} from '@cdk/normalizr';
 
 
 @Injectable()

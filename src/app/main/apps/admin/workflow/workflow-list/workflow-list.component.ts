@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
-import {Workflow} from '../../../../../../@cdk/models';
+import {Workflow} from '@cdk/models';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadWorkflow} from "./store";
+
 
 @Component({
     selector: 'workflow-list',
@@ -15,7 +17,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class WorkflowListComponent implements OnInit {
+export class WorkflowListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     workflows$: Observable<Workflow[]>;
@@ -51,6 +53,12 @@ export class WorkflowListComponent implements OnInit {
             this.pagination = pagination;
         });
     }
+
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadWorkflow());
+    }
+
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetWorkflow({

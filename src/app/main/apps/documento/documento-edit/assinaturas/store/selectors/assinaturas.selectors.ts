@@ -48,6 +48,11 @@ export const getAssinaturasPagination = createSelector(
     (state: AssinaturasState) => state.pagination
 );
 
+export const getDeletingAssinaturaErrors = createSelector(
+    getAssinaturasState,
+    (state: AssinaturasState) => state.deletingErrors
+);
+
 export const getAssinaturasLoaded = createSelector(
     getAssinaturasState,
     (state: AssinaturasState) => state.loaded

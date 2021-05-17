@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {ModalidadeAcaoEtiqueta, Pagination, ModalidadeEtiqueta, Usuario} from '../../../../../../@cdk/models';
+import {ModalidadeAcaoEtiqueta, Pagination, ModalidadeEtiqueta, Usuario} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -59,7 +59,7 @@ export class ModalidadeAcaoEtiquetaEditComponent implements OnInit {
             valor: [null, [Validators.required, Validators.maxLength(255)]],
             modalidadeEtiqueta: [null, [Validators.required]],
             descricao: [null, [Validators.required]],
-            trigger: [null, [Validators.required]]       
+            trigger: [null, [Validators.required]]
          });
     }
 
@@ -69,7 +69,7 @@ export class ModalidadeAcaoEtiquetaEditComponent implements OnInit {
     // -----------------------------------------------------------------------------------------------------
 
     submitModalidadeAcaoEtiqueta(values): void {
-  
+
         const modalidadeAcaoEtiqueta = new ModalidadeAcaoEtiqueta();
         Object.entries(values).forEach(
             ([key, value]) => {

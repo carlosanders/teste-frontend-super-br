@@ -9,7 +9,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import * as moment from 'moment';
 import {catchError} from 'rxjs/operators';
 import {of} from 'rxjs';
-import {HistoricoService} from '../../@cdk/services/historico.service';
+import {HistoricoService} from '@cdk/services/historico.service';
 
 @Component({
     selector: 'widget-historico',
@@ -44,12 +44,17 @@ export class WidgetHistoricoComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
+        this.reload();
+    }
+
+    reload(): void {
         this.historicoIsLoding = true;
+        this.historicos = [];
         this._historicoService.query(
-            `{"criadoPor.id": "eq:${this._profile.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
-            5,
+            `{"criadoPor.id": "eq:${this._profile.id}"}`,
+            25,
             0,
-            '{}',
+            '{"id": "DESC"}',
             '["populateAll"]')
             .pipe(
                 catchError(() => {

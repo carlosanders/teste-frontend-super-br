@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as TipoDocumentoListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {TipoDocumentoService} from '../../../../../../../../@cdk/services/tipo-documento.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {TipoDocumento} from '../../../../../../../../@cdk/models';
-import {tipoDocumento as tipoDocumentoSchema} from '../../../../../../../../@cdk/normalizr';
+import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {TipoDocumento} from '@cdk/models';
+import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr';
 
 
 @Injectable()

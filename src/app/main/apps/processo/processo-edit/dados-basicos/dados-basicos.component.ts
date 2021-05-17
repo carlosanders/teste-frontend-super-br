@@ -101,7 +101,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
                     this._mercureService.subscribe(processo.origemDados['@id']);
                 }
                 this.processo = processo;
-                this.genero = this.processo.especieProcesso.generoProcesso.nome;
+                this.genero = this.processo?.especieProcesso?.generoProcesso?.nome;
                 this._changeDetectorRef.markForCheck();
             }
         );

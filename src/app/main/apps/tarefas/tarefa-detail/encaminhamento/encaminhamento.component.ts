@@ -15,7 +15,7 @@ import * as fromStore from './store';
 import {Observable, Subject} from 'rxjs';
 import {Tarefa} from '@cdk/models';
 import {takeUntil} from 'rxjs/operators';
-import {CdkConfirmDialogComponent} from '../../../../../../@cdk/components/confirm-dialog/confirm-dialog.component';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 
 @Component({

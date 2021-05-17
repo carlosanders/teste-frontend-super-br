@@ -33,7 +33,7 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {CdkUtils} from '@cdk/utils';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CdkConfirmDialogComponent} from "../../../../@cdk/components/confirm-dialog/confirm-dialog.component";
+import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
 
 @Component({
     selector: 'tarefas',
@@ -414,16 +414,24 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.GetTarefas(nparams));
     }
 
-    setCurrentTarefa(tarefa: Tarefa): void {
+    setCurrentTarefa(event: {tarefa: Tarefa, event: any}): void {
+        let tarefa = event.tarefa;
         if (!tarefa.apagadoEm) {
             if (!tarefa.dataHoraLeitura) {
                 this._store.dispatch(new fromStore.ToggleLidaTarefa(tarefa));
             }
-            this._store.dispatch(new fromStore.SetCurrentTarefa({
-                tarefaId: tarefa.id,
-                processoId: tarefa.processo.id,
-                acessoNegado: tarefa.processo.acessoNegado
-            }));
+            if (event.event.ctrlKey) {
+                const url = this._router.createUrlTree([
+                    'apps/tarefa/' + tarefa.id + '/processo/' + tarefa.processo.id + '/visualizar'
+                ]);
+                window.open(url.toString(), '_blank');
+            } else {
+                this._store.dispatch(new fromStore.SetCurrentTarefa({
+                    tarefaId: tarefa.id,
+                    processoId: tarefa.processo.id,
+                    acessoNegado: tarefa.processo.acessoNegado
+                }));
+            }
         }
     }
 
@@ -465,7 +473,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletado(a)'
+                text: 'Deletando'
             }
         });
 
@@ -488,10 +496,11 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         tarefas.forEach((tarefa: Tarefa) => this.doCienciaTarefa(tarefa.id, this.lote));
     }
 
-    doRestauraTarefa(tarefa: Tarefa): void {
+    doRestauraTarefa(tarefa: Tarefa, folder: Folder = null): void {
         const operacaoId = CdkUtils.makeId();
         this._store.dispatch(new fromStore.UndeleteTarefa({
             tarefa: tarefa,
+            folder: folder,
             operacaoId: operacaoId,
             loaded: this.loaded,
             redo: null,
@@ -531,7 +540,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.selectedTarefas.forEach((tarefa) => {
 
             if (this.targetHandle === 'lixeira') {
-                this.doRestauraTarefa(tarefa);
+                this.doRestauraTarefa(tarefa, folder);
+                return;
             }
 
             this._store.dispatch(new fromStore.SetFolderOnSelectedTarefas({tarefa: tarefa, folder: folder}));
@@ -578,6 +588,10 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/editar']).then();
     }
 
+    doEditProcesso(params): void {
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + params.id + '/processo/' + params.processo.id + '/editar/dados-basicos']).then();
+    }
+
     doRedistribuirTarefa(tarefaId): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/redistribuicao']).then();
     }
@@ -615,7 +629,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'check',
-                text: 'Ciência'
+                text: 'Dando ciência'
             }
         });
 
@@ -734,7 +748,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.SaveObservacao(params));
     }
 
-    doGerarRelatorioTarefaExcel(){
+    doGerarRelatorioTarefaExcel() {
         this.confirmDialogRef = this._matDialog.open(CdkConfirmDialogComponent, {
             data: {
                 title: 'Confirmação',
@@ -754,5 +768,18 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
             }
             this.confirmDialogRef = null;
         });
+    }
+
+    doEditarDocumentoEtiqueta(event): void {
+        let tarefa = event.tarefa;
+        let vinculacaoEtiqueta = event.vinculacaoEtiqueta;
+        if (!tarefa.apagadoEm && vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento') {
+            this._store.dispatch(new fromStore.SetCurrentTarefa({
+                tarefaId: tarefa.id,
+                processoId: tarefa.processo.id,
+                acessoNegado: tarefa.processo.acessoNegado,
+                documentoUuidEdit: vinculacaoEtiqueta.objectUuid
+            }));
+        }
     }
 }

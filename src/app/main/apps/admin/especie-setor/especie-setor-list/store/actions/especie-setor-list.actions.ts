@@ -5,6 +5,8 @@ export const GET_ESPECIE_SETOR_SUCCESS = '[SUPERADMIN ESPECIE SETOR LIST] GET ES
 export const GET_ESPECIE_SETOR_FAILED = '[SUPERADMIN ESPECIE SETOR LIST] GET ESPECIE_SETOR FAILED';
 
 export const RELOAD_ESPECIE_SETOR = '[SUPERADMIN ESPECIE SETOR LIST] RELOAD ESPECIE_SETOR';
+export const UNLOAD_ESPECIE_SETOR = '[SUPERADMIN ESPECIE SETOR LIST] UNLOAD ESPECIE_SETOR';
+
 
 export const DELETE_ESPECIE_SETOR = '[SUPERADMIN ESPECIE SETOR LIST] DELETE ESPECIE_SETOR';
 export const DELETE_ESPECIE_SETOR_SUCCESS = '[SUPERADMIN ESPECIE SETOR LIST] DELETE ESPECIE_SETOR SUCCESS';
@@ -45,6 +47,18 @@ export class GetEspecieSetorFailed implements Action
     {
     }
 }
+
+/**
+ * Unload EspecieSetor
+ */
+ export class UnloadEspecieSetor implements Action
+ {
+     readonly type = UNLOAD_ESPECIE_SETOR;
+ 
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload EspecieSetor
@@ -99,6 +113,7 @@ export type EspecieSetorListActionsAll
     | GetEspecieSetorSuccess
     | GetEspecieSetorFailed
     | ReloadEspecieSetor
+    | UnloadEspecieSetor
     | DeleteEspecieSetor
     | DeleteEspecieSetorSuccess
     | DeleteEspecieSetorFailed;
