@@ -86,6 +86,12 @@ export function ClassificacaoListReducer(
             };
         }
 
+        case ClassificacaoListActions.UNLOAD_CLASSIFICACAO: {
+            return {
+                ...ClassificacaoListInitialState
+            };
+        }
+
         case ClassificacaoListActions.RELOAD_CLASSIFICACAO: {
             return {
                 ...state,

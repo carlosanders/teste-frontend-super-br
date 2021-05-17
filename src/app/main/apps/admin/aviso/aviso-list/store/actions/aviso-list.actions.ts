@@ -9,6 +9,8 @@ export const DELETE_AVISO_SUCCESS = '[ADMIN AVISO LIST] DELETE AVISO SUCCESS';
 export const DELETE_AVISO_FAILED = '[ADMIN AVISO LIST] DELETE AVISO FAILED';
 
 export const RELOAD_AVISO = '[ADMIN AVISO LIST] RELOAD AVISO';
+export const UNLOAD_AVISO = '[ADMIN AVISO LIST] UNLOAD AVISO';
+
 
 /**
  * Get Aviso
@@ -37,6 +39,16 @@ export class GetAvisoFailed implements Action {
     readonly type = GET_AVISO_FAILED;
 
     constructor(public payload: string) {
+    }
+}
+
+/**
+ * Unload Aviso
+ */
+ export class UnloadAviso implements Action {
+    readonly type = UNLOAD_AVISO;
+
+    constructor() {
     }
 }
 
@@ -91,6 +103,7 @@ export type AvisoListActionsAll
     = GetAviso
     | GetAvisoSuccess
     | GetAvisoFailed
+    | UnloadAviso
     | ReloadAviso
     | DeleteAviso
     | DeleteAvisoSuccess

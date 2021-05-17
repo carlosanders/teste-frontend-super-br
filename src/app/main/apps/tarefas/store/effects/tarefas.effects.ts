@@ -732,7 +732,11 @@ export class TarefasEffect {
                     return this._tarefaService.patch(action.payload.tarefa, {observacao: action.payload.conteudo}).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefasActions.SaveObservacaoSuccess(),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
+                            new UpdateData<Tarefa>({
+                                id: response.id,
+                                schema: tarefaSchema,
+                                changes: {observacao: response.observacao}
+                            }),
                             new OperacoesActions.Resultado({
                                 type: 'observacao',
                                 content: `Observacao na tarefa ${response.id} atualizada com sucesso!`,

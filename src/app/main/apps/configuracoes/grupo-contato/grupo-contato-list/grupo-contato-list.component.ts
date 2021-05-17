@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -14,6 +15,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
+import {UnloadGrupoContato} from "./store";
+
+
 @Component({
     selector: 'grupo-contato-list',
     templateUrl: './grupo-contato-list.component.html',
@@ -22,7 +26,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class GrupoContatoListComponent implements OnInit {
+export class GrupoContatoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     grupoContatos$: Observable<GrupoContato[]>;
@@ -61,6 +65,10 @@ export class GrupoContatoListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadGrupoContato());
     }
 
     reload(params): void {

@@ -1,6 +1,7 @@
 import {
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component, OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 
@@ -12,6 +13,9 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {VinculacaoRepositorio, Pagination} from '@cdk/models';
 
+import {UnloadRepositoriosEspecieSetor} from "./store";
+
+
 @Component({
     selector: 'repositorios-especie-setor-list',
     templateUrl: './repositorios-especie-setor-list.component.html',
@@ -20,7 +24,7 @@ import {VinculacaoRepositorio, Pagination} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class RepositoriosEspecieSetorListComponent implements OnInit {
+export class RepositoriosEspecieSetorListComponent implements OnInit, OnDestroy {
 
     vinculacoesRepositorios$: Observable<VinculacaoRepositorio[]>;
     routerState: any;
@@ -70,6 +74,10 @@ export class RepositoriosEspecieSetorListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadRepositoriosEspecieSetor());
     }
 
     reload(params): void {

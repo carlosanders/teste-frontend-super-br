@@ -72,6 +72,12 @@ export function FolderListReducer(
             };
         }
 
+        case FolderListActions.UNLOAD_FOLDERS: {
+            return {
+                ...FolderListInitialState
+            };
+        }
+
         case FolderListActions.RELOAD_FOLDERS: {
             return {
                 ...state,

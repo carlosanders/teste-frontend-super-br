@@ -5,6 +5,7 @@ export const GET_USUARIOS_EXTERNOS_LIST_SUCCESS = '[SUPERADMIN USUARIOS EXTERNOS
 export const GET_USUARIOS_EXTERNOS_LIST_FAILED = '[SUPERADMIN USUARIOS EXTERNOS_LIST LIST] GET USUARIOS_EXTERNOS_LIST FAILED';
 
 export const RELOAD_USUARIOS_EXTERNOS_LIST = '[SUPERADMIN USUARIOS EXTERNOS_LIST LIST] RELOAD USUARIOS_EXTERNOS_LIST';
+export const UNLOAD_USUARIOS_EXTERNOS = '[ADMIN USUARIOS EXTERNOS LIST] UNLOAD USUARIOS EXTERNOS';
 
 export const DELETE_USUARIO_EXTERNOS_LIST = '[ADMIN USUARIO EXTERNOS LIST] DELETE USUARIOS_EXTERNOS_LIST';
 export const DELETE_USUARIO_EXTERNOS_LIST_SUCCESS = '[ADMIN USUARIO EXTERNOS LIST] DELETE USUARIOS_EXTERNOS_LIST SUCCESS';
@@ -46,6 +47,19 @@ export class GetUsuariosExternosListFailed implements Action
     {
     }
 }
+
+
+/**
+ * Unload UsuariosExternos
+ */
+ export class UnloadUsuariosExternos implements Action
+ {
+     readonly type = UNLOAD_USUARIOS_EXTERNOS;
+ 
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload UsuariosExternosList
@@ -101,6 +115,7 @@ export type UsuariosExternosListActionsAll
     = GetUsuariosExternosList
     | GetUsuariosExternosListSuccess
     | GetUsuariosExternosListFailed
+    | UnloadUsuariosExternos
     | ReloadUsuariosExternosList
     | DeleteUsuariosExternosList
     | DeleteUsuariosExternosListSuccess

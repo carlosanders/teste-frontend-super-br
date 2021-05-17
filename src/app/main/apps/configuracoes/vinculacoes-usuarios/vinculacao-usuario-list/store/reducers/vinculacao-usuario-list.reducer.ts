@@ -72,6 +72,13 @@ export function VinculacaoUsuarioListReducer(
             };
         }
 
+        case VinculacaoUsuarioListActions.UNLOAD_VINCULACOES_USUARIOS: {
+            return {
+                ...VinculacaoUsuarioListInitialState
+            };
+        }
+
+
         case VinculacaoUsuarioListActions.RELOAD_VINCULACOES_USUARIOS: {
             return {
                 ...state,

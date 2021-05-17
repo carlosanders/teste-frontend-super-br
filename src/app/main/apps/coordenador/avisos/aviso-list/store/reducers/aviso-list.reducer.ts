@@ -80,6 +80,13 @@ export function AvisoListReducer(
             };
         }
 
+        case AvisoListActions.UNLOAD_AVISO: {
+            return {
+                ...AvisoListInitialState
+            };
+        }
+
+
         case AvisoListActions.RELOAD_AVISO: {
             return {
                 ...state,

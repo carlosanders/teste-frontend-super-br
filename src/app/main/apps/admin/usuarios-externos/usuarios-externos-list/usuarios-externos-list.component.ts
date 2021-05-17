@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
 import {Usuario} from '@cdk/models';
@@ -7,6 +7,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import * as fromStorePessoaUsuarioList from '../vinculacao-pessoa-usuario/vinculacao-pessoa-usuario-list/store';
 import {getRouterState} from '../../../../../store/reducers';
+import {UnloadUsuariosExternos} from "./store";
 
 @Component({
     selector: 'usuarios-externos-list',
@@ -16,7 +17,7 @@ import {getRouterState} from '../../../../../store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class UsuariosExternosListComponent implements OnInit {
+export class UsuariosExternosListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     usuarios$: Observable<Usuario[]>;
@@ -51,6 +52,11 @@ export class UsuariosExternosListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadUsuariosExternos());
     }
 
     reload(params): void {

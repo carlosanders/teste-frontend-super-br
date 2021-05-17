@@ -75,6 +75,12 @@ export function UnidadesListReducer(
             };
         }
 
+        case UnidadesListActions.UNLOAD_UNIDADES: {
+            return {
+                ...UnidadesListInitialState
+            };
+        }
+
         case UnidadesListActions.RELOAD_UNIDADES: {
             return {
                 ...state,

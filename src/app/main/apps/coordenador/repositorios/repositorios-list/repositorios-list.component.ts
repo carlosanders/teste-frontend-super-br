@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -15,6 +16,9 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
 
+import {UnloadRepositorios} from "./store";
+
+
 @Component({
     selector: 'coordenador-repositorios-list',
     templateUrl: './repositorios-list.component.html',
@@ -23,7 +27,7 @@ import {Documento} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class RepositoriosListComponent implements OnInit {
+export class RepositoriosListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     repositorios$: Observable<Repositorio[]>;
@@ -82,6 +86,10 @@ export class RepositoriosListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadRepositorios());
     }
 
     reload(params): void {

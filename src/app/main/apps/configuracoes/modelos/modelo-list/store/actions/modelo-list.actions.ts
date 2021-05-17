@@ -5,6 +5,8 @@ export const GET_MODELOS_SUCCESS = '[MODELO LIST] GET MODELOS SUCCESS';
 export const GET_MODELOS_FAILED = '[MODELO LIST] GET MODELOS FAILED';
 
 export const RELOAD_MODELOS = '[MODELO LIST] RELOAD MODELOS';
+export const UNLOAD_MODELOS = '[MODELO LIST] UNLOAD MODELOS';
+
 
 export const DELETE_MODELO = '[MODELO LIST] DELETE MODELO';
 export const DELETE_MODELO_SUCCESS = '[MODELO LIST] DELETE MODELO SUCCESS';
@@ -45,6 +47,18 @@ export class GetModelosFailed implements Action
     {
     }
 }
+
+/**
+ * Unload Modelos
+ */
+ export class UnloadModelos implements Action
+ {
+     readonly type = UNLOAD_MODELOS;
+ 
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload Modelos
@@ -98,6 +112,7 @@ export type ModeloListActionsAll
     = GetModelos
     | GetModelosSuccess
     | GetModelosFailed
+    | UnloadModelos
     | ReloadModelos
     | DeleteModelo
     | DeleteModeloSuccess

@@ -82,6 +82,13 @@ export function AdminPessoaListReducer(
             };
         }
 
+        case PessoaListActions.UNLOAD_PESSOA: {
+            return {
+                ...PessoaListInitialState
+            };
+        }
+        
+
         case PessoaListActions.RELOAD_PESSOA: {
             return {
                 ...state,

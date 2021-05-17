@@ -5,6 +5,8 @@ export const GET_CLASSIFICACAO_SUCCESS = '[SUPERADMIN CLASSIFICACAO LIST] GET CL
 export const GET_CLASSIFICACAO_FAILED = '[SUPERADMIN CLASSIFICACAO LIST] GET CLASSIFICACAO FAILED';
 
 export const RELOAD_CLASSIFICACAO = '[SUPERADMIN CLASSIFICACAO LIST] RELOAD CLASSIFICACAO';
+export const UNLOAD_CLASSIFICACAO = '[SUPERADMIN CLASSIFICACAO LIST] UNLOAD CLASSIFICACAO';
+
 
 export const DELETE_CLASSIFICACAO = '[ADMIN CLASSIFICACAO LIST] DELETE CLASSIFICACAO';
 export const DELETE_CLASSIFICACAO_SUCCESS = '[ADMIN CLASSIFICACAO LIST] DELETE CLASSIFICACAO SUCCESS';
@@ -37,6 +39,16 @@ export class GetClassificacaoFailed implements Action {
     readonly type = GET_CLASSIFICACAO_FAILED;
 
     constructor(public payload: string) {
+    }
+}
+
+/**
+ * Unload Classificacao
+ */
+ export class UnloadClassificacao implements Action {
+    readonly type = UNLOAD_CLASSIFICACAO;
+
+    constructor() {
     }
 }
 
@@ -90,6 +102,7 @@ export type ClassificacaoListActionsAll
     = GetClassificacao
     | GetClassificacaoSuccess
     | GetClassificacaoFailed
+    | UnloadClassificacao
     | ReloadClassificacao
     | DeleteClassificacao
     | DeleteClassificacaoSuccess

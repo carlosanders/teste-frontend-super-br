@@ -84,6 +84,12 @@ export function WorkflowListReducer(
             };
         }
 
+        case WorkflowListActions.UNLOAD_WORKFLOW: {
+            return {
+                ...WorkflowListInitialState
+            };
+        }
+
         case WorkflowListActions.RELOAD_WORKFLOW: {
             return {
                 ...state,
