@@ -1,20 +1,20 @@
-import {Injectable} from '@angular/core';
-import {select, Store} from '@ngrx/store';
-import {Actions, Effect, ofType} from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 
-import {Observable, of, throwError} from 'rxjs';
-import {catchError, map, exhaustMap, mergeMap, withLatestFrom, switchMap, tap} from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, map, exhaustMap, mergeMap, withLatestFrom, switchMap, tap } from 'rxjs/operators';
 
-import {getRouterState, State} from 'app/store/reducers';
+import { getRouterState, State } from 'app/store/reducers';
 import * as RelatorioViewActions from 'app/main/apps/relatorios/relatorio-detail/relatorio-view/store/actions/relatorio-view.actions';
 
-import {AddData} from '@cdk/ngrx-normalizr';
-import {Relatorio} from '@cdk/models/relatorio.model';
-import {relatorio as relatorioSchema} from '@cdk/normalizr';
-import {RelatorioService} from '@cdk/services/relatorio.service';
-import {getCurrentStep, getIndex, getPagination} from '../selectors';
-import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import {HttpParams} from '@angular/common/http';
+import { AddData } from '@cdk/ngrx-normalizr';
+import { Relatorio } from '@cdk/models/relatorio.model';
+import { relatorio as relatorioSchema } from '@cdk/normalizr';
+import { RelatorioService } from '@cdk/services/relatorio.service';
+import { getCurrentStep, getIndex, getPagination } from '../selectors';
+import { ComponenteDigitalService } from '@cdk/services/componente-digital.service';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class RelatorioViewEffect {
@@ -58,17 +58,17 @@ export class RelatorioViewEffect {
                         JSON.stringify(action.payload.populate));
                 }),
                 mergeMap((response) => [
-                    new AddData<Relatorio>({data: response['entities'], schema: relatorioSchema}),
+                    new AddData<Relatorio>({ data: response['entities'], schema: relatorioSchema }),
                     new RelatorioViewActions.GetRelatoriosSuccess({
                         index: response['entities'].map(
                             relatorio => {
                                 let componentesDigitaisIds = [];
-                                if (relatorio.documento.componentesDigitais) {
+                                if (relatorio.documento.componentesDigitais && relatorio.documento.componentesDigitais !== null) {
                                     componentesDigitaisIds = relatorio.documento.componentesDigitais.map(
                                         cd => cd.id
                                     );
                                 }
-                                if (relatorio.documento.vinculacoesDocumentos) {
+                                if (relatorio.documento.vinculacoesDocumentos && relatorio.documento.vinculacoesDocumentos !== null) {
                                     relatorio.documento.vinculacoesDocumentos.map(
                                         vinculacaoDocumento => {
                                             vinculacaoDocumento.documentoVinculado.componentesDigitais.map(
@@ -89,7 +89,7 @@ export class RelatorioViewEffect {
                     })
                 ]),
                 catchError((err, caught) => {
-                    console.log (err);
+                    console.log(err);
                     this._store.dispatch(new RelatorioViewActions.GetRelatoriosFailed(err));
                     return caught;
                 })
@@ -109,7 +109,7 @@ export class RelatorioViewEffect {
                         return throwError(new Error('não há documentos'));
                     }
                     const chaveAcesso = this.routerState.params.chaveAcessoHandle ?
-                        {chaveAcesso: this.routerState.params.chaveAcessoHandle} : {};
+                        { chaveAcesso: this.routerState.params.chaveAcessoHandle } : {};
                     const context = JSON.stringify(chaveAcesso);
 
                     return this._componenteDigitalService.download(index[currentStep.step][currentStep.subStep], context);
@@ -126,7 +126,7 @@ export class RelatorioViewEffect {
     /**
      * Set Current Step
      */
-    @Effect({dispatch: false})
+    @Effect({ dispatch: false })
     getRelatoriosSuccess: any =
         this._actions
             .pipe(
@@ -134,7 +134,7 @@ export class RelatorioViewEffect {
                 withLatestFrom(this._store.pipe(select(getPagination))),
                 tap(([action, pagination]) => {
                     if (pagination.offset === 0) {
-                        this._store.dispatch(new RelatorioViewActions.SetCurrentStep({step: 0, subStep: 0}));
+                        this._store.dispatch(new RelatorioViewActions.SetCurrentStep({ step: 0, subStep: 0 }));
                     }
                 }),
                 catchError((err, caught) => {

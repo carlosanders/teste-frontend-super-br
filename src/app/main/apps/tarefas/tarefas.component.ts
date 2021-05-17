@@ -647,7 +647,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCompartilhar(tarefaId): void {
-        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/compartilhamentos/listar']).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/tarefa/' + tarefaId + '/compartilhamentos/criar']).then();
     }
 
     doCompartilharBloco(): void {
