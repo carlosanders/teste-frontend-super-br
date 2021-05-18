@@ -111,9 +111,30 @@
                     edit
                 </mat-icon>
                 <mat-form-field *ngIf="editandoObservacao === true" (click)="$event.stopPropagation()">
-                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
-                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)" upperCase>{{tarefa.observacao}}</textarea>
+                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus upperCase>{{tarefa.observacao}}</textarea>
                 </mat-form-field>
+                <div class="actions" *ngIf="editandoObservacao === true">
+                    <button mat-icon-button aria-label="Salvar Observação" matTooltip="Salvar Observação" class="accent"
+                            (click)="$event.stopPropagation(); doSalvarObservacao(tarefa)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="!tarefa.observacao" class="observacao" (click)="$event.stopPropagation()">
+                <span *ngIf="editandoObservacao === false">Inserir observação</span>
+                <mat-icon *ngIf="editandoObservacao === false" class="secondary-text" matTooltip="Inserir observação"
+                          (click)="$event.stopPropagation(); doEditarObservacao()">
+                    edit
+                </mat-icon>
+                <mat-form-field *ngIf="editandoObservacao === true" (click)="$event.stopPropagation()">
+                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus upperCase></textarea>
+                </mat-form-field>
+                <div class="actions" *ngIf="editandoObservacao === true">
+                    <button mat-icon-button aria-label="Salvar Observação" matTooltip="Salvar Observação" class="accent"
+                            (click)="$event.stopPropagation(); doSalvarObservacao(tarefa)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </div>
             </div>
         </div>
 
