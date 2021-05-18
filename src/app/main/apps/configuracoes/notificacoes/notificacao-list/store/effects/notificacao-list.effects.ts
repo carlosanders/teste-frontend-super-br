@@ -115,7 +115,11 @@ export class NotificacaoListEffect {
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new NotificacaoListActions.ToggleLidaNotificacaoFailed(action.payload));
+                            return of(new NotificacaoListActions.ToggleLidaNotificacaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

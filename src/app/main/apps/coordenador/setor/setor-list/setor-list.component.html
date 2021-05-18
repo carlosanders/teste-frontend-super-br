@@ -9,6 +9,7 @@
         [setores]="(setores$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="['select', 'id', 'nome', 'sigla', 'especieSetor.nome', 'parent.nome', 'apenasDistribuidor', 'ativo', 'actions']"
         [actions]="['edit', 'create', 'lotacoes', 'localizadores', 'select']"

@@ -32,6 +32,7 @@ export class AcaoListComponent implements OnInit {
     etiqueta: Etiqueta;
     loading$: Observable<boolean>;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     /**
@@ -48,6 +49,7 @@ export class AcaoListComponent implements OnInit {
         this.etiqueta$ = this._store.pipe(select(fromStore.getEtiqueta))
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store
