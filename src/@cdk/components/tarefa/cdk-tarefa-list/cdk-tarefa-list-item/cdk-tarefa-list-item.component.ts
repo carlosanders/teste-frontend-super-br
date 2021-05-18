@@ -121,6 +121,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Input()
     editandoObservacao: boolean = false;
 
+    @Input()
+    savingObservacao: boolean = false;
+
     isOpen: boolean;
     loadedAssuntos: boolean;
     loadedInteressados: boolean;
@@ -274,8 +277,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.editarObservacao.emit();
     }
 
-    doSalvarObservacao(tarefa): void {
-        let conteudo = this.observacaoConteudo.nativeElement.value;
+    doSalvarObservacao(tarefa, conteudo): void {
         this.salvarObservacao.emit({tarefa: tarefa, conteudo: conteudo});
     }
 

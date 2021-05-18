@@ -213,6 +213,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Input()
     editandoObservacaoIds: number[] = [];
 
+    @Input()
+    savingObservacao: boolean = false;
+
     listFilter: any;
     listSort: {} = {};
 

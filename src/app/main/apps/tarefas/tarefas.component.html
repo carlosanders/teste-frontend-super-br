@@ -109,6 +109,7 @@
                                      (loadInteressados)="doLoadInteressados($event)"
                                      (salvarObservacao)="doSalvarObservacao($event)"
                                      (assinaMinutas)="doAssinaturaMinutas($event)"
+                                     [savingObservacao]="savingObservacao$ | async"
                                      [loadingAssuntosProcessosId]="(loadingAssuntosProcessosId$ | async)"
                                      [loadingInteressadosProcessosId]="(loadingInteressadosProcessosId$ | async)"
                                      [totalInteressadosProcessosId]="(totalInteressadosProcessosId$ | async)"

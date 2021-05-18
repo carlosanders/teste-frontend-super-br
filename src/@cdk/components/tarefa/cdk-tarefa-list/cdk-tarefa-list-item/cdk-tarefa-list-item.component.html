@@ -111,13 +111,18 @@
                     edit
                 </mat-icon>
                 <mat-form-field *ngIf="editandoObservacao === true" (click)="$event.stopPropagation()">
-                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus upperCase>{{tarefa.observacao}}</textarea>
+                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
+                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)"
+                              upperCase>{{tarefa.observacao}}</textarea>
                 </mat-form-field>
                 <div class="actions" *ngIf="editandoObservacao === true">
-                    <button mat-icon-button aria-label="Salvar Observação" matTooltip="Salvar Observação" class="accent"
-                            (click)="$event.stopPropagation(); doSalvarObservacao(tarefa)">
+                    <button *ngIf="!savingObservacao" mat-icon-button type="button" aria-label="Salvar Observação" matTooltip="Salvar Observação" class="accent"
+                            (click)="$event.stopPropagation();">
                         <mat-icon>edit</mat-icon>
                     </button>
+                    <div class="spinner-container m-8" *ngIf="savingObservacao">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
                 </div>
             </div>
             <div *ngIf="!tarefa.observacao" class="observacao" (click)="$event.stopPropagation()">
@@ -127,13 +132,18 @@
                     edit
                 </mat-icon>
                 <mat-form-field *ngIf="editandoObservacao === true" (click)="$event.stopPropagation()">
-                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus upperCase></textarea>
+                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
+                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)"
+                              upperCase></textarea>
                 </mat-form-field>
                 <div class="actions" *ngIf="editandoObservacao === true">
-                    <button mat-icon-button aria-label="Salvar Observação" matTooltip="Salvar Observação" class="accent"
-                            (click)="$event.stopPropagation(); doSalvarObservacao(tarefa)">
+                    <button *ngIf="!savingObservacao" mat-icon-button type="button" aria-label="Salvar Observação" matTooltip="Salvar Observação" class="accent"
+                            (click)="$event.stopPropagation();">
                         <mat-icon>edit</mat-icon>
                     </button>
+                    <div class="spinner-container m-8" *ngIf="savingObservacao">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
                 </div>
             </div>
         </div>
