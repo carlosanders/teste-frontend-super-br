@@ -14,6 +14,7 @@ import {Setor} from '@cdk/models/setor.model';
 import {setor as setorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class SetorListEffects {
@@ -89,7 +90,11 @@ export class SetorListEffects {
                         map((response) => new SetorListActions.DeleteSetorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new SetorListActions.DeleteSetorFailed(action.payload));
+                            return of(new SetorListActions.DeleteSetorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

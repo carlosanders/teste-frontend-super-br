@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getSigiloListState,
     (state: SigiloListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getSigiloListState,
+    (state: SigiloListState) => state.deletingErrors
+);

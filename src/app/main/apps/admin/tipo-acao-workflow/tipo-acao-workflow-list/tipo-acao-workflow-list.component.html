@@ -9,6 +9,7 @@
     [tipoAcaoWorkflows]="(tipoAcaoWorkflows$ | async)"
     [total]="(pagination$ | async)?.total"
     [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['select', 'id', 'valor', 'descricao', 'actions']"
     [actions]="['edit', 'create', 'delete']"

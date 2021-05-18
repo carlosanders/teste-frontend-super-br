@@ -35,6 +35,7 @@ export class AfastamentoListComponent implements OnInit, OnDestroy {
     pagination: any;
     deletingIds$: Observable<any>;
     deletedIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
 
     /**
      * @param _changeDetectorRef
@@ -51,6 +52,7 @@ export class AfastamentoListComponent implements OnInit, OnDestroy {
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
 
         this._store
             .pipe(select(getRouterState))

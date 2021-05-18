@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getGrupoContatoListState,
     (state: GrupoContatoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getGrupoContatoListState,
+    (state: GrupoContatoListState) => state.deletingErrors
+);

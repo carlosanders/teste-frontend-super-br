@@ -32,6 +32,7 @@ export class RepositoriosEspecieSetorListComponent implements OnInit, OnDestroy 
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
     modalidadeOrgaoCentralPagination: Pagination = new Pagination();
     repositorioPagination: Pagination = new Pagination();
@@ -50,6 +51,7 @@ export class RepositoriosEspecieSetorListComponent implements OnInit, OnDestroy 
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.loading$ = this._store.pipe(select(fromStore.getIsLoading));
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
+        this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
 
         this._store

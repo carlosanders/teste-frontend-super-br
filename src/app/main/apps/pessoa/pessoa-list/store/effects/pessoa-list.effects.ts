@@ -12,6 +12,7 @@ import {PessoaService} from '@cdk/services/pessoa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Pessoa} from '@cdk/models';
 import {pessoa as pessoaSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../@cdk/utils";
 
 @Injectable()
 export class PessoaListEffect {
@@ -82,7 +83,11 @@ export class PessoaListEffect {
                         map((response) => new PessoaListActions.DeletePessoaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new PessoaListActions.DeletePessoaFailed(action.payload));
+                            return of(new PessoaListActions.DeletePessoaFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

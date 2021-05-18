@@ -12,6 +12,7 @@ import {TransicaoService} from '@cdk/services/transicao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Transicao} from '@cdk/models';
 import {transicao as transicaoSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class TransicaoListEffect {
@@ -85,7 +86,11 @@ export class TransicaoListEffect {
                         map((response) => new TransicaoListActions.DeleteTransicaoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TransicaoListActions.DeleteTransicaoFailed(action.payload));
+                            return of(new TransicaoListActions.DeleteTransicaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

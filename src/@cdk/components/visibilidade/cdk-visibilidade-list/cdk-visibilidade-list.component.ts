@@ -25,6 +25,9 @@ export class CdkVisibilidadeListComponent implements AfterViewInit, OnInit, OnCh
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     actions: string[] = ['delete'];
 
     @Output()

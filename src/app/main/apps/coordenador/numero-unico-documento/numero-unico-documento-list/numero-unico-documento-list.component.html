@@ -9,6 +9,7 @@
         [numerosUnicosDocumento]="(numerosUnicosDocumentos$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['edit','create','delete']"
         (create)="create()"

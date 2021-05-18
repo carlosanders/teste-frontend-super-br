@@ -1,4 +1,5 @@
 import * as TramitacaoListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface TramitacaoListState {
     entitiesId: number[];
@@ -15,6 +16,7 @@ export interface TramitacaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const TramitacaoListInitialState: TramitacaoListState = {
@@ -31,7 +33,8 @@ export const TramitacaoListInitialState: TramitacaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function TramitacaoListReducer(
@@ -67,6 +70,7 @@ export function TramitacaoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -75,6 +79,7 @@ export function TramitacaoListReducer(
         case TramitacaoListActions.RELOAD_TRAMITACOES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -99,14 +104,19 @@ export function TramitacaoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case TramitacaoListActions.DELETE_TRAMITACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

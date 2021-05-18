@@ -12,7 +12,7 @@ import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqu
 import {AddData} from '@cdk/ngrx-normalizr';
 import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '@cdk/normalizr';
-
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class ModalidadeAcaoEtiquetaListEffects {
@@ -87,7 +87,11 @@ export class ModalidadeAcaoEtiquetaListEffects {
                         map((response) => new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiquetaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiquetaFailed(action.payload));
+                            return of(new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiqueta(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

@@ -120,6 +120,9 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -342,5 +345,12 @@ export class CdkGrupoContatoGridComponent implements AfterViewInit, OnInit, OnCh
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

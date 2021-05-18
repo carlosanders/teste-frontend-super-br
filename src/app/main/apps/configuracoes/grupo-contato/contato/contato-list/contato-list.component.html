@@ -3,6 +3,7 @@
         [contato]="(contatos$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'delete']"
         (reload)="reload($event)"

@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getCompetenciasListState,
     (state: CompetenciasListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getCompetenciasListState,
+    (state: CompetenciasListState) => state.deletingErrors
+);

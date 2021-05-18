@@ -12,6 +12,7 @@ import {VinculacaoPessoaUsuarioService} from '@cdk/services/vinculacao-pessoa-us
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoPessoaUsuario} from '@cdk/models';
 import {vinculacaoPessoaUsuario as vinculacaoPessoaUsuarioSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 
 @Injectable()
@@ -87,7 +88,11 @@ export class VinculacaoPessoaUsuarioListEffects {
                         map((response) => new VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuarioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuarioFailed(action.payload));
+                            return of(new VinculacaoPessoaUsuarioListActions.DeleteVinculacaoPessoaUsuarioFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

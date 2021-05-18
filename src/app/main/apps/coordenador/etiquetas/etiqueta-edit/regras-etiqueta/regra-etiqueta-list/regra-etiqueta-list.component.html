@@ -8,6 +8,7 @@
         [loading]="(loading$ | async)"
         [regrasEtiqueta]="regrasEtiqueta"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'delete']"
         (reload)="reload($event)"

@@ -3,6 +3,7 @@
         [remessas]="(tramitacoes$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'recebe_remessa', 'delete', 'showDeleted']"
         (reload)="reload($event)"

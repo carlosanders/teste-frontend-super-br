@@ -56,6 +56,9 @@ cdk-vinculacao-etiqueta-grid {
                     &.deleted {
                         text-decoration: line-through;
                     }
+                    &.error {
+                        color: red;
+                    }
                 }
             }
         }

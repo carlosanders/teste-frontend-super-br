@@ -46,3 +46,8 @@ export const getDeletedIds = createSelector(
     getVisibilidadeListState,
     (state: VisibilidadeListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getVisibilidadeListState,
+    (state: VisibilidadeListState) => state.deletingErrors
+);

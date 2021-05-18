@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Etiqueta} from '@cdk/models';
 import {etiqueta as etiquetaSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class EtiquetaListEffect {
@@ -101,7 +102,11 @@ export class EtiquetaListEffect {
                         map((response) => new EtiquetaListActions.DeleteEtiquetaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new EtiquetaListActions.DeleteEtiquetaFailed(action.payload));
+                            return of(new EtiquetaListActions.DeleteEtiquetaFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

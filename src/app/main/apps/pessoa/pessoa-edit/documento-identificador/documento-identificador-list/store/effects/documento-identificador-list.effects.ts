@@ -12,6 +12,7 @@ import {DocumentoIdentificadorService} from '@cdk/services/documento-identificad
 import {AddData} from '@cdk/ngrx-normalizr';
 import {DocumentoIdentificador} from '@cdk/models';
 import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class DocumentoIdentificadorListEffect {
@@ -85,7 +86,11 @@ export class DocumentoIdentificadorListEffect {
                         map((response) => new DocumentoIdentificadorListActions.DeleteDocumentoIdentificadorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new DocumentoIdentificadorListActions.DeleteDocumentoIdentificadorFailed(action.payload));
+                            return of(new DocumentoIdentificadorListActions.DeleteDocumentoIdentificadorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

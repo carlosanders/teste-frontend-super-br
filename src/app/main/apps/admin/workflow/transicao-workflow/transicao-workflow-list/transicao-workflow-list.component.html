@@ -9,6 +9,7 @@
         [loading]="(loading$ | async)"
         [transicoesWorkflows]="(transicoesWorkflows$ | async)"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [total]="(pagination$ | async)?.total"
         [displayedColumns]="['id', 'especieTarefaFrom.nome', 'especieAtividade.nome', 'especieTarefaTo.nome', 'actions']"

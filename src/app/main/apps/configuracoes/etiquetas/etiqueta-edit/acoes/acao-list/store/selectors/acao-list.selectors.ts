@@ -46,3 +46,8 @@ export const getDeletedIds = createSelector(
     getAcaoListState,
     (state: AcaoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getAcaoListState,
+    (state: AcaoListState) => state.deletingErrors
+);

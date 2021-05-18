@@ -1,4 +1,5 @@
 import * as CoordenadoresListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface CoordenadoresListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface CoordenadoresListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const CoordenadoresListInitialState: CoordenadoresListState = {
@@ -33,7 +35,8 @@ export const CoordenadoresListInitialState: CoordenadoresListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function CoordenadoresListReducer(
@@ -70,6 +73,7 @@ export function CoordenadoresListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -78,6 +82,7 @@ export function CoordenadoresListReducer(
         case CoordenadoresListActions.RELOAD_COORDENADORES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -102,14 +107,19 @@ export function CoordenadoresListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case CoordenadoresListActions.DELETE_COORDENADOR_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

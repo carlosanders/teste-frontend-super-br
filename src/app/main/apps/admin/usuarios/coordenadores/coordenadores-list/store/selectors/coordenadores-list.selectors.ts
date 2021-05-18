@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getCoordenadoresListState,
     (state: CoordenadoresListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getCoordenadoresListState,
+    (state: CoordenadoresListState) => state.deletingErrors
+);

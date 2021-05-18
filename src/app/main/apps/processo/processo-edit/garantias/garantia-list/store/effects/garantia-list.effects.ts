@@ -12,6 +12,7 @@ import {GarantiaService} from '@cdk/services/garantia.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Garantia} from '@cdk/models';
 import {garantia as garantiaSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class GarantiaListEffect {
@@ -86,7 +87,11 @@ export class GarantiaListEffect {
                         map((response) => new GarantiaListActions.DeleteGarantiaSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new GarantiaListActions.DeleteGarantiaFailed(action.payload));
+                            return of(new GarantiaListActions.DeleteGarantiaFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

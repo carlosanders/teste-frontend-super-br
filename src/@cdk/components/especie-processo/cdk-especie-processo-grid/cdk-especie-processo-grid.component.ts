@@ -118,6 +118,9 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -331,5 +334,12 @@ export class CdkEspecieProcessoGridComponent implements AfterViewInit, OnInit, O
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

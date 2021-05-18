@@ -1,4 +1,5 @@
 import * as EspecieTarefaListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface EspecieTarefaListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface EspecieTarefaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EspecieTarefaListInitialState: EspecieTarefaListState = {
@@ -33,7 +35,8 @@ export const EspecieTarefaListInitialState: EspecieTarefaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function EspecieTarefaListReducer(
@@ -69,6 +72,7 @@ export function EspecieTarefaListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -93,6 +97,7 @@ export function EspecieTarefaListReducer(
         case EspecieTarefaListActions.RELOAD_ESPECIE_TAREFA: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -109,14 +114,19 @@ export function EspecieTarefaListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case EspecieTarefaListActions.DELETE_ESPECIE_TAREFA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

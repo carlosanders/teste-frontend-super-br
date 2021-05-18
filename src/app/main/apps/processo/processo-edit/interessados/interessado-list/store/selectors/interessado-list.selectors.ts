@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getInteressadoListState,
     (state: InteressadoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getInteressadoListState,
+    (state: InteressadoListState) => state.deletingErrors
+);

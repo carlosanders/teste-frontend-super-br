@@ -12,6 +12,7 @@ import {NomeService} from '@cdk/services/nome.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Nome} from '@cdk/models';
 import {nome as nomeSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class NomeListEffect {
@@ -87,7 +88,11 @@ export class NomeListEffect {
                         map((response) => new NomeListActions.DeleteNomeSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new NomeListActions.DeleteNomeFailed(action.payload));
+                            return of(new NomeListActions.DeleteNomeFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

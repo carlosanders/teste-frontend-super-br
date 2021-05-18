@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {GrupoContato} from '@cdk/models';
 import {grupoContato as grupoContatoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class GrupoContatoListEffect {
@@ -84,7 +85,11 @@ export class GrupoContatoListEffect {
                     return this._grupoContatoService.destroy(action.payload).pipe(
                         map((response) => new GrupoContatoListActions.DeleteGrupoContatoSuccess(response.id)),
                         catchError((err) => {
-                            return of(new GrupoContatoListActions.DeleteGrupoContatoFailed(action.payload));
+                            return of(new GrupoContatoListActions.DeleteGrupoContatoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

@@ -47,3 +47,8 @@ export const getDeletedIds = createSelector(
     getRootLocalizadoresListState,
     (state: RootLocalizadoresListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getRootLocalizadoresListState,
+    (state: RootLocalizadoresListState) => state.deletingErrors
+);

@@ -1,4 +1,5 @@
 import * as NomeListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface NomeListState {
     entitiesId: number[];
@@ -15,6 +16,7 @@ export interface NomeListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const NomeListInitialState: NomeListState = {
@@ -31,7 +33,8 @@ export const NomeListInitialState: NomeListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function NomeListReducer(
@@ -67,6 +70,7 @@ export function NomeListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -75,6 +79,7 @@ export function NomeListReducer(
         case NomeListActions.RELOAD_NOMES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -99,14 +104,19 @@ export function NomeListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case NomeListActions.DELETE_NOME_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

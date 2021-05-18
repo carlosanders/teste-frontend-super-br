@@ -1,4 +1,5 @@
 import * as VisibilidadeListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface VisibilidadeListState {
     entitiesId: number[];
@@ -7,6 +8,7 @@ export interface VisibilidadeListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const VisibilidadeListInitialState: VisibilidadeListState = {
@@ -15,7 +17,8 @@ export const VisibilidadeListInitialState: VisibilidadeListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function VisibilidadeListReducer(
@@ -39,6 +42,7 @@ export function VisibilidadeListReducer(
             return {
                 ...state,
                 entitiesId: action.payload.entitiesId,
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -47,6 +51,7 @@ export function VisibilidadeListReducer(
         case VisibilidadeListActions.RELOAD_VISIBILIDADES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -72,6 +77,7 @@ export function VisibilidadeListReducer(
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload]),
                 entitiesId: state.entitiesId.filter(id => id !== action.payload)
             };
         }
@@ -79,7 +85,11 @@ export function VisibilidadeListReducer(
         case VisibilidadeListActions.DELETE_VISIBILIDADE_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

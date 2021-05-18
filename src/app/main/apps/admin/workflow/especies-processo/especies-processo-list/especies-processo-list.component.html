@@ -10,6 +10,7 @@
         [especieProcessos]="(especieProcessos$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="['select', 'id', 'nome', 'descricao', 'actions']"
         [actions]="['create', 'delete']"

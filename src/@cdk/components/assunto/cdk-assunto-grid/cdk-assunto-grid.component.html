@@ -222,6 +222,10 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, assunto.id)">
+                            {{ getProp(deletingErrors, assunto.id) }}
+                        </mat-error>
                     </td>
                 </ng-container>
 

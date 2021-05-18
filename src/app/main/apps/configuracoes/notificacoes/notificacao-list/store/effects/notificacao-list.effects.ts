@@ -13,6 +13,7 @@ import {AddData, UpdateData} from '@cdk/ngrx-normalizr';
 import {Notificacao} from '@cdk/models';
 import {notificacao as notificacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class NotificacaoListEffect {
@@ -87,7 +88,11 @@ export class NotificacaoListEffect {
                         map((response) => new NotificacaoListActions.DeleteNotificacaoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new NotificacaoListActions.DeleteNotificacaoFailed(action.payload));
+                            return of(new NotificacaoListActions.DeleteNotificacaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })
@@ -110,7 +115,11 @@ export class NotificacaoListEffect {
                         ]),
                         catchError((err) => {
                             console.log(err);
-                            return of(new NotificacaoListActions.ToggleLidaNotificacaoFailed(action.payload));
+                            return of(new NotificacaoListActions.ToggleLidaNotificacaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

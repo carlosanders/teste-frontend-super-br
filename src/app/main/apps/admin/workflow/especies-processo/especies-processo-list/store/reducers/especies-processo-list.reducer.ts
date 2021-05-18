@@ -1,4 +1,5 @@
 import * as EspecieProcessoListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface WorkflowEspecieProcessoListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface WorkflowEspecieProcessoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const EspecieProcessoListInitialState: WorkflowEspecieProcessoListState = {
@@ -33,7 +35,8 @@ export const EspecieProcessoListInitialState: WorkflowEspecieProcessoListState =
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function WorkflowEspeciesProcessoListReducer(
@@ -69,6 +72,7 @@ export function WorkflowEspeciesProcessoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded,
             };
@@ -85,6 +89,7 @@ export function WorkflowEspeciesProcessoListReducer(
         case EspecieProcessoListActions.RELOAD_ESPECIE_PROCESSO: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -101,14 +106,19 @@ export function WorkflowEspeciesProcessoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case EspecieProcessoListActions.UPDATE_ESPECIE_PROCESSO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

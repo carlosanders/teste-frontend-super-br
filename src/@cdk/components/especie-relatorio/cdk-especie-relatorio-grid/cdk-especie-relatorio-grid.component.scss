@@ -56,6 +56,9 @@ cdk-especie-relatorio-grid {
                     &.deleted {
                         text-decoration: line-through;
                     }
+                    &.error {
+                        color: red;
+                    }
                 }
             }
         }

@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Favorito} from '@cdk/models';
 import {favorito as favoritoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class FavoritoListEffect {
@@ -86,7 +87,11 @@ export class FavoritoListEffect {
                         map((response) => new FavoritoListActions.DeleteFavoritoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new FavoritoListActions.DeleteFavoritoFailed(action.payload));
+                            return of(new FavoritoListActions.DeleteFavoritoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

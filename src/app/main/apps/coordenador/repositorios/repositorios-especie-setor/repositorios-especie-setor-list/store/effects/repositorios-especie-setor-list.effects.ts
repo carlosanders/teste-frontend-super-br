@@ -12,6 +12,7 @@ import {VinculacaoRepositorioService} from '@cdk/services/vinculacao-repositorio
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoRepositorio} from '@cdk/models';
 import {vinculacaoRepositorio as vinculacaoRepositorioschema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class RepositoriosEspecieSetorListEffects {
@@ -85,7 +86,11 @@ export class RepositoriosEspecieSetorListEffects {
                         map((response) => new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorFailed(action.payload));
+                            return of(new RepositoriosEspecieSetorListActions.DeleteRepositorioEspecieSetorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })
