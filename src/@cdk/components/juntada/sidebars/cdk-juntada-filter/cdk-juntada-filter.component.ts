@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'cdk-juntada-filter',
@@ -21,6 +22,11 @@ export class CdkJuntadaFilterComponent {
     @Input()
     mode = 'list';
 
+    filterCriadoEm = [];
+    filterAtualizadoEm = [];
+
+    limparFormFiltroDatas$: Subject<boolean> = new Subject<boolean>();
+
     constructor(
         private _formBuilder: FormBuilder,
         private _cdkSidebarService: CdkSidebarService,
@@ -28,7 +34,7 @@ export class CdkJuntadaFilterComponent {
         this.form = this._formBuilder.group({
             numeracaoSequencial: [null],
             descricao: [null],
-            documento: [null],
+            tipoDocumento: [null],
             criadoPor: [null],
             criadoEm: [null],
             atualizadoPor: [null],
@@ -54,8 +60,8 @@ export class CdkJuntadaFilterComponent {
                 andXFilter.push({'numeracaoSequencial': `like:%${bit}%`});
             });
         }
-        if (this.form.get('documento').value) {
-            andXFilter.push({'documento.id': `eq:${this.form.get('documento').value.id}`});
+        if (this.form.get('tipoDocumento').value) {
+            andXFilter.push({'documento.tipoDocumento.id': `eq:${this.form.get('tipoDocumento').value.id}`});
         }
 
         if (this.form.get('criadoEm').value) {
@@ -84,6 +90,14 @@ export class CdkJuntadaFilterComponent {
 
         this.selected.emit(request);
         this._cdkSidebarService.getSidebar('cdk-juntada-filter').close();
+    }
+
+    filtraCriadoEm(value: any): void {
+        this.filterCriadoEm = value;
+    }
+
+    filtraAtualizadoEm(value: any): void {
+        this.filterAtualizadoEm = value;
     }
 
     verificarValor(objeto): void {

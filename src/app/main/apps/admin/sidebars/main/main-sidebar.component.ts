@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation
 import {cdkAnimations} from '@cdk/animations';
 import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
-import {CdkUtils} from '../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 
 
@@ -135,6 +135,12 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
                 nome: 'Workflows',
                 icon: 'low_priority',
                 link: 'workflows',
+                role: ['ROLE_ADMIN']
+            },
+            {
+                nome: 'Avisos',
+                icon: 'info',
+                link: 'avisos',
                 role: ['ROLE_ADMIN']
             }
         ];

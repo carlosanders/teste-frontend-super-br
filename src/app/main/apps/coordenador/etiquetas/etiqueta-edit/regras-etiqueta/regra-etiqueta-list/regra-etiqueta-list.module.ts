@@ -22,7 +22,7 @@ import * as fromGuards from './store/guards';
 import {RegraEtiquetaService} from '@cdk/services/regra-etiqueta.service';
 import {modulesConfig} from 'modules/modules-config';
 import {CdkRegraEtiquetaGridModule} from '@cdk/components/regra-etiqueta/cdk-regra-etiqueta-grid/cdk-regra-etiqueta-grid.module';
-import {PathModule} from '../../../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

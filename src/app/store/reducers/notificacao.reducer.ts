@@ -1,4 +1,5 @@
 import * as NotificacaoActions from '../actions';
+import {Notificacao} from "@cdk/models";
 
 export interface NotificacaoState {
     entitiesId: number[];
@@ -15,6 +16,10 @@ export interface NotificacaoState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    snackbar: {
+        exibir: boolean,
+        notificacao: Notificacao
+    };
 }
 
 export const NotificacaoInitialState: NotificacaoState = {
@@ -31,7 +36,11 @@ export const NotificacaoInitialState: NotificacaoState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    snackbar: {
+        exibir: false,
+        notificacao: null
+    }
 };
 
 export function NotificacaoReducer(
@@ -106,6 +115,18 @@ export function NotificacaoReducer(
                 ...state,
                 loading: false,
                 loaded: false
+            };
+        }
+
+        case NotificacaoActions.SNACKBAR_EXIBIR_NOTIFICACAO: {
+            const snackbar = {
+                exibir:action.payload.exibir,
+                notificacao: action.payload.notificacao ?? null
+            };
+
+            return {
+                ...state,
+                snackbar: snackbar
             };
         }
 

@@ -4,12 +4,17 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { WidgetAlertaComponent } from './widget-alerta.component';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkWidgetModule} from '@cdk/components';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatIconModule} from '@angular/material/icon';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {MatCardModule} from '@angular/material/card';
-import {MatButtonModule} from '@angular/material/button';
 import {TourModule} from "../../ajuda/tour/tour.module";
+import {AvisoService} from "@cdk/services/aviso.service";
+import {
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatListModule,
+    MatTooltipModule,
+} from '@cdk/angular/material';
 
 @NgModule({
     declarations: [
@@ -24,9 +29,12 @@ import {TourModule} from "../../ajuda/tour/tour.module";
         MatCardModule,
         MatButtonModule,
         TourModule,
+        MatListModule,
+        MatTooltipModule,
     ],
     providers: [
-        LoginService
+        LoginService,
+        AvisoService
     ],
     exports: [
         WidgetAlertaComponent

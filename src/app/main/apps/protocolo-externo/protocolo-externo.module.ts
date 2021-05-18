@@ -39,7 +39,7 @@ import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {DocumentoService} from '@cdk/services/documento.service';
 import {modulesConfig} from 'modules/modules-config';
-import {AssinaturaService} from '../../../../@cdk/services/assinatura.service';
+import {AssinaturaService} from '@cdk/services/assinatura.service';
 
 const routes: Routes = [
     {

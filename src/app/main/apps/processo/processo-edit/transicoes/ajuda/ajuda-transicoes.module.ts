@@ -3,7 +3,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 
 
 import {AjudaTransicoesComponent} from './ajuda-transicoes.component';
-import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 @NgModule({
     declarations: [
@@ -12,7 +12,7 @@ import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
     imports: [
         CdkSharedModule,
         MatExpansionModule,
-        
+
     ],
     providers: [
     ],

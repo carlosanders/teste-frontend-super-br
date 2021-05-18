@@ -1,4 +1,4 @@
-import {ProcessoState} from '../reducers/processo.reducer';
+import {ProcessoState} from '../reducers';
 import {createSelector} from '@ngrx/store';
 import {getTarefaDetailAppState, TarefaDetailAppState} from '../reducers';
 

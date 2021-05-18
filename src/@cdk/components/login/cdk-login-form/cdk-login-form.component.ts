@@ -120,7 +120,9 @@ export class CdkLoginFormComponent implements OnChanges, OnDestroy {
         }
     }
 
-    onChangeTipoLogin(event): void {
-        this._loginService.setLoginType(event.value);
+    onChangeTipoLogin(tipo): void {
+        this._loginService.setLoginType(tipo);
+        this.form.get('tipoLogin').setValue(tipo);
+        this._changeDetectorRef.markForCheck();
     }
 }

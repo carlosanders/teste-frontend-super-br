@@ -2,23 +2,21 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import {select, Store} from '@ngrx/store';
 import {Router} from '@angular/router';
 import {catchError, mergeMap, switchMap, tap, withLatestFrom} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Injectable} from '@angular/core';
 import * as moment from 'moment';
 
-import {Processo, Transicao} from '@cdk/models';
+import {Transicao} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {TransicaoService} from '@cdk/services/transicao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {transicao as transicaoSchema} from '@cdk/normalizr';
-import {processo as processoSchema} from '@cdk/normalizr';
 
 import {getRouterState, State} from '../../../../../../store';
 import * as RealizarTransicaoActions from '../actions/realizar-transicao.actions';
-import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../../store';
-import {ChangeProcessos, getProcessosIds, ReloadProcessos} from "../../../arquivista-list/store";
+import {ChangeProcessos, getProcessosIds} from "../../../arquivista-list/store";
 
 @Injectable()
 export class RealizarTransicaoEffects {

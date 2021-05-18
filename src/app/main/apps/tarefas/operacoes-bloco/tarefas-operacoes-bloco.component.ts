@@ -23,7 +23,7 @@ import {DynamicService} from 'modules/dynamic.service';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {CdkUtils} from '../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'tarefas-operacoes-bloco',
@@ -184,7 +184,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletado(a)'
+                text: 'Deletando'
             }
         });
 
@@ -230,7 +230,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'check',
-                text: 'Ciência'
+                text: 'Dando ciência'
             }
         });
 

@@ -1,0 +1,16 @@
+div.notification {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    cursor: default!important;
+
+    .identify {
+        align-self: center;
+        margin-right: 15px;
+    }
+
+    .button {
+        align-self: center;
+        cursor: pointer;
+    }
+}

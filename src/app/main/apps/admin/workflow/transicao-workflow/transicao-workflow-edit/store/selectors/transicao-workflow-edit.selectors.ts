@@ -2,7 +2,7 @@ import {createSelector} from '@ngrx/store';
 import {getTransicaoWorkflowEditAppState, TransicaoWorkflowEditAppState, TransicaoWorkflowEditState} from '../reducers';
 import {createSchemaSelectors} from '@cdk/ngrx-normalizr';
 import {transicaoWorkflow as transicaoWorkflowSchema} from '@cdk/normalizr';
-import {Workflow} from '../../../../../../../../../@cdk/models';
+import {Workflow} from '@cdk/models';
 
 const schemaTransicaoWorkflowSelectors = createSchemaSelectors<Workflow>(transicaoWorkflowSchema);
 

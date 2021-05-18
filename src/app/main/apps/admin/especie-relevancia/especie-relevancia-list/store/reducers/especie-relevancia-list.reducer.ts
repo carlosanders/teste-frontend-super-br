@@ -85,6 +85,14 @@ export function EspecieRelevanciaListReducer(
             };
         }
 
+        case EspecieRelevanciaListActions.UNLOAD_ESPECIE_RELEVANCIA: {
+            return {
+                ...EspecieRelevanciaListInitialState
+            };
+        }
+
+
+
         case EspecieRelevanciaListActions.RELOAD_ESPECIE_RELEVANCIA: {
             return {
                 ...state,

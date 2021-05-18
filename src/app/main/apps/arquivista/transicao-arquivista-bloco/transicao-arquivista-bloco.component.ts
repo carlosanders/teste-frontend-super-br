@@ -8,17 +8,17 @@ import {
 } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {select, Store} from '@ngrx/store';
-import {ModalidadeTransicao, Pagination, Processo, Transicao} from '../../../../../@cdk/models';
+import {ModalidadeTransicao, Pagination, Processo, Transicao} from '@cdk/models';
 import * as fromStore from './store';
 import {RouterStateUrl, getRouterState, getOperacoes} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
 import {getModalidadeTransicao, getSelectedProcessos} from "../arquivista-list/store";
 import {Router} from "@angular/router";
-import {CdkUtils} from "../../../../../@cdk/utils";
-import {SnackBarDesfazerComponent} from "../../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component";
+import {CdkUtils} from "@cdk/utils";
+import {SnackBarDesfazerComponent} from "@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component";
 import {MatSnackBar, MatSnackBarRef} from "@angular/material/snack-bar";
 
 @Component({
@@ -185,7 +185,7 @@ export class TransicaoArquivistaBlocoComponent implements OnInit, AfterViewInit 
                         panelClass: ['cdk-white-bg'],
                         data: {
                             icon: 'check',
-                            text: 'Transição arquivística'
+                            text: 'Realizando transição'
                         }
                     });
 

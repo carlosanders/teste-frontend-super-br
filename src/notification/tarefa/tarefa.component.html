@@ -1,0 +1,13 @@
+<div class="notification" (click)="action()">
+    <div class="identify" >
+        <mat-icon>check_box</mat-icon>
+    </div>
+    <div class="content">
+        {{ data.conteudo }}
+    </div>
+    <div class="action">
+        <button mat-icon-button (click)="$event.stopPropagation(); close()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>

@@ -85,6 +85,12 @@ export function CargoListReducer(
             };
         }
 
+        case CargoListActions.UNLOAD_CARGO: {
+            return {
+                ...CargoListInitialState
+            };
+        }
+
         case CargoListActions.RELOAD_CARGO: {
             return {
                 ...state,

@@ -1,7 +1,7 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 
 import {AjudaUploadBlocoComponent} from './ajuda-upload-bloco.component';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 
 @NgModule({
     declarations: [
@@ -23,5 +23,5 @@ export class AjudaUploadBlocoModule {
     public resolveComponentFactory(): ComponentFactory<AjudaUploadBlocoComponent> {
         return this.resolver.resolveComponentFactory(AjudaUploadBlocoComponent);
     }
-    
+
 }

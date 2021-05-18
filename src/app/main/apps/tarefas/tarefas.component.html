@@ -85,6 +85,7 @@
                                      (createTarefa)="doCreateTarefa($event)"
                                      (movimentar)="doMovimentar($event)"
                                      (editTarefa)="doEditTarefa($event)"
+                                     (editProcesso)="doEditProcesso($event)"
                                      (removeTarefa)="doRemoveTarefa($event)"
                                      (redistribuirTarefa)="doRedistribuirTarefa($event)"
                                      (cienciaTarefa)="doCienciaTarefa($event)"
@@ -111,7 +112,8 @@
                                      [targetHandle]="targetHandle"
                                      [cienciaIds]="(cienciaIds$ | async)"
                                      [mobileMode]="mobileMode"
-                                     (criaRelatorio)="criarRelatorio()">
+                                     (criaRelatorio)="criarRelatorio()"
+                                     (etiquetaClickHandler)="doEditarDocumentoEtiqueta($event)">
                     </cdk-tarefa-list>
                 </div>
 

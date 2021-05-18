@@ -87,6 +87,12 @@ export function UsuariosExternosListReducer(
             };
         }
 
+        case UsuariosExternosListActions.UNLOAD_USUARIOS_EXTERNOS: {
+            return {
+                ...UsuariosExternosListInitialState
+            };
+        }
+
         case UsuariosExternosListActions.RELOAD_USUARIOS_EXTERNOS_LIST: {
             return {
                 ...state,

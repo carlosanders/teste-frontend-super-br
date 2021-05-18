@@ -8,12 +8,11 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as EspecieProcessoListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {EspecieProcessoService} from '../../../../../../../../@cdk/services/especie-processo.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {EspecieProcesso} from '../../../../../../../../@cdk/models';
-import {especieProcesso as especieProcessoSchema} from '../../../../../../../../@cdk/normalizr';
+import {EspecieProcessoService} from '@cdk/services/especie-processo.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {EspecieProcesso} from '@cdk/models';
+import {especieProcesso as especieProcessoSchema} from '@cdk/normalizr';
 import {CdkUtils} from "../../../../../../../../@cdk/utils";
-
 
 @Injectable()
 export class EspecieProcessoListEffects {

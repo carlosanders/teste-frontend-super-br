@@ -28,7 +28,7 @@ import * as fromGuards from './store/guards';
 import {CdkVinculacaoSetorMunicipioFormModule} from '@cdk/components/vinculacao-setor-municipio/cdk-vinculacao-setor-municipio-form/cdk-vinculacao-setor-municipio-form.module';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

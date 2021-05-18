@@ -86,6 +86,12 @@ export function TipoDocumentoListReducer(
             };
         }
 
+        case TipoDocumentoListActions.UNLOAD_TIPO_DOCUMENTO: {
+            return {
+                ...TipoDocumentoListInitialState
+            };
+        }
+
         case TipoDocumentoListActions.RELOAD_TIPO_DOCUMENTO: {
             return {
                 ...state,

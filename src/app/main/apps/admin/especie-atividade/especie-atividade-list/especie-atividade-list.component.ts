@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
-import {EspecieAtividade} from '../../../../../../@cdk/models';
+import {EspecieAtividade} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadEspecieAtividade} from "./store";
+
 
 @Component({
     selector: 'especie-atividade-list',
@@ -15,7 +17,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class EspecieAtividadeListComponent implements OnInit {
+export class EspecieAtividadeListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     especieAtividades$: Observable<EspecieAtividade[]>;
@@ -48,6 +50,10 @@ export class EspecieAtividadeListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadEspecieAtividade());
     }
 
     reload(params): void {

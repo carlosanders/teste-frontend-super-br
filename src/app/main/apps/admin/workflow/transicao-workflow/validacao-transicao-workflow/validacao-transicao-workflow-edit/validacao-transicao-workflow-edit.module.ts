@@ -1,4 +1,4 @@
-import { TipoValidacaoWorkflowService } from './../../../../../../../../@cdk/services/tipo-validacao-workflow.service';
+import { TipoValidacaoWorkflowService } from '@cdk/services/tipo-validacao-workflow.service';
 import {NgModule} from '@angular/core';
 import {
     MatAutocompleteModule,

@@ -5,6 +5,8 @@ export const GET_ASSUNTO_ADMINISTRATIVO_SUCCESS = '[SUPERADMIN ASSUNTO ADMINISTR
 export const GET_ASSUNTO_ADMINISTRATIVO_FAILED = '[SUPERADMIN ASSUNTO ADMINISTRATIVO LIST] GET ASSUNTO_ADMINISTRATIVO FAILED';
 
 export const RELOAD_ASSUNTO_ADMINISTRATIVO = '[SUPERADMIN ASSUNTO ADMINISTRATIVO LIST] RELOAD ASSUNTO_ADMINISTRATIVO';
+export const UNLOAD_ASSUNTO_ADMINISTRATIVO = '[SUPERADMIN ASSUNTO ADMINISTRATIVO LIST] UNLOAD ASSUNTO_ADMINISTRATIVO';
+
 
 /**
  * Get AssuntoAdministrativo
@@ -37,6 +39,16 @@ export class GetAssuntoAdministrativoFailed implements Action {
 }
 
 /**
+ * Unload AssuntoAdministrativo
+ */
+ export class UnloadAssuntoAdministrativo implements Action {
+    readonly type = UNLOAD_ASSUNTO_ADMINISTRATIVO;
+
+    constructor() {
+    }
+}
+
+/**
  * Reload AssuntoAdministrativo
  */
 export class ReloadAssuntoAdministrativo implements Action {
@@ -50,4 +62,5 @@ export type AssuntoAdministrativoListActionsAll
     = GetAssuntoAdministrativo
     | GetAssuntoAdministrativoSuccess
     | GetAssuntoAdministrativoFailed
+    | UnloadAssuntoAdministrativo
     | ReloadAssuntoAdministrativo;

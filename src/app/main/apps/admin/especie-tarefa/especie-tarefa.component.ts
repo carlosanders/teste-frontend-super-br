@@ -12,7 +12,7 @@ import {select, Store} from '@ngrx/store';
 import {Subject} from 'rxjs';
 import {getRouterState} from 'app/store';
 import {takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 
 @Component({
     selector: 'especie-tarefa',

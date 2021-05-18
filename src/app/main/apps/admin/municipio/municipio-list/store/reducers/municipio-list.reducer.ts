@@ -84,6 +84,13 @@ export function MunicipioListReducer(
             };
         }
 
+        case MunicipioListActions.UNLOAD_MUNICIPIO: {
+            return {
+                ...MunicipioListInitialState
+            };
+        }
+
+
         case MunicipioListActions.RELOAD_MUNICIPIO: {
             return {
                 ...state,

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {Observable} from 'rxjs';
-import {TipoAcaoWorkflow, Pagination} from '../../../../../../@cdk/models';
+import {TipoAcaoWorkflow, Pagination} from '@cdk/models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
@@ -56,7 +56,7 @@ export class TipoAcaoWorkflowEditComponent implements OnInit {
             id: [null],
             valor: [null, [Validators.required, Validators.maxLength(255)]],
             descricao: [null, [Validators.required]],
-            trigger: [null, [Validators.required]]       
+            trigger: [null, [Validators.required]]
          });
     }
 
@@ -66,7 +66,7 @@ export class TipoAcaoWorkflowEditComponent implements OnInit {
     // -----------------------------------------------------------------------------------------------------
 
     submitTipoAcaoWorkflow(values): void {
-  
+
         const tipoAcaoWorkflow = new TipoAcaoWorkflow();
         Object.entries(values).forEach(
             ([key, value]) => {

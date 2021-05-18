@@ -1,4 +1,4 @@
-import { tipoValidacaoWorkflow } from './../../../../../../../../../../@cdk/normalizr/index';
+import { tipoValidacaoWorkflow } from '@cdk/normalizr/index';
 import {
     ChangeDetectionStrategy,
     Component,

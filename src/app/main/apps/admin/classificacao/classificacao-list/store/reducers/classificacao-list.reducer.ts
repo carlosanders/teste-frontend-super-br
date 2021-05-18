@@ -86,6 +86,12 @@ export function ClassificacaoListReducer(
             };
         }
 
+        case ClassificacaoListActions.UNLOAD_CLASSIFICACAO: {
+            return {
+                ...ClassificacaoListInitialState
+            };
+        }
+
         case ClassificacaoListActions.RELOAD_CLASSIFICACAO: {
             return {
                 ...state,
@@ -107,7 +113,7 @@ export function ClassificacaoListReducer(
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
-                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 

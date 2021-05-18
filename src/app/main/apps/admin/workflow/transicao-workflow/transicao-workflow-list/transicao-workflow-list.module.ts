@@ -16,17 +16,17 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
 import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
 import {TransicaoWorkflowStoreModule} from './store/store.module';
-import {CdkTransicaoWorkflowGridModule} from '../../../../../../../@cdk/components/transicao-workflow/cdk-transicao-workflow-grid/cdk-transicao-workflow-grid.module';
+import {CdkTransicaoWorkflowGridModule} from '@cdk/components/transicao-workflow/cdk-transicao-workflow-grid/cdk-transicao-workflow-grid.module';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
-import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

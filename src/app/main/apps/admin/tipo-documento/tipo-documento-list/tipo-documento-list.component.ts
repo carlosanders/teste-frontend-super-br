@@ -1,12 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 
-import {TipoDocumento} from '../../../../../../@cdk/models';
+import {TipoDocumento} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadTipoDocumento} from "./store";
 
 @Component({
     selector: 'tipo-documento-list',
@@ -16,7 +17,7 @@ import {cdkAnimations} from '../../../../../../@cdk/animations';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class TipoDocumentoListComponent implements OnInit {
+export class TipoDocumentoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     tipoDocumentos$: Observable<TipoDocumento[]>;
@@ -52,6 +53,10 @@ export class TipoDocumentoListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadTipoDocumento());
     }
 
     reload(params): void {

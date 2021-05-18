@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -13,7 +14,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
-import {Documento} from '../../../../../../@cdk/models';
+import {Documento} from '@cdk/models';
+
+import {UnloadModelos} from "./store";
+
 
 @Component({
     selector: 'modelos-list',
@@ -23,7 +27,7 @@ import {Documento} from '../../../../../../@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class ModelosListComponent implements OnInit {
+export class ModelosListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     modelos$: Observable<Modelo[]>;
@@ -73,7 +77,7 @@ export class ModelosListComponent implements OnInit {
                     }
                     if (this.routerState.params['generoHandle'] === 'nacional' && !this.routerState.params['unidadeHandle']) {
                         this.actions = ['edit', 'create', 'editConteudo', 'especie', 'delete'];
-                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.modalidadeOrgaoCentral.valor', 'template.nome', 'ativo', 'actions'];
+                        this.colunas = ['select', 'id', 'nome', 'descricao', 'vinculacoesModelos.modalidadeOrgaoCentral.nome', 'template.nome', 'ativo', 'actions'];
                     }
                 }
             });
@@ -84,6 +88,10 @@ export class ModelosListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadModelos());
     }
 
     reload(params): void {

@@ -5,7 +5,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Back, getOperacoesState, getRouterState, RouterStateUrl} from '../../../../store';
 import {filter, takeUntil} from 'rxjs/operators';
-import {cdkAnimations} from '../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
 import {getProcesso} from "../../processo/store";

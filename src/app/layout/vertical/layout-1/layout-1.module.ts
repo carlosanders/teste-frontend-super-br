@@ -12,6 +12,7 @@ import {AjudaPanelModule} from 'app/layout/components/ajuda-panel/ajuda-panel.mo
 import {ToolbarModule} from 'app/layout/components/toolbar/toolbar.module';
 
 import {VerticalLayout1Component} from './layout-1.component';
+import {NotificationModule} from '../../../../notification/notification.module';
 
 @NgModule({
     declarations: [
@@ -28,7 +29,8 @@ import {VerticalLayout1Component} from './layout-1.component';
         NavbarModule,
         QuickPanelModule,
         AjudaPanelModule,
-        ToolbarModule
+        ToolbarModule,
+        NotificationModule
     ],
     exports: [
         VerticalLayout1Component

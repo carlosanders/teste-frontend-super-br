@@ -26,7 +26,7 @@ import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
 import * as fromGuards from './store/guards';
 import {CdkVinculacaoModeloEspecieSetorFormModule} from '@cdk/components/vinculacao-modelo/cdk-vinculacao-modelo-especie-setor-form/cdk-vinculacao-modelo-especie-setor-form.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

@@ -27,7 +27,7 @@ import {CdkDesentranhamentoFormModule} from '@cdk/components/desentranhamento/cd
 import {DesentranhamentoCreateBlocoStoreModule} from './store/store.module';
 import {DesentranhamentoService} from '@cdk/services/desentranhamento.service';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkJuntadaGridSelectModule} from '../../../../../../../@cdk/components/juntada/cdk-juntada-grid-select/cdk-juntada-grid-select.module';
+import {CdkJuntadaGridSelectModule} from '@cdk/components/juntada/cdk-juntada-grid-select/cdk-juntada-grid-select.module';
 import * as fromGuards from '../desentranhamento-create-bloco/store/guards';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {SnackBarDesfazerModule} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module';

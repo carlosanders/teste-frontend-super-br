@@ -15,19 +15,19 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatDialogModule} from '@angular/material/dialog';
-import {UsuarioService} from '../../../../../../@cdk/services/usuario.service';
+import {UsuarioService} from '@cdk/services/usuario.service';
 import {UsuariosExternosStoreModule} from './store/store.module';
 import {LoginService} from '../../../../auth/login/login.service';
-import {CdkUsuarioGridModule} from '../../../../../../@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.module';
+import {CdkUsuarioGridModule} from '@cdk/components/usuario/cdk-usuario-grid/cdk-usuario-grid.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

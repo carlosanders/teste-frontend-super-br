@@ -31,9 +31,9 @@ import {modulesConfig} from '../../../../../../../modules/modules-config';
 import {DynamicService} from '../../../../../../../modules/dynamic.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {MatMenuTrigger} from '@angular/material/menu';
-import {CdkUtils} from '../../../../../../../@cdk/utils';
+import {CdkUtils} from '@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {SnackBarDesfazerComponent} from '../../../../../../../@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
+import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {getDocumentosHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
 import * as fromStoreTarefaDetail from "../../store";
 
@@ -477,7 +477,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'delete',
-                text: 'Deletado(a)'
+                text: 'Deletando'
             }
         });
 

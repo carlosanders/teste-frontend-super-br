@@ -6,14 +6,13 @@ import {Observable, of} from 'rxjs';
 import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import * as WorkflowListActions from '../actions';
-import {WorkflowService} from '../../../../../../../../@cdk/services/workflow.service';
-import {workflow as workflowSchema} from '../../../../../../../../@cdk/normalizr/index';
+import {WorkflowService} from '@cdk/services/workflow.service';
+import {workflow as workflowSchema} from '@cdk/normalizr/index';
 import {getRouterState, State} from '../../../../../../../store/reducers';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
+import {AddData} from '@cdk/ngrx-normalizr';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {Workflow} from '../../../../../../../../@cdk/models';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
-
+import {Workflow} from '@cdk/models';
+import {CdkUtils} from "@cdk/utils";
 
 @Injectable()
 export class WorkflowListEffects {

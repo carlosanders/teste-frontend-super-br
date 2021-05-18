@@ -14,12 +14,12 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import {TemplatesListStoreModule} from './store/store.module';
-import {TemplateService} from '../../../../../../@cdk/services/template.service';
+import {TemplateService} from '@cdk/services/template.service';
 import * as fromGuards from './store/guards';
-import {CdkTemplateGridModule} from '../../../../../../@cdk/components/template/cdk-template-grid/cdk-template-grid.module';
-import {PathModule} from '../../../../../../@cdk/components/path/path.module';
+import {CdkTemplateGridModule} from '@cdk/components/template/cdk-template-grid/cdk-template-grid.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

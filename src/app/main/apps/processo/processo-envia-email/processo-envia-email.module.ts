@@ -24,7 +24,7 @@ import {EnviaEmailStoreModule} from './store/store.module';
 import {CdkEnviaEmailFormModule} from '@cdk/components/juntada/cdk-envia-email-form/cdk-envia-email-form.module';
 import {modulesConfig} from 'modules/modules-config';
 import * as fromGuards from './store/guards';
-import {JuntadaService} from '../../../../../@cdk/services/juntada.service';
+import {JuntadaService} from '@cdk/services/juntada.service';
 
 const routes: Routes = [
     {

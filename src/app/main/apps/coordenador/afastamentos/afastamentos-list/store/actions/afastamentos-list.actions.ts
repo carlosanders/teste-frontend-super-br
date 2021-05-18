@@ -5,6 +5,8 @@ export const GET_AFASTAMENTOS_SUCCESS = '[COORDENADOR AFASTAMENTOS LIST] GET AFA
 export const GET_AFASTAMENTOS_FAILED = '[COORDENADOR AFASTAMENTOS LIST] GET AFASTAMENTOS FAILED';
 
 export const RELOAD_AFASTAMENTOS = '[COORDENADOR AFASTAMENTOS LIST] RELOAD AFASTAMENTOS';
+export const UNLOAD_AFASTAMENTOS = '[COORDENADOR AFASTAMENTOS LIST] UNLOAD AFASTAMENTOS';
+
 
 export const DELETE_AFASTAMENTO = '[COORDENADOR AFASTAMENTOS LIST] DELETE AFASTAMENTO';
 export const DELETE_AFASTAMENTO_SUCCESS = '[COORDENADOR AFASTAMENTOS LIST] DELETE AFASTAMENTO SUCCESS';
@@ -59,6 +61,18 @@ export class ReloadAfastamentos implements Action
 }
 
 /**
+ * Unload Afastamentos
+ */
+ export class UnloadAfastamentos implements Action
+ {
+     readonly type = UNLOAD_AFASTAMENTOS;
+ 
+     constructor()
+     {
+     }
+ }
+
+/**
  * Delete Afastamento
  */
 export class DeleteAfastamento implements Action
@@ -98,6 +112,7 @@ export type AfastamentosListActionsAll
     = GetAfastamentos
     | GetAfastamentosSuccess
     | GetAfastamentosFailed
+    | UnloadAfastamentos
     | ReloadAfastamentos
     | DeleteAfastamento
     | DeleteAfastamentoSuccess

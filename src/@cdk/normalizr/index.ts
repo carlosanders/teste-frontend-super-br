@@ -7,6 +7,7 @@ export const assinatura = new schema.Entity('assinatura');
 export const assuntoAdministrativo = new schema.Entity('assunto-administrativo');
 export const assunto = new schema.Entity('assunto');
 export const atividade = new schema.Entity('atividade');
+export const aviso = new schema.Entity('aviso');
 export const cadastroIdentificador = new schema.Entity('cadastro-identificador');
 export const cargo = new schema.Entity('cargo');
 export const classificacao = new schema.Entity('classificacao');
@@ -99,6 +100,7 @@ export const tramitacao = new schema.Entity('tramitacao');
 export const transicao = new schema.Entity('transicao');
 export const unidade = new schema.Entity('unidade');
 export const usuario = new schema.Entity('usuario');
+export const vinculacaoAviso = new schema.Entity('vinculacao-aviso');
 export const vinculacaoDocumento = new schema.Entity('vinculacao-documento');
 export const vinculacaoEtiqueta = new schema.Entity('vinculacao-etiqueta');
 export const vinculacaoModelo = new schema.Entity('vinculacao-modelo');
@@ -117,6 +119,7 @@ export const acaoTransicaoWorkflow = new schema.Entity('acaoTransicaoWorkflow');
 export const modalidadeAcaoEtiqueta = new schema.Entity('modalidadeAcaoEtiqueta');
 export const tipoAcaoWorkflow = new schema.Entity('tipoAcaoWorkflow');
 export const tipoValidacaoWorkflow = new schema.Entity('tipoValidacaoWorkflow');
+export const tipoNotificacao = new schema.Entity('tipo-notificacao');
 export const configuracaoNup = new schema.Entity('configuracaoNup');
 export const tipoContato = new schema.Entity('tipo-contato');
 export const grupoContato = new schema.Entity('grupo-contato');
@@ -360,6 +363,7 @@ especieProcesso.define({
     generoProcesso: generoProcesso,
     classificacao: classificacao,
     modalidadeMeio: modalidadeMeio,
+    workflow: workflow,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -670,6 +674,7 @@ notificacao.define({
     remetente: usuario,
     destinatario: usuario,
     modalidadeNotificacao: modalidadeNotificacao,
+    tipoNotificacao: tipoNotificacao,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario
@@ -711,6 +716,7 @@ processo.define({
     classificacao: classificacao,
     origemDados: origemDados,
     configuracaoNup: configuracaoNup,
+    tarefaAtualWorkflow: tarefa,
     processoOrigem: processo,
     documentoAvulsoOrigem: documentoAvulso,
     procedencia: pessoa,
@@ -966,7 +972,7 @@ volume.define({
 
 workflow.define({
     especieProcesso: especieProcesso,
-    especieTarefa: especieTarefa,
+    especieTarefaInicial: especieTarefa,
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario

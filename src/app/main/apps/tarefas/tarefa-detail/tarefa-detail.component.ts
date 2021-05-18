@@ -19,21 +19,21 @@ import * as fromStore from './store';
 import {
     CreateVinculacaoEtiqueta,
     DeleteVinculacaoEtiqueta,
-    getEtiqueta, getEtiquetaError,
+    getEtiqueta,
     SaveConteudoVinculacaoEtiqueta,
     SaveEtiqueta
 } from './store';
-import {getMaximizado} from '../store/selectors';
-import {DarCienciaTarefaCancel, DarCienciaTarefaFlush, ToggleMaximizado} from '../store/actions';
+import {getMaximizado} from '../store';
+import {DarCienciaTarefaCancel, DarCienciaTarefaFlush, ToggleMaximizado} from '../store';
 import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store/reducers';
+import {getRouterState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../auth/login/login.service';
 import {getScreenState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../modules/dynamic.service';
 import {modulesConfig} from 'modules/modules-config';
-import {expandirTela} from './store/selectors/processo.selectors';
-import {CdkUtils} from '../../../../../@cdk/utils';
+import {expandirTela} from './store';
+import {CdkUtils} from '@cdk/utils';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 
@@ -305,7 +305,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
             panelClass: ['cdk-white-bg'],
             data: {
                 icon: 'check',
-                text: 'Ciência'
+                text: 'Dando ciência'
             }
         });
 
@@ -321,7 +321,8 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
     }
 
     doCreateTarefa(): void {
-        this._router.navigate([this.routerState.url.split('/tarefa/')[0] + '/criar/' + this.tarefa.processo.id]).then();
+        this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/criar/' + this.tarefa.processo.id]).then();
+        //this._router.navigate([this.routerState.url.split('/tarefa/')[0] + '/criar/' + this.tarefa.processo.id]).then();
     }
 
     onUploadClick(): void {

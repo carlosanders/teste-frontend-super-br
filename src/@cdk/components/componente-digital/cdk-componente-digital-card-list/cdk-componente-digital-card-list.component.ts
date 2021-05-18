@@ -17,8 +17,7 @@ import {Processo} from '@cdk/models';
 import {Tarefa} from '@cdk/models';
 import {Documento} from '@cdk/models';
 import {DocumentoAvulso} from '@cdk/models';
-import {ObjectAssignBuiltinFn} from '@angular/compiler-cli/src/ngtsc/partial_evaluator/src/builtin';
-import {CdkDragDrop, CdkDragEnter, moveItemInArray} from "@angular/cdk/drag-drop";
+import {CdkDragEnter, moveItemInArray} from "@angular/cdk/drag-drop";
 
 @Component({
     selector: 'cdk-componente-digital-card-list',
@@ -203,7 +202,7 @@ export class CdkComponenteDigitalCardListComponent {
             }
             fileUpload.value = '';
 
-            if (this.uploadMode !== 'linear' || this.files.length === 1) {
+            if (this.uploadMode !== 'linear') {
                 this.start();
             }
         };

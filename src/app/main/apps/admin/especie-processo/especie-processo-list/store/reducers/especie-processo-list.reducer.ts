@@ -84,6 +84,14 @@ export function EspecieProcessoListReducer(
             };
         }
 
+        case EspecieProcessoListActions.UNLOAD_ESPECIE_PROCESSO: {
+            return {
+                ...EspecieProcessoListInitialState
+            };
+        }
+
+
+
         case EspecieProcessoListActions.RELOAD_ESPECIE_PROCESSO: {
             return {
                 ...state,

@@ -8,10 +8,10 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as PessoaListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {PessoaService} from '../../../../../../../../@cdk/services/pessoa.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {Pessoa} from '../../../../../../../../@cdk/models';
-import {pessoa as pessoaSchema} from '../../../../../../../../@cdk/normalizr';
+import {PessoaService} from '@cdk/services/pessoa.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {Pessoa} from '@cdk/models';
+import {pessoa as pessoaSchema} from '@cdk/normalizr';
 
 
 @Injectable()

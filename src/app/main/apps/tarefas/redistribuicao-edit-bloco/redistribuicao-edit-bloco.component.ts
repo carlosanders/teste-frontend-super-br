@@ -20,7 +20,7 @@ import {Router} from '@angular/router';
 import {filter, skip, take, takeUntil, tap} from 'rxjs/operators';
 import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {Back} from 'app/store/actions';
-import {MatDialog} from "../../../../../@cdk/angular/material";
+import {MatDialog} from "@cdk/angular/material";
 import {ModalAvisoRestricaoNupComponent} from "../modal-aviso-restricao-nup/modal-aviso-restricao-nup.component";
 import {getTarefasProcessoRestritoValidadas} from "./store";
 

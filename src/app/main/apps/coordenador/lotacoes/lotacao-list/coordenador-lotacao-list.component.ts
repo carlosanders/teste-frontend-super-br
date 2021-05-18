@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -15,6 +16,9 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Pagination} from '@cdk/models/pagination';
 
+import {UnloadLotacoes} from "./store";
+
+
 @Component({
     selector: 'lotacao-list',
     templateUrl: './coordenador-lotacao-list.component.html',
@@ -23,7 +27,7 @@ import {Pagination} from '@cdk/models/pagination';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class CoordenadorLotacaoListComponent implements OnInit {
+export class CoordenadorLotacaoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     lotacoes$: Observable<Lotacao[]>;
@@ -96,6 +100,10 @@ export class CoordenadorLotacaoListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadLotacoes());
     }
 
     create(): void {

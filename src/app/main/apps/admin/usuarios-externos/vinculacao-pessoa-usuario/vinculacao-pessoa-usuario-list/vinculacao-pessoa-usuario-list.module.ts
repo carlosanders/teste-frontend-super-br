@@ -15,15 +15,15 @@ import {
     MatProgressSpinnerModule,
     MatSortModule,
     MatTableModule
-} from '../../../../../../../@cdk/angular/material';
+} from '@cdk/angular/material';
 import {TranslateModule} from '@ngx-translate/core';
-import {CdkSharedModule} from '../../../../../../../@cdk/shared.module';
-import {CdkPessoaGridModule} from '../../../../../../../@cdk/components/pessoa/cdk-pessoa-grid/cdk-pessoa-grid.module';
-import {CdkVinculacaoPessoaUsuarioGridModule} from '../../../../../../../@cdk/components/vinculacao-pessoa-usuario/cdk-vinculacao-pessoa-usuario-grid/cdk-vinculacao-pessoa-usuario-grid.module';
-import {VinculacaoPessoaUsuarioService} from '../../../../../../../@cdk/services/vinculacao-pessoa-usuario.service';
+import {CdkSharedModule} from '@cdk/shared.module';
+import {CdkPessoaGridModule} from '@cdk/components/pessoa/cdk-pessoa-grid/cdk-pessoa-grid.module';
+import {CdkVinculacaoPessoaUsuarioGridModule} from '@cdk/components/vinculacao-pessoa-usuario/cdk-vinculacao-pessoa-usuario-grid/cdk-vinculacao-pessoa-usuario-grid.module';
+import {VinculacaoPessoaUsuarioService} from '@cdk/services/vinculacao-pessoa-usuario.service';
 import {VinculacaoPessoaUsuarioStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
-import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {

@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -14,6 +15,9 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
+import {UnloadNotificacoes} from "./store";
+
+
 @Component({
     selector: 'notificacao-list',
     templateUrl: './notificacao-list.component.html',
@@ -22,7 +26,7 @@ import {getRouterState} from 'app/store/reducers';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class NotificacaoListComponent implements OnInit {
+export class NotificacaoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     notificacoes$: Observable<Notificacao[]>;
@@ -63,6 +67,10 @@ export class NotificacaoListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadNotificacoes());
     }
 
     reload(params): void {

@@ -7,7 +7,7 @@ import {ProcessoAppState} from 'app/main/apps/processo/store/reducers';
 import * as fromStore from 'app/main/apps/processo/store';
 import {getProcessoLoaded} from 'app/main/apps/processo/store/selectors';
 import {getRouterState} from 'app/store/reducers';
-import {Usuario} from "../../../../../../@cdk/models";
+import {Usuario} from "@cdk/models";
 import {LoginService} from "../../../../auth/login/login.service";
 
 @Injectable()

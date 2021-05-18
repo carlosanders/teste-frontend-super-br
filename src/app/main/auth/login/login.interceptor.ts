@@ -3,9 +3,9 @@ import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor} from '@angular/com
 import {BehaviorSubject, Observable, of, Subject} from 'rxjs';
 
 import {LoginService} from './login.service';
-import {CdkUtils} from "../../../../@cdk/utils";
+import {CdkUtils} from "@cdk/utils";
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CdkLoginDialogComponent} from "../../../../@cdk/components/login/cdk-login-dialog/cdk-login-dialog.component";
+import {CdkLoginDialogComponent} from "@cdk/components/login/cdk-login-dialog/cdk-login-dialog.component";
 import {select, Store} from "@ngrx/store";
 import * as fromStore from "./store";
 import {Router} from "@angular/router";
@@ -13,7 +13,7 @@ import {getConfig, getErrorMessage, getLoadingConfig, getToken} from "./store/se
 import {environment} from "../../../../environments/environment";
 import {distinctUntilChanged, filter, switchMap, take} from "rxjs/operators";
 import {getRouterState} from "../../../store";
-import {MatSnackBar} from "../../../../@cdk/angular/material";
+import {MatSnackBar} from "@cdk/angular/material";
 
 @Injectable()
 export class LoginInterceptor implements HttpInterceptor {
@@ -101,7 +101,7 @@ export class LoginInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add authorization header with jwt token if available
         if (this.token && (request.url.indexOf('config') === -1 || request.url.indexOf('nup') !== -1) && request.url.indexOf('get_token') === -1) {
-            if (!CdkUtils.tokenExpired(this.token)) {
+            if (!this.loginService.isExpired()) {
                 // Existe um token e ele ainda é válido
                 request = request.clone({
                     setHeaders: {

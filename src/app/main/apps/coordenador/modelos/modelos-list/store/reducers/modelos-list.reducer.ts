@@ -79,6 +79,12 @@ export function ModelosListReducer(
             };
         }
 
+        case ModelosListActions.UNLOAD_MODELOS: {
+            return {
+                ...ModelosListInitialState
+            };
+        }
+
         case ModelosListActions.RELOAD_MODELOS: {
             return {
                 ...state,

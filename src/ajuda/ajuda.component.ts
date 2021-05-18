@@ -12,7 +12,7 @@ import {Topico} from './topico';
 import {CdkUtils} from '@cdk/utils';
 import {DynamicService} from '../modules/dynamic.service';
 import {Router} from '@angular/router';
-import {CdkSidebarService} from "../@cdk/components/sidebar/sidebar.service";
+import {CdkSidebarService} from "@cdk/components/sidebar/sidebar.service";
 import { ShepherdService } from 'angular-shepherd';
 import Shepherd from 'shepherd.js';
 import { steps as defaultSteps, defaultStepOptions} from './tour/data';

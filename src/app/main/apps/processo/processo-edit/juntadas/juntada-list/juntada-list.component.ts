@@ -84,13 +84,15 @@ export class JuntadaListComponent implements OnInit {
 
         this.juntadas$.subscribe(juntadas => {
             this.juntadasIds = [];
-            let tmp = juntadas.filter((juntada) => {
-                return juntada.ativo;
-            });
+            if (juntadas) {
+                let tmp = juntadas?.filter((juntada) => {
+                    return juntada.ativo;
+                });
 
-            tmp.forEach((juntada) => {
-                this.juntadasIds.push(juntada.id);
-            });
+                tmp.forEach((juntada) => {
+                    this.juntadasIds.push(juntada.id);
+                });
+            }
         });
     }
 

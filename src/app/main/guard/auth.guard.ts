@@ -3,7 +3,7 @@ import {Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '
 import {LoginService} from '../auth/login/login.service';
 import {Store} from '@ngrx/store';
 import {GetNotificacoes, State} from '../../store';
-import {MercureService} from '../../../@cdk/services/mercure.service';
+import {MercureService} from '@cdk/services/mercure.service';
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {

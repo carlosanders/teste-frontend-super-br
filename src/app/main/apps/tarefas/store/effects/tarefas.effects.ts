@@ -133,11 +133,19 @@ export class TarefasEffect {
                     } else {
                         this._store.dispatch(new UnloadJuntadas({reset: true}));
                         this._store.dispatch(new UnloadDocumentos());
+
+                        let extras = {
+                            queryParams: {
+                                documentoEdit: action.payload.documentoUuidEdit
+                            }
+                        }
+
                         this._router.navigate([
                             'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
                             this.routerState.params.typeHandle + '/' +
                             this.routerState.params.targetHandle + '/tarefa/' + action.payload.tarefaId +
-                            '/processo/' + action.payload.processoId + '/visualizar']
+                            '/processo/' + action.payload.processoId + '/visualizar'],
+                            extras
                         ).then();
                     }
 
@@ -255,7 +263,12 @@ export class TarefasEffect {
                     }));
                 }),
                 mergeMap((action) => {
-                    return this._tarefaService.undelete(action.payload.tarefa).pipe(
+                    const folder = action.payload.folder ? action.payload.folder.id : null;
+                    let context: any = {};
+                    if (folder) {
+                        context.folderId = folder;
+                    }
+                    return this._tarefaService.undelete(action.payload.tarefa, '[]', JSON.stringify(context)).pipe(
                         map((response) => {
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
@@ -719,7 +732,11 @@ export class TarefasEffect {
                     return this._tarefaService.patch(action.payload.tarefa, {observacao: action.payload.conteudo}).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefasActions.SaveObservacaoSuccess(),
-                            new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
+                            new UpdateData<Tarefa>({
+                                id: response.id,
+                                schema: tarefaSchema,
+                                changes: {observacao: response.observacao}
+                            }),
                             new OperacoesActions.Resultado({
                                 type: 'observacao',
                                 content: `Observacao na tarefa ${response.id} atualizada com sucesso!`,

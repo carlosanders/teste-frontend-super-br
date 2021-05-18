@@ -88,6 +88,12 @@ export function EtiquetaListReducer(
             };
         }
 
+        case EtiquetaListActions.UNLOAD_ETIQUETAS: {
+            return {
+                ...EtiquetaListInitialState
+            };
+        }
+
         case EtiquetaListActions.GET_ETIQUETAS_FAILED: {
             return {
                 ...state,

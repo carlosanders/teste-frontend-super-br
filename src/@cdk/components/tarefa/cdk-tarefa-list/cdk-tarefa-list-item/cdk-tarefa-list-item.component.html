@@ -68,6 +68,10 @@
 
         <div class="body mt-4">
             <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
+                Id {{tarefa.id}}
+            </div>
+
+            <div *ngIf="displayedCampos.indexOf('especieTarefa.nome') > -1">
                 {{tarefa.especieTarefa?.nome | titleCasePipe}}
             </div>
 
@@ -115,11 +119,12 @@
 
         <div class="etiquetas" fxHide fxShow.gt-sm>
             <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
-                 fxLayout="row" fxLayoutAlign="start center" [matTooltip]="vinculacaoEtiqueta.conteudo">
+                 fxLayout="row" fxLayoutAlign="start center"
+                 (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"
+                 [matTooltip]="(!tarefa.apagadoEm && (vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento')) ? 'Clique para abrir o documento' : vinculacaoEtiqueta.conteudo">
                 <div class="etiqueta-color" *ngIf="vinculacaoEtiqueta.criadoEm"
                      [ngStyle]="{'background-color': (vinculacaoEtiqueta.etiqueta?.corHexadecimal)}"></div>
-                <div
-                    class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
+                <div class="etiqueta-title">{{vinculacaoEtiqueta.label ? vinculacaoEtiqueta.label : vinculacaoEtiqueta.etiqueta?.nome}}</div>
             </div>
         </div>
 
@@ -187,6 +192,14 @@
                 <ng-container>
                     <mat-icon>edit</mat-icon>
                     <span>Editar Tarefa</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="editar processo"
+                    (click)="doEditProcesso()">
+                <ng-container>
+                    <mat-icon>book</mat-icon>
+                    <span>Editar Processo</span>
                 </ng-container>
             </button>
 

@@ -76,6 +76,12 @@ export function NotificacaoListReducer(
             };
         }
 
+        case NotificacaoListActions.UNLOAD_NOTIFICACOES: {
+            return {
+                ...NotificacaoListInitialState
+            };
+        }
+
         case NotificacaoListActions.RELOAD_NOTIFICACOES: {
             return {
                 ...state,

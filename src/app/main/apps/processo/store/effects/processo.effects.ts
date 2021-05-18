@@ -68,7 +68,17 @@ export class ProcessoEffect {
 
                     return this._processoService.get(
                         action.payload.id,
-                        JSON.stringify([...populate, 'especieProcesso', 'especieProcesso.generoProcesso', 'vinculacoesEtiquetas', 'vinculacoesEtiquetas.etiqueta']),
+                        JSON.stringify([
+                            ...populate,
+                            'especieProcesso',
+                            'especieProcesso.generoProcesso',
+                            'especieProcesso.workflow',
+                            'especieProcesso.workflow.especieTarefaInicial',
+                            'tarefaAtualWorkflow',
+                            'tarefaAtualWorkflow.especieTarefa',
+                            'vinculacoesEtiquetas',
+                            'vinculacoesEtiquetas.etiqueta']
+                        ),
                         JSON.stringify(contexto));
                 }),
                 switchMap(response => [

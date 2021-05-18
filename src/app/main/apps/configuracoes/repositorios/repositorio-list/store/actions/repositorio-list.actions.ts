@@ -5,6 +5,8 @@ export const GET_REPOSITORIOS_SUCCESS = '[REPOSITORIO LIST] GET REPOSITORIOS SUC
 export const GET_REPOSITORIOS_FAILED = '[REPOSITORIO LIST] GET REPOSITORIOS FAILED';
 
 export const RELOAD_REPOSITORIOS = '[REPOSITORIO LIST] RELOAD REPOSITORIOS';
+export const UNLOAD_REPOSITORIOS = '[REPOSITORIO LIST] UNLOAD REPOSITORIOS';
+
 
 export const DELETE_REPOSITORIO = '[REPOSITORIO LIST] DELETE REPOSITORIO';
 export const DELETE_REPOSITORIO_SUCCESS = '[REPOSITORIO LIST] DELETE REPOSITORIO SUCCESS';
@@ -45,6 +47,18 @@ export class GetRepositoriosFailed implements Action
     {
     }
 }
+
+/**
+ * Unload Repositorios
+ */
+ export class UnloadRepositorios implements Action
+ {
+     readonly type = UNLOAD_REPOSITORIOS;
+ 
+     constructor()
+     {
+     }
+ }
 
 /**
  * Reload Repositorios
@@ -98,6 +112,7 @@ export type RepositorioListActionsAll
     = GetRepositorios
     | GetRepositoriosSuccess
     | GetRepositoriosFailed
+    | UnloadRepositorios
     | ReloadRepositorios
     | DeleteRepositorio
     | DeleteRepositorioSuccess

@@ -76,6 +76,13 @@ export function AfastamentoListReducer(
             };
         }
 
+        case AfastamentoListActions.UNLOAD_AFASTAMENTOS: {
+            return {
+                ...AfastamentoListInitialState
+            };
+        }
+
+
         case AfastamentoListActions.RELOAD_AFASTAMENTOS: {
             return {
                 ...state,

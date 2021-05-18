@@ -61,7 +61,7 @@ export class TarefaCreateBlocoEffect {
                             console.log (err);
                             this._store.dispatch(new OperacoesActions.Resultado({
                                 type: 'tarefa',
-                                content: `Houve erro no tarefa no processo ${action.payload.processo.NUP}! ${err.error.message}`,
+                                content: `Houve erro na tarefa no processo ${action.payload.processo.NUP}! ${err.error.message}`,
                                 success: false,
                                 dateTime: moment()
                             }));

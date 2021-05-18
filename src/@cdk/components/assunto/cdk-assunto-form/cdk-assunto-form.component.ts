@@ -67,7 +67,7 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
             principal: [null],
             assuntoAdministrativo: [null, [Validators.required]]
         });
-        
+
         this.assuntoAdministrativoPagination = new Pagination();
 
     }
@@ -133,7 +133,7 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
             this.form.get('assuntoAdministrativo').setValue(null);
         }
     }
-    
+
     selectAssuntoAdministrativo(assuntoAdministrativo: AssuntoAdministrativo): void {
         if (assuntoAdministrativo) {
             this.form.get('assuntoAdministrativo').setValue(assuntoAdministrativo);
@@ -162,7 +162,8 @@ export class CdkAssuntoFormComponent implements OnChanges, OnDestroy {
             }),
             5,
             0,
-            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'})
+            JSON.stringify({prioritario: 'DESC', qtdUso: 'DESC'}),
+            JSON.stringify(this.assuntoAdministrativoPagination.populate)
         ).pipe(
             finalize(() => this.assuntoAdministrativoListIsLoading = false),
             catchError(() => of([]))

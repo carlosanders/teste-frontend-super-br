@@ -27,6 +27,7 @@ import {CdkTarefaFilterModule} from '../sidebars/cdk-tarefa-filter/cdk-tarefa-fi
 import {CdkTarefaListService} from './cdk-tarefa-list.service';
 import {MatSelectModule} from '@angular/material/select';
 import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
     declarations: [
@@ -55,7 +56,9 @@ import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
         MatExpansionModule,
         CdkTarefaFilterModule,
         MatSelectModule,
-        NgxUpperCaseDirectiveModule
+        NgxUpperCaseDirectiveModule,
+        MatSelectModule,
+        RouterModule
     ],
     providers: [
         EspecieTarefaService,

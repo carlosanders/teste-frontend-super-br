@@ -3,6 +3,7 @@ import {
     ChangeDetectorRef,
     Component,
     OnInit,
+    OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 import {Observable} from 'rxjs';
@@ -14,6 +15,9 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {NumeroUnicoDocumento, Pagination} from '@cdk/models';
 
+import {UnloadNumerosUnicosDocumentos} from "./store";
+
+
 @Component({
     selector: 'numero-unico-documento-list',
     templateUrl: './numero-unico-documento-list.component.html',
@@ -22,7 +26,7 @@ import {NumeroUnicoDocumento, Pagination} from '@cdk/models';
     encapsulation: ViewEncapsulation.None,
     animations: cdkAnimations
 })
-export class NumeroUnicoDocumentoListComponent implements OnInit {
+export class NumeroUnicoDocumentoListComponent implements OnInit, OnDestroy {
 
     routerState: any;
     numerosUnicosDocumentos$: Observable<NumeroUnicoDocumento[]>;
@@ -77,6 +81,10 @@ export class NumeroUnicoDocumentoListComponent implements OnInit {
         this.pagination$.subscribe(pagination => {
             this.pagination = pagination;
         });
+    }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadNumerosUnicosDocumentos());
     }
 
     reload(params): void {

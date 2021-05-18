@@ -5,6 +5,8 @@ export const GET_ESPECIE_RELEVANCIA_SUCCESS = '[SUPERADMIN ESPECIE RELEVANCIA LI
 export const GET_ESPECIE_RELEVANCIA_FAILED = '[SUPERADMIN ESPECIE RELEVANCIA LIST] GET ESPECIE_RELEVANCIA FAILED';
 
 export const RELOAD_ESPECIE_RELEVANCIA = '[SUPERADMIN ESPECIE RELEVANCIA LIST] RELOAD ESPECIE_RELEVANCIA';
+export const UNLOAD_ESPECIE_RELEVANCIA = '[SUPERADMIN ESPECIE RELEVANCIA LIST] UNLOAD ESPECIE_RELEVANCIA';
+
 
 /**
  * Get EspecieRelevancia
@@ -39,6 +41,16 @@ export class GetEspecieRelevanciaFailed implements Action {
 /**
  * Reload EspecieRelevancia
  */
+ export class UnloadEspecieRelevancia implements Action {
+    readonly type = UNLOAD_ESPECIE_RELEVANCIA;
+
+    constructor() {
+    }
+}
+
+/**
+ * Reload EspecieRelevancia
+ */
 export class ReloadEspecieRelevancia implements Action {
     readonly type = RELOAD_ESPECIE_RELEVANCIA;
 
@@ -51,5 +63,6 @@ export type EspecieRelevanciaListActionsAll
     = GetEspecieRelevancia
     | GetEspecieRelevanciaSuccess
     | GetEspecieRelevanciaFailed
+    | UnloadEspecieRelevancia
     | ReloadEspecieRelevancia;
 

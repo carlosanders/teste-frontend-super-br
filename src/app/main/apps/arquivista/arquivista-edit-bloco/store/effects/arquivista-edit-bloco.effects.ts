@@ -13,7 +13,7 @@ import {Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {CdkUtils} from "../../../../../../../@cdk/utils";
+import {CdkUtils} from "@cdk/utils";
 import * as moment from "moment";
 import {
     ChangeProcessos,

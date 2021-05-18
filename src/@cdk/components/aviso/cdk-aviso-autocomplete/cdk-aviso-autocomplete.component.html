@@ -1,0 +1,9 @@
+<mat-autocomplete [displayWith]="displayAvisoFn">
+    <mat-option *ngFor="let aviso of avisoList"
+                [value]="aviso">
+        <span [innerHTML]="displayAvisoFn(aviso) | highlightOption: this.control.value"></span>
+    </mat-option>
+    <mat-option *ngIf="avisoListIsLoading">
+        <mat-spinner diameter="16"></mat-spinner>
+    </mat-option>
+</mat-autocomplete>

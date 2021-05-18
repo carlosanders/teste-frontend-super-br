@@ -8,12 +8,11 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as TipoValidacaoWorkflowListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {TipoValidacaoWorkflowService} from '../../../../../../../../@cdk/services/tipo-validacao-workflow.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {TipoValidacaoWorkflow} from '../../../../../../../../@cdk/models';
-import {tipoValidacaoWorkflow as tipoValidacaoWorkflowSchema} from '../../../../../../../../@cdk/normalizr';
+import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflow.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {TipoValidacaoWorkflow} from '@cdk/models';
+import {tipoValidacaoWorkflow as tipoValidacaoWorkflowSchema} from '@cdk/normalizr';
 import {CdkUtils} from "../../../../../../../../@cdk/utils";
-
 
 @Injectable()
 export class TipoValidacaoWorkflowListEffects {

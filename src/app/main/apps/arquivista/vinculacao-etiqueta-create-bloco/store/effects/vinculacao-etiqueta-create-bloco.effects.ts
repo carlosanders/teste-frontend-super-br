@@ -16,7 +16,7 @@ import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as moment from 'moment';
 import {processo as processoSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../@cdk/utils";
+import {CdkUtils} from "@cdk/utils";
 import {ChangeSelectedProcessos, getSelectedProcessoIds, ReloadProcessos} from "../../../arquivista-list/store";
 
 @Injectable()

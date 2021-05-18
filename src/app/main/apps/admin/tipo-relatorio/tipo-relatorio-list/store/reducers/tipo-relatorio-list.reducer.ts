@@ -84,6 +84,12 @@ export function TipoRelatorioListReducer(
             };
         }
 
+        case TipoRelatorioListActions.UNLOAD_TIPO_RELATORIO: {
+            return {
+                ...TipoRelatorioListInitialState
+            };
+        }
+
         case TipoRelatorioListActions.RELOAD_TIPO_RELATORIO: {
             return {
                 ...state,

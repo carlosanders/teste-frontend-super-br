@@ -11,7 +11,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {NotificacaoService} from '@cdk/services/notificacao.service';
 import {select, Store} from '@ngrx/store';
 import * as fromStore from 'app/store';
-import {getCounterState} from 'app/store';
+import {ButtonTodasNotificacoesLidas, getCounterState} from 'app/store';
 import {Logout} from '../../../main/auth/login/store';
 import {Usuario} from '@cdk/models/usuario.model';
 import {Notificacao} from '@cdk/models';
@@ -263,5 +263,29 @@ export class ToolbarComponent implements OnInit, OnDestroy {
 
     toggleLida(notificacao: Notificacao): void {
         this._store.dispatch(new fromStore.ToggleLidaNotificacao(notificacao));
+    }
+
+    sendToTarget(notificacao: Notificacao) {
+        const contexto = JSON.parse(notificacao.contexto);
+        switch (notificacao.tipoNotificacao.nome) {
+            case 'relatorio':
+                return this._router
+                    .navigate([
+                        `/apps/relatorios/administrativo/meus-relatorios/entrada/relatorio/${contexto.id}/visualizar`
+                    ]);
+            case 'processo':
+                return this._router.navigate([`/apps/processo/${contexto.id}/visualizar/capa/mostrar`]);
+            case 'tarefa':
+                return this._router
+                    .navigate([
+                    `/apps/tarefas/administrativo/minhas-tarefas/entrada/tarefa/${contexto.id}/processo/${contexto.id_processo}/visualizar/capa/mostrar`
+                ]);
+            default:
+                return;
+        }
+    }
+
+    marcarTodasComoLida() {
+        this._store.dispatch(new ButtonTodasNotificacoesLidas());
     }
 }

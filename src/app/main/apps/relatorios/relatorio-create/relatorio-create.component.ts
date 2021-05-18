@@ -6,21 +6,21 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 
-import {cdkAnimations} from '@cdk/animations';
-import {Observable, Subject} from 'rxjs';
+import { cdkAnimations } from '@cdk/animations';
+import { Observable, Subject } from 'rxjs';
 
-import {Relatorio} from '@cdk/models/relatorio.model';
-import {select, Store} from '@ngrx/store';
+import { Relatorio } from '@cdk/models/relatorio.model';
+import { select, Store } from '@ngrx/store';
 
 import * as fromStore from './store';
-import {Colaborador} from '@cdk/models';
-import {LoginService} from 'app/main/auth/login/login.service';
-import {takeUntil} from 'rxjs/operators';
-import {MatDialog} from '@cdk/angular/material';
-import {Router} from '@angular/router';
-import {getRouterState} from '../../../../store';
-import {GeneroRelatorio} from '../../../../../@cdk/models/genero-relatorio.model';
-import {Back} from '../../../../store';
+import { Colaborador } from '@cdk/models';
+import { LoginService } from 'app/main/auth/login/login.service';
+import { takeUntil } from 'rxjs/operators';
+import { MatDialog } from '@cdk/angular/material';
+import { Router } from '@angular/router';
+import { getRouterState } from '../../../../store';
+import { GeneroRelatorio } from '@cdk/models/genero-relatorio.model';
+import { Back } from '../../../../store';
 
 @Component({
     selector: 'relatorio-create',
@@ -77,10 +77,10 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
             ).subscribe(routerState => {
-            if (routerState) {
-                this.routerState = routerState.state;
-            }
-        });
+                if (routerState) {
+                    this.routerState = routerState.state;
+                }
+            });
 
         this.relatorio = new Relatorio();
     }
@@ -100,7 +100,9 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
 
     submit(values): void {
 
-        const relatorio = new Relatorio();
+        let relatorio = new Relatorio();
+        var arrayParams: any;
+        var parametros: any;
 
         Object.entries(values).forEach(
             ([key, value]) => {
@@ -108,14 +110,15 @@ export class RelatorioCreateComponent implements OnInit, OnDestroy {
             }
         );
 
-        const parametros = relatorio.tipoRelatorio.parametros.split(',');
-        const arrayParams = { };
+        if (relatorio.tipoRelatorio.parametros) {
+            parametros = relatorio.tipoRelatorio.parametros.split(',');
+        }
 
-        if (parametros.length > 0) {
+        if (parametros && parametros.length > 0) {
             parametros.forEach((campo) => {
                 if (values[campo]) {
 
-                    if (campo === 'dataHoraInicio' || campo === 'dataHoraFim'){
+                    if (campo === 'dataHoraInicio' || campo === 'dataHoraFim') {
                         arrayParams[campo] = {
                             name: campo,
                             value: relatorio[campo].format('YYYY-MM-DDTHH:mm:ss'),

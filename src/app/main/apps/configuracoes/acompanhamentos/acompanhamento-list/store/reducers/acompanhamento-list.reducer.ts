@@ -76,6 +76,13 @@ export function AcompanhamentoListReducer(
             };
         }
 
+
+        case AcompanhamentoListActions.UNLOAD_ACOMPANHAMENTOS: {
+            return {
+                ...AcompanhamentoListInitialState
+            };
+        }
+
         case AcompanhamentoListActions.RELOAD_ACOMPANHAMENTOS: {
             return {
                 ...state,

@@ -8,12 +8,11 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from '../../../../../../../store/reducers';
 import * as EspecieTarefaListActions from '../actions';
 import {LoginService} from '../../../../../../auth/login/login.service';
-import {EspecieTarefaService} from '../../../../../../../../@cdk/services/especie-tarefa.service';
-import {AddData} from '../../../../../../../../@cdk/ngrx-normalizr';
-import {EspecieTarefa} from '../../../../../../../../@cdk/models';
-import {especieTarefa as especieTarefaSchema} from '../../../../../../../../@cdk/normalizr';
+import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
+import {AddData} from '@cdk/ngrx-normalizr';
+import {EspecieTarefa} from '@cdk/models';
+import {especieTarefa as especieTarefaSchema} from '@cdk/normalizr';
 import {CdkUtils} from "../../../../../../../../@cdk/utils";
-
 
 @Injectable()
 export class EspecieTarefaListEffects {

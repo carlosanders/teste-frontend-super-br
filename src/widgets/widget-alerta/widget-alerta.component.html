@@ -5,11 +5,22 @@
         <mat-card-subtitle>Informações relevantes</mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-        <h3>
-            Bem-vindo!
+        <div class="p-12" fxLayout="column" *ngIf="avisoIsLoading" fxLayoutAlign="center center">
+            <mat-spinner diameter="72"></mat-spinner>
+            <div class="h3 font-weight-500">
+                Carregando
+            </div>
+        </div>
+        <h3 *ngIf="!avisoIsLoading && !avisos?.length">
+            Nenhum aviso disponível!
         </h3>
-        <h3>
-            Os problemas encontrados devem ser enviados para sapiens@agu.gov.br
-        </h3>
+        <mat-list *ngIf="avisos?.length > 0">
+            <mat-list-item *ngFor="let aviso of avisos">
+                <mat-icon matTooltip={{this.getTooltip(aviso.vinculacoesAvisos[0])}} mat-list-icon>{{this.getIcon(aviso.vinculacoesAvisos[0])}}</mat-icon>
+                <div mat-line class="descricao">{{aviso.descricao}}</div>
+                <div mat-line>{{aviso.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm'}}</div>
+                <hr>
+            </mat-list-item>
+        </mat-list>
     </mat-card-content>
 </mat-card>

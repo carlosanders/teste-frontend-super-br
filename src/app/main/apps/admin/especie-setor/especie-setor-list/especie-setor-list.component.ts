@@ -1,12 +1,14 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, OnDestroy, ViewEncapsulation} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 
-import {EspecieSetor, Usuario} from '../../../../../../@cdk/models';
+import {EspecieSetor, Usuario} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
-import {cdkAnimations} from '../../../../../../@cdk/animations';
+import {cdkAnimations} from '@cdk/animations';
+import {UnloadEspecieSetor} from "./store";
+
 
 @Component({
     selector: 'especie-setor-list',
@@ -53,6 +55,11 @@ export class EspecieSetorListComponent implements OnInit {
             this.pagination = pagination;
         });
     }
+
+    ngOnDestroy(): void {
+        this._store.dispatch(new fromStore.UnloadEspecieSetor());
+    }
+
 
     reload(params): void {
         this._store.dispatch(new fromStore.GetEspecieSetor({

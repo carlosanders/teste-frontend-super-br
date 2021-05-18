@@ -3,7 +3,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 
 
 import {AjudaAtividadeCreateComponent} from './ajuda-atividade-create.component';
-import {CdkSharedModule} from '../../../../../../../../@cdk/shared.module';
+import {CdkSharedModule} from '@cdk/shared.module';
 import { AjudaAtividadeCreateBlocoModule } from 'app/main/apps/tarefas/atividade-create-bloco/ajuda/ajuda-atividade-create-bloco.module';
 import { AjudaOficiosModule } from 'app/main/apps/oficios/ajuda/ajuda-oficios.module';
 
@@ -20,7 +20,7 @@ import { AjudaOficiosModule } from 'app/main/apps/oficios/ajuda/ajuda-oficios.mo
     providers: [
     ],
     exports:    [
-        AjudaAtividadeCreateComponent 
+        AjudaAtividadeCreateComponent
     ]
 })
 export class AjudaAtividadeCreateModule {

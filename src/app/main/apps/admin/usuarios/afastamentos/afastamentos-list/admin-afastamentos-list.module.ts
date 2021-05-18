@@ -22,7 +22,7 @@ import * as fromGuards from './store/guards';
 import {CdkAfastamentoGridModule} from '@cdk/components/afastamento/cdk-afastamento-grid/cdk-afastamento-grid.module';
 import {AdminAfastamentosListStoreModule} from './store/store.module';
 import { LoginService } from '../../../../../auth/login/login.service';
-import {PathModule} from '../../../../../../../@cdk/components/path/path.module';
+import {PathModule} from '@cdk/components/path/path.module';
 
 const routes: Routes = [
     {
