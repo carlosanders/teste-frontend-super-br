@@ -57,22 +57,6 @@ export class WidgetAlertaComponent implements OnInit {
             }
          );
 
-         this._profile.coordenadores.forEach(
-           coordenador => {
-               if(coordenador.setor)
-               {
-                   this.setor.push(coordenador.setor.id);
-               }
-               if(coordenador.unidade)
-               {
-                   this.unidade.push(coordenador.unidade.id);
-               }
-               if(coordenador.orgaoCentral)
-               {
-                   this.modalidadeOrgaoCentral.push(coordenador.orgaoCentral.id);
-               }
-           }
-         );
 
         let filters = {};
         let filterUnidade = {};
@@ -89,17 +73,12 @@ export class WidgetAlertaComponent implements OnInit {
             filterOrgaoCentral = {"vinculacoesAvisos.modalidadeOrgaoCentral.id": "in:"+this.modalidadeOrgaoCentral.map(orgaoCentral => orgaoCentral).join(",")};
         }
 
-        let orX = [
+        filters["orX"] = [
             {...filterSetor},
             {...filterUnidade},
             {...filterOrgaoCentral},
             {...filterSistema}
         ]
-        filters["orX"] = orX;
-
-        if(this._loginService.isAdmin()) {
-            filters = {};
-        }
 
         this._avisoService.query(
             JSON.stringify(filters),
