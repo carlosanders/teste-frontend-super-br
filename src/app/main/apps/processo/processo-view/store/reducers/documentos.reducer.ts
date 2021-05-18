@@ -202,6 +202,62 @@ export function ProcessoViewDocumentosReducer(
             };
         }
 
+        case ProcessoViewDocumentosActions.PREPARA_ASSINATURA_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.id),
+                error: action.payload.error
+            }
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
+                error: false
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
+                error: false
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
+                error: action.payload.error
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE: {
+            return {
+                ...state,
+                assinandoDocumentoIds: [...state.assinandoDocumentoIds, action.payload.documento.id],
+                error: false
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE_SUCCESS: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload),
+                error: false
+            };
+        }
+
+        case ProcessoViewDocumentosActions.ASSINA_JUNTADA_ELETRONICAMENTE_FAILED: {
+            return {
+                ...state,
+                assinandoDocumentoIds: state.assinandoDocumentoIds.filter(id => id !== action.payload.documentoId),
+                error: action.payload.error
+            };
+        }
+
         case ProcessoViewDocumentosActions.REMOVE_ASSINATURA_DOCUMENTO: {
             return {
                 ...state,

@@ -158,11 +158,11 @@
             <mat-icon class="secondary-text">undo</mat-icon>
         </button>
 
-        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading || undeleting">
+        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading || undeleting || assinando">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm" mat-icon-button
+        <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm && !assinando" mat-icon-button
                 [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas"
                 (click)="$event.stopPropagation()">
@@ -240,6 +240,14 @@
                 <ng-container>
                     <mat-icon>share</mat-icon>
                     <span>Compartilhar</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="assinar minutas"
+                    (click)="doAssinaMinutas()">
+                <ng-container>
+                    <mat-icon>lock</mat-icon>
+                    <span>Assinar Minutas</span>
                 </ng-container>
             </button>
 

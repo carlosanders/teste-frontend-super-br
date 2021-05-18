@@ -43,7 +43,9 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
     @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
     container: ViewContainerRef;
 
-    /**
+    assinaturaInterval = null;
+
+        /**
      * @param _store
      * @param _location
      * @param _dynamicService
@@ -95,7 +97,7 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
     ngOnInit(): void {
         this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
             if (assinandoDocumentosVinculadosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosVinculadosId.length > 0)) {
                         assinandoDocumentosVinculadosId.forEach(
@@ -103,6 +105,8 @@ export class ModeloEditAnexosComponent implements OnInit, OnDestroy, AfterViewIn
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
         });

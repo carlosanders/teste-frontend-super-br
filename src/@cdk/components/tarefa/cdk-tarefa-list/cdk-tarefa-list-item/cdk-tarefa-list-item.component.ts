@@ -68,6 +68,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     editTarefa = new EventEmitter<number>();
 
     @Output()
+    assinaMinutas = new EventEmitter<Tarefa>();
+
+    @Output()
     redistribuirTarefa = new EventEmitter<number>();
 
     @Output()
@@ -111,6 +114,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     @Input()
     dragging: boolean;
+
+    @Input()
+    assinando: boolean;
 
     @Input()
     editandoObservacao: boolean = false;
@@ -229,6 +235,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
 
     doEditTarefa(): void {
         this.editTarefa.emit(this.tarefa.id);
+    }
+
+    doAssinaMinutas(): void {
+        this.assinaMinutas.emit(this.tarefa)
     }
 
     doEditProcesso(): void {

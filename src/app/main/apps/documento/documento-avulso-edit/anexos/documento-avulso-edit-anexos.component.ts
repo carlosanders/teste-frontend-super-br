@@ -49,6 +49,8 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
 
     routerState: any;
 
+    assinaturaInterval = null;
+
     /**
      *
      * @param _store
@@ -108,7 +110,7 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
 
         this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
             if (assinandoDocumentosVinculadosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosVinculadosId.length > 0)) {
                         assinandoDocumentosVinculadosId.forEach(
@@ -116,6 +118,8 @@ export class DocumentoAvulsoEditAnexosComponent implements OnInit, OnDestroy, Af
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
         });

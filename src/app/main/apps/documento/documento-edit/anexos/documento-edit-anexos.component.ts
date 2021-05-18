@@ -17,7 +17,6 @@ import {getMercureState, getRouterState} from 'app/store/reducers';
 import {DynamicService} from '../../../../../../modules/dynamic.service';
 import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CdkUtils} from "@cdk/utils";
 
 @Component({
     selector: 'documento-edit-anexos',
@@ -51,7 +50,9 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
 
     routerState: any;
 
-    /**
+    assinaturaInterval = null
+
+        /**
      *
      * @param _store
      * @param _location
@@ -111,7 +112,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
 
         this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
             if (assinandoDocumentosVinculadosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosVinculadosId.length > 0)) {
                         assinandoDocumentosVinculadosId.forEach(
@@ -119,6 +120,8 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosVinculadosId = assinandoDocumentosVinculadosId;
         });
