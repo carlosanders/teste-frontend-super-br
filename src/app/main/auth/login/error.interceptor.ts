@@ -28,7 +28,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                     horizontalPosition: this.horizontalPosition,
                     verticalPosition: this.verticalPosition,
                     panelClass: ['danger-snackbar'],
-                    duration: 10000
+                    duration: 30000
                 });
             }
             return throwError(err);

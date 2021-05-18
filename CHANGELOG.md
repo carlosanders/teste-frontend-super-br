@@ -325,3 +325,7 @@
 * Correção erro ao exibir espécies de tarefas ao movimentar uma tarefa em um workflow #440
 * Correção erro no passo 2 do workflow Elaboração de Ato Normativo #441
 * Correção erro no passo 3 do workflow Elaboração de ato administrativo #442
+* Melhoria melhorar a gestão do compartilhamento
+* Correção bug ao editar juntada
+* Melhoria atualizar a etiqueta de oficio remetido
+* Melhoria tornar lixeira área de drag and drop
