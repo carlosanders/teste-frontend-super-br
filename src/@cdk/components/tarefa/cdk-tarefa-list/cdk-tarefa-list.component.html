@@ -275,6 +275,7 @@
                     [totalInteressados]="getTotalInteressados(tarefa.processo?.id)"
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
                     [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
+                    [savingObservacao]="savingObservacao"
                     (salvarObservacao)="doSalvarObservacao($event)"
                     (etiquetaClickHandler)="doClickEtiqueta($event)"
                 >

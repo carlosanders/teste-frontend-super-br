@@ -121,6 +121,9 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @Input()
     editandoObservacao: boolean = false;
 
+    @Input()
+    savingObservacao: boolean = false;
+
     isOpen: boolean;
     loadedAssuntos: boolean;
     loadedInteressados: boolean;
