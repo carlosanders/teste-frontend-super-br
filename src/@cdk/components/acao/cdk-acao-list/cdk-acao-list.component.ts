@@ -25,6 +25,9 @@ export class CdkAcaoListComponent implements AfterViewInit, OnInit, OnChanges {
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     actions: string[] = ['delete'];
 
     @Output()

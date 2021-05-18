@@ -11,6 +11,7 @@
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [deletingErrors]="(deletingErrors$ | async)"
+        [toggleLidaErrors]="(toggleLidaErrors$ | async)"
         [actions]="['toggleLida', 'showDeleted']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"

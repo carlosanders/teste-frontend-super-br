@@ -56,3 +56,8 @@ export const getDeletingErrors = createSelector(
     getNotificacaoListState,
     (state: NotificacaoListState) => state.deletingErrors
 );
+
+export const getToggleLidaErrors = createSelector(
+    getNotificacaoListState,
+    (state: NotificacaoListState) => state.toggleLidaErrors
+);

@@ -35,6 +35,7 @@ export class NotificacaoListComponent implements OnInit, OnDestroy {
     pagination: any;
     deletingIds$: Observable<any>;
     deletingErrors$: Observable<any>;
+    toggleLidaErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     /**
@@ -53,6 +54,7 @@ export class NotificacaoListComponent implements OnInit, OnDestroy {
         this.deletingIds$ = this._store.pipe(select(fromStore.getDeletingIds));
         this.deletedIds$ = this._store.pipe(select(fromStore.getDeletedIds));
         this.deletingErrors$ = this._store.pipe(select(fromStore.getDeletingErrors));
+        this.toggleLidaErrors$ = this._store.pipe(select(fromStore.getToggleLidaErrors));
 
         this._store
             .pipe(select(getRouterState))

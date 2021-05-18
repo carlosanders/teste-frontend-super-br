@@ -17,6 +17,7 @@ export interface NotificacaoListState {
     deletingIds: number[];
     deletedIds: number[];
     deletingErrors: any;
+    toggleLidaErrors: any;
 }
 
 export const NotificacaoListInitialState: NotificacaoListState = {
@@ -34,7 +35,8 @@ export const NotificacaoListInitialState: NotificacaoListState = {
     loaded: false,
     deletedIds: [],
     deletingIds: [],
-    deletingErrors: {}
+    deletingErrors: {},
+    toggleLidaErrors: {}
 };
 
 export function NotificacaoListReducer(
@@ -111,7 +113,7 @@ export function NotificacaoListReducer(
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
-                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
@@ -121,6 +123,23 @@ export function NotificacaoListReducer(
                 deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
                 deletingErrors: {
                     ...state.deletingErrors,
+                    ...action.payload
+                }
+            };
+        }
+
+        case NotificacaoListActions.TOGGLE_LIDA_NOTIFICACAO_SUCCESS: {
+            return {
+                ...state,
+                toggleLidaErrors: _.omit(state.deletingErrors, [action.payload])
+            };
+        }
+
+        case NotificacaoListActions.TOGGLE_LIDA_NOTIFICACAO_FAILED: {
+            return {
+                ...state,
+                toggleLidaErrors: {
+                    ...state.toggleLidaErrors,
                     ...action.payload
                 }
             };

@@ -105,7 +105,7 @@ export function DocumentoIdentificadorListReducer(
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
-                deletingErrors: _.omit(this.state.deletingErrors, [action.payload])
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
