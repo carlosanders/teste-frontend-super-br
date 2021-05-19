@@ -9,6 +9,7 @@
     [especieTarefas]="(especieTarefas$ | async)"
     [total]="(pagination$ | async)?.total"
     [deletingIds]="(deletingIds$ | async)"
+    [deletingErrors]="(deletingErrors$ | async)"
     [deletedIds]="(deletedIds$ | async)"
     [displayedColumns]="['select', 'id', 'nome', 'descricao', 'generoTarefa.nome', 'ativo', 'actions']"
     [actions]="['edit', 'create']"

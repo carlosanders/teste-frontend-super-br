@@ -41,3 +41,8 @@ export const getIsLoading = createSelector(
     getEspecieRelevanciaListState,
     (state: EspecieRelevanciaListState) => state.loading
 );
+
+export const getDeletingErrors = createSelector(
+    getEspecieRelevanciaListState,
+    (state: EspecieRelevanciaListState) => state.deletingErrors
+);

@@ -12,6 +12,7 @@ import {InteressadoService} from '@cdk/services/interessado.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Interessado} from '@cdk/models';
 import {interessado as interessadoSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class InteressadoListEffect {
@@ -85,7 +86,11 @@ export class InteressadoListEffect {
                         map((response) => new InteressadoListActions.DeleteInteressadoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new InteressadoListActions.DeleteInteressadoFailed(action.payload));
+                            return of(new InteressadoListActions.DeleteInteressadoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

@@ -41,3 +41,8 @@ export const getIsLoading = createSelector(
     getCargoListState,
     (state: CargoListState) => state.loading
 );
+
+export const getDeletingErrors = createSelector(
+    getCargoListState,
+    (state: CargoListState) => state.deletingErrors
+);

@@ -1,4 +1,5 @@
 import * as RegraEtiquetaListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface RegraEtiquetaListState {
     entitiesId: number[];
@@ -7,6 +8,7 @@ export interface RegraEtiquetaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RegraEtiquetaListInitialState: RegraEtiquetaListState = {
@@ -15,7 +17,8 @@ export const RegraEtiquetaListInitialState: RegraEtiquetaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RegraEtiquetaListReducer(
@@ -39,6 +42,7 @@ export function RegraEtiquetaListReducer(
             return {
                 ...state,
                 entitiesId: action.payload.entitiesId,
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -47,6 +51,7 @@ export function RegraEtiquetaListReducer(
         case RegraEtiquetaListActions.RELOAD_REGRAS_ETIQUETA: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -72,6 +77,7 @@ export function RegraEtiquetaListReducer(
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload]),
                 entitiesId: state.entitiesId.filter(id => id !== action.payload)
             };
         }
@@ -79,7 +85,11 @@ export function RegraEtiquetaListReducer(
         case RegraEtiquetaListActions.DELETE_REGRA_ETIQUETA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

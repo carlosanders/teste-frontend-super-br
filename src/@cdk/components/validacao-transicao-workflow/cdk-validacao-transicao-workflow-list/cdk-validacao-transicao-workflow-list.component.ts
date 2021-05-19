@@ -25,6 +25,9 @@ export class CdkValidacaoTransicaoWorkflowListComponent {
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     actions: string[] = ['delete'];
 
     @Output()

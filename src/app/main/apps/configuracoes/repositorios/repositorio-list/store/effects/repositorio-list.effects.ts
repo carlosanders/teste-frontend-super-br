@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Repositorio} from '@cdk/models';
 import {repositorio as repositorioSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class RepositorioListEffect {
@@ -92,7 +93,11 @@ export class RepositorioListEffect {
                         map((response) => new RepositorioListActions.DeleteRepositorioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new RepositorioListActions.DeleteRepositorioFailed(action.payload));
+                            return of(new RepositorioListActions.DeleteRepositorioFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

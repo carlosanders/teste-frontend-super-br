@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getRelacionamentoListState,
     (state: RelacionamentoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getRelacionamentoListState,
+    (state: RelacionamentoListState) => state.deletingErrors
+);

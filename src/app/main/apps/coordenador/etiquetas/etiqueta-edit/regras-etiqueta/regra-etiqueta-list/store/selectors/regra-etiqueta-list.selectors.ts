@@ -46,3 +46,8 @@ export const getDeletedIds = createSelector(
     getRegraEtiquetaListState,
     (state: RegraEtiquetaListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getRegraEtiquetaListState,
+    (state: RegraEtiquetaListState) => state.deletingErrors
+);

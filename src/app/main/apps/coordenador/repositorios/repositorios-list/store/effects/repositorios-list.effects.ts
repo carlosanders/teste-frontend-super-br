@@ -14,6 +14,7 @@ import {Repositorio} from '@cdk/models/repositorio.model';
 import {repositorio as repositorioSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class RepositoriosListEffect {
@@ -107,7 +108,11 @@ export class RepositoriosListEffect {
                         map((response) => new RepositorioListActions.DeleteRepositorioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new RepositorioListActions.DeleteRepositorioFailed(action.payload));
+                            return of(new RepositorioListActions.DeleteRepositorioFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

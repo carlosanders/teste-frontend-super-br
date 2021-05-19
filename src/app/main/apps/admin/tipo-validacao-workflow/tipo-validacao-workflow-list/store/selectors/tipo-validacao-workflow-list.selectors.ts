@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getTipoValidacaoWorkflowListState,
     (state: TipoValidacaoWorkflowListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getTipoValidacaoWorkflowListState,
+    (state: TipoValidacaoWorkflowListState) => state.deletingErrors
+);

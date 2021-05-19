@@ -56,6 +56,9 @@ cdk-especie-tarefa-grid {
                     &.deleted {
                         text-decoration: line-through;
                     }
+                    &.error {
+                        color: red;
+                    }
                 }
             }
         }

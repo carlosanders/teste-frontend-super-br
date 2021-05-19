@@ -12,6 +12,7 @@ import {RelacionamentoPessoalService} from '@cdk/services/relacionamento-pessoal
 import {AddData} from '@cdk/ngrx-normalizr';
 import {RelacionamentoPessoal} from '@cdk/models';
 import {relacionamentoPessoal as relacionamentoSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class RelacionamentoListEffect {
@@ -87,7 +88,11 @@ export class RelacionamentoListEffect {
                         map((response) => new RelacionamentoListActions.DeleteRelacionamentoSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new RelacionamentoListActions.DeleteRelacionamentoFailed(action.payload));
+                            return of(new RelacionamentoListActions.DeleteRelacionamentoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

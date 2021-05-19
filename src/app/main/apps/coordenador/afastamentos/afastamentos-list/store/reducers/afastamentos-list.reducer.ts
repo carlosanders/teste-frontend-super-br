@@ -1,4 +1,5 @@
 import * as AfastamentosListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface AfastamentosListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface AfastamentosListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const AfastamentosListInitialState: AfastamentosListState = {
@@ -33,7 +35,8 @@ export const AfastamentosListInitialState: AfastamentosListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function AfastamentosListReducer(
@@ -70,6 +73,7 @@ export function AfastamentosListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -84,6 +88,7 @@ export function AfastamentosListReducer(
         case AfastamentosListActions.RELOAD_AFASTAMENTOS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -108,14 +113,19 @@ export function AfastamentosListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case AfastamentosListActions.DELETE_AFASTAMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

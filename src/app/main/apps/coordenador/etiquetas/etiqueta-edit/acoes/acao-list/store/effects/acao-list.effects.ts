@@ -12,6 +12,7 @@ import {AcaoService} from '@cdk/services/acao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Acao} from '@cdk/models';
 import {acao as acaoSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class AcaoListEffect {
@@ -84,7 +85,11 @@ export class AcaoListEffect {
                         map((response) => new AcaoListActions.DeleteAcaoSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new AcaoListActions.DeleteAcaoFailed(action.payload));
+                            return of(new AcaoListActions.DeleteAcaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

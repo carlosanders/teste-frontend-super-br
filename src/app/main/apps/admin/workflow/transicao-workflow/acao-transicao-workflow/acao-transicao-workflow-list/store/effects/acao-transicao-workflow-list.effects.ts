@@ -11,6 +11,7 @@ import {AcaoTransicaoWorkflowService} from '@cdk/services/acao-transicao-workflo
 import {AddData} from '@cdk/ngrx-normalizr';
 import {AcaoTransicaoWorkflow} from '@cdk/models/acao-transicao-workflow.model';
 import {acaoTransicaoWorkflow as acaoTransicaoWorkflowSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class AcaoTransicaoWorkflowListEffects {
@@ -81,7 +82,11 @@ export class AcaoTransicaoWorkflowListEffects {
                     return this._acaoTransicaoWorkflowService.destroy(action.payload).pipe(
                         map((response) => new AcaoListActions.DeleteAcaoSuccess(response.id)),
                         catchError((err) => {
-                            return of(new AcaoListActions.DeleteAcaoFailed(action.payload));
+                            return of(new AcaoListActions.DeleteAcaoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

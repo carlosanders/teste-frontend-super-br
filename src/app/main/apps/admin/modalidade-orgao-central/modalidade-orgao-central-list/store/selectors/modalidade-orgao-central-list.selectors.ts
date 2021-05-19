@@ -41,3 +41,8 @@ export const getIsLoading = createSelector(
     getModalidadeOrgaoCentralListState,
     (state: ModalidadeOrgaoCentralListState) => state.loading
 );
+
+export const getDeletingErrors = createSelector(
+    getModalidadeOrgaoCentralListState,
+    (state: ModalidadeOrgaoCentralListState) => state.deletingErrors
+);

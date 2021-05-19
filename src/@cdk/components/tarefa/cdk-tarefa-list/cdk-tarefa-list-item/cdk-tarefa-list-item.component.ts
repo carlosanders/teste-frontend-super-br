@@ -240,6 +240,10 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
         this.editTarefa.emit(this.tarefa.id);
     }
 
+    canAssinarMinutas(tarefa: Tarefa): boolean {
+        return tarefa.vinculacoesEtiquetas.filter(vinculacao => vinculacao.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\Documento').length > 0;
+    }
+
     doAssinaMinutas(): void {
         this.assinaMinutas.emit(this.tarefa)
     }

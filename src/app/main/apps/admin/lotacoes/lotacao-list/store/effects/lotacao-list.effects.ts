@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Lotacao} from '@cdk/models/lotacao.model';
 import {lotacao as lotacaoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class LotacaoListEffect {
@@ -87,7 +88,11 @@ export class LotacaoListEffect {
                         map((response) => new RootLotacaoListActions.DeleteLotacaoSuccess(action.payload)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new RootLotacaoListActions.DeleteLotacaoFailed(action.payload));
+                            return of(new RootLotacaoListActions.DeleteLotacao(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

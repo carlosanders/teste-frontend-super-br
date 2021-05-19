@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getAcompanhamentoListState,
     (state: AcompanhamentoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getAcompanhamentoListState,
+    (state: AcompanhamentoListState) => state.deletingErrors
+);

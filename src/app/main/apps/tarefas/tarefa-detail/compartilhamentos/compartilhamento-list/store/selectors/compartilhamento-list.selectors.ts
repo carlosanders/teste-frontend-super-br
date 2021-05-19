@@ -56,3 +56,8 @@ export const getBufferingDelete = createSelector(
     getCompartilhamentoListState,
     (state: CompartilhamentoListState) => state.bufferingDelete
 );
+
+export const getDeletingErrors = createSelector(
+    getCompartilhamentoListState,
+    (state: CompartilhamentoListState) => state.deletingErrors
+);

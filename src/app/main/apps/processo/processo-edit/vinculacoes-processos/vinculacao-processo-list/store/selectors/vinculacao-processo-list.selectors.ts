@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getVinculacaoProcessoListState,
     (state: VinculacaoProcessoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getVinculacaoProcessoListState,
+    (state: VinculacaoProcessoListState) => state.deletingErrors
+);

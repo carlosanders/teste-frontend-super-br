@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Modelo} from '@cdk/models';
 import {modelo as modeloSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class ModeloListEffect {
@@ -92,7 +93,11 @@ export class ModeloListEffect {
                         map((response) => new ModeloListActions.DeleteModeloSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new ModeloListActions.DeleteModeloFailed(action.payload));
+                            return of(new ModeloListActions.DeleteModeloFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

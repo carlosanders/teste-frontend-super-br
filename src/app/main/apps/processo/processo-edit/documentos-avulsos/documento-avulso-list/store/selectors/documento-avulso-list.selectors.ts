@@ -62,3 +62,8 @@ export const getRespodendoDocumentosAvulsos = createSelector(
     getRespondendoIds,
     schemaSelectors.entitiesProjector
 );
+
+export const getDeletingErrors = createSelector(
+    getDocumentoAvulsoListState,
+    (state: DocumentoAvulsoListState) => state.deletingErrors
+);

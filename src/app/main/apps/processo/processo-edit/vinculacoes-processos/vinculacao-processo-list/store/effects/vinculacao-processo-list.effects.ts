@@ -12,6 +12,7 @@ import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.servi
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class VinculacaoProcessoListEffect {
@@ -85,7 +86,11 @@ export class VinculacaoProcessoListEffect {
                         map((response) => new VinculacaoProcessoListActions.DeleteVinculacaoProcessoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new VinculacaoProcessoListActions.DeleteVinculacaoProcessoFailed(action.payload));
+                            return of(new VinculacaoProcessoListActions.DeleteVinculacaoProcessoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

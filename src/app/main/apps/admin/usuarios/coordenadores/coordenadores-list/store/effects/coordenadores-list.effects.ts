@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Coordenador} from '@cdk/models/coordenador.model';
 import {coordenador as coordenadorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class CoordenadoresListEffects {
@@ -87,7 +88,11 @@ export class CoordenadoresListEffects {
                         map((response) => new CoordenadoresListActions.DeleteCoordenadorSuccess(action.payload)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new CoordenadoresListActions.DeleteCoordenadorFailed(action.payload));
+                            return of(new CoordenadoresListActions.DeleteCoordenadorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

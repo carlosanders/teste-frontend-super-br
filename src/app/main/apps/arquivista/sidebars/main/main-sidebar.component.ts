@@ -11,6 +11,7 @@ import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Lotacao, Setor, Usuario} from '@cdk/models';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {CdkSidebarService} from "../../../../../../@cdk/components/sidebar/sidebar.service";
 
 @Component({
     selector: 'arquivista-main-sidebar',
@@ -49,7 +50,8 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.ArquivistaAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
-        private _loginService: LoginService
+        private _loginService: LoginService,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
 
         this.colaborador = this._loginService.getUserProfile().colaborador;
@@ -126,4 +128,9 @@ export class ArquivistaMainSidebarComponent implements OnInit, OnDestroy {
         this._unsubscribeAll.complete();
     }
 
+    fecharSidebar() {
+        if(!this._cdkSidebarService.getSidebar('arquivista-main-sidebar').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('arquivista-main-sidebar').close();
+        }
+    }
 }

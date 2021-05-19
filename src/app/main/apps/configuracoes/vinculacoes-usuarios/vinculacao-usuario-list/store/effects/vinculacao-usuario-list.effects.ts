@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 
-import {Observable} from 'rxjs';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {Observable, of} from 'rxjs';
+import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 
 import {getRouterState, State} from 'app/store/reducers';
 import * as VinculacaoUsuarioListActions from '../actions';
@@ -12,6 +12,8 @@ import {VinculacaoUsuarioService} from '@cdk/services/vinculacao-usuario.service
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoUsuario} from '@cdk/models';
 import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import * as TipoDocumentoListActions from "../../../../../admin/tipo-documento/tipo-documento-list/store/actions";
 
 @Injectable()
 export class VinculacaoUsuarioListEffect {
@@ -81,15 +83,18 @@ export class VinculacaoUsuarioListEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoUsuarioListActions.DeleteVinculacaoUsuario>(VinculacaoUsuarioListActions.DELETE_VINCULACAO_USUARIO),
-                mergeMap((action) => this._vinculacaoUsuarioService.destroy(action.payload)),
-                mergeMap((response) => [
-                    // new RemoveData({id: response.id, schema: vinculacaoUsuarioSchema}),
-                    new VinculacaoUsuarioListActions.DeleteVinculacaoUsuarioSuccess(response.id)
-                ]),
-                catchError((err, caught) => {
-                    console.log (err);
-                    this._store.dispatch(new VinculacaoUsuarioListActions.DeleteVinculacaoUsuarioFailed(err));
-                    return caught;
+                mergeMap((action) => {
+                    return this._vinculacaoUsuarioService.destroy(action.payload).pipe(
+                        map((response) => new VinculacaoUsuarioListActions.DeleteVinculacaoUsuarioSuccess(response.id)),
+                        catchError((err) => {
+                            console.log(err);
+                            return of(new VinculacaoUsuarioListActions.DeleteVinculacaoUsuario(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
+                        })
+                    );
                 })
             );
 }

@@ -13,6 +13,7 @@ import {NumeroUnicoDocumento} from '@cdk/models';
 import {numeroUnicoDocumento as numeroUnicoDocumentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {NumeroUnicoDocumentoService} from '@cdk/services/numero-unico-documento.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class NumeroUnicoDocumentoListEffect {
@@ -99,7 +100,11 @@ export class NumeroUnicoDocumentoListEffect {
                         map((response) => new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoFailed(action.payload));
+                            return of(new NumeroUnicoDocumentoListActions.DeleteNumeroUnicoDocumentoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

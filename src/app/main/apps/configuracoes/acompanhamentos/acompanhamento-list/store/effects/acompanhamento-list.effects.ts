@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Compartilhamento} from '@cdk/models';
 import {compartilhamento as acompanhamentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class AcompanhamentoListEffect {
@@ -91,7 +92,11 @@ export class AcompanhamentoListEffect {
                         map((response) => new AcompanhamentoListActions.DeleteAcompanhamentoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new AcompanhamentoListActions.DeleteAcompanhamentoFailed(action.payload));
+                            return of(new AcompanhamentoListActions.DeleteAcompanhamentoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

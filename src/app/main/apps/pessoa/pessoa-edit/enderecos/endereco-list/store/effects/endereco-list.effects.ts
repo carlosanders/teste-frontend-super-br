@@ -12,6 +12,7 @@ import {EnderecoService} from '@cdk/services/endereco.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Endereco} from '@cdk/models';
 import {endereco as enderecoSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class EnderecoListEffect {
@@ -87,7 +88,11 @@ export class EnderecoListEffect {
                         map((response) => new EnderecoListActions.DeleteEnderecoSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new EnderecoListActions.DeleteEnderecoFailed(action.payload));
+                            return of(new EnderecoListActions.DeleteEnderecoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })
