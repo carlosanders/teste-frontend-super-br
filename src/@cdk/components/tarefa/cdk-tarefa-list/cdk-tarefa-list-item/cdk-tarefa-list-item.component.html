@@ -126,7 +126,6 @@
                 </div>
             </div>
             <div *ngIf="!tarefa.observacao" class="observacao" (click)="$event.stopPropagation()">
-                <span *ngIf="editandoObservacao === false">Inserir observação</span>
                 <mat-icon *ngIf="editandoObservacao === false" class="secondary-text" matTooltip="Inserir observação"
                           (click)="$event.stopPropagation(); doEditarObservacao()">
                     edit
@@ -275,6 +274,7 @@
             </button>
 
             <button mat-menu-item aria-label="assinar minutas"
+                    *ngIf="canAssinarMinutas(tarefa)"
                     (click)="doAssinaMinutas()">
                 <ng-container>
                     <mat-icon>lock</mat-icon>
