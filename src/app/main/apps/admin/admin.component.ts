@@ -9,9 +9,7 @@ import {
 } from '@angular/core';
 
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
-
 import {cdkAnimations} from '@cdk/animations';
-import {throwError} from 'rxjs';
 
 @Component({
     selector: 'admin',

@@ -1,10 +1,9 @@
-import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import { TarefaDetailReducer, TarefaDetailState } from './tarefa-detail.reducer';
+import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
+import {TarefaDetailReducer, TarefaDetailState} from './tarefa-detail.reducer';
 import {EtiquetaReducer, EtiquetaState} from './etiqueta.reducer';
 import {ProcessoReducer, ProcessoState} from './processo.reducer';
 
-export interface TarefaDetailAppState
-{
+export interface TarefaDetailAppState {
     tarefaDetail: TarefaDetailState;
     etiqueta: EtiquetaState;
     processo: ProcessoState;

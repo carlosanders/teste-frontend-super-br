@@ -247,6 +247,7 @@
                     [selected]="selectedIds.length > 0 && selectedIds.indexOf(tarefa.id) > -1"
                     [deleting]="deletingIds.length > 0 && deletingIds.indexOf(tarefa.id) > -1"
                     [dragging]="draggingIds.length > 0 && draggingIds.indexOf(tarefa.id) > -1"
+                    [assinando]="assinandoTarefasIds.length > 0 && assinandoTarefasIds.indexOf(tarefa.id) > -1 || assinandoTarefasEletronicamenteIds.length > 0 && assinandoTarefasEletronicamenteIds.indexOf(tarefa.id) > -1"
                     [countSelected]="selectedIds.length"
                     [undeleting]="unDeletingIds.length > 0 && unDeletingIds.indexOf(tarefa.id) > -1"
                     (toggleInSelectedTarefas)="toggleInSelected($event)"
@@ -262,6 +263,7 @@
                     (redistribuirTarefa)="doRedistribuirTarefa($event)"
                     (cienciaTarefa)="doCienciaTarefa($event)"
                     (editProcesso)="doEditProcesso($event)"
+                    (assinaMinutas)="doAssinaMinutas($event)"
                     [ngClass]="{
                         'selected':tarefa.id === currentTarefaId,
                         'error': (errorDelete.length > 0 && errorDelete.indexOf(tarefa.id) > -1) || (errorDistribuir.length > 0 && errorDistribuir.indexOf(tarefa.id) > -1)
@@ -273,6 +275,7 @@
                     [totalInteressados]="getTotalInteressados(tarefa.processo?.id)"
                     [ciencia]="cienciaIds.length > 0 && cienciaIds.indexOf(tarefa.id) > -1"
                     [editandoObservacao]="editandoObservacaoIds.indexOf(tarefa.id) > -1"
+                    [savingObservacao]="savingObservacao"
                     (salvarObservacao)="doSalvarObservacao($event)"
                     (etiquetaClickHandler)="doClickEtiqueta($event)"
                 >

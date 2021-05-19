@@ -49,6 +49,9 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {SnackBarDesfazerModule} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.module';
 import {MatBadgeModule} from "@angular/material/badge";
+import {AssinaturaService} from "../../../../@cdk/services/assinatura.service";
+import {CdkAssinaturaEletronicaPluginComponent} from "@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component";
+import {CdkAssinaturaEletronicaPluginModule} from "@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module";
 
 const routes: Routes = [
     {
@@ -165,9 +168,11 @@ modulesConfig.forEach((module) => {
         AssuntoListStoreModule,
         SnackBarDesfazerModule,
         MatBadgeModule,
+        CdkAssinaturaEletronicaPluginModule,
     ],
     providers: [
         TarefaService,
+        AssinaturaService,
         FolderService,
         ProcessoService,
         EspecieTarefaService,
@@ -180,7 +185,10 @@ modulesConfig.forEach((module) => {
         InteressadoService,
         DocumentoService
     ],
-    entryComponents: [SnackBarDesfazerComponent],
+    entryComponents: [
+        SnackBarDesfazerComponent,
+        CdkAssinaturaEletronicaPluginComponent
+    ],
 })
 export class TarefasModule {
 }

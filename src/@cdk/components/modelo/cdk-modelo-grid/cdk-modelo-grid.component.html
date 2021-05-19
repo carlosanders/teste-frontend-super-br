@@ -260,7 +260,7 @@
 
                         <button mat-icon-button
                                 *ngIf="actions.indexOf('visualizar') > -1"
-                                (click)="visualizarModelo(modelo.id)"
+                                (click)="visualizarModelo(modelo.documento.componentesDigitais[0].id)"
                                 aria-label="visualizar"
                                 matTooltip="Visualizar">
                             <mat-icon>remove_red_eye</mat-icon>
