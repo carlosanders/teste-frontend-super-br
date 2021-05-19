@@ -124,7 +124,7 @@ export class CdkTarefaListItemComponent implements OnInit, AfterViewInit, OnChan
     @ViewChild('dynamicText', {static: false, read: ViewContainerRef})
     containerText: ViewContainerRef;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
 
     @ViewChild('observacaoConteudo', {static: false, read: ElementRef})
