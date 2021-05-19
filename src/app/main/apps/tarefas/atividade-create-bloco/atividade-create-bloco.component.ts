@@ -69,7 +69,9 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
     especieAtividadePagination: Pagination;
 
-    /**
+    assinaturaInterval = null;
+
+        /**
      *
      * @param _store
      * @param _loginService
@@ -200,7 +202,7 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
 
         this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
             if (assinandoDocumentosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
                         assinandoDocumentosId.forEach(
@@ -208,6 +210,8 @@ export class AtividadeCreateBlocoComponent implements OnInit, OnDestroy {
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });

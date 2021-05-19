@@ -76,7 +76,9 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
     titulo: string;
     paramHandle: string;
 
-    /**
+    assinaturaInterval = null;
+
+        /**
      * @param _store
      * @param _storeProtocolo
      * @param dialog
@@ -190,7 +192,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
             if (assinandoDocumentosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
                         assinandoDocumentosId.forEach(
@@ -198,6 +200,8 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });

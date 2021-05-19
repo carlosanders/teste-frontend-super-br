@@ -16,10 +16,10 @@ import {Observable, Subject} from 'rxjs';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {CdkTranslationLoaderService} from '@cdk/services/translation-loader.service';
 
-import {Etiqueta, Folder, Pagination, Tarefa, Usuario} from '@cdk/models';
+import {Documento, Etiqueta, Folder, Pagination, Tarefa, Usuario} from '@cdk/models';
 import {TarefaService} from '@cdk/services/tarefa.service';
 import * as fromStore from 'app/main/apps/tarefas/store';
-import {getIsSavingObservacao, ToggleMaximizado} from 'app/main/apps/tarefas/store';
+import {ToggleMaximizado} from 'app/main/apps/tarefas/store';
 import {getMercureState, getRouterState, getScreenState} from 'app/store/reducers';
 import {locale as english} from 'app/main/apps/tarefas/i18n/en';
 import {ResizeEvent} from 'angular-resizable-element';
@@ -34,6 +34,9 @@ import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snac
 import {CdkUtils} from '@cdk/utils';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
+import {CdkAssinaturaEletronicaPluginComponent} from "../../../../@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component";
+import {UpdateData} from "../../../../@cdk/ngrx-normalizr";
+import {documento as documentoSchema} from "../../../../@cdk/normalizr";
 
 @Component({
     selector: 'tarefas',
@@ -69,6 +72,9 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     togglingUrgenteIds$: Observable<number[]>;
     savingObservacao$: Observable<boolean>;
+    assinandoTarefasIds$: Observable<number[]>;
+    assinandoTarefasEletronicamenteIds$: Observable<number[]>;
+    assinaturaInterval = null;
 
     deletingIds$: Observable<number[]>;
     deletedIds$: Observable<number[]>;
@@ -134,6 +140,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     usuarioAtual: Usuario
 
+    javaWebStartOK = false;
+
     /**
      *
      * @param _changeDetectorRef
@@ -169,6 +177,8 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this.errorDelete$ = this._store.pipe(select(fromStore.getErrorDelete));
         this.errorDistribuir$ = this._store.pipe(select(fromStore.getErrorDistribuir));
         this.savingObservacao$ = this._store.pipe(select(fromStore.getIsSavingObservacao));
+        this.assinandoTarefasIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasId));
+        this.assinandoTarefasEletronicamenteIds$ = this._store.pipe(select(fromStore.getAssinandoTarefasEletronicamenteId));
 
         this._store.pipe(select(fromStore.getTarefasLoaded)).subscribe((loaded) => {
             this.loaded = loaded;
@@ -251,6 +261,47 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 if (message.content.genero === this.routerState.params.generoHandle) {
                     this.novaTarefa = true;
                 }
+            }
+            if (message && message.type === 'assinatura') {
+                switch (message.content.action) {
+                    case 'assinatura_iniciada':
+                        this.javaWebStartOK = true;
+                        break;
+                    case 'assinatura_cancelada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed({documentoId: message.content.documentoId}));
+                        break;
+                    case 'assinatura_erro':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoFailed({documentoId: message.content.documentoId}));
+                        break;
+                    case 'assinatura_finalizada':
+                        this.javaWebStartOK = false;
+                        this._store.dispatch(new fromStore.AssinaDocumentoSuccess(message.content.documentoId));
+                        this._store.dispatch(new UpdateData<Documento>({
+                            id: message.content.documentoId,
+                            schema: documentoSchema,
+                            changes: {assinado: true}
+                        }));
+                        break;
+                }
+            }
+        });
+
+        this.assinandoTarefasIds$.pipe(
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(assinandoTarefasIds => {
+            if (assinandoTarefasIds.length > 0) {
+                this.assinaturaInterval = setInterval(() => {
+                    // monitoramento do java
+                    if (!this.javaWebStartOK && (assinandoTarefasIds.length > 0)) {
+                        assinandoTarefasIds.forEach(
+                            tarefaId => this._store.dispatch(new fromStore.AssinaDocumentoFailed({tarefaId: tarefaId}))
+                        );
+                    }
+                }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
         });
 
@@ -414,7 +465,7 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.dispatch(new fromStore.GetTarefas(nparams));
     }
 
-    setCurrentTarefa(event: {tarefa: Tarefa, event: any}): void {
+    setCurrentTarefa(event: { tarefa: Tarefa, event: any }): void {
         let tarefa = event.tarefa;
         if (!tarefa.apagadoEm) {
             if (!tarefa.dataHoraLeitura) {
@@ -685,6 +736,20 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
 
     doCreateDocumentoAvulsoBloco(): void {
         this._router.navigate(['apps/tarefas/' + this.routerState.params.generoHandle + '/' + this.routerState.params.typeHandle + '/' + this.routerState.params.targetHandle + '/documento-avulso-bloco']).then();
+    }
+
+    doAssinaturaMinutas(tarefa: Tarefa): void {
+        const dialogRef = this._matDialog.open(CdkAssinaturaEletronicaPluginComponent, {
+            width: '600px'
+        });
+
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+            if (result.certificadoDigital) {
+                this._store.dispatch(new fromStore.GetDocumentos({tarefaId: tarefa.id, certificadoDigital: true}));
+            } else {
+                this._store.dispatch(new fromStore.GetDocumentos({tarefaId: tarefa.id, assinatura: {plainPassword: result.plainPassword}}));
+            }
+        });
     }
 
     /*

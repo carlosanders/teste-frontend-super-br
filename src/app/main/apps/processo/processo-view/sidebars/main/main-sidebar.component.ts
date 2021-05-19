@@ -37,6 +37,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
 import {CdkModeloAutocompleteComponent} from "@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.component";
 import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
+import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from "../../../../tarefas/store";
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -101,8 +102,11 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
     form: FormGroup;
 
+    assinaturaInterval = null;
     deletingDocumentosId$: Observable<number[]>;
     assinandoDocumentosId$: Observable<number[]>;
+    assinandoTarefaDocumentosId$: Observable<number[]>;
+    assinandoTarefaEletronicamenteDocumentosId$: Observable<number[]>;
     alterandoDocumentosId$: Observable<number[]>;
     assinandoDocumentosId: number[] = [];
     removendoAssinaturaDocumentosId$: Observable<number[]>;
@@ -227,6 +231,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.deletingDocumentosId$ = this._store.pipe(select(fromStore.getDeletingDocumentosId));
         this.alterandoDocumentosId$ = this._store.pipe(select(fromStore.getAlterandoDocumentosId));
         this.assinandoDocumentosId$ = this._store.pipe(select(fromStore.getAssinandoDocumentosId));
+        this.assinandoTarefaDocumentosId$ = this._store.pipe(select(getAssinandoDocumentosId));
+        this.assinandoTarefaEletronicamenteDocumentosId$ = this._store.pipe(select(getAssinandoDocumentosEletronicamenteId));
         this.removendoAssinaturaDocumentosId$ = this._store.pipe(select(fromStore.getRemovendoAssinaturaDocumentosId));
         this.convertendoDocumentosId$ = this._store.pipe(select(fromStore.getConvertendoAllDocumentosId));
         this.lixeiraMinutas$ = this._store.pipe(select(fromStore.getLixeiraMinutas));
@@ -298,6 +304,10 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         });
 
         this.modeloPagination = new Pagination();
+        this.modeloPagination.populate = [
+            'documento',
+            'documento.componentesDigitais'
+        ];
         this.modeloPagination.filter = {
             orX: [
                 {
@@ -437,11 +447,12 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                             }
                         }
                     });
+
                     this.assinandoDocumentosId$.pipe(
                         takeUntil(this._unsubscribeDocs)
                     ).subscribe(assinandoDocumentosId => {
                         if (assinandoDocumentosId.length > 0) {
-                            setInterval(() => {
+                            this.assinaturaInterval = setInterval(() => {
                                 // monitoramento do java
                                 if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
                                     assinandoDocumentosId.forEach(
@@ -449,6 +460,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                                     );
                                 }
                             }, 30000);
+                        } else {
+                            clearInterval(this.assinaturaInterval);
                         }
                         this.assinandoDocumentosId = assinandoDocumentosId;
                     });
@@ -682,7 +695,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
     }
 
     doVisualizarModelo(): void {
-        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.id));
+        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.documento.componentesDigitais[0].id));
     }
 
     closeAutocomplete(): void {
@@ -711,7 +724,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.plainPassword = result.plainPassword;
 
                     this._store.dispatch(new fromStore.AssinaDocumentoEletronicamente({
-                        assinatura: assinatura
+                        assinatura: assinatura,
+                        documento: result.documento
                     }));
                 });
             }
@@ -738,7 +752,8 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     assinatura.plainPassword = result.plainPassword;
 
                     this._store.dispatch(new fromStore.AssinaJuntadaEletronicamente({
-                        assinatura: assinatura
+                        assinatura: assinatura,
+                        documento: result.documento
                     }));
                 });
             }

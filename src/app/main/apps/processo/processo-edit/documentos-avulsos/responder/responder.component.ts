@@ -67,7 +67,9 @@ export class ResponderComponent implements OnInit, OnDestroy {
 
     errors$: Observable<any>;
 
-    /**
+    assinaturaInterval = null;
+
+        /**
      *
      * @param _store
      * @param _loginService
@@ -174,7 +176,7 @@ export class ResponderComponent implements OnInit, OnDestroy {
 
         this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
             if (assinandoDocumentosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
                         assinandoDocumentosId.forEach(
@@ -182,6 +184,8 @@ export class ResponderComponent implements OnInit, OnDestroy {
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
