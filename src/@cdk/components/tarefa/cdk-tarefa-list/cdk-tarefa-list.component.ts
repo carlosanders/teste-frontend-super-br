@@ -209,7 +209,7 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     isIndeterminate = false;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
 
     @Input()
