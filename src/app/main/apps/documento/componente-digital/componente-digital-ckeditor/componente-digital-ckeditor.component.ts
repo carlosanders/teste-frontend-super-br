@@ -54,6 +54,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
     mode = 'documento';
 
+    assinaturaInterval = null;
+
     /**
      * @param _changeDetectorRef
      * @param _store
@@ -155,7 +157,7 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
 
         this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
             if (assinandoDocumentosId && assinandoDocumentosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
                         assinandoDocumentosId.forEach(
@@ -163,6 +165,8 @@ export class ComponenteDigitalCkeditorComponent implements OnInit, OnDestroy {
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
