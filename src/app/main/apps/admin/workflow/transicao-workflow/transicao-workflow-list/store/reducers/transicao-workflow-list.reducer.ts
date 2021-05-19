@@ -1,4 +1,5 @@
 import * as TransicaoWorkflowListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface TransicaoWorkflowListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface TransicaoWorkflowListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const TransicaoWorkflowListInitialState: TransicaoWorkflowListState = {
@@ -33,7 +35,8 @@ export const TransicaoWorkflowListInitialState: TransicaoWorkflowListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function TransicaoWorkflowListReducer(
@@ -71,6 +74,7 @@ export function TransicaoWorkflowListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -103,14 +107,19 @@ export function TransicaoWorkflowListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case TransicaoWorkflowListActions.DELETE_TRANSICAO_WORKFLOW_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

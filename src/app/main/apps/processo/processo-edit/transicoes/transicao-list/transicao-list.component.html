@@ -3,6 +3,7 @@
         [transicoes]="(transicoes$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="btViewTransicao"
         (reload)="reload($event)"

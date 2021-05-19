@@ -12,6 +12,7 @@ import {RelevanciaService} from '@cdk/services/relevancia.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Relevancia} from '@cdk/models';
 import {relevancia as relevanciaSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class RelevanciaListEffect {
@@ -86,7 +87,11 @@ export class RelevanciaListEffect {
                         map((response) => new RelevanciaListActions.DeleteRelevanciaSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new RelevanciaListActions.DeleteRelevanciaFailed(action.payload));
+                            return of(new RelevanciaListActions.DeleteRelevanciaFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

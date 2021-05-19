@@ -25,6 +25,7 @@ export class CargoListComponent implements OnInit, OnDestroy {
     pagination$: Observable<any>;
     pagination: any;
     deletingIds$: Observable<any>;
+    deletingErrors$: Observable<any>;
     deletedIds$: Observable<any>;
 
     constructor(

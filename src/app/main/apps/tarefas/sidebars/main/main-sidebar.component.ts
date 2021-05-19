@@ -38,6 +38,7 @@ import {CdkUtils} from "@cdk/utils";
 import {DndDropEvent} from "ngx-drag-drop";
 import {navigationConverter} from "../../../../../navigation/navigation";
 import {FormControl} from "@angular/forms";
+import {CdkSidebarService} from "../../../../../../@cdk/components/sidebar/sidebar.service";
 
 @Component({
     selector: 'tarefas-main-sidebar',
@@ -147,7 +148,8 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         private _changeDetectorRef: ChangeDetectorRef,
         public _loginService: LoginService,
         private router: Router,
-        private _snackBar: MatSnackBar
+        private _snackBar: MatSnackBar,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
         this.folders$ = this._store.pipe(select(fromStore.getFolders));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
@@ -821,5 +823,11 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
         }
         const tarefa = event.data;
         return usuario.isDisponivel && tarefa.usuarioResponsavel.id !== usuario.id;
+    }
+
+    fecharSidebar() {
+        if(!this._cdkSidebarService.getSidebar('tarefas-main-sidebar').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('tarefas-main-sidebar').close();
+        }
     }
 }

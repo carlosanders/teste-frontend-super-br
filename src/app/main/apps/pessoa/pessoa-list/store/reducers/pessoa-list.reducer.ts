@@ -1,4 +1,5 @@
 import * as PessoaListActions from 'app/main/apps/pessoa/pessoa-list/store/actions';
+import * as _ from 'lodash';
 
 export interface PessoaListState {
     entitiesId: number[];
@@ -15,6 +16,7 @@ export interface PessoaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const PessoaListInitialState: PessoaListState = {
@@ -31,7 +33,8 @@ export const PessoaListInitialState: PessoaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function PessoaListReducer(state = PessoaListInitialState, action: PessoaListActions.PessoaListActionsAll): PessoaListState {
@@ -64,6 +67,7 @@ export function PessoaListReducer(state = PessoaListInitialState, action: Pessoa
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -72,6 +76,7 @@ export function PessoaListReducer(state = PessoaListInitialState, action: Pessoa
         case PessoaListActions.RELOAD_PESSOAS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -102,14 +107,19 @@ export function PessoaListReducer(state = PessoaListInitialState, action: Pessoa
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case PessoaListActions.DELETE_PESSOA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

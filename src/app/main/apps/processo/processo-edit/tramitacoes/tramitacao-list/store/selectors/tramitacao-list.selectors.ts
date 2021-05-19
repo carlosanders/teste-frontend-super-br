@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getTramitacaoListState,
     (state: TramitacaoListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getTramitacaoListState,
+    (state: TramitacaoListState) => state.deletingErrors
+);

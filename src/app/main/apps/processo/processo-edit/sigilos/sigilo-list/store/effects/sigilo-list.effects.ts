@@ -12,6 +12,7 @@ import {SigiloService} from '@cdk/services/sigilo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Sigilo} from '@cdk/models';
 import {sigilo as sigiloSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class SigiloListEffect {
@@ -85,7 +86,11 @@ export class SigiloListEffect {
                         map((response) => new SigiloListActions.DeleteSigiloSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new SigiloListActions.DeleteSigiloFailed(action.payload));
+                            return of(new SigiloListActions.DeleteSigiloFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

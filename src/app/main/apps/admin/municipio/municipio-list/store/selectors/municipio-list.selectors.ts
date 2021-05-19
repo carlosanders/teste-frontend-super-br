@@ -41,3 +41,8 @@ export const getIsLoading = createSelector(
     getMunicipioListState,
     (state: MunicipioListState) => state.loading
 );
+
+export const getDeletingErrors = createSelector(
+    getMunicipioListState,
+    (state: MunicipioListState) => state.deletingErrors
+);

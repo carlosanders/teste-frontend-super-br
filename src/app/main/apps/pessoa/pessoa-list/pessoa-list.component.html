@@ -5,6 +5,7 @@
         [total]="(pagination$ | async)?.total"
         [pageSize]="(pagination$ | async)?.limit"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'edit', 'select']"
         [displayedColumns]="['id', 'nome', 'numeroDocumentoPrincipal', 'actions']"

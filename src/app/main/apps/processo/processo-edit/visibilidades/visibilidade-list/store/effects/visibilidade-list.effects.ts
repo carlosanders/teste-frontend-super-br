@@ -12,6 +12,7 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Visibilidade} from '@cdk/models';
 import {visibilidade as visibilidadeSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class VisibilidadeListEffect {
@@ -78,7 +79,11 @@ export class VisibilidadeListEffect {
                         map((response) => new VisibilidadeListActions.DeleteVisibilidadeSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new VisibilidadeListActions.DeleteVisibilidadeFailed(action.payload));
+                            return of(new VisibilidadeListActions.DeleteVisibilidadeFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

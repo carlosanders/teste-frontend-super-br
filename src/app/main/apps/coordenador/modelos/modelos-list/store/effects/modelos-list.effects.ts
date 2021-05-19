@@ -14,6 +14,7 @@ import {Modelo} from '@cdk/models/modelo.model';
 import {modelo as modeloSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class ModelosListEffect {
@@ -107,7 +108,11 @@ export class ModelosListEffect {
                         map((response) => new ModeloListActions.DeleteModeloSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new ModeloListActions.DeleteModeloFailed(action.payload));
+                            return of(new ModeloListActions.DeleteModeloFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

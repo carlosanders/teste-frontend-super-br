@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getRepositorioListState,
     (state: RepositorioListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getRepositorioListState,
+    (state: RepositorioListState) => state.deletingErrors
+);

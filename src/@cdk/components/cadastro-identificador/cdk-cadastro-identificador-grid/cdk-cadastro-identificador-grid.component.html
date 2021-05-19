@@ -93,7 +93,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1, 'error': getProp(deletingErrors, cadastroIdentificador.id)}"> {{cadastroIdentificador.id}} </td>
                 </ng-container>
 
                 <!-- Numero Column -->
@@ -102,7 +102,7 @@
                         Número
                     </th>
                     <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Número: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.numero }}
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1, 'error': getProp(deletingErrors, cadastroIdentificador.id)}"> {{cadastroIdentificador.numero }}
                     </td>
                 </ng-container>
 
@@ -112,7 +112,7 @@
                         Origem do Dado
                     </th>
                     <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Origem do Dado: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.origemDados?.fonteDados}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1, 'error': getProp(deletingErrors, cadastroIdentificador.id)}"> {{cadastroIdentificador.origemDados?.fonteDados}} </td>
                 </ng-container>
 
                 <!-- Pessoa Column -->
@@ -121,7 +121,7 @@
                         Usuário
                     </th>
                     <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Usuário: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.pessoa?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1, 'error': getProp(deletingErrors, cadastroIdentificador.id)}"> {{cadastroIdentificador.pessoa?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -130,7 +130,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1, 'error': getProp(deletingErrors, cadastroIdentificador.id)}"> {{cadastroIdentificador.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -139,7 +139,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1, 'error': getProp(deletingErrors, cadastroIdentificador.id)}"> {{cadastroIdentificador.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -148,7 +148,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1, 'error': getProp(deletingErrors, cadastroIdentificador.id)}"> {{cadastroIdentificador.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -157,7 +157,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1, 'error': getProp(deletingErrors, cadastroIdentificador.id)}"> {{cadastroIdentificador.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -166,7 +166,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1, 'error': getProp(deletingErrors, cadastroIdentificador.id)}"> {{cadastroIdentificador.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -175,7 +175,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let cadastroIdentificador" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1}"> {{cadastroIdentificador.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(cadastroIdentificador.id) > -1, 'error': getProp(deletingErrors, cadastroIdentificador.id)}"> {{cadastroIdentificador.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -212,6 +212,10 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, cadastroIdentificador.id)">
+                            {{ getProp(deletingErrors, cadastroIdentificador.id) }}
+                        </mat-error>
                     </td>
                 </ng-container>
 

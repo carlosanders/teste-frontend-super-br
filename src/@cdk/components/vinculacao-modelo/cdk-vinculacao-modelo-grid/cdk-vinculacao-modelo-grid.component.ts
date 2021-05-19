@@ -138,6 +138,9 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -356,5 +359,12 @@ export class CdkVinculacaoModeloGridComponent implements AfterViewInit, OnInit, 
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getVolumeListState,
     (state: VolumeListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getVolumeListState,
+    (state: VolumeListState) => state.deletingErrors
+);

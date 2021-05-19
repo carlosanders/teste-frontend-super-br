@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getTarefaListState,
     (state: TarefaListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getTarefaListState,
+    (state: TarefaListState) => state.deletingErrors
+);

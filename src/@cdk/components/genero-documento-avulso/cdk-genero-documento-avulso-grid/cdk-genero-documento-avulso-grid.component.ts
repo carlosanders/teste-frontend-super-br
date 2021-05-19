@@ -116,6 +116,9 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input()
@@ -329,5 +332,12 @@ export class CdkGeneroDocumentoAvulsoGridComponent implements AfterViewInit, OnI
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

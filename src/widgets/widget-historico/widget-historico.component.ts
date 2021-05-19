@@ -51,10 +51,10 @@ export class WidgetHistoricoComponent implements OnInit {
         this.historicoIsLoding = true;
         this.historicos = [];
         this._historicoService.query(
-            `{"criadoPor.id": "eq:${this._profile.id}"}`,
+            `{"criadoPor.id": "eq:${this._profile.id}", "criadoEm": "gt:${moment().subtract(10, 'days').format('YYYY-MM-DDTHH:mm:ss')}"}`,
             25,
             0,
-            '{"id": "DESC"}',
+            '{"criadoEm": "DESC"}',
             '["populateAll"]')
             .pipe(
                 catchError(() => {

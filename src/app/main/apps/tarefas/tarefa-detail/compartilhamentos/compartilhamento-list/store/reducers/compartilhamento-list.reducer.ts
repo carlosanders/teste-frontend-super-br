@@ -1,4 +1,5 @@
 import * as CompartilhamentoListActions from 'app/main/apps/tarefas/tarefa-detail/compartilhamentos/compartilhamento-list/store/actions';
+import * as _ from 'lodash';
 
 export interface CompartilhamentoListState {
     entitiesId: number[];
@@ -14,6 +15,7 @@ export interface CompartilhamentoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
     bufferingDelete: number;
     error: any;
     errorDelete: number[];
@@ -35,7 +37,8 @@ export const CompartilhamentoListInitialState: CompartilhamentoListState = {
     deletingIds: [],
     bufferingDelete: 0,
     error: null,
-    errorDelete: []
+    errorDelete: [],
+    deletingErrors: {}
 };
 
 export function CompartilhamentoListReducer(state = CompartilhamentoListInitialState, action: CompartilhamentoListActions.CompartilhamentoListActionsAll): CompartilhamentoListState {
@@ -67,6 +70,7 @@ export function CompartilhamentoListReducer(state = CompartilhamentoListInitialS
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -103,6 +107,8 @@ export function CompartilhamentoListReducer(state = CompartilhamentoListInitialS
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload]),
                 errorDelete: [],
                 error: null
             };
@@ -112,7 +118,11 @@ export function CompartilhamentoListReducer(state = CompartilhamentoListInitialS
             return {
                 ...state,
                 errorDelete: [...state.errorDelete, action.payload.id],
-                deletingIds: state.deletingIds.filter(id => id !== action.payload.id),
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                },
                 entitiesId: [...state.entitiesId, action.payload.id],
                 error: action.payload.error
             };

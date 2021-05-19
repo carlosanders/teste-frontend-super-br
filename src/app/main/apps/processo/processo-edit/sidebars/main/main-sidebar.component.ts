@@ -16,6 +16,7 @@ import {getProcesso} from '../../../store';
 import {filter, switchMap} from 'rxjs/operators';
 import {LoginService} from '../../../../../auth/login/login.service';
 import {cdkAnimations} from '@cdk/animations';
+import {CdkSidebarService} from "../../../../../../../@cdk/components/sidebar/sidebar.service";
 
 @Component({
     selector: 'processo-edit-main-sidebar',
@@ -42,7 +43,8 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.ProcessoAppState>,
         public _loginService: LoginService,
-        private _changeDetectorRef: ChangeDetectorRef
+        private _changeDetectorRef: ChangeDetectorRef,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
         this.processo$ = this._store.pipe(select(getProcesso));
     }
@@ -190,4 +192,9 @@ export class ProcessoEditMainSidebarComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
     }
 
+    fecharSidebar() {
+        if(!this._cdkSidebarService.getSidebar('processo-edit-main-sidebar').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('processo-edit-main-sidebar').close();
+        }
+    }
 }

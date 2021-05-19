@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Localizador} from '@cdk/models/localizador.model';
 import {localizador as localizadorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class LocalizadoresListEffects {
@@ -87,7 +88,11 @@ export class LocalizadoresListEffects {
                         map((response) => new RootLocalizadoresListActions.DeleteLocalizadorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new RootLocalizadoresListActions.DeleteLocalizadorFailed(action.payload));
+                            return of(new RootLocalizadoresListActions.DeleteLocalizadorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

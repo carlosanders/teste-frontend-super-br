@@ -265,6 +265,9 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     pageSize = 10;
 
     @Input() target = `${environment.api_url}administrativo/componente_digital` + environment.xdebug;
@@ -525,6 +528,13 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 
     cssPesquisaOn() {

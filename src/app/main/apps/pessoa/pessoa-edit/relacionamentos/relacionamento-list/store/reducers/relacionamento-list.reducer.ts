@@ -1,4 +1,5 @@
 import * as RelacionamentoListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface RelacionamentoListState {
     entitiesId: number[];
@@ -15,6 +16,7 @@ export interface RelacionamentoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RelacionamentoListInitialState: RelacionamentoListState = {
@@ -31,7 +33,8 @@ export const RelacionamentoListInitialState: RelacionamentoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RelacionamentoListReducer(
@@ -67,6 +70,7 @@ export function RelacionamentoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -75,6 +79,7 @@ export function RelacionamentoListReducer(
         case RelacionamentoListActions.RELOAD_RELACIONAMENTOS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -99,14 +104,19 @@ export function RelacionamentoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case RelacionamentoListActions.DELETE_RELACIONAMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

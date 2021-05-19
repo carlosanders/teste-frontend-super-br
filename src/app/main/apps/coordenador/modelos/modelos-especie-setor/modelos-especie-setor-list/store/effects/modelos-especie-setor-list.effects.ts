@@ -12,6 +12,7 @@ import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoModelo} from '@cdk/models';
 import {vinculacaoModelo as vinculacaoModeloSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class ModelosEspecieSetorListEffects {
@@ -85,7 +86,11 @@ export class ModelosEspecieSetorListEffects {
                         map((response) => new ModelosEspecieSetorListActions.DeleteModeloEspecieSetorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new ModelosEspecieSetorListActions.DeleteModeloEspecieSetorFailed(action.payload));
+                            return of(new ModelosEspecieSetorListActions.DeleteModeloEspecieSetorFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

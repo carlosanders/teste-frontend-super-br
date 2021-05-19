@@ -1,4 +1,5 @@
 import * as AcaoTransicaoWorkflowListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface AcaoTransicaoWorkflowListState {
     entitiesId: number[];
@@ -7,6 +8,7 @@ export interface AcaoTransicaoWorkflowListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const AcaoTransicaoWorkflowListInitialState: AcaoTransicaoWorkflowListState = {
@@ -15,7 +17,8 @@ export const AcaoTransicaoWorkflowListInitialState: AcaoTransicaoWorkflowListSta
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function AcaoTransicaoWorkflowListReducer(
@@ -39,6 +42,7 @@ export function AcaoTransicaoWorkflowListReducer(
             return {
                 ...state,
                 entitiesId: action.payload.entitiesId,
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -47,6 +51,7 @@ export function AcaoTransicaoWorkflowListReducer(
         case AcaoTransicaoWorkflowListActions.RELOAD_ACOES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -72,6 +77,7 @@ export function AcaoTransicaoWorkflowListReducer(
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
                 deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload]),
                 entitiesId: state.entitiesId.filter(id => id !== action.payload)
             };
         }
@@ -79,7 +85,11 @@ export function AcaoTransicaoWorkflowListReducer(
         case AcaoTransicaoWorkflowListActions.DELETE_ACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

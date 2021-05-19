@@ -12,7 +12,7 @@ import {EspecieSetorService} from '@cdk/services/especie-setor.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {EspecieSetor} from '@cdk/models';
 import {especieSetor as especieSetorSchema} from '@cdk/normalizr';
-
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class EspecieSetorListEffects {
@@ -87,7 +87,11 @@ export class EspecieSetorListEffects {
                         map((response) => new EspecieSetorListActions.DeleteEspecieSetorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new EspecieSetorListActions.DeleteEspecieSetorFailed(action.payload));
+                            return of(new EspecieSetorListActions.DeleteEspecieSetor(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

@@ -12,6 +12,7 @@ import {AssuntoService} from '@cdk/services/assunto.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Assunto} from '@cdk/models';
 import {assunto as assuntoSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class AssuntoListEffect {
@@ -86,7 +87,11 @@ export class AssuntoListEffect {
                         map((response) => new AssuntoListActions.DeleteAssuntoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new AssuntoListActions.DeleteAssuntoFailed(action.payload));
+                            return of(new AssuntoListActions.DeleteAssuntoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

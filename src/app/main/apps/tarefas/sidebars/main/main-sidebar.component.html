@@ -170,7 +170,7 @@
         <div class="nav-item">
             <a class="nav-link" matRipple
                [routerLink]="'/apps/tarefas/' + generoHandle + '/compartilhadas/outros-usuarios'"
-               [routerLinkActive]="['active', 'accent']">
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">share</mat-icon>
                 <span>Outros Usuários</span>
             </a>
@@ -587,7 +587,7 @@
 
         <div class="nav-item" *ngFor="let usuario of usuariosAssessor">
             <a class="nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/assessor/' + usuario.id"
-               [routerLinkActive]="['active', 'accent']">
+               [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ 'person' }}</mat-icon>
                 <span>{{usuario.nome | titlecase}}</span>
             </a>
