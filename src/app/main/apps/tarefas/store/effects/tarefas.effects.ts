@@ -1,4 +1,4 @@
-import {AddChildData, AddData, UpdateData} from '@cdk/ngrx-normalizr';
+import {AddChildData, AddData, RemoveData, UpdateData} from '@cdk/ngrx-normalizr';
 import {
     assunto as assuntoSchema,
     interessado as interessadoSchema,
@@ -735,7 +735,7 @@ export class TarefasEffect {
                             new UpdateData<Tarefa>({
                                 id: response.id,
                                 schema: tarefaSchema,
-                                changes: {observacao: response.observacao}
+                                changes: {observacao: action.payload.conteudo}
                             }),
                             new OperacoesActions.Resultado({
                                 type: 'observacao',

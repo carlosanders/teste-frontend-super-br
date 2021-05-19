@@ -261,6 +261,8 @@
                                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
                                 *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) &&
                             !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(minuta.id) > -1) &&
+                            !((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(minuta.id) > -1) &&
                             !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) &&
                             !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(minuta.id) > -1) &&
                             !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) &&
@@ -270,6 +272,8 @@
 
                         <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(minuta.id) > -1) ||
                             ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(minuta.id) > -1) ||
+                            ((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(minuta.id) > -1) ||
                             ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(minuta.id) > -1) ||
                             ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(minuta.id) > -1) ||
                             ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(minuta.id) > -1) ||
@@ -417,6 +421,8 @@
                                 aria-label="Ferramentas" (click)="$event.stopPropagation()"
                                 *ngIf="!((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) &&
                             !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            !((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(oficio.id) > -1) &&
                             !((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) &&
                             !((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(oficio.id) > -1) &&
                             !((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
@@ -426,6 +432,8 @@
 
                         <div *ngIf="((deletingDocumentosId$ | async) !== undefined && (deletingDocumentosId$ | async).indexOf(oficio.id) > -1) ||
                             ((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(oficio.id) > -1) ||
+                            ((assinandoTarefaDocumentosId$ | async) !== undefined && (assinandoTarefaDocumentosId$ | async).indexOf(oficio.id) > -1) &&
+                            ((assinandoTarefaEletronicamenteDocumentosId$ | async) !== undefined && (assinandoTarefaEletronicamenteDocumentosId$ | async).indexOf(oficio.id) > -1) &&
                             ((convertendoDocumentosId$ | async) !== undefined && (convertendoDocumentosId$ | async).indexOf(oficio.id) > -1) ||
                             ((downloadP7SDocumentoIds$ | async) !== undefined && (downloadP7SDocumentoIds$ | async).indexOf(oficio.id) > -1) ||
                             ((removendoAssinaturaDocumentosId$ | async) !== undefined && (removendoAssinaturaDocumentosId$ | async).indexOf(oficio.id) > -1) ||
@@ -651,13 +659,18 @@
                 <mat-icon *ngIf="juntada.ativo && juntada.documento.assinado" class="ml-8 mr-8">lock</mat-icon>
                 <div class="actions">
                     <button mat-icon-button [matMenuTriggerFor]="moreMenu"
-                            *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1"
+                            *ngIf="juntada.ativo && routerState?.url?.indexOf('anexar-copia') === -1 &&
+                            !((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
                             aria-label="Ferramentas" (click)="$event.stopPropagation()">
                         <mat-icon class="secondary-text">more_vert</mat-icon>
                     </button>
 
-                    <mat-menu #moreMenu="matMenu">
+                    <div *ngIf="((assinandoDocumentosId$ | async) !== undefined && (assinandoDocumentosId$ | async).indexOf(juntada.documento.id) > -1)"
+                         class="spinner-container m-8">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
 
+                    <mat-menu #moreMenu="matMenu">
                         <button mat-menu-item aria-label="enviar por email" (click)="enviarDocumentoEmail(juntada.id)">
                             <ng-container>
                                 <mat-icon>send</mat-icon>

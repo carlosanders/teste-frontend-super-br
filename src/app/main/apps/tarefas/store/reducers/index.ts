@@ -4,6 +4,7 @@ import { FoldersReducer, FoldersState } from './folders.reducer';
 import { RootLotacaoListReducer, RootLotacaoListState } from './lotacao.reducer';
 import { RootUnidadeReducer, RootUnidadeState } from './unidade.reducer';
 import { RootSetorReducer, RootSetorState } from './setor.reducer';
+import {AssinaturasReducer, AssinaturasState} from "./assinaturas.reducer";
 
 
 export interface TarefasAppState
@@ -13,6 +14,7 @@ export interface TarefasAppState
     lotacaoList: RootLotacaoListState;
     unidades: RootUnidadeState;
     setores: RootSetorState;
+    assinaturas: AssinaturasState;
 
 }
 export const getTarefasAppState = createFeatureSelector<TarefasAppState>(
@@ -35,7 +37,8 @@ export const reducers: ActionReducerMap<TarefasAppState> = {
     folders: FoldersReducer,
     lotacaoList: RootLotacaoListReducer,
     unidades: RootUnidadeReducer,
-    setores: RootSetorReducer
+    setores: RootSetorReducer,
+    assinaturas: AssinaturasReducer
 };
 
 
@@ -44,3 +47,4 @@ export * from './folders.reducer';
 export * from './lotacao.reducer';
 export * from './unidade.reducer';
 export * from './setor.reducer';
+export * from './assinaturas.reducer';

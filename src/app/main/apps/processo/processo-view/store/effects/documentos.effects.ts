@@ -247,7 +247,11 @@ export class ProcessoViewDocumentosEffects {
                                 redo: 'inherent',
                                 undo: 'inherent'
                             }));
-                            new UpdateData<Documento>({id: response.id, schema: documentoSchema, changes: {apagadoEm: response.apagadoEm}});
+                            new UpdateData<Documento>({
+                                id: response.id,
+                                schema: documentoSchema,
+                                changes: {apagadoEm: response.apagadoEm}
+                            });
                             if (this.routerState.params['tarefaHandle']) {
                                 this._store.dispatch(new GetTarefa({id: this.routerState.params['tarefaHandle']}));
                             }
@@ -287,11 +291,15 @@ export class ProcessoViewDocumentosEffects {
                         return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                             .pipe(
                                 map((response) => {
-                                    return new ProcessoViewDocumentosActions.AssinaDocumentoSuccess(response);
+                                    return new ProcessoViewDocumentosActions.PreparaAssinaturaSuccess(response);
                                 }),
                                 catchError((err, caught) => {
+                                    const payload = {
+                                        id: action.payload,
+                                        error: err
+                                    }
                                     console.log(err);
-                                    this._store.dispatch(new ProcessoViewDocumentosActions.AssinaDocumentoFailed(err));
+                                    this._store.dispatch(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
                                     return caught;
                                 })
                             );
@@ -307,18 +315,19 @@ export class ProcessoViewDocumentosEffects {
         this._actions
             .pipe(
                 ofType<ProcessoViewDocumentosActions.AssinaJuntada>(ProcessoViewDocumentosActions.ASSINA_JUNTADA),
-                withLatestFrom(this._store.pipe(select(getPagination))),
-                switchMap(([action, pagination]) => {
+                switchMap((action) => {
                         return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                             .pipe(
                                 mergeMap((response) => [
-                                    new ProcessoViewDocumentosActions.AssinaJuntadaSuccess(response),
-                                    new UnloadJuntadas({reset: false}),
-                                    new GetJuntadas(pagination),
+                                    new ProcessoViewDocumentosActions.PreparaAssinaturaSuccess(response),
                                 ]),
                                 catchError((err, caught) => {
+                                    const payload = {
+                                        id: action.payload,
+                                        error: err
+                                    }
                                     console.log(err);
-                                    this._store.dispatch(new ProcessoViewDocumentosActions.AssinaJuntadaFailed(err));
+                                    this._store.dispatch(new ProcessoViewDocumentosActions.PreparaAssinaturaFailed(payload));
                                     return caught;
                                 })
                             );
@@ -347,14 +356,14 @@ export class ProcessoViewDocumentosEffects {
                 ));
 
     /**
-     * Assina Documento Success
+     * Prepara Assinatura Success
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
-    assinaDocumentoSuccess: any =
+    preparaAssinaturaSuccess: any =
         this._actions
             .pipe(
-                ofType<ProcessoViewDocumentosActions.AssinaDocumentoSuccess>(ProcessoViewDocumentosActions.ASSINA_DOCUMENTO_SUCCESS),
+                ofType<ProcessoViewDocumentosActions.PreparaAssinaturaSuccess>(ProcessoViewDocumentosActions.PREPARA_ASSINATURA_SUCCESS),
                 tap((action) => {
 
                     const url = environment.jnlp + 'v1/administrativo/assinatura/' + action.payload.secret + '/get_jnlp';
@@ -402,9 +411,13 @@ export class ProcessoViewDocumentosEffects {
                 switchMap((action) => {
                     return this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
-                            new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteSuccess(response),
+                            new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteSuccess(action.payload.documento.id),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                            new ProcessoViewDocumentosActions.GetDocumentos(),
+                            new UpdateData<Documento>({
+                                id: action.payload.documento.id,
+                                schema: documentoSchema,
+                                changes: {assinado: true}
+                            }),
                             new OperacoesActions.Resultado({
                                 type: 'assinatura',
                                 content: `Assinatura id ${response.id} criada com sucesso!`,
@@ -412,6 +425,10 @@ export class ProcessoViewDocumentosEffects {
                             })
                         ]),
                         catchError((err) => {
+                            const payload = {
+                                documentoId: action.payload.documento.id,
+                                error: err
+                            }
                             console.log(err);
                             return of(new ProcessoViewDocumentosActions.AssinaDocumentoEletronicamenteFailed(err));
                         })
@@ -432,10 +449,13 @@ export class ProcessoViewDocumentosEffects {
                 switchMap(([action, pagination]) => {
                     return this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
-                            new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteSuccess(response),
+                            new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteSuccess(action.payload.documento.id),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
-                            new UnloadJuntadas({reset: false}),
-                            new GetJuntadas(pagination),
+                            new UpdateData<Documento>({
+                                id: action.payload.documento.id,
+                                schema: documentoSchema,
+                                changes: {assinado: true}
+                            }),
                             new OperacoesActions.Resultado({
                                 type: 'assinatura',
                                 content: `Assinatura id ${response.id} criada com sucesso!`,
@@ -443,8 +463,12 @@ export class ProcessoViewDocumentosEffects {
                             })
                         ]),
                         catchError((err) => {
+                            const payload = {
+                                documentoId: action.payload.documento.id,
+                                error: err
+                            }
                             console.log(err);
-                            return of(new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteFailed(err));
+                            return of(new ProcessoViewDocumentosActions.AssinaJuntadaEletronicamenteFailed(payload));
                         })
                     );
                 })
@@ -516,7 +540,10 @@ export class ProcessoViewDocumentosEffects {
                         return this._componenteDigitalService.preparaConverter(action.payload, {hash: action.payload.hash})
                             .pipe(
                                 mergeMap((response) => [
-                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new AddData<ComponenteDigital>({
+                                        data: response['entities'],
+                                        schema: componenteDigitalSchema
+                                    }),
                                     new ProcessoViewDocumentosActions.ConverteToPdfSucess(action.payload)
                                 ]),
                                 catchError((err) => {
@@ -542,7 +569,10 @@ export class ProcessoViewDocumentosEffects {
                         return this._componenteDigitalService.converterHtml(action.payload, {hash: action.payload.hash})
                             .pipe(
                                 mergeMap((response) => [
-                                    new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
+                                    new AddData<ComponenteDigital>({
+                                        data: response['entities'],
+                                        schema: componenteDigitalSchema
+                                    }),
                                     new ProcessoViewDocumentosActions.ConverteToHtmlSucess(action.payload)
                                 ]),
                                 catchError((err) => {
@@ -581,8 +611,12 @@ export class ProcessoViewDocumentosEffects {
                                         const link = document.createElement('a');
                                         link.href = data;
                                         link.download = response.fileName;
-                                        link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-                                        setTimeout( () => {
+                                        link.dispatchEvent(new MouseEvent('click', {
+                                            bubbles: true,
+                                            cancelable: true,
+                                            view: window
+                                        }));
+                                        setTimeout(() => {
                                             window.URL.revokeObjectURL(data);
                                             link.remove();
                                         }, 100);

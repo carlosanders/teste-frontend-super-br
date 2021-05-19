@@ -82,7 +82,9 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
     snackSubscription: any;
     lote: string;
 
-    /**
+    assinaturaInterval = null;
+
+        /**
      *
      * @param _store
      * @param _loginService
@@ -194,7 +196,7 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
             if (assinandoDocumentosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
                         assinandoDocumentosId.forEach(
@@ -202,6 +204,8 @@ export class OficiosComponent implements OnInit, OnDestroy, AfterViewInit {
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });

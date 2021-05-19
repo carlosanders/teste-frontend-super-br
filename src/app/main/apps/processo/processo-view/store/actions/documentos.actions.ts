@@ -30,6 +30,9 @@ export const ASSINA_DOCUMENTO = '[PROCESSO VIEW] ASSINA DOCUMENTO';
 export const ASSINA_DOCUMENTO_SUCCESS = '[PROCESSO VIEW] ASSINA DOCUMENTO SUCCESS';
 export const ASSINA_DOCUMENTO_FAILED = '[PROCESSO VIEW] ASSINA DOCUMENTO FAILED';
 
+export const PREPARA_ASSINATURA_SUCCESS = '[PROCESSO VIEW] PREPARA ASSINATURA SUCCESS';
+export const PREPARA_ASSINATURA_FAILED = '[PROCESSO VIEW] PREPARA ASSINATURA FAILED';
+
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE = '[PROCESSO VIEW] ASSINA DOCUMENTO ELETRONICAMENTE';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_SUCCESS = '[PROCESSO VIEW] ASSINA DOCUMENTO ELETRONICAMENTE SUCCESS';
 export const ASSINA_DOCUMENTO_ELETRONICAMENTE_FAILED = '[PROCESSO VIEW] ASSINA DOCUMENTO ELETRONICAMENTE FAILED';
@@ -313,6 +316,30 @@ export class AssinaDocumentoSuccess implements Action
 export class AssinaDocumentoFailed implements Action
 {
     readonly type = ASSINA_DOCUMENTO_FAILED;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Prepara Assinatura Success
+ */
+export class PreparaAssinaturaSuccess implements Action
+{
+    readonly type = PREPARA_ASSINATURA_SUCCESS;
+
+    constructor(public payload: any)
+    {
+    }
+}
+
+/**
+ * Prepara Assinatura Failed
+ */
+export class PreparaAssinaturaFailed implements Action
+{
+    readonly type = PREPARA_ASSINATURA_FAILED;
 
     constructor(public payload: any)
     {
@@ -638,6 +665,8 @@ export type ProcessoViewDocumentosActionsAll
     | AssinaDocumento
     | AssinaDocumentoSuccess
     | AssinaDocumentoFailed
+    | PreparaAssinaturaSuccess
+    | PreparaAssinaturaFailed
     | AssinaDocumentoEletronicamente
     | AssinaDocumentoEletronicamenteSuccess
     | AssinaDocumentoEletronicamenteFailed
