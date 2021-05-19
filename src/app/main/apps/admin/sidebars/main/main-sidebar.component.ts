@@ -5,6 +5,7 @@ import {Colaborador} from '@cdk/models';
 import {LoginService} from '../../../../auth/login/login.service';
 import {CdkUtils} from '@cdk/utils';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {CdkSidebarService} from "../../../../../../@cdk/components/sidebar/sidebar.service";
 
 
 @Component({
@@ -24,7 +25,8 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
      * Constructor
      */
     constructor(
-        public _loginService: LoginService
+        public _loginService: LoginService,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
         this.colaborador = this._loginService.getUserProfile().colaborador;
 
@@ -173,6 +175,12 @@ export class MainSidebarComponent implements OnInit, OnDestroy {
      * On destroy
      */
     ngOnDestroy(): void {
+    }
+
+    fecharSidebar() {
+        if(!this._cdkSidebarService.getSidebar('admin-main-sidebar').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('admin-main-sidebar').close();
+        }
     }
 }
 

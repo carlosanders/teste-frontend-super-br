@@ -2,6 +2,7 @@ import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/co
 
 import { cdkAnimations } from '@cdk/animations';
 import {modulesConfig} from '../../../../../../modules/modules-config';
+import {CdkSidebarService} from "../../../../../../@cdk/components/sidebar/sidebar.service";
 
 @Component({
     selector       : 'pesquisa-main-sidebar',
@@ -21,6 +22,7 @@ export class PesquisaMainSidebarComponent
      *
      */
     constructor(
+        private _cdkSidebarService: CdkSidebarService,
     )
     {
 
@@ -48,4 +50,9 @@ export class PesquisaMainSidebarComponent
         });
     }
 
+    fecharSidebar() {
+        if(!this._cdkSidebarService.getSidebar('pesquisa-main-sidebar').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('pesquisa-main-sidebar').close();
+        }
+    }
 }

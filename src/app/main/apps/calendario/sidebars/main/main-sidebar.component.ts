@@ -10,6 +10,7 @@ import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Lotacao, Setor, Usuario, VinculacaoUsuario} from '@cdk/models';
+import {CdkSidebarService} from "../../../../../../@cdk/components/sidebar/sidebar.service";
 
 @Component({
     selector: 'calendario-main-sidebar',
@@ -43,7 +44,8 @@ export class CalendarioMainSidebarComponent implements OnInit, OnDestroy {
     constructor(
         private _store: Store<fromStore.CalendarioAppState>,
         private _changeDetectorRef: ChangeDetectorRef,
-        public _loginService: LoginService
+        public _loginService: LoginService,
+        private _cdkSidebarService: CdkSidebarService,
     ) {
     }
 
@@ -96,5 +98,11 @@ export class CalendarioMainSidebarComponent implements OnInit, OnDestroy {
      */
     create(): void {
         this._store.dispatch(new fromStore.CreateTarefa());
+    }
+
+    fecharSidebar() {
+        if(!this._cdkSidebarService.getSidebar('calendario-main-sidebar').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('calendario-main-sidebar').close();
+        }
     }
 }
