@@ -25,6 +25,9 @@ export class CdkAcaoTransicaoWorkflowListComponent {
     deletedIds: number[] = [];
 
     @Input()
+    deletingErrors: {};
+
+    @Input()
     actions: string[] = ['delete'];
 
     @Output()

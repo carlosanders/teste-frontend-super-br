@@ -46,3 +46,8 @@ export const getDeletedIds = createSelector(
     getAcaoTransicaoWorkflowListState,
     (state: AcaoTransicaoWorkflowListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getAcaoTransicaoWorkflowListState,
+    (state: AcaoTransicaoWorkflowListState) => state.deletingErrors
+);

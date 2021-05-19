@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getLocalizadorListState,
     (state: LocalizadorListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getLocalizadorListState,
+    (state: LocalizadorListState) => state.deletingErrors
+);

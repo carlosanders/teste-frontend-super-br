@@ -1,4 +1,5 @@
 import * as RepositoriosListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface RepositoriosListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface RepositoriosListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RepositoriosListInitialState: RepositoriosListState = {
@@ -33,7 +35,8 @@ export const RepositoriosListInitialState: RepositoriosListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RepositoriosListReducer(
@@ -70,6 +73,7 @@ export function RepositoriosListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -84,6 +88,7 @@ export function RepositoriosListReducer(
         case RepositoriosListActions.RELOAD_REPOSITORIOS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -108,14 +113,19 @@ export function RepositoriosListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case RepositoriosListActions.DELETE_REPOSITORIO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

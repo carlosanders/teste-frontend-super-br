@@ -2,15 +2,15 @@ import {
     ChangeDetectionStrategy,
     ChangeDetectorRef,
     Component,
-    OnInit,
-    ViewChild,
-    ViewEncapsulation,
+    EventEmitter,
     Input,
     OnChanges,
+    OnInit,
     Output,
-    EventEmitter
+    ViewChild,
+    ViewEncapsulation
 } from '@angular/core';
-import {merge, of} from 'rxjs';
+import {of} from 'rxjs';
 
 import {cdkAnimations} from '@cdk/animations';
 import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
@@ -48,6 +48,9 @@ export class CdkBlocoDestinatarioGridComponent implements OnInit, OnChanges {
 
     @Input()
     deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: {};
 
     @Input()
     pageSize = 10;
@@ -182,4 +185,10 @@ export class CdkBlocoDestinatarioGridComponent implements OnInit, OnChanges {
         this.cancel.emit();
     }
 
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
+    }
 }

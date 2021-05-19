@@ -56,6 +56,9 @@ cdk-modalidade-destinacao-grid {
                     &.deleted {
                         text-decoration: line-through;
                     }
+                    &.error {
+                        color: red;
+                    }
                 }
             }
         }

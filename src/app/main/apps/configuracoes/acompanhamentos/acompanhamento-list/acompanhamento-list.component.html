@@ -10,6 +10,7 @@
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [actions]="['create', 'edit', 'delete', 'showDeleted']"
         [displayedColumns]="['select', 'id', 'processo', 'actions']"
         (reload)="reload($event)"

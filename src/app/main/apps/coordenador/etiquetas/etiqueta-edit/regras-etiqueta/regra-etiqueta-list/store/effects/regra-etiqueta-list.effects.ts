@@ -12,6 +12,7 @@ import {RegraEtiquetaService} from '@cdk/services/regra-etiqueta.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {RegraEtiqueta} from '@cdk/models';
 import {regraEtiqueta as regraEtiquetaSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class RegraEtiquetaListEffect {
@@ -84,7 +85,11 @@ export class RegraEtiquetaListEffect {
                         map((response) => new RegraEtiquetaListActions.DeleteRegraEtiquetaSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
-                            return of(new RegraEtiquetaListActions.DeleteRegraEtiquetaFailed(action.payload));
+                            return of(new RegraEtiquetaListActions.DeleteRegraEtiquetaFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

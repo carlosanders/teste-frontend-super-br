@@ -116,7 +116,7 @@ export class TarefasOperacoesBlocoComponent implements OnInit, OnDestroy, AfterV
     }
 
     ngAfterViewInit(): void {
-        const path = '@cdk/components/tarefa/cdk-tarefa-list';
+        const path = 'app/main/apps/tarefas/operacoes-bloco/tarefas-operacoes-bloco';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
                 module.components[path].forEach((c => {

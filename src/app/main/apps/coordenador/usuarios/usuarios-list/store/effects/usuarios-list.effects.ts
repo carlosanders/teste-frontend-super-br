@@ -13,6 +13,7 @@ import {LoginService} from 'app/main/auth/login/login.service';
 import {UsuarioService} from '@cdk/services/usuario.service';
 import {Usuario} from '@cdk/models/usuario.model';
 import {usuario as usuarioSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class UsuariosListEffects {
@@ -128,7 +129,11 @@ export class UsuariosListEffects {
                         map((response) => new UsuariosListActions.DeleteUsuarioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new UsuariosListActions.DeleteUsuarioFailed(action.payload));
+                            return of(new UsuariosListActions.DeleteUsuarioFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

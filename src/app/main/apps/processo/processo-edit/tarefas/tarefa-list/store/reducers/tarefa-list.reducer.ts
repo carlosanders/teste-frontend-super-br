@@ -1,4 +1,5 @@
 import * as TarefaListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface TarefaListState {
     entitiesId: number[];
@@ -15,6 +16,7 @@ export interface TarefaListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const TarefaListInitialState: TarefaListState = {
@@ -31,7 +33,8 @@ export const TarefaListInitialState: TarefaListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function TarefaListReducer(
@@ -67,6 +70,7 @@ export function TarefaListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -75,6 +79,7 @@ export function TarefaListReducer(
         case TarefaListActions.RELOAD_TAREFAS: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -99,14 +104,19 @@ export function TarefaListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case TarefaListActions.DELETE_TAREFA_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

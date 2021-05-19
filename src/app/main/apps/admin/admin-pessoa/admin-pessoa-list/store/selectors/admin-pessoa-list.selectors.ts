@@ -41,3 +41,8 @@ export const getIsLoading = createSelector(
     getPessoaListState,
     (state: PessoaListState) => state.loading
 );
+
+export const getDeletingErrors = createSelector(
+    getPessoaListState,
+    (state: PessoaListState) => state.deletingErrors
+);

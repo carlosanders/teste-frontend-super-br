@@ -27,7 +27,7 @@
             </div>
 
             <button mat-icon-button *ngIf="selectedIds.length > 1 && actions.indexOf('delete') > -1"
-                    (click)="deleteAcoes(selectedIds)"
+                    (click)="deleteValidacoes(selectedIds)"
                     aria-label="remover"
                     matTooltip="Remover">
                 <mat-icon>delete</mat-icon>
@@ -94,7 +94,7 @@
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id
                     </th>
                     <td mat-cell *matCellDef="let validacao" class='has_label_on_mobile' data-label='Id: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1}"> &nbsp;{{validacao.id}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1, 'error': getProp(deletingErrors, validacao.id)}"> &nbsp;{{validacao.id}} </td>
                 </ng-container>
 
                 <!-- Contexto Column -->
@@ -103,7 +103,7 @@
                         Contexto
                     </th>
                     <td mat-cell *matCellDef="let validacao" class='has_label_on_mobile' data-label='Contexto: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1}"> {{validacao.contexto}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1, 'error': getProp(deletingErrors, validacao.id)}"> {{validacao.contexto}} </td>
                 </ng-container>
 
                 <!-- Trigger Column -->
@@ -112,7 +112,7 @@
                         Trigger
                     </th>
                     <td mat-cell *matCellDef="let validacao" class='has_label_on_mobile' data-label='Trigger: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1}"> {{validacao.trigger}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1, 'error': getProp(deletingErrors, validacao.id)}"> {{validacao.trigger}} </td>
                 </ng-container>
 
                 <!-- Unidade Column -->
@@ -121,7 +121,7 @@
                         Etiqueta
                     </th>
                     <td mat-cell *matCellDef="let validacao" class='has_label_on_mobile' data-label='Etiqueta: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1}"> {{validacao.etiqueta?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1, 'error': getProp(deletingErrors, validacao.id)}"> {{validacao.etiqueta?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoPor Column -->
@@ -130,7 +130,7 @@
                         Criado Por
                     </th>
                     <td mat-cell *matCellDef="let validacao" class='has_label_on_mobile' data-label='Criado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1}"> {{validacao.criadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1, 'error': getProp(deletingErrors, validacao.id)}"> {{validacao.criadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- CriadoEm Column -->
@@ -139,7 +139,7 @@
                         Criado Em
                     </th>
                     <td mat-cell *matCellDef="let validacao" class='has_label_on_mobile' data-label='Criado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1}"> {{validacao.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1, 'error': getProp(deletingErrors, validacao.id)}"> {{validacao.criadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- AtualizadoPor Column -->
@@ -149,7 +149,7 @@
                         Atualizado Por
                     </th>
                     <td mat-cell *matCellDef="let validacao" class='has_label_on_mobile' data-label='Atualizado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1}"> {{validacao.atualizadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1, 'error': getProp(deletingErrors, validacao.id)}"> {{validacao.atualizadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- AtualizadoEm Column -->
@@ -158,7 +158,7 @@
                         Atualizado Em
                     </th>
                     <td mat-cell *matCellDef="let validacao" class='has_label_on_mobile' data-label='Atualizado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1}"> {{validacao.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1, 'error': getProp(deletingErrors, validacao.id)}"> {{validacao.atualizadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- ApagadoPor Column -->
@@ -167,7 +167,7 @@
                         Apagado Por
                     </th>
                     <td mat-cell *matCellDef="let validacao" class='has_label_on_mobile' data-label='Apagado Por: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1}"> {{validacao.apagadoPor?.nome}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1, 'error': getProp(deletingErrors, validacao.id)}"> {{validacao.apagadoPor?.nome}} </td>
                 </ng-container>
 
                 <!-- ApagadoEm Column -->
@@ -176,7 +176,7 @@
                         Apagado Em
                     </th>
                     <td mat-cell *matCellDef="let validacao" class='has_label_on_mobile' data-label='Apagado Em: '
-                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1}"> {{validacao.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
+                        [ngClass]="{'deleted':deletedIds?.indexOf(validacao.id) > -1, 'error': getProp(deletingErrors, validacao.id)}"> {{validacao.apagadoEm?.toDate() | date: 'dd/MM/yyyy'}} </td>
                 </ng-container>
 
                 <!-- Actions Column -->
@@ -213,6 +213,10 @@
                                 matTooltip="Remover">
                             <mat-icon>delete</mat-icon>
                         </button>
+
+                        <mat-error *ngIf="getProp(deletingErrors, validacao.id)">
+                            {{ getProp(deletingErrors, validacao.id) }}
+                        </mat-error>
                     </td>
                 </ng-container>
 

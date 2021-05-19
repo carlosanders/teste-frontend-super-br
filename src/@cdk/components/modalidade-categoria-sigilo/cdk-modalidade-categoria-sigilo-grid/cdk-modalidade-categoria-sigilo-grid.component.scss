@@ -56,6 +56,9 @@ cdk-modalidade-categoria-sigilo-grid {
                     &.deleted {
                         text-decoration: line-through;
                     }
+                    &.error {
+                        color: red;
+                    }
                 }
             }
         }

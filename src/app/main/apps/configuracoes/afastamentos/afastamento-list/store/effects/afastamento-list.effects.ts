@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Afastamento} from '@cdk/models';
 import {afastamento as afastamentoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class AfastamentoListEffect {
@@ -87,7 +88,11 @@ export class AfastamentoListEffect {
                         map((response) => new AfastamentoListActions.DeleteAfastamentoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new AfastamentoListActions.DeleteAfastamentoFailed(action.payload));
+                            return of(new AfastamentoListActions.DeleteAfastamentoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

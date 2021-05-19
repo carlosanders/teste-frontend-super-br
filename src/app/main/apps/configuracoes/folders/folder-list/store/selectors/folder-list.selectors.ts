@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getFolderListState,
     (state: FolderListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getFolderListState,
+    (state: FolderListState) => state.deletingErrors
+);

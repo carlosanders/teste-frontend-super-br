@@ -12,7 +12,7 @@ import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {EspecieTarefa} from '@cdk/models';
 import {especieTarefa as especieTarefaSchema} from '@cdk/normalizr';
-
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class EspecieTarefaListEffects {
@@ -87,7 +87,11 @@ export class EspecieTarefaListEffects {
                         map((response) => new EspecieTarefaListActions.DeleteEspecieTarefaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new EspecieTarefaListActions.DeleteEspecieTarefaFailed(action.payload));
+                            return of(new EspecieTarefaListActions.DeleteEspecieTarefa(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

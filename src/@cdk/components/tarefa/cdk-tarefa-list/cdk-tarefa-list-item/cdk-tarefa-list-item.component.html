@@ -48,15 +48,12 @@
 
             <div class="subtitle" *ngIf="isOpen">
                 <div class="assunto">
-                    <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1">
+                    <div *ngIf="loadingAssuntosProcessosId.indexOf(tarefa.processo.id) !== -1 || loadingInteressados">
                         <mat-spinner diameter=16></mat-spinner>
                     </div>
                     <div *ngIf="tarefa.processo?.assuntos?.length > 0">
                         <span>{{tarefa.processo?.assuntos[0]?.assuntoAdministrativo?.nome | titleCasePipe}}</span>
                     </div>
-                </div>
-                <div *ngIf="loadingInteressados">
-                    <mat-spinner diameter=16></mat-spinner>
                 </div>
                 <div class="interessados" *ngIf="!loadingInteressados && tarefa.processo?.interessados?.length > 0">
                     <span *ngFor="let nomeInteressado of (tarefa.processo?.interessados | formatInteressados: totalInteressados)">
@@ -112,8 +109,38 @@
                 </mat-icon>
                 <mat-form-field *ngIf="editandoObservacao === true" (click)="$event.stopPropagation()">
                     <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
-                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)" upperCase>{{tarefa.observacao}}</textarea>
+                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)"
+                              upperCase>{{tarefa.observacao}}</textarea>
                 </mat-form-field>
+                <div class="actions" *ngIf="editandoObservacao === true">
+                    <button *ngIf="!savingObservacao" mat-icon-button type="button" aria-label="Salvar Observação" matTooltip="Salvar Observação" class="accent"
+                            (click)="$event.stopPropagation();">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <div class="spinner-container m-8" *ngIf="savingObservacao">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!tarefa.observacao" class="observacao" (click)="$event.stopPropagation()">
+                <mat-icon *ngIf="editandoObservacao === false" class="secondary-text" matTooltip="Inserir observação"
+                          (click)="$event.stopPropagation(); doEditarObservacao()">
+                    edit
+                </mat-icon>
+                <mat-form-field *ngIf="editandoObservacao === true" (click)="$event.stopPropagation()">
+                    <textarea #observacaoConteudo matInput placeholder="Observação" autofocus
+                              (blur)="doSalvarObservacao(tarefa, observacaoConteudo.value)"
+                              upperCase></textarea>
+                </mat-form-field>
+                <div class="actions" *ngIf="editandoObservacao === true">
+                    <button *ngIf="!savingObservacao" mat-icon-button type="button" aria-label="Salvar Observação" matTooltip="Salvar Observação" class="accent"
+                            (click)="$event.stopPropagation();">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                    <div class="spinner-container m-8" *ngIf="savingObservacao">
+                        <mat-spinner diameter="24"></mat-spinner>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -158,11 +185,11 @@
             <mat-icon class="secondary-text">undo</mat-icon>
         </button>
 
-        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading || undeleting">
+        <div class="spinner-container m-8" *ngIf="deleting || ciencia || pluginLoading || undeleting || assinando">
             <mat-spinner diameter="24"></mat-spinner>
         </div>
 
-        <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm" mat-icon-button
+        <button *ngIf="!deleting && !ciencia && !pluginLoading && !tarefa.apagadoEm && !assinando" mat-icon-button
                 [matMenuTriggerFor]="moreMenu"
                 aria-label="Ferramentas"
                 (click)="$event.stopPropagation()">
@@ -240,6 +267,15 @@
                 <ng-container>
                     <mat-icon>share</mat-icon>
                     <span>Compartilhar</span>
+                </ng-container>
+            </button>
+
+            <button mat-menu-item aria-label="assinar minutas"
+                    *ngIf="canAssinarMinutas(tarefa)"
+                    (click)="doAssinaMinutas()">
+                <ng-container>
+                    <mat-icon>lock</mat-icon>
+                    <span>Assinar Minutas</span>
                 </ng-container>
             </button>
 

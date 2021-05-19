@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Contato} from '@cdk/models';
 import {contato as contatoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class ContatoListEffect {
@@ -84,7 +85,11 @@ export class ContatoListEffect {
                     return this._contatoService.destroy(action.payload).pipe(
                         map((response) => new ContatoListActions.DeleteContatoSuccess(response.id)),
                         catchError((err) => {
-                            return of(new ContatoListActions.DeleteContatoFailed(action.payload));
+                            return of(new ContatoListActions.DeleteContatoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

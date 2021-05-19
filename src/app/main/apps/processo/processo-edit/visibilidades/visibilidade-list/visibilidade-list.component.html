@@ -2,6 +2,7 @@
         [loading]="(loading$ | async)"
         [visibilidades]="(visibilidades$ | async)"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['delete', 'showDeleted']"
         (reload)="reload($event)"

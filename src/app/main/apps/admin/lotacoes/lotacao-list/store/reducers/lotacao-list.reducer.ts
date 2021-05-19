@@ -1,4 +1,5 @@
 import * as RootLotacaoListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface RootLotacaoListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface RootLotacaoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const RootLotacaoListInitialState: RootLotacaoListState = {
@@ -33,7 +35,8 @@ export const RootLotacaoListInitialState: RootLotacaoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function RootLotacaoListReducer(
@@ -70,6 +73,7 @@ export function RootLotacaoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -78,6 +82,7 @@ export function RootLotacaoListReducer(
         case RootLotacaoListActions.RELOAD_LOTACOES: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -94,7 +99,7 @@ export function RootLotacaoListReducer(
         case RootLotacaoListActions.DELETE_LOTACAO: {
             return {
                 ...state,
-                deletingIds: [...state.deletingIds, action.payload]
+                deletingIds: [...state.deletingIds, action.payload],
             };
         }
 
@@ -102,14 +107,19 @@ export function RootLotacaoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case RootLotacaoListActions.DELETE_LOTACAO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

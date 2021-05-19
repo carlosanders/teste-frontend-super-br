@@ -63,22 +63,22 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
             id: 'valor',
             label: 'Valor',
             fixed: true
-        },    
+        },
         {
             id: 'dataValor',
             label: 'Data Valor',
             fixed: true
-        },      
+        },
         {
             id: 'descricao',
             label: 'Descrição',
             fixed: true
-        },     
+        },
         {
             id: 'observacao',
             label: 'Observação',
             fixed: false
-        },                        
+        },
         {
             id: 'processo',
             label: 'NUP',
@@ -128,6 +128,9 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
 
     @Input()
     deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: {};
 
     @Input()
     pageSize = 10;
@@ -343,5 +346,12 @@ export class CdkGarantiaGridComponent implements AfterViewInit, OnInit, OnChange
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

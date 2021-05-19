@@ -109,7 +109,9 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
     formEditorValid = false;
 
-    /**
+    assinaturaInterval = null;
+
+        /**
      *
      * @param _store
      * @param _loginService
@@ -166,6 +168,10 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         });
 
         this.modeloPagination = new Pagination();
+        this.modeloPagination.populate = [
+            'documento',
+            'documento.componentesDigitais'
+        ];
         this.modeloPagination.filter = {
             orX: [
                 {
@@ -319,7 +325,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
             if (assinandoDocumentosId.length > 0) {
-                setInterval(() => {
+                this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
                     if (!this.javaWebStartOK && (assinandoDocumentosId.length > 0)) {
                         assinandoDocumentosId.forEach(
@@ -327,6 +333,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
                         );
                     }
                 }, 30000);
+            } else {
+                clearInterval(this.assinaturaInterval);
             }
             this.assinandoDocumentosId = assinandoDocumentosId;
         });
@@ -425,7 +433,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     doVisualizarModelo(): void {
-        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.id));
+        this._store.dispatch(new fromStore.VisualizarModelo(this.formEditor.get('modelo').value.documento.componentesDigitais[0].id));
     }
 
     changedSelectedIds(selectedIds): void {

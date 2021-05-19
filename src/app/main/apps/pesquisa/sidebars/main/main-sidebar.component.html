@@ -14,7 +14,7 @@
 
         <div class="nav-item" *ngFor="let link of links">
             <a class="nav-link" matRipple [routerLink]="link.link"
-               [routerLinkActive]="['active', 'accent']" *showIfRole="link.role">
+               [routerLinkActive]="['active', 'accent']" *showIfRole="link.role" (click)="fecharSidebar()">
                 <mat-icon class="nav-link-icon">{{ link.icon }}</mat-icon>
                 <span>{{link.nome | titlecase}}</span>
             </a>

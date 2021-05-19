@@ -12,6 +12,7 @@ import {TipoRelatorioService} from '@cdk/services/tipo-relatorio.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {TipoRelatorio} from '@cdk/models/tipo-relatorio.model';
 import {tipoRelatorio as tipoRelatorioSchema} from '@cdk/normalizr';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 
 @Injectable()
@@ -87,7 +88,12 @@ export class TipoRelatorioListEffects {
                         map((response) => new TipoRelatorioListActions.DeleteTipoRelatorioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TipoRelatorioListActions.DeleteTipoRelatorioFailed(action.payload));
+                            return of(new TipoRelatorioListActions.DeleteTipoRelatorioFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
+
                         })
                     );
                 })

@@ -9,6 +9,7 @@
         [coordenadores]="(coordenadores$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [displayedColumns]="['select', 'id', 'usuario.nome', 'orgaoCentral.valor', 'unidade.nome', 'setor.nome', 'actions']"
         [actions]="['create', 'edit', 'delete']"

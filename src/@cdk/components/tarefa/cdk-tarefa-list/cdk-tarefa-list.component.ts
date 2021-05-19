@@ -43,6 +43,12 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     togglingUrgenteIds: number[] = [];
 
     @Input()
+    assinandoTarefasIds: number[] = [];
+
+    @Input()
+    assinandoTarefasEletronicamenteIds: number[] = [];
+
+    @Input()
     tarefas: Tarefa[] = [];
 
     @Input()
@@ -180,6 +186,9 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Output()
     salvarObservacao = new EventEmitter<any>();
 
+    @Output()
+    assinaMinutas = new EventEmitter<Tarefa>();
+
     @Input()
     loadingAssuntosProcessosId: number[];
 
@@ -204,12 +213,15 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
     @Input()
     editandoObservacaoIds: number[] = [];
 
+    @Input()
+    savingObservacao: boolean = false;
+
     listFilter: any;
     listSort: {} = {};
 
     isIndeterminate = false;
 
-    @ViewChild('dynamicComponent', {static: true, read: ViewContainerRef})
+    @ViewChild('dynamicComponent', {static: false, read: ViewContainerRef})
     container: ViewContainerRef;
 
     @Input()
@@ -491,6 +503,10 @@ export class CdkTarefaListComponent implements OnInit, AfterViewInit, OnChanges 
 
     doCreateDocumentoAvulso(tarefaId): void {
         this.createDocumentoAvulso.emit(tarefaId);
+    }
+
+    doAssinaMinutas(tarefa: Tarefa): void {
+        this.assinaMinutas.emit(tarefa);
     }
 
     doCreateDocumentoAvulsoBloco(): void {

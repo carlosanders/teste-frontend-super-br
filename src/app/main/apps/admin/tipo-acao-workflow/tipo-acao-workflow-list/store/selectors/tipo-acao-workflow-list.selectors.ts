@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getTipoAcaoWorkflowListState,
     (state: TipoAcaoWorkflowListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getTipoAcaoWorkflowListState,
+    (state: TipoAcaoWorkflowListState) => state.deletingErrors
+);

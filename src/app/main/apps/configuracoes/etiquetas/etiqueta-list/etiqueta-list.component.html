@@ -9,6 +9,7 @@
         [etiquetas]="(etiquetas$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['create', 'edit', 'acoes', 'regras']"
         (reload)="reload($event)"

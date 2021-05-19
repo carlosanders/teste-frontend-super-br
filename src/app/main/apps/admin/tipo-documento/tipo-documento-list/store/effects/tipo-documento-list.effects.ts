@@ -12,7 +12,7 @@ import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {TipoDocumento} from '@cdk/models';
 import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr';
-
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class TipoDocumentoListEffects {
@@ -87,7 +87,11 @@ export class TipoDocumentoListEffects {
                         map((response) => new TipoDocumentoListActions.DeleteTipoDocumentoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new TipoDocumentoListActions.DeleteTipoDocumentoFailed(action.payload));
+                            return of(new TipoDocumentoListActions.DeleteTipoDocumento(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

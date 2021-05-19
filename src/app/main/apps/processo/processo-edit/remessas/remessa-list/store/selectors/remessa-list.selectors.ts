@@ -51,3 +51,8 @@ export const getDeletedIds = createSelector(
     getRemessaListState,
     (state: RemessaListState) => state.deletedIds
 );
+
+export const getDeletingErrors = createSelector(
+    getRemessaListState,
+    (state: RemessaListState) => state.deletingErrors
+);

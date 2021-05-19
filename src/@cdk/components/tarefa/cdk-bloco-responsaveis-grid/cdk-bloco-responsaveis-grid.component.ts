@@ -88,13 +88,16 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
         }
     ];
 
-    columns = new FormControl();    
+    columns = new FormControl();
 
     @Input()
     deletingIds: number[] = [];
 
     @Input()
     deletedIds: number[] = [];
+
+    @Input()
+    deletingErrors: {};
 
     @Input()
     pageSize = 10;
@@ -230,11 +233,11 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
 
     deleteResponsavel(setorId, responsavelId): void {
         if (responsavelId) {
-            this.responsaveis = this.responsaveis.filter(responsavel => 
+            this.responsaveis = this.responsaveis.filter(responsavel =>
                 (responsavel.setor.id && responsavel.usuario.id) !== (setorId && responsavelId));
             this.responsaveisChange.emit(this.responsaveis);
         }else {
-            this.responsaveis = this.responsaveis.filter(responsavel => 
+            this.responsaveis = this.responsaveis.filter(responsavel =>
                 (responsavel.setor.id) !== (setorId));
             this.responsaveisChange.emit(this.responsaveis);
 
@@ -307,5 +310,12 @@ export class CdkBlocoResponsaveisComponent implements AfterViewInit, OnInit, OnC
 
     doCreate(): void {
         this.create.emit();
+    }
+
+    getProp(obj, prop) {
+        if (obj && obj.hasOwnProperty(prop)) {
+            return obj[prop];
+        }
+        return false;
     }
 }

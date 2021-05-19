@@ -1,4 +1,5 @@
 import * as TipoDocumentoListActions from '../actions';
+import * as _ from 'lodash';
 
 export interface TipoDocumentoListState {
     entitiesId: number[];
@@ -16,6 +17,7 @@ export interface TipoDocumentoListState {
     loaded: any;
     deletingIds: number[];
     deletedIds: number[];
+    deletingErrors: any;
 }
 
 export const TipoDocumentoListInitialState: TipoDocumentoListState = {
@@ -33,7 +35,8 @@ export const TipoDocumentoListInitialState: TipoDocumentoListState = {
     loading: false,
     loaded: false,
     deletedIds: [],
-    deletingIds: []
+    deletingIds: [],
+    deletingErrors: {}
 };
 
 export function TipoDocumentoListReducer(
@@ -69,6 +72,7 @@ export function TipoDocumentoListReducer(
                     ...state.pagination,
                     total: action.payload.total
                 },
+                deletingErrors: {},
                 loading: false,
                 loaded
             };
@@ -91,6 +95,7 @@ export function TipoDocumentoListReducer(
         case TipoDocumentoListActions.RELOAD_TIPO_DOCUMENTO: {
             return {
                 ...state,
+                deletingErrors: {},
                 loading: false,
                 loaded: false
             };
@@ -107,14 +112,19 @@ export function TipoDocumentoListReducer(
             return {
                 ...state,
                 deletingIds: state.deletingIds.filter(id => id !== action.payload),
-                deletedIds: [...state.deletedIds, action.payload]
+                deletedIds: [...state.deletedIds, action.payload],
+                deletingErrors: _.omit(state.deletingErrors, [action.payload])
             };
         }
 
         case TipoDocumentoListActions.DELETE_TIPO_DOCUMENTO_FAILED: {
             return {
                 ...state,
-                deletingIds: state.deletingIds.filter(id => id !== action.payload)
+                deletingIds: state.deletingIds.filter(id => id !== parseInt(Object.keys(action.payload)[0])),
+                deletingErrors: {
+                    ...state.deletingErrors,
+                    ...action.payload
+                }
             };
         }
 

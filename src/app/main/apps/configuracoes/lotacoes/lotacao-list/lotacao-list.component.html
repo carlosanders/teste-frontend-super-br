@@ -9,6 +9,7 @@
         [lotacoes]="(lotacoes$ | async)"
         [total]="(pagination$ | async)?.total"
         [deletingIds]="(deletingIds$ | async)"
+        [deletingErrors]="(deletingErrors$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [actions]="['setPrincipal', 'showDeleted']"
         (reload)="reload($event)"

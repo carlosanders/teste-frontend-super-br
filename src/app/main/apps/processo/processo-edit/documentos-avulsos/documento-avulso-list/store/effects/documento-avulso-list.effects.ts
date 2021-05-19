@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {DocumentoAvulso} from '@cdk/models';
 import {documentoAvulso as documentoAvulsoSchema} from '@cdk/normalizr';
 import {Router} from '@angular/router';
+import {CdkUtils} from "../../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class DocumentoAvulsoListEffect {
@@ -88,7 +89,11 @@ export class DocumentoAvulsoListEffect {
                         map((response) => new DocumentoAvulsoListActions.DeleteDocumentoAvulsoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new DocumentoAvulsoListActions.DeleteDocumentoAvulsoFailed(action.payload));
+                            return of(new DocumentoAvulsoListActions.DeleteDocumentoAvulsoFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })

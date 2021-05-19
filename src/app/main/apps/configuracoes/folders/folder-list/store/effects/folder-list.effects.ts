@@ -13,6 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Folder} from '@cdk/models';
 import {folder as folderSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
+import {CdkUtils} from "../../../../../../../../@cdk/utils";
 
 @Injectable()
 export class FolderListEffect {
@@ -87,7 +88,11 @@ export class FolderListEffect {
                         map((response) => new FolderListActions.DeleteFolderSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
-                            return of(new FolderListActions.DeleteFolderFailed(action.payload));
+                            return of(new FolderListActions.DeleteFolderFailed(
+                                {
+                                    [action.payload]: CdkUtils.errorsToString(err)
+                                })
+                            );
                         })
                     );
                 })
