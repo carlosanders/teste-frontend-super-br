@@ -111,6 +111,16 @@ export class CdkThemeOptionsComponent implements OnInit, OnDestroy
             });
 
         // Subscribe to the specific form value changes (layout.style)
+        this.form.get('colorTheme').valueChanges
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((value) => {
+
+                // Reset the form values based on the
+                // selected layout style
+                localStorage.setItem('colorTheme', value);
+            });
+
+        // Subscribe to the specific form value changes (layout.style)
         this.form.get('layout.style').valueChanges
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe((value) => {
