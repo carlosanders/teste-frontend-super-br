@@ -46,7 +46,7 @@
                      (dndDragover)="dragOver($event, element, dropzoneEnabledFolders())"
                      (dndDrop)="onDrop([$event, null], dropzoneEnabledFolders())">
                 <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/entrada'"
-                   [routerLinkActive]="['active', 'accent']">
+                   [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes['caixa_entrada_' + generoHandleAcentuado]}}"
@@ -108,7 +108,7 @@
                      (dndDrop)="onDrop([$event, folder], dropzoneEnabledFolders(folder.nome.toLowerCase()))">
                 <div class="menu_content nav-link"
                      [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/' + folder.nome | lowercase"
-                     [routerLinkActive]="['active', 'accent']">
+                     [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon"
                                   matBadge="{{tarefasPendentes[folder.nome]}}" matBadgeColor="warn"
@@ -148,7 +148,7 @@
                      (dndDragover)="dragOver($event, elementLixeira, dropzoneEnabledFolders('lixeira'))"
                      (dndDrop)="onDropDelete($event, dropzoneEnabledFolders('lixeira'))">
                 <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/lixeira'"
-                     [routerLinkActive]="['active', 'accent']">
+                     [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
                         <mat-icon class="nav-link-icon">delete</mat-icon>
                         <span style="flex: 1 1 auto;">Lixeira</span>
@@ -249,7 +249,7 @@
                                          (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                                          (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                                          [routerLinkActive]="['active', 'accent']"
-                                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id">
+                                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
                                         <section class="setor">
                                             <div class="menu_content_label">
                                                 <div>
@@ -371,7 +371,7 @@
                                  (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                                  (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                                  [routerLinkActive]="['active', 'accent']"
-                                 [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id">
+                                 [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
                                 <section class="setor">
                                     <div class="menu_content_label">
                                         <div>
@@ -457,7 +457,7 @@
                          (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                          (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                          [routerLinkActive]="['active', 'accent']"
-                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id">
+                         [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
                         <section class="setor">
                             <div class="menu_content_label">
                                 <div>
@@ -527,7 +527,7 @@
                      (dndDragover)="dragOver($event, elementSetor, dropzoneEnabledSetor($event, setor))"
                      (dndDrop)="onDropDistribuir([$event, setor], null, dropEnabledSetor($event, setor))"
                      [routerLinkActive]="['active', 'accent']"
-                     [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id">
+                     [routerLink]="'/apps/tarefas/' + generoHandle + '/coordenacao/' + setor.id"  (click)="fecharSidebar()">
                     <section class="setor">
                         <div class="menu_content_label">
                             <div>

@@ -364,6 +364,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      */
     create(): void {
         this._store.dispatch(new fromStore.CreateTarefa());
+        this.fecharSidebar();
     }
 
     fechaOrgaoCentral(): void {
