@@ -292,7 +292,7 @@ export class ComponentesDigitaisEffects {
              }),
              catchError((err, caught) => {
                  console.log(err);
-                 this._store.dispatch(new ComponenteDigitalActions.VisualizarModeloFailed(err));
+                 this._store.dispatch(new ComponenteDigitalActions.VisualizarJuntadaFailed(err));
                  return caught;
              })
          );
