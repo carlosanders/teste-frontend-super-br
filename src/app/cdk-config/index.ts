@@ -10,7 +10,7 @@ import { CdkConfig } from '@cdk/types';
 
 export const cdkConfig: CdkConfig = {
     // Color themes can be defined in src/app/app.theme.scss
-    colorTheme      : 'theme-default',
+    colorTheme      : localStorage.getItem('colorTheme') ?? 'theme-default',
     customScrollbars: true,
     layout          : {
         style    : 'vertical-layout-1',

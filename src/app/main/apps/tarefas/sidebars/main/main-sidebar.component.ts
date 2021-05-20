@@ -142,6 +142,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      * @param _loginService
      * @param router
      * @param _snackBar
+     * @param _cdkSidebarService
      */
     constructor(
         private _store: Store<fromStore.TarefasAppState>,
@@ -414,13 +415,19 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             this.orgaoCentralOpen = false;
         }
         if (unidade.id !== this.unidadeId) {
+            let filtros: any = {
+                "unidade.id": "eq:" + unidade.id,
+                "parent": 'isNotNull'
+            };
+            if (this.setoresCoordenacao.length) {
+                filtros.id = "notIn:" + this.setoresCoordenacao.map(setor => setor.id).join(',');
+            }
+
             this._store.dispatch(new fromStore.UnloadSetores());
             this._store.dispatch(new fromStore.GetSetores({
                 ...this.paginationSetores,
                 filter: {
-                    "unidade.id": "eq:" + unidade.id,
-                    "id": "notIn:" + this.setoresCoordenacao.map(setor => setor.id).join(','),
-                    "parent": 'isNotNull'
+                    ...filtros
                 },
                 limit: this.paginationSetores.limit,
                 populate: ["populateAll", "unidade", "parent"],
