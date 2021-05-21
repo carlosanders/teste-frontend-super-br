@@ -176,6 +176,12 @@ export class ProcessoViewEffect {
                                 arrPrimary.push('visualizar');
                                 arrPrimary.push('capa');
                                 arrPrimary.push('mostrar');
+                                let extras = {
+                                    relativeTo: this._activatedRoute.parent,
+                                    queryParams: {
+                                        documentoEdit: this.routerState.queryParams.documentoEdit
+                                    }
+                                }
 
                                 // Navegação do processo deve ocorrer por outlet
                                 this._router.navigate(
@@ -188,9 +194,7 @@ export class ProcessoViewEffect {
                                             }
                                         }
                                     ],
-                                    {
-                                        relativeTo: this._activatedRoute.parent
-                                    }
+                                    extras
                                 ).then();
                             } else {
                                 let url = this.routerState.url.split('/processo/' +
@@ -200,7 +204,12 @@ export class ProcessoViewEffect {
                                     url += '/chave/' + this.routerState.params.chaveAcessoHandle;
                                 }
                                 url += '/visualizar/capa/mostrar';
-                                this._router.navigateByUrl(url).then();
+                                let extras = {
+                                    queryParams: {
+                                        documentoEdit: this.routerState.queryParams.documentoEdit
+                                    }
+                                }
+                                this._router.navigate([url], extras).then();
                             }
                         } else {
                             if (this.routerState.url.indexOf('/documento/') !== -1) {

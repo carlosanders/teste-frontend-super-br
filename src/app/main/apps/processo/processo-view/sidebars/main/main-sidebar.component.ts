@@ -405,7 +405,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                             this._changeDetectorRef.markForCheck();
                             if (this.documentoEdit.uuid && !this.documentoEdit.open) {
                                 documentos.forEach(documento => {
-                                    if (documento.uuid === this.documentoEdit.uuid) {
+                                    if (!documento.documentoAvulsoRemessa && documento.uuid === this.documentoEdit.uuid) {
+                                        this.documentoEdit.open = true;
+                                        this._store.dispatch(new fromStore.ClickedDocumento({
+                                            documento: documento,
+                                            routeAtividade: this.routeAtividadeDocumento,
+                                            routeOficio: this.routeOficioDocumento
+                                        }));
+                                    } else if (documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.uuid === this.documentoEdit.uuid) {
                                         this.documentoEdit.open = true;
                                         this._store.dispatch(new fromStore.ClickedDocumento({
                                             documento: documento,

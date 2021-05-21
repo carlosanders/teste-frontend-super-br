@@ -846,5 +846,13 @@ export class TarefasComponent implements OnInit, OnDestroy, AfterViewInit {
                 documentoUuidEdit: vinculacaoEtiqueta.objectUuid
             }));
         }
+        if (!tarefa.apagadoEm && vinculacaoEtiqueta.objectClass === 'SuppCore\\AdministrativoBackend\\Entity\\DocumentoAvulso') {
+            this._store.dispatch(new fromStore.SetCurrentTarefa({
+                tarefaId: tarefa.id,
+                processoId: tarefa.processo.id,
+                acessoNegado: tarefa.processo.acessoNegado,
+                documentoUuidEdit: vinculacaoEtiqueta.objectUuid
+            }));
+        }
     }
 }
