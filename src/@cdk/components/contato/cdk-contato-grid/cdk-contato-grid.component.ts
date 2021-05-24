@@ -194,7 +194,7 @@ export class CdkContatoGridComponent implements AfterViewInit, OnInit, OnChanges
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -339,14 +339,14 @@ export class CdkContatoGridComponent implements AfterViewInit, OnInit, OnChanges
 
     getNomeContato(contato): string {
         switch (contato.tipoContato.nome) {
-            case "UNIDADE":
+            case 'UNIDADE':
                 return contato.unidade.nome;
-            case "SETOR":
+            case 'SETOR':
                 return contato.setor.nome;
-            case "USUÁRIO":
+            case 'USUÁRIO':
                 return contato.usuario.nome;
             default:
-                return "UNDEFINED";
+                return 'UNDEFINED';
 
         }
     }

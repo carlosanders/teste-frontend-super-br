@@ -46,25 +46,25 @@ export class CdkOrigemDadosFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('idExterno').value) {
-            this.form.get('idExterno').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('idExterno').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'idExterno': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('servico').value) {
-            this.form.get('servico').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('servico').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'servico': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('fonteDados').value) {
-            this.form.get('fonteDados').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('fonteDados').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'fonteDados': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('status').value) {
-            this.form.get('status').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('status').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'status': `like:%${bit}%`});
             });
         }

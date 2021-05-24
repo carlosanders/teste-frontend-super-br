@@ -73,7 +73,7 @@ export class CdkModalidadeDocumentoIdentificadorGridsearchComponent implements O
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.modalidadedocumentoIdentificadors = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

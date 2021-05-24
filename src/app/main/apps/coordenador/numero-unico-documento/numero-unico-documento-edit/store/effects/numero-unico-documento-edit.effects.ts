@@ -29,7 +29,7 @@ export class NumeroUnicoDocumentoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class NumeroUnicoDocumentoEditEffect {
 
     /**
      * Get NumeroUnicoDocumento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class NumeroUnicoDocumentoEditEffect {
         this._actions
             .pipe(
                 ofType<NumeroUnicoDocumentoEditActions.GetNumeroUnicoDocumento>(NumeroUnicoDocumentoEditActions.GET_NUMERO_UNICO_DOCUMENTO),
-                switchMap((action) => {
-                    return this._numeroUnicoDocumentoService.query(
+                switchMap(action => this._numeroUnicoDocumentoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -56,8 +56,7 @@ export class NumeroUnicoDocumentoEditEffect {
                             'setor.unidade',
                             'tipoDocumento.especieDocumento'
                         ]),
-                        JSON.stringify(action.payload.context));
-                }),
+                        JSON.stringify(action.payload.context))),
                 switchMap(response => [
                     new AddData<NumeroUnicoDocumento>({data: response['entities'], schema: numeroUnicoDocumentoSchema}),
                     new NumeroUnicoDocumentoEditActions.GetNumeroUnicoDocumentoSuccess({
@@ -77,6 +76,7 @@ export class NumeroUnicoDocumentoEditEffect {
 
     /**
      * Save NumeroUnicoDocumento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -84,15 +84,13 @@ export class NumeroUnicoDocumentoEditEffect {
         this._actions
             .pipe(
                 ofType<NumeroUnicoDocumentoEditActions.SaveNumeroUnicoDocumento>(NumeroUnicoDocumentoEditActions.SAVE_NUMERO_UNICO_DOCUMENTO),
-                switchMap((action) => {
-                    return this._numeroUnicoDocumentoService.save(action.payload).pipe(
+                switchMap(action => this._numeroUnicoDocumentoService.save(action.payload).pipe(
                         mergeMap((response: NumeroUnicoDocumento) => [
                             new NumeroUnicoDocumentoEditActions.SaveNumeroUnicoDocumentoSuccess(),
                             new NumeroUnicoDocumentoListActions.ReloadNumerosUnicosDocumentos(),
                             new AddData<NumeroUnicoDocumento>({data: [response], schema: numeroUnicoDocumentoSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new NumeroUnicoDocumentoEditActions.SaveNumeroUnicoDocumentoFailed(err));

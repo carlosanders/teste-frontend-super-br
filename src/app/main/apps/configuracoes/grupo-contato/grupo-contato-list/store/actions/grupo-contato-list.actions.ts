@@ -54,7 +54,7 @@ export class GetGrupoContatoFailed implements Action
  export class UnloadGrupoContato implements Action
  {
      readonly type = UNLOAD_GRUPO_CONTATOS;
- 
+
      constructor()
      {
      }

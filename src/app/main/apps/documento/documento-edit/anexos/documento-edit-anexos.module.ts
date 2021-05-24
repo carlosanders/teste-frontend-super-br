@@ -7,7 +7,7 @@ import {modulesConfig} from 'modules/modules-config';
 import {DocumentoEditAnexosStoreModule} from './store/store.module';
 import {DocumentoEditDadosBasicosStoreModule} from '../dados-basicos/store/store.module';
 import {CdkUploadModule} from '@cdk/components/upload/cdk-upload.module';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTooltipModule} from '@angular/material/tooltip';

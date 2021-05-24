@@ -14,10 +14,10 @@
     <form class="form-tree" name="form" [formGroup]="formAssuntoAdministrativo">
         <mat-label class="title-arvore">Árvore</mat-label>
         <div cdkPerfectScrollbar [ngClass]="{'tree-responsive': mobileMode, 'tree': !mobileMode}">
-            <div *ngIf="!this.dataSource._data.getValue().length">
+            <div *ngIf="!this.dataSource.data.length">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
-            <mat-tree *ngIf="dataSource._data | async" [dataSource]="dataSource" [treeControl]="treeControl">
+            <mat-tree *ngIf="dataSource.data" [dataSource]="dataSource" [treeControl]="treeControl">
 
                 <!--Sem Filho-->
                 <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node" matTreeNodeToggle

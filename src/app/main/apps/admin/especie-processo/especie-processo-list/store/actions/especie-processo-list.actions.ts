@@ -54,7 +54,7 @@ export class GetEspecieProcessoFailed implements Action
  export class UnloadEspecieProcesso implements Action
  {
      readonly type = UNLOAD_ESPECIE_PROCESSO;
- 
+
      constructor()
      {
      }

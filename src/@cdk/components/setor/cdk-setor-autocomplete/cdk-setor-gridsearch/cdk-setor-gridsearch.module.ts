@@ -13,7 +13,7 @@ import { CdkSetorGridModule } from '@cdk/components/setor/cdk-setor-grid/cdk-set
     imports: [
 
         CdkSetorGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

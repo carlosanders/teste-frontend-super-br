@@ -20,8 +20,8 @@ import {filter, takeUntil} from 'rxjs/operators';
 import * as moment from 'moment';
 import {Tarefa} from '@cdk/models';
 import {Back} from '../../../../store/actions';
-import {Pagination, Usuario} from "@cdk/models";
-import {LoginService} from "../../../auth/login/login.service";
+import {Pagination, Usuario} from '@cdk/models';
+import {LoginService} from '../../../auth/login/login.service';
 
 @Component({
     selector: 'documento-avulso-create',
@@ -138,7 +138,7 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
                 filter(op => !!op && !!op.content && op.type === 'documento_avulso')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
                     this.operacoes.push(operacao);
                     this._changeDetectorRef.markForCheck();
                 }
@@ -148,7 +148,7 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.operacoes = [];
@@ -175,7 +175,7 @@ export class DocumentoAvulsoCreateBlocoComponent implements OnInit, OnDestroy {
 
         this.operacoes = [];
 
-        this.tarefas.forEach(tarefaBloco => {
+        this.tarefas.forEach((tarefaBloco) => {
             const documentoAvulso = new DocumentoAvulso();
 
             Object.entries(values).forEach(

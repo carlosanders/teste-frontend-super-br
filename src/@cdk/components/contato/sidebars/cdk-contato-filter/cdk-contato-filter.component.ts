@@ -43,7 +43,7 @@ export class CdkContatoFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('contato').value) {
-            this.form.get('contato').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('contato').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'contato': `like:%${bit}%`});
             });
         }
@@ -69,7 +69,7 @@ export class CdkContatoFilterComponent {
         }
 
         if (this.form.get('descricao').value) {
-            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'descricao': `like:%${bit}%`});
             });
         }

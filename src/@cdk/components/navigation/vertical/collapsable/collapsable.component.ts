@@ -202,7 +202,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
      *
      * @param parent
      * @param item
-     * @returns {boolean}
+     * @returns
      */
     isChildrenOf(parent, item): boolean {
         const children = parent.children;
@@ -232,7 +232,7 @@ export class CdkNavVerticalCollapsableComponent implements OnInit, OnDestroy {
      *
      * @param parent
      * @param url
-     * @returns {boolean}
+     * @returns
      */
     isUrlInChildren(parent, url): boolean {
         const children = parent.children;

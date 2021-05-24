@@ -8,12 +8,12 @@ import {
 import {cdkAnimations} from '@cdk/animations';
 import {ValidacaoTransicaoWorkflow, TipoValidacaoWorkflow, TransicaoWorkflow} from '@cdk/models';
 import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {select, Store} from "@ngrx/store";
-import {Observable} from "rxjs";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 import * as fromStore from '../../store';
 import {getTipoValidacaoWorkflow} from '../store/selectors';
-import {getRouterState} from "../../../../../../../../../store/reducers";
+import {getRouterState} from '../../../../../../../../../store/reducers';
 
 @Component({
     selector: 'tipo-validacao-workflow-form-unidade',
@@ -45,7 +45,7 @@ export class TipoValidacaoWorkflowFormUnidadeComponent implements OnInit, OnDest
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -65,8 +65,8 @@ export class TipoValidacaoWorkflowFormUnidadeComponent implements OnInit, OnDest
      */
     ngOnInit(): void {
         this.tipoValidacaoWorkflow$.subscribe(
-            tipoValidacaoWorkflow => {
-                this.tipoValidacaoWorkflow = tipoValidacaoWorkflow
+            (tipoValidacaoWorkflow) => {
+                this.tipoValidacaoWorkflow = tipoValidacaoWorkflow;
             }
         );
     }

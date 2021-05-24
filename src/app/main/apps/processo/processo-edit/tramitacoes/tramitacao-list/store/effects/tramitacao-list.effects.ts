@@ -12,7 +12,7 @@ import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Tramitacao} from '@cdk/models';
 import {tramitacao as tramitacaoSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class TramitacaoListEffect {
@@ -26,7 +26,7 @@ export class TramitacaoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class TramitacaoListEffect {
 
     /**
      * Get Tramitacoes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class TramitacaoListEffect {
         this._actions
             .pipe(
                 ofType<TramitacaoListActions.GetTramitacoes>(TramitacaoListActions.GET_TRAMITACOES),
-                switchMap((action) => {
-                    return this._tramitacaoService.query(
+                switchMap(action => this._tramitacaoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +52,8 @@ export class TramitacaoListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Tramitacao>({data: response['entities'], schema: tramitacaoSchema}),
                     new TramitacaoListActions.GetTramitacoesSuccess({
                         entitiesId: response['entities'].map(tramitacao => tramitacao.id),
@@ -74,6 +73,7 @@ export class TramitacaoListEffect {
 
     /**
      * Delete Tramitacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,9 +81,8 @@ export class TramitacaoListEffect {
         this._actions
             .pipe(
                 ofType<TramitacaoListActions.DeleteTramitacao>(TramitacaoListActions.DELETE_TRAMITACAO),
-                mergeMap((action) => {
-                    return this._tramitacaoService.destroy(action.payload).pipe(
-                        map((response) => new TramitacaoListActions.DeleteTramitacaoSuccess(response.id)),
+                mergeMap(action => this._tramitacaoService.destroy(action.payload).pipe(
+                        map(response => new TramitacaoListActions.DeleteTramitacaoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new TramitacaoListActions.DeleteTramitacaoFailed(
@@ -92,7 +91,6 @@ export class TramitacaoListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

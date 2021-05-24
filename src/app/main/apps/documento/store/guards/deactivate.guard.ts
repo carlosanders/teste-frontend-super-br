@@ -3,11 +3,11 @@ import {ActivatedRoute, CanDeactivate} from '@angular/router';
 
 import {Store} from '@ngrx/store';
 
-import {DocumentoComponent} from "../../documento.component";
-import {DocumentoAppState} from "../";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {CdkConfirmDialogComponent} from "@cdk/components/confirm-dialog/confirm-dialog.component";
-import {Observable, of} from "rxjs";
+import {DocumentoComponent} from '../../documento.component';
+import {DocumentoAppState} from '../';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
+import {Observable, of} from 'rxjs';
 
 @Injectable()
 export class DeactivateGuard implements CanDeactivate<DocumentoComponent> {

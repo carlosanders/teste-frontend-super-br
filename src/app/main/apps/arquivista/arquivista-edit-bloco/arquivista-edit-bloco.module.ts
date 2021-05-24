@@ -11,10 +11,10 @@ import {modulesConfig} from 'modules/modules-config';
 import {DirectivesModule} from '@cdk/directives/directives';
 import {CdkConfirmDialogModule} from '@cdk/components';
 import {CdkProcessoArquivistaFormModule} from '@cdk/components/processo/cdk-processo-arquivista-form/cdk-processo-arquivista-form.module';
-import {CdkClassificacaoTreeService} from "@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service";
-import {CdkClassificacaoGridTreeService} from "@cdk/components/classificacao/cdk-classificacao-grid-tree/services/cdk-classificacao-grid-tree.service";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import {FormsModule} from "@angular/forms";
+import {CdkClassificacaoTreeService} from '@cdk/components/classificacao/cdk-classificacao-tree/services/cdk-classificacao-tree.service';
+import {CdkClassificacaoGridTreeService} from '@cdk/components/classificacao/cdk-classificacao-grid-tree/services/cdk-classificacao-grid-tree.service';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {FormsModule} from '@angular/forms';
 
 const routes: Routes = [
     {

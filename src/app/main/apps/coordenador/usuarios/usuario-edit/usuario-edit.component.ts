@@ -60,7 +60,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -98,7 +98,7 @@ export class UsuarioEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.usuario$.subscribe(
-            usuario => {
+            (usuario) => {
                 this.usuario = usuario;
                 if (usuario && usuario.colaborador) {
                     this.colaborador = usuario.colaborador;

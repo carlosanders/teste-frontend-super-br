@@ -3,8 +3,8 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Workflow} from '@cdk/models';
 import {ModelService} from '@cdk/services/model.service';
 import {ParentGenericService} from './parent-generic.service';
-import {Observable} from "rxjs";
-import {environment} from "../../environments/environment";
+import {Observable} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Injectable()
 export class WorkflowService extends ParentGenericService<Workflow> {

@@ -1,5 +1,5 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule} from '@cdk/angular/material';
 
 import { AjudaRelevanciasComponent } from './ajuda-relevancias.component';
 import { CdkSharedModule } from '@cdk/shared.module';

@@ -45,14 +45,14 @@ export class GetProcessoFailed implements Action
 
 
 export class SetToggleAcompanhamento implements Action {
-    readonly type = SET_TOGGLE_ACOMPANHAMENTO
+    readonly type = SET_TOGGLE_ACOMPANHAMENTO;
 
     constructor(public payload: any) {
     }
 }
 
 export class SetToggleAcompanhamentoSuccess implements Action {
-    readonly type = SET_TOGGLE_ACOMPANHAMENTO_SUCCESS
+    readonly type = SET_TOGGLE_ACOMPANHAMENTO_SUCCESS;
 
     constructor(public payload: any) {
     }

@@ -18,14 +18,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<DocumentoAvulsoEditAnexosAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<DocumentoAvulsoEditAnexosAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,9 +35,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getDocumentosVinculados().pipe(
@@ -49,7 +49,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Documentos Vinculados
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getDocumentosVinculados(): any {
         return this._store.pipe(
@@ -59,9 +59,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetDocumentosVinculados());
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

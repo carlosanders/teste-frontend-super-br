@@ -23,7 +23,7 @@ import {DynamicService} from 'modules/dynamic.service';
 import * as fromStoreProcessos from '../arquivista-list/store';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {getModalidadeTransicao} from "../arquivista-list/store";
+import {getModalidadeTransicao} from '../arquivista-list/store';
 
 @Component({
     selector: 'arquivista-operacoes-bloco',
@@ -81,7 +81,7 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -95,7 +95,7 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
     ngOnInit(): void {
         this.processos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processos => {
+        ).subscribe((processos) => {
             this.processos = processos;
             if (!processos || processos.length <= 1) {
                 this._router.navigate([
@@ -116,7 +116,7 @@ export class ArquivistaOperacoesBlocoComponent implements OnInit, OnDestroy, Aft
         const path = '@cdk/components/arquivista/operacoes-bloco';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

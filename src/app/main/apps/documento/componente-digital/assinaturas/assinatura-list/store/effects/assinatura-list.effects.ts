@@ -27,7 +27,7 @@ export class AssinaturaListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class AssinaturaListEffect {
 
     /**
      * Get Assinaturas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class AssinaturaListEffect {
         this._actions
             .pipe(
                 ofType<AssinaturaListActions.GetAssinaturas>(AssinaturaListActions.GET_ASSINATURAS),
-                switchMap((action) => {
-                    return this._assinaturaService.query(
+                switchMap(action => this._assinaturaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +52,8 @@ export class AssinaturaListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<Assinatura>({data: response['entities'], schema: assinaturaSchema}),
                     new AssinaturaListActions.GetAssinaturasSuccess({
                         entitiesId: response['entities'].map(assinatura => assinatura.id),

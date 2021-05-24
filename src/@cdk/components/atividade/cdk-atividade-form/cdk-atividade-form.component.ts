@@ -232,7 +232,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -370,7 +370,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => this.especieAtividadeListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.especieAtividadeList = [];
                 response['entities'].forEach((favorito) => {
                     this.especieAtividadeList.push(favorito.objFavoritoClass[0]);
@@ -395,7 +395,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => this.unidadeAprovacaoListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.unidadeAprovacaoList = [];
                 response['entities'].forEach((favorito) => {
                     this.unidadeAprovacaoList.push(favorito.objFavoritoClass[0]);
@@ -421,7 +421,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => this.setorAprovacaoListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.setorAprovacaoList = [];
                 response['entities'].forEach((favorito) => {
                     this.setorAprovacaoList.push(favorito.objFavoritoClass[0]);
@@ -447,7 +447,7 @@ export class CdkAtividadeFormComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => this.usuarioAprovacaoListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.usuarioAprovacaoList = [];
                 response['entities'].forEach((favorito) => {
                     this.usuarioAprovacaoList.push(favorito.objFavoritoClass[0]);

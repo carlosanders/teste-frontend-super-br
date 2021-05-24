@@ -30,12 +30,12 @@ export class CdkThemeOptionsComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {DOCUMENT} document
-     * @param {FormBuilder} _formBuilder
-     * @param {CdkConfigService} _cdkConfigService
-     * @param {CdkNavigationService} _cdkNavigationService
-     * @param {CdkSidebarService} _cdkSidebarService
-     * @param {Renderer2} _renderer
+     * @param document
+     * @param _formBuilder
+     * @param _cdkConfigService
+     * @param _cdkNavigationService
+     * @param _cdkSidebarService
+     * @param _renderer
      */
     constructor(
         @Inject(DOCUMENT) private document: any,

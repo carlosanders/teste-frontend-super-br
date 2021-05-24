@@ -1,6 +1,6 @@
 import {TransicaoArquivistaBlocoReducer, TransicaoArquivistaBlocoState} from './transicao-arquivista-bloco.reducers';
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {ModalidadeTransicaoReducer, ModalidadeTransicaoState} from "./modalidade-transicao.reducer";
+import {ModalidadeTransicaoReducer, ModalidadeTransicaoState} from './modalidade-transicao.reducer';
 
 export interface TransicaoArquivistaBlocoAppState {
     transicaoArquivistaBloco: TransicaoArquivistaBlocoState;

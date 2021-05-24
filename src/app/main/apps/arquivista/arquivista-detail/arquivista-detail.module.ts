@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {ArquivistaDetailComponent} from './arquivista-detail.component';
 import {RouterModule, Routes} from '@angular/router';
 import {PipesModule} from '@cdk/pipes/pipes.module';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatButtonModule} from '@angular/material/button';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -21,7 +21,7 @@ import {LoginService} from '../../../auth/login/login.service';
 import * as fromGuards from './store/guards';
 import {RealizarTransicaoModule} from '../realizar-transicao/realizar-transicao.module';
 import {modulesConfig} from 'modules/modules-config';
-import {ProcessoStoreModule} from "../../processo/store/store.module";
+import {ProcessoStoreModule} from '../../processo/store/store.module';
 
 const routes: Routes = [
     {

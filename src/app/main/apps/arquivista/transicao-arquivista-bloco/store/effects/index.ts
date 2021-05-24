@@ -1,5 +1,5 @@
 import {TransicaoArquivistaBlocoEffects} from './transicao-arquivista-bloco.effects';
-import {ModalidadeTransicaoEffects} from "./modalidade-transicao.effects";
+import {ModalidadeTransicaoEffects} from './modalidade-transicao.effects';
 
 export const effects = [
     TransicaoArquivistaBlocoEffects,

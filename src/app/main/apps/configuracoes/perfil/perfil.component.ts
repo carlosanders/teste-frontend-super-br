@@ -16,7 +16,7 @@ import {LoginService} from '../../../auth/login/login.service';
 import {Usuario} from '@cdk/models';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../store/reducers';
-import {Back} from "../../../../store";
+import {Back} from '../../../../store';
 
 @Component({
     selector: 'perfil',
@@ -47,7 +47,7 @@ export class PerfilComponent implements OnInit, OnDestroy {
         this.usuario = this._loginService.getUserProfile();
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

@@ -30,6 +30,7 @@ export class FoldersEffect
 
     /**
      * Get Folders from Server
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -38,14 +39,12 @@ export class FoldersEffect
         this._actions
             .pipe(
                 ofType<FoldersActions.GetFolders>(FoldersActions.GET_FOLDERS),
-                exhaustMap(() => {
-                    return this._folderService.query(
+                exhaustMap(() => this._folderService.query(
                         `{"usuario.id": "eq:${this._profile.id}", "modalidadeFolder.valor": "eq:RELATORIO"}`,
                         10,
                         0,
-                        '{"nome": "ASC"}');
-                }),
-                mergeMap((response) => [
+                        '{"nome": "ASC"}')),
+                mergeMap(response => [
                     new AddData<Folder>({data: response['entities'], schema: folderSchema}),
                     new FoldersActions.GetFoldersSuccess({
                         entitiesId: response['entities'].map(folder => folder.id),

@@ -21,7 +21,7 @@ export class CompetenciaEditEffects {
     routerState: any;
 
     /**
-     * 
+     *
      * @param _actions
      * @param _vinculacaoSetorMunicipioService
      * @param _store
@@ -37,7 +37,7 @@ export class CompetenciaEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -46,6 +46,7 @@ export class CompetenciaEditEffects {
 
     /**
      * Get VinculacaoSetorMunicipio with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -53,8 +54,7 @@ export class CompetenciaEditEffects {
         this._actions
             .pipe(
                 ofType<CompetenciaEditActions.GetCompetencia>(CompetenciaEditActions.GET_COMPETENCIA),
-                switchMap((action) => {
-                    return this._vinculacaoSetorMunicipioService.query(
+                switchMap(action => this._vinculacaoSetorMunicipioService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -62,8 +62,7 @@ export class CompetenciaEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<VinculacaoSetorMunicipio>({data: response['entities'], schema: vinculacaoSetorMunicipioSchema}),
                     new CompetenciaEditActions.GetCompetenciaSuccess({
@@ -83,6 +82,7 @@ export class CompetenciaEditEffects {
 
     /**
      * Save VinculacaoSetorMunicipio
+     *
      * @type {Observable<any>}
      */
     @Effect()

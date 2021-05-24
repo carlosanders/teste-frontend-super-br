@@ -5,10 +5,10 @@
 
         <ng-container *ngFor="let item of navigation">
 
-            <cdk-nav-vertical-group *ngIf="item.type=='group'" [item]="item"></cdk-nav-vertical-group>
-            <cdk-nav-vertical-collapsable *ngIf="item.type=='collapsable'"
+            <cdk-nav-vertical-group *ngIf="item.type==='group'" [item]="item"></cdk-nav-vertical-group>
+            <cdk-nav-vertical-collapsable *ngIf="item.type==='collapsable'"
                                            [item]="item"></cdk-nav-vertical-collapsable>
-            <cdk-nav-vertical-item *ngIf="item.type=='item'" [item]="item"></cdk-nav-vertical-item>
+            <cdk-nav-vertical-item *ngIf="item.type==='item'" [item]="item"></cdk-nav-vertical-item>
 
         </ng-container>
 
@@ -20,10 +20,10 @@
 
         <ng-container *ngFor="let item of navigation">
 
-            <cdk-nav-horizontal-collapsable *ngIf="item.type=='group'" [item]="item"></cdk-nav-horizontal-collapsable>
-            <cdk-nav-horizontal-collapsable *ngIf="item.type=='collapsable'"
+            <cdk-nav-horizontal-collapsable *ngIf="item.type==='group'" [item]="item"></cdk-nav-horizontal-collapsable>
+            <cdk-nav-horizontal-collapsable *ngIf="item.type==='collapsable'"
                                              [item]="item"></cdk-nav-horizontal-collapsable>
-            <cdk-nav-horizontal-item *ngIf="item.type=='item'" [item]="item"></cdk-nav-horizontal-item>
+            <cdk-nav-horizontal-item *ngIf="item.type==='item'" [item]="item"></cdk-nav-horizontal-item>
 
         </ng-container>
 

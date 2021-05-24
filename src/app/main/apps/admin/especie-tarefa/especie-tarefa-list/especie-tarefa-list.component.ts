@@ -7,7 +7,7 @@ import {EspecieTarefa, Usuario} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '@cdk/animations';
-import {UnloadEspecieTarefa} from "./store";
+import {UnloadEspecieTarefa} from './store';
 
 
 @Component({
@@ -43,7 +43,7 @@ export class EspecieTarefaListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -51,7 +51,7 @@ export class EspecieTarefaListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

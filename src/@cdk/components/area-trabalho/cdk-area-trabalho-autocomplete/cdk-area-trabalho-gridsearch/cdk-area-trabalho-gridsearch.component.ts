@@ -70,7 +70,7 @@ export class CdkAreaTrabalhoGridsearchComponent implements OnInit {
             .pipe(
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
             this.areaTrabalhos = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();

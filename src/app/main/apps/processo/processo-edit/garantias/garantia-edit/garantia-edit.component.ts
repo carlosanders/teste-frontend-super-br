@@ -50,7 +50,7 @@ export class GarantiaEditComponent implements OnInit, OnDestroy {
         this.processo$ = this._store.pipe(select(getProcesso));
 
         this.modalidadeGarantiaPagination = new Pagination();
-        // this.modalidadeGarantiaPagination.populate = ['parent']; 
+        // this.modalidadeGarantiaPagination.populate = ['parent'];
     }
 
     // -----------------------------------------------------------------------------------------------------

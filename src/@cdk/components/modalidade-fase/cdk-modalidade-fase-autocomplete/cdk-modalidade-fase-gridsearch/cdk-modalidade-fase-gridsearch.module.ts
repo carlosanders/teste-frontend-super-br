@@ -13,7 +13,7 @@ import { CdkModalidadeFaseGridModule } from '@cdk/components/modalidade-fase/cdk
     imports: [
 
         CdkModalidadeFaseGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

@@ -13,7 +13,7 @@ import { CdkModalidadeQualificacaoPessoaGridModule } from '@cdk/components/modal
     imports: [
 
         CdkModalidadeQualificacaoPessoaGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

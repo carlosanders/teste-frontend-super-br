@@ -11,7 +11,7 @@ import {AcaoTransicaoWorkflowService} from '@cdk/services/acao-transicao-workflo
 import {AddData} from '@cdk/ngrx-normalizr';
 import {AcaoTransicaoWorkflow} from '@cdk/models/acao-transicao-workflow.model';
 import {acaoTransicaoWorkflow as acaoTransicaoWorkflowSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class AcaoTransicaoWorkflowListEffects {
@@ -25,7 +25,7 @@ export class AcaoTransicaoWorkflowListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class AcaoTransicaoWorkflowListEffects {
 
     /**
      * Get Acoes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class AcaoTransicaoWorkflowListEffects {
         this._actions
             .pipe(
                 ofType<AcaoListActions.GetAcoes>(AcaoListActions.GET_ACOES),
-                switchMap((action) => {
-                    return this._acaoTransicaoWorkflowService.query(
+                switchMap(action => this._acaoTransicaoWorkflowService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -51,7 +51,7 @@ export class AcaoTransicaoWorkflowListEffects {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<AcaoTransicaoWorkflow>({data: response['entities'], schema: acaoTransicaoWorkflowSchema}),
                             new AcaoListActions.GetAcoesSuccess({
                                 entitiesId: response['entities'].map(acao => acao.id),
@@ -62,15 +62,13 @@ export class AcaoTransicaoWorkflowListEffects {
                                 total: response['total']
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new AcaoListActions.GetAcoesFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new AcaoListActions.GetAcoesFailed(err)))
+                    ))
             );
 
     /**
      * Delete Acao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -78,17 +76,13 @@ export class AcaoTransicaoWorkflowListEffects {
         this._actions
             .pipe(
                 ofType<AcaoListActions.DeleteAcao>(AcaoListActions.DELETE_ACAO),
-                mergeMap((action) => {
-                    return this._acaoTransicaoWorkflowService.destroy(action.payload).pipe(
-                        map((response) => new AcaoListActions.DeleteAcaoSuccess(response.id)),
-                        catchError((err) => {
-                            return of(new AcaoListActions.DeleteAcaoFailed(
+                mergeMap(action => this._acaoTransicaoWorkflowService.destroy(action.payload).pipe(
+                        map(response => new AcaoListActions.DeleteAcaoSuccess(response.id)),
+                        catchError(err => of(new AcaoListActions.DeleteAcaoFailed(
                                 {
                                     [action.payload]: CdkUtils.errorsToString(err)
                                 })
-                            );
-                        })
-                    );
-                })
+                            ))
+                    ))
             );
 }

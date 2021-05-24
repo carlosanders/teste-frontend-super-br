@@ -9,9 +9,9 @@ import {
 
 import {Observable} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
-import {Router} from "@angular/router";
-import {Compartilhamento, Pagination, TipoAcaoWorkflow} from "../../../../models";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from '@angular/router';
+import {Compartilhamento, Pagination, TipoAcaoWorkflow} from '../../../../models';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'cdk-tipo-acao-workflow-trigger-003',

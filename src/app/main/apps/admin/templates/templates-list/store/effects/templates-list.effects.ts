@@ -27,7 +27,7 @@ export class TemplatesListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class TemplatesListEffect {
 
     /**
      * Get Templates with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class TemplatesListEffect {
         this._actions
             .pipe(
                 ofType<TemplatesListActions.GetTemplates>(TemplatesListActions.GET_TEMPLATES),
-                switchMap((action) => {
-                    return this._templatesService.query(
+                switchMap(action => this._templatesService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class TemplatesListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Template>({data: response['entities'], schema: templatesSchema}),
                             new TemplatesListActions.GetTemplatesSuccess({
                                 entitiesId: response['entities'].map(templates => templates.id),
@@ -69,8 +69,7 @@ export class TemplatesListEffect {
                             console.log(err);
                             return of(new TemplatesListActions.GetTemplatesFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 }

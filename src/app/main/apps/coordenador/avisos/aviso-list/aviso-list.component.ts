@@ -7,7 +7,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {cdkAnimations} from '@cdk/animations';
 
-import {UnloadAviso} from "./store";
+import {UnloadAviso} from './store';
 
 
 @Component({
@@ -45,7 +45,7 @@ export class AvisoListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
@@ -66,7 +66,7 @@ export class AvisoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

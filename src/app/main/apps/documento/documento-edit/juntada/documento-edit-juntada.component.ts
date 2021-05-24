@@ -88,7 +88,7 @@ export class DocumentoEditJuntadaComponent implements OnInit, OnDestroy, AfterVi
      */
     ngOnInit(): void {
 
-        this.juntada$.subscribe(juntada => {
+        this.juntada$.subscribe((juntada) => {
             this.juntada = juntada;
 
             if (this.juntada) {
@@ -105,7 +105,7 @@ export class DocumentoEditJuntadaComponent implements OnInit, OnDestroy, AfterVi
         const path = 'app/main/apps/documento/documento-edit/juntada';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

@@ -29,7 +29,7 @@ export class AssuntoAdministrativoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class AssuntoAdministrativoEditEffects {
 
     /**
      * Get AssuntoAdministrativo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class AssuntoAdministrativoEditEffects {
         this._actions
             .pipe(
                 ofType<AssuntoAdministrativoEditActions.GetAssuntoAdministrativo>(AssuntoAdministrativoEditActions.GET_ASSUNTO_ADMINISTRATIVO),
-                switchMap((action) => {
-                    return this._AssuntoAdministrativoService.query(
+                switchMap(action => this._AssuntoAdministrativoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -54,8 +54,7 @@ export class AssuntoAdministrativoEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<AssuntoAdministrativo>({data: response['entities'], schema: assuntoAdministrativoSchema}),
                     new AssuntoAdministrativoEditActions.GetAssuntoAdministrativoSuccess({
@@ -75,6 +74,7 @@ export class AssuntoAdministrativoEditEffects {
 
     /**
      * Save AssuntoAdministrativo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -101,6 +101,7 @@ export class AssuntoAdministrativoEditEffects {
 
     /**
      * Update AssuntoAdministrativo
+     *
      * @type {Observable<any>}
      */
     @Effect()

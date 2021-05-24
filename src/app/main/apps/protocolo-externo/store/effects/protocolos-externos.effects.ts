@@ -21,7 +21,7 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {AssuntoService} from '@cdk/services/assunto.service';
 import {PessoaService} from '@cdk/services/pessoa.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
-import {getPagination} from "../selectors";
+import {getPagination} from '../selectors';
 
 @Injectable()
 export class ProcessosEffect {
@@ -41,7 +41,7 @@ export class ProcessosEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -52,6 +52,7 @@ export class ProcessosEffect {
 
     /**
      * Get Processos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -59,8 +60,7 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.GetProcessos>(ProcessosActions.GET_PROCESSOS),
-                switchMap((action) => {
-                    return this._processoService.query(
+                switchMap(action => this._processoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
@@ -70,9 +70,8 @@ export class ProcessosEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                concatMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                concatMap(response => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
                     new ProcessosActions.GetProcessosSuccess({
                         entitiesId: response['entities'].map(processo => processo.id),
@@ -99,13 +98,12 @@ export class ProcessosEffect {
             .pipe(
                 ofType<ProcessosActions.ReloadProcessos>(ProcessosActions.RELOAD_PROCESSOS),
                 withLatestFrom(this._store.pipe(select(getPagination))),
-                tap(([action, pagination]) => {
-                    return this._store.dispatch(new ProcessosActions.GetProcessos(pagination));
-                })
+                tap(([action, pagination]) => this._store.dispatch(new ProcessosActions.GetProcessos(pagination)))
             );
 
     /**
      * Update Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -125,6 +123,7 @@ export class ProcessosEffect {
 
     /**
      * Update Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -141,6 +140,7 @@ export class ProcessosEffect {
 
     /**
      * Delete Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -148,19 +148,18 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.DeleteProcesso>(ProcessosActions.DELETE_PROCESSO),
-                mergeMap((action) => {
-                    return this._processoService.destroy(action.payload).pipe(
-                        map((response) => new ProcessosActions.DeleteProcessoSuccess(response.id)),
+                mergeMap(action => this._processoService.destroy(action.payload).pipe(
+                        map(response => new ProcessosActions.DeleteProcessoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new ProcessosActions.DeleteProcessoFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Get Pessoa Conveniada
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -168,8 +167,7 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.GetPessoa>(ProcessosActions.GET_PESSOA),
-                switchMap((action) => {
-                    return this._pessoaService.query(
+                switchMap(action => this._pessoaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter
@@ -178,9 +176,8 @@ export class ProcessosEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate)
-                    );
-                }),
-                mergeMap((response) => [
+                    )),
+                mergeMap(response => [
                     new AddData<Pessoa>({data: response['entities'], schema: pessoaSchema}),
                     new ProcessosActions.GetPessoaSuccess({
                         loaded: {
@@ -199,6 +196,7 @@ export class ProcessosEffect {
 
     /**
      * Get Assuntos Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -206,8 +204,7 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.GetAssuntosProcesso>(ProcessosActions.GET_ASSUNTOS_PROCESSO),
-                switchMap((action) => {
-                    return this._assuntoService.query(
+                switchMap(action => this._assuntoService.query(
                         JSON.stringify({
                             ...action.payload.params.filter
                         }),
@@ -215,7 +212,7 @@ export class ProcessosEffect {
                         action.payload.params.offset,
                         JSON.stringify(action.payload.params.sort),
                         JSON.stringify(action.payload.params.populate)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new ProcessosActions.GetAssuntosProcessoSuccess(action.payload.processoId),
                             new AddChildData<Assunto>({
                                 data: response['entities'],
@@ -229,12 +226,12 @@ export class ProcessosEffect {
                             this._store.dispatch(new ProcessosActions.GetAssuntosProcessoFailed(action.payload.processoId));
                             return caught;
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * GetInteressados Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -242,8 +239,7 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.GetInteressadosProcesso>(ProcessosActions.GET_INTERESSADOS_PROCESSO),
-                switchMap((action) => {
-                    return this._interessadoService.query(
+                switchMap(action => this._interessadoService.query(
                         JSON.stringify({
                             ...action.payload.params.filter
                         }),
@@ -251,7 +247,7 @@ export class ProcessosEffect {
                         action.payload.params.offset,
                         JSON.stringify(action.payload.params.sort),
                         JSON.stringify(action.payload.params.populate)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new ProcessosActions.GetInteressadosProcessoSuccess(action.payload.processoId),
                             new AddChildData<Interessado>({
                                 data: response['entities'],
@@ -265,7 +261,6 @@ export class ProcessosEffect {
                             this._store.dispatch(new ProcessosActions.GetInteressadosProcessoFailed(action.payload.processoId));
                             return caught;
                         })
-                    );
-                })
+                    ))
             );
 }

@@ -47,13 +47,13 @@ export class CdkDocumentoIdentificadorFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('codigoDocumento').value) {
-            this.form.get('codigoDocumento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('codigoDocumento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'codigoDocumento': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('emissorDocumento').value) {
-            this.form.get('emissorDocumento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('emissorDocumento').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'emissorDocumento': `like:%${bit}%`});
             });
         }

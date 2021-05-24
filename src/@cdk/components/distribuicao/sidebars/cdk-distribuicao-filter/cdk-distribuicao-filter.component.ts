@@ -50,13 +50,13 @@ export class CdkDistribuicaoFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('auditoriaDistribuicao').value) {
-            this.form.get('auditoriaDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('auditoriaDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'auditoriaDistribuicao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('tipoDistribuicao').value) {
-            this.form.get('tipoDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('tipoDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'tipoDistribuicao': `like:%${bit}%`});
             });
         }

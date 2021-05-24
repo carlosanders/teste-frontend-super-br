@@ -72,10 +72,10 @@ export class CdkAssuntoAdministrativoGridTreeComponent implements OnInit {
         this.assuntoAdministrativoMap.set(assuntoAdministrativo, node);
         this.nestedNodeMap.set(node, assuntoAdministrativo);
         return assuntoAdministrativo;
-    }
+    };
     ngOnInit(): void {
         this.initTree();
-        this._serviceTree.dataChange.subscribe(data => {
+        this._serviceTree.dataChange.subscribe((data) => {
             this.dataSource.data = data;
         });
     }
@@ -97,7 +97,7 @@ export class CdkAssuntoAdministrativoGridTreeComponent implements OnInit {
      */
     initTree(): void {
         const assuntoAdministrativoPai = this.getAssuntoAdministrativo('isNull');
-        assuntoAdministrativoPai.subscribe(assuntoAdministrativoes => {
+        assuntoAdministrativoPai.subscribe((assuntoAdministrativoes) => {
             const data = this.montarArrayAssuntoAdministrativo(assuntoAdministrativoes);
             this._serviceTree.initialize(data);
         });

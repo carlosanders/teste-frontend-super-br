@@ -45,7 +45,7 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
         this.documentoListIsLoading = false;
 
         this.pagination = new Pagination();
-        this.pagination.populate = ['tipoDocumento', 'juntadaAtual']
+        this.pagination.populate = ['tipoDocumento', 'juntadaAtual'];
     }
 
     ngOnInit(): void {
@@ -55,7 +55,7 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             'tipoDocumento.nome': `like:%${bit}%`});
                     });
@@ -81,7 +81,7 @@ export class CdkDocumentoAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.documentoList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

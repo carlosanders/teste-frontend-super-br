@@ -593,7 +593,7 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
                 entitiesId: [...state.entitiesId, action.payload.id],
                 errorRedistribuir: [...state.errorRedistribuir, action.payload.id],
                 error: action.payload.error
-            }
+            };
         }
 
         case TarefasActions.REDISTRIBUIR_TAREFA_SUCCESS: {
@@ -629,21 +629,21 @@ export function TarefasReducer(state = TarefasInitialState, action: TarefasActio
             return {
                 ...state,
                 togglingUrgenteIds: [...state.togglingUrgenteIds, action.payload.id],
-            }
+            };
         }
 
         case TarefasActions.TOGGLE_URGENTE_TAREFA_SUCCESS: {
             return {
                 ...state,
                 togglingUrgenteIds: state.togglingUrgenteIds.filter(id => id !== action.payload)
-            }
+            };
         }
 
         case TarefasActions.TOGGLE_URGENTE_TAREFA_FAILED: {
             return {
                 ...state,
                 togglingUrgenteIds: state.togglingUrgenteIds.filter(id => id !== action.payload.id)
-            }
+            };
         }
 
         case TarefasActions.CREATE_TAREFA: {

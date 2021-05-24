@@ -12,7 +12,7 @@ import {EspecieSetorService} from '@cdk/services/especie-setor.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {EspecieSetor} from '@cdk/models';
 import {especieSetor as especieSetorSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class EspecieSetorListEffects {
@@ -27,7 +27,7 @@ export class EspecieSetorListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class EspecieSetorListEffects {
 
     /**
      * Get EspecieSetor with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class EspecieSetorListEffects {
         this._actions
             .pipe(
                 ofType<EspecieSetorListActions.GetEspecieSetor>(EspecieSetorListActions.GET_ESPECIE_SETOR),
-                switchMap((action) => {
-                    return this._especieSetorService.query(
+                switchMap(action => this._especieSetorService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class EspecieSetorListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<EspecieSetor>({data: response['entities'], schema: especieSetorSchema}),
                             new EspecieSetorListActions.GetEspecieSetorSuccess({
                                 entitiesId: response['entities'].map(especieSetor => especieSetor.id),
@@ -69,12 +69,12 @@ export class EspecieSetorListEffects {
                             console.log(err);
                             return of(new EspecieSetorListActions.GetEspecieSetorFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete EspecieSetor
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,9 +82,8 @@ export class EspecieSetorListEffects {
         this._actions
             .pipe(
                 ofType<EspecieSetorListActions.DeleteEspecieSetor>(EspecieSetorListActions.DELETE_ESPECIE_SETOR),
-                mergeMap((action) => {
-                    return this._especieSetorService.destroy(action.payload).pipe(
-                        map((response) => new EspecieSetorListActions.DeleteEspecieSetorSuccess(response.id)),
+                mergeMap(action => this._especieSetorService.destroy(action.payload).pipe(
+                        map(response => new EspecieSetorListActions.DeleteEspecieSetorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new EspecieSetorListActions.DeleteEspecieSetor(
@@ -93,7 +92,6 @@ export class EspecieSetorListEffects {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

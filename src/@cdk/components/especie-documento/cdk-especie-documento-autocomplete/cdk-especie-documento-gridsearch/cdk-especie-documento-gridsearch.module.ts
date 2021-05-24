@@ -13,7 +13,7 @@ import { CdkEspecieDocumentoGridModule } from '@cdk/components/especie-documento
     imports: [
 
         CdkEspecieDocumentoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

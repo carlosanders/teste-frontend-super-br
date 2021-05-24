@@ -103,7 +103,7 @@ export class CdkRecebimentoFormComponent implements OnChanges, OnDestroy {
         const path = '@cdk/components/tramitacao/cdk-recebimento-form';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

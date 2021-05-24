@@ -27,7 +27,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,9 +37,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getParametro().pipe(
@@ -62,7 +62,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Usuario
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getUsuario(): any {
         if (this.routerState.params['usuarioHandle']) {
@@ -75,9 +75,7 @@ export class ResolveGuard implements CanActivate {
                         }));
                     }
                 }),
-                filter((loaded: any) => {
-                    return this.routerState.params['usuarioHandle'] && this.routerState.params['usuarioHandle'] === loaded.value;
-                }),
+                filter((loaded: any) => this.routerState.params['usuarioHandle'] && this.routerState.params['usuarioHandle'] === loaded.value),
                 take(1)
             );
         } else {
@@ -88,9 +86,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.UnloadUsuario());
                     }
                 }),
-                filter((loaded: any) => {
-                    return !loaded;
-                }),
+                filter((loaded: any) => !loaded),
                 take(1)
             );
         }
@@ -99,7 +95,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Setor
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getSetor(): any {
         if (this.routerState.params['setorHandle']) {
@@ -112,9 +108,7 @@ export class ResolveGuard implements CanActivate {
                         }));
                     }
                 }),
-                filter((loaded: any) => {
-                    return this.routerState.params['setorHandle'] && this.routerState.params['setorHandle'] === loaded.value;
-                }),
+                filter((loaded: any) => this.routerState.params['setorHandle'] && this.routerState.params['setorHandle'] === loaded.value),
                 take(1)
             );
         } else {
@@ -125,9 +119,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.UnloadSetor());
                     }
                 }),
-                filter((loaded: any) => {
-                    return !loaded;
-                }),
+                filter((loaded: any) => !loaded),
                 take(1)
             );
         }

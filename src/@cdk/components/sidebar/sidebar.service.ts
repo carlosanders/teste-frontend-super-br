@@ -69,7 +69,7 @@ export class CdkSidebarService
      * Return the sidebar with the given key
      *
      * @param key
-     * @returns {CdkSidebarComponent}
+     * @returns
      */
     getSidebar(key): CdkSidebarComponent
     {

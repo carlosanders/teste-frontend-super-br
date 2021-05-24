@@ -23,9 +23,9 @@ export class EspecieSetorService extends ParentGenericService<EspecieSetor> {
             `${environment.api_url}${'administrativo/especie_setor'}/${especieSetor.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(EspecieSetor, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new EspecieSetor(), {...especieSetor, ...response});
             })
         );

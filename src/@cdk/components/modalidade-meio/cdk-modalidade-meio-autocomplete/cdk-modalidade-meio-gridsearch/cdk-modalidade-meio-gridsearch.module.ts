@@ -13,7 +13,7 @@ import { CdkModalidadeMeioGridModule } from '@cdk/components/modalidade-meio/cdk
     imports: [
 
         CdkModalidadeMeioGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

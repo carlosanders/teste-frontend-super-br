@@ -26,7 +26,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {ComponenteDigital} from '@cdk/models';
 import {getRouterState} from '../../../../store';
 import {ActivatedRoute, Router} from '@angular/router';
-import {expandirTela} from "./store";
+import {expandirTela} from './store';
 
 @Component({
     selector: 'processo-view',
@@ -132,7 +132,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                 takeUntil(this._unsubscribeAll),
                 filter(juntadas => !!juntadas)
             ).subscribe(
-            juntadas => {
+            (juntadas) => {
                 this.juntadas = juntadas;
                 this.totalSteps = juntadas.length;
             }
@@ -152,7 +152,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
             .pipe(
                 takeUntil(this._unsubscribeAll)
             ).subscribe(
-            binary => {
+            (binary) => {
                 if (binary.src && binary.src.conteudo) {
                     const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
                     const byteNumbers = new Array(byteCharacters.length);
@@ -165,8 +165,8 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
                     if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
                         this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                     } else {
-                        const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
-                            downloadLink = document.createElement('a');
+                        const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                            const downloadLink = document.createElement('a');
                         const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
                         downloadLink.target = '_blank';
                         downloadLink.href = sanitizedUrl;
@@ -208,7 +208,7 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.capa = !routerState.state.params.stepHandle || routerState.state.params.stepHandle === 'capa' ||
@@ -222,13 +222,13 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
 
         this.loadingJuntadas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(loading => {
+        ).subscribe((loading) => {
             this.loadingJuntadas = loading;
         });
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
@@ -353,10 +353,10 @@ export class ProcessoViewComponent implements OnInit, OnDestroy {
     }
 
     navigateToStep(step: string): void {
-        let newSteps = step.split('-');
+        const newSteps = step.split('-');
         if (this.index[newSteps[0]]) {
             if (this.routerState.url.indexOf('/documento/') !== -1) {
-                let arrPrimary = [];
+                const arrPrimary = [];
                 arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                     'visualizar-processo' : 'anexar-copia');
                 this.routerState.params['processoCopiaHandle'] ?

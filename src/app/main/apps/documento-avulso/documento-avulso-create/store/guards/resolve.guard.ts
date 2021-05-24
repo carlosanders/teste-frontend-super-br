@@ -18,14 +18,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<DocumentoAvulsoCreateAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<DocumentoAvulsoCreateAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,9 +35,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getHandle().pipe(
@@ -49,7 +49,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Handle
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getHandle(): any {
         return this._store.pipe(
@@ -57,7 +57,7 @@ export class ResolveGuard implements CanActivate {
             tap((loaded: any) => {
 
                 const routeParams1 = of('tarefaHandle');
-                routeParams1.subscribe(param => {
+                routeParams1.subscribe((param) => {
                     if (this.routerState.params[param]) {
                         this._store.dispatch(new fromStore.CreateDocumentoAvulso({
                             id: 'tarefaHandle',
@@ -67,7 +67,7 @@ export class ResolveGuard implements CanActivate {
                 });
 
                 const routeParams2 = of('processoHandle');
-                routeParams2.subscribe(param => {
+                routeParams2.subscribe((param) => {
                     if (this.routerState.params[param] && !this.routerState.params['tarefaHandle']) {
                         this._store.dispatch(new fromStore.CreateDocumentoAvulso({
                             id: 'processoHandle',
@@ -76,9 +76,7 @@ export class ResolveGuard implements CanActivate {
                     }
                 });
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

@@ -22,9 +22,9 @@ export class CalendarEventFormDialogComponent
     /**
      * Constructor
      *
-     * @param {MatDialogRef<CalendarEventFormDialogComponent>} matDialogRef
+     * @param matDialogRef
      * @param _data
-     * @param {FormBuilder} _formBuilder
+     * @param _formBuilder
      */
     constructor(
         public matDialogRef: MatDialogRef<CalendarEventFormDialogComponent>,
@@ -58,7 +58,7 @@ export class CalendarEventFormDialogComponent
     /**
      * Create the event form
      *
-     * @returns {FormGroup}
+     * @returns
      */
     createEventForm(): FormGroup
     {

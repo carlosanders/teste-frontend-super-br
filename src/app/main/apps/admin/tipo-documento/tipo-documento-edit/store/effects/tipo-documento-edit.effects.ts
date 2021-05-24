@@ -30,7 +30,7 @@ export class TipoDocumentoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,6 +39,7 @@ export class TipoDocumentoEditEffects {
 
     /**
      * Get TipoDocumento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -46,8 +47,7 @@ export class TipoDocumentoEditEffects {
         this._actions
             .pipe(
                 ofType<TipoDocumentoEditActions.GetTipoDocumento>(TipoDocumentoEditActions.GET_TIPO_DOCUMENTO),
-                switchMap((action) => {
-                    return this._tipoDocumentoService.query(
+                switchMap(action => this._tipoDocumentoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -55,8 +55,7 @@ export class TipoDocumentoEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<TipoDocumento>({data: response['entities'], schema: tipoDocumentoSchema}),
                     new TipoDocumentoEditActions.GetTipoDocumentoSuccess({
@@ -76,6 +75,7 @@ export class TipoDocumentoEditEffects {
 
     /**
      * Save TipoDocumento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -102,6 +102,7 @@ export class TipoDocumentoEditEffects {
 
     /**
      * Update TipoDocumento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -109,15 +110,13 @@ export class TipoDocumentoEditEffects {
         this._actions
             .pipe(
                 ofType<TipoDocumentoEditActions.UpdateTipoDocumento>(TipoDocumentoEditActions.UPDATE_TIPO_DOCUMENTO),
-                switchMap((action) => {
-                    return this._tipoDocumentoService.patch(action.payload.tipoDocumento, action.payload.changes).pipe(
+                switchMap(action => this._tipoDocumentoService.patch(action.payload.tipoDocumento, action.payload.changes).pipe(
                         mergeMap((response: TipoDocumento) => [
                             new TipoDocumentoListActions.ReloadTipoDocumento(),
                             new AddData<TipoDocumento>({data: [response], schema: tipoDocumentoSchema}),
                             new TipoDocumentoEditActions.UpdateTipoDocumentoSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new TipoDocumentoEditActions.UpdateTipoDocumentoFailed(err));

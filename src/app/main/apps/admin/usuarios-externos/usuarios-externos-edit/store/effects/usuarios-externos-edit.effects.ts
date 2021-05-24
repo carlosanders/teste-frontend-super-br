@@ -32,7 +32,7 @@ export class UsuariosExternosEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class UsuariosExternosEditEffects {
 
     /**
      * Get Usuario with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,8 +49,7 @@ export class UsuariosExternosEditEffects {
         this._actions
             .pipe(
                 ofType<UsuariosExternosEditActions.GetUsuarioExternos>(UsuariosExternosEditActions.GET_USUARIOS_EXTERNOS),
-                switchMap((action) => {
-                    return this._usuarioService.query(
+                switchMap(action => this._usuarioService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -57,8 +57,7 @@ export class UsuariosExternosEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Usuario>({data: response['entities'], schema: usuarioSchema}),
                     new UsuariosExternosEditActions.GetUsuarioExternosSuccess({
@@ -78,6 +77,7 @@ export class UsuariosExternosEditEffects {
 
     /**
      * Save Usuario
+     *
      * @type {Observable<any>}
      */
     @Effect()

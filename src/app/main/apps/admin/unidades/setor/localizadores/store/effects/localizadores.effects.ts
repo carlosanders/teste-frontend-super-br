@@ -33,7 +33,7 @@ export class LocalizadoresEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,6 +42,7 @@ export class LocalizadoresEffects {
 
     /**
      * Get Setor with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -49,15 +50,13 @@ export class LocalizadoresEffects {
         this._actions
             .pipe(
                 ofType<RootLocalizadoresActions.GetSetor>(RootLocalizadoresActions.GET_SETOR),
-                switchMap((action) => {
-                    return this._setorService.get(
+                switchMap(action => this._setorService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll'
                         ]),
                         JSON.stringify({isAdmin: true})
-                    );
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<Setor>({data: [response], schema: setorSchema}),
                     new RootLocalizadoresActions.GetSetorSuccess({

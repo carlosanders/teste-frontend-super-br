@@ -10,8 +10,8 @@ import {
 import {ShowIfRoleDirective} from './show-if-role.directive';
 import {ShowIfNotRoleDirective} from './show-if-not-role.directive';
 import {CdkGridColsDirective} from './cdk-grid-cols/cdk-grid-cols.directive';
-import {CdkInputAutoFocusDirective} from "./cdk-input-auto-focus-drective/cdk-input-auto-focus-directive";
-import {CdkScrollToDirective} from './cdk-scroll-to/cdk-scroll-to.directive'
+import {CdkInputAutoFocusDirective} from './cdk-input-auto-focus-drective/cdk-input-auto-focus-directive';
+import {CdkScrollToDirective} from './cdk-scroll-to/cdk-scroll-to.directive';
 
 @NgModule({
     declarations: [

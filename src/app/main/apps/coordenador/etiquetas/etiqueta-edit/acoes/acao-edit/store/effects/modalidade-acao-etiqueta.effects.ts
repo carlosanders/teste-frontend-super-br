@@ -11,9 +11,9 @@ import {Acao, ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {ModalidadeAcaoEtiquetaService} from "@cdk/services/modalidade-acao-etiqueta.service";
-import * as ModalidadeAcaoEtiquetaActions from "../actions";
-import * as AcaoListActions from "../../../acao-list/store/actions";
+import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqueta.service';
+import * as ModalidadeAcaoEtiquetaActions from '../actions';
+import * as AcaoListActions from '../../../acao-list/store/actions';
 
 @Injectable()
 export class ModalidadeAcaoEtiquetaEffects {
@@ -27,7 +27,7 @@ export class ModalidadeAcaoEtiquetaEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,8 +42,7 @@ export class ModalidadeAcaoEtiquetaEffects {
         this._actions
             .pipe(
                 ofType<ModalidadeAcaoEtiquetaActions.GetModalidadesAcaoEtiqueta>(ModalidadeAcaoEtiquetaActions.GET_MODALIDADES_ACAO_ETIQUETA),
-                switchMap((action) => {
-                    return this._modalidadeAcaoEtiquetaService.query(
+                switchMap(action => this._modalidadeAcaoEtiquetaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +53,7 @@ export class ModalidadeAcaoEtiquetaEffects {
                         JSON.stringify(action.payload.populate),
                         JSON.stringify({isAdmin: true})
                     ).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<ModalidadeAcaoEtiqueta>(
                                 {data: response['entities'], schema: modalidadeAcaoEtiquetaSchema}
                                 ),
@@ -67,10 +66,7 @@ export class ModalidadeAcaoEtiquetaEffects {
                                 total: response['total']
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new ModalidadeAcaoEtiquetaActions.GetModalidadesAcaoEtiquetaFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new ModalidadeAcaoEtiquetaActions.GetModalidadesAcaoEtiquetaFailed(err)))
+                    ))
             );
 }

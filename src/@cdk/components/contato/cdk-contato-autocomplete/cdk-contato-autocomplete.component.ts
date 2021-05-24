@@ -56,10 +56,10 @@ export class CdkContatoAutocompleteComponent implements OnInit {
                     const andxFilterUnidade = [];
                     const andxFilterSetor = [];
                     const andxFilterUsuario = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
-                        andxFilterUnidade.push({"unidade.nome": `like:%${bit}%`});
-                        andxFilterSetor.push({"setor.nome": `like:%${bit}%`});
-                        andxFilterUsuario.push({"usuario.nome": `like:%${bit}%`});
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
+                        andxFilterUnidade.push({'unidade.nome': `like:%${bit}%`});
+                        andxFilterSetor.push({'setor.nome': `like:%${bit}%`});
+                        andxFilterUsuario.push({'usuario.nome': `like:%${bit}%`});
                     });
                     if (typeof value === 'string' && andxFilterUnidade.length > 0) {
                         this.contatoListIsLoading = true;
@@ -87,7 +87,7 @@ export class CdkContatoAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.contatoList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

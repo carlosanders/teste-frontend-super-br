@@ -12,7 +12,7 @@ import {EspecieTarefaService} from '@cdk/services/especie-tarefa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {EspecieTarefa} from '@cdk/models';
 import {especieTarefa as especieTarefaSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class EspecieTarefaListEffects {
@@ -27,7 +27,7 @@ export class EspecieTarefaListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class EspecieTarefaListEffects {
 
     /**
      * Get EspecieTarefa with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class EspecieTarefaListEffects {
         this._actions
             .pipe(
                 ofType<EspecieTarefaListActions.GetEspecieTarefa>(EspecieTarefaListActions.GET_ESPECIE_TAREFA),
-                switchMap((action) => {
-                    return this._especieTarefaService.query(
+                switchMap(action => this._especieTarefaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class EspecieTarefaListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<EspecieTarefa>({data: response['entities'], schema: especieTarefaSchema}),
                             new EspecieTarefaListActions.GetEspecieTarefaSuccess({
                                 entitiesId: response['entities'].map(especieTarefa => especieTarefa.id),
@@ -69,12 +69,12 @@ export class EspecieTarefaListEffects {
                             console.log(err);
                             return of(new EspecieTarefaListActions.GetEspecieTarefaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete EspecieTarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,9 +82,8 @@ export class EspecieTarefaListEffects {
         this._actions
             .pipe(
                 ofType<EspecieTarefaListActions.DeleteEspecieTarefa>(EspecieTarefaListActions.DELETE_ESPECIE_TAREFA),
-                mergeMap((action) => {
-                    return this._especieTarefaService.destroy(action.payload).pipe(
-                        map((response) => new EspecieTarefaListActions.DeleteEspecieTarefaSuccess(response.id)),
+                mergeMap(action => this._especieTarefaService.destroy(action.payload).pipe(
+                        map(response => new EspecieTarefaListActions.DeleteEspecieTarefaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new EspecieTarefaListActions.DeleteEspecieTarefa(
@@ -93,7 +92,6 @@ export class EspecieTarefaListEffects {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

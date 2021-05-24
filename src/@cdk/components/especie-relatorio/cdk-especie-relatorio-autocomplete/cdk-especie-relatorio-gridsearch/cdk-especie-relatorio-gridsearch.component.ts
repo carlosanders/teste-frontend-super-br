@@ -74,7 +74,7 @@ export class CdkEspecieRelatorioGridsearchComponent implements OnInit {
             .pipe(
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.especieRelatorios = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

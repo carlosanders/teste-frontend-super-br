@@ -14,8 +14,8 @@ import {
 import { CommonModule } from '@angular/common';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {RouterModule} from '@angular/router';
-import {CdkAcaoTrigger003Component} from "./cdk-acao-trigger-003.component";
-import {CdkCompartilhamentoFormModule} from "../../../compartilhamento/cdk-compartilhamento-form/cdk-compartilhamento-form.module";
+import {CdkAcaoTrigger003Component} from './cdk-acao-trigger-003.component';
+import {CdkCompartilhamentoFormModule} from '../../../compartilhamento/cdk-compartilhamento-form/cdk-compartilhamento-form.module';
 
 // @ts-ignore
 @NgModule({

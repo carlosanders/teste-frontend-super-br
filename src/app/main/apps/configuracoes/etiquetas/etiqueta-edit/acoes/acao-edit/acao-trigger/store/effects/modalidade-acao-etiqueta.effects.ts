@@ -11,8 +11,8 @@ import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {ModalidadeAcaoEtiquetaService} from "@cdk/services/modalidade-acao-etiqueta.service";
-import * as ModalidadeAcaoEtiquetaActions from "../actions";
+import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqueta.service';
+import * as ModalidadeAcaoEtiquetaActions from '../actions';
 
 @Injectable()
 export class ModalidadeAcaoEtiquetaEffects {
@@ -26,7 +26,7 @@ export class ModalidadeAcaoEtiquetaEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,8 +41,7 @@ export class ModalidadeAcaoEtiquetaEffects {
         this._actions
             .pipe(
                 ofType<ModalidadeAcaoEtiquetaActions.GetModalidadeAcaoEtiqueta>(ModalidadeAcaoEtiquetaActions.GET_MODALIDADE_ACAO_ETIQUETA),
-                switchMap((action) => {
-                    return this._modalidadeAcaoEtiquetaService.query(
+                switchMap(action => this._modalidadeAcaoEtiquetaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -52,9 +51,7 @@ export class ModalidadeAcaoEtiquetaEffects {
                             'modalidadeEtiqueta'
                         ]),
                         JSON.stringify({isAdmin: true})
-                    );
-
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<ModalidadeAcaoEtiqueta>({data: response['entities'], schema: modalidadeAcaoEtiquetaSchema}),
                     new ModalidadeAcaoEtiquetaActions.GetModalidadeAcaoEtiquetaSuccess({

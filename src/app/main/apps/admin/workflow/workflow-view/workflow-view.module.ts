@@ -15,7 +15,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {WorkflowViewStoreModule} from './store/store.module';
 import * as fromGuards from './store/guards';
 import {modulesConfig} from 'modules/modules-config';
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {

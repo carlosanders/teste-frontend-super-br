@@ -10,7 +10,7 @@ import {processo as processoSchema} from '@cdk/normalizr';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {of} from 'rxjs';
 import {Injectable} from '@angular/core';
-import {ProcessoService} from "@cdk/services/processo.service";
+import {ProcessoService} from '@cdk/services/processo.service';
 
 @Injectable()
 export class LembreteEffects {
@@ -28,6 +28,7 @@ export class LembreteEffects {
 
     /**
      * Save Lembrete
+     *
      * @type {any}
      */
     @Effect()
@@ -35,8 +36,7 @@ export class LembreteEffects {
         this._actions
             .pipe(
                 ofType<LembreteActions.SaveLembrete>(LembreteActions.SAVE_LEMBRETE),
-                switchMap((action) => {
-                    return this._processoService.patch(action.payload.processo, {lembreteArquivista: action.payload.conteudo}).pipe(
+                switchMap(action => this._processoService.patch(action.payload.processo, {lembreteArquivista: action.payload.conteudo}).pipe(
                         mergeMap((response: Processo) => [
                             new LembreteActions.SaveLembreteSuccess(),
                             new AddData<Processo>({data: [response], schema: processoSchema}),
@@ -46,10 +46,7 @@ export class LembreteEffects {
                                 dateTime: response.criadoEm
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new LembreteActions.SaveLembreteFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new LembreteActions.SaveLembreteFailed(err)))
+                    ))
             );
 }

@@ -18,7 +18,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
 import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
-import {CdkUtils} from "@cdk/utils";
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'documento-avulso-edit-dados-basicos',
@@ -90,7 +90,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
             }
         });
 
-        this.errorsRemetendo$.subscribe((err) => this.errorsRemetendo = CdkUtils.errorsToString(err));
+        this.errorsRemetendo$.subscribe(err => this.errorsRemetendo = CdkUtils.errorsToString(err));
     }
 
     ngAfterViewInit(): void {}
@@ -99,9 +99,9 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
         const path2 = 'app/main/apps/documento/documento-avulso-edit#status';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path2)) {
-                module.components[path2].forEach((c => {
+                module.components[path2].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => {
+                        .then( (componentFactory)  => {
                             this.containerStatus.createComponent(componentFactory);
                             this._ref.markForCheck();
                         });
@@ -134,7 +134,7 @@ export class DocumentoAvulsoEditDadosBasicosComponent implements OnInit, OnDestr
 
         this.confirmDialogRef.componentInstance.confirmMessage = 'Esta operação não pode ser desfeita. Deseja realmente remeter o ofício?';
 
-        this.confirmDialogRef.afterClosed().subscribe(result => {
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 if (!this.documento.assinado){
                     this.remeterDocAvulso = true;

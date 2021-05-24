@@ -19,7 +19,7 @@ import {modulesConfig} from '../../../../../../modules/modules-config';
 import {Router} from '@angular/router';
 import {RepositorioService} from '@cdk/services/repositorio.service';
 import {ComponenteDigitalService} from '@cdk/services/componente-digital.service';
-import * as fromStoreComponente from "../../componente-digital/store";
+import * as fromStoreComponente from '../../componente-digital/store';
 
 @Component({
     selector: 'documento-avulso-inteligencia',
@@ -90,13 +90,13 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
 
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reload(this.pagination);
@@ -105,7 +105,7 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
             }
         });
 
-        this.componenteDigital$.subscribe(componenteDigital => {
+        this.componenteDigital$.subscribe((componenteDigital) => {
             if (componenteDigital && componenteDigital.conteudo) {
                 const html = DocumentoAvulsoInteligenciaComponent.b64DecodeUnicode(componenteDigital.conteudo.split(';base64,')[1]);
                 this._store.dispatch(new fromStore.SetRepositorioComponenteDigital(html));
@@ -117,7 +117,7 @@ export class DocumentoAvulsoInteligenciaComponent implements OnInit, OnDestroy, 
         const path = 'app/main/apps/documento/documento-avulso-edit/inteligencia';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

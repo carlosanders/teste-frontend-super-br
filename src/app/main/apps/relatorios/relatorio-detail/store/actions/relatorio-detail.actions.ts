@@ -373,7 +373,7 @@ export type RelatorioDetailActionsAll
     | CreateVinculacaoEtiquetaFailed
     | SaveConteudoVinculacaoEtiqueta
     | SaveConteudoVinculacaoEtiquetaSuccess
-    | SaveConteudoVinculacaoEtiquetaFailed   
+    | SaveConteudoVinculacaoEtiquetaFailed
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed

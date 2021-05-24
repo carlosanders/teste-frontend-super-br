@@ -15,8 +15,8 @@ import {getRouterState, State} from 'app/store/reducers';
 import {DocumentoService} from '@cdk/services/documento.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import * as fromStore from '../index';
-import {GetDocumentosVinculados as GetDocumentosVinculadosMinuta} from "../../documento-edit/anexos/store";
-import {GetDocumentosVinculados as GetDocumentosVinculadosOficio} from "../../documento-avulso-edit/anexos/store";
+import {GetDocumentosVinculados as GetDocumentosVinculadosMinuta} from '../../documento-edit/anexos/store';
+import {GetDocumentosVinculados as GetDocumentosVinculadosOficio} from '../../documento-avulso-edit/anexos/store';
 
 @Injectable()
 export class ComponenteDigitalEffect {
@@ -32,7 +32,7 @@ export class ComponenteDigitalEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.lixeira = !!routerState.state.queryParams.lixeira;
@@ -42,6 +42,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Get ComponentesDigitais with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -70,7 +71,7 @@ export class ComponenteDigitalEffect {
                         JSON.stringify(params.sort),
                         JSON.stringify(params.populate));
                 }),
-                mergeMap((response) => [
+                mergeMap(response => [
                     // new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
                     new ComponenteDigitalActions.GetComponentesDigitaisSuccess({
                         entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),
@@ -91,6 +92,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Delete ComponenteDigital
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -98,19 +100,18 @@ export class ComponenteDigitalEffect {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.DeleteComponenteDigital>(ComponenteDigitalActions.DELETE_COMPONENTE_DIGITAL),
-                mergeMap((action) => {
-                    return this._componenteDigitalService.destroy(action.payload).pipe(
-                        map((response) => new ComponenteDigitalActions.DeleteComponenteDigitalSuccess(response.id)),
+                mergeMap(action => this._componenteDigitalService.destroy(action.payload).pipe(
+                        map(response => new ComponenteDigitalActions.DeleteComponenteDigitalSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
                             return of(new ComponenteDigitalActions.DeleteComponenteDigitalFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save ComponenteDigital
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -118,8 +119,7 @@ export class ComponenteDigitalEffect {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
-                switchMap((action) => {
-                    return this._componenteDigitalService.save(action.payload).pipe(
+                switchMap(action => this._componenteDigitalService.save(action.payload).pipe(
                         tap(() => {
                             if (this.routerState.url.indexOf('editar/') !== -1) {
                                 this._store.dispatch(new GetDocumentosVinculadosMinuta());
@@ -141,12 +141,12 @@ export class ComponenteDigitalEffect {
                             console.log (err);
                             return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -154,8 +154,7 @@ export class ComponenteDigitalEffect {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.DownloadComponenteDigital>(ComponenteDigitalActions.DOWNLOAD_COMPONENTE_DIGITAL),
-                switchMap((action) => {
-                    return this._componenteDigitalService.download(action.payload.componenteDigitalId).pipe(
+                switchMap(action => this._componenteDigitalService.download(action.payload.componenteDigitalId).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.DownloadComponenteDigitalSuccess({
                                     componenteDigitalId: response.id,
@@ -164,8 +163,7 @@ export class ComponenteDigitalEffect {
                             ),
                             new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo}})
                         ]),
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ComponenteDigitalActions.DownloadComponenteDigitalFailed(err));
@@ -175,6 +173,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect()

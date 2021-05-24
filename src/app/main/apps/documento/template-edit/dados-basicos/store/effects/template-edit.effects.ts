@@ -34,7 +34,7 @@ export class TemplateEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -43,6 +43,7 @@ export class TemplateEditEffects {
 
     /**
      * Get Template with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -56,7 +57,7 @@ export class TemplateEditEffects {
                         value: ''
                     };
                     const routeParams = of('documentoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -92,6 +93,7 @@ export class TemplateEditEffects {
 
     /**
      * Save Template
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -99,8 +101,7 @@ export class TemplateEditEffects {
         this._actions
             .pipe(
                 ofType<TemplateEditActions.SaveTemplate>(TemplateEditActions.SAVE_TEMPLATE),
-                switchMap((action) => {
-                    return this._templateService.save(action.payload).pipe(
+                switchMap(action => this._templateService.save(action.payload).pipe(
                         mergeMap((response: Template) => [
                             new TemplateEditActions.SaveTemplateSuccess(),
                             new AddData<Template>({data: [response], schema: templateSchema}),
@@ -115,7 +116,6 @@ export class TemplateEditEffects {
                             console.log(err);
                             return of(new TemplateEditActions.SaveTemplateFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

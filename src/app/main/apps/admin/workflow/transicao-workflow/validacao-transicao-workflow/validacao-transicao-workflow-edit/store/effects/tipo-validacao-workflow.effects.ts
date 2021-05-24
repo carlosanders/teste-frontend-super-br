@@ -11,8 +11,8 @@ import {TipoValidacaoWorkflow} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {TipoValidacaoWorkflowService} from "@cdk/services/tipo-validacao-workflow.service";
-import * as TipoValidacaoWorkflowActions from "../actions/tipo-validacao-workflow.actions";
+import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflow.service';
+import * as TipoValidacaoWorkflowActions from '../actions/tipo-validacao-workflow.actions';
 
 @Injectable()
 export class TipoValidacaoWorkflowEffects {
@@ -26,7 +26,7 @@ export class TipoValidacaoWorkflowEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,8 +41,7 @@ export class TipoValidacaoWorkflowEffects {
         this._actions
             .pipe(
                 ofType<TipoValidacaoWorkflowActions.GetTipoValidacaoWorkflow>(TipoValidacaoWorkflowActions.GET_TIPO_VALIDACAO_WORKFLOW),
-                switchMap((action) => {
-                    return this._tipoValidvalidacaoWorkflowService.query(
+                switchMap(action => this._tipoValidvalidacaoWorkflowService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -53,7 +52,7 @@ export class TipoValidacaoWorkflowEffects {
                         JSON.stringify(action.payload.populate),
                         JSON.stringify({isAdmin: true})
                     ).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<TipoValidacaoWorkflow>(
                                 {data: response['entities'], schema: tipoValidvalidacaoWorkflowSchema}
                                 ),
@@ -66,10 +65,7 @@ export class TipoValidacaoWorkflowEffects {
                                 total: response['total']
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new TipoValidacaoWorkflowActions.GetTipoValidacaoWorkflowFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new TipoValidacaoWorkflowActions.GetTipoValidacaoWorkflowFailed(err)))
+                    ))
             );
 }

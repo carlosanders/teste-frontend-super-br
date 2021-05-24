@@ -35,7 +35,7 @@ export class VinculacaoPessoaUsuarioEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -44,6 +44,7 @@ export class VinculacaoPessoaUsuarioEffects {
 
     /**
      * Get VinculacaoPessoaUsuario with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -51,8 +52,7 @@ export class VinculacaoPessoaUsuarioEffects {
         this._actions
             .pipe(
                 ofType<VinculacaoPessoaUsuarioActions.GetVinculacaoPessoaUsuario>(VinculacaoPessoaUsuarioActions.GET_VINCULACAO_PESSOA_USUARIO),
-                switchMap((action) => {
-                    return this._vinculacaoPessoaUsuarioService.query(
+                switchMap(action => this._vinculacaoPessoaUsuarioService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -62,7 +62,7 @@ export class VinculacaoPessoaUsuarioEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<VinculacaoPessoaUsuario>({data: response['entities'], schema: vinculacaoPessoaUsuarioSchema}),
                             new VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuarioSuccess({
                                 entitiesId: response['entities'].map(vinculacaoPessoaUsuario => vinculacaoPessoaUsuario.id),
@@ -76,8 +76,7 @@ export class VinculacaoPessoaUsuarioEffects {
                         catchError((err) => {
                             console.log(err);
                             return of(new VinculacaoPessoaUsuarioListActions.GetVinculacaoPessoaUsuarioFailed(err));
-                        }));
-                }),
+                        }))),
             );
 
 }

@@ -1,11 +1,11 @@
 import { ActionReducerMap, createFeatureSelector, createSelector } from '@ngrx/store';
-import {AcaoTransicaoWorkflowEditReducer, AcaoTransicaoWorkflowEditState} from "./acao-transicao-workflow-edit.reducer";
-import {TipoAcaoWorkflowReducer, TipoAcaoWorkflowState} from "./tipo-acao-transicao-workflow.reducer";
+import {AcaoTransicaoWorkflowEditReducer, AcaoTransicaoWorkflowEditState} from './acao-transicao-workflow-edit.reducer';
+import {TipoAcaoWorkflowReducer, TipoAcaoWorkflowState} from './tipo-acao-transicao-workflow.reducer';
 
 export interface AcaoTransicaoWorkflowEditAppState
 {
-    acaoTransicaoWorkflow: AcaoTransicaoWorkflowEditState,
-    tipoAcaoWorkflowList: TipoAcaoWorkflowState
+    acaoTransicaoWorkflow: AcaoTransicaoWorkflowEditState;
+    tipoAcaoWorkflowList: TipoAcaoWorkflowState;
 }
 
 export const getAcaoEditAppState = createFeatureSelector<AcaoTransicaoWorkflowEditAppState>(

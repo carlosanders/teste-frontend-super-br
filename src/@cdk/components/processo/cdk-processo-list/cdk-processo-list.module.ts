@@ -21,7 +21,7 @@ import {CdkProcessoAutocompleteModule} from '@cdk/components/processo/cdk-proces
 import {DndModule} from 'ngx-drag-drop';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {InfiniteScrollModule} from 'ngx-infinite-scroll';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule} from '@cdk/angular/material';
 import {CdkUsuarioAutocompleteModule} from '../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
 import {CdkAssuntoAdministrativoAutocompleteModule} from '../../assunto-administrativo/cdk-assunto-administrativo-autocomplete/cdk-assunto-administrativo-autocomplete.module';
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
@@ -33,7 +33,7 @@ import {CdkEtiquetaAutocompleteModule} from '../../etiqueta/cdk-etiqueta-autocom
 import {CdkInteressadoAutocompleteModule} from '../../interessado/cdk-interessado-autocomplete/cdk-interessado-autocomplete.module';
 import {CdkInteressadoGridsearchModule} from '../../interessado/cdk-interessado-autocomplete/cdk-interessado-gridsearch/cdk-interessado-gridsearch.module';
 import {CdkProcessoFilterModule} from '../sidebars/cdk-processo-filter/cdk-processo-filter.module';
-import {NgxUpperCaseDirectiveModule} from "ngx-upper-case-directive";
+import {NgxUpperCaseDirectiveModule} from 'ngx-upper-case-directive';
 
 @NgModule({
     declarations: [

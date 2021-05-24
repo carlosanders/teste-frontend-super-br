@@ -26,10 +26,10 @@ export class NavbarVerticalStyle2Component implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {CdkConfigService} _cdkConfigService
-     * @param {CdkNavigationService} _cdkNavigationService
-     * @param {CdkSidebarService} _cdkSidebarService
-     * @param {Router} _router
+     * @param _cdkConfigService
+     * @param _cdkNavigationService
+     * @param _cdkSidebarService
+     * @param _router
      */
     constructor(
         public _cdkConfigService: CdkConfigService,
@@ -70,7 +70,7 @@ export class NavbarVerticalStyle2Component implements OnInit, OnDestroy
         // Scroll to the active item position
         this._router.events
             .pipe(
-                filter((event) => event instanceof NavigationEnd),
+                filter(event => event instanceof NavigationEnd),
                 take(1)
             )
             .subscribe(() => {
@@ -79,9 +79,9 @@ export class NavbarVerticalStyle2Component implements OnInit, OnDestroy
 
                         if ( activeNavItem )
                         {
-                            const activeItemOffsetTop       = activeNavItem.offsetTop,
-                                  activeItemOffsetParentTop = activeNavItem.offsetParent.offsetTop,
-                                  scrollDistance            = activeItemOffsetTop - activeItemOffsetParentTop - (48 * 3);
+                            const activeItemOffsetTop       = activeNavItem.offsetTop;
+                                  const activeItemOffsetParentTop = activeNavItem.offsetParent.offsetTop;
+                                  const scrollDistance            = activeItemOffsetTop - activeItemOffsetParentTop - (48 * 3);
 
                             this._cdkPerfectScrollbar.scrollToTop(scrollDistance);
                         }
@@ -101,7 +101,7 @@ export class NavbarVerticalStyle2Component implements OnInit, OnDestroy
     {
         this._router.events
             .pipe(
-                filter((event) => event instanceof NavigationEnd),
+                filter(event => event instanceof NavigationEnd),
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(() => {

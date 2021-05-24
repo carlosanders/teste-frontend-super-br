@@ -68,7 +68,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if (this.routerState.params['unidadeHandle']) {
@@ -77,7 +77,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
                         this.unidadeHandle$.pipe(
                             takeUntil(this._unsubscribeAll)
                         ).subscribe(
-                            setor => {
+                            (setor) => {
                                 if (setor) {
                                     this.unidade = setor;
                                 }
@@ -90,7 +90,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
                         this.setorHandle$.pipe(
                             takeUntil(this._unsubscribeAll)
                         ).subscribe(
-                            setor => {
+                            (setor) => {
                                 if (setor) {
                                     this.setor = setor;
                                 }
@@ -120,7 +120,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         this.repositorio$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            repositorio => {
+            (repositorio) => {
                 if (repositorio) {
                     this.repositorio = repositorio;
                     if (this.repositorio.vinculacoesRepositorios[0]?.setor) {
@@ -142,7 +142,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         this.setor$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            setor => {
+            (setor) => {
                 if (setor) {
                     this.setor = setor;
                 }
@@ -152,7 +152,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         this.unidade$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            setor => {
+            (setor) => {
                 if (setor) {
                     this.unidade = setor;
                 }
@@ -162,7 +162,7 @@ export class RepositoriosEditComponent implements OnInit, OnDestroy {
         this.modalidadeOrgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            modalidadeOrgaoCentral => {
+            (modalidadeOrgaoCentral) => {
                 if (modalidadeOrgaoCentral) {
                     this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
                 }

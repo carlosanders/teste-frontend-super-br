@@ -25,7 +25,7 @@ export class VisibilidadeEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class VisibilidadeEffects {
 
     /**
      * Get Visibilidades with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,11 +44,9 @@ export class VisibilidadeEffects {
         this._actions
             .pipe(
                 ofType<VisibilidadeActions.GetVisibilidades>(VisibilidadeActions.GET_VISIBILIDADES_DOCUMENTO),
-                switchMap((action) => {
-                    return this._documentoService.getVisibilidade(
-                        action.payload);
-                }),
-                mergeMap((response) => [
+                switchMap(action => this._documentoService.getVisibilidade(
+                        action.payload)),
+                mergeMap(response => [
                     new AddData<Visibilidade>({data: response, schema: visibilidadeSchema}),
                     new VisibilidadeActions.GetVisibilidadesSuccess({
                         entitiesId: response.map(visibilidade => visibilidade.id),
@@ -68,6 +67,7 @@ export class VisibilidadeEffects {
 
     /**
      * Delete Visibilidade
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -75,19 +75,18 @@ export class VisibilidadeEffects {
         this._actions
             .pipe(
                 ofType<VisibilidadeActions.DeleteVisibilidade>(VisibilidadeActions.DELETE_VISIBILIDADE_DOCUMENTO),
-                mergeMap((action) => {
-                    return this._documentoService.destroyVisibilidade(action.payload.documentoId, action.payload.visibilidadeId).pipe(
-                        map((response) => new VisibilidadeActions.DeleteVisibilidadeSuccess(response.id)),
+                mergeMap(action => this._documentoService.destroyVisibilidade(action.payload.documentoId, action.payload.visibilidadeId).pipe(
+                        map(response => new VisibilidadeActions.DeleteVisibilidadeSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
                             return of(new VisibilidadeActions.DeleteVisibilidadeFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Visibilidade
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -95,8 +94,7 @@ export class VisibilidadeEffects {
         this._actions
             .pipe(
                 ofType<VisibilidadeActions.SaveVisibilidadeDocumento>(VisibilidadeActions.SAVE_VISIBILIDADE_DOCUMENTO),
-                switchMap((action) => {
-                    return this._documentoService.createVisibilidade(action.payload.documentoId, action.payload.visibilidade).pipe(
+                switchMap(action => this._documentoService.createVisibilidade(action.payload.documentoId, action.payload.visibilidade).pipe(
                         mergeMap((response: Visibilidade) => [
                             new VisibilidadeActions.SaveVisibilidadeDocumentoSuccess(),
                             new VisibilidadeActions.GetVisibilidades(action.payload.documentoId),
@@ -111,8 +109,7 @@ export class VisibilidadeEffects {
                             console.log (err);
                             return of(new VisibilidadeActions.SaveVisibilidadeDocumentoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 }

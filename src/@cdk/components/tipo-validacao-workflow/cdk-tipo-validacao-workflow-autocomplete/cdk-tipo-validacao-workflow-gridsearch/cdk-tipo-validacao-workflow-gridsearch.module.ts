@@ -11,7 +11,7 @@ import { CdkTipoValidacaoWorkflowGridModule } from '@cdk/components/tipo-validac
     imports: [
 
         CdkTipoValidacaoWorkflowGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

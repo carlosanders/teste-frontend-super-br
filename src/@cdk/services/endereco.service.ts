@@ -25,9 +25,9 @@ export class EnderecoService extends ParentGenericService<Endereco> {
             `${environment.api_url}${'administrativo/endereco'}/${cep}/${'correios'}` + environment.xdebug,
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Endereco, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Endereco(), {...response});
             }),
         );

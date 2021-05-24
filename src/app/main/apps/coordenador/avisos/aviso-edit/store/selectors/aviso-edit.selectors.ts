@@ -5,8 +5,8 @@ import {Aviso, ModalidadeOrgaoCentral, Setor} from '@cdk/models';
 import {aviso as avisoSchema, modalidadeOrgaoCentral as orgaoSchema, setor as setorSchema} from '@cdk/normalizr';
 import {UnidadesOrgaoCentralAppState, getUnidadesOrgaoCentralAppState, UnidadesOrgaoCentralState} from '../../../../unidades/store';
 import {CoordenadorSetorState} from '../../../../setor/store';
-import {CoordenadorAppState, CoordenadorState, getCoordenadorAppState} from "../../../../store";
-import {getCoordenadorSetorState} from "../../../../setor/store";
+import {CoordenadorAppState, CoordenadorState, getCoordenadorAppState} from '../../../../store';
+import {getCoordenadorSetorState} from '../../../../setor/store';
 
 
 const schemaAvisoSelectors = createSchemaSelectors<Aviso>(avisoSchema);

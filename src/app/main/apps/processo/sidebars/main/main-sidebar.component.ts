@@ -61,17 +61,15 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
                 link: 'editar',
                 processo: true,
                 role: 'ROLE_COLABORADOR',
-                canShow: (processo$: Observable<Processo>): Observable<boolean> => {
-                    return processo$.pipe(
-                        filter((processo) => !!processo),
+                canShow: (processo$: Observable<Processo>): Observable<boolean> => processo$.pipe(
+                        filter(processo => !!processo),
                         switchMap((processo) => {
                             if (processo.somenteLeitura) {
                                 return of(false);
                             }
                             return of(true);
                         })
-                    );
-                }
+                    )
             },
             {
                 nome: 'Download',
@@ -101,7 +99,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processo => {
+        ).subscribe((processo) => {
             this.processo = processo;
             this.label = 'Protocolo';
             switch (this.processo?.unidadeArquivistica) {
@@ -125,7 +123,7 @@ export class ProcessoMainSidebarComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

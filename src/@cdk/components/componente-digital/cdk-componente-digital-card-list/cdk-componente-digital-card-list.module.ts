@@ -8,8 +8,8 @@ import {
 import { CdkSharedModule } from '@cdk/shared.module';
 import {CdkComponenteDigitalCardListComponent} from './cdk-componente-digital-card-list.component';
 import {CdkComponenteDigitalCardModule} from './cdk-componente-digital-card/cdk-componente-digital-card.module';
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {DragDropModule} from "@angular/cdk/drag-drop";
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {DragDropModule} from '@angular/cdk/drag-drop';
 
 @NgModule({
     declarations: [

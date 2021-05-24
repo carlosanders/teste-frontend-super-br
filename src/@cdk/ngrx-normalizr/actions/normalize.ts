@@ -348,6 +348,7 @@ export class SetData<T> implements Action {
 
     /**
      * SetData Constructor
+     *
      * @param config The action config object
      */
     constructor(config: NormalizeActionConfig<T>) {
@@ -373,6 +374,7 @@ export class AddData<T> implements Action {
 
     /**
      * AddData Constructor
+     *
      * @param config The action config object
      */
     constructor(config: NormalizeActionConfig<T>) {
@@ -398,6 +400,7 @@ export class AddChildData<T> implements Action {
 
     /**
      * AddData Constructor
+     *
      * @param config The action config object
      */
     constructor(config: NormalizeChildActionConfig<T>) {
@@ -429,6 +432,7 @@ export class UpdateData<T> implements Action {
 
     /**
      * AddData Constructor
+     *
      * @param config The action config object
      */
     constructor(config: NormalizeUpdateActionConfig<T>) {
@@ -509,6 +513,7 @@ export class RemoveChildData implements Action {
 
     /**
      * RemoveData Constructor
+     *
      * @param config The action payload used in the reducer
      */
     constructor(config: NormalizeRemoveChildActionConfig) {
@@ -526,6 +531,7 @@ export class RemoveChildData implements Action {
 /**
  * Create a add of action creators for the `AddData` and `RemoveData` actions.
  * This is provided for convenience.
+ *
  * @param schema The schema the action creators should be bound to
  */
 export function actionCreators<T>(
@@ -534,6 +540,7 @@ export function actionCreators<T>(
     return {
         /**
          * Action creator for the `SetData` action.
+         *
          * @returns A new instance of the `SetData` action with the given schema.
          */
         setData: (data: NormalizeActionConfig<T>['data']) =>
@@ -541,6 +548,7 @@ export function actionCreators<T>(
 
         /**
          * Action creator for the `AddData` action.
+         *
          * @returns A new instance of the `AddData` action with the given schema.
          */
         addData: (data: NormalizeActionConfig<T>['data']) =>
@@ -548,6 +556,7 @@ export function actionCreators<T>(
 
         /**
          * Action creator for the `AddChildData` action.
+         *
          * @returns A new instance of the `AddChildData` action with the given schema.
          */
         addChildData: <C>(
@@ -564,6 +573,7 @@ export function actionCreators<T>(
 
         /**
          * Action creator for the `UpdateData` action.
+         *
          * @returns A new instance of the `UpdateData` action with the given schema.
          */
         updateData: (
@@ -573,6 +583,7 @@ export function actionCreators<T>(
 
         /**
          * Action creator for the `RemoveData` action.
+         *
          * @returns A new instance of the `RemoveData` action with the given schema.
          */
         removeData: (
@@ -582,6 +593,7 @@ export function actionCreators<T>(
 
         /**
          * Action creator for the `RemoveChildData` action.
+         *
          * @returns A new instance of the `RemoveChildData` action with the given schema.
          */
         removeChildData: (
@@ -595,6 +607,7 @@ export function actionCreators<T>(
 
 /**
  * Return the parents property name the child schema is related to
+ *
  * @param schema The parent schema
  * @param childSchema The child schema
  */
@@ -609,7 +622,7 @@ function getRelationProperty(
 
     /* istanbul ignore else */
     if (relations) {
-        Object.keys(relations).some(k => {
+        Object.keys(relations).some((k) => {
             const key = Array.isArray(relations[k])
                 ? (relations[k] as [schema.Entity])[0].key
                 : (relations[k] as schema.Entity).key;

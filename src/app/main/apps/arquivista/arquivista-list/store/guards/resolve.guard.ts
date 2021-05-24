@@ -14,7 +14,7 @@ import {
     getIsLoading,
     getIsLoadingModalidadeTransicao,
     getModalidadeTransicaoLoaded
-} from "app/main/apps/arquivista/arquivista-list/store";
+} from 'app/main/apps/arquivista/arquivista-list/store';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -41,7 +41,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -55,9 +55,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkStore().pipe(
@@ -72,7 +72,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Check store
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkStore(): Observable<any> {
         return forkJoin([this.getProcessos(), this.getModalidadeTransicao()]).pipe(
@@ -95,7 +95,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Processos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getProcessos(): any {
         return this._store.pipe(
@@ -128,11 +128,11 @@ export class ResolveGuard implements CanActivate {
                         ]
                     };
 
-                    let processoFilter = {
+                    const processoFilter = {
                         'setorAtual.id': 'eq:' + this.routerState.params['unidadeHandle']
                     };
                     const routeTypeParam = of('typeHandle');
-                    routeTypeParam.subscribe(typeParam => {
+                    routeTypeParam.subscribe((typeParam) => {
                         this.currentDate = moment().format('YYYY-MM-DD[T]H:mm:ss');
 
                         if (this.routerState.params[typeParam] === 'pronto-transferencia') {
@@ -168,10 +168,8 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetProcessos(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.loading || (this.routerState.params['unidadeHandle'] && this.routerState.params['typeHandle'] &&
-                    (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle']) === loaded.value);
-            }),
+            filter((loaded: any) => this.loading || (this.routerState.params['unidadeHandle'] && this.routerState.params['typeHandle'] &&
+                    (this.routerState.params['unidadeHandle'] + '_' + this.routerState.params['typeHandle']) === loaded.value)),
             take(1)
         );
     }
@@ -179,7 +177,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get ModalidadeTransicao
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getModalidadeTransicao(): any {
         if (this.routerState.params['typeHandle'] && this.routerState.params['typeHandle'].indexOf('pronto-') > -1) {
@@ -193,7 +191,7 @@ export class ResolveGuard implements CanActivate {
                             sort: {},
                             populate: []
                         };
-                        let modalidadeFilter = {};
+                        const modalidadeFilter = {};
                         if (this.routerState.params['typeHandle'] === 'pronto-transferencia') {
                             modalidadeFilter['valor'] = 'eq:TRANSFERÊNCIA';
                         }
@@ -211,9 +209,7 @@ export class ResolveGuard implements CanActivate {
                         this.loadingModalidadeTransicao = true;
                     }
                 }),
-                filter((loaded: any) => {
-                    return this.loadingModalidadeTransicao || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value);
-                }),
+                filter((loaded: any) => this.loadingModalidadeTransicao || (this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
                 take(1)
             );
         } else {
@@ -224,9 +220,7 @@ export class ResolveGuard implements CanActivate {
                         this._store.dispatch(new fromStore.UnloadModalidadeTransicao());
                     }
                 }),
-                filter((loaded: any) => {
-                    return !loaded;
-                }),
+                filter((loaded: any) => !loaded),
                 take(1)
             );
         }

@@ -28,7 +28,7 @@ export class TramitacaoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class TramitacaoEditEffect {
 
     /**
      * Get Tramitacao with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class TramitacaoEditEffect {
         this._actions
             .pipe(
                 ofType<TramitacaoEditActions.GetTramitacao>(TramitacaoEditActions.GET_TRAMITACAO),
-                switchMap((action) => {
-                    return this._tramitacaoService.query(
+                switchMap(action => this._tramitacaoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Tramitacao>({data: response['entities'], schema: tramitacaoSchema}),
                     new TramitacaoEditActions.GetTramitacaoSuccess({
@@ -73,6 +72,7 @@ export class TramitacaoEditEffect {
 
     /**
      * Save Tramitacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class TramitacaoEditEffect {
         this._actions
             .pipe(
                 ofType<TramitacaoEditActions.SaveTramitacao>(TramitacaoEditActions.SAVE_TRAMITACAO),
-                switchMap((action) => {
-                    return this._tramitacaoService.save(action.payload).pipe(
+                switchMap(action => this._tramitacaoService.save(action.payload).pipe(
                         mergeMap((response: Tramitacao) => [
                             new TramitacaoEditActions.SaveTramitacaoSuccess(),
                             new TramitacaoListActions.ReloadTramitacoes(),
@@ -96,8 +95,7 @@ export class TramitacaoEditEffect {
                             console.log (err);
                             return of(new TramitacaoEditActions.SaveTramitacaoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

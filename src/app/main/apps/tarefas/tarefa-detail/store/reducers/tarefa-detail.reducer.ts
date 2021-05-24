@@ -1,7 +1,7 @@
 import * as TarefaDetailActions from 'app/main/apps/tarefas/tarefa-detail/store/actions/tarefa-detail.actions';
 import * as TarefasActions from '../../../store/actions/tarefas.actions';
 import * as RedistribuicaoEditBlocoActions
-    from "../../../redistribuicao-edit-bloco/store/actions/redistribuicao-edit-bloco.actions";
+    from '../../../redistribuicao-edit-bloco/store/actions/redistribuicao-edit-bloco.actions';
 
 export interface TarefaDetailState {
     tarefaId: number;
@@ -253,7 +253,7 @@ export function TarefaDetailReducer(state = TarefaDetailInitialState, action: Ta
         case TarefaDetailActions.REMOVE_PLUGIN_LOADING: {
             return {
                 ...state,
-                pluginLoading: state.pluginLoading.filter((value) => value !== action.payload)
+                pluginLoading: state.pluginLoading.filter(value => value !== action.payload)
             };
         }
 

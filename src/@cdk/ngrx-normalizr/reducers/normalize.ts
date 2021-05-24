@@ -311,6 +311,7 @@ export function normalized(
 
 /**
  * Default getter for the normalized state
+ *
  * @param state any state
  */
 const getNormalizedState = (state: any): NormalizedEntityState =>
@@ -347,6 +348,7 @@ export interface SchemaSelectors<T> {
 
 /**
  * Creates an object of selectors and projector functions bound to the given schema.
+ *
  * @param schema The schema to bind the selectors and projectors to
  */
 export function createSchemaSelectors<T>(
@@ -377,6 +379,7 @@ export function createSchemaSelectors<T>(
 
 /**
  * Create a schema bound selector which denormalizes all entities with the given schema.
+ *
  * @param schema The schema to bind this selector to
  */
 function createEntitiesSelector<T>(
@@ -390,6 +393,7 @@ function createEntitiesSelector<T>(
 
 /**
  * Create a schema bound projector function to denormalize a single entity.
+ *
  * @param schema The schema to bind this selector to
  */
 function createEntityProjector<T>(schema: schema.Entity): any {
@@ -399,6 +403,7 @@ function createEntityProjector<T>(schema: schema.Entity): any {
 
 /**
  * Create a schema bound projector function to denormalize an object of normalized entities
+ *
  * @param schema The schema to bind this selector to
  */
 function createEntitiesProjector<T>(schema: schema.Entity): any {
@@ -408,6 +413,7 @@ function createEntitiesProjector<T>(schema: schema.Entity): any {
 
 /**
  * Create a schema bound denormalizer.
+ *
  * @param schema The schema to bind this selector to
  */
 function createSingleDenormalizer(schema: schema.Entity): any {
@@ -429,6 +435,7 @@ function createSingleDenormalizer(schema: schema.Entity): any {
 
 /**
  * Create a schema bound denormalizer.
+ *
  * @param schema The schema to bind this selector to
  */
 function createMultipleDenormalizer(schema: schema.Entity): any {

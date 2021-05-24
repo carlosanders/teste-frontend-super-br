@@ -3,7 +3,7 @@ import {ProcessoCapaReducer, ProcessoCapaState} from './processo-capa.reducer';
 import {AssuntoReducer, AssuntoState} from './assunto.reducer';
 import {InteressadoReducer, InteressadoState} from './interessado.reducer';
 import {VinculacaoProcessoReducer, VinculacaoProcessoState} from './vinculacao-processo.reducer';
-import {AcompanhamentoReducer, AcompanhamentoState} from "./acompanhamento.reducer";
+import {AcompanhamentoReducer, AcompanhamentoState} from './acompanhamento.reducer';
 
 export interface ProcessoCapaAppState {
     processo: ProcessoCapaState;

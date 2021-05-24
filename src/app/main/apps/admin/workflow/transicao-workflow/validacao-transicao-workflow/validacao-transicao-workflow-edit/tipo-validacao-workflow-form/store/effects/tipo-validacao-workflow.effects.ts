@@ -11,8 +11,8 @@ import {TipoValidacaoWorkflow} from '@cdk/models';
 import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
-import {TipoValidacaoWorkflowService} from "@cdk/services/tipo-validacao-workflow.service";
-import * as TipoValidacaoWorkflowActions from "../actions";
+import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflow.service';
+import * as TipoValidacaoWorkflowActions from '../actions';
 
 @Injectable()
 export class TipoValidacaoWorkflowEffects {
@@ -26,7 +26,7 @@ export class TipoValidacaoWorkflowEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,8 +41,7 @@ export class TipoValidacaoWorkflowEffects {
         this._actions
             .pipe(
                 ofType<TipoValidacaoWorkflowActions.GetTipoValidacaoWorkflow>(TipoValidacaoWorkflowActions.GET_TIPO_VALIDACAO_WORKFLOW),
-                switchMap((action) => {
-                    return this._tipoValidacaoWorkflowService.query(
+                switchMap(action => this._tipoValidacaoWorkflowService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -51,9 +50,7 @@ export class TipoValidacaoWorkflowEffects {
                             'populateAll'
                         ]),
                         JSON.stringify({isAdmin: true})
-                    );
-
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<TipoValidacaoWorkflow>({data: response['entities'], schema: schema}),
                     new TipoValidacaoWorkflowActions.GetTipoValidacaoWorkflowSuccess({

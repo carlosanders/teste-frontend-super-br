@@ -278,7 +278,7 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.getAllColumns().forEach(c => {
+                this.getAllColumns().forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -291,7 +291,7 @@ export class CdkPessoaGridComponent implements AfterViewInit, OnInit, OnChanges 
 
     getSort(columnId: string): boolean {
         let disabled = true;
-        this.getAllColumns().forEach(c => {
+        this.getAllColumns().forEach((c) => {
             if (c.id === columnId && (c.sort === 'all' || c.sort === this.mode)) {
                 disabled = false;
             }

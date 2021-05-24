@@ -54,7 +54,7 @@ export class GetAcompanhamentosFailed implements Action
  export class UnloadAcompanhamentos implements Action
  {
      readonly type = UNLOAD_ACOMPANHAMENTOS;
- 
+
      constructor()
      {
      }

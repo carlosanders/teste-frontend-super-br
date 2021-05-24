@@ -13,7 +13,7 @@ import { CdkModalidadeFolderGridModule } from '@cdk/components/modalidade-folder
     imports: [
 
         CdkModalidadeFolderGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

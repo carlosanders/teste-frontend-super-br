@@ -71,7 +71,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
         this.documentosAvulsos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            documentosAvulsos => {
+            (documentosAvulsos) => {
                 this.documentoAvulsoPrincipal = documentosAvulsos[0] ? documentosAvulsos[0] : null;
                 this.documentosAvulsosBloco = documentosAvulsos[1] ? documentosAvulsos.filter(t => t.id !== documentosAvulsos[0].id) : [];
                 this._changeDetectorRef.markForCheck();
@@ -81,7 +81,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -106,7 +106,7 @@ export class UploadBlocoComponent implements OnInit, OnDestroy {
     onComplete(componenteDigital: ComponenteDigital): void {
         this.operacoes.push({
             type: 'upload',
-            content: `Upload realizado com sucesso!`,
+            content: 'Upload realizado com sucesso!',
             success: true
         });
         this._changeDetectorRef.markForCheck();

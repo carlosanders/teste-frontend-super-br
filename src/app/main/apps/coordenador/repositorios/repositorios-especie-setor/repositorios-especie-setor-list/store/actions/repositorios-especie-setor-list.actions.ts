@@ -55,7 +55,7 @@ export class GetRepositoriosEspecieSetorFailed implements Action
  export class UnloadRepositoriosEspecieSetor implements Action
  {
      readonly type = UNLOAD_REPOSITORIOS_ESPECIE_SETOR;
- 
+
      constructor()
      {
      }

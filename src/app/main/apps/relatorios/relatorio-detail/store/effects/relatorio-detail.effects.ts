@@ -36,7 +36,7 @@ export class RelatorioDetailEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -45,6 +45,7 @@ export class RelatorioDetailEffect {
 
     /**
      * Get Relatorio with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -52,8 +53,7 @@ export class RelatorioDetailEffect {
         this._actions
             .pipe(
                 ofType<RelatorioDetailActions.GetRelatorio>(RelatorioDetailActions.GET_RELATORIO),
-                switchMap((action) => {
-                    return this._relatorioService.query(
+                switchMap(action => this._relatorioService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -63,8 +63,7 @@ export class RelatorioDetailEffect {
                             'tipoRelatorio',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
-                        ]));
-                }),
+                        ]))),
                 mergeMap(response => [
                     new AddData<Relatorio>({data: response['entities'], schema: relatorioSchema}),
                     new RelatorioDetailActions.GetRelatorioSuccess({
@@ -98,6 +97,7 @@ export class RelatorioDetailEffect {
 
     /**
      * Update Relatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -114,6 +114,7 @@ export class RelatorioDetailEffect {
 
     /**
      * Delete Relatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -121,19 +122,18 @@ export class RelatorioDetailEffect {
         this._actions
             .pipe(
                 ofType<RelatorioDetailActions.DeleteRelatorio>(RelatorioDetailActions.DELETE_RELATORIO),
-                mergeMap((action) => {
-                        return this._relatorioService.destroy(action.payload).pipe(
-                            map((response) => new RelatorioDetailActions.DeleteRelatorioSuccess(response.id)),
+                mergeMap(action => this._relatorioService.destroy(action.payload).pipe(
+                            map(response => new RelatorioDetailActions.DeleteRelatorioSuccess(response.id)),
                             catchError((err) => {
                                 console.log(err);
                                 return of(new RelatorioDetailActions.DeleteRelatorioFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
     /**
      * Save Relatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -141,8 +141,7 @@ export class RelatorioDetailEffect {
         this._actions
             .pipe(
                 ofType<RelatorioDetailActions.SaveRelatorio>(RelatorioDetailActions.SAVE_RELATORIO),
-                switchMap((action) => {
-                    return this._relatorioService.save(action.payload).pipe(
+                switchMap(action => this._relatorioService.save(action.payload).pipe(
                         mergeMap((response: Relatorio) => [
                             new RelatorioDetailActions.SaveRelatorioSuccess(),
                             new AddData<Relatorio>({
@@ -157,12 +156,12 @@ export class RelatorioDetailEffect {
                             console.log(err);
                             return of(new RelatorioDetailActions.SaveRelatorioFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Create Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -175,8 +174,8 @@ export class RelatorioDetailEffect {
                     vinculacaoEtiqueta.relatorio = action.payload.relatorio;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap((response) => response.relatorio = null),
-                        mergeMap((response) => [
+                        tap(response => response.relatorio = null),
+                        mergeMap(response => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
@@ -200,6 +199,7 @@ export class RelatorioDetailEffect {
 
     /**
      * Save conteúdo vinculação etiqueta na relatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -207,9 +207,8 @@ export class RelatorioDetailEffect {
         this._actions
             .pipe(
                 ofType<RelatorioDetailActions.SaveConteudoVinculacaoEtiqueta>(RelatorioDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
-                        mergeMap((response) => [
+                mergeMap(action => this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                        mergeMap(response => [
                             new RelatorioDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                             new UpdateData<VinculacaoEtiqueta>({
                                 id: response.id,
@@ -221,13 +220,13 @@ export class RelatorioDetailEffect {
                             console.log(err);
                             return of(new RelatorioDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 
     /**
      * Delete Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -235,8 +234,7 @@ export class RelatorioDetailEffect {
         this._actions
             .pipe(
                 ofType<RelatorioDetailActions.DeleteVinculacaoEtiqueta>(RelatorioDetailActions.DELETE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                        return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
+                mergeMap(action => this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
                             mergeMap(() => [
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,
@@ -249,12 +247,12 @@ export class RelatorioDetailEffect {
                                 console.log(err);
                                 return of(new RelatorioDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
     /**
      * Get Documentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -262,8 +260,7 @@ export class RelatorioDetailEffect {
         this._actions
             .pipe(
                 ofType<RelatorioDetailActions.GetDocumentos>(RelatorioDetailActions.GET_DOCUMENTOS),
-                switchMap((action) => {
-                    return this._documentoService.query(
+                switchMap(action => this._documentoService.query(
                         JSON.stringify(action.payload),
                         25,
                         0,
@@ -271,8 +268,7 @@ export class RelatorioDetailEffect {
                         JSON.stringify([
                             'tipoDocumento',
                             'tipoDocumento.especieDocumento',
-                            'componentesDigitais']));
-                }),
+                            'componentesDigitais']))),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new RelatorioDetailActions.GetDocumentosSuccess({

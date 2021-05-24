@@ -31,7 +31,7 @@ export class VerticalLayout2Component implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {CdkConfigService} _cdkConfigService
+     * @param _cdkConfigService
      */
     constructor(
         private _cdkConfigService: CdkConfigService

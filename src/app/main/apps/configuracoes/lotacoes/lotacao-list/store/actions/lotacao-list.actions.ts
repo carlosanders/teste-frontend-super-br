@@ -94,7 +94,7 @@ export class GetLotacoesFailed implements Action
  export class UnloadLotacoes implements Action
  {
      readonly type = UNLOAD_LOTACOES;
- 
+
      constructor()
      {
      }

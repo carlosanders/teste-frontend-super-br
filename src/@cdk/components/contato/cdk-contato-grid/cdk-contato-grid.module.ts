@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {ContatoService} from '@cdk/services/contato.service';
 import {CdkContatoGridComponent} from './cdk-contato-grid.component';
 import {CdkContatoAutocompleteModule} from '@cdk/components/contato/cdk-contato-autocomplete/cdk-contato-autocomplete.module';
-import {CdkContatoFilterModule} from "../sidebars/cdk-contato-filter/cdk-contato-filter.module";
+import {CdkContatoFilterModule} from '../sidebars/cdk-contato-filter/cdk-contato-filter.module';
 
 @NgModule({
     declarations: [

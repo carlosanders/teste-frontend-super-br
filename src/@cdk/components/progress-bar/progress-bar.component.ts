@@ -23,7 +23,7 @@ export class CdkProgressBarComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {CdkProgressBarService} _cdkProgressBarService
+     * @param _cdkProgressBarService
      */
     constructor(
         private _cdkProgressBarService: CdkProgressBarService

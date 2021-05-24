@@ -29,7 +29,7 @@ export class AssuntoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class AssuntoEditEffect {
 
     /**
      * Get Assunto with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,16 +46,14 @@ export class AssuntoEditEffect {
         this._actions
             .pipe(
                 ofType<AssuntoEditActions.GetAssunto>(AssuntoEditActions.GET_ASSUNTO),
-                switchMap((action) => {
-                    return this._assuntoService.query(
+                switchMap(action => this._assuntoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
                     new AssuntoEditActions.GetAssuntoSuccess({
@@ -74,6 +73,7 @@ export class AssuntoEditEffect {
 
     /**
      * Save Assunto
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,8 +81,7 @@ export class AssuntoEditEffect {
         this._actions
             .pipe(
                 ofType<AssuntoEditActions.SaveAssunto>(AssuntoEditActions.SAVE_ASSUNTO),
-                switchMap((action) => {
-                    return this._assuntoService.save(action.payload).pipe(
+                switchMap(action => this._assuntoService.save(action.payload).pipe(
                         mergeMap((response: Assunto) => [
                             new AssuntoEditActions.SaveAssuntoSuccess(),
                             new AssuntoListActions.ReloadAssuntos(),
@@ -97,8 +96,7 @@ export class AssuntoEditEffect {
                             console.log (err);
                             return of(new AssuntoEditActions.SaveAssuntoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
     /**
      * Save Assunto Success

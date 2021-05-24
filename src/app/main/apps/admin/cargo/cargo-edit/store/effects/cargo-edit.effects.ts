@@ -29,7 +29,7 @@ export class CargoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class CargoEditEffects {
 
     /**
      * Get Cargo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class CargoEditEffects {
         this._actions
             .pipe(
                 ofType<CargoEditActions.GetCargo>(CargoEditActions.GET_CARGO),
-                switchMap((action) => {
-                    return this._cargoService.query(
+                switchMap(action => this._cargoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -54,8 +54,7 @@ export class CargoEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Cargo>({data: response['entities'], schema: cargoSchema}),
                     new CargoEditActions.GetCargoSuccess({
@@ -75,6 +74,7 @@ export class CargoEditEffects {
 
     /**
      * Save Cargo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -101,6 +101,7 @@ export class CargoEditEffects {
 
     /**
      * Update Cargo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -108,15 +109,13 @@ export class CargoEditEffects {
         this._actions
             .pipe(
                 ofType<CargoEditActions.UpdateCargo>(CargoEditActions.UPDATE_CARGO),
-                switchMap((action) => {
-                    return this._cargoService.patch(action.payload.cargo, action.payload.changes).pipe(
+                switchMap(action => this._cargoService.patch(action.payload.cargo, action.payload.changes).pipe(
                         mergeMap((response: Cargo) => [
                             new CargoListActions.ReloadCargo(),
                             new AddData<Cargo>({data: [response], schema: cargoSchema}),
                             new CargoEditActions.UpdateCargoSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new CargoEditActions.UpdateCargoFailed(err));

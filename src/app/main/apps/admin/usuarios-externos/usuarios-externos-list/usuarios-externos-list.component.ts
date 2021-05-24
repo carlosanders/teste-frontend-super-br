@@ -7,7 +7,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import * as fromStorePessoaUsuarioList from '../vinculacao-pessoa-usuario/vinculacao-pessoa-usuario-list/store';
 import {getRouterState} from '../../../../../store/reducers';
-import {UnloadUsuariosExternos} from "./store";
+import {UnloadUsuariosExternos} from './store';
 
 @Component({
     selector: 'usuarios-externos-list',
@@ -43,7 +43,7 @@ export class UsuariosExternosListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -51,7 +51,7 @@ export class UsuariosExternosListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

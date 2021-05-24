@@ -25,12 +25,12 @@ export class ModelosEffects {
         private _store: Store<State>
     ) {
         this._store.pipe(select(fromStore.getCurrentComponenteDigital))
-            .subscribe(componenteDigital => {
+            .subscribe((componenteDigital) => {
                 this.currentComponenteDigital = componenteDigital;
             });
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,6 +39,7 @@ export class ModelosEffects {
 
     /**
      * Get Modelos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -72,7 +73,7 @@ export class ModelosEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate));
                 }),
-                mergeMap((response) => [
+                mergeMap(response => [
                     new AddData<Modelo>({data: response['entities'], schema: modeloSchema}),
                     new ModelosActions.GetModelosSuccess({
                         entitiesId: response['entities'].map(modelo => modelo.id),

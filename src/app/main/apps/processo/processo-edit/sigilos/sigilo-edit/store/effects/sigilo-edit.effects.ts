@@ -28,7 +28,7 @@ export class SigiloEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class SigiloEditEffect {
 
     /**
      * Get Sigilo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class SigiloEditEffect {
         this._actions
             .pipe(
                 ofType<SigiloEditActions.GetSigilo>(SigiloEditActions.GET_SIGILO),
-                switchMap((action) => {
-                    return this._sigiloService.query(
+                switchMap(action => this._sigiloService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Sigilo>({data: response['entities'], schema: sigiloSchema}),
                     new SigiloEditActions.GetSigiloSuccess({
@@ -73,6 +72,7 @@ export class SigiloEditEffect {
 
     /**
      * Save Sigilo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class SigiloEditEffect {
         this._actions
             .pipe(
                 ofType<SigiloEditActions.SaveSigilo>(SigiloEditActions.SAVE_SIGILO),
-                switchMap((action) => {
-                    return this._sigiloService.save(action.payload).pipe(
+                switchMap(action => this._sigiloService.save(action.payload).pipe(
                         mergeMap((response: Sigilo) => [
                             new SigiloEditActions.SaveSigiloSuccess(),
                             new SigiloListActions.ReloadSigilos(),
@@ -96,8 +95,7 @@ export class SigiloEditEffect {
                             console.log (err);
                             return of(new SigiloEditActions.SaveSigiloFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

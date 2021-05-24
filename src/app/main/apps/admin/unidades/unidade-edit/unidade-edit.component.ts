@@ -58,7 +58,7 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -92,11 +92,11 @@ export class UnidadeEditComponent implements OnInit, OnDestroy {
         }
 
         this.isSaving$.subscribe(
-            save => {
+            (save) => {
                 this.saving = save;
                 this._changeDetectorRef.markForCheck();
                 }
-        )
+        );
     }
 
     /**

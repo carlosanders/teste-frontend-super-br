@@ -78,9 +78,9 @@ export class DocumentoService extends ParentGenericService<Documento> {
             null,
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Documento, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Documento(), {...documento, ...response});
             })
         );

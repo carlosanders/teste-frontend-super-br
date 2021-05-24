@@ -25,7 +25,7 @@ export class EspeciesProcessoListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class EspeciesProcessoListEffects {
 
     /**
      * Get EspecieProcesso with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class EspeciesProcessoListEffects {
         this._actions
             .pipe(
                 ofType<EspeciesProcessoListActions.GetEspecieProcesso>(EspeciesProcessoListActions.GET_ESPECIE_PROCESSO),
-                switchMap((action) => {
-                    return this._especieProcessoService.query(
+                switchMap(action => this._especieProcessoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,7 +52,7 @@ export class EspeciesProcessoListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<EspecieProcesso>({data: response['entities'], schema: especieProcessoSchema}),
                             new EspeciesProcessoListActions.GetEspecieProcessoSuccess({
                                 entitiesId: response['entities'].map(especieProcesso => especieProcesso.id),
@@ -64,15 +64,13 @@ export class EspeciesProcessoListEffects {
 
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new EspeciesProcessoListActions.GetEspecieProcessoFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new EspeciesProcessoListActions.GetEspecieProcessoFailed(err)))
+                    ))
             );
 
     /**
      * Update EspecieProcesso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,13 +78,11 @@ export class EspeciesProcessoListEffects {
         this._actions
             .pipe(
                 ofType<EspeciesProcessoListActions.UpdateEspecieProcesso>(EspeciesProcessoListActions.UPDATE_ESPECIE_PROCESSO),
-                switchMap((action) => {
-                    return this._especieProcessoService.patch(action.payload.especieProcesso, {workflow: null}).pipe(
+                switchMap(action => this._especieProcessoService.patch(action.payload.especieProcesso, {workflow: null}).pipe(
                         mergeMap((response: EspecieProcesso) => [
                             new EspeciesProcessoListActions.UpdateEspecieProcessoSuccess(response.id),
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     this._store.dispatch(new EspeciesProcessoListActions.UpdateEspecieProcessoFailed(err));
                     return caught;

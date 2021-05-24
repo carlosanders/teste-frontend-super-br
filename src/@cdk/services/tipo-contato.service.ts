@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {plainToClass} from 'class-transformer';
-import {TipoContato} from "../models/tipo-contato.model";
+import {TipoContato} from '../models/tipo-contato.model';
 
 @Injectable()
 export class TipoContatoService extends ParentGenericService<TipoContato> {

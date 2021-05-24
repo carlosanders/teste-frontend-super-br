@@ -24,8 +24,8 @@ import {Etiqueta} from '@cdk/models';
 import {VinculacaoEtiqueta} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {CdkVinculacaoEtiquetaEditDialogComponent} from '../cdk-vinculacao-etiqueta-edit-dialog/cdk-vinculacao-etiqueta-edit-dialog.component';
-import {CdkUtils} from "../../../utils";
-import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
+import {CdkUtils} from '../../../utils';
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 
 
 @Component({
@@ -176,7 +176,7 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
                 }
             }
             if (!this.errors) {
-                Object.keys(this.dialogRef.componentInstance.form.controls).forEach(key => {
+                Object.keys(this.dialogRef.componentInstance.form.controls).forEach((key) => {
                     this.dialogRef.componentInstance.form.get(key).setErrors(null);
                 });
                 this.dialogRef.componentInstance.form.setErrors(null);
@@ -218,7 +218,7 @@ export class CdkVinculacaoEtiquetaChipsComponent implements OnInit, OnChanges {
             });
 
             this.dialogRef.afterClosed()
-                .subscribe(result => {
+                .subscribe((result) => {
                     this.dialogRef = null;
                 });
         }

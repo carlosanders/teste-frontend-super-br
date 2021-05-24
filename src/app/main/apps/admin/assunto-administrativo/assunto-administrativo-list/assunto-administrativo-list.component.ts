@@ -8,7 +8,7 @@ import * as fromStore from './store';
 import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '@cdk/animations';
 
-import {UnloadAssuntoAdministrativo} from "./store";
+import {UnloadAssuntoAdministrativo} from './store';
 
 
 @Component({
@@ -41,7 +41,7 @@ export class AssuntoAdministrativoListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -49,7 +49,7 @@ export class AssuntoAdministrativoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

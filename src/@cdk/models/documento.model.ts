@@ -27,7 +27,7 @@ export class Documento {
     uuid?: string;
 
     @Exclude({ toPlainOnly: true })
-    numeroUnicoDocumentoFormatado?: string
+    numeroUnicoDocumentoFormatado?: string;
 
     descricaoOutros?: string;
 

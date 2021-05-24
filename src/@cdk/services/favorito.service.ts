@@ -23,9 +23,9 @@ export class FavoritoService extends ParentGenericService<Favorito> {
             `${environment.api_url}${'administrativo/favorito'}/${favorito.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Favorito, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Favorito(), {...favorito, ...response});
             })
         );

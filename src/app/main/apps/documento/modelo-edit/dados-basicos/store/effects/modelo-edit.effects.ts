@@ -35,7 +35,7 @@ export class ModeloEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -44,6 +44,7 @@ export class ModeloEditEffects {
 
     /**
      * Save Modelo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -51,8 +52,7 @@ export class ModeloEditEffects {
         this._actions
             .pipe(
                 ofType<ModeloEditActions.SaveModelo>(ModeloEditActions.SAVE_MODELO),
-                switchMap((action) => {
-                    return this._modeloService.save(action.payload).pipe(
+                switchMap(action => this._modeloService.save(action.payload).pipe(
                         mergeMap((response: Modelo) => [
                             new ModeloEditActions.SaveModeloSuccess(),
                             new AddData<Modelo>({data: [response], schema: modeloSchema}),
@@ -67,7 +67,6 @@ export class ModeloEditEffects {
                             console.log(err);
                             return of(new ModeloEditActions.SaveModeloFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

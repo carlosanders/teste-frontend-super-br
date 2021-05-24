@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Pagination} from '@cdk/models/pagination';
 
-import {UnloadLotacoes} from "./store";
+import {UnloadLotacoes} from './store';
 
 
 @Component({
@@ -60,17 +60,17 @@ export class CoordenadorLotacaoListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if(this.routerState.url.includes('unidades')) {
-                        this.modulo = "unidades";
+                        this.modulo = 'unidades';
                     }
                     else if(this.routerState.url.includes('usuarios')) {
-                        this.modulo = "usuarios";
+                        this.modulo = 'usuarios';
                     }
                     else {
-                        this.modulo = "lotacoes";
+                        this.modulo = 'lotacoes';
                     }
                 }
             });
@@ -97,7 +97,7 @@ export class CoordenadorLotacaoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

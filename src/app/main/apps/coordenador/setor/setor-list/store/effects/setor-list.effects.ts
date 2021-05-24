@@ -14,7 +14,7 @@ import {Setor} from '@cdk/models/setor.model';
 import {setor as setorSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class SetorListEffects {
@@ -29,7 +29,7 @@ export class SetorListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class SetorListEffects {
 
     /**
      * Get Setores with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class SetorListEffects {
         this._actions
             .pipe(
                 ofType<SetorListActions.GetSetores>(SetorListActions.GET_SETORES),
-                switchMap((action) => {
-                    return this._setorService.query(
+                switchMap(action => this._setorService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -56,7 +56,7 @@ export class SetorListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Setor>({data: response['entities'], schema: setorSchema}),
                             new SetorListActions.GetSetoresSuccess({
                                 entitiesId: response['entities'].map(setor => setor.id),
@@ -72,12 +72,12 @@ export class SetorListEffects {
                             console.log(err);
                             return of(new SetorListActions.GetSetoresFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Setor
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -85,9 +85,8 @@ export class SetorListEffects {
         this._actions
             .pipe(
                 ofType<SetorListActions.DeleteSetor>(SetorListActions.DELETE_SETOR),
-                mergeMap((action) => {
-                    return this._setorService.destroy(action.payload).pipe(
-                        map((response) => new SetorListActions.DeleteSetorSuccess(response.id)),
+                mergeMap(action => this._setorService.destroy(action.payload).pipe(
+                        map(response => new SetorListActions.DeleteSetorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new SetorListActions.DeleteSetorFailed(
@@ -96,7 +95,6 @@ export class SetorListEffects {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

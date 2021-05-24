@@ -23,9 +23,9 @@ export class MunicipioService extends ParentGenericService<Municipio> {
             `${environment.api_url}${'administrativo/municipio'}/${municipio.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Municipio, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Municipio(), {...municipio, ...response});
             })
         );

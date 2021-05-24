@@ -72,7 +72,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
         // Scroll to the active item position
         this._router.events
             .pipe(
-                filter((event) => event instanceof NavigationEnd),
+                filter(event => event instanceof NavigationEnd),
                 take(1)
             )
             .subscribe(() => {
@@ -80,9 +80,9 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
                         const activeNavItem: any = document.querySelector('navbar .nav-link.active');
 
                         if (activeNavItem && activeNavItem.offsetTop && activeNavItem.offsetParent) {
-                            const activeItemOffsetTop = activeNavItem.offsetTop,
-                                activeItemOffsetParentTop = activeNavItem.offsetParent.offsetTop,
-                                scrollDistance = activeItemOffsetTop - activeItemOffsetParentTop - (48 * 3) - 168;
+                            const activeItemOffsetTop = activeNavItem.offsetTop;
+                                const activeItemOffsetParentTop = activeNavItem.offsetParent.offsetTop;
+                                const scrollDistance = activeItemOffsetTop - activeItemOffsetParentTop - (48 * 3) - 168;
 
                             this._cdkPerfectScrollbar.scrollToTop(scrollDistance);
                         }
@@ -101,7 +101,7 @@ export class NavbarVerticalStyle1Component implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._router.events
             .pipe(
-                filter((event) => event instanceof NavigationEnd),
+                filter(event => event instanceof NavigationEnd),
                 takeUntil(this._unsubscribeAll)
             )
             .subscribe(() => {

@@ -12,7 +12,7 @@ import {
 import {Pagination} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {cdkAnimations} from '../../../animations';
-import {GrupoContato} from "../../../models/grupo-contato.model";
+import {GrupoContato} from '../../../models/grupo-contato.model';
 
 @Component({
     selector: 'cdk-grupo-contato-form',
@@ -87,7 +87,7 @@ export class CdkGrupoContatoFormComponent implements OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

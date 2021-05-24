@@ -28,8 +28,8 @@ import {LoginService} from './main/auth/login/login.service';
 import {ModelModule} from '@cdk/models';
 import {ErrorInterceptor} from './main/auth/login/error.interceptor';
 import {LoginStoreModule} from './main/auth/login/store/store.module';
-import {MatDialogModule} from "@angular/material/dialog";
-import {CdkLoginDialogModule} from "@cdk/components/login/cdk-login-dialog/cdk-login-dialog.module";
+import {MatDialogModule} from '@angular/material/dialog';
+import {CdkLoginDialogModule} from '@cdk/components/login/cdk-login-dialog/cdk-login-dialog.module';
 
 registerLocaleData(localePt, 'pt');
 

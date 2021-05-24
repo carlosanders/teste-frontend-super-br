@@ -12,7 +12,7 @@ import {ModalidadeAcaoEtiquetaService} from '@cdk/services/modalidade-acao-etiqu
 import {AddData} from '@cdk/ngrx-normalizr';
 import {ModalidadeAcaoEtiqueta} from '@cdk/models';
 import {modalidadeAcaoEtiqueta as modalidadeAcaoEtiquetaSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class ModalidadeAcaoEtiquetaListEffects {
@@ -27,7 +27,7 @@ export class ModalidadeAcaoEtiquetaListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class ModalidadeAcaoEtiquetaListEffects {
 
     /**
      * Get ModalidadeAcaoEtiqueta with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class ModalidadeAcaoEtiquetaListEffects {
         this._actions
             .pipe(
                 ofType<ModalidadeAcaoEtiquetaListActions.GetModalidadeAcaoEtiqueta>(ModalidadeAcaoEtiquetaListActions.GET_MODALIDADE_ACAO_ETIQUETA),
-                switchMap((action) => {
-                    return this._modalidadeAcaoEtiquetaService.query(
+                switchMap(action => this._modalidadeAcaoEtiquetaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class ModalidadeAcaoEtiquetaListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<ModalidadeAcaoEtiqueta>({data: response['entities'], schema: modalidadeAcaoEtiquetaSchema}),
                             new ModalidadeAcaoEtiquetaListActions.GetModalidadeAcaoEtiquetaSuccess({
                                 entitiesId: response['entities'].map(modalidadeAcaoEtiqueta => modalidadeAcaoEtiqueta.id),
@@ -69,12 +69,12 @@ export class ModalidadeAcaoEtiquetaListEffects {
                             console.log(err);
                             return of(new ModalidadeAcaoEtiquetaListActions.GetModalidadeAcaoEtiquetaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete ModalidadeAcaoEtiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,9 +82,8 @@ export class ModalidadeAcaoEtiquetaListEffects {
         this._actions
             .pipe(
                 ofType<ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiqueta>(ModalidadeAcaoEtiquetaListActions.DELETE_MODALIDADE_ACAO_ETIQUETA),
-                mergeMap((action) => {
-                    return this._modalidadeAcaoEtiquetaService.destroy(action.payload).pipe(
-                        map((response) => new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiquetaSuccess(response.id)),
+                mergeMap(action => this._modalidadeAcaoEtiquetaService.destroy(action.payload).pipe(
+                        map(response => new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiquetaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new ModalidadeAcaoEtiquetaListActions.DeleteModalidadeAcaoEtiqueta(
@@ -93,7 +92,6 @@ export class ModalidadeAcaoEtiquetaListEffects {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

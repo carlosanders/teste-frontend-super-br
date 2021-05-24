@@ -20,7 +20,7 @@ export class Acao {
 
     @Type(() => ModalidadeAcaoEtiqueta)
     @Transform(value => value ? value.id : null, { toPlainOnly: true })
-    modalidadeAcaoEtiqueta?: ModalidadeAcaoEtiqueta;c
+    modalidadeAcaoEtiqueta?: ModalidadeAcaoEtiqueta;c;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)

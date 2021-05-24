@@ -29,7 +29,7 @@ export class RegraEtiquetaEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class RegraEtiquetaEditEffect {
 
     /**
      * Save RegraEtiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class RegraEtiquetaEditEffect {
         this._actions
             .pipe(
                 ofType<RegraEtiquetaEditActions.SaveRegraEtiqueta>(RegraEtiquetaEditActions.SAVE_REGRA_ETIQUETA),
-                switchMap((action) => {
-                    return this._regraEtiquetaService.save(action.payload).pipe(
+                switchMap(action => this._regraEtiquetaService.save(action.payload).pipe(
                         mergeMap((response: RegraEtiqueta) => [
                             new RegraEtiquetaEditActions.SaveRegraEtiquetaSuccess(),
                             new RegraEtiquetaListActions.ReloadRegrasEtiqueta(),
@@ -61,8 +61,7 @@ export class RegraEtiquetaEditEffect {
                             console.log (err);
                             return of(new RegraEtiquetaEditActions.SaveRegraEtiquetaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
     /**
      * Save RegraEtiqueta Success

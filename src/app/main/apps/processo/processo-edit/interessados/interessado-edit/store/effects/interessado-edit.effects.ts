@@ -28,7 +28,7 @@ export class InteressadoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class InteressadoEditEffect {
 
     /**
      * Get Interessado with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class InteressadoEditEffect {
         this._actions
             .pipe(
                 ofType<InteressadoEditActions.GetInteressado>(InteressadoEditActions.GET_INTERESSADO),
-                switchMap((action) => {
-                    return this._interessadoService.query(
+                switchMap(action => this._interessadoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Interessado>({data: response['entities'], schema: interessadoSchema}),
                     new InteressadoEditActions.GetInteressadoSuccess({
@@ -73,6 +72,7 @@ export class InteressadoEditEffect {
 
     /**
      * Save Interessado
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class InteressadoEditEffect {
         this._actions
             .pipe(
                 ofType<InteressadoEditActions.SaveInteressado>(InteressadoEditActions.SAVE_INTERESSADO),
-                switchMap((action) => {
-                    return this._interessadoService.save(action.payload).pipe(
+                switchMap(action => this._interessadoService.save(action.payload).pipe(
                         mergeMap((response: Interessado) => [
                             new InteressadoEditActions.SaveInteressadoSuccess(),
                             new InteressadoListActions.ReloadInteressados(),
@@ -96,8 +95,7 @@ export class InteressadoEditEffect {
                             console.log (err);
                             return of(new InteressadoEditActions.SaveInteressadoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 

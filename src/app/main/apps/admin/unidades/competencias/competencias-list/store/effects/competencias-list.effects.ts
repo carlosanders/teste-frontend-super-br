@@ -12,7 +12,7 @@ import {VinculacaoSetorMunicipioService} from '@cdk/services/vinculacao-setor-mu
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoSetorMunicipio} from '@cdk/models/vinculacao-setor-municipio.model';
 import {vinculacaoSetorMunicipio as vinculacaoSetorMunicipioSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class CompetenciasListEffects {
@@ -32,7 +32,7 @@ export class CompetenciasListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class CompetenciasListEffects {
 
     /**
      * Get VinculacaoSetorMunicipio[] with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,8 +49,7 @@ export class CompetenciasListEffects {
         this._actions
             .pipe(
                 ofType<CompetenciasListActions.GetCompetencias>(CompetenciasListActions.GET_COMPETENCIAS),
-                switchMap((action) => {
-                    return this._vinculacaoSetorMunicipioService.query(
+                switchMap(action => this._vinculacaoSetorMunicipioService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -59,7 +59,7 @@ export class CompetenciasListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<VinculacaoSetorMunicipio>({data: response['entities'], schema: vinculacaoSetorMunicipioSchema}),
                             new CompetenciasListActions.GetCompetenciasSuccess({
                                 entitiesId: response['entities'].map(vinculacaoSetorMunicipio => vinculacaoSetorMunicipio.id),
@@ -74,12 +74,12 @@ export class CompetenciasListEffects {
                             console.log(err);
                             return of(new CompetenciasListActions.GetCompetenciasFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Competencia
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -87,9 +87,8 @@ export class CompetenciasListEffects {
         this._actions
             .pipe(
                 ofType<CompetenciasListActions.DeleteCompetencia>(CompetenciasListActions.DELETE_COMPETENCIA),
-                mergeMap((action) => {
-                    return this._vinculacaoSetorMunicipioService.destroy(action.payload).pipe(
-                        map((response) => new CompetenciasListActions.DeleteCompetenciaSuccess(response.id)),
+                mergeMap(action => this._vinculacaoSetorMunicipioService.destroy(action.payload).pipe(
+                        map(response => new CompetenciasListActions.DeleteCompetenciaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new CompetenciasListActions.DeleteCompetenciaFailed(
@@ -98,8 +97,7 @@ export class CompetenciasListEffects {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 
 }

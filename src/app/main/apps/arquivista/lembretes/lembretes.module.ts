@@ -12,7 +12,7 @@ import {LoginService} from '../../../auth/login/login.service';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {modulesConfig} from 'modules/modules-config';
 import {DirectivesModule} from '@cdk/directives/directives';
-import {CdkProcessoArquivistaFormModule} from "@cdk/components/processo/cdk-processo-arquivista-form/cdk-processo-arquivista-form.module";
+import {CdkProcessoArquivistaFormModule} from '@cdk/components/processo/cdk-processo-arquivista-form/cdk-processo-arquivista-form.module';
 
 const routes: Routes = [
     {

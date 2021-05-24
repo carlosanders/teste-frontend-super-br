@@ -65,55 +65,55 @@ export class CdkDocumentoFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('descricaoOutros').value) {
-            this.form.get('descricaoOutros').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('descricaoOutros').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'descricaoOutros': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('outroNumero').value) {
-            this.form.get('outroNumero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('outroNumero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'outroNumero': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('redator').value) {
-            this.form.get('redator').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('redator').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'redator': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('destinatario').value) {
-            this.form.get('destinatario').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('destinatario').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'destinatario': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('localizadorOriginal').value) {
-            this.form.get('localizadorOriginal').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('localizadorOriginal').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'localizadorOriginal': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('localProducao').value) {
-            this.form.get('localProducao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('localProducao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'localProducao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('autor').value) {
-            this.form.get('autor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('autor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'autor': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('observacao').value) {
-            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'observacao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('numeroFolhas').value) {
-            this.form.get('numeroFolhas').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('numeroFolhas').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'numeroFolhas': `like:%${bit}%`});
             });
         }

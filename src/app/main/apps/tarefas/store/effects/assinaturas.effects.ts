@@ -14,8 +14,8 @@ import {assinatura as assinaturaSchema, documento as documentoSchema} from '@cdk
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {DocumentoService} from '@cdk/services/documento.service';
-import {environment} from "../../../../../../environments/environment";
-import {getDocumentos} from "../selectors";
+import {environment} from '../../../../../../environments/environment';
+import {getDocumentos} from '../selectors';
 
 @Injectable()
 export class AssinaturasEffects {
@@ -33,7 +33,7 @@ export class AssinaturasEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,6 +42,7 @@ export class AssinaturasEffects {
 
     /**
      * Get Documentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -49,14 +50,14 @@ export class AssinaturasEffects {
         this._actions
             .pipe(
                 ofType<AssinaturaActions.GetDocumentos>(AssinaturaActions.GET_DOCUMENTOS),
-                tap(action => {
+                tap((action) => {
                     this.tarefaId = action.payload.tarefaId;
                     this.certificadoDigital = !!action.payload.certificadoDigital;
                     this.assinatura = action.payload.assinatura;
                 }),
                 switchMap((action) => {
 
-                    let tarefaId = action.payload.tarefaId;
+                    const tarefaId = action.payload.tarefaId;
 
                     const params = {
                         filter: {
@@ -120,8 +121,8 @@ export class AssinaturasEffects {
                         }));
                     } else {
                         // Assinatura por plain password
-                        documentos.forEach(documento => {
-                            documento.componentesDigitais.forEach(componenteDigital => {
+                        documentos.forEach((documento) => {
+                            documento.componentesDigitais.forEach((componenteDigital) => {
                                 const assinatura = new Assinatura();
                                 assinatura.componenteDigital = componenteDigital;
                                 assinatura.algoritmoHash = 'A1';
@@ -144,6 +145,7 @@ export class AssinaturasEffects {
 
     /**
      * Assina Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -151,27 +153,24 @@ export class AssinaturasEffects {
         this._actions
             .pipe(
                 ofType<AssinaturaActions.AssinaDocumento>(AssinaturaActions.ASSINA_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.preparaAssinatura(JSON.stringify(action.payload.documentosIds))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify(action.payload.documentosIds))
                             .pipe(
-                                map((response) => {
-                                    return new AssinaturaActions.PreparaAssinaturaSuccess(response);
-                                }),
+                                map(response => new AssinaturaActions.PreparaAssinaturaSuccess(response)),
                                 catchError((err, caught) => {
                                     const payload = {
                                         ids: action.payload,
                                         error: err
-                                    }
+                                    };
                                     console.log(err);
                                     this._store.dispatch(new AssinaturaActions.PreparaAssinaturaFailed(payload));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     /**
      * Prepara Assinatura Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -193,6 +192,7 @@ export class AssinaturasEffects {
 
     /**
      * Save Documento Assinatura Eletronica
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -200,8 +200,7 @@ export class AssinaturasEffects {
         this._actions
             .pipe(
                 ofType<AssinaturaActions.AssinaDocumentoEletronicamente>(AssinaturaActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                mergeMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                mergeMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new AssinaturaActions.AssinaDocumentoEletronicamenteSuccess({
                                 documentoId: action.payload.documento.id,
@@ -224,11 +223,10 @@ export class AssinaturasEffects {
                                 documentoId: action.payload.documento.id,
                                 tarefaId: action.payload.tarefaId,
                                 error: err
-                            }
+                            };
                             console.log(err);
                             return of(new AssinaturaActions.AssinaDocumentoEletronicamenteFailed(payload));
                         })
-                    );
-                })
+                    ))
             );
 }

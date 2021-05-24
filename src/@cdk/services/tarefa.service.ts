@@ -26,9 +26,9 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             null,
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Tarefa, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Tarefa(), {...tarefa, ...response});
             })
         );
@@ -42,9 +42,9 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             null,
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Tarefa, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Tarefa(), {...tarefa, ...response});
             })
         );
@@ -54,15 +54,15 @@ export class TarefaService extends ParentGenericService<Tarefa> {
         const tmpParams: any = {};
         tmpParams['populate'] = populate;
         tmpParams['context'] = context;
-        let params = new HttpParams({fromObject: tmpParams});
+        const params = new HttpParams({fromObject: tmpParams});
         return this.http.patch(
             `${environment.api_url}${'administrativo/tarefa'}/${tarefa.id}/${'undelete'}` + environment.xdebug,
             null,
             { params }
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Tarefa, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Tarefa(), {...tarefa, ...response});
             })
         );
@@ -76,9 +76,9 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             JSON.stringify(changes),
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Tarefa, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Tarefa(), {...tarefa, ...response});
             })
         );
@@ -96,9 +96,9 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             null,
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Usuario, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Usuario(), {...usuario, ...response});
             })
         );
@@ -112,9 +112,7 @@ export class TarefaService extends ParentGenericService<Tarefa> {
             {params}
         ).
         pipe(
-            map(response => {
-                return plainToClass(Tarefa, response);
-            })
+            map(response => plainToClass(Tarefa, response))
         );
     }
 

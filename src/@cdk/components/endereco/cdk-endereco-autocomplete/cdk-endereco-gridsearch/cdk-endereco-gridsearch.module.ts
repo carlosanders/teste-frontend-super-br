@@ -13,7 +13,7 @@ import { CdkEnderecoGridModule } from '@cdk/components/endereco/cdk-endereco-gri
     imports: [
 
         CdkEnderecoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

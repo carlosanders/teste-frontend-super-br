@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Router} from "@angular/router";
-import {Pagination, Setor, Tarefa, TipoAcaoWorkflow, Usuario} from "../../../../models";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Observable} from "rxjs";
+import {Router} from '@angular/router';
+import {Pagination, Setor, Tarefa, TipoAcaoWorkflow, Usuario} from '../../../../models';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'cdk-tipo-acao-workflow-trigger-002',

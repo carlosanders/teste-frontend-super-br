@@ -49,7 +49,7 @@ export class AtividadeListComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => {
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

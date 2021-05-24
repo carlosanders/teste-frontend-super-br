@@ -4,8 +4,8 @@ import {select, Store} from '@ngrx/store';
 import {Observable, of} from 'rxjs';
 import {catchError, filter, switchMap, take, tap} from 'rxjs/operators';
 import {getRouterState} from 'app/store/reducers';
-import * as fromStore from "../index";
-import {TransicaoArquivistaBlocoAppState} from "../index";
+import * as fromStore from '../index';
+import {TransicaoArquivistaBlocoAppState} from '../index';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -17,7 +17,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<TransicaoArquivistaBlocoAppState>} _store
+     * @param _store
      * @param _router
      */
     constructor(
@@ -26,21 +26,21 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
             });
 
-        this._store.pipe(select(fromStore.getIsLoadingModalidadeTransicao))
+        this._store.pipe(select(fromStore.getIsLoadingModalidadeTransicao));
     }
 
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getModalidadeTransicao().pipe(
@@ -55,7 +55,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get ModalidadeTransicao
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getModalidadeTransicao(): any {
         if (this.routerState.url.indexOf('desarquivar') > -1 || this.routerState.url.indexOf('extravio') > -1) {
@@ -82,9 +82,7 @@ export class ResolveGuard implements CanActivate {
                         this.loading = true;
                     }
                 }),
-                filter((loaded: any) => {
-                    return (loaded && this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value);
-                }),
+                filter((loaded: any) => (loaded && this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value)),
                 take(1)
             );
         } else {
@@ -96,9 +94,7 @@ export class ResolveGuard implements CanActivate {
                         this.loading = false;
                     }
                 }),
-                filter((loaded: any) => {
-                    return !loaded;
-                }),
+                filter((loaded: any) => !loaded),
                 take(1)
             );
         }

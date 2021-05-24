@@ -26,9 +26,9 @@ export class NotificacaoService extends ParentGenericService<Notificacao> {
             JSON.stringify(classToPlain(notificacao)),
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Notificacao, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Notificacao(), {...notificacao, ...response});
             })
         );

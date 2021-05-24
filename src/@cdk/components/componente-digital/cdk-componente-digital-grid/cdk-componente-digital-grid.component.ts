@@ -354,7 +354,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.getAllColumns().forEach(c => {
+                this.getAllColumns().forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -367,7 +367,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
 
     getSort(columnId: string): boolean {
         let disabled = true;
-        this.getAllColumns().forEach(c => {
+        this.getAllColumns().forEach((c) => {
             if (c.id === columnId && (c.sort === 'all' || c.sort === this.mode)) {
                 disabled = false;
             }
@@ -437,7 +437,7 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             this.edit.emit({
                 componenteDigital: componenteDigital,
                 chaveAcesso: result
@@ -512,10 +512,10 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
 
     setFilter(gridFilter): void {
         if(this.mobileMode && this.componentesDigitais) {
-            (<HTMLInputElement>document.getElementById("sidebarId")).classList.remove('mobile-processo-pesquisa-on');
-            (<HTMLInputElement>document.getElementById("sidebarId")).classList.add('mobile-processo-pesquisa-off');
-            (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.remove('mobile-processo-lista-off');
-            (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.add('mobile-processo-lista-on');
+            (<HTMLInputElement>document.getElementById('sidebarId')).classList.remove('mobile-processo-pesquisa-on');
+            (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-processo-pesquisa-off');
+            (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-processo-lista-off');
+            (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-processo-lista-on');
         }
         this.gridFilter = gridFilter;
         this.paginator.pageIndex = 0;
@@ -538,9 +538,9 @@ export class CdkComponenteDigitalGridComponent implements AfterViewInit, OnInit,
     }
 
     cssPesquisaOn() {
-        (<HTMLInputElement>document.getElementById("sidebarId")).classList.remove('mobile-processo-pesquisa-off');
-        (<HTMLInputElement>document.getElementById("sidebarId")).classList.add('mobile-processo-pesquisa-on');
-        (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.remove('mobile-processo-lista-on');
-        (<HTMLInputElement>document.getElementById("responsiveGrid")).classList.add('mobile-processo-lista-off');
+        (<HTMLInputElement>document.getElementById('sidebarId')).classList.remove('mobile-processo-pesquisa-off');
+        (<HTMLInputElement>document.getElementById('sidebarId')).classList.add('mobile-processo-pesquisa-on');
+        (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.remove('mobile-processo-lista-on');
+        (<HTMLInputElement>document.getElementById('responsiveGrid')).classList.add('mobile-processo-lista-off');
     }
 }

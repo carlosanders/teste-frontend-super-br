@@ -37,6 +37,7 @@ export class LembreteEffects {
 
     /**
      * Get Lembrete with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +45,7 @@ export class LembreteEffects {
         this._actions
             .pipe(
                 ofType<LembreteActions.GetLembrete>(LembreteActions.GET_LEMBRETE),
-                switchMap((action) => {
-                    return this._lembreteService.query(
+                switchMap(action => this._lembreteService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter,
@@ -54,8 +54,7 @@ export class LembreteEffects {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
+                        JSON.stringify(action.payload.populate))),
                 switchMap(response => [
                     new AddData<Lembrete>({data: response['entities'], schema: lembreteSchema}),
                     new LembreteActions.GetLembreteSuccess({
@@ -75,6 +74,7 @@ export class LembreteEffects {
 
     /**
      * Save Lembrete
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,8 +82,7 @@ export class LembreteEffects {
         this._actions
             .pipe(
                 ofType<LembreteActions.SaveLembrete>(LembreteActions.SAVE_LEMBRETE),
-                switchMap((action) => {
-                    return this._lembreteService.save(action.payload).pipe(
+                switchMap(action => this._lembreteService.save(action.payload).pipe(
                         mergeMap((response: Lembrete) => [
                             new LembreteActions.SaveLembreteSuccess(),
                             new AddData<Lembrete>({data: [response], schema: lembreteSchema}),
@@ -93,11 +92,8 @@ export class LembreteEffects {
                                 dateTime: response.criadoEm
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new LembreteActions.SaveLembreteFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new LembreteActions.SaveLembreteFailed(err)))
+                    ))
             );
 
     /**
@@ -135,7 +131,7 @@ export class LembreteEffects {
                     };
 
                     const routeTypeParam = of('typeHandle');
-                    routeTypeParam.subscribe(typeParam => {
+                    routeTypeParam.subscribe((typeParam) => {
                         let processoFilter = {};
 
 
@@ -180,7 +176,7 @@ export class LembreteEffects {
     initRouterState(): void{
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

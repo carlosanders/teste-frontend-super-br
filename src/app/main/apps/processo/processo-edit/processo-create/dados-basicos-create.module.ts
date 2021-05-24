@@ -39,8 +39,8 @@ import {AssuntoService} from '@cdk/services/assunto.service';
 import {InteressadoService} from '@cdk/services/interessado.service';
 import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.service';
 import {TarefaService} from '@cdk/services/tarefa.service';
-import {ConfiguracaoNupService} from "@cdk/services/configuracao-nup.service";
-import {CdkProcessoModalClassificacaoRestritaModule} from "@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.module";
+import {ConfiguracaoNupService} from '@cdk/services/configuracao-nup.service';
+import {CdkProcessoModalClassificacaoRestritaModule} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.module';
 
 const routes: Routes = [
     {

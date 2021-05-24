@@ -33,7 +33,7 @@ export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
     pagination: any;
     especieProcessoGridPagination: Pagination;
     especieProcessoAutocompletePagination: Pagination;
-    activeCard:string = 'form';
+    activeCard: string = 'form';
 
 
     constructor(
@@ -44,12 +44,12 @@ export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
         private _changeDetectorRef: ChangeDetectorRef,
     ) {
         this._store.pipe(select(fromStore.getIsSaving))
-            .subscribe(isSaving => {
+            .subscribe((isSaving) => {
                 this.isSaving = isSaving;
             });
 
         this._store.pipe(select(fromStore.getErrors))
-            .subscribe(erros => {
+            .subscribe((erros) => {
                 this.errors = erros;
             });
 
@@ -65,7 +65,7 @@ export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -96,7 +96,7 @@ export class EspeciesProcessoEditComponent implements OnInit, OnChanges {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

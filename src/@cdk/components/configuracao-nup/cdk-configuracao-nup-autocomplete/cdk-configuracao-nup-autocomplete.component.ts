@@ -13,9 +13,9 @@ import {AbstractControl} from '@angular/forms';
 import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
-import {ConfiguracaoNup} from "../../../models";
-import {ConfiguracaoNupService} from "../../../services/configuracao-nup.service";
-import {Pagination} from "../../../models";
+import {ConfiguracaoNup} from '../../../models';
+import {ConfiguracaoNupService} from '../../../services/configuracao-nup.service';
+import {Pagination} from '../../../models';
 
 // @ts-ignore
 @Component({
@@ -59,7 +59,7 @@ export class CdkConfiguracaoNupAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             nome: `like:%${bit}%`});
                     });
@@ -85,7 +85,7 @@ export class CdkConfiguracaoNupAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.configuracaoNupList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

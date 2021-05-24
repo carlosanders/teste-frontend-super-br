@@ -64,7 +64,7 @@ export class TarefasEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -73,6 +73,7 @@ export class TarefasEffect {
 
     /**
      * Get Tarefas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +81,7 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.GetTarefas>(TarefasActions.GET_TAREFAS),
-                switchMap((action) => {
-                    return this._tarefaService.query(
+                switchMap(action => this._tarefaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
@@ -92,9 +92,8 @@ export class TarefasEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                concatMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                concatMap(response => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
                     new TarefasActions.GetTarefasSuccess({
                         entitiesId: response['entities'].map(tarefa => tarefa.id),
@@ -115,6 +114,7 @@ export class TarefasEffect {
 
     /**
      * Update Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -134,11 +134,11 @@ export class TarefasEffect {
                         this._store.dispatch(new UnloadJuntadas({reset: true}));
                         this._store.dispatch(new UnloadDocumentos());
 
-                        let extras = {
+                        const extras = {
                             queryParams: {
                                 documentoEdit: action.payload.documentoUuidEdit
                             }
-                        }
+                        };
 
                         this._router.navigate([
                             'apps/tarefas/' + this.routerState.params.generoHandle + '/' +
@@ -155,6 +155,7 @@ export class TarefasEffect {
 
     /**
      * Update Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -172,6 +173,7 @@ export class TarefasEffect {
 
     /**
      * Delete Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -247,6 +249,7 @@ export class TarefasEffect {
 
     /**
      * Undelete Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -264,7 +267,7 @@ export class TarefasEffect {
                 }),
                 mergeMap((action) => {
                     const folder = action.payload.folder ? action.payload.folder.id : null;
-                    let context: any = {};
+                    const context: any = {};
                     if (folder) {
                         context.folderId = folder;
                     }
@@ -316,6 +319,7 @@ export class TarefasEffect {
 
     /**
      * Toggle Lida Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -323,9 +327,8 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.ToggleLidaTarefa>(TarefasActions.TOGGLE_LIDA_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.toggleLida(action.payload).pipe(
-                        mergeMap((response) => [
+                mergeMap(action => this._tarefaService.toggleLida(action.payload).pipe(
+                        mergeMap(response => [
                             new TarefasActions.ToggleLidaTarefaSuccess(response.id),
                             new UpdateData<Tarefa>({
                                 id: response.id,
@@ -337,12 +340,12 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.ToggleLidaTarefaFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Toggle Urgente Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -350,11 +353,10 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.ToggleUrgenteTarefa>(TarefasActions.TOGGLE_URGENTE_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.patch(action.payload, {
+                mergeMap(action => this._tarefaService.patch(action.payload, {
                         urgente: !action.payload.urgente
                     }).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new TarefasActions.ToggleUrgenteTarefaSuccess(response.id),
                             new UpdateData<Tarefa>({
                                 id: response.id,
@@ -366,12 +368,12 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.ToggleUrgenteTarefaFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Set Folder on Selected Tarefas
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -401,6 +403,7 @@ export class TarefasEffect {
     /**
      * ISSUE-176
      * Set Setor On Selected Tarefas
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -521,6 +524,7 @@ export class TarefasEffect {
     /**
      * ISSUE-107
      * Get Assuntos Processo tarefa from input parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -528,8 +532,7 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.GetAssuntosProcessoTarefa>(TarefasActions.GET_ASSUNTOS_PROCESSO_TAREFA),
-                mergeMap((action) => {
-                    return this._assuntoService.query(
+                mergeMap(action => this._assuntoService.query(
                         JSON.stringify({
                             ...action.payload.params.filter
                         }),
@@ -537,7 +540,7 @@ export class TarefasEffect {
                         action.payload.params.offset,
                         JSON.stringify(action.payload.params.sort),
                         JSON.stringify(action.payload.params.populate)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new TarefasActions.GetAssuntosProcessoTarefaSuccess(action.payload.processoId),
                             new AddChildData<Assunto>({
                                 data: response['entities'],
@@ -551,14 +554,13 @@ export class TarefasEffect {
                             this._store.dispatch(new TarefasActions.GetAssuntosProcessoTarefaFailed(action.payload.processoId));
                             return caught;
                         })
-                    );
-
-                }),
+                    )),
             );
 
     /**
      * ISSUE-183
      * Get Interessados Processo tarefa from input parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -566,8 +568,7 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.GetInteressadosProcessoTarefa>(TarefasActions.GET_INTERESSADOS_PROCESSO_TAREFA),
-                mergeMap((action) => {
-                    return this._interessadoService.query(
+                mergeMap(action => this._interessadoService.query(
                         JSON.stringify({
                             ...action.payload.params.filter
                         }),
@@ -575,7 +576,7 @@ export class TarefasEffect {
                         action.payload.params.offset,
                         JSON.stringify(action.payload.params.sort),
                         JSON.stringify(action.payload.params.populate)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new TarefasActions.GetInteressadosProcessoTarefaSuccess({
                                 processoId: action.payload.processoId,
                                 total: response['total']
@@ -592,13 +593,12 @@ export class TarefasEffect {
                             this._store.dispatch(new TarefasActions.GetInteressadosProcessoTarefaFailed(action.payload.processoId));
                             return caught;
                         })
-                    );
-
-                }),
+                    )),
             );
 
     /**
      * Dar Ciencia Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -699,6 +699,7 @@ export class TarefasEffect {
 
     /**
      * Gerar Relatorio em Excel
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -706,21 +707,20 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.GerarRelatorioTarefaExcel>(TarefasActions.GERAR_RELATORIO_TAREFA_EXCEL),
-                mergeMap((action) => {
-                    return this._tarefaService.gerarRelatorioTarefaExcel().pipe(
-                        mergeMap((response) => [
+                mergeMap(action => this._tarefaService.gerarRelatorioTarefaExcel().pipe(
+                        mergeMap(response => [
                             new TarefasActions.GerarRelatorioTarefaExcelSuccess(response.id),
                         ]),
                         catchError((err) => {
                             console.log(err);
                             return of(new TarefasActions.GerarRelatorioTarefaExcelFailed());
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Observacao
+     *
      * @type {any}
      */
     @Effect()
@@ -728,8 +728,7 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.SaveObservacao>(TarefasActions.SAVE_OBSERVACAO),
-                switchMap((action) => {
-                    return this._tarefaService.patch(action.payload.tarefa, {observacao: action.payload.conteudo}).pipe(
+                switchMap(action => this._tarefaService.patch(action.payload.tarefa, {observacao: action.payload.conteudo}).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefasActions.SaveObservacaoSuccess(),
                             new UpdateData<Tarefa>({
@@ -743,10 +742,7 @@ export class TarefasEffect {
                                 dateTime: response.criadoEm
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new TarefasActions.SaveObservacaoFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new TarefasActions.SaveObservacaoFailed(err)))
+                    ))
             );
 }

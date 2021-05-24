@@ -12,7 +12,7 @@ import {TipoDocumentoService} from '@cdk/services/tipo-documento.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {TipoDocumento} from '@cdk/models';
 import {tipoDocumento as tipoDocumentoSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class TipoDocumentoListEffects {
@@ -27,7 +27,7 @@ export class TipoDocumentoListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class TipoDocumentoListEffects {
 
     /**
      * Get TipoDocumento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class TipoDocumentoListEffects {
         this._actions
             .pipe(
                 ofType<TipoDocumentoListActions.GetTipoDocumento>(TipoDocumentoListActions.GET_TIPO_DOCUMENTO),
-                switchMap((action) => {
-                    return this._tipoDocumentoService.query(
+                switchMap(action => this._tipoDocumentoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class TipoDocumentoListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<TipoDocumento>({data: response['entities'], schema: tipoDocumentoSchema}),
                             new TipoDocumentoListActions.GetTipoDocumentoSuccess({
                                 entitiesId: response['entities'].map(tipoDocumento => tipoDocumento.id),
@@ -69,12 +69,12 @@ export class TipoDocumentoListEffects {
                             console.log(err);
                             return of(new TipoDocumentoListActions.GetTipoDocumentoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete TipoDocumento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,9 +82,8 @@ export class TipoDocumentoListEffects {
         this._actions
             .pipe(
                 ofType<TipoDocumentoListActions.DeleteTipoDocumento>(TipoDocumentoListActions.DELETE_TIPO_DOCUMENTO),
-                mergeMap((action) => {
-                    return this._tipoDocumentoService.destroy(action.payload).pipe(
-                        map((response) => new TipoDocumentoListActions.DeleteTipoDocumentoSuccess(response.id)),
+                mergeMap(action => this._tipoDocumentoService.destroy(action.payload).pipe(
+                        map(response => new TipoDocumentoListActions.DeleteTipoDocumentoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new TipoDocumentoListActions.DeleteTipoDocumento(
@@ -93,7 +92,6 @@ export class TipoDocumentoListEffects {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

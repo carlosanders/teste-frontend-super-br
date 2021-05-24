@@ -55,7 +55,7 @@ export class GetUsuariosExternosListFailed implements Action
  export class UnloadUsuariosExternos implements Action
  {
      readonly type = UNLOAD_USUARIOS_EXTERNOS;
- 
+
      constructor()
      {
      }

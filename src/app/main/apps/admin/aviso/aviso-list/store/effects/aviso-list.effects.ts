@@ -25,7 +25,7 @@ export class AvisoListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class AvisoListEffects {
 
     /**
      * Get Aviso with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class AvisoListEffects {
         this._actions
             .pipe(
                 ofType<AvisoListActions.GetAviso>(AvisoListActions.GET_AVISO),
-                switchMap((action) => {
-                    return this._avisoService.query(
+                switchMap(action => this._avisoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,7 +52,7 @@ export class AvisoListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
 
                             new AddData<Aviso>({data: response['entities'], schema: avisoSchema}),
                             new AvisoListActions.GetAvisoSuccess({
@@ -69,12 +69,12 @@ export class AvisoListEffects {
                             console.log(err);
                             return of(new AvisoListActions.GetAvisoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Aviso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,14 +82,12 @@ export class AvisoListEffects {
         this._actions
             .pipe(
                 ofType<AvisoListActions.DeleteAviso>(AvisoListActions.DELETE_AVISO),
-                mergeMap((action) => {
-                    return this._avisoService.destroy(action.payload).pipe(
-                        map((response) => new AvisoListActions.DeleteAvisoSuccess(response.id)),
+                mergeMap(action => this._avisoService.destroy(action.payload).pipe(
+                        map(response => new AvisoListActions.DeleteAvisoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new AvisoListActions.DeleteAvisoFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 }

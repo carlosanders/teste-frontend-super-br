@@ -153,7 +153,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         const path = 'app/main/apps/tarefas/tarefa-detail';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then( componentFactory  => this.container.createComponent(componentFactory));
                 }));
@@ -171,14 +171,14 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
         this.tarefa$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefa => {
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
             this.vinculacoesEtiquetas = tarefa.vinculacoesEtiquetas.filter((vinculacaoEtiqueta: VinculacaoEtiqueta) => !vinculacaoEtiqueta.etiqueta.sistema);
         });
@@ -196,7 +196,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
         this.expandir$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            expandir => {
+            (expandir) => {
                 this.doToggleMaximizado(expandir);
             }
         );
@@ -208,7 +208,7 @@ export class TarefaDetailComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             this.mobileMode = screen.size !== 'desktop';
         });
         this.doToggleMaximizado(false);

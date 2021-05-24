@@ -90,7 +90,7 @@ export function AdminPessoaListReducer(
                 ...PessoaListInitialState
             };
         }
-        
+
 
         case PessoaListActions.RELOAD_PESSOA: {
             return {

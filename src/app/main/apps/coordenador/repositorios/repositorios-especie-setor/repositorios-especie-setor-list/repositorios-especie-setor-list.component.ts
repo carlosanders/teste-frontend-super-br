@@ -13,7 +13,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs';
 import {VinculacaoRepositorio, Pagination} from '@cdk/models';
 
-import {UnloadRepositoriosEspecieSetor} from "./store";
+import {UnloadRepositoriosEspecieSetor} from './store';
 
 
 @Component({
@@ -56,7 +56,7 @@ export class RepositoriosEspecieSetorListComponent implements OnInit, OnDestroy 
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -73,7 +73,7 @@ export class RepositoriosEspecieSetorListComponent implements OnInit, OnDestroy 
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

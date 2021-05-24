@@ -27,7 +27,7 @@ export class VinculacaoUsuarioEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class VinculacaoUsuarioEditEffect {
 
     /**
      * Get VinculacaoUsuario with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,16 +44,14 @@ export class VinculacaoUsuarioEditEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoUsuarioEditActions.GetVinculacaoUsuario>(VinculacaoUsuarioEditActions.GET_VINCULACAO_USUARIO),
-                switchMap((action) => {
-                    return this._vinculacaoUsuarioService.query(
+                switchMap(action => this._vinculacaoUsuarioService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<VinculacaoUsuario>({data: response['entities'], schema: vinculacaoUsuarioSchema}),
                     new VinculacaoUsuarioEditActions.GetVinculacaoUsuarioSuccess({
@@ -72,6 +71,7 @@ export class VinculacaoUsuarioEditEffect {
 
     /**
      * Save VinculacaoUsuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -79,15 +79,13 @@ export class VinculacaoUsuarioEditEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoUsuarioEditActions.SaveVinculacaoUsuario>(VinculacaoUsuarioEditActions.SAVE_VINCULACAO_USUARIO),
-                switchMap((action) => {
-                    return this._vinculacaoUsuarioService.save(action.payload).pipe(
+                switchMap(action => this._vinculacaoUsuarioService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoUsuario) => [
                             new VinculacaoUsuarioEditActions.SaveVinculacaoUsuarioSuccess(),
                             new VinculacaoUsuarioListActions.ReloadVinculacoesUsuarios(),
                             new AddData<VinculacaoUsuario>({data: [response], schema: vinculacaoUsuarioSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new VinculacaoUsuarioEditActions.SaveVinculacaoUsuarioFailed(err));

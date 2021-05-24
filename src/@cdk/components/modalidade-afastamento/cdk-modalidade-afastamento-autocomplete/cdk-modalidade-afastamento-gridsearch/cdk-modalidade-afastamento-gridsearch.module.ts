@@ -13,7 +13,7 @@ import { CdkModalidadeAfastamentoGridModule } from '@cdk/components/modalidade-a
     imports: [
 
         CdkModalidadeAfastamentoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

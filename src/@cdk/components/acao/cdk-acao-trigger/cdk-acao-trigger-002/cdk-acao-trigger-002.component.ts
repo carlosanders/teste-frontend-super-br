@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Router} from "@angular/router";
-import {Acao, Pagination, Setor, Tarefa, Usuario} from "../../../../models";
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Observable} from "rxjs";
+import {Router} from '@angular/router';
+import {Acao, Pagination, Setor, Tarefa, Usuario} from '../../../../models';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {Observable} from 'rxjs';
 
 @Component({
     selector: 'cdk-acao-trigger-002',
@@ -49,7 +49,7 @@ export class CdkAcaoTrigger002Component implements OnInit, OnDestroy, OnChanges 
 
     @Input()
     usuarioPagination: Pagination;
-    
+
     @Input()
     modalidadeAcaoEtiqueta;
 

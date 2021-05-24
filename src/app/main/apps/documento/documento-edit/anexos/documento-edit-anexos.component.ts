@@ -50,16 +50,16 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
 
     routerState: any;
 
-    assinaturaInterval = null
+    assinaturaInterval = null;
 
         /**
-     *
-     * @param _store
-     * @param _location
-     * @param _router
-     * @param _dynamicService
-     * @param _activatedRoute
-     */
+         *
+         * @param _store
+         * @param _location
+         * @param _router
+         * @param _dynamicService
+         * @param _activatedRoute
+         */
     constructor(
         private _store: Store<fromStore.DocumentoEditAnexosAppState>,
         private _location: Location,
@@ -77,7 +77,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         this._store
             .pipe(
                 select(getMercureState),
-            ).subscribe(message => {
+            ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -110,7 +110,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
     ngOnInit(): void {
         this.documento$.subscribe(documento => this.documento = documento);
 
-        this.assinandoDocumentosVinculadosId$.subscribe(assinandoDocumentosVinculadosId => {
+        this.assinandoDocumentosVinculadosId$.subscribe((assinandoDocumentosVinculadosId) => {
             if (assinandoDocumentosVinculadosId.length > 0) {
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
@@ -129,7 +129,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -140,7 +140,7 @@ export class DocumentoEditAnexosComponent implements OnInit, OnDestroy, AfterVie
         const path = 'app/main/apps/documento/documento-edit/anexos';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

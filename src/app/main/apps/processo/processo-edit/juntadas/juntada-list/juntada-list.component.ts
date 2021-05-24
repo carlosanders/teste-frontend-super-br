@@ -66,7 +66,7 @@ export class JuntadaListComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -74,20 +74,18 @@ export class JuntadaListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
 
-        this.processo$.subscribe(processo => {
+        this.processo$.subscribe((processo) => {
             this.processo = processo;
         });
 
-        this.juntadas$.subscribe(juntadas => {
+        this.juntadas$.subscribe((juntadas) => {
             this.juntadasIds = [];
             if (juntadas) {
-                let tmp = juntadas?.filter((juntada) => {
-                    return juntada.ativo;
-                });
+                const tmp = juntadas?.filter(juntada => juntada.ativo);
 
                 tmp.forEach((juntada) => {
                     this.juntadasIds.push(juntada.id);

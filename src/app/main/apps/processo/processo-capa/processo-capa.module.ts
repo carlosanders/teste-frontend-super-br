@@ -25,8 +25,8 @@ import {CdkJuntadaGridModule} from '@cdk/components/juntada/cdk-juntada-grid/cdk
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {CdkVinculacaoProcessoGridModule} from '@cdk/components/vinculacao-processo/cdk-vinculacao-processo-grid/cdk-vinculacao-processo-grid.module';
 import {MatCardModule} from '@angular/material/card';
-import {AcompanhamentoService} from "@cdk/services/acompanhamento.service";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {AcompanhamentoService} from '@cdk/services/acompanhamento.service';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 const routes: Routes = [
     {

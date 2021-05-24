@@ -28,7 +28,7 @@ export class DadosPessoaEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class DadosPessoaEditEffect {
 
     /**
      * Get Pessoa with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class DadosPessoaEditEffect {
         this._actions
             .pipe(
                 ofType<DadosPessoaEditActions.GetPessoa>(DadosPessoaEditActions.GET_PESSOA),
-                switchMap((action) => {
-                    return this._pessoaService.query(
+                switchMap(action => this._pessoaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Pessoa>({data: response['entities'], schema: pessoaSchema}),
                     new DadosPessoaEditActions.GetPessoaSuccess({
@@ -73,6 +72,7 @@ export class DadosPessoaEditEffect {
 
     /**
      * Save Pessoa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class DadosPessoaEditEffect {
         this._actions
             .pipe(
                 ofType<DadosPessoaEditActions.SavePessoa>(DadosPessoaEditActions.SAVE_PESSOA),
-                switchMap((action) => {
-                    return this._pessoaService.save(action.payload.pessoa).pipe(
+                switchMap(action => this._pessoaService.save(action.payload.pessoa).pipe(
                         mergeMap((response: Pessoa) => [
                             new DadosPessoaEditActions.SavePessoaSuccess({pessoa: response, select: action.payload.select}),
                             new PessoaListActions.ReloadPessoas(),
@@ -96,8 +95,7 @@ export class DadosPessoaEditEffect {
                             console.log (err);
                             return of(new DadosPessoaEditActions.SavePessoaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

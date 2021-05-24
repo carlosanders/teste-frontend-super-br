@@ -19,7 +19,7 @@ import {RemessasComponent} from './remessas.component';
 import {TramitacaoService} from '@cdk/services/tramitacao.service';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
-import {DynamicService} from "../../../../../../modules/dynamic.service";
+import {DynamicService} from '../../../../../../modules/dynamic.service';
 
 const routes: Routes = [
     {

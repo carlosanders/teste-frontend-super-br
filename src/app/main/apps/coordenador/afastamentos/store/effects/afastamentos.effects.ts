@@ -33,7 +33,7 @@ export class AfastamentosEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,6 +42,7 @@ export class AfastamentosEffects {
 
     /**
      * Get Usuario with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -49,8 +50,7 @@ export class AfastamentosEffects {
         this._actions
             .pipe(
                 ofType<AfastamentosActions.GetUsuario>(AfastamentosActions.GET_USUARIO),
-                switchMap((action) => {
-                    return this._usuarioService.query(
+                switchMap(action => this._usuarioService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -60,8 +60,7 @@ export class AfastamentosEffects {
                             'colaborador.cargo',
                             'colaborador.modalidadeColaborador',
                             'colaborador.usuario'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Usuario>({data: response['entities'], schema: usuarioSchema}),
                     new AfastamentosActions.GetUsuarioSuccess({

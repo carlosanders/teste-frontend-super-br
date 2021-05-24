@@ -13,7 +13,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
-import {AvisoService} from "../../../services/aviso.service";
+import {AvisoService} from '../../../services/aviso.service';
 
 @Component({
     selector: 'cdk-aviso-autocomplete',
@@ -53,7 +53,7 @@ export class CdkAvisoAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             nome: `like:%${bit}%`});
                     });
@@ -79,7 +79,7 @@ export class CdkAvisoAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.avisoList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

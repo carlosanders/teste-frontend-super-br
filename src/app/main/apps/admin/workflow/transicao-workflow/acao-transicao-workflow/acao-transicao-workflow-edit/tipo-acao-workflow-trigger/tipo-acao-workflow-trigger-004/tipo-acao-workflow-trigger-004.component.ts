@@ -7,11 +7,11 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {select, Store} from "@ngrx/store";
-import {Observable} from "rxjs";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 import * as fromStore from '../../store';
-import {getRouterState} from "../../../../../../../../../store/reducers";
+import {getRouterState} from '../../../../../../../../../store/reducers';
 import {
     AcaoTransicaoWorkflow,
     Criteria,
@@ -19,8 +19,8 @@ import {
     Pagination,
     Pessoa,
     Setor, TipoAcaoWorkflow, TransicaoWorkflow
-} from "@cdk/models";
-import {getTipoAcaoWorkflow} from "../store/selectors";
+} from '@cdk/models';
+import {getTipoAcaoWorkflow} from '../store/selectors';
 
 
 @Component({
@@ -79,7 +79,7 @@ export class TipoAcaoWorkflowTrigger004Component implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -91,7 +91,7 @@ export class TipoAcaoWorkflowTrigger004Component implements OnInit, OnDestroy {
         this.setorDestinoPagination.filter = {parent: 'isNull'};
         this.modeloPagination = new Pagination();
         this.criteriasTemplate.forEach((criteria) => {
-            let newCriteria = new Criteria();
+            const newCriteria = new Criteria();
             newCriteria.descricao = criteria.descricao;
             newCriteria.valor = criteria.value;
             this.prazoCriteriaList.push(newCriteria);
@@ -109,8 +109,8 @@ export class TipoAcaoWorkflowTrigger004Component implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.tipoAcaoWorkflow$.subscribe(
-            tipoAcaoWorkflow => {
-                this.tipoAcaoWorkflow = tipoAcaoWorkflow
+            (tipoAcaoWorkflow) => {
+                this.tipoAcaoWorkflow = tipoAcaoWorkflow;
             }
         );
     }
@@ -126,19 +126,19 @@ export class TipoAcaoWorkflowTrigger004Component implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     submit(values): void {
-        let contexto = {};
+        const contexto = {};
 
-        contexto["especieDocumentoAvulsoId"] = values.especieDocumentoAvulso.id
-        contexto["prazoFinal"] = values.prazoFinal
-        contexto["modeloId"] = values.modelo.id
-        contexto["mecanismoRemessa"] = values.mecanismoRemessa
+        contexto['especieDocumentoAvulsoId'] = values.especieDocumentoAvulso.id;
+        contexto['prazoFinal'] = values.prazoFinal;
+        contexto['modeloId'] = values.modelo.id;
+        contexto['mecanismoRemessa'] = values.mecanismoRemessa;
 
         if (values.setorDestino && !values.blocoDestinatarios) {
-            contexto['setorDestinoId'] = values.setorDestino.id
+            contexto['setorDestinoId'] = values.setorDestino.id;
         }
 
         if (values.pessoaDestino && !values.blocoDestinatarios) {
-            contexto['pessoaDestinoId'] = values.pessoaDestino.id
+            contexto['pessoaDestinoId'] = values.pessoaDestino.id;
         }
 
         if (values.observacao) {
@@ -151,7 +151,7 @@ export class TipoAcaoWorkflowTrigger004Component implements OnInit, OnDestroy {
         if (this.destinatariosSave.length == this.destinatarios.length && values.blocoDestinatarios) {
             this.destinos = [];
             this.destinatarios.forEach((destinatario) => {
-                let destino = {};
+                const destino = {};
                 if (destinatario instanceof Setor) {
                     destino['id'] = destinatario.id;
                     destino['tipo'] = 'setor';

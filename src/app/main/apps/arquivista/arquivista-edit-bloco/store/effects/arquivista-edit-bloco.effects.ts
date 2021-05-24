@@ -13,15 +13,15 @@ import {Processo} from '@cdk/models';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {CdkUtils} from "@cdk/utils";
-import * as moment from "moment";
+import {CdkUtils} from '@cdk/utils';
+import * as moment from 'moment';
 import {
     ChangeProcessos,
     ChangeSelectedProcessos,
     getProcessosIds,
     getSelectedProcessoIds,
     ReloadProcessos
-} from "../../../arquivista-list/store";
+} from '../../../arquivista-list/store';
 
 @Injectable()
 export class ArquivistaEditBlocoEffects {
@@ -35,7 +35,7 @@ export class ArquivistaEditBlocoEffects {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -44,6 +44,7 @@ export class ArquivistaEditBlocoEffects {
 
     /**
      * Save Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -51,8 +52,7 @@ export class ArquivistaEditBlocoEffects {
         this._actions
             .pipe(
                 ofType<ArquivistaEditBlocoActions.SaveProcesso>(ArquivistaEditBlocoActions.SAVE_PROCESSO),
-                mergeMap((action) => {
-                    return this._processoService.patch(action.payload.processo, action.payload.changes).pipe(
+                mergeMap(action => this._processoService.patch(action.payload.processo, action.payload.changes).pipe(
                         mergeMap((response: Processo) => [
                             new ArquivistaEditBlocoActions.SaveProcessoSuccess(action.payload),
                             new UpdateData<Processo>({
@@ -92,8 +92,7 @@ export class ArquivistaEditBlocoEffects {
                             }));
                             return of(new ArquivistaEditBlocoActions.SaveProcessoFailed(payload));
                         })
-                    )
-                }, 25)
+                    ), 25)
             );
 
     @Effect({dispatch: false})

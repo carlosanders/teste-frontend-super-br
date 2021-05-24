@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from 'rxjs';
 import {debounceTime, distinctUntilChanged} from 'rxjs/operators';
-import {Classificacao} from "../../../../models";
+import {Classificacao} from '../../../../models';
 
 export class ClassificacaoNode {
     id?: number;
@@ -64,7 +64,7 @@ export class CdkClassificacaoTreeService {
         let filteredTreeData;
         if (filterText) {
             filteredTreeData = this.treeData.filter(d => d.name.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
-            Object.assign([], filteredTreeData).forEach(ftd => {
+            Object.assign([], filteredTreeData).forEach((ftd) => {
                 let str = (ftd.name);
                 while (str.lastIndexOf('.') > -1) {
                     const index = str.lastIndexOf('.');

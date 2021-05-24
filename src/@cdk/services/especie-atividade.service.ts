@@ -23,9 +23,9 @@ export class EspecieAtividadeService extends ParentGenericService<EspecieAtivida
             `${environment.api_url}${'administrativo/especie_atividade'}/${especieAtividade.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(EspecieAtividade, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new EspecieAtividade(), {...especieAtividade, ...response});
             })
         );

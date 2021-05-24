@@ -24,7 +24,7 @@ import {filter, takeUntil} from 'rxjs/operators';
 import {LoginService} from '../../../auth/login/login.service';
 import {ToggleMaximizado} from 'app/main/apps/arquivista/arquivista-list/store';
 import {Usuario} from '@cdk/models/usuario.model';
-import {getTransicaoProcessoIds} from "../transicao-arquivista-bloco/store";
+import {getTransicaoProcessoIds} from '../transicao-arquivista-bloco/store';
 
 @Component({
     selector: 'arquivista-list',
@@ -129,7 +129,7 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -137,21 +137,21 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.currentProcessoId = parseInt(routerState.state.params['processoHandle'], 0);
         });
 
         this.loading$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(loading => {
+        ).subscribe((loading) => {
             this.loading = loading;
         });
 
         this.processos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(processos => !!processos)
-        ).subscribe(processos => {
-            processos.forEach(processo => {
+        ).subscribe((processos) => {
+            processos.forEach((processo) => {
                 processo.lembretes = processo.lembretes.reverse();
             });
             this.processos = processos;
@@ -159,31 +159,31 @@ export class ArquivistaListComponent implements OnInit, OnDestroy, AfterViewInit
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => {
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(maximizado => {
+        ).subscribe((maximizado) => {
             this.maximizado = maximizado;
         });
 
         this.selectedProcessos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedProcessos => {
+        ).subscribe((selectedProcessos) => {
             this.selectedProcessos = selectedProcessos;
         });
 
         this.selectedIds$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedIds => {
+        ).subscribe((selectedIds) => {
             this.selectedIds = selectedIds;
         });
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
                 if (this.maximizado) {

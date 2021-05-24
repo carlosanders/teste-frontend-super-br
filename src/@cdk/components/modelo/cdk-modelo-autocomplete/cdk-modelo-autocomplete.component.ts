@@ -14,7 +14,7 @@ import {catchError, debounceTime, distinctUntilChanged, filter, finalize, switch
 import {of} from 'rxjs';
 import {MatAutocomplete} from '@cdk/angular/material';
 import {Pagination} from '@cdk/models';
-import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
 
 @Component({
     selector: 'cdk-modelo-autocomplete',
@@ -68,7 +68,7 @@ export class CdkModeloAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [...this.andxFilter];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             nome: `like:%${bit}%`
                         });
@@ -95,7 +95,7 @@ export class CdkModeloAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.modeloList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

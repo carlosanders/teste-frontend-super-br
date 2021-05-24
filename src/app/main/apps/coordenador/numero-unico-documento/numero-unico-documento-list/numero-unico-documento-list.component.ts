@@ -15,7 +15,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {NumeroUnicoDocumento, Pagination} from '@cdk/models';
 
-import {UnloadNumerosUnicosDocumentos} from "./store";
+import {UnloadNumerosUnicosDocumentos} from './store';
 
 
 @Component({
@@ -58,7 +58,7 @@ export class NumeroUnicoDocumentoListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -78,7 +78,7 @@ export class NumeroUnicoDocumentoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

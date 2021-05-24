@@ -100,21 +100,21 @@ export function DocumentosReducer(
                 bufferingDelete: state.bufferingDelete + 1,
                 errorDelete: [],
                 error: null
-            }
+            };
         }
 
         case TarefaDetailDocumentosActions.DELETE_DOCUMENTO_FLUSH: {
             return {
                 ...state,
                 bufferingDelete: state.bufferingDelete + 1
-            }
+            };
         }
 
         case TarefaDetailDocumentosActions.DELETE_DOCUMENTO_CANCEL_SUCCESS: {
             return {
                 ...state,
                 documentosId: [...state.documentosId, action.payload],
-            }
+            };
         }
 
         case TarefaDetailDocumentosActions.UNDELETE_DOCUMENTO: {
