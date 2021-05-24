@@ -61,7 +61,7 @@ export class ModeloEditComponent implements OnInit, OnDestroy, AfterViewInit {
      * On init
      */
     ngOnInit(): void {
-        this.documento$.subscribe(documento => {
+        this.documento$.subscribe((documento) => {
             if (documento && documento.vinculacaoDocumentoPrincipal) {
                 this.documentoPrincipal = documento.vinculacaoDocumentoPrincipal.documento;
             }
@@ -72,7 +72,7 @@ export class ModeloEditComponent implements OnInit, OnDestroy, AfterViewInit {
         const path = 'app/main/apps/documento/modelo-edit';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

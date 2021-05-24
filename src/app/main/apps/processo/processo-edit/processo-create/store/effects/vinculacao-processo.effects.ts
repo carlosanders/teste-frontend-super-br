@@ -35,7 +35,7 @@ export class VinculacaoProcessoEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -44,6 +44,7 @@ export class VinculacaoProcessoEffects {
 
     /**
      * Get VinculacoesProcessos Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -51,8 +52,7 @@ export class VinculacaoProcessoEffects {
         this._actions
             .pipe(
                 ofType<VinculacoesProcessosActions.GetVinculacoesProcessos>(VinculacoesProcessosActions.GET_VINCULACOES_PROCESSOS),
-                switchMap((action) => {
-                    return this._vinculacaoProcessoService.query(
+                switchMap(action => this._vinculacaoProcessoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter
@@ -60,9 +60,8 @@ export class VinculacaoProcessoEffects {
                         action.payload.imit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
                     new VinculacoesProcessosActions.GetVinculacoesProcessosSuccess({
                         entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
@@ -82,6 +81,7 @@ export class VinculacaoProcessoEffects {
 
     /**
      * Save VinculacaoProcesso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -89,8 +89,7 @@ export class VinculacaoProcessoEffects {
         this._actions
             .pipe(
                 ofType<VinculacoesProcessosActions.SaveVinculacaoProcesso>(VinculacoesProcessosActions.SAVE_VINCULACAO_PROCESSO),
-                switchMap((action) => {
-                    return this._vinculacaoProcessoService.save(action.payload).pipe(
+                switchMap(action => this._vinculacaoProcessoService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoProcesso) => [
                             new VinculacoesProcessosActions.SaveVinculacaoProcessoSuccess(),
                             new AddData<VinculacaoProcesso>({data: [response], schema: vinculacaoProcessoSchema}),
@@ -104,12 +103,12 @@ export class VinculacaoProcessoEffects {
                             console.log (err);
                             return of(new VinculacoesProcessosActions.SaveVinculacaoProcessoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save VinculacaoProcesso Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -125,6 +124,7 @@ export class VinculacaoProcessoEffects {
 
     /**
      * Delete VinculacaoProcesso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -132,14 +132,12 @@ export class VinculacaoProcessoEffects {
         this._actions
             .pipe(
                 ofType<VinculacoesProcessosActions.DeleteVinculacaoProcesso>(VinculacoesProcessosActions.DELETE_VINCULACAO_PROCESSO),
-                mergeMap((action) => {
-                    return this._vinculacaoProcessoService.destroy(action.payload).pipe(
-                        map((response) => new VinculacoesProcessosActions.DeleteVinculacaoProcessoSuccess(response.id)),
+                mergeMap(action => this._vinculacaoProcessoService.destroy(action.payload).pipe(
+                        map(response => new VinculacoesProcessosActions.DeleteVinculacaoProcessoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new VinculacoesProcessosActions.DeleteVinculacaoProcessoFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 }

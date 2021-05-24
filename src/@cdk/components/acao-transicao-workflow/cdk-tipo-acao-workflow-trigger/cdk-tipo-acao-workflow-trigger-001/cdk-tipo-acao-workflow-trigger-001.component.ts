@@ -8,9 +8,9 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Router} from "@angular/router";
-import {Modelo, Pagination, TipoAcaoWorkflow} from "../../../../models";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from '@angular/router';
+import {Modelo, Pagination, TipoAcaoWorkflow} from '../../../../models';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'cdk-tipo-acao-workflow-trigger-001',
@@ -101,7 +101,7 @@ export class CdkTipoAcaoWorkflowTrigger001Component implements OnInit, OnDestroy
 
     selectModelo(modelo?: Modelo): void {
         if (modelo) {
-            this.form.get('modelo').setValue(modelo)
+            this.form.get('modelo').setValue(modelo);
         }
         this.formState = 'form';
     }

@@ -32,7 +32,7 @@ export class FoldersEffect
         this._profile = this._loginService.getUserProfile();
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class FoldersEffect
 
     /**
      * Get Folders from Server
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,14 +49,12 @@ export class FoldersEffect
         this._actions
             .pipe(
                 ofType<FoldersActions.GetFolders>(FoldersActions.GET_FOLDERS),
-                exhaustMap(() => {
-                    return this._folderService.query(
+                exhaustMap(() => this._folderService.query(
                         `{"usuario.id": "eq:${this._profile.id}", "modalidadeFolder.valor": "eq:TAREFA"}`,
                         10,
                         0,
-                        '{"nome": "ASC"}');
-                }),
-                mergeMap((response) => [
+                        '{"nome": "ASC"}')),
+                mergeMap(response => [
                     new AddData<Folder>({data: response['entities'], schema: folderSchema}),
                     new FoldersActions.GetFoldersSuccess({
                         entitiesId: response['entities'].map(folder => folder.id),
@@ -72,6 +71,7 @@ export class FoldersEffect
 
     /**
      * Save Folder
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -79,16 +79,14 @@ export class FoldersEffect
         this._actions
             .pipe(
                 ofType<FoldersActions.SaveFolder>(FoldersActions.SAVE_FOLDER),
-                switchMap((action) => {
-                    return this._folderService.save(action.payload).pipe(
+                switchMap(action => this._folderService.save(action.payload).pipe(
                         mergeMap((response: Folder) => [
                             new FoldersActions.SaveFolderSuccess(),
                             new FoldersActions.ReloadFolders(),
                             new GetFolders([]),
                             new AddData<Folder>({data: [response], schema: folderSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new FoldersActions.SaveFolderFailed(err));
@@ -98,6 +96,7 @@ export class FoldersEffect
 
     /**
      * Delete Folder
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -105,9 +104,8 @@ export class FoldersEffect
         this._actions
             .pipe(
                 ofType<FoldersActions.DeleteFolder>(FoldersActions.DELETE_FOLDER),
-                mergeMap((action) => {
-                    return this._folderService.destroy(action.payload).pipe(
-                        mergeMap ((response) => [
+                mergeMap(action => this._folderService.destroy(action.payload).pipe(
+                        mergeMap (response => [
                             new GetFolders([]),
                             new AddData<Folder>({data: [response], schema: folderSchema}),
                         ]),
@@ -115,7 +113,6 @@ export class FoldersEffect
                             console.log(err);
                             return of(new FoldersActions.DeleteFolderFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 }

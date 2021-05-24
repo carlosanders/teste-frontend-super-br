@@ -44,8 +44,8 @@ export class CdkTipoValidacaoTipoDocComponent implements OnInit, OnChanges, OnDe
     @Input()
     tipoDocumentoPagination: Pagination;
 
-   
-    
+
+
     activeCard = 'form';
 
     /**
@@ -60,13 +60,13 @@ export class CdkTipoValidacaoTipoDocComponent implements OnInit, OnChanges, OnDe
             transicaoWorkflow: [null],
             contexto: [null],
             tipoDocumento: [null, [Validators.required]],
-            nome: ["nome", [Validators.required]],
-            descricao: ["descricao", [Validators.required]],
+            nome: ['nome', [Validators.required]],
+            descricao: ['descricao', [Validators.required]],
         });
 
-        
+
         this.tipoDocumentoPagination = new Pagination();
-      
+
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ export class CdkTipoValidacaoTipoDocComponent implements OnInit, OnChanges, OnDe
      * On change
      */
 
-   
+
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {
         if (changes['validacao'] && this.validacao && ((!this.validacao.id && !this.form.dirty) || (this.validacao.id !== this.form.get('id').value))) {
             this.form.patchValue({...this.validacao});
@@ -104,7 +104,7 @@ export class CdkTipoValidacaoTipoDocComponent implements OnInit, OnChanges, OnDe
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -133,7 +133,7 @@ export class CdkTipoValidacaoTipoDocComponent implements OnInit, OnChanges, OnDe
         this.abort.emit();
     }
 
-    checkTipoDocumento(): void {       
+    checkTipoDocumento(): void {
         const value = this.form.get('tipoDocumento').value;
         if (!value || typeof value !== 'object') {
             this.form.get('tipoDocumento').setValue(null);

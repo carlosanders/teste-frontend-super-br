@@ -36,7 +36,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -52,9 +52,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.checkRole(this.checkStore()).pipe(
@@ -69,7 +69,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Check store
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkStore(): Observable<any> {
         return forkJoin(
@@ -86,13 +86,11 @@ export class ResolveGuard implements CanActivate {
     /**
      * check Role admin
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkRole(observable: Observable<any>): any {
         if (!this._loginService.isGranted('ROLE_USUARIO_EXTERNO')) {
-            this._router.navigate(['/apps/painel']).then(() => {
-                return throwError(new Error('Usuário sem permissão'));
-            });
+            this._router.navigate(['/apps/painel']).then(() => throwError(new Error('Usuário sem permissão')));
         }
         return observable;
     }
@@ -100,7 +98,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Processos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getProcessos(): any {
         return this._store.pipe(
@@ -134,7 +132,7 @@ export class ResolveGuard implements CanActivate {
                     };
 
                     const routeTypeParam = of('typeHandle');
-                    routeTypeParam.subscribe(typeParam => {
+                    routeTypeParam.subscribe((typeParam) => {
                         let processoFilter = {};
                         if (this.routerState.params[typeParam] === 'meus-processos') {
                             processoFilter = {
@@ -146,7 +144,7 @@ export class ResolveGuard implements CanActivate {
 
                         if (this.routerState.params[typeParam] === 'interessados') {
                             const routeTargetParam = of('targetHandle');
-                            routeTargetParam.subscribe(targetParam => {
+                            routeTargetParam.subscribe((targetParam) => {
                                 processoFilter = {
                                     'interessados.pessoa.id': `eq:${this.routerState.params[targetParam]}`,
                                     'unidadeArquivistica': `eq:${this.unidadeArquivistica}`,
@@ -163,10 +161,8 @@ export class ResolveGuard implements CanActivate {
                     this.loading = true;
                 }
             }),
-            filter((loaded: any) => {
-                return this.loading || (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle'] &&
-                    (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] + '_' + this._profile.id) === loaded.value);
-            }),
+            filter((loaded: any) => this.loading || (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle'] &&
+                    (this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] + '_' + this._profile.id) === loaded.value)),
             take(1)
         );
     }
@@ -174,7 +170,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Pessoa
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getPessoa(): any {
         return this._store.pipe(
@@ -199,10 +195,8 @@ export class ResolveGuard implements CanActivate {
                     this.loadingPessoa = true;
                 }
             }),
-            filter((loaded: any) => {
-                return this.loadingPessoa || (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
-                    && this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] === loaded.value);
-            }),
+            filter((loaded: any) => this.loadingPessoa || (this.routerState.params['typeHandle'] && this.routerState.params['targetHandle']
+                    && this.routerState.params['typeHandle'] + '_' + this.routerState.params['targetHandle'] === loaded.value)),
             take(1)
         );
     }

@@ -28,7 +28,7 @@ export class EnderecoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class EnderecoEditEffect {
 
     /**
      * Get Endereco with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class EnderecoEditEffect {
         this._actions
             .pipe(
                 ofType<EnderecoEditActions.GetEndereco>(EnderecoEditActions.GET_ENDERECO),
-                switchMap((action) => {
-                    return this._enderecoService.query(
+                switchMap(action => this._enderecoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Endereco>({data: response['entities'], schema: enderecoSchema}),
                     new EnderecoEditActions.GetEnderecoSuccess({
@@ -73,6 +72,7 @@ export class EnderecoEditEffect {
 
     /**
      * Save Endereco
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class EnderecoEditEffect {
         this._actions
             .pipe(
                 ofType<EnderecoEditActions.SaveEndereco>(EnderecoEditActions.SAVE_ENDERECO),
-                switchMap((action) => {
-                    return this._enderecoService.save(action.payload).pipe(
+                switchMap(action => this._enderecoService.save(action.payload).pipe(
                         mergeMap((response: Endereco) => [
                             new EnderecoEditActions.SaveEnderecoSuccess(),
                             new EnderecoListActions.ReloadEnderecos(),
@@ -96,8 +95,7 @@ export class EnderecoEditEffect {
                             console.log (err);
                             return of(new EnderecoEditActions.SaveEnderecoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
     /**
      * Save Endereco Success

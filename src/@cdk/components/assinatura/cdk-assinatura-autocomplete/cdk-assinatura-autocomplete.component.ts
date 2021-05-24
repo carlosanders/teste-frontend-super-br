@@ -54,7 +54,7 @@ export class CdkAssinaturaAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             'criadoPor.nome': `like:%${bit}%`});
                     });
@@ -80,7 +80,7 @@ export class CdkAssinaturaAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.assinaturaList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

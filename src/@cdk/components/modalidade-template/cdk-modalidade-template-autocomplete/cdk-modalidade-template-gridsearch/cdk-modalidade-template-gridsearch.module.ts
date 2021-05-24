@@ -13,7 +13,7 @@ import { CdkModalidadeTemplateGridModule } from '@cdk/components/modalidade-temp
     imports: [
 
         CdkModalidadeTemplateGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

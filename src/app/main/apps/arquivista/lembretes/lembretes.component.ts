@@ -66,7 +66,7 @@ export class LembretesComponent implements OnInit, OnDestroy {
         this.processos$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(processos => !!processos)
-        ).subscribe(processos => {
+        ).subscribe((processos) => {
             this.processos = processos;
         });
     }
@@ -87,7 +87,7 @@ export class LembretesComponent implements OnInit, OnDestroy {
     initRouteState(): void {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

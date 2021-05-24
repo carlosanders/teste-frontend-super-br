@@ -47,7 +47,7 @@ export class GetWorkflowFailed implements Action {
  export class UnloadWorkflow implements Action
  {
      readonly type = UNLOAD_WORKFLOW;
- 
+
      constructor()
      {
      }

@@ -37,7 +37,7 @@ export class LotacoesEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -46,6 +46,7 @@ export class LotacoesEffects {
 
     /**
      * Get Setor with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -53,13 +54,11 @@ export class LotacoesEffects {
         this._actions
             .pipe(
                 ofType<RootLotacoesActions.GetSetor>(RootLotacoesActions.GET_SETOR),
-                switchMap((action) => {
-                    return this._setorService.get(
+                switchMap(action => this._setorService.get(
                         action.payload.id,
                         JSON.stringify(['populateAll']),
                         JSON.stringify({isAdmin: true})
-                    );
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<Setor>({data: [response], schema: setorSchema}),
                     new RootLotacoesActions.GetSetorSuccess({
@@ -79,6 +78,7 @@ export class LotacoesEffects {
 
     /**
      * Get Usuario with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -86,13 +86,11 @@ export class LotacoesEffects {
         this._actions
             .pipe(
                 ofType<RootLotacoesActions.GetUsuario>(RootLotacoesActions.GET_USUARIO),
-                switchMap((action) => {
-                    return this._usuarioService.get(
+                switchMap(action => this._usuarioService.get(
                         action.payload.id,
                         JSON.stringify(['populateAll']),
                         JSON.stringify({isAdmin: true})
-                    );
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<Usuario>({data: [response], schema: usuarioSchema}),
                     new RootLotacoesActions.GetUsuarioSuccess({

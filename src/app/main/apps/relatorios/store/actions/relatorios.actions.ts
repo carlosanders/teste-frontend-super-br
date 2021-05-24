@@ -57,7 +57,7 @@ export class LoadRelatorioSuccess implements Action
 
     constructor(public payload: any)
     {
-        
+
     }
 }
 

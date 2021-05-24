@@ -33,7 +33,7 @@ export class CoordenadorSetorEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,6 +42,7 @@ export class CoordenadorSetorEffects {
 
     /**
      * Get Unidade with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -49,16 +50,14 @@ export class CoordenadorSetorEffects {
         this._actions
             .pipe(
                 ofType<CoordenadorSetorActions.GetUnidade>(CoordenadorSetorActions.GET_UNIDADE),
-                switchMap((action) => {
-                    return this._setorService.query(
+                switchMap(action => this._setorService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Setor>({data: response['entities'], schema: setorSchema}),
                     new CoordenadorSetorActions.GetUnidadeSuccess({
@@ -79,6 +78,7 @@ export class CoordenadorSetorEffects {
 
     /**
      * Get Setor with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -86,16 +86,14 @@ export class CoordenadorSetorEffects {
         this._actions
             .pipe(
                 ofType<CoordenadorSetorActions.GetSetor>(CoordenadorSetorActions.GET_SETOR),
-                switchMap((action) => {
-                    return this._setorService.query(
+                switchMap(action => this._setorService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Setor>({data: response['entities'], schema: setorSchema}),
                     new CoordenadorSetorActions.GetSetorSuccess({

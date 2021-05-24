@@ -37,7 +37,7 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
     processoListIsLoading: boolean;
 
     @Input()
-    field = 'NUP'
+    field = 'NUP';
 
     @ViewChild(MatAutocomplete, {static: true}) autocomplete: MatAutocomplete;
 
@@ -58,7 +58,7 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
             switchMap((value) => {
                     const termFilterNUP = [];
                     const termFilterOutroNumero = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         termFilterNUP.push({
                             NUP: `like:%${bit.replace(/\D/g, '')}%`
                         });
@@ -94,7 +94,7 @@ export class CdkProcessoAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.processoList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

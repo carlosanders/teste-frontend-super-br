@@ -15,7 +15,7 @@ export class CdkTranslationLoaderService
     /**
      * Constructor
      *
-     * @param {TranslateService} _translateService
+     * @param _translateService
      */
     constructor(
         private _translateService: TranslateService
@@ -30,7 +30,7 @@ export class CdkTranslationLoaderService
     /**
      * Load translations
      *
-     * @param {Locale} args
+     * @param args
      */
     loadTranslations(...args: Locale[]): void
     {

@@ -54,7 +54,7 @@ export class GetModelosFailed implements Action
  export class UnloadModelos implements Action
  {
      readonly type = UNLOAD_MODELOS;
- 
+
      constructor()
      {
      }

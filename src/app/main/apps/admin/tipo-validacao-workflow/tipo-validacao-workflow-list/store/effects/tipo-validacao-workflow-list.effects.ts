@@ -12,7 +12,7 @@ import {TipoValidacaoWorkflowService} from '@cdk/services/tipo-validacao-workflo
 import {AddData} from '@cdk/ngrx-normalizr';
 import {TipoValidacaoWorkflow} from '@cdk/models';
 import {tipoValidacaoWorkflow as tipoValidacaoWorkflowSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class TipoValidacaoWorkflowListEffects {
@@ -27,7 +27,7 @@ export class TipoValidacaoWorkflowListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class TipoValidacaoWorkflowListEffects {
 
     /**
      * Get TipoValidacaoWorkflow with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class TipoValidacaoWorkflowListEffects {
         this._actions
             .pipe(
                 ofType<TipoValidacaoWorkflowListActions.GetTipoValidacaoWorkflow>(TipoValidacaoWorkflowListActions.GET_TIPO_VALIDACAO_WORKFLOW),
-                switchMap((action) => {
-                    return this._tipoValidacaoWorkflowService.query(
+                switchMap(action => this._tipoValidacaoWorkflowService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class TipoValidacaoWorkflowListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<TipoValidacaoWorkflow>({data: response['entities'], schema: tipoValidacaoWorkflowSchema}),
                             new TipoValidacaoWorkflowListActions.GetTipoValidacaoWorkflowSuccess({
                                 entitiesId: response['entities'].map(tipoValidacaoWorkflow => tipoValidacaoWorkflow.id),
@@ -69,12 +69,12 @@ export class TipoValidacaoWorkflowListEffects {
                             console.log(err);
                             return of(new TipoValidacaoWorkflowListActions.GetTipoValidacaoWorkflowFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete TipoValidacaoWorkflow
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,9 +82,8 @@ export class TipoValidacaoWorkflowListEffects {
         this._actions
             .pipe(
                 ofType<TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflow>(TipoValidacaoWorkflowListActions.DELETE_TIPO_VALIDACAO_WORKFLOW),
-                mergeMap((action) => {
-                    return this._tipoValidacaoWorkflowService.destroy(action.payload).pipe(
-                        map((response) => new TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflowSuccess(response.id)),
+                mergeMap(action => this._tipoValidacaoWorkflowService.destroy(action.payload).pipe(
+                        map(response => new TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflowSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new TipoValidacaoWorkflowListActions.DeleteTipoValidacaoWorkflowFailed(
@@ -93,7 +92,6 @@ export class TipoValidacaoWorkflowListEffects {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

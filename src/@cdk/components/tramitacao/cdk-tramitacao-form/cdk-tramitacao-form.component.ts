@@ -111,7 +111,7 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
                         this.form.get('setorDestino').enable();
                         this.form.get('setorDestino').reset();
                         this.setorDestinoPagination.filter['unidade.id'] = `eq:${value.id}`;
-                        this.setorDestinoPagination.filter['parent'] = `isNotNull`;
+                        this.setorDestinoPagination.filter['parent'] = 'isNotNull';
                         this.setorDestinoPaginationTree.filter['unidade.id'] = `eq:${value.id}`;
                         this._changeDetectorRef.markForCheck();
                     }
@@ -144,7 +144,7 @@ export class CdkTramitacaoFormComponent implements OnChanges, OnDestroy, OnInit 
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

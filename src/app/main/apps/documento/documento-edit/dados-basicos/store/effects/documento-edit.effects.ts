@@ -37,7 +37,7 @@ export class DocumentoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -46,6 +46,7 @@ export class DocumentoEditEffects {
 
     /**
      * Save Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -53,8 +54,7 @@ export class DocumentoEditEffects {
         this._actions
             .pipe(
                 ofType<DocumentoEditActions.SaveDocumento>(DocumentoEditActions.SAVE_DOCUMENTO),
-                switchMap((action) => {
-                    return this._documentoService.save(action.payload).pipe(
+                switchMap(action => this._documentoService.save(action.payload).pipe(
                         mergeMap((response: Documento) => [
                             new DocumentoEditActions.SaveDocumentoSuccess(),
                             new AddData<Documento>({data: [response], schema: documentoSchema}),
@@ -68,7 +68,6 @@ export class DocumentoEditEffects {
                             console.log(err);
                             return of(new DocumentoEditActions.SaveDocumentoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

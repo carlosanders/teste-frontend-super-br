@@ -62,7 +62,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -78,7 +78,7 @@ export class CompartilhamentoCreateComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.compartilhamento = new Compartilhamento();
-        this.tarefa$.subscribe(tarefa => {
+        this.tarefa$.subscribe((tarefa) => {
             this.compartilhamento.tarefa = tarefa;
         });
     }

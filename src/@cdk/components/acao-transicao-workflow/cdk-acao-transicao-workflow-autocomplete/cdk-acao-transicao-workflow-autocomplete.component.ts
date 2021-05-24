@@ -53,7 +53,7 @@ export class CdkAcaoTransicaoWorkflowAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             contexto: `like:%${bit}%`});
                     });
@@ -79,7 +79,7 @@ export class CdkAcaoTransicaoWorkflowAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.acaoList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

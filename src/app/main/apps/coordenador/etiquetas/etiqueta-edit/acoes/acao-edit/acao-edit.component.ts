@@ -14,7 +14,7 @@ import {Etiqueta} from '@cdk/models';
 import {getEtiqueta} from '../../store/selectors';
 import {Router} from '@angular/router';
 import {getRouterState} from '../../../../../../../store/reducers';
-import {getModalidadeAcaoEtiquetaList} from "./store/selectors/modalidade-acao-etiqueta.selectors";
+import {getModalidadeAcaoEtiquetaList} from './store/selectors/modalidade-acao-etiqueta.selectors';
 
 @Component({
     selector: 'acao-edit',
@@ -27,7 +27,7 @@ import {getModalidadeAcaoEtiquetaList} from "./store/selectors/modalidade-acao-e
 export class AcaoEditComponent implements OnInit, OnDestroy {
     routerState: any;
     action: string;
-    componentUrl:string;
+    componentUrl: string;
     acao$: Observable<Acao>;
     acao: Acao;
     modalidadeAcaoEtiquetaList: ModalidadeAcaoEtiqueta[] = [];
@@ -54,7 +54,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 this.action = '';
                 if (routerState) {
                     this.routerState = routerState.state;
@@ -80,18 +80,18 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.etiqueta$.subscribe(
-            etiqueta => {
+            (etiqueta) => {
                 this.etiqueta = etiqueta;
             }
         );
 
         this.acao$.subscribe(
             acao => this.acao = acao
-        )
+        );
 
         this.modalidadeAcaoEtiquetaList$.subscribe(
             modalidadeAcaoEtiquetaList => this.modalidadeAcaoEtiquetaList = modalidadeAcaoEtiquetaList
-        )
+        );
 
         if (!this.acao) {
             this.acao = new Acao();
@@ -113,7 +113,7 @@ export class AcaoEditComponent implements OnInit, OnDestroy {
         this._router.navigate([this.routerState.url.replace(this.componentUrl, 'acoes/listar')]);
     }
 
-    selectTrigger(modalidadeAcaoEtiqueta:ModalidadeAcaoEtiqueta): void {
+    selectTrigger(modalidadeAcaoEtiqueta: ModalidadeAcaoEtiqueta): void {
         let routeId = null;
         switch (modalidadeAcaoEtiqueta.trigger){
             case 'SuppCore\\AdministrativoBackend\\Api\\V1\\Triggers\\VinculacaoEtiqueta\\Trigger0001':

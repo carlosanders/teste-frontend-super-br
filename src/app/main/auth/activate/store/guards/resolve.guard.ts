@@ -18,7 +18,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,7 +39,7 @@ export class ResolveGuard implements CanActivate {
                 const params = {};
 
                 const cpfHandle = of('cpfHandle');
-                cpfHandle.subscribe(param => {
+                cpfHandle.subscribe((param) => {
                     params['cpf'] = {id: '', value: ''};
                     if (this.routerState.params[param]) {
                         params['cpf'] = {
@@ -50,7 +50,7 @@ export class ResolveGuard implements CanActivate {
                 });
 
                 const tokenHandle = of('tokenHandle');
-                tokenHandle.subscribe(param => {
+                tokenHandle.subscribe((param) => {
                     params['token'] = {id: '', value: ''};
                     if (this.routerState.params[param]) {
                         params['token'] = {
@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                 });
 
                 const chaveAcessoHandle = of('chaveAcessoHandle');
-                chaveAcessoHandle.subscribe(param => {
+                chaveAcessoHandle.subscribe((param) => {
                     params['context'] = '{}';
                     if (this.routerState.params[param]) {
                         params['context'] = JSON.stringify({chaveAcesso: this.routerState.params[param]});
@@ -73,10 +73,8 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.Activate(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params['cpfHandle'] && this.routerState.params['tokenHandle'] &&
-                    (this.routerState.params['cpfHandle'] + '_' + this.routerState.params['tokenHandle']) === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params['cpfHandle'] && this.routerState.params['tokenHandle'] &&
+                    (this.routerState.params['cpfHandle'] + '_' + this.routerState.params['tokenHandle']) === loaded.value),
             take(1)
         );
     }

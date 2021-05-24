@@ -1,6 +1,6 @@
 import {ComponentFactory, ComponentFactoryResolver, NgModule} from '@angular/core';
 
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule} from '@cdk/angular/material';
 
 
 import { AjudaVinculacoesProcessosComponent } from './ajuda-vinculacoes-processos.component';

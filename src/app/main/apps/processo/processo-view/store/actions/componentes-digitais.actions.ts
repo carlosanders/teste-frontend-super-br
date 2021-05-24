@@ -143,19 +143,19 @@ export class VisualizarModeloFailed implements Action
  export class VisualizarJuntada implements Action
  {
      readonly type = VISUALIZAR_JUNTADA;
- 
+
      constructor(public payload: any)
      {
      }
  }
- 
+
  /**
   * Visualizar Juntada Failed
   */
  export class VisualizarJuntadaFailed implements Action
  {
      readonly type = VISUALIZAR_JUNTADA_FAILED;
- 
+
      constructor(public payload: any)
      {
      }

@@ -188,13 +188,13 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             (value) => {
                 this.revertendo = value;
             }
-        )
+        );
 
         this._componenteDigitalService.alterandoModelo.subscribe(
             (value) => {
                 this.alterandoModelo = value;
             }
-        )
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -297,9 +297,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
 
     b64DecodeUnicode(str): any {
         // Going backwards: from bytestream, to percent-encoding, to original string.
-        return decodeURIComponent(atob(str).split('').map((c) => {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
+        return decodeURIComponent(atob(str).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
     }
 
     private getBase64(blob): any {
@@ -316,9 +314,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
         const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
         const commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
 
-        return input.replace(commentsAndPhpTags, '').replace(tags, ($0, $1) => {
-            return nallowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '';
-        });
+        return input.replace(commentsAndPhpTags, '').replace(tags, ($0, $1) => nallowed.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : '');
     }
 
     private resizeFunction(): void {
@@ -419,7 +415,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
     doSave(): void {
          if (this.hashAntigo) {
             this.getBase64(new Blob([this.src], {type: 'text/html'})).then(
-                conteudo => {
+                (conteudo) => {
                     this.save.emit({conteudo: conteudo, hashAntigo: this.hashAntigo});
                     this.editor.resetDirty();
                 }
@@ -432,7 +428,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             this.assinando = result;
             this.doSave();
         });
@@ -448,7 +444,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             this.editor.insertHtml(result.html);
         });
     }
@@ -458,7 +454,7 @@ export class CdkComponenteDigitalCkeditorComponent implements OnInit, OnDestroy,
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             const html = '<span data-method="repositorio" data-options="' + result.id + '" data-service="App\Fields\Field\RepositorioField">*' + result.nome + '*</span>';
             this.editor.insertHtml(html);
         });

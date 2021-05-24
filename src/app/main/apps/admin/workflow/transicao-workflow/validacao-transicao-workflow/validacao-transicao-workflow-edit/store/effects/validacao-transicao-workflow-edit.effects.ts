@@ -26,7 +26,7 @@ export class ValidacaoTransicaoWorkflowEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class ValidacaoTransicaoWorkflowEditEffect {
 
     /**
      * Save Validacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class ValidacaoTransicaoWorkflowEditEffect {
         this._actions
             .pipe(
                 ofType<ValidacaoEditActions.SaveValidacao>(ValidacaoEditActions.SAVE_VALIDACAO),
-                switchMap((action) => {
-                    return this._validacaoService.save(action.payload).pipe(
+                switchMap(action => this._validacaoService.save(action.payload).pipe(
                         mergeMap((response: ValidacaoTransicaoWorkflow) => [
                             new ValidacaoEditActions.SaveValidacaoSuccess(),
                             new ValidacaoListActions.ReloadValidacoes(),
@@ -54,11 +54,8 @@ export class ValidacaoTransicaoWorkflowEditEffect {
                                 dateTime: moment()
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new ValidacaoEditActions.SaveValidacaoFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new ValidacaoEditActions.SaveValidacaoFailed(err)))
+                    ))
             );
     /**
      * Save Validacao Success

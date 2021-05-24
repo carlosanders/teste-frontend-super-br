@@ -11,9 +11,9 @@ export class RouterEffects {
     /**
      * Constructor
      *
-     * @param {Actions} actions$
-     * @param {Router} router
-     * @param {Location} location
+     * @param actions$
+     * @param router
+     * @param location
      */
     constructor(
         private actions$: Actions,

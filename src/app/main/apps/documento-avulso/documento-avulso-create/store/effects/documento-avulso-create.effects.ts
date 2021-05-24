@@ -33,7 +33,7 @@ export class DocumentoAvulsoCreateEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,6 +42,7 @@ export class DocumentoAvulsoCreateEffect {
 
     /**
      * Save DocumentoAvulso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -49,8 +50,7 @@ export class DocumentoAvulsoCreateEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoCreateActions.SaveDocumentoAvulso>(DocumentoAvulsoCreateActions.SAVE_DOCUMENTO_AVULSO),
-                mergeMap((action) => {
-                    return this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
+                mergeMap(action => this._documentoAvulsoService.save(action.payload.documentoAvulso).pipe(
                         tap((response) => {
                             this.routeOficio = action.payload.routeOficio;
                             this._store.dispatch(new GetDocumentos());
@@ -78,12 +78,12 @@ export class DocumentoAvulsoCreateEffect {
                             console.log (err);
                             return of(new DocumentoAvulsoCreateActions.SaveDocumentoAvulsoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Get Documento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -91,14 +91,12 @@ export class DocumentoAvulsoCreateEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoCreateActions.GetDocumento>(DocumentoAvulsoCreateActions.GET_DOCUMENTO),
-                switchMap((action) => {
-                    return this._documentoService.query(
+                switchMap(action => this._documentoService.query(
                         `{"documentoAvulsoRemessa.id": "eq:${action.payload}"}`,
                         1,
                         0,
                         '{}',
-                        JSON.stringify(['componentesDigitais']));
-                }),
+                        JSON.stringify(['componentesDigitais']))),
                 switchMap(response => [
                     // new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new DocumentoAvulsoCreateActions.GetDocumentoSuccess({

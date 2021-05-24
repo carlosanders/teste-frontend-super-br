@@ -23,8 +23,8 @@ export class CdkNavigationComponent implements OnInit {
 
     /**
      *
-     * @param {ChangeDetectorRef} _changeDetectorRef
-     * @param {CdkNavigationService} _cdkNavigationService
+     * @param _changeDetectorRef
+     * @param _cdkNavigationService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

@@ -172,7 +172,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -180,7 +180,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.currentRelatorioId = parseInt(routerState.state.params['relatorioHandle'], 0);
         });
 
@@ -188,7 +188,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
             .pipe(
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(message => {
+            ).subscribe((message) => {
                 if (message && message.type && message.type === 'relatorio_create') {
                     this._store.dispatch(new LoadRelatorioSuccess(message.content.relatorio));
                 }
@@ -196,43 +196,43 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.loading$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(loading => {
+        ).subscribe((loading) => {
             this.loading = loading;
         });
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => {
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
         this.relatorios$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(relatorio => {
+        ).subscribe((relatorio) => {
             this.relatorios = relatorio;
         });
 
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(maximizado => {
+        ).subscribe((maximizado) => {
             this.maximizado = maximizado;
         });
 
         this.selectedRelatorios$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedRelatorios => {
+        ).subscribe((selectedRelatorios) => {
             this.selectedRelatorios = selectedRelatorios;
         });
 
         this.selectedIds$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedIds => {
+        ).subscribe((selectedIds) => {
             this.selectedIds = selectedIds;
         });
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
                 if (this.maximizado) {
@@ -245,7 +245,7 @@ export class RelatoriosComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.loadedIdRelatorios$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(idRelatorio => {
+        ).subscribe((idRelatorio) => {
             this.loadedIdRelatorios = idRelatorio;
             this._changeDetectorRef.markForCheck();
         });

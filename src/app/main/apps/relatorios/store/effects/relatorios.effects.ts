@@ -31,7 +31,7 @@ export class RelatoriosEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -40,6 +40,7 @@ export class RelatoriosEffect {
 
     /**
      * Get Relatorios with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -47,8 +48,7 @@ export class RelatoriosEffect {
         this._actions
             .pipe(
                 ofType<RelatoriosActions.GetRelatorios>(RelatoriosActions.GET_RELATORIOS),
-                switchMap((action) => {
-                    return this._relatorioService.query(
+                switchMap(action => this._relatorioService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
@@ -58,9 +58,8 @@ export class RelatoriosEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                concatMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                concatMap(response => [
                     new AddData<Relatorio>({data: response['entities'], schema: relatorioSchema}),
                     new RelatoriosActions.GetRelatoriosSuccess({
                         entitiesId: response['entities'].map(relatorio => relatorio.id),
@@ -81,6 +80,7 @@ export class RelatoriosEffect {
 
     /**
      * Update Relatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -102,6 +102,7 @@ export class RelatoriosEffect {
 
     /**
      * Create Relatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -119,6 +120,7 @@ export class RelatoriosEffect {
 
     /**
      * Delete Relatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -126,19 +128,18 @@ export class RelatoriosEffect {
         this._actions
             .pipe(
                 ofType<RelatoriosActions.DeleteRelatorio>(RelatoriosActions.DELETE_RELATORIO),
-                mergeMap((action) => {
-                    return this._relatorioService.destroy(action.payload).pipe(
-                        map((response) => new RelatoriosActions.DeleteRelatorioSuccess(response.id)),
+                mergeMap(action => this._relatorioService.destroy(action.payload).pipe(
+                        map(response => new RelatoriosActions.DeleteRelatorioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new RelatoriosActions.DeleteRelatorioFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Set Folder on Selected Relatorios
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -146,8 +147,7 @@ export class RelatoriosEffect {
         this._actions
             .pipe(
                 ofType<RelatoriosActions.SetFolderOnSelectedRelatorios>(RelatoriosActions.SET_FOLDER_ON_SELECTED_RELATORIOS),
-                concatMap((action) => {
-                    return this._relatorioService.patch(action.payload.relatorio, {folder: action.payload.folder.id}).pipe(
+                concatMap(action => this._relatorioService.patch(action.payload.relatorio, {folder: action.payload.folder.id}).pipe(
                         mergeMap((response: any) => [
                                 new RelatoriosActions.SetFolderOnSelectedRelatoriosSuccess(response),
                                 new OperacoesActions.Resultado({
@@ -160,7 +160,6 @@ export class RelatoriosEffect {
                                 console.log(err);
                                 return of(new RelatoriosActions.SetFolderOnSelectedRelatoriosFailed(err));
                             })
-                        ));
-                })
+                        )))
             );
 }

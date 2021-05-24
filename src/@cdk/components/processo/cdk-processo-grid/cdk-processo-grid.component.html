@@ -14,7 +14,7 @@
 
     <!-- CONTENT -->
     <div id="responsiveGrid" class="responsive-grid" [ngClass]="{
-            'search': (this.mode == 'search'),
+            'search': (this.mode === 'search'),
             'mobile-processo-lista-off': (mobileMode && !processos),
             'mobile-processo-lista-on': (mobileMode && !!processos)
         }">

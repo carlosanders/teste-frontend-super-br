@@ -71,7 +71,7 @@ export class CdkAfastamentoGridsearchComponent implements OnInit {
             .pipe(
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
             this.afastamentos = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();

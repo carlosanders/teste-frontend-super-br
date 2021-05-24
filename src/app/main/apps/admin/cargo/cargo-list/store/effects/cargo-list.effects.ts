@@ -25,7 +25,7 @@ export class CargoListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class CargoListEffects {
 
     /**
      * Get Cargo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class CargoListEffects {
         this._actions
             .pipe(
                 ofType<CargoListActions.GetCargo>(CargoListActions.GET_CARGO),
-                switchMap((action) => {
-                    return this._cargoService.query(
+                switchMap(action => this._cargoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,7 +52,7 @@ export class CargoListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Cargo>({data: response['entities'], schema: cargoSchema}),
                             new CargoListActions.GetCargoSuccess({
                                 entitiesId: response['entities'].map(cargo => cargo.id),
@@ -67,7 +67,6 @@ export class CargoListEffects {
                             console.log(err);
                             return of(new CargoListActions.GetCargoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

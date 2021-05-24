@@ -61,14 +61,14 @@ export class ProcessoEnviaEmailComponent implements OnInit, OnDestroy {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
         this.juntada$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(juntada => {
+        ).subscribe((juntada) => {
             this.juntada = juntada;
         });
 

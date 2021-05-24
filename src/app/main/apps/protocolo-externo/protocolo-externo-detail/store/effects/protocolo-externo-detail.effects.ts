@@ -35,7 +35,7 @@ export class ProcessoDetailEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -44,6 +44,7 @@ export class ProcessoDetailEffect {
 
     /**
      * Get Processo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -51,8 +52,7 @@ export class ProcessoDetailEffect {
         this._actions
             .pipe(
                 ofType<ProcessoDetailActions.GetProcesso>(ProcessoDetailActions.GET_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.query(
+                switchMap(action => this._processoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -70,8 +70,7 @@ export class ProcessoDetailEffect {
                             'lembretes',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'
-                        ]));
-                }),
+                        ]))),
                 mergeMap(response => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
                     new ProcessoDetailActions.GetProcessoSuccess({
@@ -105,6 +104,7 @@ export class ProcessoDetailEffect {
 
     /**
      * Update Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -121,6 +121,7 @@ export class ProcessoDetailEffect {
 
     /**
      * Delete Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -128,19 +129,18 @@ export class ProcessoDetailEffect {
         this._actions
             .pipe(
                 ofType<ProcessoDetailActions.DeleteProcesso>(ProcessoDetailActions.DELETE_PROCESSO),
-                mergeMap((action) => {
-                        return this._processoService.destroy(action.payload).pipe(
-                            map((response) => new ProcessoDetailActions.DeleteProcessoSuccess(response.id)),
+                mergeMap(action => this._processoService.destroy(action.payload).pipe(
+                            map(response => new ProcessoDetailActions.DeleteProcessoSuccess(response.id)),
                             catchError((err) => {
                                 console.log(err);
                                 return of(new ProcessoDetailActions.DeleteProcessoFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
     /**
      * Save Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -148,8 +148,7 @@ export class ProcessoDetailEffect {
         this._actions
             .pipe(
                 ofType<ProcessoDetailActions.SaveProcesso>(ProcessoDetailActions.SAVE_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
+                switchMap(action => this._processoService.save(action.payload).pipe(
                         mergeMap((response: Processo) => [
                             new ProcessoDetailActions.SaveProcessoSuccess(),
                             new AddData<Processo>({
@@ -165,12 +164,12 @@ export class ProcessoDetailEffect {
                             console.log(err);
                             return of(new ProcessoDetailActions.SaveProcessoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Create Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -183,8 +182,8 @@ export class ProcessoDetailEffect {
                     vinculacaoEtiqueta.processo = action.payload.processo;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap((response) => response.processo = null),
-                        mergeMap((response) => [
+                        tap(response => response.processo = null),
+                        mergeMap(response => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
@@ -208,6 +207,7 @@ export class ProcessoDetailEffect {
 
     /**
      * Save conteúdo vinculação etiqueta na processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -215,9 +215,8 @@ export class ProcessoDetailEffect {
         this._actions
             .pipe(
                 ofType<ProcessoDetailActions.SaveConteudoVinculacaoEtiqueta>(ProcessoDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
-                        mergeMap((response) => [
+                mergeMap(action => this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                        mergeMap(response => [
                             new ProcessoDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                             new UpdateData<VinculacaoEtiqueta>({
                                 id: response.id,
@@ -229,13 +228,13 @@ export class ProcessoDetailEffect {
                             console.log(err);
                             return of(new ProcessoDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 
     /**
      * Delete Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -243,8 +242,7 @@ export class ProcessoDetailEffect {
         this._actions
             .pipe(
                 ofType<ProcessoDetailActions.DeleteVinculacaoEtiqueta>(ProcessoDetailActions.DELETE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                        return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
+                mergeMap(action => this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
                             mergeMap(() => [
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,
@@ -257,12 +255,12 @@ export class ProcessoDetailEffect {
                                 console.log(err);
                                 return of(new ProcessoDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
     /**
      * Get Documentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -270,8 +268,7 @@ export class ProcessoDetailEffect {
         this._actions
             .pipe(
                 ofType<ProcessoDetailActions.GetDocumentos>(ProcessoDetailActions.GET_DOCUMENTOS),
-                switchMap((action) => {
-                    return this._documentoService.query(
+                switchMap(action => this._documentoService.query(
                         JSON.stringify(action.payload),
                         25,
                         0,
@@ -279,8 +276,7 @@ export class ProcessoDetailEffect {
                         JSON.stringify([
                             'tipoDocumento',
                             'tipoDocumento.especieDocumento',
-                            'componentesDigitais']));
-                }),
+                            'componentesDigitais']))),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new ProcessoDetailActions.GetDocumentosSuccess({

@@ -13,7 +13,7 @@ import { CdkTipoDocumentoGridModule } from '@cdk/components/tipo-documento/cdk-t
     imports: [
 
         CdkTipoDocumentoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

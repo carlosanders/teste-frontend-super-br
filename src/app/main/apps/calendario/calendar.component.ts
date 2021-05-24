@@ -78,7 +78,7 @@ export class CalendarComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.events$.subscribe(events => {
+        this.events$.subscribe((events) => {
             this.events = events;
         });
     }
@@ -91,7 +91,7 @@ export class CalendarComponent implements OnInit {
      * Set events
      */
     setEvents(): void {
-        this.events = this._calendarService.events.map(item => {
+        this.events = this._calendarService.events.map((item) => {
             item.actions = this.actions;
             return new CalendarEventModel(item);
         });
@@ -100,20 +100,19 @@ export class CalendarComponent implements OnInit {
     /**
      * Before View Renderer
      *
-     * @param {any} header
-     * @param {any} body
+     * @param header
+     * @param body
      */
     beforeMonthViewRender({header, body}): void {
         /**
          * Get the selected day
          */
-        const _selectedDay = body.find((_day) => {
-            return _day.date.getTime() === this.selectedDay.date.getTime();
-        });
+        const _selectedDay = body.find(_day => _day.date.getTime() === this.selectedDay.date.getTime());
 
         if (_selectedDay) {
             /**
              * Set selected day style
+             *
              * @type {string}
              */
             _selectedDay.cssClass = 'cal-selected';
@@ -124,7 +123,7 @@ export class CalendarComponent implements OnInit {
     /**
      * Day clicked
      *
-     * @param {MonthViewDay} day
+     * @param day
      */
     dayClicked(day: CalendarMonthViewDay): void {
         const date: Date = day.date;
@@ -146,9 +145,9 @@ export class CalendarComponent implements OnInit {
      * Event times changed
      * Event dropped or resized
      *
-     * @param {CalendarEvent} event
-     * @param {Date} newStart
-     * @param {Date} newEnd
+     * @param event
+     * @param newStart
+     * @param newEnd
      */
     eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
         event.start = newStart;
@@ -168,7 +167,7 @@ export class CalendarComponent implements OnInit {
 
         this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente apagar?';
 
-        this.confirmDialogRef.afterClosed().subscribe(result => {
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 const eventIndex = this.events.indexOf(event);
                 this.events.splice(eventIndex, 1);
@@ -182,8 +181,8 @@ export class CalendarComponent implements OnInit {
     /**
      * Edit Event
      *
-     * @param {string} action
-     * @param {CalendarEvent} event
+     * @param action
+     * @param event
      */
     editEvent(action: string, event: CalendarEvent): void {
         const eventIndex = this.events.indexOf(event);
@@ -197,7 +196,7 @@ export class CalendarComponent implements OnInit {
         });
 
         this.dialogRef.afterClosed()
-            .subscribe(response => {
+            .subscribe((response) => {
                 if (!response) {
                     return;
                 }

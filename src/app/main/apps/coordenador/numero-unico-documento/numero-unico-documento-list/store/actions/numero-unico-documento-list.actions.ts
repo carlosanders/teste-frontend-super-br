@@ -54,7 +54,7 @@ export class GetNumerosUnicosDocumentosFailed implements Action
  export class UnloadNumerosUnicosDocumentos implements Action
  {
      readonly type = UNLOAD_NUMEROS_UNICOS_DOCUMENTOS;
- 
+
      constructor()
      {
      }

@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import {ReloadProcessos, UnloadProcessos} from "../../../store";
+import {ReloadProcessos, UnloadProcessos} from '../../../store';
 
 @Injectable()
 export class ProtocoloCreateEffects {
@@ -28,7 +28,7 @@ export class ProtocoloCreateEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class ProtocoloCreateEffects {
 
     /**
      * Save Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +45,7 @@ export class ProtocoloCreateEffects {
         this._actions
             .pipe(
                 ofType<ProtocoloCreateActions.SaveProcesso>(ProtocoloCreateActions.SAVE_PROCESSO),
-                mergeMap((action) => {
-                    return this._processoService.save(action.payload).pipe(
+                mergeMap(action => this._processoService.save(action.payload).pipe(
                         mergeMap((response: Processo) => [
                             new AddData<Processo>({data: [response], schema: processoSchema}),
                             new ProtocoloCreateActions.SaveProcessoSuccess(response),
@@ -61,8 +61,7 @@ export class ProtocoloCreateEffects {
                             console.log (err);
                             return of(new ProtocoloCreateActions.SaveProcessoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

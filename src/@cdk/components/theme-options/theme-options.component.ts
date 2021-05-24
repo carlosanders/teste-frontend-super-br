@@ -30,12 +30,12 @@ export class CdkThemeOptionsComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {DOCUMENT} document
-     * @param {FormBuilder} _formBuilder
-     * @param {CdkConfigService} _cdkConfigService
-     * @param {CdkNavigationService} _cdkNavigationService
-     * @param {CdkSidebarService} _cdkSidebarService
-     * @param {Renderer2} _renderer
+     * @param document
+     * @param _formBuilder
+     * @param _cdkConfigService
+     * @param _cdkNavigationService
+     * @param _cdkSidebarService
+     * @param _renderer
      */
     constructor(
         @Inject(DOCUMENT) private document: any,
@@ -108,6 +108,16 @@ export class CdkThemeOptionsComponent implements OnInit, OnDestroy
                 // Set the config form values without emitting an event
                 // so that we don't end up with an infinite loop
                 this.form.setValue(config, {emitEvent: false});
+            });
+
+        // Subscribe to the specific form value changes (layout.style)
+        this.form.get('colorTheme').valueChanges
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((value) => {
+
+                // Reset the form values based on the
+                // selected layout style
+                localStorage.setItem('colorTheme', value);
             });
 
         // Subscribe to the specific form value changes (layout.style)

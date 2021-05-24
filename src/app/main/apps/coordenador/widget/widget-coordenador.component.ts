@@ -55,7 +55,7 @@ export class WidgetCoordenadorComponent implements OnInit {
                 .pipe(
                     catchError(() => of([]))
                 ).subscribe(
-                value => {
+                (value) => {
                     this.tarefasCount = value;
                     this._changeDetectorRef.markForCheck();
                 }
@@ -65,7 +65,7 @@ export class WidgetCoordenadorComponent implements OnInit {
                 .pipe(
                     catchError(() => of([]))
                 ).subscribe(
-                value => {
+                (value) => {
                     this.tarefasVencidasCount = value;
                     this._changeDetectorRef.markForCheck();
                 }

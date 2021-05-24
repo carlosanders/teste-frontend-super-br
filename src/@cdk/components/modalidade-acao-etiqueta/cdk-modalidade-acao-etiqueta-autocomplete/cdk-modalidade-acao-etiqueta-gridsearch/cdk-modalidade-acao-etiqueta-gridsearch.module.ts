@@ -13,7 +13,7 @@ import { CdkModalidadeAcaoEtiquetaGridModule } from '@cdk/components/modalidade-
     imports: [
 
         CdkModalidadeAcaoEtiquetaGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

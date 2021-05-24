@@ -26,7 +26,7 @@ export class EstadosEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class EstadosEffects {
 
     /**
      * Get Estados with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,16 +43,14 @@ export class EstadosEffects {
         this._actions
             .pipe(
                 ofType<EstadosActions.GetEstados>(EstadosActions.GET_ESTADOS),
-                switchMap(() => {
-                    return this._estadoService.query(
+                switchMap(() => this._estadoService.query(
                         JSON.stringify({}),
                         100,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 mergeMap(response => [
                     new AddData<Estado>({data: response['entities'], schema: estadoSchema}),
                     new EstadosActions.GetEstadosSuccess({

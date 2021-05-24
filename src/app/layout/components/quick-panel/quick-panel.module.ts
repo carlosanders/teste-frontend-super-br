@@ -4,15 +4,15 @@ import {MatDividerModule, MatListModule, MatSlideToggleModule} from '@cdk/angula
 import {CdkSharedModule} from '@cdk/shared.module';
 
 import {QuickPanelComponent} from './quick-panel.component';
-import {MatCardModule} from "@angular/material/card";
-import {MatProgressBarModule} from "@angular/material/progress-bar";
-import {MatIconModule} from "@angular/material/icon";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatButtonModule} from "@angular/material/button";
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {MatMenuModule} from "@angular/material/menu";
-import {MatSelectModule} from "@angular/material/select";
+import {MatCardModule} from '@angular/material/card';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatIconModule} from '@cdk/angular/material';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatMenuModule} from '@angular/material/menu';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
     declarations: [

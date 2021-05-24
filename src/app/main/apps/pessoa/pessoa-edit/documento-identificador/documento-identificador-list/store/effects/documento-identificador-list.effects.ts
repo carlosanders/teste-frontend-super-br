@@ -12,7 +12,7 @@ import {DocumentoIdentificadorService} from '@cdk/services/documento-identificad
 import {AddData} from '@cdk/ngrx-normalizr';
 import {DocumentoIdentificador} from '@cdk/models';
 import {documentoIdentificador as documentoIdentificadorchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class DocumentoIdentificadorListEffect {
@@ -26,7 +26,7 @@ export class DocumentoIdentificadorListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class DocumentoIdentificadorListEffect {
 
     /**
      * Get DocumentoIdentificador with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class DocumentoIdentificadorListEffect {
         this._actions
             .pipe(
                 ofType<DocumentoIdentificadorListActions.GetDocumentoIdentificador>(DocumentoIdentificadorListActions.GET_DOCUMENTO_IDENTIFICADOR),
-                switchMap((action) => {
-                    return this._documentoIdentificadorService.query(
+                switchMap(action => this._documentoIdentificadorService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -51,9 +51,8 @@ export class DocumentoIdentificadorListEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<DocumentoIdentificador>({data: response['entities'], schema: documentoIdentificadorchema}),
                     new DocumentoIdentificadorListActions.GetDocumentoIdentificadorSuccess({
                         entitiesId: response['entities'].map(documentoIdentificador => documentoIdentificador.id),
@@ -74,6 +73,7 @@ export class DocumentoIdentificadorListEffect {
 
     /**
      * Delete DocumentoIdentificador
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,9 +81,8 @@ export class DocumentoIdentificadorListEffect {
         this._actions
             .pipe(
                 ofType<DocumentoIdentificadorListActions.DeleteDocumentoIdentificador>(DocumentoIdentificadorListActions.DELETE_DOCUMENTO_IDENTIFICADOR),
-                mergeMap((action) => {
-                    return this._documentoIdentificadorService.destroy(action.payload).pipe(
-                        map((response) => new DocumentoIdentificadorListActions.DeleteDocumentoIdentificadorSuccess(response.id)),
+                mergeMap(action => this._documentoIdentificadorService.destroy(action.payload).pipe(
+                        map(response => new DocumentoIdentificadorListActions.DeleteDocumentoIdentificadorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new DocumentoIdentificadorListActions.DeleteDocumentoIdentificadorFailed(
@@ -92,7 +91,6 @@ export class DocumentoIdentificadorListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

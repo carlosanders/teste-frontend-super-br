@@ -26,7 +26,7 @@ export class ComponenteDigitalEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,7 +46,7 @@ export class ComponenteDigitalEffect {
                 switchMap(() => {
                     let handle = { id: '', value: '' };
                     const routeParams = of('componenteDigitalHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -75,6 +76,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -88,7 +90,7 @@ export class ComponenteDigitalEffect {
                         value: ''
                     };
                     const routeParams = of('componenteDigitalHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -107,8 +109,8 @@ export class ComponenteDigitalEffect {
                         }
                         const byteArray = new Uint8Array(byteNumbers);
                         // tslint:disable-next-line:one-variable-per-declaration
-                        const blob = new Blob([byteArray], {type: response.mimetype}),
-                            URL = window.URL;
+                        const blob = new Blob([byteArray], {type: response.mimetype});
+                            const URL = window.URL;
                         const data = URL.createObjectURL(blob);
 
                         const link = document.createElement('a');

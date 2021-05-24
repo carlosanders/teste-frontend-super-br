@@ -13,7 +13,7 @@ import { CdkProcessoGridModule } from '@cdk/components/processo/cdk-processo-gri
     imports: [
 
         CdkProcessoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

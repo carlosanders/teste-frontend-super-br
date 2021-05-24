@@ -32,7 +32,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -40,7 +40,7 @@ export class ResolveGuard implements CanActivate {
 
         this._store
             .pipe(select(getIsLoading))
-            .subscribe(loading => {
+            .subscribe((loading) => {
                 this.loading = loading;
             });
 
@@ -50,9 +50,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
             return this.checkStore().pipe(
@@ -63,7 +63,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Check store
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkStore(): Observable<any> {
         return forkJoin(
@@ -80,12 +80,12 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get folders
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getFolders(): any {
         return this._store.pipe(
             select(getFoldersLoaded),
-            tap(loaded => {
+            tap((loaded) => {
                 if (!loaded) {
                     this._store.dispatch(new fromStore.GetFolders([]));
                 }
@@ -98,7 +98,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Relatorios
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getRelatorios(): any {
         return this._store.pipe(
@@ -134,12 +134,10 @@ export class ResolveGuard implements CanActivate {
 
                 }
             }),
-            filter((loaded: any) => {
-                return this.loading || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
+            filter((loaded: any) => this.loading || (this.routerState.params['generoHandle'] && this.routerState.params['typeHandle'] &&
                     this.routerState.params['targetHandle'] &&
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['typeHandle'] + '_' +
-                        this.routerState.params['targetHandle']) === loaded.value);
-            }),
+                        this.routerState.params['targetHandle']) === loaded.value)),
             take(1)
         );
     }

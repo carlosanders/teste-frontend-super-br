@@ -98,7 +98,7 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -110,9 +110,9 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
             }
         );
 
-        this.documento$.subscribe((documento) => this.documento = documento);
+        this.documento$.subscribe(documento => this.documento = documento);
 
-        this.paginationComponenteDigital$.subscribe(pagination => {
+        this.paginationComponenteDigital$.subscribe((pagination) => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reloadComponentesDigitais(this.pagination);
@@ -126,9 +126,9 @@ export class DocumentoEditComponentesDigitaisComponent implements OnInit, OnDest
         const path1 = 'app/main/apps/documento/documento-edit/componentes-digitais';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path1)) {
-                module.components[path1].forEach((c => {
+                module.components[path1].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => {
+                        .then( (componentFactory)  => {
                             this.container.createComponent(componentFactory);
                             this._ref.markForCheck();
                         });

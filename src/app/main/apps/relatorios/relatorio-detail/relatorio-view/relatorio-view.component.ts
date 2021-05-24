@@ -80,13 +80,13 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
         this.pagination$ = this._store.pipe(select(fromStore.getPagination));
         this.routerState$ = this._store.pipe(select(getRouterState));
         this.relatorios$.pipe(filter(relatorios => !!relatorios)).subscribe(
-            relatorios => {
+            (relatorios) => {
                 this.relatorios = relatorios;
             }
         );
 
         this.binary$.subscribe(
-            binary => {
+            (binary) => {
                 if (binary.src && binary.src.conteudo) {
                     const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
                     const byteNumbers = new Array(byteCharacters.length);
@@ -99,8 +99,8 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
                     if (binary.src.mimetype === 'application/pdf' || binary.src.mimetype === 'text/html') {
                         this.src = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
                     } else {
-                        const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
-                            downloadLink = document.createElement('a');
+                        const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                            const downloadLink = document.createElement('a');
                         const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
                         downloadLink.target = '_blank';
                         downloadLink.href = sanitizedUrl;
@@ -136,7 +136,7 @@ export class RelatorioViewComponent implements OnInit, OnDestroy {
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }

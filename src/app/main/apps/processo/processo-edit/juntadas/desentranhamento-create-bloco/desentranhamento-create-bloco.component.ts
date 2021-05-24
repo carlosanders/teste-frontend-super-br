@@ -83,18 +83,18 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.juntadas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(juntadas => {
+        ).subscribe((juntadas) => {
             this.juntadas = juntadas;
         });
 
         this.juntadasSelecionadas$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(juntadas => {
+        ).subscribe((juntadas) => {
             this.juntadasSelecionadas = juntadas;
             this._changeDetectorRef.markForCheck();
         });
 
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
 
@@ -102,7 +102,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -110,7 +110,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             this.juntadas = this.juntadas.filter(x => !this.juntadasSelecionadas.includes(x));
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
@@ -132,7 +132,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
     submit(values): void {
         const lote = CdkUtils.makeId();
-        this.juntadasSelecionadas.forEach(juntada => {
+        this.juntadasSelecionadas.forEach((juntada) => {
             const operacaoId = CdkUtils.makeId();
             const desentranhamento = new Desentranhamento();
             Object.entries(values).forEach(
@@ -204,7 +204,7 @@ export class DesentranhamentoCreateBlocoComponent implements OnInit, OnDestroy {
         const juntadasIds = [];
         juntadas.forEach((juntada) => {
             juntadasIds.push(juntada.id);
-        })
+        });
         this._store.dispatch(new fromStore.SetSelectedJuntadas(juntadasIds));
     }
 

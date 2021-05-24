@@ -27,7 +27,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
 
     /**
      * Save DocumentoAvulso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulso>(DocumentoAvulsoCreateBlocoActions.SAVE_DOCUMENTO_AVULSO),
-                mergeMap((action) => {
-                    return this._documentoAvulsoService.save(action.payload).pipe(
+                mergeMap(action => this._documentoAvulsoService.save(action.payload).pipe(
                         mergeMap((response: DocumentoAvulso) => [
                             new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoSuccess(action.payload),
                             new AddData<DocumentoAvulso>({data: [response], schema: documentoAvulsoSchema}),
@@ -65,8 +65,7 @@ export class DocumentoAvulsoCreateBlocoEffect {
                             }));
                             return of(new DocumentoAvulsoCreateBlocoActions.SaveDocumentoAvulsoFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
 }

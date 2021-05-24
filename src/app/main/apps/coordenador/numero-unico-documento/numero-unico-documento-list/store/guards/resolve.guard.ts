@@ -26,7 +26,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,9 +36,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getNumerosUnicosDocumentos().pipe(
@@ -50,7 +50,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get NumerosUnicosDocumentos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getNumerosUnicosDocumentos(): any {
         let setorId: number;
@@ -94,9 +94,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetNumerosUnicosDocumentos(params));
                 }
             }),
-            filter((loaded: any) => {
-                return loaded && handle === loaded.id && setorId === loaded.value;
-            }),
+            filter((loaded: any) => loaded && handle === loaded.id && setorId === loaded.value),
             take(1)
         );
     }

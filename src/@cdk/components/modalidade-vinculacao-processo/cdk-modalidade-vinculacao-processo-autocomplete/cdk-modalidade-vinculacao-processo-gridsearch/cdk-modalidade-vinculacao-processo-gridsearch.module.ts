@@ -13,7 +13,7 @@ import { CdkModalidadeVinculacaoProcessoGridModule } from '@cdk/components/modal
     imports: [
 
         CdkModalidadeVinculacaoProcessoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

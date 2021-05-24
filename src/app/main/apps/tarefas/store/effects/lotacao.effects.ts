@@ -27,7 +27,7 @@ export class LotacaoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class LotacaoListEffect {
 
     /**
      * Get Lotacoes with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class LotacaoListEffect {
         this._actions
             .pipe(
                 ofType<RootLotacaoListActions.GetLotacoes>(RootLotacaoListActions.GET_LOTACOES),
-                switchMap((action) => {
-                    return this._lotacaoService.query(
+                switchMap(action => this._lotacaoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class LotacaoListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Lotacao>({data: response['entities'], schema: lotacaoSchema}),
                             new RootLotacaoListActions.GetLotacoesSuccess({
                                 entitiesId: response['entities'].map(lotacao => lotacao.id),
@@ -70,7 +70,6 @@ export class LotacaoListEffect {
                             console.log(err);
                             return of(new RootLotacaoListActions.GetLotacoesFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

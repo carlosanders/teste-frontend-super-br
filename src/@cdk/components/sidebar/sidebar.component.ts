@@ -81,14 +81,14 @@ export class CdkSidebarComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {AnimationBuilder} _animationBuilder
-     * @param {ChangeDetectorRef} _changeDetectorRef
-     * @param {ElementRef} _elementRef
-     * @param {CdkConfigService} _cdkConfigService
-     * @param {CdkMatchMediaService} _cdkMatchMediaService
-     * @param {CdkSidebarService} _cdkSidebarService
-     * @param {MediaObserver} _mediaObserver
-     * @param {Renderer2} _renderer
+     * @param _animationBuilder
+     * @param _changeDetectorRef
+     * @param _elementRef
+     * @param _cdkConfigService
+     * @param _cdkMatchMediaService
+     * @param _cdkSidebarService
+     * @param _mediaObserver
+     * @param _renderer
      */
     constructor(
         private _animationBuilder: AnimationBuilder,
@@ -123,7 +123,7 @@ export class CdkSidebarComponent implements OnInit, OnDestroy
     /**
      * Folded
      *
-     * @param {boolean} value
+     * @param value
      */
     @Input()
     set folded(value: boolean)
@@ -139,8 +139,8 @@ export class CdkSidebarComponent implements OnInit, OnDestroy
 
         // Programmatically add/remove padding to the element
         // that comes after or before based on the position
-        let sibling,
-            styleRule;
+        let sibling;
+            let styleRule;
 
         const styleValue = this.foldedWidth + 'px';
 
@@ -403,8 +403,8 @@ export class CdkSidebarComponent implements OnInit, OnDestroy
 
         // Programmatically add/remove padding to the element
         // that comes after or before based on the position
-        let sibling,
-            styleRule;
+        let sibling;
+            let styleRule;
 
         const styleValue = this.foldedWidth + 'px';
 

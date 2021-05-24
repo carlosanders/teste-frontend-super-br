@@ -55,7 +55,7 @@ export class CompetenciaEditComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -83,7 +83,7 @@ export class CompetenciaEditComponent implements OnInit, OnDestroy {
         this.unidade$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            setor => {
+            (setor) => {
                 if (setor) {
                     this.unidade = setor;
                 }

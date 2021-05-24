@@ -24,14 +24,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<DadosBasicosAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<DadosBasicosAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,9 +41,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return forkJoin([
@@ -62,7 +62,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Processo
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getProcesso(): any {
         this._store.dispatch(new fromStore.UnloadProcesso());
@@ -81,9 +81,7 @@ export class ResolveGuard implements CanActivate {
                     }
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -91,7 +89,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get assuntos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getAssuntos(): any {
         this._store.dispatch(new fromStore.UnloadAssuntos({reset: true}));
@@ -102,7 +100,7 @@ export class ResolveGuard implements CanActivate {
 
         return this._store.pipe(
             select(getAssuntosLoaded),
-            tap(loaded => {
+            tap((loaded) => {
                 const params = {
                     filter: {'processo.id': `eq:${this.routerState.params['processoHandle']}`},
                     sort: {},
@@ -115,9 +113,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetAssuntos(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -125,7 +121,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get interessados
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getInteressados(): any {
         this._store.dispatch(new fromStore.UnloadInteressados({reset: true}));
@@ -136,7 +132,7 @@ export class ResolveGuard implements CanActivate {
 
         return this._store.pipe(
             select(getInteressadosLoaded),
-            tap(loaded => {
+            tap((loaded) => {
                 const params = {
                     filter: {'processo.id': `eq:${this.routerState.params['processoHandle']}`},
                     sort: {},
@@ -149,9 +145,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetInteressados(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -159,7 +153,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get vinculacoesProcessos
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getVinculacoesProcessos(): any {
         this._store.dispatch(new fromStore.UnloadVinculacoesProcessos({reset: true}));
@@ -170,7 +164,7 @@ export class ResolveGuard implements CanActivate {
 
         return this._store.pipe(
             select(getVinculacoesProcessosLoaded),
-            tap(loaded => {
+            tap((loaded) => {
                 const params = {
                     filter: {
                         'processo.id': `eq:${this.routerState.params['processoHandle']}`
@@ -185,9 +179,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetVinculacoesProcessos(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -195,7 +187,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Juntadas
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getJuntadas(): any {
         this._store.dispatch(new fromStore.UnloadJuntadas({reset: true}));
@@ -226,9 +218,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetJuntadas(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
@@ -236,14 +226,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get configuracaoNup
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getConfiguracaoNup(): any {
         this._store.dispatch(new fromStore.UnloadConfiguracoesNup({reset: true}));
 
         return this._store.pipe(
             select(getConfiguracaoNupLoaded),
-            tap(loaded => {
+            tap((loaded) => {
                 const params = {
                     filter: {
                         'dataHoraFimVigencia': 'isNull'
@@ -258,9 +248,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetConfiguracoesNup(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

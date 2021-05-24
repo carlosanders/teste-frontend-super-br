@@ -27,7 +27,7 @@ export class ProcessoEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class ProcessoEffect {
 
     /**
      * Save Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class ProcessoEffect {
         this._actions
             .pipe(
                 ofType<ProcessoActions.SaveProcesso>(ProcessoActions.SAVE_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.arquivar(action.payload).pipe(
+                switchMap(action => this._processoService.arquivar(action.payload).pipe(
                         mergeMap((response: Processo) => [
                             new ProcessoActions.SaveProcessoSuccess(response),
                             new AddData<Processo>({data: [response], schema: processoSchema}),
@@ -58,8 +58,7 @@ export class ProcessoEffect {
                             console.log (err);
                             return of(new ProcessoActions.SaveProcessoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 

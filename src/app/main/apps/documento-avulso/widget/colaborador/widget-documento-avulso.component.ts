@@ -52,7 +52,7 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
-            value => {
+            (value) => {
                 this.documentosAvulsosCount = value;
                 this._changeDetectorRef.markForCheck();
             }
@@ -63,7 +63,7 @@ export class WidgetDocumentoAvulsoComponent implements OnInit {
             .pipe(
                 catchError(() => of([]))
             ).subscribe(
-            value => {
+            (value) => {
                 this.documentosAvulsosVencidosCount = value;
                 this._changeDetectorRef.markForCheck();
             }

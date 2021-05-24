@@ -13,7 +13,7 @@ import { CdkModalidadeNotificacaoGridModule } from '@cdk/components/modalidade-n
     imports: [
 
         CdkModalidadeNotificacaoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

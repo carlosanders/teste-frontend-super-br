@@ -5,7 +5,7 @@ export class CdkUtils {
      *
      * @param mainArr
      * @param searchText
-     * @returns {any}
+     * @returns
      */
     public static filterArrayByString(mainArr, searchText): any {
         if (!searchText) {
@@ -14,9 +14,7 @@ export class CdkUtils {
 
         searchText = searchText.toLowerCase();
 
-        return mainArr.filter(itemObj => {
-            return this.searchInObj(itemObj, searchText);
-        });
+        return mainArr.filter(itemObj => this.searchInObj(itemObj, searchText));
     }
 
     /**
@@ -36,7 +34,7 @@ export class CdkUtils {
      *
      * @param itemObj
      * @param searchText
-     * @returns {boolean}
+     * @returns
      */
     public static searchInObj(itemObj, searchText): boolean {
         for (const prop in itemObj) {
@@ -69,7 +67,7 @@ export class CdkUtils {
      *
      * @param arr
      * @param searchText
-     * @returns {boolean}
+     * @returns
      */
     public static searchInArray(arr, searchText): boolean {
         for (const value of arr) {
@@ -92,7 +90,7 @@ export class CdkUtils {
      *
      * @param value
      * @param searchText
-     * @returns {any}
+     * @returns
      */
     public static searchInString(value, searchText): any {
         return value.toLowerCase().includes(searchText);
@@ -101,7 +99,7 @@ export class CdkUtils {
     /**
      * Generate a unique GUID
      *
-     * @returns {string}
+     * @returns
      */
     public static generateGUID(): string {
         function S4(): string {
@@ -131,7 +129,7 @@ export class CdkUtils {
      * Handleize
      *
      * @param text
-     * @returns {string}
+     * @returns
      */
     public static handleize(text): string {
         return text.toString().toLowerCase()
@@ -175,11 +173,11 @@ export class CdkUtils {
     public static tokenExpired(token: string): boolean {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
         }).join(''));
         const expiry = (JSON.parse(jsonPayload)).exp;
-        return (Math.floor((new Date).getTime() / 1000)) >= expiry;
+        return (Math.floor((new Date()).getTime() / 1000)) >= expiry;
     }
 
     public static errorsToString(errors: any): string {

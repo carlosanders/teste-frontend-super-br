@@ -8,7 +8,7 @@ import {catchError, map, mergeMap, switchMap} from 'rxjs/operators';
 import {getRouterState, State} from 'app/store/reducers';
 import * as TarefaActions from '../actions';
 
-import {TarefaService} from "@cdk/services/tarefa.service";
+import {TarefaService} from '@cdk/services/tarefa.service';
 
 @Injectable()
 export class TarefaEffects {
@@ -27,6 +27,7 @@ export class TarefaEffects {
 
     /**
      * Distribui tarefas do usuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -34,13 +35,9 @@ export class TarefaEffects {
         this._actions
             .pipe(
                 ofType<TarefaActions.DistribuirTarefasUsuario>(TarefaActions.DISTRIBUIR_TAREFAS_USUARIO),
-                mergeMap((action) => {
-                    return this._tarefaService.distribuirTarefasUsuario(action.payload).pipe(
-                        map((response) => new TarefaActions.DistribuirTarefasUsuarioSuccess(response.id)),
-                        catchError((err) => {
-                            return of(new TarefaActions.DistribuirTarefasUsuarioSuccess(action.payload));
-                        })
-                    );
-                })
+                mergeMap(action => this._tarefaService.distribuirTarefasUsuario(action.payload).pipe(
+                        map(response => new TarefaActions.DistribuirTarefasUsuarioSuccess(response.id)),
+                        catchError(err => of(new TarefaActions.DistribuirTarefasUsuarioSuccess(action.payload)))
+                    ))
             );
 }

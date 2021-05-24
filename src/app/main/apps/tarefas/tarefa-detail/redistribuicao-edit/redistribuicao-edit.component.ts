@@ -27,9 +27,9 @@ import * as fromStoreTarefas from 'app/main/apps/tarefas/store';
 import {CdkUtils} from '@cdk/utils';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
-import {MatDialog} from "@cdk/angular/material";
-import {CdkVisibilidadePluginComponent} from "@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component";
-import {Back} from "../../../../../store";
+import {MatDialog} from '@cdk/angular/material';
+import {CdkVisibilidadePluginComponent} from '@cdk/components/visibilidade/cdk-visibilidade-plugin/cdk-visibilidade-plugin.component';
+import {Back} from '../../../../../store';
 
 @Component({
     selector: 'redistribuicao-edit',
@@ -95,7 +95,7 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -103,7 +103,7 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => {
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
 
@@ -117,7 +117,7 @@ export class RedistribuicaoEditComponent implements OnInit, OnDestroy {
         this.tarefa$.pipe(
             filter(tarefa => !this.tarefa || (tarefa.id !== this.tarefa.id)),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(tarefa => {
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
             this.tarefa.unidadeResponsavel = tarefa.setorResponsavel.unidade;
             this.tarefa.setorResponsavel = null;

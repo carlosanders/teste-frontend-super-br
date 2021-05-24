@@ -1,10 +1,10 @@
 import {RegistrarExtravioReducer, RegistrarExtravioState} from './registrar-extravio.reducer';
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {ModalidadeExtravioReducer, ModalidadeExtravioState} from "./modalidade-extravio.reducer";
+import {ModalidadeExtravioReducer, ModalidadeExtravioState} from './modalidade-extravio.reducer';
 
 export interface RegistrarExtravioAppState {
     transicao: RegistrarExtravioState;
-    modalidadeExtravio: ModalidadeExtravioState
+    modalidadeExtravio: ModalidadeExtravioState;
 }
 
 export const getRegistrarExtravioAppState = createFeatureSelector<RegistrarExtravioAppState>(

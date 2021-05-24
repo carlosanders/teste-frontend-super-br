@@ -15,8 +15,8 @@ import {Processo} from '@cdk/models';
 import {ProcessoService} from '@cdk/services/processo.service';
 import {LoginService} from 'app/main/auth/login/login.service';
 import {Router} from '@angular/router';
-import {getPagination} from "../selectors";
-import * as moment from "moment";
+import {getPagination} from '../selectors';
+import * as moment from 'moment';
 
 @Injectable()
 export class ArquivistaEffect {
@@ -32,7 +32,7 @@ export class ArquivistaEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -41,6 +41,7 @@ export class ArquivistaEffect {
 
     /**
      * Get Processos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,8 +49,7 @@ export class ArquivistaEffect {
         this._actions
             .pipe(
                 ofType<ArquivistaActions.GetProcessos>(ArquivistaActions.GET_PROCESSOS),
-                switchMap((action) => {
-                    return this._processoService.query(
+                switchMap(action => this._processoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter,
@@ -58,10 +58,8 @@ export class ArquivistaEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-
-                }),
-                concatMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                concatMap(response => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
                     new ArquivistaActions.GetProcessosSuccess({
                         entitiesId: response['entities'].map(processo => processo.id),
@@ -83,6 +81,7 @@ export class ArquivistaEffect {
 
     /**
      * Update Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -103,6 +102,7 @@ export class ArquivistaEffect {
 
     /**
      * Reload Processos
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -113,7 +113,7 @@ export class ArquivistaEffect {
                 withLatestFrom(this._store.pipe(select(getPagination))),
                 concatMap(([action, pagination]) => {
                     const currentDate = moment().format('YYYY-MM-DD[T]H:mm:ss');
-                    let processoFilter = {
+                    const processoFilter = {
                         ...pagination.filter
                     };
                     if (this.routerState.params['typeHandle'] === 'pronto-transicao') {
@@ -140,7 +140,7 @@ export class ArquivistaEffect {
                         JSON.stringify(pagination.populate));
 
                 }),
-                concatMap((response) => [
+                concatMap(response => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
                     new ArquivistaActions.GetProcessosSuccess({
                         entitiesId: response['entities'].map(processo => processo.id),

@@ -23,9 +23,9 @@ export class TipoDocumentoService extends ParentGenericService<TipoDocumento> {
             `${environment.api_url}${'administrativo/tipoDocumento'}/${tipoDocumento.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(TipoDocumento, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new TipoDocumento(), {...tipoDocumento, ...response});
             })
         );

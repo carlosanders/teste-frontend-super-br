@@ -35,7 +35,7 @@ export class CdkMatSidenavHelperService
      * Get sidenav
      *
      * @param id
-     * @returns {any}
+     * @returns
      */
     getSidenav(id): any
     {

@@ -4,7 +4,7 @@ import {CdkRealizarTransicaoFormComponent} from './cdk-realizar-transicao-form.c
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -16,8 +16,8 @@ import {CdkModalidadeTransicaoAutocompleteModule} from '../../../modalidade-tran
 import {CdkModalidadeTransicaoGridsearchModule} from '../../../modalidade-transicao/cdk-modalidade-transicao-autocomplete/cdk-modalidade-transicao-gridsearch/cdk-modalidade-transicao-gridsearch.module';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {ProcessoService} from '../../../../services/processo.service';
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {MatSelectModule} from "@angular/material/select";
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatSelectModule} from '@angular/material/select';
 
 
 @NgModule({

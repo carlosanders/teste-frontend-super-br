@@ -16,7 +16,7 @@ import {TranslateModule} from '@ngx-translate/core';
 
 import {CdkSharedModule} from '@cdk/shared.module';
 import {GarantiasComponent} from './garantias.component';
-import {GarantiaService} from '@cdk/services/garantia.service'; 
+import {GarantiaService} from '@cdk/services/garantia.service';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
 

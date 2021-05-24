@@ -34,9 +34,9 @@ import {CdkProcessoGridModule} from '../../processo/cdk-processo-grid/cdk-proces
 import {CdkLogentryGridsearchModule} from '../../logentry/cdk-logentry-grid/cdk-logentry-gridsearch/cdk-logentry-gridsearch.module';
 import {CdkBlocoDestinatarioGridModule} from '../cdk-bloco-destinatario-grid/cdk-bloco-destinatario-grid.module';
 import {FavoritoService} from '../../../services/favorito.service';
-import {MatCardModule} from "@angular/material/card";
-import {MatRadioModule} from "@angular/material/radio";
-import {MatSelectModule} from "@angular/material/select";
+import {MatCardModule} from '@angular/material/card';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
     declarations: [

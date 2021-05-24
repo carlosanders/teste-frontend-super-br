@@ -13,7 +13,7 @@ import { CdkCargoGridModule } from '@cdk/components/cargo/cdk-cargo-grid/cdk-car
     imports: [
 
         CdkCargoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

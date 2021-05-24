@@ -29,7 +29,7 @@ export class ModelosEspecieSetorEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class ModelosEspecieSetorEditEffects {
 
     /**
      * Get VinculacaoModelo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class ModelosEspecieSetorEditEffects {
         this._actions
             .pipe(
                 ofType<ModelosEspecieSetorEditActions.GetModeloEspecieSetor>(ModelosEspecieSetorEditActions.GET_MODELO_ESPECIE_SETOR),
-                switchMap((action) => {
-                    return this._vinculacaoModeloService.query(
+                switchMap(action => this._vinculacaoModeloService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -54,8 +54,7 @@ export class ModelosEspecieSetorEditEffects {
                         JSON.stringify([
                             'populateAll',
                             'especieSetor.generoSetor',
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<VinculacaoModelo>({data: response['entities'], schema: vinculacaoModeloSchema}),
                     new ModelosEspecieSetorEditActions.GetModeloEspecieSetorSuccess({
@@ -75,6 +74,7 @@ export class ModelosEspecieSetorEditEffects {
 
     /**
      * Save VinculacaoModelo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,15 +82,13 @@ export class ModelosEspecieSetorEditEffects {
         this._actions
             .pipe(
                 ofType<ModelosEspecieSetorEditActions.SaveModeloEspecieSetor>(ModelosEspecieSetorEditActions.SAVE_MODELO_ESPECIE_SETOR),
-                switchMap((action) => {
-                    return this._vinculacaoModeloService.save(action.payload).pipe(
+                switchMap(action => this._vinculacaoModeloService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoModelo) => [
                             new ModelosEspecieSetorEditActions.SaveModeloEspecieSetorSuccess(),
                             new ModelosEspecieSetorListActions.ReloadModelosEspecieSetor(),
                             new AddData<VinculacaoModelo>({data: [response], schema: vinculacaoModeloSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ModelosEspecieSetorEditActions.SaveModeloEspecieSetorFailed(err));

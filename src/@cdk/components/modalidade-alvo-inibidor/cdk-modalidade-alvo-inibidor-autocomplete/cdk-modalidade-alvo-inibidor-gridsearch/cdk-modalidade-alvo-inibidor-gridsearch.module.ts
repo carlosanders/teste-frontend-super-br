@@ -13,7 +13,7 @@ import { CdkModalidadeAlvoInibidorGridModule } from '@cdk/components/modalidade-
     imports: [
 
         CdkModalidadeAlvoInibidorGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

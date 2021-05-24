@@ -83,13 +83,13 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
 
-        this.paginationAssinatura$.subscribe(pagination => {
+        this.paginationAssinatura$.subscribe((pagination) => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reloadAssinaturas(this.pagination);
@@ -103,9 +103,9 @@ export class DocumentoEditAssinaturasComponent implements OnInit, OnDestroy, Aft
         const path1 = 'app/main/apps/documento/documento-edit/assinaturas';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path1)) {
-                module.components[path1].forEach((c => {
+                module.components[path1].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => {
+                        .then( (componentFactory)  => {
                             this.container.createComponent(componentFactory);
                             this._ref.markForCheck();
                         });

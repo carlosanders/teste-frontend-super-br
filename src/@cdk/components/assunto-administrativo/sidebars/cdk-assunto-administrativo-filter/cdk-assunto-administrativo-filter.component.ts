@@ -46,25 +46,25 @@ export class CdkAssuntoAdministrativoFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'nome': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('glossario').value) {
-            this.form.get('glossario').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('glossario').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'glossario': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('dispositivoLegal').value) {
-            this.form.get('dispositivoLegal').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('dispositivoLegal').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'dispositivoLegal': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('codigoCNJ').value) {
-            this.form.get('codigoCNJ').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('codigoCNJ').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'codigoCNJ': `like:%${bit}%`});
             });
         }

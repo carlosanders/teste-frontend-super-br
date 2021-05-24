@@ -29,7 +29,7 @@ export class ResponderComplementarCreateBlocoEffects {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class ResponderComplementarCreateBlocoEffects {
 
     /**
      * Save Atividade
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class ResponderComplementarCreateBlocoEffects {
         this._actions
             .pipe(
                 ofType<ResponderComplementarCreateBlocoActions.CreateResponderComplementarCreateBloco>(ResponderComplementarCreateBlocoActions.CREATE_RESPONDER_COMPLEMENTAR_BLOCO),
-                mergeMap((action) => {
-                    return this._documentoAvulsoService.save(action.payload).pipe(
+                mergeMap(action => this._documentoAvulsoService.save(action.payload).pipe(
                         mergeMap((response: Atividade) => [
                             new AtividadeCreateBlocoActions.SaveAtividadeSuccess(action.payload),
                             new AddData<Atividade>({data: [response], schema: atividadeSchema}),
@@ -67,8 +67,7 @@ export class ResponderComplementarCreateBlocoEffects {
                             }));
                             return of(new AtividadeCreateBlocoActions.SaveAtividadeFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
 }

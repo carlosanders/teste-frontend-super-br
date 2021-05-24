@@ -13,7 +13,7 @@ import { CdkModalidadeDocumentoIdentificadorGridModule } from '@cdk/components/m
     imports: [
 
         CdkModalidadeDocumentoIdentificadorGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

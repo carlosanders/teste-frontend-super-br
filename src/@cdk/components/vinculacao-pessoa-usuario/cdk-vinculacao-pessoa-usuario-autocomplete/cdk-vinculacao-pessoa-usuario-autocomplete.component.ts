@@ -55,7 +55,7 @@ export class CdkVinculacaoPessoaUsuarioAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             'usuario.nome': `like:%${bit}%`});
                     });
@@ -81,7 +81,7 @@ export class CdkVinculacaoPessoaUsuarioAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.vinculacaoPessoaUsuarioList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

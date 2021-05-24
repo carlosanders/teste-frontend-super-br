@@ -34,7 +34,7 @@ export class OficioDetailEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -43,6 +43,7 @@ export class OficioDetailEffect {
 
     /**
      * Get Documento Avulso with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -110,6 +111,7 @@ export class OficioDetailEffect {
 
     /**
      * Create Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -122,8 +124,8 @@ export class OficioDetailEffect {
                     vinculacaoEtiqueta.documentoAvulso = action.payload.documentoAvulso;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap((response) => response.documentoAvulso = null),
-                        mergeMap((response) => [
+                        tap(response => response.documentoAvulso = null),
+                        mergeMap(response => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
@@ -150,6 +152,7 @@ export class OficioDetailEffect {
 
     /**
      * Delete Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -157,8 +160,7 @@ export class OficioDetailEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoDetailActions.DeleteVinculacaoEtiqueta>(DocumentoAvulsoDetailActions.DELETE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                        return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
+                mergeMap(action => this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
                             mergeMap(() => [
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,
@@ -171,13 +173,13 @@ export class OficioDetailEffect {
                                 console.log(err);
                                 return of(new DocumentoAvulsoDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
 
     /**
      * Save conteúdo vinculação etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -185,9 +187,8 @@ export class OficioDetailEffect {
         this._actions
             .pipe(
                 ofType<DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiqueta>(DocumentoAvulsoDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
-                        mergeMap((response) => [
+                mergeMap(action => this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                        mergeMap(response => [
                             new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                             new UpdateData<VinculacaoEtiqueta>({
                                 id: response.id,
@@ -199,7 +200,6 @@ export class OficioDetailEffect {
                             console.log(err);
                             return of(new DocumentoAvulsoDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

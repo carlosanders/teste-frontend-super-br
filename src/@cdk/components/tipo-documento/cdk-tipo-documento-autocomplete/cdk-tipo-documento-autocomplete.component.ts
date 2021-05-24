@@ -55,7 +55,7 @@ export class CdkTipoDocumentoAutocompleteComponent implements OnInit {
                     if (value && typeof value === 'string') {
                         if (value.length >= 2) {
                             const andxFilter = [];
-                            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                            value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                                 andxFilter.push({
                                     nome: `like:%${bit}%`
                                 });
@@ -84,7 +84,7 @@ export class CdkTipoDocumentoAutocompleteComponent implements OnInit {
                     return of([]);
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.tipoDocumentoList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

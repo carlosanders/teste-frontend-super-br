@@ -43,13 +43,13 @@ export class CdkAcaoTransicaoWorkflowFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('contexto').value) {
-            this.form.get('contexto').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('contexto').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'contexto': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('trigger').value) {
-            this.form.get('trigger').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('trigger').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'trigger': `like:%${bit}%`});
             });
         }

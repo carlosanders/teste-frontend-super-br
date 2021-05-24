@@ -22,7 +22,7 @@ export interface JuntadaCreateBlocoState {
     copiadoIds: number[];
     savingJuntadasId: number[];
     errors: any;
-    errorsDesentranhando: number[]
+    errorsDesentranhando: number[];
 }
 
 export const JuntadaCreateBlocoInitialState: JuntadaCreateBlocoState = {
@@ -103,7 +103,7 @@ export function JuntadaCreateBlocoReducer(state = JuntadaCreateBlocoInitialState
             return {
                 ...state,
                 selectedJuntadasIds: action.payload
-            }
+            };
         }
 
         case JuntadaCreateBlocoActions.CREATE_DESENTRANHAMENTO: {

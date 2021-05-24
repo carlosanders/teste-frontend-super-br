@@ -29,7 +29,7 @@ export class SetorEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class SetorEditEffect {
 
     /**
      * Get Setor with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,14 +46,12 @@ export class SetorEditEffect {
         this._actions
             .pipe(
                 ofType<SetorEditActions.GetSetor>(SetorEditActions.GET_SETOR),
-                switchMap((action) => {
-                    return this._setorService.get(
+                switchMap(action => this._setorService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Setor>({data: [response], schema: setorSchema}),
                     new SetorEditActions.GetSetorSuccess({
@@ -72,6 +71,7 @@ export class SetorEditEffect {
 
     /**
      * Save Setor
+     *
      * @type {Observable<any>}
      */
     @Effect()

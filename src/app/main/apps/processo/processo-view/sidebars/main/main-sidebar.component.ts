@@ -35,9 +35,9 @@ import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {MatDialog} from '@angular/material/dialog';
 import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
-import {CdkModeloAutocompleteComponent} from "@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.component";
-import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
-import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from "../../../../tarefas/store";
+import {CdkModeloAutocompleteComponent} from '@cdk/components/modelo/cdk-modelo-autocomplete/cdk-modelo-autocomplete.component';
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {getAssinandoDocumentosEletronicamenteId, getAssinandoDocumentosId} from '../../../../tarefas/store';
 
 @Component({
     selector: 'processo-view-main-sidebar',
@@ -242,7 +242,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.tipoDocumentoPagination = new Pagination();
 
         this.juntadas$.pipe(filter(juntadas => !!juntadas)).subscribe(
-            juntadas => {
+            (juntadas) => {
                 this.juntadas = juntadas;
                 this.totalSteps = juntadas.length;
 
@@ -251,7 +251,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         );
 
         this.currentStep$.subscribe(
-            currentStep => {
+            (currentStep) => {
                 this.currentStep = currentStep;
                 this._changeDetectorRef.markForCheck();
             }
@@ -281,14 +281,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             volumes => this.volumes = volumes
         );
 
-        this.formEditor.get('modelo').valueChanges.subscribe(value => {
+        this.formEditor.get('modelo').valueChanges.subscribe((value) => {
             this.formEditorValid = value && typeof value === 'object';
         });
 
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
 
@@ -358,9 +358,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this.tarefa$
             .pipe(
                 takeUntil(this._unsubscribeAll),
-                distinctUntilChanged((x, y) => {
-                    return x === y && this.documentoEdit.uuid === this.routerState.queryParams.documentoEdit;
-                }),
+                distinctUntilChanged((x, y) => x === y && this.documentoEdit.uuid === this.routerState.queryParams.documentoEdit),
             )
             .subscribe((value) => {
                 this.tarefa = value;
@@ -372,7 +370,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     this._unsubscribeDocs = new Subject();
                     this._store.pipe(select(getTarefa)).pipe(
                         takeUntil(this._unsubscribeDocs)
-                    ).subscribe(tarefa => {
+                    ).subscribe((tarefa) => {
                         this.tarefaOrigem = tarefa;
                     });
                     this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
@@ -386,14 +384,14 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                     this._changeDetectorRef.markForCheck();
                     this.lixeiraMinutas$.pipe(
                         takeUntil(this._unsubscribeDocs)
-                    ).subscribe(lixeira => {
+                    ).subscribe((lixeira) => {
                         this.lixeiraMinutas = lixeira;
                     });
                     this.documentos$.pipe(
                         filter(cd => !!cd),
                         takeUntil(this._unsubscribeDocs)
                     ).subscribe(
-                        documentos => {
+                        (documentos) => {
                             this.minutas = documentos.filter(documento => (!documento.documentoAvulsoRemessa) && !documento.apagadoEm);
                             this.oficios = documentos.filter(documento => documento.documentoAvulsoRemessa && !documento.apagadoEm);
 
@@ -404,8 +402,15 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
                             this._changeDetectorRef.markForCheck();
                             if (this.documentoEdit.uuid && !this.documentoEdit.open) {
-                                documentos.forEach(documento => {
-                                    if (documento.uuid === this.documentoEdit.uuid) {
+                                documentos.forEach((documento) => {
+                                    if (!documento.documentoAvulsoRemessa && documento.uuid === this.documentoEdit.uuid) {
+                                        this.documentoEdit.open = true;
+                                        this._store.dispatch(new fromStore.ClickedDocumento({
+                                            documento: documento,
+                                            routeAtividade: this.routeAtividadeDocumento,
+                                            routeOficio: this.routeOficioDocumento
+                                        }));
+                                    } else if (documento.documentoAvulsoRemessa && documento.documentoAvulsoRemessa.uuid === this.documentoEdit.uuid) {
                                         this.documentoEdit.open = true;
                                         this._store.dispatch(new fromStore.ClickedDocumento({
                                             documento: documento,
@@ -413,7 +418,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                                             routeOficio: this.routeOficioDocumento
                                         }));
                                     }
-                                })
+                                });
                             }
                         }
                     );
@@ -421,7 +426,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                         .pipe(
                             select(getMercureState),
                             takeUntil(this._unsubscribeDocs)
-                        ).subscribe(message => {
+                        ).subscribe((message) => {
                         if (message && message.type === 'assinatura') {
                             switch (message.content.action) {
                                 case 'assinatura_iniciada':
@@ -450,7 +455,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
 
                     this.assinandoDocumentosId$.pipe(
                         takeUntil(this._unsubscribeDocs)
-                    ).subscribe(assinandoDocumentosId => {
+                    ).subscribe((assinandoDocumentosId) => {
                         if (assinandoDocumentosId.length > 0) {
                             this.assinaturaInterval = setInterval(() => {
                                 // monitoramento do java
@@ -468,7 +473,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
                 }
             });
 
-        this.form.get('tipoDocumento').valueChanges.subscribe(value => {
+        this.form.get('tipoDocumento').valueChanges.subscribe((value) => {
             if (typeof value === 'object' && value) {
                 this.listFilter = {
                     ...this.listFilter,
@@ -536,7 +541,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
         this._changeDetectorRef.detectChanges();
 
         if (this.routerState.url.indexOf('/documento/') !== -1) {
-            let arrPrimary = [];
+            const arrPrimary = [];
             arrPrimary.push(this.routerState.url.indexOf('anexar-copia') === -1 ?
                 'visualizar-processo' : 'anexar-copia');
             this.routerState.params['processoCopiaHandle'] ?
@@ -709,7 +714,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             result.documento = documento;
             if (result.certificadoDigital) {
                 this._store.dispatch(new fromStore.AssinaDocumento(result.documento.id));
@@ -737,7 +742,7 @@ export class ProcessoViewMainSidebarComponent implements OnInit, OnDestroy {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             result.documento = documento;
             if (result.certificadoDigital) {
                 this._store.dispatch(new fromStore.AssinaJuntada(result.documento.id));

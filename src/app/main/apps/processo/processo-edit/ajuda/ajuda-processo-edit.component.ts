@@ -16,7 +16,7 @@ import { cdkAnimations } from '@cdk/animations';
     animations: cdkAnimations
 })
 export class AjudaProcessoEditComponent {
-    
+
     topicos: Topico[] = [];
     titulo = 'processo';
 

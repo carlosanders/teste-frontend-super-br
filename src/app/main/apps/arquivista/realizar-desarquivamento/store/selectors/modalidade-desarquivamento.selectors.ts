@@ -7,7 +7,7 @@ import {
     getRealizarDesarquivamentoAppState,
     ModalidadeDesarquivamentoState,
     RealizarDesarquivamentoAppState
-} from "../reducers";
+} from '../reducers';
 
 const schemaSelectors = createSchemaSelectors<ModalidadeTransicao>(modalidadeTransicaoSchema);
 

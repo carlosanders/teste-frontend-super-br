@@ -16,7 +16,7 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkConfiguracaoNupGridComponent} from './cdk-configuracao-nup-grid.component';
 import {CdkConfiguracaoNupFilterModule} from '../sidebars/cdk-configuracao-nup-filter/cdk-configuracao-nup-filter.module';
 import {CdkConfiguracaoNupAutocompleteModule} from '@cdk/components/configuracao-nup/cdk-configuracao-nup-autocomplete/cdk-configuracao-nup-autocomplete.module';
-import {ConfiguracaoNupService} from "@cdk/services/configuracao-nup.service";
+import {ConfiguracaoNupService} from '@cdk/services/configuracao-nup.service';
 
 // @ts-ignore
 @NgModule({

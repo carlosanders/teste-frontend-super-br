@@ -29,7 +29,7 @@ export class TipoRelatorioEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class TipoRelatorioEditEffects {
 
     /**
      * Get TipoRelatorio with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class TipoRelatorioEditEffects {
         this._actions
             .pipe(
                 ofType<TipoRelatorioEditActions.GetTipoRelatorio>(TipoRelatorioEditActions.GET_TIPO_RELATORIO),
-                switchMap((action) => {
-                    return this._tipoRelatorioService.query(
+                switchMap(action => this._tipoRelatorioService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -54,8 +54,7 @@ export class TipoRelatorioEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<TipoRelatorio>({data: response['entities'], schema: tipoRelatorioSchema}),
                     new TipoRelatorioEditActions.GetTipoRelatorioSuccess({
@@ -75,6 +74,7 @@ export class TipoRelatorioEditEffects {
 
     /**
      * Save TipoRelatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -101,6 +101,7 @@ export class TipoRelatorioEditEffects {
 
     /**
      * Update TipoRelatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -108,15 +109,13 @@ export class TipoRelatorioEditEffects {
         this._actions
             .pipe(
                 ofType<TipoRelatorioEditActions.UpdateTipoRelatorio>(TipoRelatorioEditActions.UPDATE_TIPO_RELATORIO),
-                switchMap((action) => {
-                    return this._tipoRelatorioService.patch(action.payload.tipoRelatorio, action.payload.changes).pipe(
+                switchMap(action => this._tipoRelatorioService.patch(action.payload.tipoRelatorio, action.payload.changes).pipe(
                         mergeMap((response: TipoRelatorio) => [
                             new TipoRelatorioListActions.ReloadTipoRelatorio(),
                             new AddData<TipoRelatorio>({data: [response], schema: tipoRelatorioSchema}),
                             new TipoRelatorioEditActions.UpdateTipoRelatorioSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new TipoRelatorioEditActions.UpdateTipoRelatorioFailed(err));

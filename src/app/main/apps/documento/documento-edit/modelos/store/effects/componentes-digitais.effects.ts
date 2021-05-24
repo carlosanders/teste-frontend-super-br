@@ -34,7 +34,7 @@ export class ComponenteDigitalEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -43,6 +43,7 @@ export class ComponenteDigitalEffects {
 
     /**
      * Get ComponentesDigitais with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -50,7 +51,7 @@ export class ComponenteDigitalEffects {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.CreateComponenteDigital>(ComponenteDigitalActions.CREATE_COMPONENTE_DIGITAL),
-                map(action => {
+                map((action) => {
 
                     const componenteDigital = new ComponenteDigital();
                     componenteDigital.modelo = action.payload.modelo;
@@ -69,6 +70,7 @@ export class ComponenteDigitalEffects {
 
     /**
      * Save ComponenteDigital
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -76,8 +78,7 @@ export class ComponenteDigitalEffects {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
-                switchMap((action) => {
-                    return this._componenteDigitalService.patch(action.payload.componenteDigital, action.payload.changes).pipe(
+                switchMap(action => this._componenteDigitalService.patch(action.payload.componenteDigital, action.payload.changes).pipe(
                         tap((response) => {
                             this._store.dispatch(new GetDocumentos());
                         }),
@@ -102,13 +103,13 @@ export class ComponenteDigitalEffects {
                             console.log(err);
                             return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 
     /**
      * Get Documento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -121,14 +122,12 @@ export class ComponenteDigitalEffects {
                         this._componenteDigitalService.alterandoModelo.next(true);
                     }
                 ),
-                switchMap((action) => {
-                    return this._documentoService.query(
+                switchMap(action => this._documentoService.query(
                         `{"componentesDigitais.id": "eq:${action.payload.componenteDigitalId}"}`,
                         1,
                         0,
                         '{}',
-                        '[]');
-                }),
+                        '[]')),
                 switchMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new ComponenteDigitalActions.GetDocumentoSuccess({

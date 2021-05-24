@@ -37,6 +37,10 @@ const routes: Routes = [
                 loadChildren: () => import('../modelos/modelos.module').then(m => m.ModelosModule)
             },
             {
+                path       : 'etiquetas',
+                loadChildren: () => import('../etiquetas/etiquetas.module').then(m => m.EtiquetasModule)
+            },
+            {
                 path       : 'repositorios',
                 loadChildren: () => import('../repositorios/repositorios.module').then(m => m.RepositoriosModule)
             },

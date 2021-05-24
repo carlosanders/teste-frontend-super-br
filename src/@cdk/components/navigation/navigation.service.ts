@@ -49,7 +49,7 @@ export class CdkNavigationService
     /**
      * Get onNavigationChanged
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     get onNavigationChanged(): Observable<any>
     {
@@ -59,7 +59,7 @@ export class CdkNavigationService
     /**
      * Get onNavigationRegistered
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     get onNavigationRegistered(): Observable<any>
     {
@@ -69,7 +69,7 @@ export class CdkNavigationService
     /**
      * Get onNavigationUnregistered
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     get onNavigationUnregistered(): Observable<any>
     {
@@ -79,7 +79,7 @@ export class CdkNavigationService
     /**
      * Get onNavigationItemAdded
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     get onNavigationItemAdded(): Observable<any>
     {
@@ -89,7 +89,7 @@ export class CdkNavigationService
     /**
      * Get onNavigationItemUpdated
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     get onNavigationItemUpdated(): Observable<any>
     {
@@ -99,7 +99,7 @@ export class CdkNavigationService
     /**
      * Get onNavigationItemRemoved
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     get onNavigationItemRemoved(): Observable<any>
     {
@@ -136,6 +136,7 @@ export class CdkNavigationService
 
     /**
      * Unregister the navigation from the registry
+     *
      * @param key
      */
     unregister(key): void
@@ -157,7 +158,7 @@ export class CdkNavigationService
      * Get navigation from registry by key
      *
      * @param key
-     * @returns {any}
+     * @returns
      */
     getNavigation(key): any
     {
@@ -178,7 +179,7 @@ export class CdkNavigationService
      *
      * @param navigation
      * @param flatNavigation
-     * @returns {any[]}
+     * @returns
      */
     getFlatNavigation(navigation, flatNavigation: CdkNavigationItem[] = []): any
     {
@@ -206,13 +207,13 @@ export class CdkNavigationService
     /**
      * Get the current navigation
      *
-     * @returns {any}
+     * @returns
      */
     getCurrentNavigation(): any
     {
         if ( !this._currentNavigationKey )
         {
-            console.warn(`The current navigation is not set.`);
+            console.warn('The current navigation is not set.');
 
             return;
         }
@@ -248,8 +249,8 @@ export class CdkNavigationService
      * current navigation
      *
      * @param id
-     * @param {any} navigation
-     * @returns {any | boolean}
+     * @param navigation
+     * @returns
      */
     getNavigationItem(id, navigation = null): any | boolean
     {
@@ -284,7 +285,7 @@ export class CdkNavigationService
      * with the id
      *
      * @param id
-     * @param {any} navigation
+     * @param navigation
      * @param parent
      */
     getNavigationItemParent(id, navigation = null, parent = null): any

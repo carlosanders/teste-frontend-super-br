@@ -54,7 +54,7 @@ export class CdkModalidadeFolderAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             valor: `like:%${bit}%`});
                     });
@@ -80,7 +80,7 @@ export class CdkModalidadeFolderAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.modalidadeFolderList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });

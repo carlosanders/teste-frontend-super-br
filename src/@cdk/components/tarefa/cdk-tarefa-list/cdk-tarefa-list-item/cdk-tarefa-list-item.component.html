@@ -102,7 +102,7 @@
                 </mat-icon>
             </div>
 
-            <div class="etiquetas" fxHide fxShow.gt-sm>
+            <div class="etiquetas">
                 <div class="etiqueta" *ngFor="let vinculacaoEtiqueta of tarefa.vinculacoesEtiquetas"
                      fxLayout="row" fxLayoutAlign="start center"
                      (click)="doClickEtiqueta(vinculacaoEtiqueta, tarefa); $event.stopPropagation();"

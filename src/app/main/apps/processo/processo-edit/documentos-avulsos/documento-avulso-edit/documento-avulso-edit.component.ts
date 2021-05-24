@@ -68,7 +68,7 @@ export class DocumentoAvulsoEditComponent implements OnInit, OnDestroy {
             processo => this.processo = processo
         );
 
-        this.documentoAvulso$.subscribe(documentoAvulso => {
+        this.documentoAvulso$.subscribe((documentoAvulso) => {
             this.documentoAvulso = documentoAvulso;
 
         });

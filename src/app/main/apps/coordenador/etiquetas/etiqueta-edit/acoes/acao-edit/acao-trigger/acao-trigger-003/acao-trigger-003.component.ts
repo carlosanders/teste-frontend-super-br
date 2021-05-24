@@ -7,13 +7,13 @@ import {
 } from '@angular/core';
 import {cdkAnimations} from '@cdk/animations';
 import {Router} from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {select, Store} from "@ngrx/store";
-import {Observable} from "rxjs";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {select, Store} from '@ngrx/store';
+import {Observable} from 'rxjs';
 import * as fromStore from '../../store';
-import {getRouterState} from "../../../../../../../../../store/reducers";
-import {Acao, Etiqueta, ModalidadeAcaoEtiqueta, Pagination} from "@cdk/models";
-import {getModalidadeAcaoEtiqueta} from "../store/selectors";
+import {getRouterState} from '../../../../../../../../../store/reducers';
+import {Acao, Etiqueta, ModalidadeAcaoEtiqueta, Pagination} from '@cdk/models';
+import {getModalidadeAcaoEtiqueta} from '../store/selectors';
 
 @Component({
     selector: 'acao-trigger-003',
@@ -46,7 +46,7 @@ export class AcaoTrigger003Component implements OnInit, OnDestroy {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

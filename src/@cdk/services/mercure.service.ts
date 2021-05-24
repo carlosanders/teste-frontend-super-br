@@ -85,14 +85,14 @@ export class MercureService
                 }
             }
         );
-        this.es.onopen = e => {
+        this.es.onopen = (e) => {
             if (this.firstConnection) {
                 this.http.get(`${environment.base_url}${'mercure'}` + environment.xdebug).subscribe();
                 this.firstConnection = false;
             }
         };
 
-        this.es.onmessage = e => {
+        this.es.onmessage = (e) => {
             const message = JSON.parse(e.data);
             this._store.dispatch(new fromStore.Message({
                 type: Object.keys(message)[0],

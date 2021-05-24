@@ -87,13 +87,13 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
         this.maximizado$ = this._store.pipe(select(fromStore.getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
 
-        this._store.pipe(select(getRouterState)).subscribe(routerState => {
+        this._store.pipe(select(getRouterState)).subscribe((routerState) => {
             if (routerState.state) {
                 this.routerState = routerState.state;
 
                 this.unidadeHandle = this.routerState.params['unidadeHandle'];
             }
-        })
+        });
 
         this.vinculacaoEtiquetaPagination.filter = {
             orX: [
@@ -142,13 +142,13 @@ export class ArquivistaComponent implements OnInit, OnDestroy {
 
         this.maximizado$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(maximizado => {
+        ).subscribe((maximizado) => {
             this.maximizado = maximizado;
         });
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
                 if (this.maximizado) {

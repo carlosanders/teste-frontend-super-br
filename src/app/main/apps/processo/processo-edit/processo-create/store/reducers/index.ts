@@ -5,7 +5,7 @@ import {InteressadoReducer, InteressadoState} from './interessado.reducer';
 import {VinculacaoProcessoReducer, VinculacaoProcessoState} from './vinculacao-processo.reducer';
 import {JuntadaReducer, JuntadaState} from './juntada.reducer';
 import {TarefaState, TarefaReducer} from './tarefa.reducer';
-import {ConfiguracaoNupReducer, ConfiguracaoNupState} from "./configuracao-nup.reducer";
+import {ConfiguracaoNupReducer, ConfiguracaoNupState} from './configuracao-nup.reducer';
 
 export interface DadosBasicosAppState
 {

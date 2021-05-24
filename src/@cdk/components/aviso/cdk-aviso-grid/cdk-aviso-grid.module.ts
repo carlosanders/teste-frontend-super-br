@@ -15,7 +15,7 @@ import {
 import {CdkSidebarModule} from '@cdk/components/index';
 import {CdkSharedModule} from '@cdk/shared.module';
 import {CdkAvisoGridComponent} from './cdk-aviso-grid.component';
-import {CdkAvisoFilterModule} from "../sidebars/cdk-aviso-filter/cdk-aviso-filter.module";
+import {CdkAvisoFilterModule} from '../sidebars/cdk-aviso-filter/cdk-aviso-filter.module';
 
 @NgModule({
     declarations: [

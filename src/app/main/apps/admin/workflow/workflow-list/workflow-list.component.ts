@@ -6,7 +6,7 @@ import * as fromStore from './store';
 import {Workflow} from '@cdk/models';
 import {getRouterState} from '../../../../../store/reducers';
 import {cdkAnimations} from '@cdk/animations';
-import {UnloadWorkflow} from "./store";
+import {UnloadWorkflow} from './store';
 
 
 @Component({
@@ -43,7 +43,7 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -51,7 +51,7 @@ export class WorkflowListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

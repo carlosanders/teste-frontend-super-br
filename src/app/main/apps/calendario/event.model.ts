@@ -20,9 +20,9 @@ export class CalendarEventModel
     };
     draggable?: boolean;
     meta?: {
-        location: string,
-        notes: string,
-        tarefa: Tarefa
+        location: string;
+        notes: string;
+        tarefa: Tarefa;
     };
 
     /**

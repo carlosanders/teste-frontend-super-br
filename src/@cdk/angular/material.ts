@@ -1,3 +1,6 @@
+export {MatExpansionModule, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatAccordion} from '@angular/material/expansion';
+export {MatChipsModule, MatChipInputEvent, MatChipList, MatChip, MatChipRemove, MatChipInput} from '@angular/material/chips';
+export {MatIconModule, MatIcon} from '@angular/material/icon';
 export * from '@angular/material/core';
 export * from '@angular/material/checkbox';
 export * from '@angular/material/button';
@@ -17,10 +20,7 @@ export * from '@angular/material/grid-list';
 export * from '@angular/material/card';
 export * from '@angular/material/stepper';
 export * from '@angular/material/tabs';
-export * from '@angular/material/expansion';
 export * from '@angular/material/button-toggle';
-export * from '@angular/material/chips';
-export * from '@angular/material/icon';
 export * from '@angular/material/progress-spinner';
 export * from '@angular/material/progress-bar';
 export * from '@angular/material/dialog';

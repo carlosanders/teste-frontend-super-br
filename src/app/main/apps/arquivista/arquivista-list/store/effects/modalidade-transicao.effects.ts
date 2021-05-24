@@ -25,7 +25,7 @@ export class ModalidadeTransicaoEffects {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -34,6 +34,7 @@ export class ModalidadeTransicaoEffects {
 
     /**
      * Get Modalidade Transicao
+     *
      * @type {any}
      */
     @Effect()
@@ -41,17 +42,15 @@ export class ModalidadeTransicaoEffects {
         this._actions
             .pipe(
                 ofType<ModalidadeTransicaoActions.GetModalidadeTransicao>(ModalidadeTransicaoActions.GET_MODALIDADE_TRANSICAO),
-                switchMap((action) => {
-                    return this._modalidadeTransicaoService.query(
+                switchMap(action => this._modalidadeTransicaoService.query(
                         JSON.stringify({
                             ...action.payload.filter
                         }),
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                switchMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                switchMap(response => [
                     new ModalidadeTransicaoActions.GetModalidadeTransicaoSuccess({
                         modalidadeTransicaoId: response['entities'][0].id,
                         loaded: {

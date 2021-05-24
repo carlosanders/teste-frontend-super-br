@@ -29,8 +29,8 @@ export class Garantia {
     @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, { toPlainOnly: true })
     @Transform(value => value ? moment(value) : null, { toClassOnly: true })
     dataValor?: moment.Moment;
-    
-    observacao?: string;    
+
+    observacao?: string;
 
     @Exclude({ toPlainOnly: true })
     @Type(() => Usuario)
@@ -65,7 +65,7 @@ export class Garantia {
     constructor() {
         this.id = null;
         this.uuid = null;
-        this.processo = null;        
+        this.processo = null;
         this.modalidadeGarantia = null;
         this.descricao = null;
         this.valor = null;

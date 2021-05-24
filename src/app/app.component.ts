@@ -173,7 +173,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 map(() => window.innerWidth),
                 distinctUntilChanged(),
                 startWith(window.innerWidth),
-                tap(width => {
+                tap((width) => {
                     let payload = 'mobile';
                     if (width > 425 && width <= 1024) {
                         payload = 'tablet';

@@ -29,7 +29,7 @@ export class ClassificacaoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class ClassificacaoEditEffects {
 
     /**
      * Get Classificacao with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class ClassificacaoEditEffects {
         this._actions
             .pipe(
                 ofType<ClassificacaoEditActions.GetClassificacao>(ClassificacaoEditActions.GET_CLASSIFICACAO),
-                switchMap((action) => {
-                    return this._ClassificacaoService.query(
+                switchMap(action => this._ClassificacaoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -54,8 +54,7 @@ export class ClassificacaoEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Classificacao>({data: response['entities'], schema: classificacaoSchema}),
                     new ClassificacaoEditActions.GetClassificacaoSuccess({
@@ -75,6 +74,7 @@ export class ClassificacaoEditEffects {
 
     /**
      * Save Classificacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -101,6 +101,7 @@ export class ClassificacaoEditEffects {
 
     /**
      * Update Classificacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -108,15 +109,13 @@ export class ClassificacaoEditEffects {
         this._actions
             .pipe(
                 ofType<ClassificacaoEditActions.UpdateClassificacao>(ClassificacaoEditActions.UPDATE_CLASSIFICACAO),
-                switchMap((action) => {
-                    return this._ClassificacaoService.patch(action.payload.Classificacao, action.payload.changes).pipe(
+                switchMap(action => this._ClassificacaoService.patch(action.payload.Classificacao, action.payload.changes).pipe(
                         mergeMap((response: Classificacao) => [
                             new ClassificacaoListActions.ReloadClassificacao(),
                             new AddData<Classificacao>({data: [response], schema: classificacaoSchema}),
                             new ClassificacaoEditActions.UpdateClassificacaoSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ClassificacaoEditActions.UpdateClassificacaoFailed(err));

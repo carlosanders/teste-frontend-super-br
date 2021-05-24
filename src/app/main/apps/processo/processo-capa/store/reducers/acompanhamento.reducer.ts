@@ -24,7 +24,7 @@ export const AcompanhamentoInitialState: AcompanhamentoState = {
     entityId: null
 };
 
-export function AcompanhamentoReducer (state = AcompanhamentoInitialState, action: AcompanhamentoActions.AcompanhamentoActionsAll): AcompanhamentoState {
+export function AcompanhamentoReducer(state = AcompanhamentoInitialState, action: AcompanhamentoActions.AcompanhamentoActionsAll): AcompanhamentoState {
     switch (action.type) {
 
         case AcompanhamentoActions.GET_ACOMPANHAMENTO: {

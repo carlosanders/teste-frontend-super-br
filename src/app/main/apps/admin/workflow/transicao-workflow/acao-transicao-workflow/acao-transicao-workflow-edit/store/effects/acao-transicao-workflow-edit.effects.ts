@@ -26,7 +26,7 @@ export class AcaoTransicaoWorkflowEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class AcaoTransicaoWorkflowEditEffect {
 
     /**
      * Save Acao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class AcaoTransicaoWorkflowEditEffect {
         this._actions
             .pipe(
                 ofType<AcaoEditActions.SaveAcao>(AcaoEditActions.SAVE_ACAO),
-                switchMap((action) => {
-                    return this._acaoService.save(action.payload).pipe(
+                switchMap(action => this._acaoService.save(action.payload).pipe(
                         mergeMap((response: AcaoTransicaoWorkflow) => [
                             new AcaoEditActions.SaveAcaoSuccess(),
                             new AcaoListActions.ReloadAcoes(),
@@ -54,11 +54,8 @@ export class AcaoTransicaoWorkflowEditEffect {
                                 dateTime: moment()
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new AcaoEditActions.SaveAcaoFailed(err));
-                        })
-                    );
-                })
+                        catchError(err => of(new AcaoEditActions.SaveAcaoFailed(err)))
+                    ))
             );
     /**
      * Save Acao Success

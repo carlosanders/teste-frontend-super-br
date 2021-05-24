@@ -14,11 +14,11 @@ import {
 
 import {cdkAnimations} from '@cdk/animations';
 import {ComponenteDigital, Pagination} from '@cdk/models';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {MatMenuTrigger} from "@angular/material/menu";
-import {MatAutocompleteTrigger} from "@angular/material/autocomplete";
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
-import {of} from "rxjs";
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {MatAutocompleteTrigger} from '@angular/material/autocomplete';
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-componente-digital-card',
@@ -78,6 +78,7 @@ export class CdkComponenteDigitalCardComponent implements DoCheck, OnChanges {
 
     /**
      * Constructor
+     *
      * @param _changeDetectorRef
      * @param differs
      * @param _formBuilder
@@ -119,7 +120,7 @@ export class CdkComponenteDigitalCardComponent implements DoCheck, OnChanges {
                 this.fullTitle = this.componenteDigital.fileName;
                 this.title = !(this.fullTitle.length > 14) ?
                     this.fullTitle :
-                    this.fullTitle.substr(0, 15) + "...";
+                    this.fullTitle.substr(0, 15) + '...';
             }
             if (this.uploadMode === 'linear' && this.uploading &&
                 (!this.componenteDigital.inProgress && !this.componenteDigital.canRetry)) {
@@ -143,9 +144,9 @@ export class CdkComponenteDigitalCardComponent implements DoCheck, OnChanges {
                         this.fullTitle = this.componenteDigital.fileName;
                         this.title = !(this.fullTitle.length > 14) ?
                             this.fullTitle :
-                            this.fullTitle.substr(0, 15) + "...";
+                            this.fullTitle.substr(0, 15) + '...';
                         if (this.componenteDigital.tipoDocumento) {
-                            this.fullTitle += "\n Tipo de documento: " + this.componenteDigital.tipoDocumento.nome;
+                            this.fullTitle += '\n Tipo de documento: ' + this.componenteDigital.tipoDocumento.nome;
                         }
                     }
                     this._changeDetectorRef.markForCheck();
@@ -158,7 +159,7 @@ export class CdkComponenteDigitalCardComponent implements DoCheck, OnChanges {
         const novoTipo = this.form.get('tipoDocumento').value;
         if (novoTipo) {
             this.fullTitle = this.componenteDigital.fileName;
-            this.fullTitle += "\n Tipo de documento: " + novoTipo.nome;
+            this.fullTitle += '\n Tipo de documento: ' + novoTipo.nome;
         }
         this.form.get('tipoDocumento').setValue(null);
         this.autoCompleteTipo.closePanel();

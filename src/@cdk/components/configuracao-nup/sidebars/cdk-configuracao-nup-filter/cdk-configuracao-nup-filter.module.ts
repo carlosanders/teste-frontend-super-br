@@ -14,7 +14,7 @@ import {CdkConfiguracaoNupFilterComponent} from './cdk-configuracao-nup-filter.c
 import {MatDatetimepickerModule, MatNativeDatetimeModule} from '@mat-datetimepicker/core';
 import {MatMomentDatetimeModule} from '@mat-datetimepicker/moment';
 import {CdkUsuarioAutocompleteModule} from '../../../usuario/cdk-usuario-autocomplete/cdk-usuario-autocomplete.module';
-import {ConfiguracaoNupService} from "@cdk/services/configuracao-nup.service";
+import {ConfiguracaoNupService} from '@cdk/services/configuracao-nup.service';
 
 @NgModule({
     declarations: [

@@ -16,8 +16,8 @@ import {ModalidadeGeneroPessoa} from '@cdk/models';
 import {Pais} from '@cdk/models';
 import {Municipio} from '@cdk/models';
 import {Pagination} from '@cdk/models';
-import {LoginService} from "../../../../app/main/auth/login/login.service";
-import {Router} from "@angular/router";
+import {LoginService} from '../../../../app/main/auth/login/login.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'cdk-pessoa-form',
@@ -145,7 +145,7 @@ export class CdkPessoaFormComponent implements OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

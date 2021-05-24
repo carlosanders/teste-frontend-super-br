@@ -13,7 +13,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<LembreteAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<LembreteAppState>
@@ -24,7 +24,7 @@ export class ResolveGuard implements CanActivate {
     initRouteState(): void {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

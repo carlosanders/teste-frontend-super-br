@@ -13,7 +13,7 @@ import { CdkEspecieSetorGridModule } from '@cdk/components/especie-setor/cdk-esp
     imports: [
 
         CdkEspecieSetorGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

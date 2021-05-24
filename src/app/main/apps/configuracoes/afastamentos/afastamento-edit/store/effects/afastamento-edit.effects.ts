@@ -29,7 +29,7 @@ export class AfastamentoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class AfastamentoEditEffect {
 
     /**
      * Get Afastamento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,16 +46,14 @@ export class AfastamentoEditEffect {
         this._actions
             .pipe(
                 ofType<AfastamentoEditActions.GetAfastamento>(AfastamentoEditActions.GET_AFASTAMENTO),
-                switchMap((action) => {
-                    return this._afastamentoService.query(
+                switchMap(action => this._afastamentoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Afastamento>({data: response['entities'], schema: afastamentoSchema}),
                     new AfastamentoEditActions.GetAfastamentoSuccess({
@@ -74,6 +73,7 @@ export class AfastamentoEditEffect {
 
     /**
      * Save Afastamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,15 +81,13 @@ export class AfastamentoEditEffect {
         this._actions
             .pipe(
                 ofType<AfastamentoEditActions.SaveAfastamento>(AfastamentoEditActions.SAVE_AFASTAMENTO),
-                switchMap((action) => {
-                    return this._afastamentoService.save(action.payload).pipe(
+                switchMap(action => this._afastamentoService.save(action.payload).pipe(
                         mergeMap((response: Afastamento) => [
                             new AfastamentoEditActions.SaveAfastamentoSuccess(),
                             new AfastamentoListActions.ReloadAfastamentos(),
                             new AddData<Afastamento>({data: [response], schema: afastamentoSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new AfastamentoEditActions.SaveAfastamentoFailed(err));

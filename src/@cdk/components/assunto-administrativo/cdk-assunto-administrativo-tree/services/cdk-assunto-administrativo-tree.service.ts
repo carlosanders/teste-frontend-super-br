@@ -81,7 +81,7 @@ export class CdkAssuntoAdministrativoTreeService {
         let filteredTreeData;
         if (filterText) {
             filteredTreeData = this.treeData.filter(d => d.nome.toLocaleLowerCase().indexOf(filterText.toLocaleLowerCase()) > -1);
-            Object.assign([], filteredTreeData).forEach(ftd => {
+            Object.assign([], filteredTreeData).forEach((ftd) => {
                 let str = (ftd.nome);
                 while (str.lastIndexOf('.') > -1) {
                     const index = str.lastIndexOf('.');

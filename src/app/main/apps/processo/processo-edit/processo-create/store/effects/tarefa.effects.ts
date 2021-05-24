@@ -29,7 +29,7 @@ export class TarefaEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class TarefaEffect {
 
     /**
      * Save Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class TarefaEffect {
         this._actions
             .pipe(
                 ofType<TarefaActions.SaveTarefa>(TarefaActions.SAVE_TAREFA),
-                switchMap((action) => {
-                    return this._tarefaService.save(action.payload).pipe(
+                switchMap(action => this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaActions.SaveTarefaSuccess(),
                             new SetSteps({steps: false}),
@@ -61,8 +61,7 @@ export class TarefaEffect {
                             console.log (err);
                             return of(new TarefaActions.SaveTarefaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

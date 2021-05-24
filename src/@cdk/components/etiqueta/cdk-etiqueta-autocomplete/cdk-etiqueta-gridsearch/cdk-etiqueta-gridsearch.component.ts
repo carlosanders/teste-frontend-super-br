@@ -73,7 +73,7 @@ export class CdkEtiquetaGridsearchComponent implements OnInit {
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.etiquetas = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

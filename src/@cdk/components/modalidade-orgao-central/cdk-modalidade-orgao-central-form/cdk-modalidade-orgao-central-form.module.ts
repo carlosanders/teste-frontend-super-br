@@ -9,7 +9,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkModalidadeOrgaoCentralGridsearchModule} from '../cdk-modalidade-orgao-central-autocomplete/cdk-modalidade-orgao-central-gridsearch/cdk-modalidade-orgao-central-gridsearch.module';
 

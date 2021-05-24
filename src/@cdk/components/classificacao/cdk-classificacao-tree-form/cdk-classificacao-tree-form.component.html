@@ -14,10 +14,10 @@
     <form class="form-tree" name="form" [formGroup]="formClassificacao">
         <mat-label class="title-arvore">Árvore</mat-label>
         <div cdkPerfectScrollbar [ngClass]="{'tree-responsive': mobileMode, 'tree': !mobileMode}">
-            <div *ngIf="!this.dataSource._data.getValue().length">
+            <div *ngIf="!this.dataSource.data.length">
                 <mat-spinner color="accent" diameter="24"></mat-spinner>
             </div>
-            <mat-tree *ngIf="dataSource._data | async" [dataSource]="dataSource" [treeControl]="treeControl">
+            <mat-tree *ngIf="dataSource.data" [dataSource]="dataSource" [treeControl]="treeControl">
 
                 <!--Sem Filho-->
                 <mat-tree-node [ngClass]="getNodeSelected(node)" *matTreeNodeDef="let node" matTreeNodeToggle
@@ -36,7 +36,7 @@
 
                 <mat-tree-node *matTreeNodeDef="let node; when: hasNoContent" matTreeNodePadding matTreeNodePaddingIndent="{{tamanhoIdentacaoForm}}">
                     <div class="formClassificacao">
-                        <div *ngIf="activeCard == 'form'">
+                        <div *ngIf="activeCard === 'form'">
                             <mat-form-field class="input-tree">
                                 <input matInput placeholder="Código" formControlName="codigo" minlength="3"
                                        maxlength="25" required>
@@ -76,7 +76,7 @@
                         </div>
 
                         <div class="dates checks" Fill
-                             *ngIf="activeCard == 'form'">
+                             *ngIf="activeCard === 'form'">
                             <div class="space-rigth">
                                 <mat-checkbox formControlName="ativo">
                                     Ativo
@@ -97,7 +97,7 @@
 
                         </div>
 
-                        <div *ngIf="activeCard == 'form'">
+                        <div *ngIf="activeCard === 'form'">
                             <mat-expansion-panel [expanded]="true" hideToggle>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
@@ -141,7 +141,7 @@
                             </mat-expansion-panel>
                         </div>
 
-                        <div *ngIf="activeCard == 'form'">
+                        <div *ngIf="activeCard === 'form'">
                             <mat-expansion-panel [expanded]="true" hideToggle>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>
@@ -190,7 +190,7 @@
                             </mat-expansion-panel>
                         </div>
 
-                        <div *ngIf="activeCard == 'form'">
+                        <div *ngIf="activeCard === 'form'">
                             <mat-form-field>
                                 <textarea formControlName="observacao"
                                           matInput placeholder="Observação" maxlength="255">
@@ -216,7 +216,7 @@
                             (cancel)="cancel()">
                         </cdk-logentry-gridsearch>
 
-                        <div *ngIf="activeCard == 'form'">
+                        <div *ngIf="activeCard === 'form'">
                             <mat-error
                                 *ngIf="formClassificacao.hasError('rulesError')">{{formClassificacao.errors.rulesError}}
                             </mat-error>

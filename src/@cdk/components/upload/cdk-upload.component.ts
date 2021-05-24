@@ -145,7 +145,7 @@ export class CdkUploadComponent implements OnInit {
         file.canCancel = true;
 
         this.getBase64(file.data).then(
-            conteudo => {
+            (conteudo) => {
                 const componenteDigital = new ComponenteDigital();
                 componenteDigital.conteudo = conteudo;
                 componenteDigital.mimetype = file.data.type;
@@ -162,7 +162,7 @@ export class CdkUploadComponent implements OnInit {
 
                 file.inProgress = true;
                 file.sub = this._http.request(req).pipe(
-                    map(event => {
+                    map((event) => {
                         switch (event.type) {
                             case HttpEventType.UploadProgress:
                                 file.progress = Math.round(event.loaded * 100 / event.total);
@@ -207,7 +207,7 @@ export class CdkUploadComponent implements OnInit {
         const fileUpload = document.getElementById('fileUpload') as HTMLInputElement;
         fileUpload.value = '';
 
-        this.files.forEach(file => {
+        this.files.forEach((file) => {
             this.uploadFile(file);
         });
     }

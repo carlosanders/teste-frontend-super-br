@@ -29,7 +29,7 @@ export class GrupoContatoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,22 +38,20 @@ export class GrupoContatoEditEffect {
 
     /**
      * Get GrupoContato with router parameters
+     *
      * @type {Observable<any>}
      */
-    getGrupoContato: any = createEffect(() => {
-        return this._actions
+    getGrupoContato: any = createEffect(() => this._actions
             .pipe(
                 ofType<GrupoContatoEditActions.GetGrupoContato>(GrupoContatoEditActions.GET_GRUPO_CONTATO),
-                switchMap((action) => {
-                    return this._grupoContatoService.query(
+                switchMap(action => this._grupoContatoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<GrupoContato>({data: response['entities'], schema: grupoContatoSchema}),
                     new GrupoContatoEditActions.GetGrupoContatoSuccess({
@@ -68,43 +66,37 @@ export class GrupoContatoEditEffect {
                     this._store.dispatch(new GrupoContatoEditActions.GetGrupoContatoFailed(err));
                     return caught;
                 })
-            )
-    })
+            ));
 
     /**
      * Save GrupoContato
+     *
      * @type {Observable<any>}
      */
-    saveGrupoContato: any = createEffect(() => {
-        return this._actions
+    saveGrupoContato: any = createEffect(() => this._actions
             .pipe(
                 ofType<GrupoContatoEditActions.SaveGrupoContato>(GrupoContatoEditActions.SAVE_GRUPO_CONTATO),
-                switchMap((action) => {
-                    return this._grupoContatoService.save(action.payload).pipe(
+                switchMap(action => this._grupoContatoService.save(action.payload).pipe(
                         mergeMap((response: GrupoContato) => [
                             new GrupoContatoEditActions.SaveGrupoContatoSuccess(),
                             new GrupoContatoListActions.ReloadGrupoContato(),
                             new AddData<GrupoContato>({data: [response], schema: grupoContatoSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     this._store.dispatch(new GrupoContatoEditActions.SaveGrupoContatoFailed(err));
                     return caught;
                 })
-            )
-    })
+            ));
 
     /**
      * Save GrupoContato Success
      */
-    saveGrupoContatoSuccess: any = createEffect(() => {
-        return this._actions
+    saveGrupoContatoSuccess: any = createEffect(() => this._actions
             .pipe(
                 ofType<GrupoContatoEditActions.SaveGrupoContatoSuccess>(GrupoContatoEditActions.SAVE_GRUPO_CONTATO_SUCCESS),
                 tap(() => {
                     this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.grupoContatoHandle), 'listar')]).then();
                 })
-            )
-    }, {dispatch: false});
+            ), {dispatch: false});
 }

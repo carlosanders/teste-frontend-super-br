@@ -22,12 +22,9 @@ export class EsqueciSenhaEffects {
         this.actions
             .pipe(
                 ofType<EsqueciSenhaActions.EsqueciSenha>(EsqueciSenhaActions.ESQUECI_SENHA),
-                switchMap((action) => {
-                        return this.esqueciSenhaService.esqueciSenha(action.payload.username, action.payload.email)
+                switchMap(action => this.esqueciSenhaService.esqueciSenha(action.payload.username, action.payload.email)
                             .pipe(
-                                map((data) => {
-                                    return new EsqueciSenhaActions.EsqueciSenhaSuccess(data);
-                                }),
+                                map(data => new EsqueciSenhaActions.EsqueciSenhaSuccess(data)),
                                 catchError((error) => {
                                     let msg = 'Sistema indisponível, tente mais tarde!';
                                     if (error && error.status && error.status === 404) {
@@ -35,8 +32,7 @@ export class EsqueciSenhaEffects {
                                     }
                                     return of(new EsqueciSenhaActions.EsqueciSenhaFailure({error: msg}));
                                 })
-                            );
-                    }
+                            )
                 ));
 
     @Effect({dispatch: false})

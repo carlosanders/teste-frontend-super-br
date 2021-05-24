@@ -12,7 +12,7 @@ import {RelevanciaService} from '@cdk/services/relevancia.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Relevancia} from '@cdk/models';
 import {relevancia as relevanciaSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class RelevanciaListEffect {
@@ -26,7 +26,7 @@ export class RelevanciaListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class RelevanciaListEffect {
 
     /**
      * Get Relevancias with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class RelevanciaListEffect {
         this._actions
             .pipe(
                 ofType<RelevanciaListActions.GetRelevancias>(RelevanciaListActions.GET_RELEVANCIAS),
-                switchMap((action) => {
-                    return this._relevanciaService.query(
+                switchMap(action => this._relevanciaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +52,8 @@ export class RelevanciaListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Relevancia>({data: response['entities'], schema: relevanciaSchema}),
                     new RelevanciaListActions.GetRelevanciasSuccess({
                         entitiesId: response['entities'].map(relevancia => relevancia.id),
@@ -75,6 +74,7 @@ export class RelevanciaListEffect {
 
     /**
      * Delete Relevancia
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,9 +82,8 @@ export class RelevanciaListEffect {
         this._actions
             .pipe(
                 ofType<RelevanciaListActions.DeleteRelevancia>(RelevanciaListActions.DELETE_RELEVANCIA),
-                mergeMap((action) => {
-                    return this._relevanciaService.destroy(action.payload).pipe(
-                        map((response) => new RelevanciaListActions.DeleteRelevanciaSuccess(response.id)),
+                mergeMap(action => this._relevanciaService.destroy(action.payload).pipe(
+                        map(response => new RelevanciaListActions.DeleteRelevanciaSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
                             return of(new RelevanciaListActions.DeleteRelevanciaFailed(
@@ -93,7 +92,6 @@ export class RelevanciaListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

@@ -66,9 +66,9 @@ export class ProcessoService extends ParentGenericService<Processo> {
             JSON.stringify(classToPlain(processo)),
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Processo, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Processo(), {...processo, ...response});
             })
         );
@@ -82,9 +82,9 @@ export class ProcessoService extends ParentGenericService<Processo> {
             JSON.stringify(classToPlain(processo)),
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Processo, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Processo(), {...processo, ...response});
             })
         );
@@ -95,9 +95,9 @@ export class ProcessoService extends ParentGenericService<Processo> {
             `${environment.api_url}${'administrativo/processo'}/${processo.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Processo, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Processo(), {...processo, ...response});
             })
         );

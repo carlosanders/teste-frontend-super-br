@@ -13,8 +13,8 @@ import {VinculacaoProcesso} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Processo} from '@cdk/models';
 import {ModalidadeVinculacaoProcesso} from '@cdk/models';
-import {distinctUntilChanged, switchMap} from "rxjs/operators";
-import {of} from "rxjs";
+import {distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-vinculacao-processo-form',
@@ -129,7 +129,7 @@ export class CdkVinculacaoProcessoFormComponent implements OnChanges, OnDestroy,
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

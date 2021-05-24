@@ -37,7 +37,7 @@ export class UnidadesOrgaoCentralEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -46,6 +46,7 @@ export class UnidadesOrgaoCentralEffects {
 
     /**
      * Get Setor with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -53,16 +54,14 @@ export class UnidadesOrgaoCentralEffects {
         this._actions
             .pipe(
                 ofType<UnidadesOrgaoCentralActions.GetSetor>(UnidadesOrgaoCentralActions.GET_SETOR),
-                switchMap((action) => {
-                    return this._setorService.query(
+                switchMap(action => this._setorService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Setor>({data: response['entities'], schema: setorSchema}),
                     new UnidadesOrgaoCentralActions.GetSetorSuccess({
@@ -82,6 +81,7 @@ export class UnidadesOrgaoCentralEffects {
 
     /**
      * Get OrgaoCentral with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -89,16 +89,14 @@ export class UnidadesOrgaoCentralEffects {
         this._actions
             .pipe(
                 ofType<UnidadesOrgaoCentralActions.GetOrgaoCentral>(UnidadesOrgaoCentralActions.GET_ORGAO_CENTRAL),
-                switchMap((action) => {
-                    return this._modalidadeOrgaoCentralService.query(
+                switchMap(action => this._modalidadeOrgaoCentralService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<ModalidadeOrgaoCentral>({data: response['entities'], schema: modalidadeOrgaoCentralSchema}),
                     new UnidadesOrgaoCentralActions.GetOrgaoCentralSuccess({

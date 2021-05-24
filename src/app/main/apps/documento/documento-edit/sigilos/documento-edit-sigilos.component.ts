@@ -80,7 +80,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -122,7 +122,7 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
         );
         this.documento$.subscribe(documento => this.documento = documento);
 
-        this.paginationSigilo$.subscribe(pagination => {
+        this.paginationSigilo$.subscribe((pagination) => {
             if (this.pagination && pagination && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reloadSigilos(this.pagination);
@@ -137,9 +137,9 @@ export class DocumentoEditSigilosComponent implements OnInit, OnDestroy, AfterVi
         const path = 'app/main/apps/documento/documento-edit/sigilos';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
-                        .then( componentFactory  => {
+                        .then( (componentFactory)  => {
                             this.container.createComponent(componentFactory);
                             this._ref.markForCheck();
                         });

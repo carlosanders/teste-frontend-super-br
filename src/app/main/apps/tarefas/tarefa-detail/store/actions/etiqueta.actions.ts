@@ -57,7 +57,7 @@ export class GetEtiquetaFailed implements Action {
 export class SaveEtiqueta implements Action {
     readonly type = SAVE_ETIQUETA;
 
-    constructor(public payload: {etiqueta: Etiqueta, tarefa: Tarefa}) {
+    constructor(public payload: {etiqueta: Etiqueta; tarefa: Tarefa}) {
     }
 }
 

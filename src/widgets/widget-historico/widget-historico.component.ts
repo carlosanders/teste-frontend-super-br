@@ -64,7 +64,7 @@ export class WidgetHistoricoComponent implements OnInit {
                     }
                 )
             ).subscribe(
-            value => {
+            (value) => {
                 this.historicoIsLoding = false;
                 this.historicos = value['entities'];
                 this._changeDetectorRef.markForCheck();

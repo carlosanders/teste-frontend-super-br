@@ -33,7 +33,7 @@ export class RepositoriosEspecieSetorEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,6 +42,7 @@ export class RepositoriosEspecieSetorEffects {
 
     /**
      * Get Repositorio with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -49,8 +50,7 @@ export class RepositoriosEspecieSetorEffects {
         this._actions
             .pipe(
                 ofType<RepositoriosEspecieSetorActions.GetRepositorio>(RepositoriosEspecieSetorActions.GET_REPOSITORIO),
-                switchMap((action) => {
-                    return this._repositorioService.get(
+                switchMap(action => this._repositorioService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll',
@@ -60,8 +60,7 @@ export class RepositoriosEspecieSetorEffects {
                             'vinculacoesRepositorios.modalidadeOrgaoCentral',
                         ]),
                         JSON.stringify({isAdmin: true}),
-                    );
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<Repositorio>({data: [response], schema: repositorioSchema}),
                     new RepositoriosEspecieSetorActions.GetRepositorioSuccess({

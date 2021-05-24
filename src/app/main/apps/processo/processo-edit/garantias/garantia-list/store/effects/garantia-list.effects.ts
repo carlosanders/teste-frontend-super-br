@@ -12,7 +12,7 @@ import {GarantiaService} from '@cdk/services/garantia.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Garantia} from '@cdk/models';
 import {garantia as garantiaSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class GarantiaListEffect {
@@ -26,7 +26,7 @@ export class GarantiaListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class GarantiaListEffect {
 
     /**
      * Get Garantias with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class GarantiaListEffect {
         this._actions
             .pipe(
                 ofType<GarantiaListActions.GetGarantias>(GarantiaListActions.GET_GARANTIAS),
-                switchMap((action) => {
-                    return this._garantiaService.query(
+                switchMap(action => this._garantiaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +52,8 @@ export class GarantiaListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Garantia>({data: response['entities'], schema: garantiaSchema}),
                     new GarantiaListActions.GetGarantiasSuccess({
                         entitiesId: response['entities'].map(garantia => garantia.id),
@@ -75,6 +74,7 @@ export class GarantiaListEffect {
 
     /**
      * Delete Garantia
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,9 +82,8 @@ export class GarantiaListEffect {
         this._actions
             .pipe(
                 ofType<GarantiaListActions.DeleteGarantia>(GarantiaListActions.DELETE_GARANTIA),
-                mergeMap((action) => {
-                    return this._garantiaService.destroy(action.payload).pipe(
-                        map((response) => new GarantiaListActions.DeleteGarantiaSuccess(response.id)),
+                mergeMap(action => this._garantiaService.destroy(action.payload).pipe(
+                        map(response => new GarantiaListActions.DeleteGarantiaSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
                             return of(new GarantiaListActions.DeleteGarantiaFailed(
@@ -93,7 +92,6 @@ export class GarantiaListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

@@ -91,7 +91,7 @@ export class CdkDocumentoIdentificadorFormComponent implements OnChanges, OnDest
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

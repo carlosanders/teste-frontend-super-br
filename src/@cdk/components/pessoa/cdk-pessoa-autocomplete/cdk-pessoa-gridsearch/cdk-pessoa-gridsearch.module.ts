@@ -13,7 +13,7 @@ import { CdkPessoaGridModule } from '@cdk/components/pessoa/cdk-pessoa-grid/cdk-
     imports: [
 
         CdkPessoaGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

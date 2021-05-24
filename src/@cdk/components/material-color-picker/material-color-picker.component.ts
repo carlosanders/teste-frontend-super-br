@@ -44,7 +44,7 @@ export class CdkMaterialColorPickerComponent implements ControlValueAccessor
         // Set the defaults
         this.colorChanged = new EventEmitter();
         this.colors = [];
-        Object.keys(MatColors.all).forEach(key => {
+        Object.keys(MatColors.all).forEach((key) => {
             this.colors.push(MatColors.all[key]);
         });
         this.hues = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900', 'A100', 'A200', 'A400', 'A700'];

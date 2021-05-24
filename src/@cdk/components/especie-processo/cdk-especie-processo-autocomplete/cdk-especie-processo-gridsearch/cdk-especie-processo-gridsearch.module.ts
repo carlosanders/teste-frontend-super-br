@@ -13,7 +13,7 @@ import { CdkEspecieProcessoGridModule } from '@cdk/components/especie-processo/c
     imports: [
 
         CdkEspecieProcessoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

@@ -13,7 +13,7 @@ import { CdkWorkflowGridModule } from '@cdk/components/workflow/cdk-workflow-gri
     imports: [
 
         CdkWorkflowGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

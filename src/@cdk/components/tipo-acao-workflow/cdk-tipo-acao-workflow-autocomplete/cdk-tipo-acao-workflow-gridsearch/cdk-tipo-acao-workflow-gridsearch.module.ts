@@ -11,7 +11,7 @@ import { CdkTipoAcaoWorkflowGridModule } from '@cdk/components/tipo-acao-workflo
     imports: [
 
         CdkTipoAcaoWorkflowGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

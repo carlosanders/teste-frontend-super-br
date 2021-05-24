@@ -26,7 +26,7 @@ import {CdkBlocoResponsaveisFilterComponent} from './cdk-bloco-responsaveis-filt
         MatAutocompleteModule,
         MatDatepickerModule,
         CdkSharedModule,
-        
+
     ],
     providers: [
     ],

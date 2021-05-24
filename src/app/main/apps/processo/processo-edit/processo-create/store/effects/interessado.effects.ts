@@ -35,7 +35,7 @@ export class InteressadosEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -44,6 +44,7 @@ export class InteressadosEffect {
 
     /**
      * Get Interessados Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -51,8 +52,7 @@ export class InteressadosEffect {
         this._actions
             .pipe(
                 ofType<InteressadoActions.GetInteressados>(InteressadoActions.GET_INTERESSADOS),
-                switchMap((action) => {
-                    return this._interessadoService.query(
+                switchMap(action => this._interessadoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -61,9 +61,8 @@ export class InteressadosEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Interessado>({data: response['entities'], schema: interessadoSchema}),
                     new InteressadoActions.GetInteressadosSuccess({
                         entitiesId: response['entities'].map(interessado => interessado.id),
@@ -83,6 +82,7 @@ export class InteressadosEffect {
 
     /**
      * Delete Interessado
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -90,19 +90,18 @@ export class InteressadosEffect {
         this._actions
             .pipe(
                 ofType<InteressadoActions.DeleteInteressado>(InteressadoActions.DELETE_INTERESSADO),
-                mergeMap((action) => {
-                    return this._interessadoService.destroy(action.payload).pipe(
-                        map((response) => new InteressadoActions.DeleteInteressadoSuccess(response.id)),
+                mergeMap(action => this._interessadoService.destroy(action.payload).pipe(
+                        map(response => new InteressadoActions.DeleteInteressadoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new InteressadoActions.DeleteInteressadoFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Interessado
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -110,8 +109,7 @@ export class InteressadosEffect {
         this._actions
             .pipe(
                 ofType<InteressadoActions.SaveInteressado>(InteressadoActions.SAVE_INTERESSADO),
-                switchMap((action) => {
-                    return this._interessadoService.save(action.payload).pipe(
+                switchMap(action => this._interessadoService.save(action.payload).pipe(
                         mergeMap((response: Interessado) => [
                             new InteressadoActions.SaveInteressadoSuccess(),
                             new AddData<Interessado>({data: [response], schema: interessadoSchema}),
@@ -125,12 +123,12 @@ export class InteressadosEffect {
                             console.log (err);
                             return of(new InteressadoActions.SaveInteressadoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Interessado Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})

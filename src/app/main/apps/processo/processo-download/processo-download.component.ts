@@ -65,13 +65,13 @@ export class ProcessoDownloadComponent implements OnInit, OnDestroy {
         this._storeProcesso
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
 
-        this.processo$.subscribe(processo => {
+        this.processo$.subscribe((processo) => {
             this.processo = processo;
         });
     }

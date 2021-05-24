@@ -29,7 +29,7 @@ export class VisibilidadeEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class VisibilidadeEditEffect {
 
     /**
      * Save Visibilidade
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class VisibilidadeEditEffect {
         this._actions
             .pipe(
                 ofType<VisibilidadeEditActions.SaveVisibilidade>(VisibilidadeEditActions.SAVE_VISIBILIDADE),
-                switchMap((action) => {
-                    return this._processoService.createVisibilidade(action.payload.processoId, action.payload.visibilidade).pipe(
+                switchMap(action => this._processoService.createVisibilidade(action.payload.processoId, action.payload.visibilidade).pipe(
                         mergeMap((response: Visibilidade) => [
                             new VisibilidadeEditActions.SaveVisibilidadeSuccess(),
                             new VisibilidadeListActions.ReloadVisibilidades(),
@@ -61,8 +61,7 @@ export class VisibilidadeEditEffect {
                             console.log (err);
                             return of(new VisibilidadeEditActions.SaveVisibilidadeFailed(err));
                         })
-                    );
-                })
+                    ))
             );
     /**
      * Save Visibilidade Success

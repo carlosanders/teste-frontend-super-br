@@ -103,7 +103,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -111,20 +111,20 @@ export class ComplementarComponent implements OnInit, OnDestroy {
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.processoOrigem = routerState.state.params['processoHandle'];
         });
 
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processo => {
+        ).subscribe((processo) => {
             this.processo = processo;
         });
 
         this.documentos$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            documentos => {
+            (documentos) => {
                 this.oficios = documentos;
                 this._changeDetectorRef.markForCheck();
             }
@@ -133,7 +133,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedDocumentos => {
+        ).subscribe((selectedDocumentos) => {
             this.selectedDocumentos =  selectedDocumentos;
         });
     }
@@ -142,7 +142,7 @@ export class ComplementarComponent implements OnInit, OnDestroy {
         const path = 'app/main/apps/protocolo-externo/protocolo-externo-detail/complementar';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

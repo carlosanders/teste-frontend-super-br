@@ -31,7 +31,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -40,6 +40,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
 
     /**
      * Save Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -47,8 +48,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiqueta>(VinculacaoEtiquetaCreateBlocoActions.SAVE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                    return this._vinculacaoEtiquetaService.save(action.payload).pipe(
+                mergeMap(action => this._vinculacaoEtiquetaService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoEtiqueta) => [
                             new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaSuccess(action.payload),
                             new AddChildData<VinculacaoEtiqueta>({
@@ -74,8 +74,7 @@ export class VinculacaoEtiquetaCreateBlocoEffect {
                             }));
                             return of(new VinculacaoEtiquetaCreateBlocoActions.SaveVinculacaoEtiquetaFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
 }

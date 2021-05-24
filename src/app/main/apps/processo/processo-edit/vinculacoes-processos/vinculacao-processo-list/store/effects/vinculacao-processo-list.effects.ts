@@ -12,7 +12,7 @@ import {VinculacaoProcessoService} from '@cdk/services/vinculacao-processo.servi
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoProcesso} from '@cdk/models';
 import {vinculacaoProcesso as vinculacaoProcessoSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class VinculacaoProcessoListEffect {
@@ -26,7 +26,7 @@ export class VinculacaoProcessoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class VinculacaoProcessoListEffect {
 
     /**
      * Get VinculacoesProcessos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class VinculacaoProcessoListEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoProcessoListActions.GetVinculacoesProcessos>(VinculacaoProcessoListActions.GET_VINCULACOES_PROCESSOS),
-                switchMap((action) => {
-                    return this._vinculacaoProcessoService.query(
+                switchMap(action => this._vinculacaoProcessoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +52,8 @@ export class VinculacaoProcessoListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<VinculacaoProcesso>({data: response['entities'], schema: vinculacaoProcessoSchema}),
                     new VinculacaoProcessoListActions.GetVinculacoesProcessosSuccess({
                         entitiesId: response['entities'].map(vinculacaoProcesso => vinculacaoProcesso.id),
@@ -74,6 +73,7 @@ export class VinculacaoProcessoListEffect {
 
     /**
      * Delete VinculacaoProcesso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,9 +81,8 @@ export class VinculacaoProcessoListEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoProcessoListActions.DeleteVinculacaoProcesso>(VinculacaoProcessoListActions.DELETE_VINCULACAO_PROCESSO),
-                mergeMap((action) => {
-                    return this._vinculacaoProcessoService.destroy(action.payload).pipe(
-                        map((response) => new VinculacaoProcessoListActions.DeleteVinculacaoProcessoSuccess(response.id)),
+                mergeMap(action => this._vinculacaoProcessoService.destroy(action.payload).pipe(
+                        map(response => new VinculacaoProcessoListActions.DeleteVinculacaoProcessoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new VinculacaoProcessoListActions.DeleteVinculacaoProcessoFailed(
@@ -92,7 +91,6 @@ export class VinculacaoProcessoListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

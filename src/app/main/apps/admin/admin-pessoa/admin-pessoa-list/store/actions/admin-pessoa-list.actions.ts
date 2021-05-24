@@ -44,7 +44,7 @@ export class GetPessoaFailed implements Action {
  export class UnloadPessoa implements Action
  {
      readonly type = UNLOAD_PESSOA;
- 
+
      constructor()
      {
      }

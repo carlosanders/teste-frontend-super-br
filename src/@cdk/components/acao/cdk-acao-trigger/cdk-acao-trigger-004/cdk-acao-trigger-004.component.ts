@@ -9,9 +9,9 @@ import {
 
 import {Observable} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
-import {Router} from "@angular/router";
-import {Acao, DocumentoAvulso, EspecieTarefa, Pagination, Pessoa, Processo} from "../../../../models";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {Router} from '@angular/router';
+import {Acao, DocumentoAvulso, EspecieTarefa, Pagination, Pessoa, Processo} from '../../../../models';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 // @ts-ignore
 @Component({

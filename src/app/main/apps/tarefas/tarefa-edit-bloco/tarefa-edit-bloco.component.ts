@@ -91,7 +91,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
                 filter(op => !!op && !!op.content && op.type === 'tarefa')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
                     this.operacoes.push(operacao);
                     this._changeDetectorRef.markForCheck();
                 }
@@ -101,7 +101,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.operacoes = [];
@@ -128,7 +128,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
         this.operacoes = [];
 
-        this.tarefas.forEach(tarefaBloco => {
+        this.tarefas.forEach((tarefaBloco) => {
             const tarefa = new Tarefa();
 
             Object.entries(values).forEach(
@@ -139,7 +139,7 @@ export class TarefaEditBlocoComponent implements OnInit, OnDestroy {
 
             tarefa.id = tarefaBloco.id;
 
-            let changes = {};
+            const changes = {};
 
             if (this.blocoEditEspecie) {
                 changes['especieTarefa'] = tarefa.especieTarefa.id;

@@ -12,7 +12,7 @@ import {TipoAcaoWorkflowService} from '@cdk/services/tipo-acao-workflow.service'
 import {AddData} from '@cdk/ngrx-normalizr';
 import {TipoAcaoWorkflow} from '@cdk/models';
 import {tipoAcaoWorkflow as tipoAcaoWorkflowSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class TipoAcaoWorkflowListEffects {
@@ -27,7 +27,7 @@ export class TipoAcaoWorkflowListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class TipoAcaoWorkflowListEffects {
 
     /**
      * Get TipoAcaoWorkflow with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class TipoAcaoWorkflowListEffects {
         this._actions
             .pipe(
                 ofType<TipoAcaoWorkflowListActions.GetTipoAcaoWorkflow>(TipoAcaoWorkflowListActions.GET_TIPO_ACAO_WORKFLOW),
-                switchMap((action) => {
-                    return this._tipoAcaoWorkflowService.query(
+                switchMap(action => this._tipoAcaoWorkflowService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class TipoAcaoWorkflowListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<TipoAcaoWorkflow>({data: response['entities'], schema: tipoAcaoWorkflowSchema}),
                             new TipoAcaoWorkflowListActions.GetTipoAcaoWorkflowSuccess({
                                 entitiesId: response['entities'].map(tipoAcaoWorkflow => tipoAcaoWorkflow.id),
@@ -69,12 +69,12 @@ export class TipoAcaoWorkflowListEffects {
                             console.log(err);
                             return of(new TipoAcaoWorkflowListActions.GetTipoAcaoWorkflowFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete TipoAcaoWorkflow
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,9 +82,8 @@ export class TipoAcaoWorkflowListEffects {
         this._actions
             .pipe(
                 ofType<TipoAcaoWorkflowListActions.DeleteTipoAcaoWorkflow>(TipoAcaoWorkflowListActions.DELETE_TIPO_ACAO_WORKFLOW),
-                mergeMap((action) => {
-                    return this._tipoAcaoWorkflowService.destroy(action.payload).pipe(
-                        map((response) => new TipoAcaoWorkflowListActions.DeleteTipoAcaoWorkflowSuccess(response.id)),
+                mergeMap(action => this._tipoAcaoWorkflowService.destroy(action.payload).pipe(
+                        map(response => new TipoAcaoWorkflowListActions.DeleteTipoAcaoWorkflowSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new TipoAcaoWorkflowListActions.DeleteTipoAcaoWorkflow(
@@ -93,7 +92,6 @@ export class TipoAcaoWorkflowListEffects {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

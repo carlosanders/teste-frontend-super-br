@@ -50,7 +50,7 @@ export class Atividade {
     tarefa?: Tarefa;
 
     @Type(() => Documento)
-    @Transform(value => value ? value.map((d) => d.id) : null, { toPlainOnly: true })
+    @Transform(value => value ? value.map(d => d.id) : null, { toPlainOnly: true })
     documentos?: Documento[];
 
     @Exclude({ toPlainOnly: true })

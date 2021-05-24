@@ -20,7 +20,7 @@ export class UnidadesListEffects {
     routerState: any;
 
     /**
-     * 
+     *
      * @param _actions
      * @param _setorService
      * @param _loginService
@@ -34,7 +34,7 @@ export class UnidadesListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -43,6 +43,7 @@ export class UnidadesListEffects {
 
     /**
      * Get Unidades with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -50,8 +51,7 @@ export class UnidadesListEffects {
         this._actions
             .pipe(
                 ofType<UnidadesOrgaoCentralListActions.GetUnidades>(UnidadesOrgaoCentralListActions.GET_UNIDADES),
-                switchMap((action) => {
-                    return this._setorService.query(
+                switchMap(action => this._setorService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -61,7 +61,7 @@ export class UnidadesListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Setor>({data: response['entities'], schema: setorSchema}),
                             new UnidadesOrgaoCentralListActions.GetUnidadesSuccess({
                                 entitiesId: response['entities'].map(setor => setor.id),
@@ -76,7 +76,6 @@ export class UnidadesListEffects {
                             console.log(err);
                             return of(new UnidadesOrgaoCentralListActions.GetUnidadesFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

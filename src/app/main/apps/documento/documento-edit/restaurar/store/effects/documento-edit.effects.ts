@@ -35,7 +35,7 @@ export class DocumentoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -44,6 +44,7 @@ export class DocumentoEditEffects {
 
     /**
      * Undelete Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -60,8 +61,7 @@ export class DocumentoEditEffects {
                         lote: action.payload.loteId
                     }));
                 }),
-                mergeMap((action) => {
-                    return this._documentoService.undelete(action.payload.documento).pipe(
+                mergeMap(action => this._documentoService.undelete(action.payload.documento).pipe(
                         map((response) => {
                             this._store.dispatch(new OperacoesActions.Operacao({
                                 id: action.payload.operacaoId,
@@ -87,8 +87,7 @@ export class DocumentoEditEffects {
                             console.log(err);
                             return of(new DocumentoEditActions.UndeleteDocumentoFailed(payload));
                         })
-                    );
-                }, 25)
+                    ), 25)
             );
 
     /**

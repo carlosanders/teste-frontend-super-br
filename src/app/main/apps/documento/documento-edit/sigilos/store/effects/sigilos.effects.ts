@@ -25,7 +25,7 @@ export class SigilosEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class SigilosEffects {
 
     /**
      * Get Sigilo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class SigilosEffects {
         this._actions
             .pipe(
                 ofType<SigiloActions.GetSigilo>(SigiloActions.GET_SIGILO_DOCUMENTO),
-                switchMap((action) => {
-                    return this._sigiloService.query(JSON.stringify({
+                switchMap(action => this._sigiloService.query(JSON.stringify({
                             id: 'eq:' + action.payload.sigiloId
                         }),
                         1,
@@ -52,8 +52,7 @@ export class SigilosEffects {
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Sigilo>({data: response['entities'], schema: sigiloSchema}),
                     new SigiloActions.GetSigiloSuccess({
@@ -73,6 +72,7 @@ export class SigilosEffects {
 
     /**
      * Get Sigilos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -101,7 +101,7 @@ export class SigilosEffects {
                         JSON.stringify(params.sort),
                         JSON.stringify(params.populate));
                 }),
-                mergeMap((response) => [
+                mergeMap(response => [
                     new AddData<Sigilo>({data: response['entities'], schema: sigiloSchema}),
                     new SigiloActions.GetSigilosSuccess({
                         entitiesId: response['entities'].map(sigilo => sigilo.id),
@@ -122,6 +122,7 @@ export class SigilosEffects {
 
     /**
      * Delete Sigilo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -129,19 +130,18 @@ export class SigilosEffects {
         this._actions
             .pipe(
                 ofType<SigiloActions.DeleteSigilo>(SigiloActions.DELETE_SIGILO_DOCUMENTO),
-                mergeMap((action) => {
-                    return this._sigiloService.destroy(action.payload.sigiloId).pipe(
-                        map((response) => new SigiloActions.DeleteSigiloSuccess(response.id)),
+                mergeMap(action => this._sigiloService.destroy(action.payload.sigiloId).pipe(
+                        map(response => new SigiloActions.DeleteSigiloSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
                             return of(new SigiloActions.DeleteSigiloFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Sigilo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -149,8 +149,7 @@ export class SigilosEffects {
         this._actions
             .pipe(
                 ofType<SigiloActions.SaveSigiloDocumento>(SigiloActions.SAVE_SIGILO_DOCUMENTO),
-                switchMap((action) => {
-                    return this._sigiloService.save(action.payload.sigilo).pipe(
+                switchMap(action => this._sigiloService.save(action.payload.sigilo).pipe(
                         mergeMap((response: Sigilo) => [
                             new SigiloActions.SaveSigiloDocumentoSuccess(),
                             new SigiloActions.GetSigilos(action.payload.documentoId),
@@ -165,8 +164,7 @@ export class SigilosEffects {
                             console.log (err);
                             return of(new SigiloActions.SaveSigiloDocumentoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 }

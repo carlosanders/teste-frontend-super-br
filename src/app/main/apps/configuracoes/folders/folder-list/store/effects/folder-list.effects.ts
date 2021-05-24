@@ -13,7 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {Folder} from '@cdk/models';
 import {folder as folderSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class FolderListEffect {
@@ -28,7 +28,7 @@ export class FolderListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class FolderListEffect {
 
     /**
      * Get Folders with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +45,7 @@ export class FolderListEffect {
         this._actions
             .pipe(
                 ofType<FolderListActions.GetFolders>(FolderListActions.GET_FOLDERS),
-                switchMap((action) => {
-                    return this._folderService.query(
+                switchMap(action => this._folderService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -55,7 +55,7 @@ export class FolderListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Folder>({data: response['entities'], schema: folderSchema}),
                             new FolderListActions.GetFoldersSuccess({
                                 entitiesId: response['entities'].map(folder => folder.id),
@@ -70,12 +70,12 @@ export class FolderListEffect {
                             console.log(err);
                             return of(new FolderListActions.GetFoldersFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Folder
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -83,9 +83,8 @@ export class FolderListEffect {
         this._actions
             .pipe(
                 ofType<FolderListActions.DeleteFolder>(FolderListActions.DELETE_FOLDER),
-                mergeMap((action) => {
-                    return this._folderService.destroy(action.payload).pipe(
-                        map((response) => new FolderListActions.DeleteFolderSuccess(response.id)),
+                mergeMap(action => this._folderService.destroy(action.payload).pipe(
+                        map(response => new FolderListActions.DeleteFolderSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new FolderListActions.DeleteFolderFailed(
@@ -94,7 +93,6 @@ export class FolderListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

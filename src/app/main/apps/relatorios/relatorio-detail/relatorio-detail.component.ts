@@ -41,7 +41,7 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
     private _unsubscribeAll: Subject<any> = new Subject();
 
     savingVincEtiquetaId$: Observable<any>;
-    errors$: Observable<any>; 
+    errors$: Observable<any>;
 
     relatorio$: Observable<Relatorio>;
     relatorio: Relatorio;
@@ -84,7 +84,7 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
         private _dynamicService: DynamicService
     ) {
         this._profile = _loginService.getUserProfile();
-        this.relatorio$ = this._store.pipe(select(fromStore.getRelatorio)); 
+        this.relatorio$ = this._store.pipe(select(fromStore.getRelatorio));
         this.documentos$ = this._store.pipe(select(fromStore.getDocumentos));
         this.maximizado$ = this._store.pipe(select(getMaximizado));
         this.screen$ = this._store.pipe(select(getScreenState));
@@ -110,7 +110,7 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
                 }
             ]
         };
-        
+
         this.savingVincEtiquetaId$ = this._store.pipe(select(fromStore.getSavingVincEtiquetaId));
         this.errors$ = this._store.pipe(select(fromStore.getErrors));
     }
@@ -119,7 +119,7 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
         const path = 'app/main/apps/relatorios/relatorio-detail';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then( componentFactory  => this.container.createComponent(componentFactory));
                 }));
@@ -131,14 +131,14 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
         this.relatorio$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(relatorio => {
+        ).subscribe((relatorio) => {
             this.relatorio = relatorio;
         });
         this.documentos$.pipe(
@@ -155,7 +155,7 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             this.mobileMode = screen.size !== 'desktop';
         });
     }
@@ -187,13 +187,13 @@ export class RelatorioDetailComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.dispatch(new CreateVinculacaoEtiqueta({relatorio: this.relatorio, etiqueta: etiqueta}));
     }
 
-    onEtiquetaEdit(values): void {   
+    onEtiquetaEdit(values): void {
         const vinculacaoEtiqueta = new VinculacaoEtiqueta();
         vinculacaoEtiqueta.id = values.id;
         this._store.dispatch(new SaveConteudoVinculacaoEtiqueta({
             vinculacaoEtiqueta: vinculacaoEtiqueta,
             changes: {conteudo: values.conteudo, privada: values.privada}
-        }));         
+        }));
     }
 
     onEtiquetaDelete(vinculacaoEtiqueta: VinculacaoEtiqueta): void {
