@@ -30,7 +30,7 @@ export class TipoValidacaoWorkflowEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,6 +39,7 @@ export class TipoValidacaoWorkflowEditEffects {
 
     /**
      * Get TipoValidacaoWorkflow with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -46,8 +47,7 @@ export class TipoValidacaoWorkflowEditEffects {
         this._actions
             .pipe(
                 ofType<TipoValidacaoWorkflowEditActions.GetTipoValidacaoWorkflow>(TipoValidacaoWorkflowEditActions.GET_TIPO_VALIDACAO_WORKFLOW),
-                switchMap((action) => {
-                    return this._tipoValidacaoWorkflowService.query(
+                switchMap(action => this._tipoValidacaoWorkflowService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -55,8 +55,7 @@ export class TipoValidacaoWorkflowEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<TipoValidacaoWorkflow>({data: response['entities'], schema: tipoValidacaoWorkflowSchema}),
                     new TipoValidacaoWorkflowEditActions.GetTipoValidacaoWorkflowSuccess({
@@ -76,6 +75,7 @@ export class TipoValidacaoWorkflowEditEffects {
 
     /**
      * Save TipoValidacaoWorkflow
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -102,6 +102,7 @@ export class TipoValidacaoWorkflowEditEffects {
 
     /**
      * Update TipoValidacaoWorkflow
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -109,15 +110,13 @@ export class TipoValidacaoWorkflowEditEffects {
         this._actions
             .pipe(
                 ofType<TipoValidacaoWorkflowEditActions.UpdateTipoValidacaoWorkflow>(TipoValidacaoWorkflowEditActions.UPDATE_TIPO_VALIDACAO_WORKFLOW),
-                switchMap((action) => {
-                    return this._tipoValidacaoWorkflowService.patch(action.payload.tipoValidacaoWorkflow, action.payload.changes).pipe(
+                switchMap(action => this._tipoValidacaoWorkflowService.patch(action.payload.tipoValidacaoWorkflow, action.payload.changes).pipe(
                         mergeMap((response: TipoValidacaoWorkflow) => [
                             new TipoValidacaoWorkflowListActions.ReloadTipoValidacaoWorkflow(),
                             new AddData<TipoValidacaoWorkflow>({data: [response], schema: tipoValidacaoWorkflowSchema}),
                             new TipoValidacaoWorkflowEditActions.UpdateTipoValidacaoWorkflowSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new TipoValidacaoWorkflowEditActions.UpdateTipoValidacaoWorkflowFailed(err));

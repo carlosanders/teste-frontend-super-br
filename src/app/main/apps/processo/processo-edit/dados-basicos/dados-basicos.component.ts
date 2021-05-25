@@ -20,8 +20,8 @@ import {Router} from '@angular/router';
 import {getRouterState} from 'app/store/reducers';
 import {MercureService} from '@cdk/services/mercure.service';
 import {Back} from '../../../../../store';
-import {CdkProcessoModalClassificacaoRestritaComponent} from "@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component";
-import {MatDialog} from "@cdk/angular/material";
+import {CdkProcessoModalClassificacaoRestritaComponent} from '@cdk/components/processo/cdk-processo-modal-classificacao-restrita/cdk-processo-modal-classificacao-restrita.component';
+import {MatDialog} from '@cdk/angular/material';
 
 @Component({
     selector: 'dados-basicos',
@@ -93,7 +93,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.processo$.subscribe(
-            processo => {
+            (processo) => {
                 if (this.processo && processo && (this.processo.id !== processo.id) && this.processo.origemDados) {
                     this._mercureService.unsubscribe(this.processo.origemDados['@id']);
                 }
@@ -114,7 +114,7 @@ export class DadosBasicosComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

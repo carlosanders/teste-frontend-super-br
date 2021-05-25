@@ -97,7 +97,7 @@
 
         <mat-checkbox
             formControlName="nupInvalido"
-            *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && nupIsValid == false">
+            *ngIf="(form.value.id || form.value.tipoProtocolo === 2) && nupIsValid === false">
             Estou ciente e insisto no cadastro do digito verificador inválido.
         </mat-checkbox>
         <mat-form-field *ngIf="form.value.id || form.value.tipoProtocolo === 2">

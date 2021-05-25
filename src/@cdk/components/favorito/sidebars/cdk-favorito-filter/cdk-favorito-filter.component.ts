@@ -42,7 +42,7 @@ export class CdkFavoritoFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('label').value) {
-            this.form.get('label').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('label').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'label': `like:%${bit}%`});
             });
         }

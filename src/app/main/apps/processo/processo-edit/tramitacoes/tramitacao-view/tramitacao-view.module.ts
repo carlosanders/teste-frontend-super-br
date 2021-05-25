@@ -15,7 +15,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {TramitacaoViewStoreModule} from 'app/main/apps/processo/processo-edit/tramitacoes/tramitacao-view/store/store.module';
 import * as fromGuards from 'app/main/apps/processo/processo-edit/tramitacoes/tramitacao-view/store/guards';
 import {modulesConfig} from 'modules/modules-config';
-import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 const routes: Routes = [
     {

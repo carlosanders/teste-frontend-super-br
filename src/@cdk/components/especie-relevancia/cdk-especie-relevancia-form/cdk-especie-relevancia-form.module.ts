@@ -11,7 +11,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CdkGeneroTarefaAutocompleteModule} from '../../genero-tarefa/cdk-genero-tarefa-autocomplete/cdk-genero-tarefa-autocomplete.module';
 import {CdkGeneroRelevanciaAutocompleteModule} from '../../genero-relevancia/cdk-genero-relevancia-autocomplete/cdk-genero-relevancia-autocomplete.module';
-import {MatIconModule} from '@angular/material/icon';
+import {MatIconModule} from '@cdk/angular/material';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {CdkEspecieRelevanciaGridsearchModule} from '../cdk-especie-relevancia-autocomplete/cdk-especie-relevancia-gridsearch/cdk-especie-relevancia-gridsearch.module';
 import {CdkGeneroRelevanciaGridsearchModule} from '../../genero-relevancia/cdk-genero-relevancia-autocomplete/cdk-genero-relevancia-gridsearch/cdk-genero-relevancia-gridsearch.module';

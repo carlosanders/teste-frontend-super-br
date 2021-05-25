@@ -24,7 +24,7 @@ export class ActivateEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -33,6 +33,7 @@ export class ActivateEffects {
 
     /**
      * Active Usuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -40,9 +41,7 @@ export class ActivateEffects {
         this._actions
             .pipe(
                 ofType<ActivateActions.Activate>(ActivateActions.ACTIVATE),
-                switchMap((action) => {
-                    return this._usuarioService.active(action.payload.cpf.value, action.payload.token.value, action.payload.context);
-                }),
+                switchMap(action => this._usuarioService.active(action.payload.cpf.value, action.payload.token.value, action.payload.context)),
                 mergeMap(response => [
                     new AddData<Usuario>({data: [response], schema: usuarioSchema}),
                     new ActivateActions.ActivateSuccess({

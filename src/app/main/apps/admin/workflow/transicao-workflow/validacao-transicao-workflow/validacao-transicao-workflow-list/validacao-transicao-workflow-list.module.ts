@@ -21,7 +21,7 @@ import * as fromGuards from './store/guards';
 import {CdkValidacaoTransicaoWorkflowListModule} from '@cdk/components/validacao-transicao-workflow/cdk-validacao-transicao-workflow-list/cdk-validacao-transicao-workflow-list.module';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
-import {ValidacaoTransicaoWorkflowService} from "@cdk/services/validacao-transicao-workflow.service";
+import {ValidacaoTransicaoWorkflowService} from '@cdk/services/validacao-transicao-workflow.service';
 
 const routes: Routes = [
     {

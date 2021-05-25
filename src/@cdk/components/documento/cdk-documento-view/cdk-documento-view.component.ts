@@ -68,7 +68,7 @@ export class DocumentoViewComponent implements OnInit, DoCheck {
 
     ngOnInit(): void {
         this.binary$.subscribe(
-            binary => {
+            (binary) => {
                 if (binary?.src?.conteudo) {
                     const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
                     const byteNumbers = new Array(byteCharacters.length);
@@ -108,7 +108,7 @@ export class DocumentoViewComponent implements OnInit, DoCheck {
                 this.previousDocumento = key === 0 ? this.documentos[key] : this.documentos[key - 1];
                 this.isFirst = key === 0;
             }
-        })
+        });
     }
 
 }

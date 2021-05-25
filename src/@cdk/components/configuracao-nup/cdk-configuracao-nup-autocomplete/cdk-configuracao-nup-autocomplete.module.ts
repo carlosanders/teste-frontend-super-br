@@ -7,7 +7,7 @@ import {
 import { CdkSharedModule } from '@cdk/shared.module';
 import {CdkConfiguracaoNupAutocompleteComponent} from './cdk-configuracao-nup-autocomplete.component';
 import {PipesModule} from '@cdk/pipes/pipes.module';
-import {ConfiguracaoNupService} from "../../../services/configuracao-nup.service";
+import {ConfiguracaoNupService} from '../../../services/configuracao-nup.service';
 
 // @ts-ignore
 @NgModule({

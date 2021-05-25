@@ -12,7 +12,7 @@ import {of} from 'rxjs';
 import {cdkAnimations} from '@cdk/animations';
 import {catchError, finalize} from 'rxjs/operators';
 import {Aviso, Pagination} from '@cdk/models';
-import {AvisoService} from "../../../../services/aviso.service";
+import {AvisoService} from '../../../../services/aviso.service';
 
 @Component({
     selector: 'cdk-aviso-gridsearch',
@@ -66,7 +66,7 @@ export class CdkAvisoGridsearchComponent implements OnInit {
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.avisos = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

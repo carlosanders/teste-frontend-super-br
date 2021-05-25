@@ -12,7 +12,7 @@ import {ProcessoService} from '@cdk/services/processo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Visibilidade} from '@cdk/models';
 import {visibilidade as visibilidadeSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class VisibilidadeListEffect {
@@ -26,7 +26,7 @@ export class VisibilidadeListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class VisibilidadeListEffect {
 
     /**
      * Get Visibilidades with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,11 +43,9 @@ export class VisibilidadeListEffect {
         this._actions
             .pipe(
                 ofType<VisibilidadeListActions.GetVisibilidades>(VisibilidadeListActions.GET_VISIBILIDADES),
-                switchMap((action) => {
-                    return this._processoService.getVisibilidade(
-                        action.payload);
-                }),
-                mergeMap((response) => [
+                switchMap(action => this._processoService.getVisibilidade(
+                        action.payload)),
+                mergeMap(response => [
                     new AddData<Visibilidade>({data: response, schema: visibilidadeSchema}),
                     new VisibilidadeListActions.GetVisibilidadesSuccess({
                         entitiesId: response.map(visibilidade => visibilidade.id),
@@ -67,6 +66,7 @@ export class VisibilidadeListEffect {
 
     /**
      * Delete Visibilidade
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -74,9 +74,8 @@ export class VisibilidadeListEffect {
         this._actions
             .pipe(
                 ofType<VisibilidadeListActions.DeleteVisibilidade>(VisibilidadeListActions.DELETE_VISIBILIDADE),
-                mergeMap((action) => {
-                    return this._processoService.destroyVisibilidade(action.payload.processoId, action.payload.visibilidadeId).pipe(
-                        map((response) => new VisibilidadeListActions.DeleteVisibilidadeSuccess(response.id)),
+                mergeMap(action => this._processoService.destroyVisibilidade(action.payload.processoId, action.payload.visibilidadeId).pipe(
+                        map(response => new VisibilidadeListActions.DeleteVisibilidadeSuccess(response.id)),
                         catchError((err) => {
                             console.log (err);
                             return of(new VisibilidadeListActions.DeleteVisibilidadeFailed(
@@ -85,7 +84,6 @@ export class VisibilidadeListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

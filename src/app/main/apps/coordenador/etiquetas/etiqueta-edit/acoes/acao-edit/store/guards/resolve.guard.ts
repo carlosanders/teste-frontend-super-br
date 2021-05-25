@@ -10,7 +10,7 @@ import {AcaoEditAppState} from '../reducers';
 import * as fromStore from '../index';
 import {getHasLoaded} from '../selectors';
 import {getRouterState} from 'app/store/reducers';
-import {getModalidadeAcaoEtiquetaListLoaded} from "../selectors/modalidade-acao-etiqueta.selectors";
+import {getModalidadeAcaoEtiquetaListLoaded} from '../selectors/modalidade-acao-etiqueta.selectors';
 
 @Injectable()
 export class ResolveGuard implements CanActivate {
@@ -20,14 +20,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<AcaoEditAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<AcaoEditAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,9 +37,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return forkJoin([
@@ -54,7 +54,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Acao
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getAcao(): any {
         return this._store.pipe(
@@ -71,15 +71,13 @@ export class ResolveGuard implements CanActivate {
 
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }
 
     /**
-     * @returns {Observable<any>}
+     * @returns
      */
     getModalidadeAcaoEtiqueta(): any {
         return this._store.pipe(
@@ -100,9 +98,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetModalidadesAcaoEtiqueta(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

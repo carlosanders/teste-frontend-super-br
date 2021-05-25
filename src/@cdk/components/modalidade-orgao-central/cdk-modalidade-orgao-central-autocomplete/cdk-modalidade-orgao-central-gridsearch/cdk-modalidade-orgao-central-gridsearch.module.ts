@@ -13,7 +13,7 @@ import { CdkModalidadeOrgaoCentralGridModule } from '@cdk/components/modalidade-
     imports: [
 
         CdkModalidadeOrgaoCentralGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

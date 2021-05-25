@@ -3,7 +3,7 @@ import {AssuntosEffect} from './assunto.effects';
 import {InteressadosEffect} from './interessado.effects';
 import {VinculacaoProcessoEffects} from './vinculacao-processo.effects';
 import {TarefaEffect} from './tarefa.effects';
-import {ConfiguracaoNupEffects} from "./configuracao-nup.effects";
+import {ConfiguracaoNupEffects} from './configuracao-nup.effects';
 
 export const effects = [
     DadosBasicosEffect,

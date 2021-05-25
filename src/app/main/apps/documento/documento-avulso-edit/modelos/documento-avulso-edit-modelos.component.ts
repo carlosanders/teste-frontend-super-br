@@ -67,7 +67,7 @@ export class DocumentoAvulsoEditModelosComponent implements OnInit, OnDestroy {
         this.error$ = this._store.pipe(select(fromStore.getErrors));
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -75,10 +75,10 @@ export class DocumentoAvulsoEditModelosComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
-        this.documento$.subscribe(documento => {
+        this.documento$.subscribe((documento) => {
             this.documento = documento;
         });
         this.currentComponenteDigital$.pipe(
@@ -86,7 +86,7 @@ export class DocumentoAvulsoEditModelosComponent implements OnInit, OnDestroy {
         ).subscribe(
             componenteDigital => this.currentComponenteDigital = componenteDigital
         );
-        this.error$.subscribe(erro => {
+        this.error$.subscribe((erro) => {
             if (erro) {
                 this.erro = erro.error.message;
             }

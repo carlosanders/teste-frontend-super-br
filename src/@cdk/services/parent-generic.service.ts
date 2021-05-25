@@ -54,18 +54,18 @@ export class ParentGenericService<T> {
         if (t['id']) {
             return this.modelService.put(this.path, t['id'], classToPlain(t), new HttpParams({fromObject: params}))
                 .pipe(
-                    map(response => {
+                    map((response) => {
                         response = plainToClass(this.clz, response);
-                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                         return Object.assign(new this.clz(), {...t, ...response});
                     })
                 );
         } else {
             return this.modelService.post(this.path, classToPlain(t), new HttpParams({fromObject: params}))
                 .pipe(
-                    map(response => {
+                    map((response) => {
                         response = plainToClass(this.clz, response);
-                        Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                        Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                         return Object.assign(new this.clz(), {...t, ...response});
                     })
                 );
@@ -80,9 +80,9 @@ export class ParentGenericService<T> {
             `${environment.api_url}${this.path}` + environment.xdebug,
             t['id'], JSON.stringify(changes), new HttpParams({fromObject: params})
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(this.clz, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new this.clz(), {...t, ...response});
             })
         );

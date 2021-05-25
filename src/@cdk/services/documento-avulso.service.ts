@@ -23,9 +23,9 @@ export class DocumentoAvulsoService extends ParentGenericService<DocumentoAvulso
             `${environment.api_url}${'administrativo/documento_avulso'}/${documentoAvulso.id}/${'remeter'}` + environment.xdebug,
             JSON.stringify(classToPlain(documentoAvulso))
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(DocumentoAvulso, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
             })
         );
@@ -36,9 +36,9 @@ export class DocumentoAvulsoService extends ParentGenericService<DocumentoAvulso
             `${environment.api_url}${'administrativo/documento_avulso'}/${documentoAvulso.id}/${'toggle_encerramento'}` + environment.xdebug,
             JSON.stringify(classToPlain(documentoAvulso))
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(DocumentoAvulso, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
             })
         );
@@ -52,9 +52,9 @@ export class DocumentoAvulsoService extends ParentGenericService<DocumentoAvulso
             null,
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(DocumentoAvulso, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new DocumentoAvulso(), {...documentoAvulso, ...response});
             })
         );

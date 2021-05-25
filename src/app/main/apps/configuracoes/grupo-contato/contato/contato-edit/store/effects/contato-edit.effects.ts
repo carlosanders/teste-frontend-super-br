@@ -29,7 +29,7 @@ export class ContatoEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,22 +38,20 @@ export class ContatoEditEffect {
 
     /**
      * Get Contato with router parameters
+     *
      * @type {Observable<any>}
      */
-    getContato: any = createEffect(() => {
-        return this._actions
+    getContato: any = createEffect(() => this._actions
             .pipe(
                 ofType<ContatoEditActions.GetContato>(ContatoEditActions.GET_CONTATO),
-                switchMap((action) => {
-                    return this._contatoService.query(
+                switchMap(action => this._contatoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Contato>({data: response['entities'], schema: contatoSchema}),
                     new ContatoEditActions.GetContatoSuccess({
@@ -68,43 +66,37 @@ export class ContatoEditEffect {
                     this._store.dispatch(new ContatoEditActions.GetContatoFailed(err));
                     return caught;
                 })
-            )
-    })
+            ));
 
     /**
      * Save Contato
+     *
      * @type {Observable<any>}
      */
-    saveContato: any = createEffect(() => {
-        return this._actions
+    saveContato: any = createEffect(() => this._actions
             .pipe(
                 ofType<ContatoEditActions.SaveContato>(ContatoEditActions.SAVE_CONTATO),
-                switchMap((action) => {
-                    return this._contatoService.save(action.payload).pipe(
+                switchMap(action => this._contatoService.save(action.payload).pipe(
                         mergeMap((response: Contato) => [
                             new ContatoEditActions.SaveContatoSuccess(),
                             new ContatoListActions.ReloadContato(),
                             new AddData<Contato>({data: [response], schema: contatoSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     this._store.dispatch(new ContatoEditActions.SaveContatoFailed(err));
                     return caught;
                 })
-            )
-    })
+            ));
 
     /**
      * Save Contato Success
      */
-    saveContatoSuccess: any = createEffect(() => {
-        return this._actions
+    saveContatoSuccess: any = createEffect(() => this._actions
             .pipe(
                 ofType<ContatoEditActions.SaveContatoSuccess>(ContatoEditActions.SAVE_CONTATO_SUCCESS),
                 tap(() => {
                     this._router.navigate([this.routerState.url.replace(('editar/' + this.routerState.params.contatoHandle), 'listar')]).then();
                 })
-            )
-    }, {dispatch: false});
+            ), {dispatch: false});
 }

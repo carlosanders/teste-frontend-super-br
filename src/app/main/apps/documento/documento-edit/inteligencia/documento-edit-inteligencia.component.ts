@@ -83,13 +83,13 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
 
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             if (this.pagination && pagination && pagination.ckeditorFilter && pagination.ckeditorFilter !== this.pagination.ckeditorFilter) {
                 this.pagination = pagination;
                 this.reload(this.pagination);
@@ -98,7 +98,7 @@ export class DocumentoEditInteligenciaComponent implements OnInit, OnDestroy, Af
             }
         });
 
-        this.componenteDigital$.subscribe(componenteDigital => {
+        this.componenteDigital$.subscribe((componenteDigital) => {
             if (componenteDigital && componenteDigital.conteudo) {
                 const html = DocumentoEditInteligenciaComponent.b64DecodeUnicode(componenteDigital.conteudo.split(';base64,')[1]);
                 this._store.dispatch(new fromStore.SetRepositorioComponenteDigital(html));

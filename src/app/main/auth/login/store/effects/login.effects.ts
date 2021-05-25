@@ -23,8 +23,7 @@ export class LoginEffects {
         this.actions
             .pipe(
                 ofType<LoginActions.Login>(LoginActions.LOGIN),
-                switchMap((action) => {
-                        return this.loginService.login(action.payload.username, action.payload.password)
+                switchMap(action => this.loginService.login(action.payload.username, action.payload.password)
                             .pipe(
                                 map((data: any) => {
                                     data.redirect = action.payload.redirect?? true;
@@ -37,8 +36,7 @@ export class LoginEffects {
                                     }
                                     return of(new LoginActions.LoginFailure({error: msg}));
                                 })
-                            );
-                    }
+                            )
                 ));
 
     @Effect()
@@ -46,8 +44,7 @@ export class LoginEffects {
         this.actions
             .pipe(
                 ofType<LoginActions.Login>(LoginActions.LOGIN_LDAP),
-                switchMap((action) => {
-                        return this.loginService.loginLdap(action.payload.username, action.payload.password)
+                switchMap(action => this.loginService.loginLdap(action.payload.username, action.payload.password)
                             .pipe(
                                 map((data: any) => {
                                     data.redirect = action.payload.redirect?? true;
@@ -62,8 +59,7 @@ export class LoginEffects {
                                     }
                                     return of(new LoginActions.LoginFailure({error: msg}));
                                 })
-                            );
-                    }
+                            )
                 ));
 
     @Effect()
@@ -71,8 +67,7 @@ export class LoginEffects {
         this.actions
             .pipe(
                 ofType<LoginActions.Login>(LoginActions.LOGIN_GOV_BR),
-                switchMap((action) => {
-                        return this.loginService.loginGovBr(action.payload.code)
+                switchMap(action => this.loginService.loginGovBr(action.payload.code)
                             .pipe(
                                 map((data: any) => {
                                     data.redirect = action.payload.redirect?? true;
@@ -85,8 +80,7 @@ export class LoginEffects {
                                     }
                                     return of(new LoginActions.LoginFailure({error: msg}));
                                 })
-                            );
-                    }
+                            )
                 ));
 
     @Effect()
@@ -94,12 +88,9 @@ export class LoginEffects {
         this.actions
             .pipe(
                 ofType<LoginActions.Login>(LoginActions.LOGIN_REFRESH_TOKEN),
-                switchMap((action) => {
-                        return this.loginService.refreshToken()
+                switchMap(action => this.loginService.refreshToken()
                             .pipe(
-                                map((data) => {
-                                    return new LoginActions.LoginRefreshTokenSuccess(data);
-                                }),
+                                map(data => new LoginActions.LoginRefreshTokenSuccess(data)),
                                 catchError((error) => {
                                     let msg = 'Token inválido, realize autenticação novamente!';
                                     if (error && error.status && error.status === 401) {
@@ -107,8 +98,7 @@ export class LoginEffects {
                                     }
                                     return of(new LoginActions.LoginRefreshTokenFailure({error: msg}));
                                 })
-                            );
-                    }
+                            )
                 ));
 
     @Effect()
@@ -175,20 +165,14 @@ export class LoginEffects {
         this.actions
             .pipe(
                 ofType<LoginActions.Login>(LoginActions.LOGIN_PROFILE),
-                switchMap((action) => {
-                        return this.loginService.getProfile()
+                switchMap(action => this.loginService.getProfile()
                             .pipe(
-                                map((response) => {
-                                    return new LoginActions.LoginProfileSuccess({
+                                map(response => new LoginActions.LoginProfileSuccess({
                                         profile: response,
                                         redirect: action.payload.redirect
-                                    });
-                                }),
-                                catchError((error) => {
-                                    return of(new LoginActions.LoginProfileFailure({error: error}));
-                                })
-                            );
-                    }
+                                    })),
+                                catchError(error => of(new LoginActions.LoginProfileFailure({error: error})))
+                            )
                 ));
 
     @Effect()
@@ -196,17 +180,11 @@ export class LoginEffects {
         this.actions
             .pipe(
                 ofType<LoginActions.GetConfig>(LoginActions.GET_CONFIG),
-                switchMap((action) => {
-                        return this.loginService.getConfig()
+                switchMap(action => this.loginService.getConfig()
                             .pipe(
-                                map((response) => {
-                                    return new LoginActions.GetConfigSuccess(response);
-                                }),
-                                catchError((error) => {
-                                    return of(new LoginActions.GetConfigFailure({error: error}));
-                                })
-                            );
-                    }
+                                map(response => new LoginActions.GetConfigSuccess(response)),
+                                catchError(error => of(new LoginActions.GetConfigFailure({error: error})))
+                            )
                 ));
 
     @Effect({dispatch: false})

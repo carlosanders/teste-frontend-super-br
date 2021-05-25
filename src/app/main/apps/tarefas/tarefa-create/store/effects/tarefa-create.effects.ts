@@ -14,7 +14,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import * as OperacoesActions from 'app/store/actions/operacoes.actions';
-import * as moment from "moment";
+import * as moment from 'moment';
 
 @Injectable()
 export class TarefaCreateEffect {
@@ -28,7 +28,7 @@ export class TarefaCreateEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class TarefaCreateEffect {
 
     /**
      * Save Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,8 +45,7 @@ export class TarefaCreateEffect {
         this._actions
             .pipe(
                 ofType<TarefaCreateActions.SaveTarefa>(TarefaCreateActions.SAVE_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.save(action.payload).pipe(
+                mergeMap(action => this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaCreateActions.SaveTarefaSuccess(action.payload.bloco),
                             new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
@@ -66,8 +66,7 @@ export class TarefaCreateEffect {
                             }));
                             return of(new TarefaCreateActions.SaveTarefaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

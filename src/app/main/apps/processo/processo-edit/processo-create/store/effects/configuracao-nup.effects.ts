@@ -8,8 +8,8 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {getRouterState, State} from 'app/store/reducers';
 import {configuracaoNup as configuracaoNupSchema} from '@cdk/normalizr';
-import {ConfiguracaoNupService} from "@cdk/services/configuracao-nup.service";
-import {ConfiguracaoNup} from "@cdk/models/configuracao-nup.model";
+import {ConfiguracaoNupService} from '@cdk/services/configuracao-nup.service';
+import {ConfiguracaoNup} from '@cdk/models/configuracao-nup.model';
 
 @Injectable()
 export class ConfiguracaoNupEffects {
@@ -30,7 +30,7 @@ export class ConfiguracaoNupEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,6 +39,7 @@ export class ConfiguracaoNupEffects {
 
     /**
      * Get Interessados Configuracao Nup
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -46,8 +47,7 @@ export class ConfiguracaoNupEffects {
         this._actions
             .pipe(
                 ofType<ConfiguracaoNupActions.GetConfiguracoesNup>(ConfiguracaoNupActions.GET_CONFIGURACOES_NUP),
-                switchMap((action) => {
-                    return this._configuracaoNupService.query(
+                switchMap(action => this._configuracaoNupService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -56,9 +56,8 @@ export class ConfiguracaoNupEffects {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<ConfiguracaoNup>({data: response['entities'], schema: configuracaoNupSchema}),
                     new ConfiguracaoNupActions.GetConfiguracoesNupSuccess({
                         entitiesId: response['entities'].map(configuracao_nup => configuracao_nup.id),

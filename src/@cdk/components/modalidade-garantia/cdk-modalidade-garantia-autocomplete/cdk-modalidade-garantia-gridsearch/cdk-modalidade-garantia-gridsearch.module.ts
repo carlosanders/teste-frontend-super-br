@@ -13,7 +13,7 @@ import { CdkModalidadeGarantiaGridModule } from '@cdk/components/modalidade-gara
     imports: [
 
         CdkModalidadeGarantiaGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

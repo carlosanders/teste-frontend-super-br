@@ -72,7 +72,7 @@ export class CdkAssinaturaGridsearchComponent implements OnInit {
             .pipe(
                 finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
             this.assinaturas = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();

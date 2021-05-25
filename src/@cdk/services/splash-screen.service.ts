@@ -16,9 +16,9 @@ export class CdkSplashScreenService
     /**
      * Constructor
      *
-     * @param {AnimationBuilder} _animationBuilder
+     * @param _animationBuilder
      * @param _document
-     * @param {Router} _router
+     * @param _router
      */
     constructor(
         private _animationBuilder: AnimationBuilder,

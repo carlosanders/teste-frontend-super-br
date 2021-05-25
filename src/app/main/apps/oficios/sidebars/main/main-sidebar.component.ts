@@ -15,7 +15,7 @@ import * as fromStore from 'app/main/apps/oficios/store';
 import {getRouterState} from 'app/store/reducers';
 import {takeUntil} from 'rxjs/operators';
 import {modulesConfig} from '../../../../../../modules/modules-config';
-import {CdkSidebarService} from "../../../../../../@cdk/components/sidebar/sidebar.service";
+import {CdkSidebarService} from '../../../../../../@cdk/components/sidebar/sidebar.service';
 
 @Component({
     selector: 'documento-avulso-main-sidebar',
@@ -65,7 +65,7 @@ export class DocumentoAvulsoMainSidebarComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 if (routerState.state.params['targetHandle'] === 'entrada') {

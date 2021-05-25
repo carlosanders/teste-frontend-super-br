@@ -24,7 +24,7 @@ export class ProcessoEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -33,6 +33,7 @@ export class ProcessoEffect {
 
     /**
      * Get Processo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -40,16 +41,14 @@ export class ProcessoEffect {
         this._actions
             .pipe(
                 ofType<ProcessoActions.GetProcesso>(ProcessoActions.GET_PROCESSO),
-                switchMap((action) => {
-                    return this._processoService.query(
+                switchMap(action => this._processoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
                     new ProcessoActions.GetProcessoSuccess({
@@ -69,6 +68,7 @@ export class ProcessoEffect {
 
     /**
      * Get Visibilidades with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -76,9 +76,7 @@ export class ProcessoEffect {
         this._actions
             .pipe(
                 ofType<ProcessoActions.GetVisibilidades>(ProcessoActions.GET_VISIBILIDADES_PROCESSO_TAREFA),
-                switchMap((action) => {
-                    return this._processoService.getVisibilidade(action.payload);
-                }),
+                switchMap(action => this._processoService.getVisibilidade(action.payload)),
                 tap((action) => {
                     if (action[0].label !== 'TODOS OS USUÁRIOS') {
                         action.restricaoProcesso = true;
@@ -86,7 +84,7 @@ export class ProcessoEffect {
                         action.restricaoProcesso = false;
                     }
                 }),
-                mergeMap((response) => [
+                mergeMap(response => [
                     new ProcessoActions.GetVisibilidadesSuccess({
                         restricaoProcesso: response.restricaoProcesso
                     })

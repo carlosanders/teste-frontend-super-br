@@ -27,7 +27,7 @@ export class ClassificacaoTreeListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class ClassificacaoTreeListEffects {
 
     /**
      * Get Classificacao with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class ClassificacaoTreeListEffects {
         this._actions
             .pipe(
                 ofType<ClassificacaoTreeListActions.GetClassificacao>(ClassificacaoTreeListActions.GET_CLASSIFICACAO),
-                switchMap((action) => {
-                    return this._classificacaoService.query(
+                switchMap(action => this._classificacaoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class ClassificacaoTreeListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<Classificacao>({data: response['entities'], schema: classificacaoSchema}),
                             new ClassificacaoTreeListActions.GetClassificacaoSuccess({
                                 entitiesId: response['entities'].map(classificacao => classificacao.id),
@@ -69,13 +69,13 @@ export class ClassificacaoTreeListEffects {
                             console.log(err);
                             return of(new ClassificacaoTreeListActions.GetClassificacaoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 
     /**
      * Save Classificacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -83,15 +83,13 @@ export class ClassificacaoTreeListEffects {
         this._actions
             .pipe(
                 ofType<ClassificacaoTreeListActions.SaveClassificacao>(ClassificacaoTreeListActions.SAVE_CLASSIFICACAO),
-                switchMap((action) => {
-                    return this._classificacaoService.save(action.payload).pipe(
+                switchMap(action => this._classificacaoService.save(action.payload).pipe(
                         mergeMap((response: Classificacao) => [
                             new ClassificacaoListActions.ReloadClassificacao(),
                             new AddData<Classificacao>({data: [response], schema: classificacaoSchema}),
                             new ClassificacaoTreeListActions.SaveClassificacaoSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ClassificacaoTreeListActions.SaveClassificacaoFailed(err));

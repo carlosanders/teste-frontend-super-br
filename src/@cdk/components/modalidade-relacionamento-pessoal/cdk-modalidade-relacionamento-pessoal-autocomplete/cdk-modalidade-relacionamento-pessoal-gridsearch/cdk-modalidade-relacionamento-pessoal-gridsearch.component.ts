@@ -73,7 +73,7 @@ export class CdkModalidadeRelacionamentoPessoalGridsearchComponent implements On
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.modalidaderelacionamentoPessoals = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

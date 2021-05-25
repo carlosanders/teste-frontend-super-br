@@ -26,7 +26,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
 
     /**
      * Get Documentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -88,6 +89,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
 
     /**
      * Delete Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -95,19 +97,18 @@ export class AtividadeCreateBlocoDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumento>(AtividadeBlocoCreateDocumentosActionsAll.DELETE_DOCUMENTO_BLOCO),
-                mergeMap((action) => {
-                        return this._documentoService.destroy(action.payload).pipe(
-                            map((response) => new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoSuccess(response.id)),
+                mergeMap(action => this._documentoService.destroy(action.payload).pipe(
+                            map(response => new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoSuccess(response.id)),
                             catchError((err) => {
                                 console.log(err);
                                 return of(new AtividadeBlocoCreateDocumentosActionsAll.DeleteDocumentoFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
     /**
      * Assina Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -115,23 +116,20 @@ export class AtividadeCreateBlocoDocumentosEffect {
         this._actions
             .pipe(
                 ofType<AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumento>(AtividadeBlocoCreateDocumentosActionsAll.ASSINA_DOCUMENTO_BLOCO),
-                mergeMap((action) => {
-                        return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                             .pipe(
-                                map((response) => {
-                                    return new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoSuccess(response);
-                                }),
+                                map(response => new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
                                     this._store.dispatch(new AtividadeBlocoCreateDocumentosActionsAll.AssinaDocumentoFailed(err));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     /**
      * Assina Documento Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -154,6 +152,7 @@ export class AtividadeCreateBlocoDocumentosEffect {
 
     /**
      * Clicked Documento
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})

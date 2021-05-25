@@ -1,5 +1,5 @@
 import {RealizarDesarquivamentoEffects} from './realizar-desarquivamento.effects';
-import {ModalidadeDesarquivamentoEffects} from "./modalidade-desarquivamento.effects";
+import {ModalidadeDesarquivamentoEffects} from './modalidade-desarquivamento.effects';
 
 export const effects = [
     RealizarDesarquivamentoEffects,

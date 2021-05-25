@@ -16,7 +16,7 @@ import {LoginService} from '../../../../auth/login/login.service';
 import {Colaborador} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {Back} from '../../../../../store';
-import {getProcesso} from "../../../processo/store";
+import {getProcesso} from '../../../processo/store';
 
 @Component({
     selector: 'arquivista-edit',
@@ -67,7 +67,7 @@ export class ArquivistaEditComponent implements OnInit, OnDestroy {
         this.processo$.pipe(
             filter(processo => !!processo && (!this.processo || processo.id !== this.processo.id)),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processo => {
+        ).subscribe((processo) => {
             this.processo = processo;
             this.logEntryPagination.filter = {
                 entity: 'SuppCore\\AdministrativoBackend\\Entity\\Processo',
@@ -100,7 +100,7 @@ export class ArquivistaEditComponent implements OnInit, OnDestroy {
         const payload: any = {
             processo: this.processo,
             changes: changes
-        }
+        };
 
         this._store.dispatch(new SaveProcesso(payload));
     }

@@ -61,7 +61,7 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
         this.screen$ = this._store.pipe(select(getScreenState));
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -69,13 +69,13 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             this.mobileMode = screen.size !== 'desktop';
         });
     }
@@ -104,7 +104,7 @@ export class ComponentesDigitaisComponent implements OnInit, OnDestroy {
         }));
     }
 
-    edit($event: { componenteDigital: ComponenteDigital, chaveAcesso: string }): void {
+    edit($event: { componenteDigital: ComponenteDigital; chaveAcesso: string }): void {
         const chaveAcessoHandle = $event.chaveAcesso ? '/' + $event.chaveAcesso : '';
 
         let primary: string;

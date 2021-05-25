@@ -27,7 +27,7 @@ export class DocumentoCopiaCreateBlocoEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class DocumentoCopiaCreateBlocoEffect {
 
     /**
      * Save DocumentoCopia
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class DocumentoCopiaCreateBlocoEffect {
         this._actions
             .pipe(
                 ofType<DocumentoCopiaCreateBlocoActions.SaveDocumentoCopia>(DocumentoCopiaCreateBlocoActions.SAVE_DOCUMENTO_COPIA),
-                concatMap((action) => {
-                    return this._documentoService.save(action.payload.documento).pipe(
+                concatMap(action => this._documentoService.save(action.payload.documento).pipe(
                         mergeMap((response: Documento) => [
                             new DocumentoCopiaCreateBlocoActions.SaveDocumentoCopiaSuccess({juntadaId: action.payload.juntadaId, documento: action.payload.documento}),
                             new AddData<Documento>({data: [response], schema: documentoSchema}),
@@ -69,8 +69,7 @@ export class DocumentoCopiaCreateBlocoEffect {
                                 documento: action.payload.documento
                             }));
                         })
-                    );
-                })
+                    ))
             );
 
 }

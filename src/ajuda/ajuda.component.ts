@@ -12,7 +12,7 @@ import {Topico} from './topico';
 import {CdkUtils} from '@cdk/utils';
 import {DynamicService} from '../modules/dynamic.service';
 import {Router} from '@angular/router';
-import {CdkSidebarService} from "@cdk/components/sidebar/sidebar.service";
+import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import { ShepherdService } from 'angular-shepherd';
 import Shepherd from 'shepherd.js';
 import { steps as defaultSteps, defaultStepOptions} from './tour/data';
@@ -36,7 +36,7 @@ export class AjudaComponent implements OnInit {
     titulo = '';
     categoria= '';
     email = 'sapiens@agu.gov.br'; //INDICAR AQUI O EMAIL UTILIZADO PELO SUPORTE DO SISTEMA
-    wiki = "http://sapienswiki.agu.gov.br/index.php/P%C3%A1gina_principal"; //INDICAR AQUI O WIKI UTILIZADO PELO SUPORTE DO SISTEMA
+    wiki = 'http://sapienswiki.agu.gov.br/index.php/P%C3%A1gina_principal'; //INDICAR AQUI O WIKI UTILIZADO PELO SUPORTE DO SISTEMA
 
     isSubmited = false;
 

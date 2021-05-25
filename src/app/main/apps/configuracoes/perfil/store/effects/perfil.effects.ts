@@ -26,7 +26,7 @@ export class ProfileEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class ProfileEffect {
 
     /**
      * Save Profile
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class ProfileEffect {
         this._actions
             .pipe(
                 ofType<ProfileActions.SaveProfile>(ProfileActions.SAVE_PERFIL),
-                switchMap((action) => {
-                    return this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
+                switchMap(action => this._usuarioService.patch(action.payload.usuario, action.payload.changes).pipe(
                         mergeMap((response: Usuario) => [
                             new UpdateData<Usuario>({id: response.id, schema: usuarioSchema, changes: {assinaturaHTML: response.assinaturaHTML}}),
                             new ProfileActions.SaveProfileSuccess(),  new OperacoesActions.Resultado({
@@ -57,7 +57,6 @@ export class ProfileEffect {
                             console.log (err);
                             return of(new ProfileActions.SaveProfileFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

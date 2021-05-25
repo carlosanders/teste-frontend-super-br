@@ -33,9 +33,9 @@ export class RelatorioService extends ParentGenericService<Relatorio> {
             `${environment.api_url}${'administrativo/relatorio'}/${relatorio.id}` + environment.xdebug,
             JSON.stringify(changes)
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Relatorio, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Relatorio(), {...relatorio, ...response});
             })
         );

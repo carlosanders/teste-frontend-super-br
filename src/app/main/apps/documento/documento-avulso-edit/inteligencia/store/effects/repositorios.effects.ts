@@ -24,7 +24,7 @@ export class RepositoriosEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -33,6 +33,7 @@ export class RepositoriosEffects {
 
     /**
      * Get Repositorios with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -59,7 +60,7 @@ export class RepositoriosEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate));
                 }),
-                mergeMap((response) => [
+                mergeMap(response => [
                     new AddData<Repositorio>({data: response['entities'], schema: repositorioSchema}),
                     new RepositoriosActions.GetRepositoriosSuccess({
                         entitiesId: response['entities'].map(repositorio => repositorio.id),

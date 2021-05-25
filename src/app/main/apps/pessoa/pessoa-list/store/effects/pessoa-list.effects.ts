@@ -12,7 +12,7 @@ import {PessoaService} from '@cdk/services/pessoa.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Pessoa} from '@cdk/models';
 import {pessoa as pessoaSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../@cdk/utils';
 
 @Injectable()
 export class PessoaListEffect {
@@ -26,7 +26,7 @@ export class PessoaListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class PessoaListEffect {
 
     /**
      * Get Pessoas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class PessoaListEffect {
         this._actions
             .pipe(
                 ofType<PessoaListActions.GetPessoas>(PessoaListActions.GET_PESSOAS),
-                switchMap((action) => {
-                    return this._pessoaService.search(
+                switchMap(action => this._pessoaService.search(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -53,9 +53,8 @@ export class PessoaListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
-                mergeMap((response) => [
+                        ]))),
+                mergeMap(response => [
                     new AddData<Pessoa>({data: response['entities'], schema: pessoaSchema}),
                     new PessoaListActions.GetPessoasSuccess({
                         entitiesId: response['entities'].map(pessoa => pessoa.id),
@@ -71,6 +70,7 @@ export class PessoaListEffect {
 
     /**
      * Delete Pessoa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -78,9 +78,8 @@ export class PessoaListEffect {
         this._actions
             .pipe(
                 ofType<PessoaListActions.DeletePessoa>(PessoaListActions.DELETE_PESSOA),
-                mergeMap((action) => {
-                    return this._pessoaService.destroy(action.payload).pipe(
-                        map((response) => new PessoaListActions.DeletePessoaSuccess(response.id)),
+                mergeMap(action => this._pessoaService.destroy(action.payload).pipe(
+                        map(response => new PessoaListActions.DeletePessoaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new PessoaListActions.DeletePessoaFailed(
@@ -89,7 +88,6 @@ export class PessoaListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

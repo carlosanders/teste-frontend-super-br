@@ -31,7 +31,7 @@ export class TarefasEffect {
         this._store
             .pipe(
                 select(getRouterState),
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -40,6 +40,7 @@ export class TarefasEffect {
 
     /**
      * Get Tarefas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -47,8 +48,7 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.GetTarefas>(TarefasActions.GET_TAREFAS),
-                switchMap((action) => {
-                    return this._tarefaService.query(
+                switchMap(action => this._tarefaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.folderFilter,
@@ -58,9 +58,8 @@ export class TarefasEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<Tarefa>({data: response['entities'], schema: tarefaSchema}),
                     new TarefasActions.GetTarefasSuccess({
                         entitiesId: response['entities'].map(tarefa => tarefa.id),
@@ -80,6 +79,7 @@ export class TarefasEffect {
 
     /**
      * Save Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -87,8 +87,7 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.SaveTarefa>(TarefasActions.SAVE_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.patch(action.payload.tarefa, action.payload.changes).pipe(
+                mergeMap(action => this._tarefaService.patch(action.payload.tarefa, action.payload.changes).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefasActions.SaveTarefaSuccess(response),
                             new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
@@ -102,8 +101,7 @@ export class TarefasEffect {
                             console.log(err);
                             return of(new TarefasActions.SaveTarefaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
@@ -121,6 +119,7 @@ export class TarefasEffect {
 
     /**
      * Update Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -135,6 +134,7 @@ export class TarefasEffect {
 
     /**
      * Delete Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -142,14 +142,12 @@ export class TarefasEffect {
         this._actions
             .pipe(
                 ofType<TarefasActions.DeleteTarefa>(TarefasActions.DELETE_TAREFA),
-                mergeMap((action) => {
-                    return this._tarefaService.destroy(action.payload).pipe(
-                        map((response) => new TarefasActions.DeleteTarefaSuccess(response.id)),
+                mergeMap(action => this._tarefaService.destroy(action.payload).pipe(
+                        map(response => new TarefasActions.DeleteTarefaSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new TarefasActions.DeleteTarefaFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 }

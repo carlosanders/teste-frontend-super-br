@@ -19,7 +19,7 @@ import {CdkDocumentoFormModule} from '../../documento/cdk-documento-form/cdk-doc
         CdkComponenteDigitalViewComponent
     ],
     imports: [
-        
+
         MatButtonModule,
         MatIconModule,
         MatCheckboxModule,

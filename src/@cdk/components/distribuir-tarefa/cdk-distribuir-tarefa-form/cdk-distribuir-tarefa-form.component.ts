@@ -129,7 +129,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
         if (this.form.get('unidadeResponsavel').value) {
             this.form.get('setorResponsavel').enable();
             this.setorResponsavelPagination.filter['unidade.id'] = `eq:${this.form.get('unidadeResponsavel').value.id}`;
-            this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
+            this.setorResponsavelPagination.filter['parent'] = 'isNotNull';
         } else {
             this.form.get('setorResponsavel').disable();
             this.form.get('usuarioResponsavel').disable();
@@ -157,7 +157,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                         this.usuarioResponsavelPagination.filter['colaborador.lotacoes.setor.id'] = `eq:${this.form.get('setorResponsavel').value.id}`;
                         // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                         if (this.form.get('setorResponsavel').value.apenasDistribuidor) {
-                            let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == this.form.get('setorResponsavel').value.id)
+                            const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == this.form.get('setorResponsavel').value.id);
                             if(lotacoes.length === 0) {
                                 this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = this.form.get('setorResponsavel').value.id;
                             }
@@ -181,7 +181,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
                         this.form.get('usuarioResponsavel').disable();
                         // this.form.get('distribuicaoAutomatica').reset();
                         this.setorResponsavelPagination.filter['unidade.id'] = `eq:${value.id}`;
-                        this.setorResponsavelPagination.filter['parent'] = `isNotNull`;
+                        this.setorResponsavelPagination.filter['parent'] = 'isNotNull';
                         this.editable = true;
 
                         const unidadesId = [];
@@ -217,7 +217,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
 
                     // Adicionar filtro de coloboradores que são apenas distribuidor lotados no setor
                     if (typeof value === 'object' && value && value.apenasDistribuidor) {
-                        let lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == value.id)
+                        const lotacoes = this._profile.lotacoes.filter(lotacao => lotacao.setor.id == value.id);
                         if(lotacoes.length === 0) {
                             this.usuarioResponsavelPagination['context'].setorApenasDistribuidor = value.id;
                         }
@@ -260,7 +260,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
         ).pipe(
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 response['entities'].forEach((setor) => {
                     this.form.get('setorResponsavel').setValue(setor);
                 });
@@ -356,7 +356,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
             finalize(() => this.unidadeResponsavelListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.unidadeResponsavelList = [];
                 response['entities'].forEach((favorito) => {
                     this.unidadeResponsavelList.push(favorito.objFavoritoClass[0]);
@@ -382,7 +382,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
             finalize(() => this.setorResponsavelListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.setorResponsavelList = [];
                 response['entities'].forEach((favorito) => {
                     this.setorResponsavelList.push(favorito.objFavoritoClass[0]);
@@ -408,7 +408,7 @@ export class CdkDistribuirTarefaFormComponent implements OnInit, OnChanges, OnDe
             finalize(() => this.usuarioResponsavelListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.usuarioResponsavelList = [];
                 response['entities'].forEach((favorito) => {
                     this.usuarioResponsavelList.push(favorito.objFavoritoClass[0]);

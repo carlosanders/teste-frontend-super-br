@@ -32,7 +32,7 @@ export class AssuntosEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class AssuntosEffect {
 
     /**
      * Get Assuntos Processo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,8 +49,7 @@ export class AssuntosEffect {
         this._actions
             .pipe(
                 ofType<AssuntoActions.GetAssuntos>(AssuntoActions.GET_ASSUNTOS),
-                switchMap((action) => {
-                    return this._assuntoService.query(
+                switchMap(action => this._assuntoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -58,9 +58,8 @@ export class AssuntosEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Assunto>({data: response['entities'], schema: assuntoSchema}),
                     new AssuntoActions.GetAssuntosSuccess({
                         entitiesId: response['entities'].map(assunto => assunto.id),
@@ -81,6 +80,7 @@ export class AssuntosEffect {
 
     /**
      * Delete Assunto
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -88,19 +88,18 @@ export class AssuntosEffect {
         this._actions
             .pipe(
                 ofType<AssuntoActions.DeleteAssunto>(AssuntoActions.DELETE_ASSUNTO),
-                mergeMap((action) => {
-                    return this._assuntoService.destroy(action.payload).pipe(
-                        map((response) => new AssuntoActions.DeleteAssuntoSuccess(response.id)),
+                mergeMap(action => this._assuntoService.destroy(action.payload).pipe(
+                        map(response => new AssuntoActions.DeleteAssuntoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new AssuntoActions.DeleteAssuntoFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Assunto
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -108,8 +107,7 @@ export class AssuntosEffect {
         this._actions
             .pipe(
                 ofType<AssuntoActions.SaveAssunto>(AssuntoActions.SAVE_ASSUNTO),
-                switchMap((action) => {
-                    return this._assuntoService.save(action.payload).pipe(
+                switchMap(action => this._assuntoService.save(action.payload).pipe(
                         mergeMap((response: Assunto) => [
                             new AssuntoActions.SaveAssuntoSuccess(),
                             new AddData<Assunto>({data: [response], schema: assuntoSchema}),
@@ -123,12 +121,12 @@ export class AssuntosEffect {
                             console.log(err);
                             return of(new AssuntoActions.SaveAssuntoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Save Assunto Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})

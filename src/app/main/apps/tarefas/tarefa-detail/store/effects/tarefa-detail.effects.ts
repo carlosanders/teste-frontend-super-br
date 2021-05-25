@@ -46,7 +46,7 @@ export class TarefaDetailEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -57,6 +57,7 @@ export class TarefaDetailEffect {
 
     /**
      * Get Tarefa with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -64,8 +65,7 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.GetTarefa>(TarefaDetailActions.GET_TAREFA),
-                switchMap((action) => {
-                    return this._tarefaService.get(
+                switchMap(action => this._tarefaService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll',
@@ -83,8 +83,7 @@ export class TarefaDetailEffect {
                             'especieTarefa.generoTarefa',
                             'vinculacoesEtiquetas',
                             'vinculacoesEtiquetas.etiqueta'])
-                    );
-                }),
+                    )),
                 mergeMap(response => [
                     new AddData<Tarefa>({data: [response], schema: tarefaSchema}),
                     new TarefaDetailActions.GetTarefaSuccess({
@@ -118,6 +117,7 @@ export class TarefaDetailEffect {
 
     /**
      * Update Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -134,6 +134,7 @@ export class TarefaDetailEffect {
 
     /**
      * Delete Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -141,19 +142,18 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.DeleteTarefa>(TarefaDetailActions.DELETE_TAREFA),
-                mergeMap((action) => {
-                        return this._tarefaService.destroy(action.payload).pipe(
-                            map((response) => new TarefaDetailActions.DeleteTarefaSuccess(response.id)),
+                mergeMap(action => this._tarefaService.destroy(action.payload).pipe(
+                            map(response => new TarefaDetailActions.DeleteTarefaSuccess(response.id)),
                             catchError((err) => {
                                 console.log(err);
                                 return of(new TarefaDetailActions.DeleteTarefaFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
     /**
      * Save Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -161,8 +161,7 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.SaveTarefa>(TarefaDetailActions.SAVE_TAREFA),
-                switchMap((action) => {
-                    return this._tarefaService.save(action.payload).pipe(
+                switchMap(action => this._tarefaService.save(action.payload).pipe(
                         mergeMap((response: Tarefa) => [
                             new TarefaDetailActions.SaveTarefaSuccess(),
                             new AddData<Tarefa>({
@@ -178,12 +177,12 @@ export class TarefaDetailEffect {
                             console.log(err);
                             return of(new TarefaDetailActions.SaveTarefaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Redistribuir Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -262,6 +261,7 @@ export class TarefaDetailEffect {
 
     /**
      * Dar Ciencia Tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -353,6 +353,7 @@ export class TarefaDetailEffect {
 
     /**
      * Create Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -365,8 +366,8 @@ export class TarefaDetailEffect {
                     vinculacaoEtiqueta.tarefa = action.payload.tarefa;
                     vinculacaoEtiqueta.etiqueta = action.payload.etiqueta;
                     return this._vinculacaoEtiquetaService.save(vinculacaoEtiqueta).pipe(
-                        tap((response) => response.tarefa = null),
-                        mergeMap((response) => [
+                        tap(response => response.tarefa = null),
+                        mergeMap(response => [
                             new AddChildData<VinculacaoEtiqueta>({
                                 data: [response],
                                 childSchema: vinculacaoEtiquetaSchema,
@@ -390,6 +391,7 @@ export class TarefaDetailEffect {
 
     /**
      * Save conteúdo vinculação etiqueta na tarefa
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -397,9 +399,8 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.SaveConteudoVinculacaoEtiqueta>(TarefaDetailActions.SAVE_CONTEUDO_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                    return this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
-                        mergeMap((response) => [
+                mergeMap(action => this._vinculacaoEtiquetaService.patch(action.payload.vinculacaoEtiqueta, action.payload.changes).pipe(
+                        mergeMap(response => [
                             new TarefaDetailActions.SaveConteudoVinculacaoEtiquetaSuccess(response.id),
                             new UpdateData<VinculacaoEtiqueta>({
                                 id: response.id,
@@ -411,13 +412,13 @@ export class TarefaDetailEffect {
                             console.log(err);
                             return of(new TarefaDetailActions.SaveConteudoVinculacaoEtiquetaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 
     /**
      * Delete Vinculacao Etiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -425,8 +426,7 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.DeleteVinculacaoEtiqueta>(TarefaDetailActions.DELETE_VINCULACAO_ETIQUETA),
-                mergeMap((action) => {
-                        return this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
+                mergeMap(action => this._vinculacaoEtiquetaService.destroy(action.payload.vinculacaoEtiquetaId).pipe(
                             mergeMap(() => [
                                 new RemoveChildData({
                                     id: action.payload.vinculacaoEtiquetaId,
@@ -439,12 +439,12 @@ export class TarefaDetailEffect {
                                 console.log(err);
                                 return of(new TarefaDetailActions.DeleteVinculacaoEtiquetaFailed(action.payload));
                             })
-                        );
-                    }
+                        )
                 ));
 
     /**
      * Get Documentos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -452,8 +452,7 @@ export class TarefaDetailEffect {
         this._actions
             .pipe(
                 ofType<TarefaDetailActions.GetDocumentos>(TarefaDetailActions.GET_DOCUMENTOS),
-                switchMap((action) => {
-                    return this._documentoService.query(
+                switchMap(action => this._documentoService.query(
                         JSON.stringify(action.payload),
                         25,
                         0,
@@ -461,8 +460,7 @@ export class TarefaDetailEffect {
                         JSON.stringify([
                             'tipoDocumento',
                             'tipoDocumento.especieDocumento',
-                            'componentesDigitais']));
-                }),
+                            'componentesDigitais']))),
                 mergeMap(response => [
                     new AddData<Documento>({data: response['entities'], schema: documentoSchema}),
                     new TarefaDetailActions.GetDocumentosSuccess({

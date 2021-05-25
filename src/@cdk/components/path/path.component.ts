@@ -40,8 +40,8 @@ export class PathComponent implements OnInit {
         const posicao = this.caminhoAbsoluto.search(this.inicioCaminho);
         const raiz = this.caminhoAbsoluto.slice(0, posicao-1);
         this.caminhoAbsoluto = this.caminhoAbsoluto.slice(posicao, this.caminhoAbsoluto.length);
-        const arrayCaminho = this.caminhoAbsoluto.split("/");
-        arrayCaminho.forEach((c:string) => {
+        const arrayCaminho = this.caminhoAbsoluto.split('/');
+        arrayCaminho.forEach((c: string) => {
             if(c==='dados-basicos' || c==='default') { } //Não adiciona no link, para resolver despadronizacoes
             else if(c==='arvore') { //Entra se for arvore
                 chave = `${raiz}${caminhoAux}/${c}`;
@@ -91,9 +91,9 @@ export class PathComponent implements OnInit {
 
     pluralParaSigular(palavra): string {
         let palavraSingular = '';
-        let arrayPalavras = palavra.split(" ");
+        const arrayPalavras = palavra.split(' ');
         arrayPalavras.forEach((valor) => {
-            let tamanho = valor.length;
+            const tamanho = valor.length;
             if(valor.substr(tamanho-3, tamanho)==='res' || valor.substr(tamanho-3, tamanho)==='res') {
                 palavraSingular += valor.substr(0, tamanho-2) + ' ';
             }

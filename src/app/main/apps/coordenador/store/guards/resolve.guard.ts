@@ -36,7 +36,7 @@ export class ResolveGuard implements CanActivate {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -60,9 +60,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (this.getRouterDefault()) {
@@ -79,28 +79,20 @@ export class ResolveGuard implements CanActivate {
     /**
      * check Role Coordenador
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     checkRole(observable: Observable<any>): any {
         if (!this._loginService.isGranted('ROLE_COORDENADOR_SETOR') && !this._loginService.isGranted('ROLE_COORDENADOR_UNIDADE') && !this._loginService.isGranted('ROLE_COORDENADOR_ORGAO_CENTRAL')) {
-            this._router.navigate(['/apps/painel']).then(() => {
-                return throwError(new Error('Usuário sem permissão'));
-            });
+            this._router.navigate(['/apps/painel']).then(() => throwError(new Error('Usuário sem permissão')));
         }
         if (this.routerState.params['generoHandle'] === 'nacional' && !this._loginService.isGranted('ROLE_COORDENADOR_ORGAO_CENTRAL')) {
-            this._router.navigate(['/apps/painel']).then(() => {
-                return throwError(new Error('Usuário sem permissão'));
-            });
+            this._router.navigate(['/apps/painel']).then(() => throwError(new Error('Usuário sem permissão')));
         }
         if (this.routerState.params['generoHandle'] === 'unidade' && !this._loginService.isGranted('ROLE_COORDENADOR_UNIDADE')) {
-            this._router.navigate(['/apps/painel']).then(() => {
-                return throwError(new Error('Usuário sem permissão'));
-            });
+            this._router.navigate(['/apps/painel']).then(() => throwError(new Error('Usuário sem permissão')));
         }
         if (this.routerState.params['generoHandle'] === 'local' && !this._loginService.isGranted('ROLE_COORDENADOR_SETOR')) {
-            this._router.navigate(['/apps/painel']).then(() => {
-                return throwError(new Error('Usuário sem permissão'));
-            });
+            this._router.navigate(['/apps/painel']).then(() => throwError(new Error('Usuário sem permissão')));
         }
         return observable;
     }
@@ -108,7 +100,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Entidade
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getEntidade(): any {
         return this._store.pipe(
@@ -132,11 +124,9 @@ export class ResolveGuard implements CanActivate {
                     }
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params['generoHandle'] && this.routerState.params['entidadeHandle'] &&
+            filter((loaded: any) => this.routerState.params['generoHandle'] && this.routerState.params['entidadeHandle'] &&
                     (this.routerState.params['generoHandle'] + '_' + this.routerState.params['entidadeHandle'] ===
-                        loaded.value);
-            }),
+                        loaded.value)),
             take(1)
         );
     }

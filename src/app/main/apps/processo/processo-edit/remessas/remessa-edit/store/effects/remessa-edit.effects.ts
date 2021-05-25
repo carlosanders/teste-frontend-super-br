@@ -28,7 +28,7 @@ export class RemessaEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class RemessaEditEffect {
 
     /**
      * Get Tramitacao with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class RemessaEditEffect {
         this._actions
             .pipe(
                 ofType<RemessaEditActions.GetTramitacao>(RemessaEditActions.GET_TRAMITACAO),
-                switchMap((action) => {
-                    return this._tramitacaoService.query(
+                switchMap(action => this._tramitacaoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Tramitacao>({data: response['entities'], schema: tramitacaoSchema}),
                     new RemessaEditActions.GetTramitacaoSuccess({
@@ -73,6 +72,7 @@ export class RemessaEditEffect {
 
     /**
      * Save Tramitacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class RemessaEditEffect {
         this._actions
             .pipe(
                 ofType<RemessaEditActions.SaveTramitacao>(RemessaEditActions.SAVE_TRAMITACAO),
-                switchMap((action) => {
-                    return this._tramitacaoService.save(action.payload).pipe(
+                switchMap(action => this._tramitacaoService.save(action.payload).pipe(
                         mergeMap((response: Tramitacao) => [
                             new RemessaEditActions.SaveTramitacaoSuccess(),
                             new RemessaListActions.ReloadTramitacoes(),
@@ -96,8 +95,7 @@ export class RemessaEditEffect {
                             console.log (err);
                             return of(new RemessaEditActions.SaveTramitacaoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**

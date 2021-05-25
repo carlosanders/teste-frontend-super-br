@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
-import {Subject} from "rxjs";
+import {Subject} from 'rxjs';
 
 @Component({
     selector: 'cdk-pessoa-filter',
@@ -51,19 +51,19 @@ export class CdkPessoaFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'nome': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('nomeGenitora').value) {
-            this.form.get('nomeGenitora').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nomeGenitora').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'nomeGenitora': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('numeroDocumentoPrincipal').value) {
-            this.form.get('numeroDocumentoPrincipal').value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('numeroDocumentoPrincipal').value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'numeroDocumentoPrincipal': `like:%${bit}%`});
             });
         }

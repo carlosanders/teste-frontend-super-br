@@ -31,7 +31,7 @@ export class DocumentosVinculadosEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -40,6 +40,7 @@ export class DocumentosVinculadosEffect {
 
     /**
      * Get Documentos Vinculados with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -52,7 +53,7 @@ export class DocumentosVinculadosEffect {
                     let documentoId = null;
 
                     const routeParams = of('documentoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         documentoId = `eq:${this.routerState.params[param]}`;
                     });
 
@@ -100,6 +101,7 @@ export class DocumentosVinculadosEffect {
 
     /**
      * Delete Documento Vinculado
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -108,19 +110,18 @@ export class DocumentosVinculadosEffect {
             .pipe(
                 ofType<DocumentosVinculadosActions.DeleteDocumentoVinculado>(DocumentosVinculadosActions.DELETE_DOCUMENTO_VINCULADO),
 
-                mergeMap((action) => {
-                    return this._documentoService.destroy(action.payload).pipe(
-                        map((response) => new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(response.id)),
+                mergeMap(action => this._documentoService.destroy(action.payload).pipe(
+                        map(response => new DocumentosVinculadosActions.DeleteDocumentoVinculadoSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new DocumentosVinculadosActions.DeleteDocumentoVinculadoFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete Documento Vinculado
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -128,23 +129,20 @@ export class DocumentosVinculadosEffect {
         this._actions
             .pipe(
                 ofType<DocumentosVinculadosActions.AssinaDocumentoVinculado>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO),
-                mergeMap((action) => {
-                        return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                             .pipe(
-                                map((response) => {
-                                    return new DocumentosVinculadosActions.AssinaDocumentoVinculadoSuccess(response);
-                                }),
+                                map(response => new DocumentosVinculadosActions.AssinaDocumentoVinculadoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
                                     this._store.dispatch(new DocumentosVinculadosActions.AssinaDocumentoVinculadoFailed(err));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     /**
      * Assina Documento Vinculado
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -167,6 +165,7 @@ export class DocumentosVinculadosEffect {
 
     /**
      * Save Documento Assinatura Eletronica
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -174,8 +173,7 @@ export class DocumentosVinculadosEffect {
         this._actions
             .pipe(
                 ofType<DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamente>(DocumentosVinculadosActions.ASSINA_DOCUMENTO_VINCULADO_ELETRONICAMENTE),
-                switchMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -189,12 +187,12 @@ export class DocumentosVinculadosEffect {
                             console.log(err);
                             return of(new DocumentosVinculadosActions.AssinaDocumentoVinculadoEletronicamenteFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Clicked Documento Vinculado
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})

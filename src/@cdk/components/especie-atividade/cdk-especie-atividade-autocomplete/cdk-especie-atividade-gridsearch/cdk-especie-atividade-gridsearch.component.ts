@@ -80,7 +80,7 @@ export class CdkEspecieAtividadeGridsearchComponent implements OnInit {
             JSON.stringify(params.context))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.especieAtividades = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

@@ -227,7 +227,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.especieSetorPagination = new Pagination();
         this.configuracaoNupPagination = new Pagination();
         this.processoPagination.populate = ['configuracaoNup', 'especieProcesso', 'especieProcesso.generoProcesso', 'modalidadeMeio', 'classificacao', 'setorAtual', 'setorAtual.unidade'];
-        this.especieProcessoPagination.populate = ['generoProcesso', 'modalidadeMeio', 'classificacao']
+        this.especieProcessoPagination.populate = ['generoProcesso', 'modalidadeMeio', 'classificacao'];
         this._profile = this._loginService.getUserProfile();
 
         this.readonlyNUP = false;
@@ -258,7 +258,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             // this.form.get('procedencia').setValue(null);
             // this.form.get('procedencia').disable();
             this.textBotao = 'SALVAR';
-            this.form.get('tipoProtocolo').valueChanges.subscribe(value => {
+            this.form.get('tipoProtocolo').valueChanges.subscribe((value) => {
                 if (value === Processo.TP_INFORMADO) {
                     this.form.get('dataHoraAbertura').setValue(null);
                     this.form.get('dataHoraAbertura').enable();
@@ -282,7 +282,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
                 this._changeDetectorRef.markForCheck();
             });
 
-            this.form.get('unidadeArquivistica').valueChanges.subscribe(value => {
+            this.form.get('unidadeArquivistica').valueChanges.subscribe((value) => {
                 if (value === Processo.UA_DOSSIE) {
                     this.form.get('tipoProtocolo').setValue(Processo.TP_PENDENTE);
                 } else {
@@ -305,7 +305,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         this.mostraDataHoraDesarquivamento = (this.processo?.setorAtual?.especieSetor?.nome === 'ARQUIVO') &&
             (this._profile.colaborador.lotacoes.filter(lotacao => lotacao.setor.especieSetor.nome === 'ARQUIVO').length > 0);
 
-        this.form.get('temProcessoOrigem').valueChanges.subscribe(value => {
+        this.form.get('temProcessoOrigem').valueChanges.subscribe((value) => {
             if (value) {
                 this.form.get('processoOrigem').enable();
             } else {
@@ -314,7 +314,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
-        this.form.get('especieProcesso').valueChanges.subscribe(value => {
+        this.form.get('especieProcesso').valueChanges.subscribe((value) => {
             if (value && typeof value === 'object') {
                 if (value.classificacao) {
                     this.form.get('classificacao').setValue(value.classificacao);
@@ -359,7 +359,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -647,7 +647,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => this.especieProcessoListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.especieProcessoList = [];
                 response['entities'].forEach((favorito) => {
                     this.especieProcessoList.push(favorito.objFavoritoClass[0]);
@@ -672,7 +672,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => this.procedenciaListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.procedenciaList = [];
                 response['entities'].forEach((favorito) => {
                     this.procedenciaList.push(favorito.objFavoritoClass[0]);
@@ -697,7 +697,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => this.classificacaoListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.classificacaoList = [];
                 response['entities'].forEach((favorito) => {
                     this.classificacaoList.push(favorito.objFavoritoClass[0]);
@@ -722,7 +722,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => this.modalidadeMeioListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.modalidadeMeioList = [];
                 response['entities'].forEach((favorito) => {
                     this.modalidadeMeioList.push(favorito.objFavoritoClass[0]);
@@ -747,7 +747,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => this.setorAtualListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.setorAtualList = [];
                 response['entities'].forEach((favorito) => {
                     this.setorAtualList.push(favorito.objFavoritoClass[0]);
@@ -772,7 +772,7 @@ export class CdkProcessoFormComponent implements OnInit, OnChanges, OnDestroy {
             finalize(() => this.configuracaoNupListIsLoading = false),
             catchError(() => of([]))
         ).subscribe(
-            response => {
+            (response) => {
                 this.configuracaoNupList = [];
                 response['entities'].forEach((favorito) => {
                     this.configuracaoNupList.push(favorito.objFavoritoClass[0]);

@@ -127,21 +127,21 @@ export function AtividadeCreateDocumentosReducer(
                 bufferingDelete: state.bufferingDelete + 1,
                 errorDelete: [],
                 error: null
-            }
+            };
         }
 
         case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO_FLUSH: {
             return {
                 ...state,
                 bufferingDelete: state.bufferingDelete + 1
-            }
+            };
         }
 
         case AtividadeCreateDocumentosActions.DELETE_DOCUMENTO_CANCEL_SUCCESS: {
             return {
                 ...state,
                 documentosId: [...state.documentosId, action.payload],
-            }
+            };
         }
 
         case AtividadeCreateDocumentosActions.UPDATE_DOCUMENTO: {

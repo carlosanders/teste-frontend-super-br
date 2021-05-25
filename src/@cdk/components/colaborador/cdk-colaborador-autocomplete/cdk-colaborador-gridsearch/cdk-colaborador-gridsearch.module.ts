@@ -13,7 +13,7 @@ import { CdkColaboradorGridModule } from '@cdk/components/colaborador/cdk-colabo
     imports: [
 
         CdkColaboradorGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

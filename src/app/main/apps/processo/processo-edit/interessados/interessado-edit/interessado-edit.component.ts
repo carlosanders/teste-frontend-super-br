@@ -79,7 +79,7 @@ export class InteressadoEditComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

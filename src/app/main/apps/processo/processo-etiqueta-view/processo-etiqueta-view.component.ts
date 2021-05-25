@@ -50,7 +50,7 @@ export class ProcessoEtiquetaViewComponent implements OnInit {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -60,7 +60,7 @@ export class ProcessoEtiquetaViewComponent implements OnInit {
     ngOnInit(): void {
 
         this.binary$.subscribe(
-            binary => {
+            (binary) => {
                 if (binary.src.conteudo) {
                     const byteCharacters = atob(binary.src.conteudo.split(';base64,')[1]);
                     const byteNumbers = new Array(byteCharacters.length);

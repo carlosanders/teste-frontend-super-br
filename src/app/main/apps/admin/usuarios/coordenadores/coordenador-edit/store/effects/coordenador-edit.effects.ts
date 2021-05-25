@@ -29,7 +29,7 @@ export class CoordenadorEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class CoordenadorEditEffects {
 
     /**
      * Get Coordenador with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class CoordenadorEditEffects {
         this._actions
             .pipe(
                 ofType<CoordenadorEditActions.GetCoordenador>(CoordenadorEditActions.GET_COORDENADOR),
-                switchMap((action) => {
-                    return this._coordenadorService.query(
+                switchMap(action => this._coordenadorService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -54,8 +54,7 @@ export class CoordenadorEditEffects {
                         JSON.stringify([
                             'populateAll',
                             'colaborador.usuario',
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Coordenador>({data: response['entities'], schema: coordenadorSchema}),
                     new CoordenadorEditActions.GetCoordenadorSuccess({
@@ -75,6 +74,7 @@ export class CoordenadorEditEffects {
 
     /**
      * Save Coordenador
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,15 +82,13 @@ export class CoordenadorEditEffects {
         this._actions
             .pipe(
                 ofType<CoordenadorEditActions.SaveCoordenador>(CoordenadorEditActions.SAVE_COORDENADOR),
-                switchMap((action) => {
-                    return this._coordenadorService.save(action.payload).pipe(
+                switchMap(action => this._coordenadorService.save(action.payload).pipe(
                         mergeMap((response: Coordenador) => [
                             new CoordenadorEditActions.SaveCoordenadorSuccess(),
                             new CoordenadoresListActions.ReloadCoordenadores(),
                             new AddData<Coordenador>({data: [response], schema: coordenadorSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new CoordenadorEditActions.SaveCoordenadorFailed(err));

@@ -58,7 +58,7 @@ export class VinculacaoPessoaUsuarioListComponent implements OnInit {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -66,7 +66,7 @@ export class VinculacaoPessoaUsuarioListComponent implements OnInit {
 
         this.pagination$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(pagination => {
+        ).subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

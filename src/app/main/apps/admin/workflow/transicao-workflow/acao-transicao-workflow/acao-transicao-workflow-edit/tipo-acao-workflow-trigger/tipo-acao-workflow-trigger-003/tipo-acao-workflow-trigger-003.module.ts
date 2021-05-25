@@ -19,11 +19,11 @@ import {CdkSharedModule} from '@cdk/shared.module';
 import {TipoAcaoWorkflowTrigger003Component} from './tipo-acao-workflow-trigger-003.component';
 import {RouterModule, Routes} from '@angular/router';
 import {modulesConfig} from 'modules/modules-config';
-import {CommonModule} from "@angular/common";
-import * as fromGuards from "./store/guards";
-import {AcaoTriggerStoreModule} from "../store/store.module";
-import {TipoAcaoWorkflowService} from "@cdk/services/tipo-acao-workflow.service";
-import {CdkTipoAcaoWorkflowTrigger003Module} from "@cdk/components/acao-transicao-workflow/cdk-tipo-acao-workflow-trigger/cdk-tipo-acao-workflow-trigger-003/cdk-tipo-acao-workflow-trigger-003.module";
+import {CommonModule} from '@angular/common';
+import * as fromGuards from './store/guards';
+import {AcaoTriggerStoreModule} from '../store/store.module';
+import {TipoAcaoWorkflowService} from '@cdk/services/tipo-acao-workflow.service';
+import {CdkTipoAcaoWorkflowTrigger003Module} from '@cdk/components/acao-transicao-workflow/cdk-tipo-acao-workflow-trigger/cdk-tipo-acao-workflow-trigger-003/cdk-tipo-acao-workflow-trigger-003.module';
 
 const routes: Routes = [
     {

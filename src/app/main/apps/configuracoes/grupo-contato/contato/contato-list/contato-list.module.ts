@@ -23,7 +23,7 @@ import * as fromGuards from './store/guards';
 import {CdkContatoGridModule} from '@cdk/components/contato/cdk-contato-grid/cdk-contato-grid.module';
 import {modulesConfig} from 'modules/modules-config';
 import {PathModule} from '@cdk/components/path/path.module';
-import {LoginService} from "../../../../../auth/login/login.service";
+import {LoginService} from '../../../../../auth/login/login.service';
 
 const routes: Routes = [
     {

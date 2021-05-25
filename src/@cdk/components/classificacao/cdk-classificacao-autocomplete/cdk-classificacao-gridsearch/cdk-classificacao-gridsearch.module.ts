@@ -13,7 +13,7 @@ import { CdkClassificacaoGridModule } from '@cdk/components/classificacao/cdk-cl
     imports: [
 
         CdkClassificacaoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

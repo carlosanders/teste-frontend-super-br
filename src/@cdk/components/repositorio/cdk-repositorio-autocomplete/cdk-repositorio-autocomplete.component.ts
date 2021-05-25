@@ -54,7 +54,7 @@ export class CdkRepositorioAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         andxFilter.push({
                             nome: `like:%${bit}%`});
                     });
@@ -83,7 +83,7 @@ export class CdkRepositorioAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.repositorioList = response['entities'];
             this._changeDetectorRef.detectChanges();
         });

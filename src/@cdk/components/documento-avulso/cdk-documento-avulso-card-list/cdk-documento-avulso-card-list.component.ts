@@ -69,7 +69,7 @@ export class CdkDocumentoAvulsoCardListComponent implements OnInit, OnChanges {
     }
 
     // **********************************MUDANÇA CONVERTE
-    doConverte(documentoId): void { 
+    doConverte(documentoId): void {
         this.converte.emit(documentoId);
     }
 

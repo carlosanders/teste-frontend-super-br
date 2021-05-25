@@ -131,7 +131,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
 
         this.desabilitaCampos();
 
-        this.form.get('generoRelatorio').valueChanges.subscribe(value => {
+        this.form.get('generoRelatorio').valueChanges.subscribe((value) => {
             if (value) {
                 this.form.get('especieRelatorio').enable();
                 this.especieRelatorioPagination.filter = {'generoRelatorio.id': `eq:${value.id}`};
@@ -141,7 +141,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
-        this.form.get('especieRelatorio').valueChanges.subscribe(value => {
+        this.form.get('especieRelatorio').valueChanges.subscribe((value) => {
             if (value) {
                 this.form.get('tipoRelatorio').enable();
                 this.tipoRelatorioPagination.filter = {
@@ -154,7 +154,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
 
-        this.form.get('tipoRelatorio').valueChanges.subscribe(value => {
+        this.form.get('tipoRelatorio').valueChanges.subscribe((value) => {
             if (value && value.parametros) {
                 this.processaParametros(value);
             }
@@ -169,7 +169,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
                             this.form.get('setor').enable();
                             this.form.get('setor').reset();
                             this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
-                            this.setorPagination.filter['parent'] = `isNotNull`;
+                            this.setorPagination.filter['parent'] = 'isNotNull';
                             this._changeDetectorRef.markForCheck();
                         }
                         if (value === null) {
@@ -222,7 +222,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -376,7 +376,7 @@ export class CdkRelatorioFormComponent implements OnInit, OnChanges, OnDestroy {
     showUsuarioGrid(): void {
         this.activeCard = 'usuario-gridsearch';
     }
-    
+
     cancel(): void {
         this.activeCard = 'form';
     }

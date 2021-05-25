@@ -15,7 +15,7 @@ export class CertificadoComponent
     /**
      * Constructor
      *
-     * @param {CdkConfigService} _cdkConfigService
+     * @param _cdkConfigService
      */
     constructor(
         public _cdkConfigService: CdkConfigService

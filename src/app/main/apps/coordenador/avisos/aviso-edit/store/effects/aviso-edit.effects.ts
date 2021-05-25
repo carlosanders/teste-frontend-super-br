@@ -29,7 +29,7 @@ export class AvisoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class AvisoEditEffects {
 
     /**
      * Get Aviso with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class AvisoEditEffects {
         this._actions
             .pipe(
                 ofType<AvisoEditActions.GetAviso>(AvisoEditActions.GET_AVISO),
-                switchMap((action) => {
-                    return this._avisoService.get(
+                switchMap(action => this._avisoService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll',
@@ -55,8 +55,7 @@ export class AvisoEditEffects {
                             'vinculacoesAvisos.usuario',
                             'vinculacoesAvisos.modalidadeOrgaoCentral',
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Aviso>({data: [response], schema: avisoSchema}),
                     new AvisoEditActions.GetAvisoSuccess({
@@ -76,6 +75,7 @@ export class AvisoEditEffects {
 
     /**
      * Save Aviso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -83,15 +83,13 @@ export class AvisoEditEffects {
         this._actions
             .pipe(
                 ofType<AvisoEditActions.SaveAviso>(AvisoEditActions.SAVE_AVISO),
-                switchMap((action) => {
-                    return this._avisoService.save(action.payload).pipe(
+                switchMap(action => this._avisoService.save(action.payload).pipe(
                         mergeMap((response: Aviso) => [
                             new AvisoEditActions.SaveAvisoSuccess(),
                             new AvisoListActions.ReloadAviso(),
                             new AddData<Aviso>({data: [response], schema: avisoSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new AvisoEditActions.SaveAvisoFailed(err));

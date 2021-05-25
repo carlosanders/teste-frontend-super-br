@@ -21,8 +21,8 @@ import {getOperacoesState, getRouterState} from 'app/store/reducers';
 import {Router} from '@angular/router';
 import {filter, takeUntil} from 'rxjs/operators';
 import {Etiqueta} from '@cdk/models';
-import {ChangeSelectedProcessos} from "../arquivista-list/store";
-import {CdkUtils} from "@cdk/utils";
+import {ChangeSelectedProcessos} from '../arquivista-list/store';
+import {CdkUtils} from '@cdk/utils';
 
 @Component({
     selector: 'vinculacao-etiqueta-create',
@@ -103,7 +103,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
     ngOnInit(): void {
         this.processos$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processos => {
+        ).subscribe((processos) => {
             this.processos = processos;
         });
 
@@ -114,7 +114,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
                 filter(op => !!op && !!op.content && op.type === 'vinculacao_etiqueta')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
                     this.operacoes.push(operacao);
                     this._changeDetectorRef.markForCheck();
                 }
@@ -124,7 +124,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.operacoes = [];
@@ -175,7 +175,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
         this.operacoes = [];
         const loteId = CdkUtils.makeId();
 
-        this.processos.forEach(processo => {
+        this.processos.forEach((processo) => {
             const operacaoId = CdkUtils.makeId();
             const vinculacaoEtiqueta = new VinculacaoEtiqueta();
             Object.entries(this.etiquetas).forEach(
@@ -201,7 +201,7 @@ export class VinculacaoEtiquetaCreateBlocoComponent implements OnInit, OnDestroy
                     })
                 ],
                 undo: null
-            }
+            };
 
             this._store.dispatch(new fromStore.SaveVinculacaoEtiqueta(payload));
         });

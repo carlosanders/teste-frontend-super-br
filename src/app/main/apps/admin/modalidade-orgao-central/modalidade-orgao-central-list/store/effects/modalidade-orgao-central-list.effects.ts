@@ -27,7 +27,7 @@ export class ModalidadeOrgaoCentralListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class ModalidadeOrgaoCentralListEffects {
 
     /**
      * Get ModalidadeOrgaoCentral with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class ModalidadeOrgaoCentralListEffects {
         this._actions
             .pipe(
                 ofType<ModalidadeOrgaoCentralListActions.GetModalidadeOrgaoCentral>(ModalidadeOrgaoCentralListActions.GET_MODALIDADE_ORGAO_CENTRAL),
-                switchMap((action) => {
-                    return this._modalidadeOrgaoCentralService.query(
+                switchMap(action => this._modalidadeOrgaoCentralService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +54,7 @@ export class ModalidadeOrgaoCentralListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<ModalidadeOrgaoCentral>({data: response['entities'], schema: modalidadeOrgaoCentralSchema}),
                             new ModalidadeOrgaoCentralListActions.GetModalidadeOrgaoCentralSuccess({
                                 entitiesId: response['entities'].map(modalidadeOrgaoCentral => modalidadeOrgaoCentral.id),
@@ -69,7 +69,6 @@ export class ModalidadeOrgaoCentralListEffects {
                             console.log(err);
                             return of(new ModalidadeOrgaoCentralListActions.GetModalidadeOrgaoCentralFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 }

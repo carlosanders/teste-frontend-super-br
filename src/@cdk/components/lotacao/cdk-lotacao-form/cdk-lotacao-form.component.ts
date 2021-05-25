@@ -116,7 +116,7 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
                         this.form.get('setor').enable();
                         this.form.get('setor').reset();
                         this.setorPagination.filter['unidade.id'] = `eq:${value.id}`;
-                        this.setorPagination.filter['parent'] = `isNotNull`;
+                        this.setorPagination.filter['parent'] = 'isNotNull';
                         this.inputSetor = false;
                         this._changeDetectorRef.markForCheck();
                     }
@@ -176,7 +176,7 @@ export class CdkLotacaoFormComponent implements OnChanges, OnInit, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

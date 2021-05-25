@@ -35,11 +35,11 @@ export class CdkShortcutsComponent implements OnInit, AfterViewInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {CookieService} _cookieService
-     * @param {CdkMatchMediaService} _cdkMatchMediaService
-     * @param {CdkNavigationService} _cdkNavigationService
-     * @param {MediaObserver} _mediaObserver
-     * @param {Renderer2} _renderer
+     * @param _cookieService
+     * @param _cdkMatchMediaService
+     * @param _cdkNavigationService
+     * @param _mediaObserver
+     * @param _renderer
      */
     constructor(
         private _cookieService: CookieService,
@@ -153,9 +153,7 @@ export class CdkShortcutsComponent implements OnInit, AfterViewInit, OnDestroy
 
         this.searching = true;
 
-        this.filteredNavigationItems = this.navigationItems.filter((navigationItem) => {
-            return navigationItem.title.toLowerCase().includes(value);
-        });
+        this.filteredNavigationItems = this.navigationItems.filter(navigationItem => navigationItem.title.toLowerCase().includes(value));
     }
 
     /**
@@ -191,13 +189,11 @@ export class CdkShortcutsComponent implements OnInit, AfterViewInit, OnDestroy
      * Is in shortcuts?
      *
      * @param navigationItem
-     * @returns {any}
+     * @returns
      */
     isInShortcuts(navigationItem): any
     {
-        return this.shortcutItems.find(item => {
-            return item.url === navigationItem.url;
-        });
+        return this.shortcutItems.find(item => item.url === navigationItem.url);
     }
 
     /**

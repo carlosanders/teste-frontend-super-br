@@ -27,10 +27,10 @@ export class CdkMatSidenavHelperDirective implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {CdkMatchMediaService} _cdkMatchMediaService
-     * @param {CdkMatSidenavHelperService} _cdkMatSidenavHelperService
-     * @param {MatSidenav} _matSidenav
-     * @param {MediaObserver} _mediaObserver
+     * @param _cdkMatchMediaService
+     * @param _cdkMatSidenavHelperService
+     * @param _matSidenav
+     * @param _mediaObserver
      */
     constructor(
         private _cdkMatchMediaService: CdkMatchMediaService,
@@ -111,7 +111,7 @@ export class CdkMatSidenavTogglerDirective
     /**
      * Constructor
      *
-     * @param {CdkMatSidenavHelperService} _cdkMatSidenavHelperService
+     * @param _cdkMatSidenavHelperService
      */
     constructor(
         private _cdkMatSidenavHelperService: CdkMatSidenavHelperService)

@@ -38,7 +38,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatTooltipModule,
     ],
     providers: [
-        
+
     ],
     exports: [
         CdkDocumentoIdentificadorGridComponent

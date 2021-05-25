@@ -34,9 +34,9 @@ export class CalendarService implements Resolve<any>
     /**
      * Resolver
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
+     * @param route
+     * @param state
+     * @returns
      */
     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any
     {
@@ -55,7 +55,7 @@ export class CalendarService implements Resolve<any>
     /**
      * Get events
      *
-     * @returns {Promise<any>}
+     * @returns
      */
     getEvents(): Promise<any>
     {
@@ -71,7 +71,7 @@ export class CalendarService implements Resolve<any>
                 0,
                 '{}',
                 '["populateAll", "especieTarefa.generoTarefa", "vinculacoesEtiquetas", "vinculacoesEtiquetas.etiqueta"]').subscribe((response: any) => {
-                this.events = response['entities'].map(tarefa => {
+                this.events = response['entities'].map((tarefa) => {
                     const data = {
                         start    : tarefa.dataHoraInicioPrazo.toDate(),
                         end      : tarefa.dataHoraFinalPrazo.toDate(),
@@ -105,7 +105,7 @@ export class CalendarService implements Resolve<any>
      * Update events
      *
      * @param events
-     * @returns {Promise<any>}
+     * @returns
      */
     updateEvents(events): Promise<any>
     {

@@ -79,15 +79,15 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
     assinaturaInterval = null;
 
         /**
-     * @param _store
-     * @param _storeProtocolo
-     * @param dialog
-     * @param _router
-     * @param _formBuilder
-     * @param _changeDetectorRef
-     * @param _loginService
-     * @param _dynamicService
-     */
+         * @param _store
+         * @param _storeProtocolo
+         * @param dialog
+         * @param _router
+         * @param _formBuilder
+         * @param _changeDetectorRef
+         * @param _loginService
+         * @param _dynamicService
+         */
     constructor(
         private _store: Store<fromStore.ProtocoloCreateAppState>,
         private _storeProtocolo: Store<fromStoreProtocolo.ProcessosState>,
@@ -130,7 +130,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -140,7 +140,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
             .pipe(
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(message => {
+            ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -167,7 +167,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
             takeUntil(this._unsubscribeAll),
             filter(processo => !!processo)
         ).subscribe(
-            processo => {
+            (processo) => {
                 this.processo = processo;
                 this._changeDetectorRef.markForCheck();
             }
@@ -176,7 +176,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.pessoaProcedencia$.pipe(
             takeUntil(this._unsubscribeAll),
             filter(pessoa => !!pessoa)
-        ).subscribe(pessoa => {
+        ).subscribe((pessoa) => {
             this.pessoaProcedencia = pessoa;
         });
 
@@ -184,13 +184,13 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
             takeUntil(this._unsubscribeAll),
             filter(documentos => !!documentos)
         ).subscribe(
-            documentos => {
+            (documentos) => {
                 this.documentos = documentos;
                 this._changeDetectorRef.markForCheck();
             }
         );
 
-        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId.length > 0) {
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
@@ -225,7 +225,7 @@ export class ProtocoloCreateComponent implements OnInit, OnDestroy, AfterViewIni
         const path = 'app/main/apps/protocolo-externo/protocolo-create';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));

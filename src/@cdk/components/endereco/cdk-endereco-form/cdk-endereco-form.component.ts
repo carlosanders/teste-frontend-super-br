@@ -104,7 +104,7 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 
@@ -141,7 +141,7 @@ export class CdkEnderecoFormComponent implements OnChanges, OnDestroy {
                 .pipe(
                     catchError(error => of([]))
                 ).subscribe(
-                response => {
+                (response) => {
                     this.endereco = Object.assign(new Endereco(), {...response});
                     if (this.endereco.cep){
                         this.form.get('logradouro').setValue(this.endereco.logradouro);

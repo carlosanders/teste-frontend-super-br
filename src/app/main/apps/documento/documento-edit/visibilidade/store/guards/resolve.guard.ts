@@ -18,7 +18,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<DocumentoEditVisibilidadeAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<DocumentoEditVisibilidadeAppState>
@@ -26,7 +26,7 @@ export class ResolveGuard implements CanActivate {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,9 +36,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getVisibilidade().pipe(
@@ -50,7 +50,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Visibilidade
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getVisibilidade(): any {
         return this._store.pipe(
@@ -61,16 +61,14 @@ export class ResolveGuard implements CanActivate {
                     let documentoId = null;
 
                     const routeParams = of('documentoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         documentoId = this.routerState.params[param];
                     });
 
                     this._store.dispatch(new fromStore.GetVisibilidades(documentoId));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

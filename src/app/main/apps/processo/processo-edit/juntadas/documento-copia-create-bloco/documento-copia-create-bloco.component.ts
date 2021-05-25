@@ -82,7 +82,7 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
                 filter(op => !!op && !!op.content && op.type === 'documentoCopia')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
                     this.operacoes.push(operacao);
                     this._changeDetectorRef.markForCheck();
                 }
@@ -92,7 +92,7 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.operacoes = [];
@@ -114,7 +114,7 @@ export class DocumentoCopiaCreateBlocoComponent implements OnInit, OnDestroy {
 
         this.operacoes = [];
 
-        this.juntadas.forEach(juntada => {
+        this.juntadas.forEach((juntada) => {
             const documento = new Documento();
 
             Object.entries(values).forEach(

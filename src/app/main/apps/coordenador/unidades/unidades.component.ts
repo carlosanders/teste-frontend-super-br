@@ -34,7 +34,7 @@ export class UnidadesComponent implements OnInit, OnDestroy {
      *
      * @param _store
      * @param _changeDetectorRef
-     * @param {CdkSidebarService} _cdkSidebarService
+     * @param _cdkSidebarService
      * @param _router
      */
     constructor(
@@ -53,7 +53,7 @@ export class UnidadesComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 if (this.routerState.url.indexOf('unidades/default/listar') > -1) {

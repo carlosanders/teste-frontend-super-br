@@ -58,7 +58,7 @@ export class GetUsuariosFailed implements Action
  export class UnloadUsuarios implements Action
  {
      readonly type = UNLOAD_USUARIOS;
- 
+
      constructor()
      {
      }

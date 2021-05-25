@@ -54,7 +54,7 @@ export class GetTipoDocumentoFailed implements Action
  export class UnloadTipoDocumento implements Action
  {
      readonly type = UNLOAD_TIPO_DOCUMENTO;
- 
+
      constructor()
      {
      }

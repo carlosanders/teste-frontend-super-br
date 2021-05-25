@@ -70,19 +70,19 @@ export class CdkDocumentoAvulsoFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('observacao').value) {
-            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('observacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'observacao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('postIt').value) {
-            this.form.get('postIt').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('postIt').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'postIt': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('auditoriaDistribuicao').value) {
-            this.form.get('auditoriaDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('auditoriaDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'auditoriaDistribuicao': `like:%${bit}%`});
             });
         }

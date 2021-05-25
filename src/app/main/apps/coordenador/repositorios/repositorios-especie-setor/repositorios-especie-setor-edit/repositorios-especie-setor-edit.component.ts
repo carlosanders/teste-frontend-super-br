@@ -62,7 +62,7 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
             )
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -84,7 +84,7 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
         this.vinculacaoRepositorio$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            vinculacaoRepositorio => {
+            (vinculacaoRepositorio) => {
                 if (vinculacaoRepositorio) {
                     this.vinculacaoRepositorio = vinculacaoRepositorio;
                 }
@@ -94,7 +94,7 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
         this.modalidadeOrgaoCentral$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            modalidadeOrgaoCentral => {
+            (modalidadeOrgaoCentral) => {
                 if (modalidadeOrgaoCentral) {
                     this.modalidadeOrgaoCentral = modalidadeOrgaoCentral;
                 }
@@ -104,7 +104,7 @@ export class RepositoriosEspecieSetorEditComponent implements OnInit, OnDestroy 
         this.repositorio$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            repositorio => {
+            (repositorio) => {
                 if (repositorio) {
                     this.repositorio = repositorio;
                 }

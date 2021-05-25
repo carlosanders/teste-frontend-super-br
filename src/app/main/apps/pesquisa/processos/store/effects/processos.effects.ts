@@ -15,7 +15,7 @@ import {processo as processoSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class ProcessosEffect {
-    
+
     routerState: any;
 
     constructor(
@@ -25,7 +25,7 @@ export class ProcessosEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class ProcessosEffect {
 
     /**
      * Get Processos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class ProcessosEffect {
         this._actions
             .pipe(
                 ofType<ProcessosActions.GetProcessos>(ProcessosActions.GET_PROCESSOS),
-                switchMap((action) => {
-                    return this._processoService.search(
+                switchMap(action => this._processoService.search(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -51,9 +51,8 @@ export class ProcessosEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
                     new ProcessosActions.GetProcessosSuccess({
                         entitiesId: response['entities'].map(processo => processo.id),

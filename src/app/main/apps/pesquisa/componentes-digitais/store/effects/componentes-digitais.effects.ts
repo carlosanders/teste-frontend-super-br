@@ -15,7 +15,7 @@ import {componenteDigital as componenteDigitalSchema} from '@cdk/normalizr';
 
 @Injectable()
 export class ComponentesDigitaisEffect {
-    
+
     routerState: any;
 
     constructor(
@@ -25,7 +25,7 @@ export class ComponentesDigitaisEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -34,6 +34,7 @@ export class ComponentesDigitaisEffect {
 
     /**
      * Get ComponentesDigitais with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -41,8 +42,7 @@ export class ComponentesDigitaisEffect {
         this._actions
             .pipe(
                 ofType<ComponentesDigitaisActions.GetComponentesDigitais>(ComponentesDigitaisActions.GET_COMPONENTES_DIGITAIS),
-                switchMap((action) => {
-                    return this._componenteDigitalService.search(
+                switchMap(action => this._componenteDigitalService.search(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -50,9 +50,8 @@ export class ComponentesDigitaisEffect {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<ComponenteDigital>({data: response['entities'], schema: componenteDigitalSchema}),
                     new ComponentesDigitaisActions.GetComponentesDigitaisSuccess({
                         entitiesId: response['entities'].map(componenteDigital => componenteDigital.id),

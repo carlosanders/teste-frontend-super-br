@@ -29,7 +29,7 @@ export class CoordenadorLotacaoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class CoordenadorLotacaoEditEffects {
 
     /**
      * Get Lotacao with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class CoordenadorLotacaoEditEffects {
         this._actions
             .pipe(
                 ofType<LotacaoEditActions.GetLotacao>(LotacaoEditActions.GET_LOTACAO),
-                switchMap((action) => {
-                    return this._lotacaoService.query(
+                switchMap(action => this._lotacaoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -57,8 +57,7 @@ export class CoordenadorLotacaoEditEffects {
                             'setor.unidade',
                             'setor.especieSetor',
                             'setor.generoSetor',
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Lotacao>({data: response['entities'], schema: lotacaoSchema}),
                     new LotacaoEditActions.GetLotacaoSuccess({
@@ -78,6 +77,7 @@ export class CoordenadorLotacaoEditEffects {
 
     /**
      * Save Lotacao
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -85,15 +85,13 @@ export class CoordenadorLotacaoEditEffects {
         this._actions
             .pipe(
                 ofType<LotacaoEditActions.SaveLotacao>(LotacaoEditActions.SAVE_LOTACAO),
-                switchMap((action) => {
-                    return this._lotacaoService.save(action.payload).pipe(
+                switchMap(action => this._lotacaoService.save(action.payload).pipe(
                         mergeMap((response: Lotacao) => [
                             new LotacaoEditActions.SaveLotacaoSuccess(),
                             new LotacaoListActions.ReloadLotacoes(),
                             new AddData<Lotacao>({data: [response], schema: lotacaoSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new LotacaoEditActions.SaveLotacaoFailed(err));

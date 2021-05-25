@@ -13,7 +13,7 @@ import {AddData} from '@cdk/ngrx-normalizr';
 import {GrupoContato} from '@cdk/models';
 import {grupoContato as grupoContatoSchema} from '@cdk/normalizr';
 import {LoginService} from 'app/main/auth/login/login.service';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class GrupoContatoListEffect {
@@ -28,7 +28,7 @@ export class GrupoContatoListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,14 +37,13 @@ export class GrupoContatoListEffect {
 
     /**
      * Get GrupoContato with router parameters
+     *
      * @type {Observable<any>}
      */
-    getGrupoContato: any = createEffect(() => {
-        return this._actions
+    getGrupoContato: any = createEffect(() => this._actions
             .pipe(
                 ofType<GrupoContatoListActions.GetGrupoContato>(GrupoContatoListActions.GET_GRUPO_CONTATOS),
-                switchMap((action) => {
-                    return this._grupoContatoService.query(
+                switchMap(action => this._grupoContatoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -54,7 +53,7 @@ export class GrupoContatoListEffect {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<GrupoContato>({data: response['entities'], schema: grupoContatoSchema}),
                             new GrupoContatoListActions.GetGrupoContatoSuccess({
                                 entitiesId: response['entities'].map(grupoContato => grupoContato.id),
@@ -65,34 +64,25 @@ export class GrupoContatoListEffect {
                                 total: response['total']
                             })
                         ]),
-                        catchError((err) => {
-                            return of(new GrupoContatoListActions.GetGrupoContatoFailed(err));
-                        })
-                    );
-                })
-            )
-    });
+                        catchError(err => of(new GrupoContatoListActions.GetGrupoContatoFailed(err)))
+                    ))
+            ));
 
     /**
      * Delete GrupoContato
+     *
      * @type {Observable<any>}
      */
-    deleteGrupoContato: any = createEffect(() => {
-        return this._actions
+    deleteGrupoContato: any = createEffect(() => this._actions
             .pipe(
                 ofType<GrupoContatoListActions.DeleteGrupoContato>(GrupoContatoListActions.DELETE_GRUPO_CONTATO),
-                mergeMap((action) => {
-                    return this._grupoContatoService.destroy(action.payload).pipe(
-                        map((response) => new GrupoContatoListActions.DeleteGrupoContatoSuccess(response.id)),
-                        catchError((err) => {
-                            return of(new GrupoContatoListActions.DeleteGrupoContatoFailed(
+                mergeMap(action => this._grupoContatoService.destroy(action.payload).pipe(
+                        map(response => new GrupoContatoListActions.DeleteGrupoContatoSuccess(response.id)),
+                        catchError(err => of(new GrupoContatoListActions.DeleteGrupoContatoFailed(
                                 {
                                     [action.payload]: CdkUtils.errorsToString(err)
                                 })
-                            );
-                        })
-                    );
-                })
-            )
-    });
+                            ))
+                    ))
+            ));
 }

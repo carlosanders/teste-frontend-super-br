@@ -52,19 +52,19 @@ export class CdkLotacaoFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('peso').value) {
-            this.form.get('peso').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('peso').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'peso': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('digitosDistribuicao').value) {
-            this.form.get('digitosDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('digitosDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'digitosDistribuicao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('centenasDistribuicao').value) {
-            this.form.get('centenasDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('centenasDistribuicao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'centenasDistribuicao': `like:%${bit}%`});
             });
         }

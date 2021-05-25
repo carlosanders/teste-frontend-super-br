@@ -131,7 +131,7 @@ export class CdkFavoritoFormComponent implements OnChanges, OnDestroy, OnInit {
                             this.form.get('setorResponsavel').enable();
                             this.form.get('setorResponsavel').reset();
                             this.templatePagination.filter['unidade.id'] = `eq:${value.id}`;
-                            this.templatePagination.filter['parent'] = `isNotNull`;
+                            this.templatePagination.filter['parent'] = 'isNotNull';
                             this._changeDetectorRef.markForCheck();
                         }
                         if (value === null) {

@@ -1,10 +1,10 @@
 import {RealizarDesarquivamentoReducer, RealizarDesarquivamentoState} from './realizar-desarquivamento.reducer';
 import {ActionReducerMap, createFeatureSelector, createSelector} from '@ngrx/store';
-import {ModalidadeDesarquivamentoReducer, ModalidadeDesarquivamentoState} from "./modalidade-desarquivamento.reducer";
+import {ModalidadeDesarquivamentoReducer, ModalidadeDesarquivamentoState} from './modalidade-desarquivamento.reducer';
 
 export interface RealizarDesarquivamentoAppState {
     transicao: RealizarDesarquivamentoState;
-    modalidadeDesarquivamento: ModalidadeDesarquivamentoState
+    modalidadeDesarquivamento: ModalidadeDesarquivamentoState;
 }
 
 export const getRealizarDesarquivamentoAppState = createFeatureSelector<RealizarDesarquivamentoAppState>(

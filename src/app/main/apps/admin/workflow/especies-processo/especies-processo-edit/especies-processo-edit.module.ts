@@ -23,8 +23,8 @@ import {CdkSidebarModule} from '@cdk/components';
 import {MatStepperModule} from '@angular/material/stepper';
 import {WorkflowEspecieProcessoEditStoreModule} from './store/store.module';
 import {modulesConfig} from 'modules/modules-config';
-import {CdkEspecieProcessoAutocompleteModule} from "@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module";
-import {CdkEspecieProcessoGridsearchModule} from "@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-gridsearch/cdk-especie-processo-gridsearch.module";
+import {CdkEspecieProcessoAutocompleteModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-autocomplete.module';
+import {CdkEspecieProcessoGridsearchModule} from '@cdk/components/especie-processo/cdk-especie-processo-autocomplete/cdk-especie-processo-gridsearch/cdk-especie-processo-gridsearch.module';
 
 const routes: Routes = [
     {

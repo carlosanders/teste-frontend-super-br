@@ -13,7 +13,7 @@ import { CdkMunicipioGridModule } from '@cdk/components/municipio/cdk-municipio-
     imports: [
 
         CdkMunicipioGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

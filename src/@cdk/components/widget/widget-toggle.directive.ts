@@ -8,7 +8,7 @@ export class CdkWidgetToggleDirective
     /**
      * Constructor
      *
-     * @param {ElementRef} elementRef
+     * @param elementRef
      */
     constructor(
         public elementRef: ElementRef

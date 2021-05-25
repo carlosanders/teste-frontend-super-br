@@ -25,11 +25,11 @@ import {CdkModeloAutocompleteModule} from '@cdk/components/modelo/cdk-modelo-aut
 import {CdkComponenteDigitalCardListModule} from '@cdk/components/componente-digital/cdk-componente-digital-card-list/cdk-componente-digital-card-list.module';
 import {CdkTipoDocumentoAutocompleteModule} from '@cdk/components/tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatExpansionModule} from "@angular/material/expansion";
-import {MatChipsModule} from "@angular/material/chips";
-import {MatDialogModule} from "@angular/material/dialog";
-import {CdkAssinaturaEletronicaPluginComponent} from "@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component";
-import {CdkAssinaturaEletronicaPluginModule} from "@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module";
+import {MatExpansionModule} from '@cdk/angular/material';
+import {MatChipsModule} from '@cdk/angular/material';
+import {MatDialogModule} from '@angular/material/dialog';
+import {CdkAssinaturaEletronicaPluginComponent} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.component';
+import {CdkAssinaturaEletronicaPluginModule} from '@cdk/components/componente-digital/cdk-componente-digital-ckeditor/cdk-plugins/cdk-assinatura-eletronica-plugin/cdk-assinatura-eletronica-plugin.module';
 
 const routes: Routes = [
     {

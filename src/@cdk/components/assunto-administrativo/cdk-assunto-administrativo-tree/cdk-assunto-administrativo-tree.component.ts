@@ -108,7 +108,7 @@ export class CdkAssuntoAdministrativoTreeComponent implements OnInit {
         this.treeControl = new FlatTreeControl<FlatNode>(this.getLevel, this.isExpandable);
         this.dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
         this.initTree();
-        _serviceTree.dataChange.subscribe(data => {
+        _serviceTree.dataChange.subscribe((data) => {
             this.dataSource.data = data;
         });
         this.loadForms();
@@ -168,7 +168,7 @@ export class CdkAssuntoAdministrativoTreeComponent implements OnInit {
         this.flatNodeMap.set(flatNode, node);
         this.nestedNodeMap.set(node, flatNode);
         return flatNode;
-    }
+    };
 
     /**
      *
@@ -300,7 +300,7 @@ export class CdkAssuntoAdministrativoTreeComponent implements OnInit {
      */
     initTree(): void {
         const assuntoAdministrativoPai = this.getAssuntoAdministrativo('isNull');
-        assuntoAdministrativoPai.subscribe(assuntosAdministrativos => {
+        assuntoAdministrativoPai.subscribe((assuntosAdministrativos) => {
             const data = this.montarArrayAssuntoAdministrativo(assuntosAdministrativos);
             this._serviceTree.initialize(data);
         });
@@ -357,7 +357,7 @@ export class CdkAssuntoAdministrativoTreeComponent implements OnInit {
 
         this.formAssuntoAdministrativo.get('assuntoAdministrativo').setValue(node.id);
         this.classSelect = 'selectedItem';
-        this.nestedNodeMap.forEach(value => {
+        this.nestedNodeMap.forEach((value) => {
             value.selected = false;
         });
         node.selected = !node.selected;
@@ -385,7 +385,7 @@ export class CdkAssuntoAdministrativoTreeComponent implements OnInit {
         const filteredItems = this.treeControl.dataNodes.filter(
             x => x.nome.toLowerCase().indexOf(term.toLowerCase()) === -1
         );
-        filteredItems.map(x => {
+        filteredItems.map((x) => {
             x.visible = false;
         });
 
@@ -393,7 +393,7 @@ export class CdkAssuntoAdministrativoTreeComponent implements OnInit {
             x => x.children &&
                 x.nome.toLowerCase().indexOf(term.toLowerCase()) > -1
         );
-        visibleItems.map(x => {
+        visibleItems.map((x) => {
             x.visible = true;
             this.getChildren(x);
         });

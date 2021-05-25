@@ -40,7 +40,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        let innerWidth = window.innerWidth;
+        const innerWidth = window.innerWidth;
         if(innerWidth<=600) {
             this.mobileMode = true;
         }
@@ -68,7 +68,7 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
             switchMap((value: string) => {
                     let termFilterNUP = {};
                     value = value.split('.').join('').split('/').join('').replace('-', '');
-                    value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').map(bit => bit.replace(/[^\d]+/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         termFilterNUP = {
                             NUP: `like:%${bit}%`
                         };
@@ -95,12 +95,12 @@ export class CdkProcessoSearchAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.processoSearchList = response['entities'];
             this._changeDetectorRef.markForCheck();
         });
 
-        let innerWidth = window.innerWidth;
+        const innerWidth = window.innerWidth;
         if(innerWidth<=600) {
             this.mobileMode = true;
         }

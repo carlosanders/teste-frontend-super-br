@@ -5,10 +5,10 @@ import { CdkConfigService } from '@cdk/services/config.service';
 import { cdkAnimations } from '@cdk/animations';
 import * as fromStore from 'app/main/auth/login/store';
 import { getLoginAppState } from 'app/main/auth/login/store';
-import {environment} from "../../../../environments/environment";
-import {getRouterState} from "../../../store";
+import {environment} from '../../../../environments/environment';
+import {getRouterState} from '../../../store';
 import {getConfig, getErrorMessage, getLoadingConfig} from './store/selectors';
-import {LoginService} from "./login.service";
+import {LoginService} from './login.service';
 
 @Component({
     selector     : 'login',
@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit
 
         this.store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

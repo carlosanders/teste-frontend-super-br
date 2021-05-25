@@ -27,7 +27,7 @@ export class CompartilhamentoCreateEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class CompartilhamentoCreateEffect {
 
     /**
      * Save Compartilhamento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class CompartilhamentoCreateEffect {
         this._actions
             .pipe(
                 ofType<CompartilhamentoCreateActions.SaveCompartilhamento>(CompartilhamentoCreateActions.SAVE_COMPARTILHAMENTO),
-                switchMap((action) => {
-                    return this._compartilhamentoService.save(action.payload).pipe(
+                switchMap(action => this._compartilhamentoService.save(action.payload).pipe(
                         mergeMap((response: Compartilhamento) => [
                             new CompartilhamentoCreateActions.SaveCompartilhamentoSuccess(),
                             new AddData<Compartilhamento>({data: [response], schema: compartilhamentoSchema}),
@@ -58,8 +58,7 @@ export class CompartilhamentoCreateEffect {
                             console.log (err);
                             return of(new CompartilhamentoCreateActions.SaveCompartilhamentoFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 

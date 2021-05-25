@@ -32,6 +32,7 @@ export class ProcessoEffects {
 
     /**
      * Get Processos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -39,8 +40,7 @@ export class ProcessoEffects {
         this._actions
             .pipe(
                 ofType<ProcessoActions.GetProcessos>(ProcessoActions.GET_PROCESSOS),
-                switchMap((action) => {
-                    return this._processoService.query(
+                switchMap(action => this._processoService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.listFilter,
@@ -49,9 +49,8 @@ export class ProcessoEffects {
                         action.payload.limit,
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
-                        JSON.stringify(action.payload.populate));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.populate))),
+                mergeMap(response => [
                     new AddData<Processo>({data: response['entities'], schema: processoSchema}),
                     new ProcessoActions.GetProcessosSuccess({
                         entitiesId: response['entities'].map(processo => processo.id),
@@ -73,7 +72,7 @@ export class ProcessoEffects {
     initRouterState(): void{
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }

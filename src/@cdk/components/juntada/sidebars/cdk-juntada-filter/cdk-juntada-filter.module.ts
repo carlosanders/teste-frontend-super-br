@@ -21,9 +21,9 @@ import {CdkDocumentoAutocompleteModule} from '../../../documento/cdk-documento-a
 import {CdkOrigemDadosAutocompleteModule} from '../../../origem-dados/cdk-origem-dados-autocomplete/cdk-origem-dados-autocomplete.module';
 import {CdkTarefaAutocompleteModule} from '../../../tarefa/cdk-tarefa-autocomplete/cdk-tarefa-autocomplete.module';
 import {CdkAtividadeAutocompleteModule} from '../../../atividade/cdk-atividade-autocomplete/cdk-atividade-autocomplete.module';
-import {CdkTipoDocumentoAutocompleteModule} from "../../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module";
-import {MatMenuModule} from "@angular/material/menu";
-import {CdkDateFilterModule} from "../../../date-filter/cdk-date-filter.module";
+import {CdkTipoDocumentoAutocompleteModule} from '../../../tipo-documento/cdk-tipo-documento-autocomplete/cdk-tipo-documento-autocomplete.module';
+import {MatMenuModule} from '@angular/material/menu';
+import {CdkDateFilterModule} from '../../../date-filter/cdk-date-filter.module';
 
 @NgModule({
     declarations: [

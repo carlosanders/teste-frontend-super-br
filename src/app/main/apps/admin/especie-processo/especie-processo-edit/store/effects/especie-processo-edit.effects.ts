@@ -32,7 +32,7 @@ export class EspecieProcessoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -41,6 +41,7 @@ export class EspecieProcessoEditEffects {
 
     /**
      * Get EspecieProcesso with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -48,8 +49,7 @@ export class EspecieProcessoEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieProcessoEditActions.GetEspecieProcesso>(EspecieProcessoEditActions.GET_ESPECIE_PROCESSO),
-                switchMap((action) => {
-                    return this._especieProcessoService.query(
+                switchMap(action => this._especieProcessoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -57,8 +57,7 @@ export class EspecieProcessoEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<EspecieProcesso>({data: response['entities'], schema: especieProcessoSchema}),
                     new EspecieProcessoEditActions.GetEspecieProcessoSuccess({
@@ -78,6 +77,7 @@ export class EspecieProcessoEditEffects {
 
     /**
      * Save EspecieProcesso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -104,6 +104,7 @@ export class EspecieProcessoEditEffects {
 
     /**
      * Update EspecieProcesso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -111,15 +112,13 @@ export class EspecieProcessoEditEffects {
         this._actions
             .pipe(
                 ofType<EspecieProcessoEditActions.UpdateEspecieProcesso>(EspecieProcessoEditActions.UPDATE_ESPECIE_PROCESSO),
-                switchMap((action) => {
-                    return this._especieProcessoService.patch(action.payload.especieProcesso, action.payload.changes).pipe(
+                switchMap(action => this._especieProcessoService.patch(action.payload.especieProcesso, action.payload.changes).pipe(
                         mergeMap((response: EspecieProcesso) => [
                             new EspecieProcessoListActions.ReloadEspecieProcesso(),
                             new AddData<EspecieProcesso>({data: [response], schema: especieProcessoSchema}),
                             new EspecieProcessoEditActions.UpdateEspecieProcessoSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new EspecieProcessoEditActions.UpdateEspecieProcessoFailed(err));

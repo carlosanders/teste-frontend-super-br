@@ -59,10 +59,10 @@ export class CdkAvisoFilterComponent implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.form.get('nome').valueChanges.subscribe(value => {
+        this.form.get('nome').valueChanges.subscribe((value) => {
             if (value !== null) {
                 const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                     andxFilter.push({nome: `like:%${bit}%`});
                 });
                 if (andxFilter.length > 0) {
@@ -78,10 +78,10 @@ export class CdkAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('descricao').valueChanges.subscribe(value => {
+        this.form.get('descricao').valueChanges.subscribe((value) => {
             if (value !== null) {
                 const andxFilter = [];
-                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                     andxFilter.push({descricao: `like:%${bit}%`});
                 });
                 if (andxFilter.length > 0) {
@@ -97,7 +97,7 @@ export class CdkAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('ativo').valueChanges.subscribe(value => {
+        this.form.get('ativo').valueChanges.subscribe((value) => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
@@ -107,7 +107,7 @@ export class CdkAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('criadoEm').valueChanges.subscribe(value => {
+        this.form.get('criadoEm').valueChanges.subscribe((value) => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
@@ -116,7 +116,7 @@ export class CdkAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('atualizadoEm').valueChanges.subscribe(value => {
+        this.form.get('atualizadoEm').valueChanges.subscribe((value) => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
@@ -125,7 +125,7 @@ export class CdkAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('apagadoEm').valueChanges.subscribe(value => {
+        this.form.get('apagadoEm').valueChanges.subscribe((value) => {
             if (value !== null) {
                 this.filters = {
                     ...this.filters,
@@ -134,7 +134,7 @@ export class CdkAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('criadoPor').valueChanges.subscribe(value => {
+        this.form.get('criadoPor').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
@@ -149,7 +149,7 @@ export class CdkAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('atualizadoPor').valueChanges.subscribe(value => {
+        this.form.get('atualizadoPor').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {
@@ -164,7 +164,7 @@ export class CdkAvisoFilterComponent implements OnInit {
             }
         });
 
-        this.form.get('apagadoPor').valueChanges.subscribe(value => {
+        this.form.get('apagadoPor').valueChanges.subscribe((value) => {
             if (value !== null) {
                 if (typeof value === 'object' && value) {
                     this.filters = {

@@ -35,7 +35,7 @@ import {CdkUtils} from '@cdk/utils';
 import {MatSnackBar, MatSnackBarRef} from '@angular/material/snack-bar';
 import {SnackBarDesfazerComponent} from '@cdk/components/snack-bar-desfazer/snack-bar-desfazer.component';
 import {getDocumentosHasLoaded} from 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create/store';
-import * as fromStoreTarefaDetail from "../../store";
+import * as fromStoreTarefaDetail from '../../store';
 
 @Component({
     selector: 'atividade-create',
@@ -112,15 +112,15 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     assinaturaInterval = null;
 
         /**
-     *
-     * @param _store
-     * @param _loginService
-     * @param _router
-     * @param _changeDetectorRef
-     * @param _dynamicService
-     * @param _formBuilder
-     * @param _snackBar
-     */
+         *
+         * @param _store
+         * @param _loginService
+         * @param _router
+         * @param _changeDetectorRef
+         * @param _dynamicService
+         * @param _formBuilder
+         * @param _snackBar
+         */
     constructor(
         private _store: Store<fromStore.AtividadeCreateAppState>,
         public _loginService: LoginService,
@@ -163,7 +163,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             modelo: [null]
         });
 
-        this.formEditor.get('modelo').valueChanges.subscribe(value => {
+        this.formEditor.get('modelo').valueChanges.subscribe((value) => {
             this.formEditorValid = value && typeof value === 'object';
         });
 
@@ -235,8 +235,8 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         this.tarefa$.pipe(
             takeUntil(this._unsubscribeAll),
-            filter((tarefa) => !!tarefa)
-        ).subscribe(tarefa => {
+            filter(tarefa => !!tarefa)
+        ).subscribe((tarefa) => {
             this.tarefa = tarefa;
             this.atividade.tarefa = tarefa;
             this.atividade.usuario = tarefa.usuarioResponsavel;
@@ -262,7 +262,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -272,7 +272,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             .pipe(
                 select(getMercureState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(message => {
+            ).subscribe((message) => {
             if (message && message.type === 'assinatura') {
                 switch (message.content.action) {
                     case 'assinatura_iniciada':
@@ -302,7 +302,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         this.selectedDocumentos$.pipe(
             filter(selectedDocumentos => !!selectedDocumentos),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(selectedDocumentos => {
+        ).subscribe((selectedDocumentos) => {
             this.selectedMinutas = selectedDocumentos.filter(documento => documento.minuta && !documento.documentoAvulsoRemessa);
         });
 
@@ -310,20 +310,20 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
             filter(cd => !!cd),
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            documentos => {
+            (documentos) => {
                 this.minutas = documentos.filter(documento =>
                     (!documento.documentoAvulsoRemessa && documento.minuta && !documento.apagadoEm));
                 this._changeDetectorRef.markForCheck();
 
-                this.lixeiraMinutas$.subscribe(lixeira => {
+                this.lixeiraMinutas$.subscribe((lixeira) => {
                     if (lixeira) {
                         this.minutas = documentos.filter(documento => (documento.apagadoEm));
                     }
-                } )
+                } );
             }
         );
 
-        this.assinandoDocumentosId$.subscribe(assinandoDocumentosId => {
+        this.assinandoDocumentosId$.subscribe((assinandoDocumentosId) => {
             if (assinandoDocumentosId.length > 0) {
                 this.assinaturaInterval = setInterval(() => {
                     // monitoramento do java
@@ -341,7 +341,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             this.mobileMode = screen.size !== 'desktop';
             this.mode = this.mobileMode ? 'vertical' : 'horizontal';
         });
@@ -351,7 +351,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
         const path = 'app/main/apps/tarefas/tarefa-detail/atividades/atividade-create';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     this._dynamicService.loadComponent(c)
                         .then(componentFactory => this.container.createComponent(componentFactory));
                 }));
@@ -448,7 +448,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     doDelete(documentoId: number, loteId: string = null): void {
         const operacaoId = CdkUtils.makeId();
         const documento = new Documento();
-        documento.id = documentoId
+        documento.id = documentoId;
         this._store.dispatch(new fromStore.DeleteDocumento({
             documentoId: documento.id,
             operacaoId: operacaoId,
@@ -558,7 +558,7 @@ export class AtividadeCreateComponent implements OnInit, OnDestroy, AfterViewIni
     doRestaurar(documentoId): void {
         const operacaoId = CdkUtils.makeId();
         const documento = new Documento();
-        documento.id = documentoId
+        documento.id = documentoId;
         this._store.dispatch(new fromStore.UndeleteDocumento({
             documento: documento,
             operacaoId: operacaoId,

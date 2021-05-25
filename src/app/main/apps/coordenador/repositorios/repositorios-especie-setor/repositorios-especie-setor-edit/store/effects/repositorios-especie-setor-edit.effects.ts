@@ -29,7 +29,7 @@ export class RepositoriosEspecieSetorEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class RepositoriosEspecieSetorEditEffects {
 
     /**
      * Get VinculacaoRepositorio with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class RepositoriosEspecieSetorEditEffects {
         this._actions
             .pipe(
                 ofType<RepositoriosEspecieSetorEditActions.GetRepositorioEspecieSetor>(RepositoriosEspecieSetorEditActions.GET_REPOSITORIO_ESPECIE_SETOR),
-                switchMap((action) => {
-                    return this._vinculacaoRepositorioService.query(
+                switchMap(action => this._vinculacaoRepositorioService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -54,8 +54,7 @@ export class RepositoriosEspecieSetorEditEffects {
                         JSON.stringify([
                             'populateAll',
                             'especieSetor.generoSetor'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<VinculacaoRepositorio>({data: response['entities'], schema: vinculacaoRepositorioSchema}),
                     new RepositoriosEspecieSetorEditActions.GetRepositorioEspecieSetorSuccess({
@@ -75,6 +74,7 @@ export class RepositoriosEspecieSetorEditEffects {
 
     /**
      * Save VinculacaoRepositorio
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -82,15 +82,13 @@ export class RepositoriosEspecieSetorEditEffects {
         this._actions
             .pipe(
                 ofType<RepositoriosEspecieSetorEditActions.SaveRepositorioEspecieSetor>(RepositoriosEspecieSetorEditActions.SAVE_REPOSITORIO_ESPECIE_SETOR),
-                switchMap((action) => {
-                    return this._vinculacaoRepositorioService.save(action.payload).pipe(
+                switchMap(action => this._vinculacaoRepositorioService.save(action.payload).pipe(
                         mergeMap((response: VinculacaoRepositorio) => [
                             new RepositoriosEspecieSetorEditActions.SaveRepositorioEspecieSetorSuccess(),
                             new RepositoriosEspecieSetorListActions.ReloadRepositoriosEspecieSetor(),
                             new AddData<VinculacaoRepositorio>({data: [response], schema: vinculacaoRepositorioSchema})
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new RepositoriosEspecieSetorEditActions.SaveRepositorioEspecieSetorFailed(err));

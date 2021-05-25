@@ -30,7 +30,7 @@ export class ModalidadeAcaoEtiquetaEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -39,6 +39,7 @@ export class ModalidadeAcaoEtiquetaEditEffects {
 
     /**
      * Get ModalidadeAcaoEtiqueta with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -46,8 +47,7 @@ export class ModalidadeAcaoEtiquetaEditEffects {
         this._actions
             .pipe(
                 ofType<ModalidadeAcaoEtiquetaEditActions.GetModalidadeAcaoEtiqueta>(ModalidadeAcaoEtiquetaEditActions.GET_MODALIDADE_ACAO_ETIQUETA),
-                switchMap((action) => {
-                    return this._modalidadeAcaoEtiquetaService.query(
+                switchMap(action => this._modalidadeAcaoEtiquetaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -55,8 +55,7 @@ export class ModalidadeAcaoEtiquetaEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<ModalidadeAcaoEtiqueta>({data: response['entities'], schema: modalidadeAcaoEtiquetaSchema}),
                     new ModalidadeAcaoEtiquetaEditActions.GetModalidadeAcaoEtiquetaSuccess({
@@ -76,6 +75,7 @@ export class ModalidadeAcaoEtiquetaEditEffects {
 
     /**
      * Save ModalidadeAcaoEtiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -102,6 +102,7 @@ export class ModalidadeAcaoEtiquetaEditEffects {
 
     /**
      * Update ModalidadeAcaoEtiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -109,15 +110,13 @@ export class ModalidadeAcaoEtiquetaEditEffects {
         this._actions
             .pipe(
                 ofType<ModalidadeAcaoEtiquetaEditActions.UpdateModalidadeAcaoEtiqueta>(ModalidadeAcaoEtiquetaEditActions.UPDATE_MODALIDADE_ACAO_ETIQUETA),
-                switchMap((action) => {
-                    return this._modalidadeAcaoEtiquetaService.patch(action.payload.modalidadeAcaoEtiqueta, action.payload.changes).pipe(
+                switchMap(action => this._modalidadeAcaoEtiquetaService.patch(action.payload.modalidadeAcaoEtiqueta, action.payload.changes).pipe(
                         mergeMap((response: ModalidadeAcaoEtiqueta) => [
                             new ModalidadeAcaoEtiquetaListActions.ReloadModalidadeAcaoEtiqueta(),
                             new AddData<ModalidadeAcaoEtiqueta>({data: [response], schema: modalidadeAcaoEtiquetaSchema}),
                             new ModalidadeAcaoEtiquetaEditActions.UpdateModalidadeAcaoEtiquetaSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new ModalidadeAcaoEtiquetaEditActions.UpdateModalidadeAcaoEtiquetaFailed(err));

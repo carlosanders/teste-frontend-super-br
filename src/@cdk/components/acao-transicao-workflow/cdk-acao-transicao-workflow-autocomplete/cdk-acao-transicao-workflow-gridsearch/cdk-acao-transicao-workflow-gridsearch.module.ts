@@ -13,7 +13,7 @@ import { CdkAcaoTransicaoWorkflowGridModule } from '@cdk/components/acao-transic
     imports: [
 
         CdkAcaoTransicaoWorkflowGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

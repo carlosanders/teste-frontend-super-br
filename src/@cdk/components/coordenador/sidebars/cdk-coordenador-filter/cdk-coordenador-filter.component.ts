@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewEnc
 import {cdkAnimations} from '@cdk/animations';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {CdkSidebarService} from '../../../sidebar/sidebar.service';
-import {Pagination} from "../../../../models";
+import {Pagination} from '../../../../models';
 
 @Component({
     selector: 'cdk-coordenador-filter',

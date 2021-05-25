@@ -24,7 +24,7 @@ export class RegisterEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -33,6 +33,7 @@ export class RegisterEffects {
 
     /**
      * Registar Usuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -40,14 +41,12 @@ export class RegisterEffects {
         this._actions
             .pipe(
                 ofType<RegisterActions.Register>(RegisterActions.REGISTER),
-                switchMap((action) => {
-                    return this._usuarioService.save(action.payload).pipe(
+                switchMap(action => this._usuarioService.save(action.payload).pipe(
                         mergeMap((response: Usuario) => [
                             new AddData<Usuario>({data: [response], schema: usuarioSchema}),
                             new RegisterActions.RegisterSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new RegisterActions.RegisterFailed(err));

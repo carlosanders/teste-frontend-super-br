@@ -73,7 +73,7 @@ export class CdkModalidadeRepositorioGridsearchComponent implements OnInit {
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
                 this.modalidaderepositorios = response['entities'];
                 this.total = response['total'];
                 this._changeDetectorRef.markForCheck();

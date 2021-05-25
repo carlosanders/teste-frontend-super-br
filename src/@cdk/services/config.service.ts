@@ -25,8 +25,8 @@ export class CdkConfigService
     /**
      * Constructor
      *
-     * @param {Platform} _platform
-     * @param {Router} _router
+     * @param _platform
+     * @param _router
      * @param _config
      */
     constructor(
@@ -69,7 +69,7 @@ export class CdkConfigService
     /**
      * Get default config
      *
-     * @returns {any}
+     * @returns
      */
     get defaultConfig(): any
     {
@@ -125,7 +125,7 @@ export class CdkConfigService
      * Set config
      *
      * @param value
-     * @param {{emitEvent: boolean}} opts
+     * @param opts
      */
     setConfig(value, opts = {emitEvent: true}): void
     {
@@ -146,7 +146,7 @@ export class CdkConfigService
     /**
      * Get config
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getConfig(): Observable<any>
     {

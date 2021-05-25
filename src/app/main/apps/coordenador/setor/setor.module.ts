@@ -42,6 +42,10 @@ const routes: Routes = [
                 loadChildren: () => import('./setor-edit/setor-edit.module').then(m => m.SetorEditModule),
             },
             {
+                path       : 'etiquetas',
+                loadChildren: () => import('../etiquetas/etiquetas.module').then(m => m.EtiquetasModule)
+            },
+            {
                 path       : 'modelos',
                 loadChildren: () => import('../modelos/modelos.module').then(m => m.ModelosModule)
             },

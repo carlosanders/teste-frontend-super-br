@@ -77,9 +77,7 @@ export class CdkJuntadaGridSelectComponent implements OnInit, OnChanges {
     }
 
     desentranharBloco(juntada: Juntada): void {
-        this.juntadas = this.juntadas.filter((j) => {
-            return j.id !== juntada.id;
-        });
+        this.juntadas = this.juntadas.filter(j => j.id !== juntada.id);
         this.juntadasAdicionadas.push(juntada);
         this.dataSourceJuntadasAdicionadas = new JuntadaDataSource(of(this.juntadasAdicionadas));
         this.total = (this.total-1 < 0)? 0 : this.total-1;
@@ -87,7 +85,7 @@ export class CdkJuntadaGridSelectComponent implements OnInit, OnChanges {
     }
 
     removerDesentranhamento(juntada: Juntada): void {
-        this.juntadasAdicionadas = this.juntadasAdicionadas.filter((j) => j.id !== juntada.id);
+        this.juntadasAdicionadas = this.juntadasAdicionadas.filter(j => j.id !== juntada.id);
         this.juntadas.push(juntada);
         this.juntadas = [...this.juntadas];
         this.dataSourceJuntadasAdicionadas = new JuntadaDataSource(of(this.juntadasAdicionadas));

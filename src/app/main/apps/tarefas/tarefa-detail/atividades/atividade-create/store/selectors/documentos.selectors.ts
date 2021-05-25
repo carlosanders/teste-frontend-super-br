@@ -65,12 +65,10 @@ export const getConvertendoDocumentosId = createSelector(
 
 export const getConvertendoAllDocumentosId = createSelector(
     getAtividadeCreateDocumentosState,
-    (state: AtividadeCreateDocumentosState) => {
-        return [
+    (state: AtividadeCreateDocumentosState) => [
             ...state.convertendoDocumentoIds,
             ...state.convertendoDocumentoHtmlIds
-        ];
-    }
+        ]
 );
 
 export const getConvertendoDocumentosHtmlId = createSelector(

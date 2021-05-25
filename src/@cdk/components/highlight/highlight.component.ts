@@ -30,8 +30,8 @@ export class CdkHighlightComponent implements OnInit, OnDestroy
     /**
      * Constructor
      *
-     * @param {ElementRef} _elementRef
-     * @param {HttpClient} _httpClient
+     * @param _elementRef
+     * @param _httpClient
      */
     constructor(
         private _elementRef: ElementRef,

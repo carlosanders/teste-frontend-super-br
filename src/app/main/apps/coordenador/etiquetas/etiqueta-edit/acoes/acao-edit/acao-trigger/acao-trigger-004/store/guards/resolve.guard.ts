@@ -20,14 +20,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<AcaoEditAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<AcaoTriggerState>
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,9 +37,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getModalidadeAcaoEtiqueta().pipe(
@@ -49,7 +49,7 @@ export class ResolveGuard implements CanActivate {
     }
 
     /**
-     * @returns {Observable<any>}
+     * @returns
      */
     getModalidadeAcaoEtiqueta(): any {
         return this._store.pipe(
@@ -61,9 +61,7 @@ export class ResolveGuard implements CanActivate {
                     }));
                 }
             }),
-            filter((loaded: any) => {
-                return loaded.value == this.triggerName;
-            }),
+            filter((loaded: any) => loaded.value == this.triggerName),
             take(1)
         );
     }

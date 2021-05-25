@@ -15,7 +15,7 @@ import {DocumentoService} from '@cdk/services/documento.service';
 import {AssinaturaService} from '@cdk/services/assinatura.service';
 import {VinculacaoDocumentoService} from '@cdk/services/vinculacao-documento.service';
 import * as OperacoesActions from '../../../../../../../../store/actions/operacoes.actions';
-import {getPagination} from "../selectors";
+import {getPagination} from '../selectors';
 
 @Injectable()
 export class JuntadaListEffect {
@@ -33,7 +33,7 @@ export class JuntadaListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,6 +42,7 @@ export class JuntadaListEffect {
 
     /**
      * Get Juntadas with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -49,8 +50,7 @@ export class JuntadaListEffect {
         this._actions
             .pipe(
                 ofType<JuntadaListActions.GetJuntadas>(JuntadaListActions.GET_JUNTADAS),
-                switchMap((action) => {
-                    return this._juntadaService.query(
+                switchMap(action => this._juntadaService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -59,9 +59,8 @@ export class JuntadaListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
                     new JuntadaListActions.GetJuntadasSuccess({
                         entitiesId: response['entities'].map(juntada => juntada.id),
@@ -81,6 +80,7 @@ export class JuntadaListEffect {
 
     /**
      * Copiar Documento Juntada
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -96,6 +96,7 @@ export class JuntadaListEffect {
 
     /**
      * Assina Documento
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -103,23 +104,20 @@ export class JuntadaListEffect {
         this._actions
             .pipe(
                 ofType<JuntadaListActions.AssinaDocumento>(JuntadaListActions.ASSINA_DOCUMENTO_JUNTADA),
-                mergeMap((action) => {
-                        return this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
+                mergeMap(action => this._documentoService.preparaAssinatura(JSON.stringify([action.payload]))
                             .pipe(
-                                map((response) => {
-                                    return new JuntadaListActions.AssinaDocumentoSuccess(response);
-                                }),
+                                map(response => new JuntadaListActions.AssinaDocumentoSuccess(response)),
                                 catchError((err, caught) => {
                                     console.log(err);
                                     this._store.dispatch(new JuntadaListActions.AssinaDocumentoFailed(err));
                                     return caught;
                                 })
-                            );
-                    }
+                            )
                 ));
 
     /**
      * Assina Documento Success
+     *
      * @type {Observable<any>}
      */
     @Effect({dispatch: false})
@@ -142,6 +140,7 @@ export class JuntadaListEffect {
 
     /**
      * Save Documento Assinatura Eletronica
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -149,8 +148,7 @@ export class JuntadaListEffect {
         this._actions
             .pipe(
                 ofType<JuntadaListActions.AssinaDocumentoEletronicamente>(JuntadaListActions.ASSINA_DOCUMENTO_ELETRONICAMENTE),
-                switchMap((action) => {
-                    return this._assinaturaService.save(action.payload.assinatura).pipe(
+                switchMap(action => this._assinaturaService.save(action.payload.assinatura).pipe(
                         mergeMap((response: Assinatura) => [
                             new JuntadaListActions.AssinaDocumentoEletronicamenteSuccess(response),
                             new AddData<Assinatura>({data: [response], schema: assinaturaSchema}),
@@ -165,8 +163,7 @@ export class JuntadaListEffect {
                             console.log(err);
                             return of(new JuntadaListActions.AssinaDocumentoEletronicamenteFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     @Effect()
@@ -174,10 +171,9 @@ export class JuntadaListEffect {
         this._actions
             .pipe(
                 ofType<JuntadaListActions.RemoveAssinaturaDocumento>(JuntadaListActions.REMOVE_ASSINATURA_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._documentoService.removeAssinatura(action.payload)
+                mergeMap(action => this._documentoService.removeAssinatura(action.payload)
                             .pipe(
-                                mergeMap((response) => [
+                                mergeMap(response => [
                                     new JuntadaListActions.RemoveAssinaturaDocumentoSuccess(action.payload),
                                     new JuntadaListActions.ReloadJuntadas()
                                 ]),
@@ -185,8 +181,7 @@ export class JuntadaListEffect {
                                     console.log(err);
                                     return of(new JuntadaListActions.RemoveAssinaturaDocumentoFailed(action.payload));
                                 })
-                            );
-                    }
+                            )
                 ));
 
     @Effect()
@@ -194,10 +189,9 @@ export class JuntadaListEffect {
         this._actions
             .pipe(
                 ofType<JuntadaListActions.RemoveVinculacaoDocumento>(JuntadaListActions.REMOVE_VINCULACAO_DOCUMENTO),
-                mergeMap((action) => {
-                        return this._vinculacaoDocumentoService.destroy(action.payload)
+                mergeMap(action => this._vinculacaoDocumentoService.destroy(action.payload)
                             .pipe(
-                                mergeMap((response) => [
+                                mergeMap(response => [
                                     new JuntadaListActions.RemoveVinculacaoDocumentoSuccess(action.payload),
                                     new JuntadaListActions.ReloadJuntadas()
                                 ]),
@@ -205,8 +199,7 @@ export class JuntadaListEffect {
                                     console.log(err);
                                     return of(new JuntadaListActions.RemoveVinculacaoDocumentoFailed(action.payload));
                                 })
-                            );
-                    }
+                            )
                 ));
 
     /**
@@ -218,8 +211,6 @@ export class JuntadaListEffect {
             .pipe(
                 ofType<JuntadaListActions.ReloadJuntadas>(JuntadaListActions.RELOAD_JUNTADAS),
                 withLatestFrom(this._store.pipe(select(getPagination))),
-                tap(([action, pagination]) => {
-                    return this._store.dispatch(new JuntadaListActions.GetJuntadas(pagination));
-                })
+                tap(([action, pagination]) => this._store.dispatch(new JuntadaListActions.GetJuntadas(pagination)))
             );
 }

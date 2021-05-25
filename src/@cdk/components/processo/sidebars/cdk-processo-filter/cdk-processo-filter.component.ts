@@ -17,8 +17,8 @@ import {CdkProcessoFilterService} from './cdk-processo-filter.service';
 import {modulesConfig} from '../../../../../modules/modules-config';
 import {LoginService} from '../../../../../app/main/auth/login/login.service';
 import {Subject} from 'rxjs';
-import {Pagination} from "../../../../models";
-import {Router} from "@angular/router";
+import {Pagination} from '../../../../models';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'cdk-processo-filter',
@@ -85,7 +85,7 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
             const path = '@cdk/components/processo/sidebars/cdk-processo-filter';
             modulesConfig.forEach((module) => {
                 if (module.components.hasOwnProperty(path)) {
-                    module.components[path].forEach((c => {
+                    module.components[path].forEach(((c) => {
                         this._dynamicService.loadComponent(c)
                             .then(componentFactory => this.container.createComponent(componentFactory));
                     }));
@@ -102,37 +102,37 @@ export class CdkProcessoFilterComponent implements AfterViewInit {
         const andXFilter = [];
 
         if (this.form.get('cpfCnpj').value) {
-            this.form.get('cpfCnpj').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('cpfCnpj').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'interessados.pessoa.numeroDocumentoPrincipal': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'interessados.pessoa.nome': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('NUP').value) {
-            this.form.get('NUP').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('NUP').value.split(' ').map(bit => bit.replace(/\D/g, '')).filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'NUP': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('titulo').value) {
-            this.form.get('titulo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('titulo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'titulo': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('descricao').value) {
-            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('descricao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'descricao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('outroNumero').value) {
-            this.form.get('outroNumero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('outroNumero').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'outroNumero': `like:%${bit}%`});
             });
         }

@@ -18,7 +18,7 @@ import {take, tap} from 'rxjs/operators';
 import {MatDialog} from '@cdk/angular/material';
 import {CdkConfirmDialogComponent} from '@cdk/components/confirm-dialog/confirm-dialog.component';
 
-import {UnloadUsuarios} from "./store";
+import {UnloadUsuarios} from './store';
 
 
 @Component({
@@ -64,7 +64,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if (this.routerState.params['generoHandle'] === 'nacional' ||
@@ -81,7 +81,7 @@ export class UsuariosListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

@@ -29,7 +29,7 @@ export class AdminPessoaEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class AdminPessoaEditEffects {
 
     /**
      * Get Pessoa with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,8 +46,7 @@ export class AdminPessoaEditEffects {
         this._actions
             .pipe(
                 ofType<PessoaEditActions.GetPessoa>(PessoaEditActions.GET_PESSOA),
-                switchMap((action) => {
-                    return this._pessoaService.query(
+                switchMap(action => this._pessoaService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
@@ -54,8 +54,7 @@ export class AdminPessoaEditEffects {
                         JSON.stringify([
                             'populateAll'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Pessoa>({data: response['entities'], schema: pessoaSchema}),
                     new PessoaEditActions.GetPessoaSuccess({
@@ -75,6 +74,7 @@ export class AdminPessoaEditEffects {
 
     /**
      * Save Pessoa
+     *
      * @type {Observable<any>}
      */
     @Effect()

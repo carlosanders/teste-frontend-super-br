@@ -32,8 +32,8 @@ export class CdkWidgetComponent implements AfterContentInit
     /**
      * Constructor
      *
-     * @param {ElementRef} _elementRef
-     * @param {Renderer2} _renderer
+     * @param _elementRef
+     * @param _renderer
      */
     constructor(
         private _elementRef: ElementRef,
@@ -53,7 +53,7 @@ export class CdkWidgetComponent implements AfterContentInit
     {
         // Listen for the flip button click
         setTimeout(() => {
-            this.toggleButtons.forEach(flipButton => {
+            this.toggleButtons.forEach((flipButton) => {
                 this._renderer.listen(flipButton.elementRef.nativeElement, 'click', (event) => {
                     event.preventDefault();
                     event.stopPropagation();

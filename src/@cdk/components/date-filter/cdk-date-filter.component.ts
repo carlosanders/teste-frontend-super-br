@@ -69,7 +69,7 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
      * OnInit
      */
     ngOnInit(): void {
-        this.form.get('checkAntes').valueChanges.subscribe(value => {
+        this.form.get('checkAntes').valueChanges.subscribe((value) => {
             if (value) {
                 this.form.get('filterAntes').enable({emitEvent: false});
                 if (this.form.get('checkEm').value === true) {
@@ -82,7 +82,7 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
             this._changeDetectorRef.markForCheck();
         });
 
-        this.form.get('checkDepois').valueChanges.subscribe(value => {
+        this.form.get('checkDepois').valueChanges.subscribe((value) => {
             if (value) {
                 this.form.get('filterDepois').enable({emitEvent: false});
                 if (this.form.get('checkEm').value === true) {
@@ -95,7 +95,7 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
             this._changeDetectorRef.markForCheck();
         });
 
-        this.form.get('checkEm').valueChanges.subscribe(value => {
+        this.form.get('checkEm').valueChanges.subscribe((value) => {
             if (value) {
                 this.form.get('filterEm').enable({emitEvent: false});
                 this.form.get('checkAntes').setValue(false);
@@ -107,28 +107,28 @@ export class CdkDateFilterComponent implements OnInit, OnChanges {
             this._changeDetectorRef.markForCheck();
         });
 
-        this.form.get('filterAntes').valueChanges.subscribe(value => {
+        this.form.get('filterAntes').valueChanges.subscribe((value) => {
             this.atualizaFiltros();
 
             this.emite();
         });
 
-        this.form.get('filterDepois').valueChanges.subscribe(value => {
+        this.form.get('filterDepois').valueChanges.subscribe((value) => {
             this.atualizaFiltros();
 
             this.emite();
         });
 
-        this.form.get('filterEm').valueChanges.subscribe(value => {
+        this.form.get('filterEm').valueChanges.subscribe((value) => {
             this.atualizaFiltros();
             this.emite();
         });
 
-        this.limparForm.subscribe(value => {
+        this.limparForm.subscribe((value) => {
             if (value) {
                 this.limpar();
             }
-        })
+        });
     }
 
     ngOnChanges(changes: { [propName: string]: SimpleChange }): void {

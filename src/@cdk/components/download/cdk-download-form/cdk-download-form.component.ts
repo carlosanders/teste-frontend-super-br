@@ -9,8 +9,8 @@ import {
 
 import { cdkAnimations } from '@cdk/animations';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
-import {of} from "rxjs";
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-download-form',

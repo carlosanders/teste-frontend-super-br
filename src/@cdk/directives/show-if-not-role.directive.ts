@@ -29,9 +29,7 @@ export class ShowIfNotRoleDirective {
     @Input() set showIfNotRole(role: string) {
         const userProfile = this._loginService.getUserProfile();
         if (userProfile && userProfile.roles && userProfile.roles.length > 0) {
-            const hasRole = userProfile.roles.findIndex((papel: string) => {
-                return papel.includes(role);
-            });
+            const hasRole = userProfile.roles.findIndex((papel: string) => papel.includes(role));
             if (hasRole === -1) {
                 this.viewContainer.createEmbeddedView(this.templateRef);
                 return;

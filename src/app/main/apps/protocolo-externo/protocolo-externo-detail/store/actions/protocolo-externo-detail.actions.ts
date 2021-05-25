@@ -416,7 +416,7 @@ export type ProcessoDetailActionsAll
     | CreateVinculacaoEtiquetaFailed
     | SaveConteudoVinculacaoEtiqueta
     | SaveConteudoVinculacaoEtiquetaSuccess
-    | SaveConteudoVinculacaoEtiquetaFailed   
+    | SaveConteudoVinculacaoEtiquetaFailed
     | DeleteVinculacaoEtiqueta
     | DeleteVinculacaoEtiquetaSuccess
     | DeleteVinculacaoEtiquetaFailed

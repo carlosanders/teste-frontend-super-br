@@ -33,7 +33,7 @@ export class ModelosEspecieSetorEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -42,6 +42,7 @@ export class ModelosEspecieSetorEffects {
 
     /**
      * Get Modelo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -49,8 +50,7 @@ export class ModelosEspecieSetorEffects {
         this._actions
             .pipe(
                 ofType<ModelosEspecieSetorActions.GetModelo>(ModelosEspecieSetorActions.GET_MODELO),
-                switchMap((action) => {
-                    return this._modeloService.get(
+                switchMap(action => this._modeloService.get(
                         action.payload.id,
                         JSON.stringify([
                             'populateAll',
@@ -61,8 +61,7 @@ export class ModelosEspecieSetorEffects {
                             'vinculacoesModelos.modalidadeOrgaoCentral',
                         ]),
                         JSON.stringify({isAdmin: true})
-                    );
-                }),
+                    )),
                 switchMap(response => [
                     new AddData<Modelo>({data: [response], schema: modeloSchema}),
                     new ModelosEspecieSetorActions.GetModeloSuccess({

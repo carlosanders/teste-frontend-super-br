@@ -16,7 +16,7 @@ import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 import {Documento} from '@cdk/models';
 
-import {UnloadModelos} from "./store";
+import {UnloadModelos} from './store';
 
 
 @Component({
@@ -63,7 +63,7 @@ export class ModelosListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     if (this.routerState.params['generoHandle'] === 'local' || this.routerState.params['setorHandle']) {
@@ -85,7 +85,7 @@ export class ModelosListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

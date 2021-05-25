@@ -74,11 +74,11 @@ export class CdkSetorTreeComponent implements OnInit {
         this.setorMap.set(setor, node);
         this.nestedNodeMap.set(node, setor);
         return setor;
-    }
+    };
 
     ngOnInit(): void {
         this.initTree();
-        this._serviceTree.dataChange.subscribe(data => {
+        this._serviceTree.dataChange.subscribe((data) => {
             this.dataSource.data = data;
         });
     }
@@ -101,7 +101,7 @@ export class CdkSetorTreeComponent implements OnInit {
      */
     initTree(): void {
         const setorPai = this.getSetor('isNull');
-        setorPai.subscribe(setores => {
+        setorPai.subscribe((setores) => {
             const data = this.montarArraySetor(setores);
             this._serviceTree.initialize(data);
         });

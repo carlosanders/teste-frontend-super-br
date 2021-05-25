@@ -66,7 +66,7 @@ export class ReloadAfastamentos implements Action
  export class UnloadAfastamentos implements Action
  {
      readonly type = UNLOAD_AFASTAMENTOS;
- 
+
      constructor()
      {
      }

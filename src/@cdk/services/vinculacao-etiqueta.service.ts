@@ -22,9 +22,9 @@ export class VinculacaoEtiquetaService extends ParentGenericService<VinculacaoEt
         params['context'] = context;
         return this.modelService.patch('administrativo/vinculacao_etiqueta', vinculacaoEtiqueta.id, changes, new HttpParams({fromObject: params}))
             .pipe(
-                map(response => {
+                map((response) => {
                     response = plainToClass(VinculacaoEtiqueta, response);
-                    Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                    Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                     return Object.assign(new VinculacaoEtiqueta(), {...vinculacaoEtiqueta, ...response});
                 })
             );

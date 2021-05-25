@@ -13,7 +13,7 @@ import { CdkAssuntoAdministrativoGridModule } from '@cdk/components/assunto-admi
     imports: [
 
         CdkAssuntoAdministrativoGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

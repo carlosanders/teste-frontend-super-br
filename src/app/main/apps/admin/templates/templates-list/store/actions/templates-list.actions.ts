@@ -49,7 +49,7 @@ export class GetTemplatesFailed implements Action
  export class UnloadTemplates implements Action
  {
      readonly type = UNLOAD_TEMPLATES;
- 
+
      constructor()
      {
      }

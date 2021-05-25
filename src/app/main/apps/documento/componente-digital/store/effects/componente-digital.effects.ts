@@ -30,7 +30,7 @@ export class ComponenteDigitalEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                     this.lixeira = !!routerState.state.queryParams.lixeira;
@@ -40,6 +40,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -51,7 +52,7 @@ export class ComponenteDigitalEffect {
                     let handle = { id: '', value: '' };
                     let context: any = '{}';
                     const routeParams = of('componenteDigitalHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -60,7 +61,7 @@ export class ComponenteDigitalEffect {
                         }
                     });
                     const routeChaveAcessoParams = of('chaveAcessoHandle');
-                    routeChaveAcessoParams.subscribe(param => {
+                    routeChaveAcessoParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             context = JSON.stringify({'chaveAcesso': this.routerState.params[param]});
                         }
@@ -90,6 +91,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Visualizar Versão ComponenteDigital
+     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -100,7 +102,7 @@ export class ComponenteDigitalEffect {
                 switchMap((action) => {
                     let handle = { id: '', value: '' };
                     const routeParams = of('componenteDigitalHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -119,7 +121,7 @@ export class ComponenteDigitalEffect {
                             byteNumbers[i] = byteCharacters.charCodeAt(i);
                         }
                         const byteArray = new Uint8Array(byteNumbers);
-                        const blob = new Blob(["\ufeff", byteArray], {type: response.mimetype});
+                        const blob = new Blob(['\ufeff', byteArray], {type: response.mimetype});
                         const URL = window.URL;
                         if (response.mimetype === 'application/pdf' || response.mimetype === 'text/html') {
                             const data = URL.createObjectURL(blob);
@@ -129,8 +131,8 @@ export class ComponenteDigitalEffect {
                                 window.URL.revokeObjectURL(data);
                             }, 100);
                         } else {
-                            const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob)),
-                                downloadLink = document.createElement('a');
+                            const downloadUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(blob));
+                                const downloadLink = document.createElement('a');
                             const sanitizedUrl = this._sanitizer.sanitize(SecurityContext.RESOURCE_URL, downloadUrl);
                             downloadLink.target = '_blank';
                             downloadLink.href = sanitizedUrl;
@@ -154,6 +156,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -164,7 +167,7 @@ export class ComponenteDigitalEffect {
                 switchMap((action) => {
                     let handle = { id: '', value: '' };
                     const routeParams = of('componenteDigitalHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -183,9 +186,9 @@ export class ComponenteDigitalEffect {
                             byteNumbers[i] = byteCharacters.charCodeAt(i);
                         }
                         const byteArray = new Uint8Array(byteNumbers);
-                        const blob = new Blob([byteArray], {type: response.mimetype}),
-                            URL = window.URL,
-                            data = URL.createObjectURL(blob);
+                        const blob = new Blob([byteArray], {type: response.mimetype});
+                            const URL = window.URL;
+                            const data = URL.createObjectURL(blob);
                         window.open(data, '_blank');
 
                         setTimeout( () => {
@@ -204,6 +207,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Set Current Step
+     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -217,7 +221,7 @@ export class ComponenteDigitalEffect {
                         value: ''
                     };
                     const routeParams = of('componenteDigitalHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,
@@ -263,6 +267,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Save ComponenteDigital
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -270,8 +275,7 @@ export class ComponenteDigitalEffect {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
-                switchMap((action) => {
-                    return this._componenteDigitalService.patch(action.payload.componenteDigital , {conteudo: action.payload.data, hashAntigo: action.payload.hashAntigo}).pipe(
+                switchMap(action => this._componenteDigitalService.patch(action.payload.componenteDigital , {conteudo: action.payload.data, hashAntigo: action.payload.hashAntigo}).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
                             new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo, hash: response.hash}}),
@@ -285,12 +289,12 @@ export class ComponenteDigitalEffect {
                             console.log (err);
                             return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Revert ComponenteDigital
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -298,8 +302,7 @@ export class ComponenteDigitalEffect {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.RevertComponenteDigital>(ComponenteDigitalActions.REVERT_COMPONENTE_DIGITAL),
-                switchMap((action) => {
-                    return this._componenteDigitalService.reverter(action.payload.componenteDigital , {hash: action.payload.hash}).pipe(
+                switchMap(action => this._componenteDigitalService.reverter(action.payload.componenteDigital , {hash: action.payload.hash}).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.RevertComponenteDigitalSuccess(response),
                             new UpdateData<ComponenteDigital>({id: response.id, schema: componenteDigitalSchema, changes: {conteudo: response.conteudo, hash: response.hash}}),
@@ -313,8 +316,7 @@ export class ComponenteDigitalEffect {
                             console.log (err);
                             return of(new ComponenteDigitalActions.RevertComponenteDigitalFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     @Effect({dispatch: false})
@@ -325,5 +327,5 @@ export class ComponenteDigitalEffect {
                 tap((action) => {
                     this._componenteDigitalService.revertendo.next(true);
                 })
-            )
+            );
 }

@@ -25,9 +25,9 @@ export class UsuarioService extends ParentGenericService<Usuario> {
             JSON.stringify(changes),
             {params}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Usuario, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Usuario(), {...usuario, ...response});
             })
         );
@@ -36,9 +36,9 @@ export class UsuarioService extends ParentGenericService<Usuario> {
     active(cpf: number | string, token: number | string, context: any = '{}'): Observable<any> {
         const params: HttpParams = new HttpParams().set('context', context);
         return this.http.patch(`${environment.api_url}administrativo/${'usuario'}/${cpf}/${token}/valida_usuario` + environment.xdebug, {params})
-            .pipe(map(response => {
+            .pipe(map((response) => {
                 response = plainToClass(Usuario, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Usuario(), {...response});
             })
         );
@@ -49,9 +49,9 @@ export class UsuarioService extends ParentGenericService<Usuario> {
             `${environment.api_url}${'administrativo/usuario'}/${usuario.id}/reseta_senha` + environment.xdebug,
             {}
         ).pipe(
-            map(response => {
+            map((response) => {
                 response = plainToClass(Usuario, response);
-                Object.keys(response).forEach((key) => (response[key] === null) && delete response[key]);
+                Object.keys(response).forEach(key => (response[key] === null) && delete response[key]);
                 return Object.assign(new Usuario(), {...usuario, ...response});
             })
         );

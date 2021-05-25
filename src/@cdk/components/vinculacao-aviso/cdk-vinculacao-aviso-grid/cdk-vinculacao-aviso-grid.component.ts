@@ -14,7 +14,7 @@ import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators
 
 import {Pagination, VinculacaoAviso} from '@cdk/models';
 import {FormControl} from '@angular/forms';
-import {VinculacaoAvisoDataSource} from "../../../data-sources/vinculacao-aviso-data-source";
+import {VinculacaoAvisoDataSource} from '../../../data-sources/vinculacao-aviso-data-source';
 
 @Component({
     selector: 'cdk-vinculacao-aviso-grid',
@@ -222,7 +222,7 @@ export class CdkVinculacaoAvisoGridComponent implements AfterViewInit, OnInit, O
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }

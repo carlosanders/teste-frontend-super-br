@@ -16,13 +16,13 @@ export class DynamicService {
 
     loadComponent(i: any): Promise<any> {
         return i()
-            .then(lazyModule => {
+            .then((lazyModule) => {
                 if (lazyModule instanceof NgModuleFactory) {
                     const moduleRef = lazyModule.create(this.injector);
                     // @ts-ignore
                     return moduleRef.instance.resolveComponentFactory();
                 } else {
-                    return this.compiler.compileModuleAsync(lazyModule).then(compiledModule => {
+                    return this.compiler.compileModuleAsync(lazyModule).then((compiledModule) => {
                         const moduleRef = compiledModule.create(this.injector);
                         // @ts-ignore
                         return moduleRef.instance.resolveComponentFactory();

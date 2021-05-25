@@ -1,5 +1,5 @@
 import {RegistrarExtravioEffects} from './registrar-extravio.effects';
-import {ModalidadeExtravioEffects} from "./modalidade-extravio.effects";
+import {ModalidadeExtravioEffects} from './modalidade-extravio.effects';
 
 export const effects = [
     RegistrarExtravioEffects,

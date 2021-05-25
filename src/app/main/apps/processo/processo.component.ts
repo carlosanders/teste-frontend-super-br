@@ -93,7 +93,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this._cdkTranslationLoaderService.loadTranslations(english);
         this.processo$ = this._store.pipe(select(fromStore.getProcesso));
         this.loading$ = this._store.pipe(select(fromStore.getProcessoIsLoading));
-        this.togglingAcompanharProcesso$ = this._store.pipe(select(fromStore.getTogglingAcompanharProcesso))
+        this.togglingAcompanharProcesso$ = this._store.pipe(select(fromStore.getTogglingAcompanharProcesso));
 
         this.vinculacaoEtiquetaPagination = new Pagination();
         if (!_loginService.isGranted('ROLE_USUARIO_EXTERNO'))
@@ -137,7 +137,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         this._store
             .pipe(
                 select(getRouterState)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -145,11 +145,11 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.routerState$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             this.chaveAcesso = routerState.state.params['chaveAcessoHandle'];
         });
 
-        this.processo$.subscribe(processo => {
+        this.processo$.subscribe((processo) => {
             this.processo = processo;
         });
     }
@@ -158,7 +158,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
         const path = 'app/main/apps/processo';
         modulesConfig.forEach((module) => {
             if (module.components.hasOwnProperty(path)) {
-                module.components[path].forEach((c => {
+                module.components[path].forEach(((c) => {
                     if (this.container !== undefined) {
                         this._dynamicService.loadComponent(c)
                             .then(componentFactory => this.container.createComponent(componentFactory));
@@ -243,7 +243,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
 
         this.confirmDialogRef.componentInstance.confirmMessage = 'Deseja realmente arquivar o processo ' + this.processo.NUPFormatado + '?';
 
-        this.confirmDialogRef.afterClosed().subscribe(result => {
+        this.confirmDialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this._store.dispatch(new fromStore.ArquivarProcesso(this.processo));
             }
@@ -258,7 +258,7 @@ export class ProcessoComponent implements OnInit, OnDestroy, AfterViewInit {
             const payload = {
                 'acompanhamentoId': processo.compartilhamentoUsuario.id,
                 'processoId': processo.id
-            }
+            };
             this._store.dispatch(new fromStore.DeleteAcompanhamento(payload));
         }
     }

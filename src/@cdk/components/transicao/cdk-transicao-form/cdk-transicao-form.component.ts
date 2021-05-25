@@ -11,8 +11,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Transicao} from '@cdk/models';
 import {Pagination} from '@cdk/models';
 import {ModalidadeTransicao} from '@cdk/models';
-import {debounceTime, distinctUntilChanged, switchMap} from "rxjs/operators";
-import {of} from "rxjs";
+import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {of} from 'rxjs';
 
 @Component({
     selector: 'cdk-transicao-form',
@@ -118,7 +118,7 @@ export class CdkTransicaoFormComponent implements OnChanges, OnDestroy, OnInit {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

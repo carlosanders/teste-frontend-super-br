@@ -7,7 +7,7 @@ import {
     getRegistrarExtravioAppState,
     ModalidadeExtravioState,
     RegistrarExtravioAppState
-} from "../reducers";
+} from '../reducers';
 
 const schemaSelectors = createSchemaSelectors<ModalidadeTransicao>(modalidadeTransicaoSchema);
 

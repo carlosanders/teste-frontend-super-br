@@ -143,7 +143,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
                 });
             }
             fileUpload.value = '';
-            this.files.forEach(file => {
+            this.files.forEach((file) => {
                 this.uploadFile(file);
             });
         };
@@ -176,7 +176,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
         file.canCancel = true;
 
         this.getBase64(file.data).then(
-            conteudo => {
+            (conteudo) => {
                 const componenteDigital = new ComponenteDigital();
                 this.target = this.initTarget();
                 componenteDigital.conteudo = conteudo;
@@ -198,7 +198,7 @@ export class CdkComponenteDigitalDocumentoAvulsoCardListComponent implements OnI
 
                 componenteDigital.inProgress = true;
                 file.sub = this._http.request(req).pipe(
-                    map(event => {
+                    map((event) => {
                         switch (event.type) {
                             case HttpEventType.UploadProgress:
                                 componenteDigital.progress = Math.round(event.loaded * 100 / event.total);

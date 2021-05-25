@@ -67,11 +67,11 @@ export class VinculacaoProcessoEditComponent implements OnInit, OnDestroy {
             takeUntil(this._unsubscribeAll),
             filter(processo => !!processo)
         ).subscribe(
-            processo => {
+            (processo) => {
                 this.processo = processo;
                 this.processoVinculadoPagination.filter = {
                     'id':'neq:' + this.processo.id
-                }
+                };
             }
         );
 

@@ -28,7 +28,7 @@ export class NomeEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class NomeEditEffect {
 
     /**
      * Get Nome with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class NomeEditEffect {
         this._actions
             .pipe(
                 ofType<NomeEditActions.GetNome>(NomeEditActions.GET_NOME),
-                switchMap((action) => {
-                    return this._nomeService.query(
+                switchMap(action => this._nomeService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Nome>({data: response['entities'], schema: nomeSchema}),
                     new NomeEditActions.GetNomeSuccess({
@@ -73,6 +72,7 @@ export class NomeEditEffect {
 
     /**
      * Save Nome
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class NomeEditEffect {
         this._actions
             .pipe(
                 ofType<NomeEditActions.SaveNome>(NomeEditActions.SAVE_NOME),
-                switchMap((action) => {
-                    return this._nomeService.save(action.payload).pipe(
+                switchMap(action => this._nomeService.save(action.payload).pipe(
                         mergeMap((response: Nome) => [
                             new NomeEditActions.SaveNomeSuccess(),
                             new NomeListActions.ReloadNomes(),
@@ -96,8 +95,7 @@ export class NomeEditEffect {
                             console.log (err);
                             return of(new NomeEditActions.SaveNomeFailed(err));
                         })
-                    );
-                })
+                    ))
             );
     /**
      * Save Nome Success

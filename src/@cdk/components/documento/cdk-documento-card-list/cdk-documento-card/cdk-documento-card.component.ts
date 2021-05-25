@@ -164,7 +164,7 @@ export class CdkDocumentoCardComponent implements OnInit {
             width: '600px'
         });
 
-        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+        dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe((result) => {
             result.documento = this.documento;
             this.assinatura.emit(result);
         });

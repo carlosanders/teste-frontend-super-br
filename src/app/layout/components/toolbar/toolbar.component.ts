@@ -143,7 +143,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                 select(getNormalizedNotificacaoEntities),
                 takeUntil(this._unsubscribeAll),
             )
-            .subscribe(notificacoes => {
+            .subscribe((notificacoes) => {
                 this.notificacoes = notificacoes;
             });
         this._store
@@ -157,7 +157,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getCounterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(value => {
+            ).subscribe((value) => {
                 if (value && value['notificacoes_pendentes'] !== undefined) {
                     if (parseInt(value['notificacoes_pendentes']) > 99) {
                         this.notificacoesCount = '99+';
@@ -171,7 +171,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getOperacoesEmProcessamento),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(value => {
+            ).subscribe((value) => {
                 this.operacoesProcessando = Object.keys(value).length;
                 if (this.operacoesProcessando === 0) {
                     this.operacoesPendentes = 0;

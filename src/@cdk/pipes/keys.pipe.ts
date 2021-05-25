@@ -7,8 +7,8 @@ export class KeysPipe implements PipeTransform
      * Transform
      *
      * @param value
-     * @param {string[]} args
-     * @returns {any}
+     * @param args
+     * @returns
      */
     transform(value: any, args: string[]): any
     {

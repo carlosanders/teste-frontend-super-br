@@ -43,13 +43,13 @@ export class CdkPaisFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'nome': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('codigo').value) {
-            this.form.get('codigo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('codigo').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'codigo': `like:%${bit}%`});
             });
         }

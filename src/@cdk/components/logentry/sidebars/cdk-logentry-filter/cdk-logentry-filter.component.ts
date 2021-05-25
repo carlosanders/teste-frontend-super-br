@@ -43,37 +43,37 @@ export class CdkLogentryFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('action').value) {
-            this.form.get('action').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('action').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'action': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('objectId').value) {
-            this.form.get('objectId').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('objectId').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'objectId': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('loggedAt').value) {
-            this.form.get('loggedAt').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('loggedAt').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'loggedAt': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('objectClass').value) {
-            this.form.get('objectClass').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('objectClass').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'objectClass': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('valor').value) {
-            this.form.get('valor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('valor').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'valor': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('username').value) {
-            this.form.get('username').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('username').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'username': `like:%${bit}%`});
             });
         }

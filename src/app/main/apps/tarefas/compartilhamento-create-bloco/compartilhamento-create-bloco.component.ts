@@ -83,7 +83,7 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
                 filter(op => !!op && !!op.content && op.type === 'compartilhamento')
             )
             .subscribe(
-                operacao => {
+                (operacao) => {
                     this.operacoes.push(operacao);
                     this._changeDetectorRef.markForCheck();
                 }
@@ -93,7 +93,7 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
                 this.operacoes = [];
@@ -115,7 +115,7 @@ export class CompartilhamentoCreateBlocoComponent implements OnInit, OnDestroy {
 
         this.operacoes = [];
 
-        this.tarefas.forEach(tarefa => {
+        this.tarefas.forEach((tarefa) => {
             const compartilhamento = new Compartilhamento();
 
             Object.entries(values).forEach(

@@ -12,7 +12,7 @@ import {SigiloService} from '@cdk/services/sigilo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Sigilo} from '@cdk/models';
 import {sigilo as sigiloSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class SigiloListEffect {
@@ -26,7 +26,7 @@ export class SigiloListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class SigiloListEffect {
 
     /**
      * Get Sigilos with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class SigiloListEffect {
         this._actions
             .pipe(
                 ofType<SigiloListActions.GetSigilos>(SigiloListActions.GET_SIGILOS),
-                switchMap((action) => {
-                    return this._sigiloService.query(
+                switchMap(action => this._sigiloService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -52,9 +52,8 @@ export class SigiloListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<Sigilo>({data: response['entities'], schema: sigiloSchema}),
                     new SigiloListActions.GetSigilosSuccess({
                         entitiesId: response['entities'].map(sigilo => sigilo.id),
@@ -74,6 +73,7 @@ export class SigiloListEffect {
 
     /**
      * Delete Sigilo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,9 +81,8 @@ export class SigiloListEffect {
         this._actions
             .pipe(
                 ofType<SigiloListActions.DeleteSigilo>(SigiloListActions.DELETE_SIGILO),
-                mergeMap((action) => {
-                    return this._sigiloService.destroy(action.payload).pipe(
-                        map((response) => new SigiloListActions.DeleteSigiloSuccess(response.id)),
+                mergeMap(action => this._sigiloService.destroy(action.payload).pipe(
+                        map(response => new SigiloListActions.DeleteSigiloSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new SigiloListActions.DeleteSigiloFailed(
@@ -92,8 +91,7 @@ export class SigiloListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 
 }

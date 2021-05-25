@@ -13,7 +13,7 @@ import { CdkModeloGridModule } from '@cdk/components/modelo/cdk-modelo-grid/cdk-
     imports: [
 
         CdkModeloGridModule,
-        
+
         CdkSharedModule,
     ],
     providers: [

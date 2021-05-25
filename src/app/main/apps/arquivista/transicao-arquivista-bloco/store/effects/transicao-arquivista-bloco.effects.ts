@@ -22,8 +22,8 @@ import {
     ChangeSelectedProcessos,
     getProcessosIds,
     getSelectedProcessoIds
-} from "../../../arquivista-list/store";
-import {CdkUtils} from "@cdk/utils";
+} from '../../../arquivista-list/store';
+import {CdkUtils} from '@cdk/utils';
 
 
 @Injectable()
@@ -40,7 +40,7 @@ export class TransicaoArquivistaBlocoEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -49,6 +49,7 @@ export class TransicaoArquivistaBlocoEffects {
 
     /**
      * Save TransicaoArquivista
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -124,6 +125,7 @@ export class TransicaoArquivistaBlocoEffects {
 
     /**
      * Get Processo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()

@@ -313,7 +313,7 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
             distinctUntilChanged(),
             switchMap((values) => {
                 this.displayedColumns = [];
-                this.allColumns.forEach(c => {
+                this.allColumns.forEach((c) => {
                     if (c.fixed || (values.indexOf(c.id) > -1)) {
                         this.displayedColumns.push(c.id);
                     }
@@ -459,15 +459,15 @@ export class CdkDocumentoGridComponent implements AfterViewInit, OnInit, OnChang
 
     download(componenteDigital: ComponenteDigital): void {
         this._componenteDigitalService.download(componenteDigital.id).subscribe(
-            response => {
+            (response) => {
                 fetch(response.conteudo)
                     .then(res => res.blob())
-                    .then(content => {
+                    .then((content) => {
                         // downloadLink.download = 'name_to_give_saved_file.pdf';
-                        const blob = new Blob([content], {type: componenteDigital.mimetype}),
-                            URL = window.URL,
-                            downloadUrl = URL.createObjectURL(blob),
-                            downloadLink = document.createElement('a');
+                        const blob = new Blob([content], {type: componenteDigital.mimetype});
+                            const URL = window.URL;
+                            const downloadUrl = URL.createObjectURL(blob);
+                            const downloadLink = document.createElement('a');
                         downloadLink.target = '_blank';
                         downloadLink.href = downloadUrl;
                         document.body.appendChild(downloadLink);

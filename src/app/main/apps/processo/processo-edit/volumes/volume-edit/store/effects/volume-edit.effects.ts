@@ -28,7 +28,7 @@ export class VolumeEditEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -37,6 +37,7 @@ export class VolumeEditEffect {
 
     /**
      * Get Volume with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -44,16 +45,14 @@ export class VolumeEditEffect {
         this._actions
             .pipe(
                 ofType<VolumeEditActions.GetVolume>(VolumeEditActions.GET_VOLUME),
-                switchMap((action) => {
-                    return this._volumeService.query(
+                switchMap(action => this._volumeService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
                             'populateAll'
-                        ]));
-                }),
+                        ]))),
                 switchMap(response => [
                     new AddData<Volume>({data: response['entities'], schema: volumeSchema}),
                     new VolumeEditActions.GetVolumeSuccess({
@@ -73,6 +72,7 @@ export class VolumeEditEffect {
 
     /**
      * Save Volume
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -80,8 +80,7 @@ export class VolumeEditEffect {
         this._actions
             .pipe(
                 ofType<VolumeEditActions.SaveVolume>(VolumeEditActions.SAVE_VOLUME),
-                switchMap((action) => {
-                    return this._volumeService.save(action.payload).pipe(
+                switchMap(action => this._volumeService.save(action.payload).pipe(
                         mergeMap((response: Volume) => [
                             new VolumeEditActions.SaveVolumeSuccess(),
                             new VolumeListActions.ReloadVolumes(),
@@ -96,8 +95,7 @@ export class VolumeEditEffect {
                             console.log (err);
                             return of(new VolumeEditActions.SaveVolumeFailed(err));
                         })
-                    );
-                })
+                    ))
             );
     /**
      * Save Volume Success

@@ -205,7 +205,7 @@
                             timeInterval="5"></mat-datetimepicker>
     </mat-form-field>
 
-    <mat-form-field class="mr-8" *ngIf="mode == 'trigger-etiqueta'">
+    <mat-form-field class="mr-8" *ngIf="mode === 'trigger-etiqueta'">
         <mat-select formControlName="prazoFinal" placeholder="Prazo Final">
             <div *ngFor="let criteria of prazoCriteriaList">
                 <mat-option [value]="criteria.valor">{{ criteria.descricao }}</mat-option>

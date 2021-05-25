@@ -65,7 +65,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
             filter(term => !!term && term.length >= 2),
             switchMap((value) => {
                     const andxFilter = [];
-                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+                    value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                         if (this.filtrarPor && this.filtrarPor === 'username') {
                             this.pagination.populate = ['populateAll', 'colaborador', 'colaborador.cargo', 'colaborador.modalidadeColaborador'];
                             andxFilter.push({
@@ -105,7 +105,7 @@ export class CdkUsuarioAutocompleteComponent implements OnInit {
                     }
                 }
             )
-        ).subscribe(response => {
+        ).subscribe((response) => {
             this.usuarioList = response['entities'];
             if (this.pagination['context'] &&
                 (this.pagination['context'].setorApenasDistribuidor || this.pagination['context'].semAfastamento) ) {

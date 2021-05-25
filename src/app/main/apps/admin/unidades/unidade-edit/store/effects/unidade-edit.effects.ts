@@ -37,7 +37,7 @@ export class UnidadeEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -46,6 +46,7 @@ export class UnidadeEditEffects {
 
     /**
      * Get Setor with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -53,12 +54,10 @@ export class UnidadeEditEffects {
         this._actions
             .pipe(
                 ofType<UnidadeEditActions.GetUnidade>(UnidadeEditActions.GET_UNIDADE),
-                switchMap((action) => {
-                    return this._setorService.get(
+                switchMap(action => this._setorService.get(
                         action.payload.id,
                         JSON.stringify(['populateAll']),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Setor>({data: [response], schema: setorSchema}),
                     new UnidadeEditActions.GetUnidadeSuccess({
@@ -78,6 +77,7 @@ export class UnidadeEditEffects {
 
     /**
      * Save Setor
+     *
      * @type {Observable<any>}
      */
     @Effect()

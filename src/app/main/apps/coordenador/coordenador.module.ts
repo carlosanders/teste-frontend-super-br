@@ -20,7 +20,7 @@ import {UsuarioService} from '@cdk/services/usuario.service';
 import {SetorService} from '@cdk/services/setor.service';
 import {ModalidadeOrgaoCentralService} from '@cdk/services/modalidade-orgao-central.service';
 import {modulesConfig} from 'modules/modules-config';
-import {AvisoService} from "@cdk/services/aviso.service";
+import {AvisoService} from '@cdk/services/aviso.service';
 
 const routes: Routes = [
     {

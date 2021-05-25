@@ -17,7 +17,7 @@ export class CdkProgressBarService
     /**
      * Constructor
      *
-     * @param {Router} _router
+     * @param _router
      */
     constructor(
         private _router: Router
@@ -97,13 +97,13 @@ export class CdkProgressBarService
 
         // Subscribe to the router events to show/hide the loading bar
         this._router.events
-            .pipe(filter((event) => event instanceof NavigationStart))
+            .pipe(filter(event => event instanceof NavigationStart))
             .subscribe(() => {
                 this.show();
             });
 
         this._router.events
-            .pipe(filter((event) => event instanceof NavigationEnd || event instanceof NavigationError || event instanceof NavigationCancel))
+            .pipe(filter(event => event instanceof NavigationEnd || event instanceof NavigationError || event instanceof NavigationCancel))
             .subscribe(() => {
                 this.hide();
             });

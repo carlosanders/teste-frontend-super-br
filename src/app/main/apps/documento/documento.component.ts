@@ -28,7 +28,7 @@ import {
 import {GetDocumentos as GetDocumentosAtividade} from '../tarefas/tarefa-detail/atividades/atividade-create/store/actions';
 import {GetDocumentos as GetDocumentosAvulsos} from '../tarefas/tarefa-detail/oficios/store/actions';
 import {UnloadComponenteDigital} from './componente-digital/store';
-import * as ProcessoViewActions from "../processo/processo-view/store/actions/processo-view.actions";
+import * as ProcessoViewActions from '../processo/processo-view/store/actions/processo-view.actions';
 
 @Component({
     selector: 'documento',
@@ -88,7 +88,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
             .pipe(
                 select(getRouterState),
                 takeUntil(this._unsubscribeAll)
-            ).subscribe(routerState => {
+            ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
@@ -118,7 +118,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
             } else {
@@ -229,7 +229,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
         let processoFilter = null;
 
         const routeParams = of('processoHandle');
-        routeParams.subscribe(param => {
+        routeParams.subscribe((param) => {
             processoFilter = `eq:${this.routerState.params[param]}`;
         });
 
@@ -265,7 +265,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
      */
     gotoNextStep(): void {
         let nextComponenteDigital = null;
-        this.documento.componentesDigitais.forEach(componenteDigital => {
+        this.documento.componentesDigitais.forEach((componenteDigital) => {
             if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial + 1)) {
                 nextComponenteDigital = componenteDigital;
                 return;
@@ -284,7 +284,7 @@ export class DocumentoComponent implements OnInit, OnDestroy {
      */
     gotoPreviousStep(): void {
         let prevComponenteDigital = null;
-        this.documento.componentesDigitais.forEach(componenteDigital => {
+        this.documento.componentesDigitais.forEach((componenteDigital) => {
             if (componenteDigital.numeracaoSequencial === (this.currentComponenteDigital.numeracaoSequencial - 1)) {
                 prevComponenteDigital = componenteDigital;
                 return;

@@ -54,7 +54,7 @@ export class GetAfastamentosFailed implements Action
  export class UnloadAfastamentos implements Action
  {
      readonly type = UNLOAD_AFASTAMENTOS;
- 
+
      constructor()
      {
      }

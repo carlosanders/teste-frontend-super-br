@@ -9,7 +9,7 @@ import { Subject } from 'rxjs';
 
 @Component({
     selector: 'notification',
-    template: ``
+    template: ''
 })
 export class NotificationComponent implements OnInit {
     modules: any[] = [];
@@ -50,6 +50,7 @@ export class NotificationComponent implements OnInit {
 
     /**
      * Open
+     *
      * @param notification
      */
     private openComponent(notification) {
@@ -68,7 +69,7 @@ export class NotificationComponent implements OnInit {
      */
     private loadModules() {
         notificationConfig.forEach((notification) => {
-            this.instanceModule(notification.module).then(moduleNotification => {
+            this.instanceModule(notification.module).then((moduleNotification) => {
                 this.modules.push({
                     module: moduleNotification,
                     config: notification.config,
@@ -85,13 +86,11 @@ export class NotificationComponent implements OnInit {
      */
     private instanceModule(i: any): Promise<any> {
         return i()
-            .then(lazyModule => {
+            .then((lazyModule) => {
                 if (lazyModule instanceof NgModuleFactory) {
                     return lazyModule.create(this._injector);
                 } else {
-                    return this._compiler.compileModuleAsync(lazyModule).then(compiledModule => {
-                        return compiledModule.create(this._injector);
-                    });
+                    return this._compiler.compileModuleAsync(lazyModule).then(compiledModule => compiledModule.create(this._injector));
                 }
             });
     }

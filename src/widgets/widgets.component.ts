@@ -47,16 +47,14 @@ export class WidgetsComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        this.widgets = widgetConfig.sort((a, b) => (a.ordem > b.ordem) ? 1 : -1).filter((widget) => {
-            return (!widget.role || (widget.role && this._loginService.isGranted(widget.role)));
-        });
+        this.widgets = widgetConfig.sort((a, b) => (a.ordem > b.ordem) ? 1 : -1).filter(widget => (!widget.role || (widget.role && this._loginService.isGranted(widget.role))));
     }
 
     ngAfterViewInit(): void {
         this.containers.map(
             (vcr: ViewContainerRef, index: number) => {
                 this._dynamicService.loadComponent(this.widgets[index].module)
-                    .then( componentFactory  => {
+                    .then( (componentFactory)  => {
                         vcr.createComponent(componentFactory);
                         this._changeDetectorRef.markForCheck();
                     });

@@ -32,7 +32,7 @@ export class RelatorioCreateEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -43,6 +43,7 @@ export class RelatorioCreateEffect {
 
     /**
      * Save Relatorio
+     *
      * @type {Observable<any>}
      */
     @Effect()

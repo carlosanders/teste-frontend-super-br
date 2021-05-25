@@ -29,7 +29,7 @@ export class AvisoEditEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -38,6 +38,7 @@ export class AvisoEditEffects {
 
     /**
      * Get Aviso with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -45,17 +46,15 @@ export class AvisoEditEffects {
         this._actions
             .pipe(
                 ofType<AvisoEditActions.GetAviso>(AvisoEditActions.GET_AVISO),
-                switchMap((action) => {
-                    return this._avisoService.query(
+                switchMap(action => this._avisoService.query(
                         JSON.stringify(action.payload),
                         1,
                         0,
                         JSON.stringify({}),
                         JSON.stringify([
-                            "aviso","vinculacoesAvisos","vinculacoesAvisos.setor","vinculacoesAvisos.modalidadeOrgaoCentral","vinculacoesAvisos.unidade","vinculacoesAvisos.setor.unidade"
+                            'aviso','vinculacoesAvisos','vinculacoesAvisos.setor','vinculacoesAvisos.modalidadeOrgaoCentral','vinculacoesAvisos.unidade','vinculacoesAvisos.setor.unidade'
                         ]),
-                        JSON.stringify({isAdmin: true}));
-                }),
+                        JSON.stringify({isAdmin: true}))),
                 switchMap(response => [
                     new AddData<Aviso>({data: response['entities'], schema: avisoSchema}),
                     new AvisoEditActions.GetAvisoSuccess({
@@ -75,6 +74,7 @@ export class AvisoEditEffects {
 
     /**
      * Save Aviso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -101,6 +101,7 @@ export class AvisoEditEffects {
 
     /**
      * Update Aviso
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -108,15 +109,13 @@ export class AvisoEditEffects {
         this._actions
             .pipe(
                 ofType<AvisoEditActions.UpdateAviso>(AvisoEditActions.UPDATE_AVISO),
-                switchMap((action) => {
-                    return this._avisoService.patch(action.payload.aviso, action.payload.changes).pipe(
+                switchMap(action => this._avisoService.patch(action.payload.aviso, action.payload.changes).pipe(
                         mergeMap((response: Aviso) => [
                             new AvisoListActions.ReloadAviso(),
                             new AddData<Aviso>({data: [response], schema: avisoSchema}),
                             new AvisoEditActions.UpdateAvisoSuccess(response)
                         ])
-                    );
-                }),
+                    )),
                 catchError((err, caught) => {
                     console.log(err);
                     this._store.dispatch(new AvisoEditActions.UpdateAvisoFailed(err));

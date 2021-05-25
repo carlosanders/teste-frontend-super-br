@@ -26,7 +26,7 @@ export class ComponenteDigitalEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Get ComponentesDigitais with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,7 +43,7 @@ export class ComponenteDigitalEffect {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.CreateComponenteDigital>(ComponenteDigitalActions.CREATE_COMPONENTE_DIGITAL),
-                map(action => {
+                map((action) => {
 
                     const componenteDigital = new ComponenteDigital();
                     componenteDigital.modelo = action.payload.modelo;
@@ -55,6 +56,7 @@ export class ComponenteDigitalEffect {
 
     /**
      * Save ComponenteDigital
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -62,8 +64,7 @@ export class ComponenteDigitalEffect {
         this._actions
             .pipe(
                 ofType<ComponenteDigitalActions.SaveComponenteDigital>(ComponenteDigitalActions.SAVE_COMPONENTE_DIGITAL),
-                mergeMap((action) => {
-                    return this._componenteDigitalService.save(action.payload).pipe(
+                mergeMap(action => this._componenteDigitalService.save(action.payload).pipe(
                         mergeMap((response: ComponenteDigital) => [
                             new ComponenteDigitalActions.SaveComponenteDigitalSuccess(response),
                             new AddData<ComponenteDigital>({data: [{...action.payload, ...response}], schema: componenteDigitalSchema}),
@@ -78,8 +79,7 @@ export class ComponenteDigitalEffect {
                             console.log (err);
                             return of(new ComponenteDigitalActions.SaveComponenteDigitalFailed(action.payload));
                         })
-                    );
-                })
+                    ))
             );
 
 }

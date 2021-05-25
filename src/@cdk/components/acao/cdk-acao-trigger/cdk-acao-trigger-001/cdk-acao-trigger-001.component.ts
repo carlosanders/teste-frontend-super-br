@@ -8,9 +8,9 @@ import {
 } from '@angular/core';
 
 import {cdkAnimations} from '@cdk/animations';
-import {Router} from "@angular/router";
-import {Acao, Modelo, Pagination} from "../../../../models";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from '@angular/router';
+import {Acao, Modelo, Pagination} from '../../../../models';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
     selector: 'cdk-acao-trigger-001',
@@ -102,7 +102,7 @@ export class CdkAcaoTrigger001Component implements OnInit, OnDestroy, OnChanges 
 
     selectModelo(modelo?: Modelo): void {
         if (modelo) {
-            this.form.get('modelo').setValue(modelo)
+            this.form.get('modelo').setValue(modelo);
         }
         this.formState = 'form';
     }

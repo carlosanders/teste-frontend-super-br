@@ -23,7 +23,7 @@ export class ProcessoEtiquetaViewEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -32,6 +32,7 @@ export class ProcessoEtiquetaViewEffect {
 
     /**
      * Set imprimirProcessoEtiqueta
+     *
      * @type {Observable<any>}
      */
     @Effect({ dispatch: false })
@@ -45,7 +46,7 @@ export class ProcessoEtiquetaViewEffect {
                         value: ''
                     };
                     const routeParams = of('processoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         if (this.routerState.params[param]) {
                             handle = {
                                 id: param,

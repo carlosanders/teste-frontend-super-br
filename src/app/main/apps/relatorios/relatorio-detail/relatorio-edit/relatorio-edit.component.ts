@@ -64,7 +64,7 @@ export class RelatorioEditComponent implements OnInit, OnDestroy {
         this.relatorio$.pipe(
             filter(relatorio => !this.relatorio || (relatorio.id !== this.relatorio.id)),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(relatorio => {
+        ).subscribe((relatorio) => {
             this.relatorio = relatorio;
         });
     }

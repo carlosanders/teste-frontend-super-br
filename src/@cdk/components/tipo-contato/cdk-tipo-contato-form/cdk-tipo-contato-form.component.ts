@@ -12,7 +12,7 @@ import {
 import {Pagination} from '../../../models';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {cdkAnimations} from '../../../animations';
-import {TipoContato} from "../../../models/tipo-contato.model";
+import {TipoContato} from '../../../models/tipo-contato.model';
 
 @Component({
     selector: 'cdk-tipo-contato-form',
@@ -90,7 +90,7 @@ export class CdkTipoContatoFormComponent implements OnChanges, OnDestroy {
         }
 
         if (!this.errors) {
-            Object.keys(this.form.controls).forEach(key => {
+            Object.keys(this.form.controls).forEach((key) => {
                 this.form.get(key).setErrors(null);
             });
 

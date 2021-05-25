@@ -60,43 +60,43 @@ export class CdkSetorFilterComponent {
         const andXFilter = [];
 
         if (this.form.get('nome').value) {
-            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('nome').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'nome': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('endereco').value) {
-            this.form.get('endereco').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('endereco').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'endereco': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('email').value) {
-            this.form.get('email').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('email').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'email': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('sigla').value) {
-            this.form.get('sigla').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('sigla').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'sigla': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('prefixoNUP').value) {
-            this.form.get('prefixoNUP').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('prefixoNUP').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'prefixoNUP': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('prazoEqualizacao').value) {
-            this.form.get('prazoEqualizacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('prazoEqualizacao').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'prazoEqualizacao': `like:%${bit}%`});
             });
         }
 
         if (this.form.get('sequenciaInicialNUP').value) {
-            this.form.get('sequenciaInicialNUP').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach(bit => {
+            this.form.get('sequenciaInicialNUP').value.split(' ').filter(bit => !!bit && bit.length >= 2).forEach((bit) => {
                 andXFilter.push({'sequenciaInicialNUP': `like:%${bit}%`});
             });
         }

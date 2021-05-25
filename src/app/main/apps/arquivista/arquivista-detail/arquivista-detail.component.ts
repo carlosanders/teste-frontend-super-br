@@ -29,7 +29,7 @@ import {
 import {getRouterState, getScreenState} from '../../../../store';
 import {takeUntil} from 'rxjs/operators';
 import {cdkAnimations} from '@cdk/animations';
-import {getModalidadeTransicao} from "../arquivista-list/store";
+import {getModalidadeTransicao} from '../arquivista-list/store';
 
 @Component({
     selector: 'arquivista-detail',
@@ -120,14 +120,14 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this._store.pipe(
             select(getRouterState),
             takeUntil(this._unsubscribeAll)
-        ).subscribe(routerState => {
+        ).subscribe((routerState) => {
             if (routerState) {
                 this.routerState = routerState.state;
             }
         });
         this.processo$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(processo => {
+        ).subscribe((processo) => {
             this.processo = processo;
         });
 
@@ -140,14 +140,14 @@ export class ArquivistaDetailComponent implements OnInit, OnDestroy, AfterViewIn
         this.expandir$.pipe(
             takeUntil(this._unsubscribeAll)
         ).subscribe(
-            expandir => {
+            (expandir) => {
                 this.doToggleMaximizado(expandir);
             }
         );
 
         this.screen$.pipe(
             takeUntil(this._unsubscribeAll)
-        ).subscribe(screen => {
+        ).subscribe((screen) => {
             if (screen.size !== 'desktop') {
                 this.mobileMode = true;
             } else {

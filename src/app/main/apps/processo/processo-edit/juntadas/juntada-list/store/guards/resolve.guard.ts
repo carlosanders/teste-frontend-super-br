@@ -19,14 +19,14 @@ export class ResolveGuard implements CanActivate {
     /**
      * Constructor
      *
-     * @param {Store<JuntadaListAppState>} _store
+     * @param _store
      */
     constructor(
         private _store: Store<JuntadaListAppState>
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,9 +36,9 @@ export class ResolveGuard implements CanActivate {
     /**
      * Can activate
      *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<boolean>}
+     * @param route
+     * @param state
+     * @returns
      */
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         return this.getJuntadas().pipe(
@@ -50,7 +50,7 @@ export class ResolveGuard implements CanActivate {
     /**
      * Get Juntadas
      *
-     * @returns {Observable<any>}
+     * @returns
      */
     getJuntadas(): any {
         return this._store.pipe(
@@ -61,7 +61,7 @@ export class ResolveGuard implements CanActivate {
                     let processoId = null;
 
                     const routeParams = of('processoHandle');
-                    routeParams.subscribe(param => {
+                    routeParams.subscribe((param) => {
                         processoId = `eq:${this.routerState.params[param]}`;
                     });
 
@@ -85,9 +85,7 @@ export class ResolveGuard implements CanActivate {
                     this._store.dispatch(new fromStore.GetJuntadas(params));
                 }
             }),
-            filter((loaded: any) => {
-                return this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value;
-            }),
+            filter((loaded: any) => this.routerState.params[loaded.id] && this.routerState.params[loaded.id] === loaded.value),
             take(1)
         );
     }

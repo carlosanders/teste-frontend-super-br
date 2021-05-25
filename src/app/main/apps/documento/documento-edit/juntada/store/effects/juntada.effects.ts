@@ -35,7 +35,7 @@ export class JuntadaEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -46,6 +46,7 @@ export class JuntadaEffects {
 
     /**
      * Get Documento with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -53,14 +54,12 @@ export class JuntadaEffects {
         this._actions
             .pipe(
                 ofType<JuntadaActions.GetJuntada>(JuntadaActions.GET_JUNTADA),
-                switchMap((action) => {
-                    return this._juntadaService.query(
+                switchMap(action => this._juntadaService.query(
                         `{"documento.id": "eq:${action.payload}"}`,
                         1,
                         0,
                         JSON.stringify({}),
-                        JSON.stringify(['volume']));
-                }),
+                        JSON.stringify(['volume']))),
                 switchMap(response => [
                     new AddData<Juntada>({data: response['entities'], schema: juntadaSchema}),
                     new JuntadaActions.GetJuntadaSuccess({
@@ -80,6 +79,7 @@ export class JuntadaEffects {
 
     /**
      * Save Juntada
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -87,8 +87,7 @@ export class JuntadaEffects {
         this._actions
             .pipe(
                 ofType<JuntadaActions.SaveJuntada>(JuntadaActions.SAVE_JUNTADA),
-                switchMap((action) => {
-                    return this._juntadaService.save(action.payload).pipe(
+                switchMap(action => this._juntadaService.save(action.payload).pipe(
                         mergeMap((response: Juntada) => [
                             new JuntadaActions.SaveJuntadaSuccess(),
                             new UpdateData<Juntada>({id: response.id, schema: juntadaSchema, changes: {descricao: response.descricao}}),
@@ -102,8 +101,7 @@ export class JuntadaEffects {
                             console.log(err);
                             return of(new JuntadaActions.SaveJuntadaFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
 }

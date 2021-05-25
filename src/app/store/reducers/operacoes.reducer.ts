@@ -109,7 +109,7 @@ export function OperacoesReducer(state = OperacoesInitialState, action: Operacoe
             return {
                 ...state,
                 currentLote: action.payload
-            }
+            };
         }
 
         default:

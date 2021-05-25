@@ -6,7 +6,7 @@ import {Classificacao} from '@cdk/models';
 import * as fromStore from './store';
 import {getRouterState} from '../../../../../store';
 import {cdkAnimations} from '@cdk/animations';
-import {UnloadClassificacao} from "./store";
+import {UnloadClassificacao} from './store';
 
 
 @Component({
@@ -42,7 +42,7 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -50,7 +50,7 @@ export class ClassificacaoListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

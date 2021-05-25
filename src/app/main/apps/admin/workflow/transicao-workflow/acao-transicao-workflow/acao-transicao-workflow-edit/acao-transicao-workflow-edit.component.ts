@@ -11,8 +11,8 @@ import {AcaoTransicaoWorkflow, TipoAcaoWorkflow, TransicaoWorkflow} from '@cdk/m
 import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {Back} from '../../../../../../../store/actions';
-import {getRouterState} from "../../../../../../../store/reducers";
-import {Router} from "@angular/router";
+import {getRouterState} from '../../../../../../../store/reducers';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'acao-transicao-workflow-edit',
@@ -32,7 +32,7 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
     tipoAcaoWorkflowList: TipoAcaoWorkflow[];
     tipoAcaoWorkflowList$: Observable<TipoAcaoWorkflow[]>;
     action: string;
-    componentUrl:string;
+    componentUrl: string;
 
 
     /**
@@ -49,7 +49,7 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 this.action = '';
                 if (routerState) {
                     this.routerState = routerState.state;
@@ -105,7 +105,7 @@ export class AcaoTransicaoWorkflowEditComponent implements OnInit, OnDestroy {
             }
         );
 
-        const transicaoWorkflow:TransicaoWorkflow = new TransicaoWorkflow();
+        const transicaoWorkflow: TransicaoWorkflow = new TransicaoWorkflow();
         transicaoWorkflow.id = parseInt(this.routerState.params.transicaoWorkflowHandle);
         acao.transicaoWorkflow = transicaoWorkflow;
 

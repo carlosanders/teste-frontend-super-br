@@ -12,7 +12,7 @@ import {VinculacaoModeloService} from '@cdk/services/vinculacao-modelo.service';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoModelo} from '@cdk/models';
 import {vinculacaoModelo as vinculacaoModeloSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../../@cdk/utils";
+import {CdkUtils} from '../../../../../../../../../@cdk/utils';
 
 @Injectable()
 export class ModelosEspecieSetorListEffects {
@@ -26,7 +26,7 @@ export class ModelosEspecieSetorListEffects {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -35,6 +35,7 @@ export class ModelosEspecieSetorListEffects {
 
     /**
      * Get VinculacoesModelo with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -42,8 +43,7 @@ export class ModelosEspecieSetorListEffects {
         this._actions
             .pipe(
                 ofType<ModelosEspecieSetorListActions.GetModelosEspecieSetor>(ModelosEspecieSetorListActions.GET_MODELOS_ESPECIE_SETOR),
-                switchMap((action) => {
-                    return this._vinculacaoModeloService.query(
+                switchMap(action => this._vinculacaoModeloService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -53,7 +53,7 @@ export class ModelosEspecieSetorListEffects {
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)).pipe(
-                        mergeMap((response) => [
+                        mergeMap(response => [
                             new AddData<VinculacaoModelo>({data: response['entities'], schema: vinculacaoModeloSchema}),
                             new ModelosEspecieSetorListActions.GetModelosEspecieSetorSuccess({
                                 entitiesId: response['entities'].map(vinculacaoModelo => vinculacaoModelo.id),
@@ -68,12 +68,12 @@ export class ModelosEspecieSetorListEffects {
                             console.log(err);
                             return of(new ModelosEspecieSetorListActions.GetModelosEspecieSetorFailed(err));
                         })
-                    );
-                })
+                    ))
             );
 
     /**
      * Delete VinculacaoModelo
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -81,9 +81,8 @@ export class ModelosEspecieSetorListEffects {
         this._actions
             .pipe(
                 ofType<ModelosEspecieSetorListActions.DeleteModeloEspecieSetor>(ModelosEspecieSetorListActions.DELETE_MODELO_ESPECIE_SETOR),
-                mergeMap((action) => {
-                    return this._vinculacaoModeloService.destroy(action.payload).pipe(
-                        map((response) => new ModelosEspecieSetorListActions.DeleteModeloEspecieSetorSuccess(response.id)),
+                mergeMap(action => this._vinculacaoModeloService.destroy(action.payload).pipe(
+                        map(response => new ModelosEspecieSetorListActions.DeleteModeloEspecieSetorSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new ModelosEspecieSetorListActions.DeleteModeloEspecieSetorFailed(
@@ -92,7 +91,6 @@ export class ModelosEspecieSetorListEffects {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

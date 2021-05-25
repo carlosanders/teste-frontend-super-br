@@ -54,7 +54,7 @@ export class GetEspecieSetorFailed implements Action
  export class UnloadEspecieSetor implements Action
  {
      readonly type = UNLOAD_ESPECIE_SETOR;
- 
+
      constructor()
      {
      }

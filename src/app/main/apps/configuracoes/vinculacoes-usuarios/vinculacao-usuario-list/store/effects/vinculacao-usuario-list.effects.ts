@@ -12,8 +12,8 @@ import {VinculacaoUsuarioService} from '@cdk/services/vinculacao-usuario.service
 import {AddData} from '@cdk/ngrx-normalizr';
 import {VinculacaoUsuario} from '@cdk/models';
 import {vinculacaoUsuario as vinculacaoUsuarioSchema} from '@cdk/normalizr';
-import {CdkUtils} from "../../../../../../../../@cdk/utils";
-import * as TipoDocumentoListActions from "../../../../../admin/tipo-documento/tipo-documento-list/store/actions";
+import {CdkUtils} from '../../../../../../../../@cdk/utils';
+import * as TipoDocumentoListActions from '../../../../../admin/tipo-documento/tipo-documento-list/store/actions';
 
 @Injectable()
 export class VinculacaoUsuarioListEffect {
@@ -27,7 +27,7 @@ export class VinculacaoUsuarioListEffect {
     ) {
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -36,6 +36,7 @@ export class VinculacaoUsuarioListEffect {
 
     /**
      * Get VinculacoesUsuarios with router parameters
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -43,8 +44,7 @@ export class VinculacaoUsuarioListEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoUsuarioListActions.GetVinculacoesUsuarios>(VinculacaoUsuarioListActions.GET_VINCULACOES_USUARIOS),
-                switchMap((action) => {
-                    return this._vinculacaoUsuarioService.query(
+                switchMap(action => this._vinculacaoUsuarioService.query(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
@@ -53,9 +53,8 @@ export class VinculacaoUsuarioListEffect {
                         action.payload.offset,
                         JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
-                        JSON.stringify(action.payload.context));
-                }),
-                mergeMap((response) => [
+                        JSON.stringify(action.payload.context))),
+                mergeMap(response => [
                     new AddData<VinculacaoUsuario>({data: response['entities'], schema: vinculacaoUsuarioSchema}),
                     new VinculacaoUsuarioListActions.GetVinculacoesUsuariosSuccess({
                         entitiesId: response['entities'].map(vinculacaoUsuario => vinculacaoUsuario.id),
@@ -76,6 +75,7 @@ export class VinculacaoUsuarioListEffect {
 
     /**
      * Delete VinculacaoUsuario
+     *
      * @type {Observable<any>}
      */
     @Effect()
@@ -83,9 +83,8 @@ export class VinculacaoUsuarioListEffect {
         this._actions
             .pipe(
                 ofType<VinculacaoUsuarioListActions.DeleteVinculacaoUsuario>(VinculacaoUsuarioListActions.DELETE_VINCULACAO_USUARIO),
-                mergeMap((action) => {
-                    return this._vinculacaoUsuarioService.destroy(action.payload).pipe(
-                        map((response) => new VinculacaoUsuarioListActions.DeleteVinculacaoUsuarioSuccess(response.id)),
+                mergeMap(action => this._vinculacaoUsuarioService.destroy(action.payload).pipe(
+                        map(response => new VinculacaoUsuarioListActions.DeleteVinculacaoUsuarioSuccess(response.id)),
                         catchError((err) => {
                             console.log(err);
                             return of(new VinculacaoUsuarioListActions.DeleteVinculacaoUsuario(
@@ -94,7 +93,6 @@ export class VinculacaoUsuarioListEffect {
                                 })
                             );
                         })
-                    );
-                })
+                    ))
             );
 }

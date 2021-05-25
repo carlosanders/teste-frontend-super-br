@@ -26,9 +26,9 @@ export class PesquisaComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ChangeDetectorRef} _changeDetectorRef
-     * @param {CdkSidebarService} _cdkSidebarService
-     * @param {CdkTranslationLoaderService} _cdkTranslationLoaderService
+     * @param _changeDetectorRef
+     * @param _cdkSidebarService
+     * @param _cdkTranslationLoaderService
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,

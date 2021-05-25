@@ -15,7 +15,7 @@ import {select, Store} from '@ngrx/store';
 import * as fromStore from './store';
 import {getRouterState} from 'app/store/reducers';
 
-import {UnloadRepositorios} from "./store";
+import {UnloadRepositorios} from './store';
 
 
 @Component({
@@ -59,7 +59,7 @@ export class RepositorioListComponent implements OnInit, OnDestroy {
 
         this._store
             .pipe(select(getRouterState))
-            .subscribe(routerState => {
+            .subscribe((routerState) => {
                 if (routerState) {
                     this.routerState = routerState.state;
                 }
@@ -67,7 +67,7 @@ export class RepositorioListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.pagination$.subscribe(pagination => {
+        this.pagination$.subscribe((pagination) => {
             this.pagination = pagination;
         });
     }

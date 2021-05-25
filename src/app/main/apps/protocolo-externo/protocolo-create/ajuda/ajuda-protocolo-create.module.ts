@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule} from '@cdk/angular/material';
 
 
 import { AjudaProtocoloCreateComponent } from './ajuda-protocolo-create.component';

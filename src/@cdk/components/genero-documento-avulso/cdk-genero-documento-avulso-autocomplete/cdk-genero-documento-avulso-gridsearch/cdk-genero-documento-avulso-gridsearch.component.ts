@@ -73,7 +73,7 @@ export class CdkGeneroDocumentoAvulsoGridsearchComponent implements OnInit {
             JSON.stringify(params.populate))
             .pipe(finalize(() => this.loading = false),
                 catchError(() => of([]))
-            ).subscribe(response => {
+            ).subscribe((response) => {
             this.generoDocumentoAvulsos = response['entities'];
             this.total = response['total'];
             this._changeDetectorRef.markForCheck();

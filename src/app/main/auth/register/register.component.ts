@@ -7,7 +7,7 @@ import {cdkAnimations} from '@cdk/animations';
 
 import * as fromStore from './store';
 import {Usuario} from '@cdk/models';
-import {MustMatch} from "./must-match.validator";
+import {MustMatch} from './must-match.validator';
 
 @Component({
     selector: 'register',
