@@ -150,7 +150,12 @@
                 <div class="menu_content nav-link" matRipple [routerLink]="'/apps/tarefas/' + generoHandle + '/minhas-tarefas/lixeira'"
                      [routerLinkActive]="['active', 'accent']" (click)="fecharSidebar()">
                     <div class="menu_content_label">
-                        <mat-icon class="nav-link-icon">delete</mat-icon>
+                        <mat-icon class="nav-link-icon"
+                                  matBadge="{{tarefasPendentes['lixeira_' + generoHandleAcentuado]}}"
+                                  matBadgeColor="warn"
+                                  matBadgeSize="small">
+                            delete
+                        </mat-icon>
                         <span style="flex: 1 1 auto;">Lixeira</span>
                         <mat-icon class="place-holder">
                             assignment_return
