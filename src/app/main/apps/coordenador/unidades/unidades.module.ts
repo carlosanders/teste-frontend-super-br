@@ -21,6 +21,7 @@ import {CdkSidebarModule} from '@cdk/components';
 import {UnidadesOrgaoCentralMainSidebarComponent} from './sidebars/main/main-sidebar.component';
 import {CommonModule} from '@angular/common';
 import {modulesConfig} from 'modules/modules-config';
+import {AvisoService} from "@cdk/services/aviso.service";
 
 const routes: Routes = [
     {
@@ -55,6 +56,10 @@ const routes: Routes = [
             {
                 path       : 'numeros-unicos-documentos',
                 loadChildren: () => import('../numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
+            },
+            {
+                path       : 'avisos',
+                loadChildren: () => import('../avisos/aviso.module').then(m => m.AvisoModule),
             },
             {
                 path: '**',
@@ -102,6 +107,7 @@ modulesConfig.forEach((module) => {
         UsuarioService,
         SetorService,
         ModalidadeOrgaoCentralService,
+        AvisoService,
         fromGuards.ResolveGuard
     ],
     exports: [

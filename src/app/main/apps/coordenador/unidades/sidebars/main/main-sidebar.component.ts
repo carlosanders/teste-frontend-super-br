@@ -69,6 +69,11 @@ export class UnidadesOrgaoCentralMainSidebarComponent implements OnInit {
                 nome: 'Setores da Unidade',
                 icon: 'domain',
                 link: 'setor'
+            },
+            {
+                nome: 'Avisos da Unidade',
+                icon: 'info',
+                link: 'avisos'
             }
         ];
 
