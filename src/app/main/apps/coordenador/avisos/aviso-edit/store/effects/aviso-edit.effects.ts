@@ -49,11 +49,12 @@ export class AvisoEditEffects {
                     return this._avisoService.get(
                         action.payload.id,
                         JSON.stringify([
-                            'populateAll',
-                            'vinculacoesAvisos',
-                            'vinculacoesAvisos.setor',
-                            'vinculacoesAvisos.usuario',
-                            'vinculacoesAvisos.modalidadeOrgaoCentral',
+                            "aviso",
+                            "vinculacoesAvisos",
+                            "vinculacoesAvisos.setor",
+                            "vinculacoesAvisos.modalidadeOrgaoCentral",
+                            "vinculacoesAvisos.unidade",
+                            "vinculacoesAvisos.setor.unidade"
                         ]),
                         JSON.stringify({isAdmin: true}));
                 }),
