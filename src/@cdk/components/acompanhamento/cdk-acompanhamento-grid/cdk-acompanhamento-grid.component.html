@@ -199,6 +199,14 @@
                         </button>
 
                         <button mat-icon-button
+                                *ngIf="actions.indexOf('view') > -1 && !hasExcluded"
+                                (click)="viewProcesso(acompanhamento)"
+                                aria-label="visualizar"
+                                matTooltip="Visualizar">
+                            <mat-icon>pageview</mat-icon>
+                        </button>
+
+                        <button mat-icon-button
                                 *ngIf="actions.indexOf('edit') > -1"
                                 [disabled]="deletedIds?.indexOf(acompanhamento.id) > -1 && !hasExcluded"
                                 (click)="editAcompanhamento(acompanhamento.id)"
