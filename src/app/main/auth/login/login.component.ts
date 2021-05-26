@@ -9,6 +9,7 @@ import {environment} from '../../../../environments/environment';
 import {getRouterState} from '../../../store';
 import {getConfig, getErrorMessage, getLoadingConfig} from './store/selectors';
 import {LoginService} from './login.service';
+import {filter} from "rxjs/operators";
 
 @Component({
     selector     : 'login',
@@ -89,7 +90,9 @@ export class LoginComponent implements OnInit
             this.loading$.next(false);
         });
 
-        this.config$.subscribe((config) => {
+        this.config$.pipe(
+            filter(config => !!config)
+        ).subscribe((config) => {
             this.config = config;
             window.document.title = config.sigla;
             this.cdkConfigService.logo = config.logo;

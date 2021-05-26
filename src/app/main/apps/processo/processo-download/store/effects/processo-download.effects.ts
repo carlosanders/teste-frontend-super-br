@@ -54,7 +54,7 @@ export class ProcessoDownloadEffect {
                             };
                         }
                     });
-                    return this._processoService.downloadAsPdf(handle.value, action.payload);
+                    return this._processoService.downloadAsPdf(handle.value, (action.payload ? action.payload : 'all'));
                 }),
                 tap((response) => {
                     if (response && response.conteudo) {
@@ -115,7 +115,7 @@ export class ProcessoDownloadEffect {
                             };
                         }
                     });
-                    return this._processoService.downloadAsZip(handle.value, action.payload);
+                    return this._processoService.downloadAsZip(handle.value, (action.payload ? action.payload : 'all'));
                 }),
                 tap((response) => {
                     if (response && response.conteudo) {
