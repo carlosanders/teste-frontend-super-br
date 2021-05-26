@@ -70,6 +70,10 @@ const routes: Routes = [
                 loadChildren: () => import('../numero-unico-documento/numero-unico-documento.module').then(m => m.NumeroUnicoDocumentoModule),
             },
             {
+                path       : 'avisos',
+                loadChildren: () => import('../avisos/aviso.module').then(m => m.AvisoModule),
+            },
+            {
                 path: '**',
                 redirectTo: 'listar'
             }

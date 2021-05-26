@@ -18,8 +18,10 @@
             <mat-list-item *ngFor="let aviso of avisos">
                 <mat-icon matTooltip={{this.getTooltip(aviso.vinculacoesAvisos[0])}} mat-list-icon>{{this.getIcon(aviso.vinculacoesAvisos[0])}}</mat-icon>
                 <div mat-line class="descricao">{{aviso.descricao}}</div>
-                <div mat-line>{{aviso.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm'}}</div>
-                <hr>
+                <div mat-line>{{this.getTooltip(aviso.vinculacoesAvisos[0]) + ' - '}}
+                    {{aviso.criadoEm?.toDate() | date: 'dd/MM/yyyy HH:mm'}}
+                </div>
+            <mat-divider></mat-divider>
             </mat-list-item>
         </mat-list>
     </mat-card-content>

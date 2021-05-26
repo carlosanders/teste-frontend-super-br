@@ -11,11 +11,12 @@
         [deletingIds]="(deletingIds$ | async)"
         [deletedIds]="(deletedIds$ | async)"
         [deletingErrors]="(deletingErrors$ | async)"
-        [actions]="['create', 'edit', 'delete', 'showDeleted']"
+        [actions]="['create', 'edit', 'delete', 'showDeleted', 'view']"
         [displayedColumns]="['select', 'id', 'processo', 'actions']"
         (reload)="reload($event)"
         (excluded)="excluded($event)"
         (edit)="edit($event)"
         (create)="create()"
-        (delete)="delete($event)">
+        (delete)="delete($event)"
+        (view)="view($event)">
 </cdk-acompanhamento-grid>

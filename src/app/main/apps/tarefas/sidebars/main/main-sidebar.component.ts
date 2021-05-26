@@ -365,6 +365,7 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
      */
     create(): void {
         this._store.dispatch(new fromStore.CreateTarefa());
+        this.fecharSidebar();
     }
 
     fechaOrgaoCentral(): void {
@@ -696,6 +697,13 @@ export class TarefasMainSidebarComponent implements OnInit, OnDestroy {
             } else {
                 this.tarefasPendentes['caixa_entrada_' + this.generoHandleAcentuado] = 0;
             }
+
+            if (this.counterState['lixeira_' + this.generoHandleAcentuado] !== undefined) {
+                this.tarefasPendentes['lixeira_' + this.generoHandleAcentuado] = this.counterState['lixeira_' + this.generoHandleAcentuado];
+            } else {
+                this.tarefasPendentes['lixeira_' + this.generoHandleAcentuado] = 0;
+            }
+
         }
         this._changeDetectorRef.markForCheck();
     }

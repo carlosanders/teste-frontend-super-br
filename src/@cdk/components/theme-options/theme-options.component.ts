@@ -347,5 +347,8 @@ export class CdkThemeOptionsComponent implements OnInit, OnDestroy
     toggleSidebarOpen(key): void
     {
         this._cdkSidebarService.getSidebar(key).toggleOpen();
+        if(!this._cdkSidebarService.getSidebar('navbar').isLockedOpen) {
+            this._cdkSidebarService.getSidebar('navbar').close();
+        }
     }
 }

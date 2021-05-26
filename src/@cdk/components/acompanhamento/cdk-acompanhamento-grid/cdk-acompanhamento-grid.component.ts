@@ -18,8 +18,9 @@ import {CdkSidebarService} from '@cdk/components/sidebar/sidebar.service';
 import {MatPaginator, MatSort} from '@cdk/angular/material';
 import {debounceTime, distinctUntilChanged, switchMap, tap} from 'rxjs/operators';
 import {AcompanhamentoDataSource} from '@cdk/data-sources/acompanhamento-data-source';
-import {Compartilhamento} from '@cdk/models';
+import {Compartilhamento, Processo} from '@cdk/models';
 import {FormControl} from '@angular/forms';
+import {CdkChaveAcessoPluginComponent} from "../../chave-acesso/cdk-chave-acesso-plugins/cdk-chave-acesso-plugin.component";
 
 @Component({
     selector: 'cdk-acompanhamento-grid',
@@ -45,6 +46,9 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
 
     @Output()
     create = new EventEmitter<any>();
+
+    @Output()
+    view = new EventEmitter<any>();
 
     @Input()
     displayedColumns: string[] = ['select', 'id', 'usuario.nome', 'actions'];
@@ -344,5 +348,9 @@ export class CdkAcompanhamentoGridComponent implements AfterViewInit, OnInit, On
             return obj[prop];
         }
         return false;
+    }
+
+    viewProcesso(acompanhamento: Compartilhamento): void {
+            this.view.emit({id: acompanhamento.processo.id});
     }
 }
