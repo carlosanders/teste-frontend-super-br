@@ -88,9 +88,7 @@
              [folded]="false"
              [foldedAutoTriggerOnHover]="false"
              [hidden]="false">
-    <chat-panel
-        *ngIf="!!userProfile"
-        (toogleChatHandler)="toogleChat($event)">
+    <chat-panel (toogleChatHandler)="toogleChat($event)">
     </chat-panel>
 </cdk-sidebar>
 <!-- / CHAT PANEL -->
