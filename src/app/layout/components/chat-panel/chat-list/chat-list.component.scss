@@ -10,14 +10,14 @@ chat-list {
         display: flex;
         flex: 1 1 auto;
 
-        .avatar {
+        chat-imagem {
             margin: 5px;
         }
 
         .chat-info {
             display: flex;
             flex-direction: column;
-            margin: 5px;
+            margin: auto 0;
 
             .chat-mensagem {
                 color: rgba(0, 0, 0, 0.54);

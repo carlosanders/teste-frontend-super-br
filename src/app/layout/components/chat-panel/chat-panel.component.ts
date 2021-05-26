@@ -8,10 +8,10 @@ import {
     ViewChild,
     ViewEncapsulation
 } from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import {BehaviorSubject, Observable, Subject} from 'rxjs';
-import {Chat, ChatMensagem, Pagination, Usuario} from "@cdk/models";
+import {Observable, Subject} from 'rxjs';
+import {Chat, ChatMensagem, Usuario} from "@cdk/models";
 import {select, Store} from '@ngrx/store';
 import {Router} from "@angular/router";
 import * as fromStore from './store';
@@ -21,16 +21,18 @@ import {
     GetChat,
     GetChatIncrement,
     GetMensagens,
-    GetMensagensIncrement,
+    GetMensagensIncrement, LimparMensagensNaoLidas, MensagensNaoLidas,
     OpenChat
 } from "./store";
 import {LoginService} from "../../../main/auth/login/login.service";
 import {CdkSidebarService} from "../../../../@cdk/components/sidebar/sidebar.service";
 import {cdkAnimations} from "@cdk/animations";
-import {filter, takeUntil, tap} from "rxjs/operators";
+import {filter, takeUntil} from "rxjs/operators";
 import {MercureService} from "../../../../@cdk/services/mercure.service";
 import * as loginStoreSelectores from "../../../main/auth/login/store/selectors";
 import {IInfiniteScrollEvent} from "ngx-infinite-scroll/src/models";
+import {isArray} from "rxjs/internal-compatibility";
+import {ChatUtils} from "./utils/chat.utils";
 
 @Component({
     selector: 'chat-panel',
@@ -65,6 +67,10 @@ export class ChatPanelComponent implements OnInit, OnDestroy
     chatMensagemLoading$: Observable<boolean>;
     chatMensagemScrollBottom:boolean = true;
 
+    chatMensagensBuffer: ChatMensagem[] = [];
+    recarregaMensagens: boolean = true;
+    chatMensagensTimer:NodeJS.Timeout = null;
+
     /**
      * Global controls
      */
@@ -90,6 +96,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
      * @param _cdkSidebarService
      * @param _formBuilder
      * @param _mercureService
+     * @param chatUtils
      */
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
@@ -98,7 +105,8 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         private _loginService: LoginService,
         private _cdkSidebarService: CdkSidebarService,
         private _formBuilder: FormBuilder,
-        private _mercureService: MercureService
+        private _mercureService: MercureService,
+        public chatUtils: ChatUtils
     )
     {
         this.chatList$ = this._store.pipe(
@@ -143,7 +151,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         ).subscribe(profile => this.getChatsUsuario(profile));
 
         this.chatMensagemForm = this._formBuilder.group({
-            mensagem: [null]
+            mensagem: [null, [Validators.required]]
         });
     }
 
@@ -168,6 +176,8 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                 this.chatOpen = chat;
                 this._mercureService.subscribe('/v1/administrativo/chat/'+this.chatOpen.id);
 
+                this._store.dispatch(new LimparMensagensNaoLidas(this.chatUtils.getParticipante(chat.participantes)));
+
                 this.getChatMensagens({
                     ...this.chatMensagemPaginator,
                     filter: {'chat.id': 'eq:'+chat.id},
@@ -177,7 +187,9 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                         'populateAll',
                         'chat.participantes',
                         'chat.participantes.usuario',
-                        'chat.ultimaMensagem'
+                        'chat.participantes.usuario.imgPerfil',
+                        'chat.ultimaMensagem',
+                        'chat.ultimaMensagem.usuario'
                     ],
                     sort: {'criadoEm':'DESC'}
                 });
@@ -185,6 +197,8 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                 setTimeout(() => this.mensagemElementRef.nativeElement.focus());
 
                 this.toogleChatHandler.emit(true);
+            } else if (chat?.id === this.chatOpen?.id) {
+                this.chatOpen = chat;
             }
         });
         this.chatMensagens$.subscribe(chatMensagens => {
@@ -193,7 +207,8 @@ export class ChatPanelComponent implements OnInit, OnDestroy
             } else {
                 // Tratamento para melhorar a experiência do usuário junto ao scroll no
                 // Envio de uma nova mensagem...
-                let recarregaMensagens = true;
+                this.chatMensagensBuffer = chatMensagens;
+                this.recarregaMensagens = true;
                 if (chatMensagens.length) {
                     let mensagensSemId = this.chatMensagens.filter(chatMensagem => !chatMensagem.id);
 
@@ -206,13 +221,25 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                         if (!matchMensagem.length) {
                             // Espera a próxima atualização do subscribe para vir com a mensagem em questão
                             // e vir como enviado (data/hora)
-                            recarregaMensagens = false;
+                            this.recarregaMensagens = false;
                         }
                     });
                 }
 
-                if (recarregaMensagens) {
+                if (this.recarregaMensagens) {
                     this.chatMensagens = chatMensagens;
+                    this.chatMensagensBuffer = [];
+                }else{
+                    if (this.chatMensagensTimer) {
+                        clearTimeout(this.chatMensagensTimer);
+                        this.chatMensagensTimer = null;
+                    }
+                    this.chatMensagensTimer = setTimeout(() => {
+                        if (!this.recarregaMensagens && this.chatMensagensBuffer.length) {
+                            this.chatMensagens = this.chatMensagensBuffer;
+                            this.chatMensagensTimer = null;
+                        }
+                    }, 3000);
                 }
             }
             this.scrollChatMensagensToBottom();
@@ -225,7 +252,13 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         });
 
         this.chatList$.subscribe(chatList => {
-            this.chatList = chatList
+            this.chatList = chatList;
+
+            if (isArray(chatList)) {
+                this._store.dispatch(
+                    new MensagensNaoLidas(this.chatUtils.getChatListTotalMensagensNaoLidas(chatList, this.chatOpen))
+                );
+            }
         });
 
         this.chatPaginator$.subscribe(paginator => this.chatPaginator = paginator);
@@ -236,16 +269,24 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         }
     }
 
-    private getChatsUsuario(usuario: Usuario, filter:any = {}): void
+    private getChatsUsuario(usuario: Usuario, keyword:string = ''): void
     {
         this.usuarioLogado = usuario;
         this.usuarioAutenticado = true;
+        let gridFilter = {};
+
+        if (keyword.length > 0) {
+            gridFilter = {'keyword': keyword};
+        }
         this._store.dispatch(new GetChat({
-            filter: {
-                'outrosParticipantes.usuario.id': 'eq:' + usuario.id
-            },
-            gridFilter: filter,
-            populate: ['participantes.usuario', 'ultimaMensagem.usuario', 'populateAll'],
+            gridFilter: gridFilter,
+            populate: [
+                'participantes.usuario',
+                'participantes.usuario.imgPerfil',
+                'ultimaMensagem',
+                'ultimaMensagem.usuario',
+                'populateAll'
+            ],
             limit: 10,
             offset: 0,
             sort: {atualizadoEm: 'DESC'}
@@ -285,7 +326,9 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                 'populateAll',
                 'chat.participantes',
                 'chat.participantes.usuario',
-                'chat.ultimaMensagem'
+                'chat.participantes.usuario.imgPerfil',
+                'chat.ultimaMensagem',
+                'chat.ultimaMensagem.usuario',
             ],
             sort: {'criadoEm':'DESC'}
         }));
@@ -296,6 +339,9 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         this.toogleChatHandler.emit(false);
         if (this.chatOpen && this.chatOpen.id) {
             this._mercureService.unsubscribe('/v1/administrativo/chat/'+this.chatOpen.id);
+            this._store.dispatch(new LimparMensagensNaoLidas(
+                this.chatUtils.getParticipante(this.chatOpen.participantes))
+            );
         }
         this._store.dispatch(new CloseChat(this.chatOpen));
         this.chatOpen = null;
@@ -308,6 +354,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
         } else {
             this._cdkSidebarService.getSidebar('chatPanel').toggleFold();
         }
+
     }
 
     enviarMensagem(chat: Chat): void
@@ -329,20 +376,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
 
     pesquisaChat(keyword: string = ''): void
     {
-        const filter = {};
-        if (keyword) {
-            const criteria = [];
-            keyword.split(' ')
-                .filter(bit => !!bit && bit.length >= 2)
-                .forEach(bit => {
-                    criteria.push({'nome': `like:%${bit}%`});
-                    criteria.push({'descricao': `like:%${bit}%`});
-                    criteria.push({'participantes.usuario.nome': `like:%${bit}%`});
-            });
-
-            filter['orX'] = criteria;
-        }
-        this.getChatsUsuario(this.usuarioLogado, filter);
+        this.getChatsUsuario(this.usuarioLogado, keyword);
     }
 
     onScrollChatList(scrollEvent: IInfiniteScrollEvent): void
@@ -353,9 +387,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
 
         const nparams = {
             ...this.chatPaginator,
-            filter: {
-                'participantes.usuario.id': 'eq:' + this._loginService.getUserProfile().id
-            },
+            limit: 10,
             offset: this.chatList.length
         };
         this._store.dispatch(new GetChatIncrement(nparams));

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, ofType, createEffect} from '@ngrx/effects';
-import {catchError, mergeMap, switchMap} from 'rxjs/operators';
+import {catchError, concatMap, mergeMap, switchMap} from 'rxjs/operators';
 import * as ChatMensagemActions from '../actions/chat-mensagem.actions';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {ChatMensagem} from '@cdk/models';
@@ -94,11 +94,10 @@ export class ChatMensagemEffects {
         return this._actions
             .pipe(
                 ofType<ChatMensagemActions.EnviarMensagem>(ChatMensagemActions.ENVIAR_MENSAGEM),
-                switchMap((action) => {
+                concatMap((action) => {
                     return this._chatMensagemService.save(action.payload).pipe(
                         mergeMap((response: ChatMensagem) => [
                             new ChatMensagemActions.EnviarMensagemSuccess(response),
-                            new AddData<ChatMensagem>({data: [response], schema: chatMensagemSchema})
                         ])
                     );
                 }),
@@ -108,4 +107,5 @@ export class ChatMensagemEffects {
                 })
             );
     });
+
 }

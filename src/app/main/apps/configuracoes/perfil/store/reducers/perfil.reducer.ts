@@ -1,6 +1,8 @@
 import * as ProfileActions from '../actions/perfil.actions';
 
 export interface ProfileState {
+    imgPerfilId: number;
+    imgChancelaId: number;
     saving: boolean;
     errors: any;
     loading: boolean;
@@ -8,6 +10,8 @@ export interface ProfileState {
 }
 
 export const ProfileInitialState: ProfileState = {
+    imgPerfilId: null,
+    imgChancelaId: null,
     saving: false,
     errors: false,
     loading: false,
@@ -37,6 +41,58 @@ export function PerfilReducer(
         }
 
         case ProfileActions.SAVE_PERFIL_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
+        }
+
+        case ProfileActions.UPLOAD_IMAGEM_PERFIL: {
+            return {
+                ...state,
+                imgPerfilId: null,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case ProfileActions.UPLOAD_IMAGEM_PERFIL_SUCCESS: {
+            return {
+                ...state,
+                imgPerfilId: action.payload.id,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case ProfileActions.UPLOAD_IMAGEM_PERFIL_FAILED: {
+            return {
+                ...state,
+                saving: false,
+                errors: action.payload
+            };
+        }
+
+        case ProfileActions.UPLOAD_IMAGEM_CHANCELA: {
+            return {
+                ...state,
+                imgChancelaId: null,
+                saving: true,
+                errors: false
+            };
+        }
+
+        case ProfileActions.UPLOAD_IMAGEM_CHANCELA_SUCCESS: {
+            return {
+                ...state,
+                imgChancelaId: action.payload.id,
+                saving: false,
+                errors: false
+            };
+        }
+
+        case ProfileActions.UPLOAD_IMAGEM_CHANCELA_FAILED: {
             return {
                 ...state,
                 saving: false,

@@ -30,7 +30,10 @@
         <div class="h3 username">{{userProfile?.nome.split(' ')[0]}}</div>
         <div class="h5 email hint-text mt-8">{{userProfile?.email}}</div>
         <div class="avatar-container">
-            <img class="avatar" src="assets/images/avatars/User.png">
+            <img class="avatar" src="assets/images/avatars/User.png"
+                 *ngIf="!!userProfile?.imgPerfil?.id === false">
+            <img class="avatar" [src]="userProfile.imgPerfil.conteudo|safeResourceUrl"
+                 *ngIf="!!userProfile?.imgPerfil?.id === true">
         </div>
 
     </div>

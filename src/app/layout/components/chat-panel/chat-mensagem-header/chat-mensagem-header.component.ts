@@ -1,6 +1,7 @@
 import {
-    Component, EventEmitter, Input,
-    OnInit, Output,
+    ChangeDetectionStrategy, ChangeDetectorRef,
+    Component, EventEmitter, Input, OnChanges,
+    OnInit, Output, SimpleChanges,
     ViewEncapsulation
 } from '@angular/core';
 import {Chat} from "../../../../../@cdk/models";
@@ -10,9 +11,10 @@ import {ChatUtils} from "../utils/chat.utils";
     selector: 'chat-mensagem-header',
     templateUrl: './chat-mensagem-header.component.html',
     styleUrls: ['./chat-mensagem-header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
-export class ChatMensagemHeaderComponent implements OnInit
+export class ChatMensagemHeaderComponent implements OnInit, OnChanges
 {
     @Input()
     chat: Chat = null;
@@ -21,8 +23,11 @@ export class ChatMensagemHeaderComponent implements OnInit
     fecharChatHandler = new EventEmitter();
 
     /**
+     * @param chatUtils
+     * @param _changeDetectorRef
      */
-    constructor(public chatUtils:ChatUtils)
+    constructor(public chatUtils:ChatUtils,
+                private _changeDetectorRef:ChangeDetectorRef)
     {
     }
 
@@ -41,4 +46,10 @@ export class ChatMensagemHeaderComponent implements OnInit
     {
         this.fecharChatHandler.emit();
     }
+
+    ngOnChanges(changes: SimpleChanges): void {
+        this._changeDetectorRef.markForCheck();
+    }
+
+
 }

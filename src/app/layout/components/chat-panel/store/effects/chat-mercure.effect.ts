@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Actions, ofType, createEffect} from '@ngrx/effects';
-import {tap} from 'rxjs/operators';
+import {tap, withLatestFrom} from 'rxjs/operators';
 import * as MercureActions from 'app/store/actions/mercure.action';
 import {AddData} from '@cdk/ngrx-normalizr';
 import {Chat, ChatMensagem, ChatParticipante} from '@cdk/models';
@@ -10,43 +10,57 @@ import {
     chatParticipante as chatParticipanteSchema
 } from '@cdk/normalizr';
 import {plainToClass} from 'class-transformer';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {State} from 'app/store/reducers';
-import {ChatUpdatedBroadcast, MensagemRecebida} from "../actions";
+import {ChatUpdatedBroadcast, MensagemRecebida, LimparMensagensNaoLidas} from "../actions";
+import {LoginService} from "../../../../../main/auth/login/login.service";
+import {getChatOpen} from "../selectors";
+import {ChatUtils} from "../../utils/chat.utils";
 
 @Injectable()
 export class ChatMercureEffects {
 
     /**
-     * Constructor
+     * @param _actions
+     * @param _store
+     * @param _loginService
+     * @param _chatUtils
      */
     constructor(
         private _actions: Actions,
-        private _store: Store<State>
+        private _store: Store<State>,
+        private _loginService: LoginService,
+        private _chatUtils: ChatUtils
     ) {}
 
     getChatMercure: any = createEffect(() => {
         return this._actions
             .pipe(
                 ofType<MercureActions.Message>(MercureActions.MESSAGE),
-                tap((action): any => {
+                withLatestFrom(this._store.pipe(select(getChatOpen))),
+                tap(([action, chatOpen]): any => {
                     if (action.payload.type === 'addData') {
                         switch (action.payload.content['@type']) {
                             case 'ChatMensagem':
                                 // Mensagem recebida
-                                this._store.dispatch(new AddData<ChatMensagem>({data: [plainToClass(ChatMensagem, action.payload.content)], schema: chatMensagemSchema}));
-                                this._store.dispatch(new MensagemRecebida(plainToClass(ChatMensagem, action.payload.content)))
-                                this._store.dispatch(new ChatUpdatedBroadcast(plainToClass(ChatMensagem, action.payload.content).chat))
+                                let chatMensagemClass = plainToClass(ChatMensagem, action.payload.content);
+                                this._store.dispatch(new AddData<ChatMensagem>({data: [chatMensagemClass], schema: chatMensagemSchema}));
+                                this._store.dispatch(new MensagemRecebida(chatMensagemClass));
                                 break;
                             case 'Chat':
                                 // Chat atualizado
-                                this._store.dispatch(new AddData<Chat>({data: [plainToClass(Chat, action.payload.content)], schema: chatSchema}));
-                                this._store.dispatch(new ChatUpdatedBroadcast(plainToClass(ChatMensagem, action.payload.content)))
+                                let chatClass = plainToClass(Chat, action.payload.content);
+                                this._store.dispatch(new AddData<Chat>({data: [chatClass], schema: chatSchema}));
+                                this._store.dispatch(new ChatUpdatedBroadcast(chatClass));
+                                if (!!chatOpen) {
+                                    this._store.dispatch(new LimparMensagensNaoLidas(this._chatUtils.getParticipante(chatOpen.participantes)));
+                                }
                                 break;
                             case 'ChatParticipante':
                                 // Foi iniciada uma nova conversa (individual/grupo) com o usuário
                                 this._store.dispatch(new AddData<ChatParticipante>({data: [plainToClass(ChatParticipante, action.payload.content)], schema: chatParticipanteSchema}));
-                                this._store.dispatch(new ChatUpdatedBroadcast(plainToClass(ChatParticipante, action.payload.content).chat))
+                                this._store.dispatch(new AddData<Chat>({data: [plainToClass(Chat, action.payload.content.chat)], schema: chatSchema}));
+                                this._store.dispatch(new ChatUpdatedBroadcast(plainToClass(Chat, action.payload.content.chat)))
                                 break;
                         }
                     }

@@ -48,3 +48,8 @@ export const getChatMensagemPagination = createSelector(
     getChatMensagemState,
     (state: ChatMensagemState) => state.pagination
 );
+
+export const getChatMensagemIsSaving = createSelector(
+    getChatMensagemState,
+    (state: ChatMensagemState) => state.saving
+);

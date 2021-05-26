@@ -6,7 +6,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {map} from 'rxjs/operators';
 import {classToPlain, plainToClass} from 'class-transformer';
-import {Chat, Usuario} from "../models";
+import {Chat, PaginatedResponse, Usuario} from "../models";
 
 @Injectable()
 export class ChatService extends ParentGenericService<Chat> {
@@ -33,6 +33,20 @@ export class ChatService extends ParentGenericService<Chat> {
                 return Object.assign(new this.clz(), response);
             })
         );
+    }
+
+    findChatList(filters: any = '{}', limit: number = 25, offset: number = 0, populate: any = '[]', context: any = '{}'): Observable<PaginatedResponse> {
+        const params = {};
+        params['where'] = filters;
+        params['limit'] = limit;
+        params['offset'] = offset;
+        params['populate'] = populate;
+        params['context'] = context;
+
+        return this.modelService.get(this.path + '/find_chat_list'+ environment.xdebug, new HttpParams({fromObject: params}))
+            .pipe(
+                map(response => new PaginatedResponse(plainToClass(this.clz, response['entities']), response['total']))
+            );
     }
 
 }

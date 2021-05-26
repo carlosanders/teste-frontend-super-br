@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {Subject} from 'rxjs';
-import {takeUntil} from 'rxjs/operators';
+import {filter, takeUntil} from 'rxjs/operators';
 import {TranslateService} from '@ngx-translate/core';
 import * as _ from 'lodash';
 import {CdkConfigService} from '@cdk/services/config.service';
@@ -37,7 +37,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     notificacoes: Notificacao[] = [];
     notificacoesCount: string;
     carregandoNotificacao = true;
-    carregandoChat = true;
+    carregandoChat:boolean = true;
+    totalChatMensagensNaoLidas:any = 0;
     cdkConfig: any;
 
     quickPanelLockedOpen: boolean;
@@ -173,6 +174,14 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                         this.notificacoesCount = value['notificacoes_pendentes'];
                     }
                 }
+
+                if (value && value['chat_mensagens_nao_lidas'] !== undefined) {
+                    if (parseInt(value['chat_mensagens_nao_lidas']) > 99) {
+                        this.totalChatMensagensNaoLidas = '99+';
+                    } else {
+                        this.totalChatMensagensNaoLidas = value['chat_mensagens_nao_lidas'];
+                    }
+                }
             }
         );
         this._store
@@ -189,6 +198,13 @@ export class ToolbarComponent implements OnInit, OnDestroy {
                     }
                 }
             });
+
+        this._loginService.getUserProfileChanges()
+            .pipe(
+                takeUntil(this._unsubscribeAll),
+                filter(userProfile => !!userProfile)
+            )
+            .subscribe(userProfile => this.userProfile = userProfile);
     }
 
     /**

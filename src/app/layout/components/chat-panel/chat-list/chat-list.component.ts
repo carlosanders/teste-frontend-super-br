@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component,
     EventEmitter, Input,
     OnInit, Output,
@@ -12,12 +13,15 @@ import {ChatUtils} from "../utils/chat.utils";
     selector: 'chat-list',
     templateUrl: './chat-list.component.html',
     styleUrls: ['./chat-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
 export class ChatListComponent implements OnInit
 {
     @Input()
     chatList: Chat[] = [];
+    @Input()
+    chatOpen: Chat = null;
     @Input()
     loading: boolean = true;
 

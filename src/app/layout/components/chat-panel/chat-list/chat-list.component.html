@@ -1,8 +1,12 @@
 <div *ngFor="let chat of chatList|sortByDate: 'atualizadoEm':'ASC':true" class="chat-list-item cursor-pointer"
      (click)="chatClick(chat)">
-    <img src="assets/images/avatars/User.png" class="avatar" alt="{{chatUtils.getChatInfo(chat).nome}}">
+    <chat-imagem
+        class="mat-badge"
+        [chat]="chat"
+        [mensagensNaoLidas]="chatUtils.getChatData(chat, chatOpen).mensagensNaoLidas">
+    </chat-imagem>
     <div class="chat-info">
-        <span class="chat-nome">{{chatUtils.getChatInfo(chat).nome}}</span>
+        <span class="chat-nome">{{chatUtils.getChatData(chat).nome}}</span>
         <span class="chat-mensagem">
             {{chat?.ultimaMensagem?.mensagem}}{{chat?.ultimaMensagem?.componenteDigital?.fileName}}
         </span>

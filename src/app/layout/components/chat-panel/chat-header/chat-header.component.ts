@@ -2,7 +2,7 @@ import {
     Component,
     OnInit,
     ViewEncapsulation,
-    EventEmitter, Output, ChangeDetectorRef, ViewChild, ElementRef
+    EventEmitter, Output, ChangeDetectorRef, ViewChild, ElementRef, ChangeDetectionStrategy
 } from '@angular/core';
 import {Pagination} from "@cdk/models";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -14,6 +14,7 @@ import {LoginService} from "../../../../main/auth/login/login.service";
     selector: 'chat-header',
     templateUrl: './chat-header.component.html',
     styleUrls: ['./chat-header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None
 })
 export class ChatHeaderComponent implements OnInit
@@ -93,7 +94,12 @@ export class ChatHeaderComponent implements OnInit
         }
         this._store.dispatch(new fromStore.CriarOuRetornar({
             usuario: this.usuarioForm.get('usuario').value,
-            populate: ['participantes.usuario', 'ultimaMensagem.usuario', 'populateAll']
+            populate: [
+                'participantes.usuario',
+                'participantes.usuario.imgPerfil',
+                'ultimaMensagem.usuario',
+                'populateAll'
+            ]
         }));
         this.cancelUsuarioForm();
     }

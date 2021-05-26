@@ -14,6 +14,7 @@ import {PipesModule} from "@cdk/pipes/pipes.module";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatMenuModule} from "@angular/material/menu";
 import {ChatUtils} from "../utils/chat.utils";
+import {ChatImagemModule} from "../chat-imagem/chat-imagem.module";
 
 @NgModule({
     declarations: [
@@ -31,7 +32,8 @@ import {ChatUtils} from "../utils/chat.utils";
         MatRippleModule,
         ChatStoreModule,
         CdkSharedModule,
-        PipesModule
+        PipesModule,
+        ChatImagemModule
     ],
     providers: [
         ChatUtils

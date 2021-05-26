@@ -12,6 +12,7 @@ import {BooleanoPipe} from './booleano.pipe';
 import {TitleCasePipe} from './title-case.pipe';
 import {FormatInteressadosPipe} from './format-interessados.pipe';
 import {SortByDatePipe} from "./sort-by-date.pipe";
+import {SafeResourceUrlPipe} from "./safe-resource-url.pipe";
 
 @NgModule({
     declarations: [
@@ -26,7 +27,8 @@ import {SortByDatePipe} from "./sort-by-date.pipe";
         BooleanoPipe,
         TitleCasePipe,
         FormatInteressadosPipe,
-        SortByDatePipe
+        SortByDatePipe,
+        SafeResourceUrlPipe
     ],
     imports: [],
     exports: [
@@ -41,7 +43,8 @@ import {SortByDatePipe} from "./sort-by-date.pipe";
         BooleanoPipe,
         TitleCasePipe,
         FormatInteressadosPipe,
-        SortByDatePipe
+        SortByDatePipe,
+        SafeResourceUrlPipe
     ]
 })
 export class PipesModule {

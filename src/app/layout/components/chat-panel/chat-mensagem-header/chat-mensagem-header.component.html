@@ -4,10 +4,12 @@
             <div class="chat-profile" fxLayout="row" fxLayoutAlign="start center">
 
                 <div class="avatar-wrapper">
-                    <img src="assets/images/avatars/User.png" class="avatar" title="{{chatUtils.getChatInfo(chat).nome}}">
+                    <chat-imagem
+                        [chat]="chat">
+                    </chat-imagem>
                 </div>
                 <div class="chat-profile-name">
-                    {{chatUtils.getChatInfo(chat).nome}}
+                    {{chatUtils.getChatData(chat).nome}}
                 </div>
             </div>
         </div>

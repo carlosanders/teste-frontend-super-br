@@ -876,7 +876,9 @@ unidade.define({
 });
 
 usuario.define({
-    colaborador: colaborador
+    colaborador: colaborador,
+    imgPerfil: componenteDigital,
+    imgChancela: componenteDigital
 });
 
 vinculacaoDocumento.define({
@@ -1058,11 +1060,13 @@ chatMensagem.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
     apagadoPor: usuario,
+    usuario: usuario,
     chat: chat
 });
 
 chatParticipante.define({
     criadoPor: usuario,
     atualizadoPor: usuario,
-    chat: chat
+    chat: chat,
+    usuario: usuario
 });

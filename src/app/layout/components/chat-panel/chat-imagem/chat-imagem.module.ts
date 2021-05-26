@@ -7,18 +7,17 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import {ChatStoreModule} from "../store/store.module";
 import {LoginService} from "../../../../main/auth/login/login.service";
 import {CdkSharedModule} from "@cdk/shared.module";
-import {ChatListComponent} from "./chat-list.component";
+import {ChatImagemComponent} from "./chat-imagem.component";
 import {PipesModule} from "../../../../../@cdk/pipes/pipes.module";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatBadgeModule} from "@angular/material/badge";
 import {ChatUtils} from "../utils/chat.utils";
-import {ChatImagemModule} from "../chat-imagem/chat-imagem.module";
 
 @NgModule({
     declarations: [
-        ChatListComponent
+        ChatImagemComponent
     ],
     imports: [
         MatButtonModule,
@@ -28,20 +27,19 @@ import {ChatImagemModule} from "../chat-imagem/chat-imagem.module";
         MatTabsModule,
         MatTooltipModule,
         MatRippleModule,
-        ChatStoreModule,
+        MatBadgeModule,
         CdkSharedModule,
         MatProgressSpinnerModule,
-        PipesModule,
-        ChatImagemModule
+        PipesModule
     ],
     providers: [
         LoginService,
         ChatUtils
     ],
     exports: [
-        ChatListComponent
+        ChatImagemComponent
     ]
 })
-export class ChatListModule
+export class ChatImagemModule
 {
 }

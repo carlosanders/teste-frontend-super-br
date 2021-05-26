@@ -23,6 +23,7 @@ import {MercureService} from "../../../../@cdk/services/mercure.service";
 import {ChatHeaderModule} from "./chat-header/chat-header.module";
 import {ChatMensagemHeaderModule} from "./chat-mensagem-header/chat-mensagem-header.module";
 import {InfiniteScrollModule} from "ngx-infinite-scroll";
+import {ChatParticipanteService} from "../../../../@cdk/services/chat-participante.service";
 
 @NgModule({
     declarations: [
@@ -52,6 +53,7 @@ import {InfiniteScrollModule} from "ngx-infinite-scroll";
         LoginService,
         ChatService,
         ChatMensagemService,
+        ChatParticipanteService,
         MercureService
     ],
     exports: [

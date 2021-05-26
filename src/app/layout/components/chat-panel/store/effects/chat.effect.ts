@@ -15,7 +15,6 @@ import {ChatService} from "@cdk/services/chat.service";
 export class ChatEffects {
 
     /**
-     *
      * @param _actions
      * @param _store
      * @param _chatService
@@ -31,14 +30,13 @@ export class ChatEffects {
             .pipe(
                 ofType<ChatActions.GetChat>(ChatActions.GET_CHAT),
                 switchMap((action) => {
-                    return this._chatService.query(
+                    return this._chatService.findChatList(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,
-                        JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)
                     );
@@ -63,14 +61,13 @@ export class ChatEffects {
             .pipe(
                 ofType<ChatActions.GetChatIncrement>(ChatActions.GET_CHAT_INCREMENT),
                 switchMap((action) => {
-                    return this._chatService.query(
+                    return this._chatService.findChatList(
                         JSON.stringify({
                             ...action.payload.filter,
                             ...action.payload.gridFilter,
                         }),
                         action.payload.limit,
                         action.payload.offset,
-                        JSON.stringify(action.payload.sort),
                         JSON.stringify(action.payload.populate),
                         JSON.stringify(action.payload.context)
                     );

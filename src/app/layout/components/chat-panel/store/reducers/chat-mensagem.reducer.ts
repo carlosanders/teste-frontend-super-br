@@ -144,13 +144,13 @@ export function ChatMensagemReducer(
         }
 
         case ChatMensagemActions.MENSAGEM_RECEBIDA: {
+            let entitiesId = [...state.entitiesId];
+            if (!entitiesId.includes(action.payload.id)) {
+                entitiesId.push(action.payload.id);
+            }
             return {
                 ...state,
-                entitiesId: [...state.entitiesId, action.payload.id],
-                pagination: {
-                    ...state.pagination,
-                    total: state.entitiesId.length
-                },
+                entitiesId: entitiesId,
                 saving: false,
                 saved: true
             };

@@ -17,6 +17,12 @@ export class ChatParticipante {
 
     administrador?: boolean;
 
+    mensagensNaoLidas?: number;
+
+    @Transform(value => value ? value.format('YYYY-MM-DDTHH:mm:ss') : null, {toPlainOnly: true})
+    @Transform(value => value ? moment(value) : null, {toClassOnly: true})
+    ultimaVisualizacao?: moment.Moment;
+
     @Type(() => Usuario)
     @Transform(value => value ? value.id : null, {toPlainOnly: true})
     usuario?: Usuario;
@@ -57,6 +63,8 @@ export class ChatParticipante {
         this.criadoEm = null;
         this.atualizadoPor = null;
         this.atualizadoEm = null;
+        this.ultimaVisualizacao = null;
+        this.mensagensNaoLidas = null;
     }
 
 }

@@ -9,15 +9,17 @@
                     'first-of-group': isFirstMessageOfGroup(chatMensagem, i),
                     'last-of-group': isLastMessageOfGroup(chatMensagem, i)
                 }">
-
-    <img src="assets/images/avatars/User.png" class="avatar"
-         *ngIf="shouldShowContactAvatar(chatMensagem, i)"
-         title="{{chatMensagem.usuario.nome}}">
+    <chat-imagem *ngIf="shouldShowContactAvatar(chatMensagem, i)"
+        [chat]="chat">
+    </chat-imagem>
 
     <div class="bubble">
         <div class="message">{{chatMensagem.mensagem}}{{chatMensagem?.componenteDigital?.fileName}}</div>
     </div>
-    <div class="time secondary-text" *ngIf="chatMensagem.criadoEm">{{chatMensagem.criadoEm | date:'short'}}</div>
-    <div class="time secondary-text" *ngIf="!chatMensagem.criadoEm">Enviando...</div>
+    <div class="time secondary-text">
+        <span *ngIf="saving !== true"> {{chatMensagem.criadoEm | date:'short'}} </span>
+        <span *ngIf="saving === true">Enviando...</span>
+        &nbsp;
+    </div>
 
 </div>

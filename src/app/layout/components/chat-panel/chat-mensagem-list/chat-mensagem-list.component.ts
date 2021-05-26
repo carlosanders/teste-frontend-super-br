@@ -1,11 +1,16 @@
 import {
     Component,
-    Input,
+    Input, OnDestroy,
     ViewEncapsulation
 } from '@angular/core';
 
 import {Chat, ChatMensagem, Usuario} from "@cdk/models";
 import {LoginService} from "../../../../main/auth/login/login.service";
+import {ChatUtils} from "../utils/chat.utils";
+import {select, Store} from "@ngrx/store";
+import {getChatMensagemIsSaving} from "../store";
+import {takeUntil} from "rxjs/operators";
+import {Subject} from "rxjs";
 
 @Component({
     selector: 'chat-mensagem-list',
@@ -13,7 +18,7 @@ import {LoginService} from "../../../../main/auth/login/login.service";
     styleUrls: ['./chat-mensagem-list.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
-export class ChatMensagemListComponent
+export class ChatMensagemListComponent implements OnDestroy
 {
     @Input()
     chat: Chat = null;
@@ -26,16 +31,28 @@ export class ChatMensagemListComponent
 
     usuarioLogado: Usuario;
     scroll: boolean = true;
+    saving: boolean = false;
+
+    private _unsubscribeAll: Subject<any> = new Subject();
 
     /**
-     *
      * @param _loginService
+     * @param _store
+     * @param chatUtils
      */
     constructor(
         private _loginService: LoginService,
+        private _store: Store,
+        public chatUtils: ChatUtils,
     )
     {
         this.usuarioLogado = this._loginService.getUserProfile();
+        this._store.pipe(
+            select(getChatMensagemIsSaving),
+            takeUntil(this._unsubscribeAll)
+        ).subscribe(saving => {
+            this.saving = saving;
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -81,4 +98,13 @@ export class ChatMensagemListComponent
     {
         return (i === this.chatMensagens.length - 1 || this.chatMensagens[i + 1] && this.chatMensagens[i + 1].usuario.id !== chatMensagem.usuario.id);
     }
+
+    ngOnDestroy(): void
+    {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
+
+
 }

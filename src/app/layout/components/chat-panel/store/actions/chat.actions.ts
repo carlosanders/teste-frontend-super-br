@@ -20,6 +20,8 @@ export const CRIAR_OU_RETORNAR_FAILED = '[CHAT PANEL] CRIAR OU RETORNAR FAILED';
 export const GET_CHAT_INCREMENT = '[CHAT PANEL] GET CHAT INCREMENT';
 export const GET_CHAT_INCREMENT_SUCCESS = '[CHAT PANEL] GET CHAT INCREMENT SUCCESS';
 export const GET_CHAT_INCREMENT_FAILED = '[CHAT PANEL] GET CHAT INCREMENT FAILED';
+export const RELOAD_CHAT = '[CHAT PANEL] RELOAD CHAT';
+export const MENSAGENS_NAO_LIDAS = '[CHAT PANEL] MENSAGENS NAO LIDAS';
 
 export class OpenChat implements Action
 {
@@ -161,6 +163,17 @@ export class GetChatIncrementFailed implements Action
     constructor(public payload: any) { }
 }
 
+export class ReloadChat implements Action
+{
+    readonly type = RELOAD_CHAT;
+}
+
+export class MensagensNaoLidas implements Action
+{
+    constructor(public payload: number) { }
+    readonly type = MENSAGENS_NAO_LIDAS;
+}
+
 export type ChatActionsAll
     = OpenChat
     | OpenChatSuccess
@@ -182,5 +195,7 @@ export type ChatActionsAll
     | GetChatIncrement
     | GetChatIncrementSuccess
     | GetChatIncrementFailed
+    | ReloadChat
+    | MensagensNaoLidas
     ;
 

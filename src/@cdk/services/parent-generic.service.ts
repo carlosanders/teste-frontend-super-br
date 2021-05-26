@@ -4,7 +4,6 @@ import {ModelService} from '@cdk/services/model.service';
 import {plainToClass, classToPlain} from 'class-transformer';
 import {PaginatedResponse} from '@cdk/models';
 import {map} from 'rxjs/operators';
-import {environment} from '../../environments/environment';
 
 export class ParentGenericService<T> {
 
@@ -77,8 +76,8 @@ export class ParentGenericService<T> {
         params['populate'] = populate;
         params['context'] = context;
         return this.modelService.patch(
-            `${environment.api_url}${this.path}` + environment.xdebug,
-            t['id'], JSON.stringify(changes), new HttpParams({fromObject: params})
+            this.path,
+            t['id'], changes, new HttpParams({fromObject: params})
         ).pipe(
             map(response => {
                 response = plainToClass(this.clz, response);
