@@ -22,7 +22,7 @@ import {
     GetChatIncrement,
     GetMensagens,
     GetMensagensIncrement, LimparMensagensNaoLidas, MensagensNaoLidas,
-    OpenChat
+    OpenChat, UnloadChatMensagens
 } from "./store";
 import {LoginService} from "../../../main/auth/login/login.service";
 import {CdkSidebarService} from "../../../../@cdk/components/sidebar/sidebar.service";
@@ -177,6 +177,7 @@ export class ChatPanelComponent implements OnInit, OnDestroy
                 this._mercureService.subscribe('/v1/administrativo/chat/'+this.chatOpen.id);
 
                 this._store.dispatch(new LimparMensagensNaoLidas(this.chatUtils.getParticipante(chat.participantes)));
+                this._store.dispatch(new UnloadChatMensagens());
 
                 this.getChatMensagens({
                     ...this.chatMensagemPaginator,

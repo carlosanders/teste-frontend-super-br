@@ -156,6 +156,11 @@ export function ChatMensagemReducer(
             };
         }
 
+        case ChatMensagemActions.UNLOAD_CHAT_MENSAGENS: {
+            state = ChatMensagemInitialState;
+            return state;
+        }
+
         default:
             return state;
     }

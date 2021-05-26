@@ -14,6 +14,7 @@ export const GET_MENSAGENS_INCREMENT_SUCCESS = '[CHAT PANEL MENSAGEM] GET MENSAG
 export const GET_MENSAGENS_INCREMENT_FAILED = '[CHAT PANEL MENSAGEM] GET MENSAGENS INCREMENT FAILED';
 export const MENSAGEM_RECEBIDA = '[CHAT PANEL MENSAGEM] MENSAGEM RECEBIDA';
 export const VERIFICA_MEMORIA_REDUX = '[CHAT PANEL MENSAGEM] VERIFICA MEMORIA REDUX';
+export const UNLOAD_CHAT_MENSAGENS = '[CHAT PANEL MENSAGEM] UNLOAD CHAT MENSAGEMS';
 
 export class EnviarMensagem implements Action
 {
@@ -113,6 +114,13 @@ export class VerificaMemoriaRedux implements Action
     constructor(public payload: any) { }
 }
 
+export class UnloadChatMensagens implements Action
+{
+    readonly type = UNLOAD_CHAT_MENSAGENS;
+
+    constructor() { }
+}
+
 export type ChatMensagemActionsAll
     = EnviarMensagem
     | EnviarMensagemSuccess
@@ -128,5 +136,6 @@ export type ChatMensagemActionsAll
     | GetMensagensIncrementFailed
     | MensagemRecebida
     | VerificaMemoriaRedux
+    | UnloadChatMensagens
     ;
 
